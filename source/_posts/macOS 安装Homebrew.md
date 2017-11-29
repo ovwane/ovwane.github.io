@@ -140,6 +140,10 @@ dingtalk
 teamviewer
 microsoft-remote-desktop-beta
 
+代码管理
+sourcetree （git）
+cornerstone (svn)
+
 ## App Store 安装软件列表
 ### IDE
 Xcode
