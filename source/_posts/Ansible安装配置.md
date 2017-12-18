@@ -1,8 +1,19 @@
+title: Ansible安装配置
+date: 2017-04-17 15:53
+categories:
+- Linux
+- Ansible
+tags:
+- Linux
+---
+
+```
 yum install -y epel-release
 yum install -y python-pip sshpass
 
 pip install --upgrade pip
 pip install ansible
+```
 
 ansible --version
 
