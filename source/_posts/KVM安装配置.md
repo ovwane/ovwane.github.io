@@ -128,15 +128,10 @@ virt-install --name=oeltest01 --ram 512 --vcpus=1 --disk path=/home/kvm/test02.i
 ```
 #### qcow2格式(空间动态增长)
 ```
-qemu-img create -f qcow2 /home/kvm/debian-1.img 10G
+qemu-img create -f qcow2 debian-1.img 10G
 ```
 ```
-[root@it001 iso]# qemu-img create -f qcow2 /home/kvm/debian-1.img 10G
-Formatting '/home/kvm/debian-1.img', fmt=qcow2 size=10737418240 encryption=off cluster_size=65536
-```
-
-```
-virt-install --name=debian-1 --os-variant=debianwheezy --ram 1024 --vcpus=2 --disk path=/home/kvm/debian-1.img,format=qcow2,size=7,bus=virtio --accelerate --cdrom /home/iso/debian-9.1.0-amd64-DVD-1.iso --vnc --vncport=5910 --vnclisten=0.0.0.0 --network bridge=br0,model=virtio --noautoconsole
+virt-install --name=debian-1 --os-variant=debianwheezy --ram 1024 --vcpus=2 --disk path=debian-1.img,format=qcow2,size=7,bus=virtio --accelerate --cdrom 1.iso --vnc --vncport=5910 --vnclisten=0.0.0.0 --network bridge=br0,model=virtio --noautoconsole
 ```
 ```
 [root@it001 iso]# qemu-img create -f qcow2 /home/kvm/debian-1.img 10G

@@ -244,7 +244,7 @@ hexo deploy
 hexo backup -m "添加注释"
 ```
 
-## Hexo 技巧
+## Hexo 
 ### hexo不解析README.md文件
 ```
 _config.yml
