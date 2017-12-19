@@ -85,4 +85,4 @@ sed -i 's/#UseDNS no/UseDNS no/g' /etc/ssh/sshd_config
 ## 重启
 ```
 shutdown -r now
-```
+```图
