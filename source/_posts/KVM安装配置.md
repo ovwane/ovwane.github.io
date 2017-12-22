@@ -47,7 +47,7 @@ egrep '(vmx|svm)' --color=always /proc/cpuinfo
 ```
 ## 安装kvm软件包
 ```
-yum -y install kvm python-virtinst libvirt tunctl bridge-utils virt-manager qemu-kvm-tools virt-viewer virt-v2v qemu-kvm qemu-img
+yum -y install kvm libvirt libvirt-python libvirt-client tunctl bridge-utils qemu-kvm-tools virt-manager virt-viewer virt-v2v virt-manager virt-top virt-what virt-install qemu-kvm qemu-img gpxe-roms-qemu python-virtinstall bridge-utils
 ```
 
 ## 安装kvm虚拟化一些管理工具包
@@ -61,7 +61,13 @@ yum -y install libguestfs-tools
 运行命令 lsmod | grep kvm 检查 KVM 模块是否成功安装。如果结果类似于以下输出，那么 KVM 模块已成功安装：
 
 ```
-[root@kvm ~]# lsmod | grep kvm
+lsmod | grep kvm
+```
+
+```
+systemctl start libvirtd
+systemctl status libvirtd
+systemctl enable libvirtd
 ```
 
 ## 检查KVM是否成功安装
@@ -124,24 +130,38 @@ virt-install --os-variant=list | more
 
 #### raw格式磁盘
 ```
+qemu-img create -f raw debian-1.img 10G
+```
+```
 virt-install --name=oeltest01 --ram 512 --vcpus=1 --disk path=/home/kvm/test02.img,size=7,bus=virtio --accelerate --cdrom /home/iso/debian-9.1.0-amd64-DVD-1.iso --vnc --vncport=5910 --vnclisten=0.0.0.0 --network bridge=br0,model=virtio --noautoconsole
 ```
 #### qcow2格式(空间动态增长)
 ```
-qemu-img create -f qcow2 debian-1.img 10G
-```
-```
-virt-install --name=debian-1 --os-variant=debianwheezy --ram 1024 --vcpus=2 --disk path=debian-1.img,format=qcow2,size=7,bus=virtio --accelerate --cdrom 1.iso --vnc --vncport=5910 --vnclisten=0.0.0.0 --network bridge=br0,model=virtio --noautoconsole
-```
-```
 [root@it001 iso]# qemu-img create -f qcow2 /home/kvm/debian-1.img 10G
+```
+```
 Formatting '/home/kvm/debian-1.img', fmt=qcow2 size=10737418240 encryption=off cluster_size=65536
+```
+```
 [root@it001 iso]# virt-install --name=debian-1 --os-variant=debianwheezy --ram 1024 --vcpus=2 --disk path=/home/kvm/debian-1.img,format=qcow2,size=7,bus=virtio --accelerate --cdrom /home/iso/debian-9.1.0-amd64-DVD-1.iso--vnc --vncport=5910 --vnclisten=0.0.0.0 --network bridge=br0,model=virtio --noautoconsole
-
+```
+```
 开始安装......
 创建域......                                                                        |    0 B     00:00
 域安装仍在进行。您可以重新连接
 到控制台以便完成安装进程。
+```
+
+```
+qemu-img create -f qcow2 /kvm/centos6.7.img 10G
+```
+```
+virt-install --name=centos6.7 --os-variant=debianwheezy --ram 1024 --vcpus=2 --disk path=/kvm/centos6.7.img,format=qcow2,size=7,bus=virtio --accelerate --cdrom /kvm/iso/centos6.7.iso --vnc --vncport=5910 --vnclisten=0.0.0.0 --noautoconsole
+```
+
+```
+virsh -c qemu:///system list
+virsh --connect qemu:///system start centos6.7
 ```
 
 ## kvm虚拟机日常管理与配置

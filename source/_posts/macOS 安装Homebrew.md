@@ -129,6 +129,10 @@ youdaodict
 云笔记
 youdaonote
 
+虚拟机
+vmware-fusion
+parallels
+
 ### 工作用的软件
 邮箱客户端
 foxmail
