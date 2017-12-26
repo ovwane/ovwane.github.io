@@ -10,14 +10,29 @@ tags:
 # CentOS7 新装服务器初始化配置
 >CentOS 7.4.1708
 
+[CentOS 7 新装服务器部署流程](http://wzlinux.blog.51cto.com/8021085/1945374)
+
+所有的服务器基本都是最小化安装，版本为CentOS 7.x  64位系列。
+
 ## 配置IP和网关
 ```
 vi /etc/sysconfig/network-scripts/ifcfg-eth0
 
-IPADDR=10.8.8.81
+IPADDR=10.0.0.7
 PREFIX=24
-GATEWAY=10.8.8.1
+GATEWAY=10.0.0.1
 DNS1=114.114.114.114
+```
+```
+#重启网络服务
+systemctl restart network.service
+```
+
+## 设置时区
+```
+timedatectl list-timezones           #列出所有时区
+timedatectl set-local-rtc 1          #将硬件时钟调整为与本地时钟一致,0为设置为UTC时间
+timedatectl set-timezone Asia/Shanghai #设置系统时区为上海
 ```
 
 ## 设置主机名
@@ -49,13 +64,6 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 rm /etc/yum.repos.d/* -rf;curl -ssL http://mirrors.163.com/.help/CentOS7-Base-163.repo>/etc/yum.repos.d/CentOS-Base.repo;echo $?
 ```
 
-## 设置时区
-```
-timedatectl list-timezones           #列出所有时区
-timedatectl set-local-rtc 1          #将硬件时钟调整为与本地时钟一致,0为设置为UTC时间
-timedatectl set-timezone Asia/Shanghai #设置系统时区为上海
-```
-
 ## 时间同步
 ```
 yum install -y chrony;systemctl enable chronyd.service&&systemctl start chronyd.service
@@ -63,7 +71,7 @@ yum install -y chrony;systemctl enable chronyd.service&&systemctl start chronyd.
 
 ## 常用软件
 ```
-yum install -y lrzsz wget vim git tree bash-completion sysstat
+yum install -y lrzsz wget vim git tree bash-completion sysstat lsof net-tools
 ```
 
 ## VIM安装配置
@@ -71,7 +79,7 @@ yum install -y lrzsz wget vim git tree bash-completion sysstat
 ## 修改文件句柄数  
 ```
 #临时修改，立刻生效
-ulimit -n 655350         
+ulimit -n 655360         
  
 #永久修改
 echo "* soft nofile 655360" >> /etc/security/limits.conf&&echo "* hard nofile 655360" >> /etc/security/limits.conf
@@ -85,4 +93,4 @@ sed -i 's/#UseDNS no/UseDNS no/g' /etc/ssh/sshd_config
 ## 重启
 ```
 shutdown -r now
-```图
+```

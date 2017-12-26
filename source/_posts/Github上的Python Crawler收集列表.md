@@ -2,6 +2,10 @@ titlie: Github上的Python Crawler收集列表
 date: 2015-10-29 10:58:03
 ---
 
+[soimort/you-get](https://github.com/soimort/you-get)
+
+[rg3/youtube-dl](https://github.com/rg3/youtube-dl)
+
 [python爬虫项目集合](https://github.com/dragonflylxp/crawler)
 
 [Awesome-crawler-cn](https://github.com/liinnux/awesome-crawler-cn)
