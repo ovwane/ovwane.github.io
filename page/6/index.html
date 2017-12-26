@@ -205,6 +205,162 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-生病的这段日子" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/11/11/生病的这段日子/" class="article-date">
+      <time datetime="2017-11-11T16:27:43.000Z" itemprop="datePublished">2017-11-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/11/生病的这段日子/">生病的这段日子</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>生病的这段日子</p>
+<p>2017.10.21~</p>
+<p>2017.10.21 星期六早上大概3点多。肚子突然就疼起来了。起初以为吃坏了肚子。肠炎而已。就忍着疼一直到天亮还是疼。大概10点多吧。去了住的地方路口的小诊所。给医生说自己肚子疼，可能是肠炎。然后医生就给输液，然后贴肚子的。起初好转很多也不疼了。等输液输完。贴肚子的使用完后。过了一会儿依然疼。给医生说。医生又给的阿莫西林和止疼药。同时医生说你去大医院检查一下吧、在诊所吃了阿莫西林和止疼药。休息了一会儿。还是疼。就回住处了。晚上喝了一点纯牛奶。疼痛一直没有消失。等到22号依然疼。早上9点多。还是疼。就骑着电动车忍着疼去了村中的另一家诊所。医生是一位阿姨。然后给她描述了症状，然后她给检查了。并说腹部敲击回声和整个腹部都痛。应该不是肠炎一类的病。就让去大医院看。这次没有再犹豫。就打滴滴去了北京清华长庚医院。排了急诊。等了好久，缴费，排队，检查，缴费，输液，然后有个医生过来说你的病很严重。需要住院，然后输着液。去缴费。在输液室等着医护带着去了住院部。22号下午住院，星期一有两个小伙伴去医院看我。很感谢他们。一直到27号做手术。期间输液没有停止，左胳膊输液出了反应肿了，换右胳膊。右胳膊肿了，换左胳膊，最后又换右胳膊。直到29号出院。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-uWSGI搭配Nginx配置Django部署环境" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/" class="article-date">
+      <time datetime="2017-11-11T14:09:00.000Z" itemprop="datePublished">2017-11-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/">uWSGI搭配Nginx配置Django部署环境</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://www.nowamagic.net/academy/detail/1330308" target="_blank" rel="noopener">uWSGI搭配Nginx配置</a>Django部署环境</p>
+<h1 id="WSGI简介"><a href="#WSGI简介" class="headerlink" title="WSGI简介"></a>WSGI简介</h1><p>WSGI是什么？</p>
+<p>WSGI，全称 Web Server Gateway Interface，或者 Python Web Server Gateway Interface ，是为 Python 语言定义的 Web 服务器和 Web 应用程序或框架之间的一种简单而通用的接口。自从 WSGI 被开发出来以后，许多其它语言中也出现了类似接口。</p>
+<p>WSGI 的官方定义是，the Python Web Server Gateway Interface。从名字就可以看出来，这东西是一个Gateway，也就是网关。网关的作用就是在协议之间进行转换。</p>
+<p>WSGI 是作为 Web 服务器与 Web 应用程序或应用框架之间的一种低级别的接口，以提升可移植 Web 应用开发的共同点。WSGI 是基于现存的 CGI 标准而设计的。</p>
+<p>很多框架都自带了 WSGI server ，比如 Flask，webpy，Django、CherryPy等等。当然性能都不好，自带的 web server 更多的是测试用途，发布时则使用生产环境的 WSGI server或者是联合 nginx 做 uwsgi 。</p>
+<p>WSGI的作用</p>
+<p>WSGI有两方：“服务器”或“网关”一方，以及“应用程序”或“应用框架”一方。服务方调用应用方，提供环境信息，以及一个回调函数（提供给应用程序用来将消息头传递给服务器方），并接收Web内容作为返回值。</p>
+<p>所谓的 WSGI中间件同时实现了API的两方，因此可以在WSGI服务和WSGI应用之间起调解作用：从WSGI服务器的角度来说，中间件扮演应用程序，而从应用程序的角度来说，中间件扮演服务器。“中间件”组件可以执行以下功能：</p>
+<p>重写环境变量后，根据目标URL，将请求消息路由到不同的应用对象。<br>允许在一个进程中同时运行多个应用程序或应用框架。<br>负载均衡和远程处理，通过在网络上转发请求和响应消息。<br>进行内容后处理，例如应用XSLT样式表。<br>WSGI 的设计确实参考了 Java 的 servlet</p>
+<p>WSGI是一种Web服务器网关接口。它是一个Web服务器（如nginx）与应用服务器（如uWSGI服务器）通信的一种规范。</p>
+<p>接下来，我们要介绍的是 uWSGI。</p>
+<p>uWSGI</p>
+<p>uWSGI是一个Web服务器，它实现了WSGI协议、uwsgi、http等协议。Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换。</p>
+<p>要注意 WSGI / uwsgi / uWSGI 这三个概念的区分。</p>
+<p>WSGI是一种通信协议。<br>uwsgi同WSGI一样是一种通信协议。<br>而uWSGI是实现了uwsgi和WSGI两种协议的Web服务器。<br>uwsgi协议是一个uWSGI服务器自有的协议，它用于定义传输信息的类型（type of information），每一个uwsgi packet前4byte为传输信息类型描述，它与WSGI相比是两样东西。</p>
+<h1 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h1><p>在 nginx.conf 上加入/修改，我的 server 配置如下（一切从简……）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  115.28.0.89;</span><br><span class="line">    #server_name localhost;</span><br><span class="line"></span><br><span class="line">    access_log /home/nowamagic/logs/access.log;</span><br><span class="line">    error_log /home/nowamagic/logs/error.log;</span><br><span class="line"></span><br><span class="line">    #root         /root/nowamagic_venv/nowamagic_pj;</span><br><span class="line">    location / &#123;</span><br><span class="line">        uwsgi_pass 127.0.0.1:8077;</span><br><span class="line">        #include uwsgi_params;</span><br><span class="line">        include /etc/nginx/uwsgi_params;</span><br><span class="line">        #uwsgi_pass 127.0.0.1:8077;</span><br><span class="line">        #uwsgi_param UWSGI_SCRIPT index;</span><br><span class="line">        #uwsgi_param UWSGI_PYHOME $document_root;</span><br><span class="line">        #uwsgi_param UWSGI_CHDIR  $document_root;</span><br><span class="line">   &#125;</span><br><span class="line">   access_log off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意保证配置里写的目录 /home/nowamagic/logs/ 和 /home/nowamagic/logs/ 存在，接下来就没啥问题了，Nginx 配置很简单。</p>
+<h1 id="uWSGI-配置"><a href="#uWSGI-配置" class="headerlink" title="uWSGI 配置"></a>uWSGI 配置</h1><h2 id="安装uWSGI"><a href="#安装uWSGI" class="headerlink" title="安装uWSGI"></a>安装uWSGI</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure>
+<p>在实际部署环境中，我们常用的是配置文件的方式，而非命令行的方式。</p>
+<p>我的 Django 程序目录：/root/nowamagic_venv/nowamagic_pj/</p>
+<p>这里让 Nginx 采用 8077 端口与 uWSGI 通讯，请确保此端口没有被其它程序采用。</p>
+<p>uWSGI 支持多种配置文件格式，比如 xml，ini，json 等等都可以。</p>
+<p>xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vi /root/nowamagic_venv/nowamagic_pj/nowamgic_pj.xml</span><br><span class="line"></span><br><span class="line">&lt;uwsgi&gt;</span><br><span class="line"> &lt;socket&gt;127.0.0.1:8077&lt;/socket&gt;</span><br><span class="line"> &lt;listen&gt;80&lt;/listen&gt;</span><br><span class="line"> &lt;master&gt;true&lt;/master&gt;</span><br><span class="line"> &lt;pythonpath&gt;/root/nowamagic_venv/nowamagic_pj&lt;/pythonpath&gt;</span><br><span class="line"> &lt;processes&gt;1&lt;/processes&gt;</span><br><span class="line"> &lt;logdate&gt;true&lt;/logdate&gt;</span><br><span class="line"> &lt;daemonize&gt;/var/log/uwsgi.log&lt;/daemonize&gt;</span><br><span class="line"> &lt;plugins&gt;python&lt;/plugins&gt;</span><br><span class="line">&lt;/uwsgi&gt;</span><br></pre></td></tr></table></figure>
+<p>然后执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/bin/uwsgi -x /root/nowamagic_venv/nowamagic_pj/nowamagic_pj.xml</span><br></pre></td></tr></table></figure>
+<p>ini 配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">vhost = false</span><br><span class="line">plugins = python</span><br><span class="line">socket = 127.0.0.1:8077</span><br><span class="line">master = true</span><br><span class="line">enable-threads = true</span><br><span class="line">workers = 1</span><br><span class="line">wsgi-file = /root/nowamagic_venv/nowamagic_pj/nowamagic_pj/wsgi.py</span><br><span class="line">virtualenv = /root/nowamagic_venv</span><br><span class="line">chdir = /root/nowamagic_venv/nowamagic_pj</span><br></pre></td></tr></table></figure>
+<p>执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --ini /root/nowamagic_venv/nowamagic_pj.ini&amp;</span><br></pre></td></tr></table></figure>
+<p>uwsgi 这样就启动起来了。如果无意外的话，就能在网上访问你的 Python 项目了。</p>
+<p>一些我在配置时用到的命令，省得你去搜索：</p>
+<p>关闭 uWSGI：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">killall  -9 uwsgi</span><br><span class="line">killall -s HUP /var/www/uwsgi </span><br><span class="line">killall -s HUP /usr/local/bin/uwsgi</span><br></pre></td></tr></table></figure>
+<p>列出端口占用情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lpnt</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a><a class="article-category-link" href="/categories/技术/Linux/Python/">Python</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/uWSGI/">uWSGI</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-macOS 配置Python环境" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1082,114 +1238,6 @@
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Requests/">Requests</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrapy/">Scrapy</a></li></ul>
     </div>
 
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-潭州课堂退学费" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/10/潭州课堂退学费/" class="article-date">
-      <time datetime="2017-10-10T08:02:17.000Z" itemprop="datePublished">2017-10-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/10/潭州课堂退学费/">潭州课堂退学费</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2017-10-08-从明天要好好工作了，要去赚钱了。" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/08/2017-10-08-从明天要好好工作了，要去赚钱了。/" class="article-date">
-      <time datetime="2017-10-08T12:51:41.000Z" itemprop="datePublished">2017-10-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/08/2017-10-08-从明天要好好工作了，要去赚钱了。/">2017.10.08 从明天要好好工作了，要去赚钱了。</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
       
       <div class="clearfix"></div>
     </div>
