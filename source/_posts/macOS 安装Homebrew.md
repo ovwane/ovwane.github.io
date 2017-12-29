@@ -129,6 +129,9 @@ youdaodict
 云笔记
 youdaonote
 
+音乐
+neteasemusic
+
 虚拟机
 vmware-fusion
 parallels
@@ -183,6 +186,7 @@ WeChat
 
 ### PyCharm RubyMine WebStorm激活服务器：
 http://118.89.31.228:1017
+http://idea.imsxm.com
 
 ### Sublime Text:
 ```
