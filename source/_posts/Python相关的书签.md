@@ -68,6 +68,7 @@ SnailTyan
 [Python一译中文文档](python.usyiyi.cn)
 
 
+
 # Python小技巧
 
 [python奇技淫巧](https://www.cnblogs.com/hanxiaoyi/p/7745003.html)
