@@ -74,3 +74,8 @@ SnailTyan
 [python奇技淫巧](https://www.cnblogs.com/hanxiaoyi/p/7745003.html)
 
 Python 3.X 里不包含字典类型的has_key() 函数，被 __contains__(key) 替代
+
+
+Django
+
+[Nyloner/NyBlog](https://github.com/Nyloner/NyBlog)
