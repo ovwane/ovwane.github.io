@@ -205,6 +205,132 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Ansible安装配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/04/17/Ansible安装配置/" class="article-date">
+      <time datetime="2017-04-17T15:53:00.000Z" itemprop="datePublished">2017-04-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/17/Ansible安装配置/">Ansible安装配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install -y epel-release</span><br><span class="line">yum install -y python-pip sshpass</span><br><span class="line"></span><br><span class="line">pip install --upgrade pip</span><br><span class="line">pip install ansible</span><br></pre></td></tr></table></figure>
+<p>ansible –version</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible 2.4.2.0</span><br></pre></td></tr></table></figure>
+<p>注：pip方式安装不会在/etc/ansible目录下生成默认的相关配置文件</p>
+<p>ansible控制的主机<br>vim /etc/ansible/hosts </p>
+<p>ansible配置<br>vim /etc/ansible/ansible.cfg</p>
+<h2 id="playbook"><a href="#playbook" class="headerlink" title="playbook"></a>playbook</h2><p>ansible playbook</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim ssh-addkey.yml </span><br><span class="line"></span><br><span class="line"># ssh-addkey.yml </span><br><span class="line">---</span><br><span class="line">- hosts: s1</span><br><span class="line">  gather_facts: no</span><br><span class="line"></span><br><span class="line">  tasks:</span><br><span class="line"></span><br><span class="line">  - name: install ssh key</span><br><span class="line">    authorized_key: user=root </span><br><span class="line">                    key=&quot;&#123;&#123; lookup(&apos;file&apos;, &apos;/root/.ssh/id_rsa.pub&apos;) &#125;&#125;&quot; </span><br><span class="line">                    state=present</span><br></pre></td></tr></table></figure>
+<p>运行playbook</p>
+<p>ansible-playbook -i hosts ssh-addkey.yml</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a><a class="article-category-link" href="/categories/Linux/Ansible/">Ansible</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-北京" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/26/北京/" class="article-date">
+      <time datetime="2017-03-26T08:08:57.000Z" itemprop="datePublished">2017-03-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/26/北京/">北京</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-深圳" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -665,114 +791,6 @@
   
     <h1 itemprop="name">
       <a class="article-title" href="/2017/03/20/东莞/">东莞</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-First-Love" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/19/First-Love/" class="article-date">
-      <time datetime="2017-03-19T15:25:07.000Z" itemprop="datePublished">2017-03-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/19/First-Love/">First Love</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-初恋のきみ" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/19/初恋のきみ/" class="article-date">
-      <time datetime="2017-03-19T15:22:13.000Z" itemprop="datePublished">2017-03-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/19/初恋のきみ/">初恋のきみ</a>
     </h1>
   
 
