@@ -205,11 +205,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Synology NAS文件删除记录" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Python分布式爬虫打造搜索引擎-bobby-慕课网-运行环境" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/Synology NAS文件删除记录/" class="article-date">
-      <time datetime="2017-12-29T00:44:44.862Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2017/12/29/Python分布式爬虫打造搜索引擎-bobby-慕课网-运行环境/" class="article-date">
+      <time datetime="2017-12-29T06:49:50.456Z" itemprop="datePublished">2017-12-29</time>
 </a>
     </div>
   
@@ -221,192 +221,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Synology NAS文件删除记录</p>
-<p>Seagate硬盘是复制NAS上的文件。现在进行筛选处理。</p>
-<p>删除的文件</p>
-<p>/Volumes/Seagete/course/Python/老男孩 python 14期 29.08GB</p>
-<p>/Volumes/Seagete/course/Python/python分布式爬虫打造搜索引擎 9.5GB</p>
-<p>/Volumes/Seagete/course/Python/Python就业班 46GB<br>大概 46GB，忘记统计大小类。删除后才想起来统计大小。所以 46GB可能和NAS上的不太一样。</p>
-<p>/Volumes/Seagete/course/Python/第十六期 5.0MB</p>
-<p>5.6G    Python<br> 99G    Python视频教程<br> 73G    python传智播客<br> 56G    python全栈开发<br> 20G    老男孩-python运维8期<br> 48G    零基础入门学习Python</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Scrapy操作步骤" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/Scrapy操作步骤/" class="article-date">
-      <time datetime="2017-12-29T00:44:44.862Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scrapy startproject crawl_spider</span><br><span class="line">cd crawl_spider</span><br><span class="line"></span><br><span class="line">scrapy genspider jobbole &quot;blog.jobbole.com&quot;</span><br><span class="line">scrapy genspider zhihu &quot;www.zhihu.com&quot;</span><br><span class="line">scrapy genspider lagou &quot;www.lagou.com&quot;</span><br></pre></td></tr></table></figure>
-<p>pycharm调试scrapy</p>
-<p>main.py 和 scrapy.cfg 在同一级目录下</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line">execute([<span class="string">"scrapy"</span>,<span class="string">"crawl"</span>,<span class="string">"jobbole"</span>])</span><br></pre></td></tr></table></figure>
-<p>settings.py</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ROBOTSTXT_OBEY = <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
-<p>伯乐在线提取文章<br>标题，日期，评论，点赞，</p>
-<p>xpath</p>
-<p>xpath语法<br>/div/<em> 选取属于div元素的所有子节点<br>//</em> 选取所有元素<br>//div[@*] 选取所有带属性的div元素<br>/div/a|//div/p 选取所有div元素的a和p元素<br>//span|//ul 选取文档中的span和ul元素<br>article/div/p|//span 选取所有属于artile的div的p元素和所有的span元素</p>
-<p>scrapy shell 调试 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell http://blog.jobbole.com/110287/</span><br></pre></td></tr></table></figure>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">title = response.xpath(<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line">title = response.xpath(<span class="string">"//div[@class="</span>entry-heade<span class="string">r"]/h1"</span>)</span><br><span class="line"></span><br><span class="line">title = response.xpath(<span class="string">"//div[@class="</span>entry-heade<span class="string">r"]/h1/text()"</span>)</span><br><span class="line"></span><br><span class="line">title = response.xpath(<span class="string">"//div[@class="</span>entry-heade<span class="string">r"]/h1/text()"</span>).extract()[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">response.xpath(<span class="string">'//div[@id="archive"]//a[@class="archive-title"]/@href'</span>).extract()</span><br></pre></td></tr></table></figure>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[element <span class="keyword">for</span> element <span class="keyword">in</span> tag_list <span class="keyword">if</span> <span class="keyword">not</span> element.strip().endswith(<span class="string">"评论"</span>)]</span><br></pre></td></tr></table></figure>
-<p>css selector</p>
-<p>css选择器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">* 选择所有节点</span><br><span class="line">#con 选择id为con的节点</span><br><span class="line">.con 选择所有class包含con的节点</span><br><span class="line">li a 选取所有li下的所有a节点</span><br><span class="line">ul + p 选择ul后面的第一个p元素</span><br><span class="line">div#con &gt; ul 选取id为con的div的第一个ul子元素</span><br><span class="line">ul ~ p 选择与ul相邻的所有p元素</span><br><span class="line">a[title] 选取所有有tilte属性的a元素</span><br><span class="line">input[type=radio]:checked 选择选中的radio的元素</span><br><span class="line">div:not(#con) 选取所有id非con的div属性</span><br><span class="line">li:nth-child(3)选取第三个li元素</span><br><span class="line">tr:nth-child(2n)第偶数个tr</span><br></pre></td></tr></table></figure>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title = response.css(<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line">title = response.css(<span class="string">".entry-header h1"</span>)</span><br><span class="line"></span><br><span class="line">title = response.css(<span class="string">".entry-header h1::text"</span>)</span><br><span class="line"></span><br><span class="line">title = response.css(<span class="string">".entry-header h1:text"</span>).extract()</span><br></pre></td></tr></table></figure>
-<p>1.获取文章列表页的文章url并交给scrapy下载后并进行解析<br>2.获取下一页的url并交给scrapy进行下载，下载完成后交给parse</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_urls = response.css(<span class="string">".con a::attr(href)"</span>).extract()</span><br></pre></td></tr></table></figure>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.http <span class="keyword">import</span> Request</span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载所有文章的url</span></span><br><span class="line"><span class="keyword">yield</span> Request(url=parse.urljoin(response.url, post_url),callback=self.parse_detail)</span><br><span class="line"></span><br><span class="line"><span class="comment">#提取下一页的url</span></span><br><span class="line">next_urls = response.css(<span class="string">".next.page-number::attr(href)"</span>).extract()</span><br><span class="line"><span class="keyword">if</span> next_url:</span><br><span class="line">	<span class="keyword">yield</span> Request(url=parse.urljoin(response.url, post_url),callback=self.parse)</span><br></pre></td></tr></table></figure>
-<p>items.py</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JobboleItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">	title = scrapy.Field()</span><br></pre></td></tr></table></figure>
-<p>scrapy自带的下载中间件<br>图片中间件</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(__file__))</span><br><span class="line">IMAGES_URLS_FIELD = <span class="string">""</span></span><br><span class="line">IMAGES_STORE = os.path.join(BASE_DIR, <span class="string">'images'</span>)</span><br></pre></td></tr></table></figure>
-<p>1.先定义items<br>scrapy items<br>2.在jobbole.py爬虫写处理逻辑<br>yield 爬去的数据<br>3.在pipelines中定义怎么储存yield过来的数据<br>3.1 设置setttings.py中的downloader中间件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;   &apos;crawl_spider.middlewares.MyCustomDownloaderMiddleware&apos;: 543,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>item loader机制</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Cisco:H3C交换机配置与管理完全手册" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/Cisco:H3C交换机配置与管理完全手册/" class="article-date">
-      <time datetime="2017-12-29T00:44:44.858Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://blog.51cto.com/winda" target="_blank" rel="noopener">王达 51cto</a><br><a href="http://blog.csdn.net/lycb_gz" target="_blank" rel="noopener">王达 csdn</a><br><a href="http://blog.chinaunix.net/uid/10659021.html" target="_blank" rel="noopener">王达 chinaunix</a></p>
-<p>思科交换机操作系统IOS和CatOS<br>看三遍<br>第一遍粗看，不进行实际操练。第二遍细看，要求跟着书在实际设备或者模拟器上练习。第三遍粗看，主要是看那些前两遍中没有理解或者没有掌握的内容，以及重点理论、重要功能配置与管理方法。</p>
-<p>Catalyst 6500 4900系列</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Cisco 路由器配置命令" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/Cisco 路由器配置命令/" class="article-date">
-      <time datetime="2017-12-29T00:44:44.858Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Cisco-路由器配置命令"><a href="#Cisco-路由器配置命令" class="headerlink" title="Cisco 路由器配置命令"></a>Cisco 路由器配置命令</h1><h3 id="改变命令状态"><a href="#改变命令状态" class="headerlink" title="改变命令状态"></a>改变命令状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">任务  命令 </span><br><span class="line">进入特权命令状态 enable </span><br><span class="line">退出特权命令状态 disable </span><br><span class="line">进入设置对话状态 setup  </span><br><span class="line">进入全局设置状态 config terminal </span><br><span class="line">退出全局设置状态 end  </span><br><span class="line">进入端口设置状态 interface type slot/number </span><br><span class="line">进入子端口设置状态 interface type number.subinterface [point-to-point | multipoint] </span><br><span class="line">进入线路设置状态 line type slot/number </span><br><span class="line">进入路由设置状态 router protocol </span><br><span class="line">退出局部设置状态  exit</span><br></pre></td></tr></table></figure>
-<p>路由器的状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">命令状态</span><br><span class="line">route1&gt;</span><br><span class="line">特权命令状态(进入特权enable，退出特权disable)</span><br><span class="line">route1&gt;enable</span><br><span class="line">route1#</span><br><span class="line">特权状态下的命令</span><br><span class="line">进入设置对话状态 setup</span><br><span class="line">route1#setup</span><br><span class="line">         --- System Configuration Dialog ---</span><br><span class="line">Continue with configuration dialog? [yes/no]:</span><br><span class="line"></span><br><span class="line">进入全局设置状态 config terminal(conf t)</span><br><span class="line">route1#conf t</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">route1(config)#</span><br><span class="line"></span><br><span class="line">退出全局设置状态 end</span><br><span class="line">route1(config)#end</span><br><span class="line">route1#</span><br><span class="line">进入端口配置</span><br><span class="line">route2#show ip interface</span><br><span class="line">FastEthernet0/0 is administratively down, line protocol is down</span><br><span class="line">  Internet protocol processing disabled</span><br><span class="line"></span><br><span class="line">route2(config)#interface FastEthernet0/0</span><br><span class="line">route2(config-if)#</span><br></pre></td></tr></table></figure>
-<p>Cisco路由器初始化配置<br>设置路由器内部时钟</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">全局配置模式下 clock timezone GMT +8</span><br><span class="line">exit</span><br><span class="line">特权模式下</span><br><span class="line">clock set 11:54:00 october 22 2017</span><br></pre></td></tr></table></figure>
-<p>1.路由器名<br>2.特权状态密码<br>3.Console密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">line console 0</span><br><span class="line">password 密码</span><br><span class="line">login</span><br></pre></td></tr></table></figure></p>
-<p>4.AUX密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">line aux 0</span><br><span class="line">password 密码</span><br><span class="line">login</span><br></pre></td></tr></table></figure>
-<p>5.VTY密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">使用远程登录，需要先配置特权密码</span><br><span class="line">line vty 0 4</span><br><span class="line">pass 密码</span><br><span class="line">login</span><br><span class="line"></span><br><span class="line">限制IP远程登录</span><br><span class="line">access-list 1 permit 12.1.1.1</span><br><span class="line">line vty 0 4</span><br><span class="line">access-class 1 in</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
-<p>5.配置接口IP</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">interface </span><br><span class="line">ip address 10.0.0.1 255.255.255.0</span><br><span class="line">description &quot;描述信息&quot;</span><br><span class="line">ip address 10.1.1.1 255.255.255.0 secondary</span><br><span class="line">no shutdown</span><br></pre></td></tr></table></figure>
-<p>模式转换<br>用户模式–&gt;特权模式 enable<br>特权模式–&gt;全局配置模式 config t<br>全剧配置模式–&gt;接口模式 interface<br>全局配置模式–&gt;线控模式 line</p>
-<p>默认进入的是命令状态，<br>config 之后 状态上有</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Cisco3725124-25.T14-1#configure terminal</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Cisco3725124-25.T14-(config)#</span><br></pre></td></tr></table></figure>
-<p>% Unrecognized command<br>％无法识别的命令</p>
-<p>设置路由器主机名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">默认模式转换到全局配置模式 confit t</span><br><span class="line"></span><br><span class="line">Cisco3725124-25.T14-1#configure terminal</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Cisco3725124-25.T14-(config)#hostname riga</span><br></pre></td></tr></table></figure>
-<p>设置特权密码<br>全局配置模式下执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route2(config)#enable secret 密码</span><br></pre></td></tr></table></figure>
-<p>设置访问用户及密码</p>
+        <p>Python分布式爬虫打造搜索引擎-bobby-慕课网</p>
+<p>ArticleSpider运行环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy redis pillow mysqlclient elasticsearch_dsl</span><br></pre></td></tr></table></figure>
+<pre><code>import MySQLdb
+</code></pre><p>ModuleNotFoundError: No module named ‘MySQLdb’</p>
 
       
       
@@ -438,7 +258,7 @@
   
     <div class="article-meta">
       <a href="/2017/12/29/KeePass使用问题/" class="article-date">
-      <time datetime="2017-12-29T00:44:44.858Z" itemprop="datePublished">2017-12-29</time>
+      <time datetime="2017-12-29T06:49:50.456Z" itemprop="datePublished">2017-12-29</time>
 </a>
     </div>
   
@@ -483,11 +303,11 @@
 
 
   
-    <article id="post-C语言学习-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Python分布式爬虫打造搜索引擎 学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/C语言学习-笔记/" class="article-date">
-      <time datetime="2017-12-29T00:44:44.858Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2017/12/29/Python分布式爬虫打造搜索引擎 学习笔记/" class="article-date">
+      <time datetime="2017-12-29T06:49:50.456Z" itemprop="datePublished">2017-12-29</time>
 </a>
     </div>
   
@@ -499,7 +319,34 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://blog.csdn.net/zhaoxz1985/article/details/72473045" target="_blank" rel="noopener">C语言基础及进阶教程(视频教程地址)</a></p>
+        <h1 id="Python分布式爬虫打造搜索引擎"><a href="#Python分布式爬虫打造搜索引擎" class="headerlink" title="Python分布式爬虫打造搜索引擎"></a><a href="http://coding.imooc.com/class/92.html" target="_blank" rel="noopener">Python分布式爬虫打造搜索引擎</a></h1><h2 id="第1章-课程介绍"><a href="#第1章-课程介绍" class="headerlink" title="第1章 课程介绍"></a>第1章 课程介绍</h2><h4 id="介绍课程目标、通过课程能学习到的内容、和系统开发前需要具备的知识"><a href="#介绍课程目标、通过课程能学习到的内容、和系统开发前需要具备的知识" class="headerlink" title="介绍课程目标、通过课程能学习到的内容、和系统开发前需要具备的知识"></a>介绍课程目标、通过课程能学习到的内容、和系统开发前需要具备的知识</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Scrapy </span><br><span class="line">elasticsearch</span><br><span class="line">django</span><br></pre></td></tr></table></figure>
+<h2 id="第2章-windows下搭建开发环境"><a href="#第2章-windows下搭建开发环境" class="headerlink" title="第2章 windows下搭建开发环境"></a>第2章 windows下搭建开发环境</h2><h4 id="介绍项目开发需要安装的开发软件、-python虚拟virtualenv和-virtualenvwrapper的安装和使用、-最后介绍pycharm和navicat的简单使用"><a href="#介绍项目开发需要安装的开发软件、-python虚拟virtualenv和-virtualenvwrapper的安装和使用、-最后介绍pycharm和navicat的简单使用" class="headerlink" title="介绍项目开发需要安装的开发软件、 python虚拟virtualenv和 virtualenvwrapper的安装和使用、 最后介绍pycharm和navicat的简单使用"></a>介绍项目开发需要安装的开发软件、 python虚拟virtualenv和 virtualenvwrapper的安装和使用、 最后介绍pycharm和navicat的简单使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PyCharm安装和配置</span><br><span class="line">MySQL和Navicat的安装使用</span><br><span class="line">CentOS安装Python2和Python3</span><br><span class="line">Python虚拟环境的安装配置virtualenv、virtualenvwrapper</span><br></pre></td></tr></table></figure>
+<h2 id="第3章-爬虫基础知识回顾"><a href="#第3章-爬虫基础知识回顾" class="headerlink" title="第3章 爬虫基础知识回顾"></a>第3章 爬虫基础知识回顾</h2><h4 id="介绍爬虫开发中需要用到的基础知识包括爬虫能做什么，正则表达式，深度优先和广度优先的算法及实现、爬虫url去重的策略、彻底弄清楚unicode和utf8编码的区别和应用。"><a href="#介绍爬虫开发中需要用到的基础知识包括爬虫能做什么，正则表达式，深度优先和广度优先的算法及实现、爬虫url去重的策略、彻底弄清楚unicode和utf8编码的区别和应用。" class="headerlink" title="介绍爬虫开发中需要用到的基础知识包括爬虫能做什么，正则表达式，深度优先和广度优先的算法及实现、爬虫url去重的策略、彻底弄清楚unicode和utf8编码的区别和应用。"></a>介绍爬虫开发中需要用到的基础知识包括爬虫能做什么，正则表达式，深度优先和广度优先的算法及实现、爬虫url去重的策略、彻底弄清楚unicode和utf8编码的区别和应用。</h4><h5 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scrapy vs requests+beautifulsoup</span><br><span class="line">1.requests和beautifulsoup都是库，scrapy是框架</span><br><span class="line">2.scrapy框架中可以加入requests和beautifulsoup</span><br><span class="line">3.scarpy基于twisted，性能是最大的优势</span><br><span class="line">4.scarpy方便扩展，提供了很多内置的功能</span><br><span class="line">5.scrapy内置的css和xpath selector非常方便，beautifulsoup最大的缺点就是慢</span><br></pre></td></tr></table></figure>
+<h5 id="网页分类"><a href="#网页分类" class="headerlink" title="网页分类"></a>网页分类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">常见类型的服务</span><br><span class="line">1.静态网页</span><br><span class="line">2.动态网页</span><br><span class="line">3.webservice(restapi)</span><br></pre></td></tr></table></figure>
+<h5 id="爬虫能做什么"><a href="#爬虫能做什么" class="headerlink" title="爬虫能做什么"></a>爬虫能做什么</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">爬虫作用</span><br><span class="line">1.搜索引擎---百度、google、垂直领域搜索引擎</span><br><span class="line">2.推荐引擎---今日头条</span><br><span class="line">3.机器学习的数据样本</span><br><span class="line">4.数据分析（如金融数据分析）、舆情分析等</span><br></pre></td></tr></table></figure>
+<h4 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">目录</span><br><span class="line">1.特殊字符</span><br><span class="line">1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 待匹配字符串</span></span><br><span class="line">line = <span class="string">'ssfder'</span></span><br><span class="line"><span class="comment"># 匹配规则</span></span><br><span class="line">regex_str = <span class="string">"^b.*"</span></span><br><span class="line"><span class="comment"># 匹配字符</span></span><br><span class="line"><span class="keyword">if</span> re.match(regex_str, line):</span><br><span class="line">	print(<span class="string">"yes"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="字符串编码"><a href="#字符串编码" class="headerlink" title="字符串编码"></a>字符串编码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.ASCII</span><br><span class="line">2.Unicode</span><br><span class="line">3.可变长编码 utf-8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">文件：test.txt utf-8编码---&gt;(read)读取：转换为unicode编码---&gt;(read)内存中 Unicode编码---&gt;(save)保存：转换为utf-8编码</span><br></pre></td></tr></table></figure>
+<h4 id="爬虫去重策略"><a href="#爬虫去重策略" class="headerlink" title="爬虫去重策略"></a>爬虫去重策略</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.将访问过的url保存到数据库中</span><br><span class="line">2.将访问过的url保存到set中，只需要o(1)的代价就可以查询url 100000000*2byte*50个字符/1024/1024/1024 = 9GB </span><br><span class="line">3.url经过md5等方法哈希后保存到set中</span><br><span class="line">4.用bitmap方法，将访问过的url通过hash函数映射到某一位</span><br><span class="line">5.bloomfilter方法对bitmap进行改进，多重hash函数降低冲突</span><br></pre></td></tr></table></figure>
+<h4 id="深度优先和广度优先"><a href="#深度优先和广度优先" class="headerlink" title="深度优先和广度优先"></a>深度优先和广度优先</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">目录</span><br><span class="line">1.网站的树结构</span><br><span class="line">2.深度优先算法和实现</span><br><span class="line">递归实现</span><br><span class="line">3.广度优先算法和实现</span><br><span class="line">队列实现</span><br></pre></td></tr></table></figure>
+<h2 id="第4章-scrapy爬取知名技术文章网站"><a href="#第4章-scrapy爬取知名技术文章网站" class="headerlink" title="第4章 scrapy爬取知名技术文章网站"></a>第4章 scrapy爬取知名技术文章网站</h2><h4 id="搭建scrapy的开发环境，本章介绍scrapy的常用命令以及工程目录结构分析，本章中也会详细的讲解xpath和css选择器的使用。然后通过scrapy提供的spider完成所有文章的爬取。然后详细讲解item以及item-loader方式完成具体字段的提取后使用scrapy提供的pipeline分别将数据保存到json文件以及mysql数据库中。…"><a href="#搭建scrapy的开发环境，本章介绍scrapy的常用命令以及工程目录结构分析，本章中也会详细的讲解xpath和css选择器的使用。然后通过scrapy提供的spider完成所有文章的爬取。然后详细讲解item以及item-loader方式完成具体字段的提取后使用scrapy提供的pipeline分别将数据保存到json文件以及mysql数据库中。…" class="headerlink" title="搭建scrapy的开发环境，本章介绍scrapy的常用命令以及工程目录结构分析，本章中也会详细的讲解xpath和css选择器的使用。然后通过scrapy提供的spider完成所有文章的爬取。然后详细讲解item以及item loader方式完成具体字段的提取后使用scrapy提供的pipeline分别将数据保存到json文件以及mysql数据库中。…"></a>搭建scrapy的开发环境，本章介绍scrapy的常用命令以及工程目录结构分析，本章中也会详细的讲解xpath和css选择器的使用。然后通过scrapy提供的spider完成所有文章的爬取。然后详细讲解item以及item loader方式完成具体字段的提取后使用scrapy提供的pipeline分别将数据保存到json文件以及mysql数据库中。…</h4><h4 id="xpath"><a href="#xpath" class="headerlink" title="xpath"></a>xpath</h4><h5 id="xpath简介"><a href="#xpath简介" class="headerlink" title="xpath简介"></a>xpath简介</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.xpath使用路径表达式在xml和html中进行导航</span><br><span class="line">2.xpath包含标准函数库</span><br><span class="line">3.xpath是一个w3c的标准</span><br></pre></td></tr></table></figure>
+<h5 id="xpath节点关系"><a href="#xpath节点关系" class="headerlink" title="xpath节点关系"></a>xpath节点关系</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.父节点</span><br><span class="line">2.子节点</span><br><span class="line">3.同胞节点</span><br><span class="line">4.先辈节点</span><br><span class="line">5.</span><br></pre></td></tr></table></figure>
+<h5 id="xpath语法"><a href="#xpath语法" class="headerlink" title="xpath语法"></a>xpath语法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">表达式 说明</span><br><span class="line">article 选取所有article元素的所有子节点</span><br><span class="line">/article 选取根元素article</span><br><span class="line">article/a 选取所有属于article的子元素的a元素</span><br><span class="line">//div 选取所有div子元素（不论出现在文档任何地方）</span><br><span class="line">article//div 选取所有属于article元素的后代的div元素，不管它出现在article之下的任何位置</span><br><span class="line">//@class 选取所有名为class的属性</span><br><span class="line"></span><br><span class="line">/div/* 选取属于div元素的所有子节点</span><br><span class="line">//* 选取所有元素</span><br><span class="line">//div[@*] 选取所有带属性的title元素</span><br><span class="line">//div/a|//div/p 选取所有div元素的a和p元素</span><br><span class="line">//span|//ul 选取文档中的span和ul元素</span><br><span class="line">article/div/p|//span 选取所有属于article元素的div元素的p元素 以及文档中所有的span元素</span><br></pre></td></tr></table></figure>
+<h5 id="xpath语法-谓语"><a href="#xpath语法-谓语" class="headerlink" title="xpath语法-谓语"></a>xpath语法-谓语</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">表达式 说明</span><br><span class="line">/article/div[1] 选取属于article子元素的第一个div元素</span><br><span class="line">/article/div[last()] 选取属于article子元素的最后一个div元素</span><br><span class="line">/article/div[last()-1] 选取属于article子元素的倒数第二个div元素</span><br><span class="line">//div[@lang] 选取所有拥有lang属性的div元素</span><br><span class="line">//div[@lang=&apos;eng&apos;] 选取所有lang属性为eng的div元素</span><br></pre></td></tr></table></figure>
+<h5 id="scrapy-shell"><a href="#scrapy-shell" class="headerlink" title="scrapy shell"></a>scrapy shell</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell http://blog.jobbole.com/110287</span><br><span class="line"></span><br><span class="line">title = response.xpath(&quot;//div[@class=&apos;entry-header&apos;]/h1/text()&quot;)</span><br><span class="line"></span><br><span class="line">title</span><br><span class="line"></span><br><span class="line">title.extract()</span><br></pre></td></tr></table></figure>
+<h4 id="css选择器"><a href="#css选择器" class="headerlink" title="css选择器"></a>css选择器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">表达式 说明</span><br><span class="line">* 选择所有节点</span><br><span class="line">#container 选择id为container的节点</span><br><span class="line">.container 选择所有class包含container的节点</span><br><span class="line">li a 选择所有li下的所有a节点</span><br><span class="line">ul + p 选择ul后面的第一个p元素</span><br><span class="line">div#container &gt; ul 选取id为container的div的第一个ul子元素</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">表达式 说明</span><br><span class="line">ul ～ p 选取与ul相邻的所有p元素</span><br><span class="line">a[title] 选取所有有title属性的a元素</span><br><span class="line">a[href=&quot;http://jobbole.com&quot;] 选取所有href属性为jobbole.com值的a元素</span><br><span class="line">a[href*=&quot;jobbole&quot;] 选取所有href属性包含jobbole的a元素</span><br><span class="line">a[href^=&quot;http&quot;] 选取所有href属性值以http开头的a元素</span><br><span class="line">a[href$=&quot;.jpg&quot;] 选取所有href属性值以.jpg结尾的a元素</span><br><span class="line">input[type=radio]:checked 选择选中的radio的元素</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">表达式 说明</span><br><span class="line">div:not(#container) 选取所有id非container的div属性</span><br><span class="line">li:nth-child(3) 选取第三个li元素</span><br><span class="line">tr:nth-child(2n) 第偶数个tr</span><br></pre></td></tr></table></figure>
+<h5 id="scrapy-shell-1"><a href="#scrapy-shell-1" class="headerlink" title="scrapy shell"></a>scrapy shell</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell http://blog.jobbole.com/110287</span><br><span class="line"></span><br><span class="line">title = response.css(&quot;.entry-header h1::text&quot;)</span><br><span class="line"></span><br><span class="line">title</span><br><span class="line"></span><br><span class="line">title.extract()</span><br></pre></td></tr></table></figure>
+<h4 id="scrapy-http"><a href="#scrapy-http" class="headerlink" title="scrapy.http"></a>scrapy.http</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from scrapy.http import Request</span><br></pre></td></tr></table></figure>
+<h4 id="scrapy-djangoitem"><a href="#scrapy-djangoitem" class="headerlink" title="scrapy-djangoitem"></a>scrapy-djangoitem</h4><h4 id="item-loader-jobbole-py"><a href="#item-loader-jobbole-py" class="headerlink" title="item-loader jobbole.py"></a>item-loader jobbole.py</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"><span class="comment"># 通过item_loader加载item,JobboleArticleItem()是item.py里的item。</span></span><br><span class="line">item_loader = ItemLoader(item=JobboleArticleItem(), response=response)</span><br><span class="line">item_loader.add_css(<span class="string">"title"</span>, <span class="string">".entry-header h1::text"</span>)</span><br><span class="line">item_loader.add_xpath()</span><br><span class="line">item_loader.add_value(<span class="string">"url"</span>, response.url)</span><br><span class="line"><span class="comment"># 重新加载</span></span><br><span class="line">article_item = item_loader.load_item()</span><br><span class="line"><span class="comment"># 传出</span></span><br><span class="line"><span class="keyword">yield</span> article_item</span><br></pre></td></tr></table></figure>
+<h4 id="item-py"><a href="#item-py" class="headerlink" title="item.py"></a>item.py</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class JobBoleArticleItem(scrapy.Item):</span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    create_date = scrapy.Field(</span><br><span class="line">        input_processor=MapCompose(date_convert),</span><br><span class="line">    )</span><br><span class="line">    content = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<h2 id="第5章-scrapy爬取知名问答网站"><a href="#第5章-scrapy爬取知名问答网站" class="headerlink" title="第5章 scrapy爬取知名问答网站"></a>第5章 scrapy爬取知名问答网站</h2><hr>
+<p>本章主要完成网站的问题和回答的提取。本章除了分析出问答网站的网络请求以外还会分别通过requests和scrapy的FormRequest两种方式完成网站的模拟登录， 本章详细的分析了网站的网络请求并分别分析出了网站问题回答的api请求接口并将数据提取出来后保存到mysql中。</p>
+<hr>
+<h4 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">distributed_crawler_search_engine</span><br></pre></td></tr></table></figure>
+<h2 id="第6章-通过CrawlSpider对招聘网站进行整站爬取"><a href="#第6章-通过CrawlSpider对招聘网站进行整站爬取" class="headerlink" title="第6章 通过CrawlSpider对招聘网站进行整站爬取"></a>第6章 通过CrawlSpider对招聘网站进行整站爬取</h2><h4 id="本章完成招聘网站职位的数据表结构设计，并通过link-extractor和rule的形式并配置CrawlSpider完成招聘网站所有职位的爬取，本章也会从源码的角度来分析CrawlSpider让大家对CrawlSpider有深入的理解。"><a href="#本章完成招聘网站职位的数据表结构设计，并通过link-extractor和rule的形式并配置CrawlSpider完成招聘网站所有职位的爬取，本章也会从源码的角度来分析CrawlSpider让大家对CrawlSpider有深入的理解。" class="headerlink" title="本章完成招聘网站职位的数据表结构设计，并通过link extractor和rule的形式并配置CrawlSpider完成招聘网站所有职位的爬取，本章也会从源码的角度来分析CrawlSpider让大家对CrawlSpider有深入的理解。"></a>本章完成招聘网站职位的数据表结构设计，并通过link extractor和rule的形式并配置CrawlSpider完成招聘网站所有职位的爬取，本章也会从源码的角度来分析CrawlSpider让大家对CrawlSpider有深入的理解。</h4><h2 id="第7章-Scrapy突破反爬虫的限制"><a href="#第7章-Scrapy突破反爬虫的限制" class="headerlink" title="第7章 Scrapy突破反爬虫的限制"></a>第7章 Scrapy突破反爬虫的限制</h2><h4 id="本章会从爬虫和反爬虫的斗争过程开始讲解，然后讲解scrapy的原理，然后通过随机切换user-agent和设置scrapy的ip代理的方式完成突破反爬虫的各种限制。本章也会详细介绍httpresponse和httprequest来详细的分析scrapy的功能，最后会通过云打码平台来完成在线验证码识别以及禁用cookie和访问频率来降低爬虫被屏蔽的可能性。…"><a href="#本章会从爬虫和反爬虫的斗争过程开始讲解，然后讲解scrapy的原理，然后通过随机切换user-agent和设置scrapy的ip代理的方式完成突破反爬虫的各种限制。本章也会详细介绍httpresponse和httprequest来详细的分析scrapy的功能，最后会通过云打码平台来完成在线验证码识别以及禁用cookie和访问频率来降低爬虫被屏蔽的可能性。…" class="headerlink" title="本章会从爬虫和反爬虫的斗争过程开始讲解，然后讲解scrapy的原理，然后通过随机切换user-agent和设置scrapy的ip代理的方式完成突破反爬虫的各种限制。本章也会详细介绍httpresponse和httprequest来详细的分析scrapy的功能，最后会通过云打码平台来完成在线验证码识别以及禁用cookie和访问频率来降低爬虫被屏蔽的可能性。…"></a>本章会从爬虫和反爬虫的斗争过程开始讲解，然后讲解scrapy的原理，然后通过随机切换user-agent和设置scrapy的ip代理的方式完成突破反爬虫的各种限制。本章也会详细介绍httpresponse和httprequest来详细的分析scrapy的功能，最后会通过云打码平台来完成在线验证码识别以及禁用cookie和访问频率来降低爬虫被屏蔽的可能性。…</h4><h2 id="第8章-scrapy进阶开发"><a href="#第8章-scrapy进阶开发" class="headerlink" title="第8章 scrapy进阶开发"></a>第8章 scrapy进阶开发</h2><h4 id="本章将讲解scrapy的更多高级特性，这些高级特性包括通过selenium和phantomjs实现动态网站数据的爬取以及将这二者集成到scrapy中、scrapy信号、自定义中间件、暂停和启动scrapy爬虫、scrapy的核心api、scrapy的telnet、scrapy的web-service和scrapy的log配置和email发送等。-这些特性使得我们不仅只是可以通过scrapy来完成…"><a href="#本章将讲解scrapy的更多高级特性，这些高级特性包括通过selenium和phantomjs实现动态网站数据的爬取以及将这二者集成到scrapy中、scrapy信号、自定义中间件、暂停和启动scrapy爬虫、scrapy的核心api、scrapy的telnet、scrapy的web-service和scrapy的log配置和email发送等。-这些特性使得我们不仅只是可以通过scrapy来完成…" class="headerlink" title="本章将讲解scrapy的更多高级特性，这些高级特性包括通过selenium和phantomjs实现动态网站数据的爬取以及将这二者集成到scrapy中、scrapy信号、自定义中间件、暂停和启动scrapy爬虫、scrapy的核心api、scrapy的telnet、scrapy的web service和scrapy的log配置和email发送等。 这些特性使得我们不仅只是可以通过scrapy来完成…"></a>本章将讲解scrapy的更多高级特性，这些高级特性包括通过selenium和phantomjs实现动态网站数据的爬取以及将这二者集成到scrapy中、scrapy信号、自定义中间件、暂停和启动scrapy爬虫、scrapy的核心api、scrapy的telnet、scrapy的web service和scrapy的log配置和email发送等。 这些特性使得我们不仅只是可以通过scrapy来完成…</h4><h2 id="第9章-scrapy-redis分布式爬虫"><a href="#第9章-scrapy-redis分布式爬虫" class="headerlink" title="第9章 scrapy-redis分布式爬虫"></a>第9章 scrapy-redis分布式爬虫</h2><h4 id="Scrapy-redis分布式爬虫的使用以及scrapy-redis的分布式爬虫的源码分析，-让大家可以根据自己的需求来修改源码以满足自己的需求。最后也会讲解如何将bloomfilter集成到scrapy-redis中。"><a href="#Scrapy-redis分布式爬虫的使用以及scrapy-redis的分布式爬虫的源码分析，-让大家可以根据自己的需求来修改源码以满足自己的需求。最后也会讲解如何将bloomfilter集成到scrapy-redis中。" class="headerlink" title="Scrapy-redis分布式爬虫的使用以及scrapy-redis的分布式爬虫的源码分析， 让大家可以根据自己的需求来修改源码以满足自己的需求。最后也会讲解如何将bloomfilter集成到scrapy-redis中。"></a>Scrapy-redis分布式爬虫的使用以及scrapy-redis的分布式爬虫的源码分析， 让大家可以根据自己的需求来修改源码以满足自己的需求。最后也会讲解如何将bloomfilter集成到scrapy-redis中。</h4><h2 id="第10章-elasticsearch搜索引擎的使用"><a href="#第10章-elasticsearch搜索引擎的使用" class="headerlink" title="第10章 elasticsearch搜索引擎的使用"></a>第10章 elasticsearch搜索引擎的使用</h2><h4 id="本章将讲解elasticsearch的安装和使用，将讲解elasticsearch的基本概念的介绍以及api的使用。本章也会讲解搜索引擎的原理并讲解elasticsearch-dsl的使用，最后讲解如何通过scrapy的pipeline将数据保存到elasticsearch中。"><a href="#本章将讲解elasticsearch的安装和使用，将讲解elasticsearch的基本概念的介绍以及api的使用。本章也会讲解搜索引擎的原理并讲解elasticsearch-dsl的使用，最后讲解如何通过scrapy的pipeline将数据保存到elasticsearch中。" class="headerlink" title="本章将讲解elasticsearch的安装和使用，将讲解elasticsearch的基本概念的介绍以及api的使用。本章也会讲解搜索引擎的原理并讲解elasticsearch-dsl的使用，最后讲解如何通过scrapy的pipeline将数据保存到elasticsearch中。"></a>本章将讲解elasticsearch的安装和使用，将讲解elasticsearch的基本概念的介绍以及api的使用。本章也会讲解搜索引擎的原理并讲解elasticsearch-dsl的使用，最后讲解如何通过scrapy的pipeline将数据保存到elasticsearch中。</h4><h2 id="第11章-课程总结"><a href="#第11章-课程总结" class="headerlink" title="第11章 课程总结"></a>第11章 课程总结</h2><h4 id="本章讲解如何通过django快速搭建搜索网站，-本章也会讲解如何完成django与elasticsearch的搜索查询交互。"><a href="#本章讲解如何通过django快速搭建搜索网站，-本章也会讲解如何完成django与elasticsearch的搜索查询交互。" class="headerlink" title="本章讲解如何通过django快速搭建搜索网站， 本章也会讲解如何完成django与elasticsearch的搜索查询交互。"></a>本章讲解如何通过django快速搭建搜索网站， 本章也会讲解如何完成django与elasticsearch的搜索查询交互。</h4><h2 id="第12章-scrapyd部署scrapy爬虫"><a href="#第12章-scrapyd部署scrapy爬虫" class="headerlink" title="第12章 scrapyd部署scrapy爬虫"></a>第12章 scrapyd部署scrapy爬虫</h2><h4 id="本章主要通过scrapyd完成对scrapy爬虫的线上部署。"><a href="#本章主要通过scrapyd完成对scrapy爬虫的线上部署。" class="headerlink" title="本章主要通过scrapyd完成对scrapy爬虫的线上部署。"></a>本章主要通过scrapyd完成对scrapy爬虫的线上部署。</h4><h2 id="第13章-课程总结"><a href="#第13章-课程总结" class="headerlink" title="第13章 课程总结"></a>第13章 课程总结</h2><h4 id="重新梳理一遍系统开发的整个过程，-让同学对系统和开发过程有一个更加直观的理解"><a href="#重新梳理一遍系统开发的整个过程，-让同学对系统和开发过程有一个更加直观的理解" class="headerlink" title="重新梳理一遍系统开发的整个过程， 让同学对系统和开发过程有一个更加直观的理解"></a>重新梳理一遍系统开发的整个过程， 让同学对系统和开发过程有一个更加直观的理解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install selenium redis elasticsearch_dsl PyMySQL requests</span><br></pre></td></tr></table></figure>
 
       
       
@@ -527,11 +374,11 @@
 
 
   
-    <article id="post-Debian8安装Shadowsock和moeSS" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Python+Web开发实战-董伟明-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/Debian8安装Shadowsock和moeSS/" class="article-date">
-      <time datetime="2017-12-29T00:44:44.858Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2017/12/29/Python+Web开发实战-董伟明-笔记/" class="article-date">
+      <time datetime="2017-12-29T06:49:50.456Z" itemprop="datePublished">2017-12-29</time>
 </a>
     </div>
   
@@ -543,15 +390,173 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y git</span><br></pre></td></tr></table></figure>
-<h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone -b manyuser https://github.com/mengskysama/shadowsocks.git</span><br><span class="line">git clone https://github.com/wzxjohn/moeSS.git</span><br></pre></td></tr></table></figure>
-<h3 id="配置LAMP环境"><a href="#配置LAMP环境" class="headerlink" title="配置LAMP环境"></a>配置LAMP环境</h3><p>http2.4<br>php5.4+<br>mysql5.6</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#安装apache httpd web服务</span><br><span class="line">apt-get install -y apache2</span><br><span class="line"></span><br><span class="line">#设置开机自启动</span><br><span class="line">systemctl enable apache2</span><br><span class="line">#启动应用</span><br><span class="line">systemctl start apache2</span><br><span class="line"></span><br><span class="line">#开启rewrite功能</span><br><span class="line">a2enmod rewrite</span><br><span class="line">systemctl restart apache2</span><br></pre></td></tr></table></figure>
-<p>修改配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/apache2/apache2.conf</span><br><span class="line">/var/www/html/ #此路径为web服务器存放网页的地方。</span><br><span class="line">AllowOverride All #开启rewrite所有</span><br></pre></td></tr></table></figure>
-<h3 id="安装mysql数据库"><a href="#安装mysql数据库" class="headerlink" title="安装mysql数据库"></a>安装mysql数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y mysql-server</span><br><span class="line"></span><br><span class="line">#开机自启动</span><br><span class="line">systemctl enable mysql</span><br><span class="line">systemctl start mysql</span><br><span class="line"></span><br><span class="line">#新建数据库 shaodowsocks</span><br><span class="line">create database shadowsocks;</span><br><span class="line">#导入数据库结构表。</span><br><span class="line">mysql -uroot -p shadowsocks &lt;shadowsocks.sql</span><br></pre></td></tr></table></figure>
-<h3 id="安装php和php插件"><a href="#安装php和php插件" class="headerlink" title="安装php和php插件"></a>安装php和php插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get -y install php5 libapache2-mod-php5 php5-mysql php5-mysqlnd php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl</span><br><span class="line"></span><br><span class="line">#重启web服务</span><br><span class="line">systemctl restart apache2</span><br></pre></td></tr></table></figure>
-<h3 id="安装shadowsocks-插件"><a href="#安装shadowsocks-插件" class="headerlink" title="安装shadowsocks 插件"></a>安装shadowsocks 插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#安装pip工具，</span><br><span class="line">apt-get install -y python-pip python-m2crypto</span><br><span class="line"></span><br><span class="line">#安装python数据库支持</span><br><span class="line">pip install cymysql</span><br><span class="line"></span><br><span class="line">#运行shadowsocks</span><br><span class="line">cd shadowsocks </span><br><span class="line">nohup python server.py &amp;</span><br></pre></td></tr></table></figure>
+        <p>页码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">486 第15章 Web 开发项目实践</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Python+Web开发实战-董伟明-目录" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/29/Python+Web开发实战-董伟明-目录/" class="article-date">
+      <time datetime="2017-12-29T06:49:50.456Z" itemprop="datePublished">2017-12-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>页码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">486 第15章 Web 开发项目实践</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Python爬虫面试题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/29/Python爬虫面试题/" class="article-date">
+      <time datetime="2017-12-29T06:49:50.456Z" itemprop="datePublished">2017-12-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Python面试题</p>
+<p><a href="http://blog.csdn.net/u014745194/article/details/78835270" target="_blank" rel="noopener">python面试题系列之一</a></p>
+<p><a href="http://www.jianshu.com/p/be60981eed2b" target="_blank" rel="noopener">python爬虫(一)_爬虫原理和数据抓取</a></p>
+<p><a href="http://blog.csdn.net/u014745194/article/details/75258491" target="_blank" rel="noopener">Python爬虫简述系列之一</a></p>
+<p><a href="http://blog.csdn.net/qq_36143300/article/details/54928389" target="_blank" rel="noopener">数据科学工程师面试宝典系列之一–Python爬虫实战</a></p>
+<p>数据分析简历<br><a href="https://erlemar.github.io/" target="_blank" rel="noopener">Data science portfolio by Andrey Lukyanenko</a></p>
+<p><a href="https://github.com/rushter/data-science-blogs" target="_blank" rel="noopener">rushter/data-science-blogs</a></p>
+<p><a href="http://www.jianshu.com/p/97e10182c38a" target="_blank" rel="noopener">数据科学家的成长之路[译]</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Python自动化开发之路-Alex" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/29/Python自动化开发之路-Alex/" class="article-date">
+      <time datetime="2017-12-29T06:49:50.456Z" itemprop="datePublished">2017-12-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>老男孩教育Python自动化2.0课程课件目录</p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5465198.html" target="_blank" rel="noopener">Python之路,Day1 - Python基础1</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5717620.html" target="_blank" rel="noopener">Python之路,Day2 - Python基础2</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5740985.html" target="_blank" rel="noopener">Python之路,Day3 - Python基础3</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5143440.html" target="_blank" rel="noopener">Python之路,Day4</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5765046.html" target="_blank" rel="noopener">Python之路,Day4 - Python基础4 (new版)</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5161349.html" target="_blank" rel="noopener">Python 之路 Day5 - 常用模块学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5188179.html" target="_blank" rel="noopener">Python之路,Day6 - 面向对象学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5213184.html" target="_blank" rel="noopener">Python之路，Day7 - 面向对象编程进阶</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5830365.html" target="_blank" rel="noopener">Python之路,Day8 - Socket网络编程</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5227251.html" target="_blank" rel="noopener">Python之路,Day8 - Socket编程进阶</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5248247.html" target="_blank" rel="noopener">Python之路,Day9 - 异步IO\数据库\队列\缓存</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5230609.html" target="_blank" rel="noopener">Python之路,Day9, 进程、线程、协程篇</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5978329.html" target="_blank" rel="noopener">Python 之路，Day11 - sqlalchemy ORM</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5950372.html" target="_blank" rel="noopener">python 之路，Day11 - python mysql and ORM</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5286889.html" target="_blank" rel="noopener">Python之路,Day12 - 那就做个堡垒机吧</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5457672.html" target="_blank" rel="noopener">Python之路,Day14 - It’s time for Django</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5512568.html" target="_blank" rel="noopener">Python之路,Day15 - Django适当进阶篇</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5535652.html" target="_blank" rel="noopener">Python之路,Day16 - Django 进阶</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5311625.html" target="_blank" rel="noopener">Python之路,Day17 - 分分钟做个BBS论坛</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5337630.html" target="_blank" rel="noopener">Python之路,Day18 - 开发一个WEB聊天来撩妹吧</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5420433.html" target="_blank" rel="noopener">Python之路,Day19 - CMDB、CMDB、CMDB</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5450798.html" target="_blank" rel="noopener">Python之路,Day20 - 分布式监控系统开发</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5474411.html" target="_blank" rel="noopener">Python之路,Day21 - 常用算法学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5714238.html" target="_blank" rel="noopener">Python之路,Day22 - 网站用户访问质量分析监测分析项目开发</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5760582.html" target="_blank" rel="noopener">Python之路，Day24 常用设计模式学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/6100840.html" target="_blank" rel="noopener">Python 之路，Day27 - 主机管理+堡垒机系统开发</a></p>
+
       
       
     </div>
@@ -582,7 +587,7 @@
   
     <div class="article-meta">
       <a href="/2017/12/29/CentOS7 安装Python/" class="article-date">
-      <time datetime="2017-12-29T00:44:44.854Z" itemprop="datePublished">2017-12-29</time>
+      <time datetime="2017-12-29T06:49:50.452Z" itemprop="datePublished">2017-12-29</time>
 </a>
     </div>
   
@@ -630,11 +635,11 @@
 
 
   
-    <article id="post-AWS" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Cisco:H3C交换机配置与管理完全手册" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/AWS/" class="article-date">
-      <time datetime="2017-12-29T00:44:44.854Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2017/12/29/Cisco:H3C交换机配置与管理完全手册/" class="article-date">
+      <time datetime="2017-12-29T06:49:50.452Z" itemprop="datePublished">2017-12-29</time>
 </a>
     </div>
   
@@ -646,15 +651,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>mkdir aws<br>cd aws<br>pipenv –python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python<br>pipenv –python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python<br>sed -i “” “s/python.org/douban.com/g” Pipfile</p>
-<h2 id="AWS-Cli"><a href="#AWS-Cli" class="headerlink" title="AWS-Cli"></a>AWS-Cli</h2><p><a href="https://github.com/aws/aws-cli" target="_blank" rel="noopener">AWS-Cli</a><br>AWS-Cli 不支持Python3(2017.12.11)<br>pipenv install awscli</p>
-<p>aws configure</p>
-<p>输入<a href="https://console.aws.amazon.com/iam/home#/home" target="_blank" rel="noopener">Identity and Access Management</a></p>
-<p>AWSAccessKeyId<br>AWSSecretKey</p>
-<p>~/.aws/credentials<br>[default]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
-<p>[testing]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
-<h2 id="Boto-3"><a href="#Boto-3" class="headerlink" title="Boto 3"></a>Boto 3</h2><p><a href="https://boto3.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">Boto 3</a></p>
-<p>pipenv install boto3</p>
+        <p><a href="http://blog.51cto.com/winda" target="_blank" rel="noopener">王达 51cto</a><br><a href="http://blog.csdn.net/lycb_gz" target="_blank" rel="noopener">王达 csdn</a><br><a href="http://blog.chinaunix.net/uid/10659021.html" target="_blank" rel="noopener">王达 chinaunix</a></p>
+<p>思科交换机操作系统IOS和CatOS<br>看三遍<br>第一遍粗看，不进行实际操练。第二遍细看，要求跟着书在实际设备或者模拟器上练习。第三遍粗看，主要是看那些前两遍中没有理解或者没有掌握的内容，以及重点理论、重要功能配置与管理方法。</p>
+<p>Catalyst 6500 4900系列</p>
 
       
       
@@ -682,11 +681,11 @@
 
 
   
-    <article id="post-Bash快捷键" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-C语言学习-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/Bash快捷键/" class="article-date">
-      <time datetime="2017-12-29T00:44:44.854Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2017/12/29/C语言学习-笔记/" class="article-date">
+      <time datetime="2017-12-29T06:49:50.452Z" itemprop="datePublished">2017-12-29</time>
 </a>
     </div>
   
@@ -698,23 +697,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <blockquote>
-<p>macOS 10.13.2<br>iTerm2 3.1.2<br>zsh 5.3 (x86_64-apple-darwin17.0)</p>
-<p>生活在 Bash shell 中，熟记以下快捷键，将极大的提高你的命令行操作效率。</p>
-</blockquote>
-<p font-color="red">macOS下 Alt 被替换为 Esc</p>
-
-<h3 id="编辑命令"><a href="#编辑命令" class="headerlink" title="编辑命令"></a>编辑命令</h3><h3 id="命令补全"><a href="#命令补全" class="headerlink" title="命令补全"></a>命令补全</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tab　　　  用于命令补全</span><br><span class="line"></span><br><span class="line">^I 　　　　 可用于命令补全</span><br><span class="line"></span><br><span class="line">^[ 　　　　 相当于Esc，也可补全</span><br></pre></td></tr></table></figure>
-<h3 id="删除命令"><a href="#删除命令" class="headerlink" title="删除命令"></a>删除命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + u ：从光标处删除至命令行首</span><br><span class="line">Ctrl + k ：从光标处删除至命令行尾</span><br><span class="line">Ctrl + w ：从光标处删除至字首</span><br><span class="line">Alt + d ：从光标处删除至字尾</span><br><span class="line">Ctrl + d ：删除光标处的字符</span><br><span class="line">Ctrl + h ：删除光标前的字符</span><br><span class="line">^B 　　　　删除光标所在字母</span><br><span class="line">^Y 　　　　粘贴或恢复上次的删除</span><br></pre></td></tr></table></figure>
-<h3 id="移动命令"><a href="#移动命令" class="headerlink" title="移动命令"></a>移动命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">^P 、^N、 ^B、 ^F    　　方向键 上 下 左 右</span><br><span class="line">Ctrl + a ：移到命令行首</span><br><span class="line">Ctrl + e ：移到命令行尾</span><br><span class="line">Ctrl + f ：按字符前移（右向）</span><br><span class="line">Ctrl + b ：按字符后移（左向）</span><br><span class="line">Alt + f ：按单词前移（右向）</span><br><span class="line">Alt + b ：按单词后移（左向）</span><br><span class="line">Ctrl + xx：在命令行首和光标之间移动</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + y ：粘贴至光标后</span><br><span class="line">Alt + c ：从光标处更改为首字母大写的单词</span><br><span class="line">Alt + u ：从光标处更改为全部大写的单词</span><br><span class="line">Alt + l ：从光标处更改为全部小写的单词</span><br><span class="line">Ctrl + t ：交换光标处和之前的字符</span><br><span class="line">Alt + t ：交换光标处和之前的单词</span><br><span class="line">Alt + Backspace：与 Ctrl + w ~~相同~~类似，分隔符有些差别 [感谢 rezilla 指正]</span><br><span class="line">Ctrl+Alt+E 　扩展命令行</span><br><span class="line">Esc+T 　　 置换前两个单词</span><br></pre></td></tr></table></figure>
-<h3 id="重新执行命令"><a href="#重新执行命令" class="headerlink" title="重新执行命令"></a>重新执行命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + r：逆向搜索命令历史</span><br><span class="line">Ctrl + g：从历史搜索模式退出</span><br><span class="line">Ctrl + p：历史中的上一条命令</span><br><span class="line">Ctrl + n：历史中的下一条命令</span><br><span class="line">Alt + .：使用上一条命令的最后一个参数</span><br><span class="line">Alt+P 　　   非增量方式反向搜索历史</span><br><span class="line"></span><br><span class="line">Alt+&gt; 　　   历史列表中的最后一行命令开始向前</span><br></pre></td></tr></table></figure>
-<h3 id="控制命令"><a href="#控制命令" class="headerlink" title="控制命令"></a>控制命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + l：清屏</span><br><span class="line">Ctrl + o：执行当前命令，并选择上一条命令</span><br><span class="line">Ctrl + s：阻止屏幕输出</span><br><span class="line">Ctrl + q：允许屏幕输出</span><br><span class="line">Ctrl + c：终止命令</span><br><span class="line">Ctrl + z：挂起命令</span><br><span class="line">Bang (!) 命令</span><br><span class="line">^S　　　　锁住屏幕</span><br><span class="line"></span><br><span class="line">^Q　　　　恢复屏幕</span><br><span class="line"></span><br><span class="line">^C　　　　杀死当前进程 </span><br><span class="line"></span><br><span class="line"> ^\　　　　停止当前进程</span><br><span class="line"></span><br><span class="line">^D　　　　退出当前shell</span><br><span class="line"></span><br><span class="line">&amp; 　　　　 后台执行，（nohup以忽略挂起信号方式运行程序）</span><br><span class="line"></span><br><span class="line">^Z　　　　把当前进程转后台运行</span><br><span class="line"></span><br><span class="line">jobs　　　 查看当前后台作业状态</span><br><span class="line"></span><br><span class="line">fg 　　　　将后台作业拿到前台处理</span><br><span class="line"></span><br><span class="line">bg　　　　作业在后台运行</span><br><span class="line">^L　　　　清屏</span><br><span class="line"></span><br><span class="line">^M或^J　  回车</span><br></pre></td></tr></table></figure>
-<h3 id="：执行上一条命令"><a href="#：执行上一条命令" class="headerlink" title="!!：执行上一条命令"></a>!!：执行上一条命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">!blah：执行最近的以 blah 开头的命令，如 !ls</span><br><span class="line">!blah:p：仅打印输出，而不执行</span><br><span class="line">!$：上一条命令的最后一个参数，与 Alt + . 相同</span><br><span class="line">!$:p：打印输出 !$ 的内容</span><br><span class="line">!*：上一条命令的所有参数</span><br><span class="line">!*:p：打印输出 !* 的内容</span><br><span class="line">^blah：删除上一条命令中的 blah</span><br><span class="line">^blah^foo：将上一条命令中的 blah 替换为 foo</span><br><span class="line">^blah^foo^：将上一条命令中所有的 blah 都替换为 foo</span><br></pre></td></tr></table></figure>
-<p>8.一些bash文档</p>
-<p>1.GNU文档：<a href="http://www.gnu.org/software/bash/manual/" target="_blank" rel="noopener">http://www.gnu.org/software/bash/manual/</a></p>
-<p>2.鸟哥的私房菜：<a href="http://linux.vbird.org/linux_basic/0320bash.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_basic/0320bash.php</a></p>
-<p>3.IBM的一些bash教程：<a href="http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?sort_by=&amp;show_abstract=true&amp;show_all=&amp;search_flag=&amp;contentarea_by=Linux&amp;search_by=bash&amp;topic_by=-1&amp;type_by=%E6%89%80%E6%9C%89%E7%B1%BB%E5%88%AB&amp;ibm-search=%E6%90%9C%E7%B4%A2" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?sort_by=&amp;show_abstract=true&amp;show_all=&amp;search_flag=&amp;contentarea_by=Linux&amp;search_by=bash&amp;topic_by=-1&amp;type_by=%E6%89%80%E6%9C%89%E7%B1%BB%E5%88%AB&amp;ibm-search=%E6%90%9C%E7%B4%A2</a></p>
+        <p><a href="http://blog.csdn.net/zhaoxz1985/article/details/72473045" target="_blank" rel="noopener">C语言基础及进阶教程(视频教程地址)</a></p>
 
       
       
@@ -744,7 +727,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 </div>

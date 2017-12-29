@@ -205,6 +205,557 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-GitLab安装部署" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/15/GitLab安装部署/" class="article-date">
+      <time datetime="2016-03-15T08:28:29.000Z" itemprop="datePublished">2016-03-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/15/GitLab安装部署/">GitLab安装部署</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://www.showerlee.com/archives/1285" target="_blank" rel="noopener">GitLab安装部署</a></p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Gitlab是一个用Ruby on Rails开发的开源项目管理程序.可以通过WEB界面进行访问公开的或者私人项目. 它和Github有类似的功能，能够浏览源代码，管理缺陷和注释.</p>
+<p>本文选择NGINX与MYSQL来配合GitLab实现web管理,数据存储等功能,配置过程中难点基本在GitLab的脚本修改,SSH秘钥连接,Nginx SSL证书等这些方面,作者也是耗费非常大的力气,结合很多文档的clue以及很多老外的debug comment,终于最终完成,希望在此给大家一个抛砖引玉的机会,了解到SCM(软件配置管理)其实也不是想象中那么小儿科,很多逻辑也着实需要下功夫investigation.</p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>环境部署<br>操作系统               centos6.3 x64<br>GitLab                   GitLab 6-3-stable<br>GitLab Shell           1.8.0<br>Ruby                     2.0.0p353<br>NGINX                  nginx-1.4.0<br>MYSQL                 mysql-5.6.10</p>
+<p>Git server(centos6.3 x64): git.example.com<br>Git client(centos6.3 x64): client.example.com</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="server端配置"><a href="#server端配置" class="headerlink" title="server端配置:"></a>server端配置:</h2><h3 id="安装前的准备工作"><a href="#安装前的准备工作" class="headerlink" title="安装前的准备工作"></a>安装前的准备工作</h3><ol>
+<li>关闭iptables和SELINUX</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># service iptables stop</span><br><span class="line"># setenforce 0</span><br><span class="line"># vi /etc/sysconfig/selinux</span><br><span class="line">---------------</span><br><span class="line">SELINUX=disabled</span><br><span class="line">---------------</span><br></pre></td></tr></table></figure>
+<ol>
+<li>同步时间</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ntpdate cn.pool.ntp.org</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p><a href="http://www.showerlee.com/archives/73" target="_blank" rel="noopener">安装LNMP</a></p>
+</li>
+<li><p>安装GitLab的所需依赖包和工具</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># su -</span><br><span class="line"># rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-5-4.noarch.rpm</span><br><span class="line"># yum -y groupinstall &apos;Development Tools&apos;</span><br><span class="line"># yum -y install vim-enhanced readline readline-devel ncurses-devel gdbm-devel glibc-devel tcl-devel openssl-devel curl-devel expat-devel db4-devel byacc sqlite-devel gcc-c++ libyaml libyaml-devel libffi libffi-devel libxml2 libxml2-devel libxslt libxslt-devel libicu libicu-devel system-config-firewall-tui python-devel redis sudo wget crontabs logwatch logrotate perl-Time-HiRes git</span><br></pre></td></tr></table></figure>
+<ol>
+<li>配置redis<br>配置redis开机启动：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig redis on</span><br><span class="line"># service redis start</span><br></pre></td></tr></table></figure>
+<ol>
+<li>更改gem源(若默认无法连接)</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a.显示当前使用的sources</span><br><span class="line"># gem sources</span><br><span class="line">b.删除缺省source</span><br><span class="line"># gem sources -r http://rubygems.org/</span><br><span class="line">c.添加一个source</span><br><span class="line"># gem sources -a https://ruby.taobao.org</span><br><span class="line">d.更新source cache</span><br><span class="line"># gem sources -u</span><br></pre></td></tr></table></figure>
+<ol>
+<li>安装Ruby<br>a.<a href="http://www.showerlee.com/archives/1123" target="_blank" rel="noopener">源码安装Ruby</a><br>b.安装bundle组件：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># gem install bundler --no-ri --no-rdoc</span><br></pre></td></tr></table></figure>
+<h3 id="安装GITLab-shell"><a href="#安装GITLab-shell" class="headerlink" title="安装GITLab shell"></a>安装GITLab shell</h3><ol>
+<li>创建用户git</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># su -</span><br><span class="line"># adduser --system --shell /bin/bash --comment &apos;GitLab&apos; --create-home --home-dir /home/git/ git</span><br></pre></td></tr></table></figure>
+<ol>
+<li>配置GitLab shell<br>GitLab shell是专门为GitLab开发的提供ssh访问和版本管理的软件。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a.使用git账户登陆</span><br><span class="line"># su - git</span><br><span class="line">b.克隆gitlab shell</span><br><span class="line"># git clone https://github.com/gitlabhq/gitlab-shell.git</span><br><span class="line">c.切换成1.8.0版本，并编辑配置</span><br><span class="line"># cd gitlab-shell</span><br><span class="line"># git checkout v1.8.0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">d.拷贝配置文件</span><br><span class="line"># cp config.yml.example config.yml</span><br><span class="line"># vi config.yml</span><br><span class="line"># 将gitlab_url修改成gitlab的访问域名。例如本文档：https://git.example.com/</span><br><span class="line">gitlab_url: &quot;https://git.example.com&quot;</span><br><span class="line"># 将self_signed_cert修改成 true</span><br><span class="line">self_signed_cert: true</span><br><span class="line"># 添加网站SSL证书 </span><br><span class="line">ca_file: &quot;/usr/local/nginx/ssl/gitlab.crt&quot;</span><br></pre></td></tr></table></figure>
+<p>注：如果gitlab是使用http访问，则需将https替换成http，配置文件中的self_signed_cert要修改成false，否则gitlab shell在通过api和gitlab进行通信的时候就会出现错误，导致项目push出错。因为后面配置web服务器的时候是使用ssl，所以这里要按照ssl的方式配置。<br>另外本文档的域名为测试域名，不要忘记在C/S两端均做好域名映射。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.安装一些需要的目录和文件</span><br><span class="line"># ./bin/install</span><br></pre></td></tr></table></figure>
+<ol>
+<li>配置MySQL数据库</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a.登录数据库</span><br><span class="line"># mysql -u root -p</span><br><span class="line">b. 为gitlab创建使用用户</span><br><span class="line">&gt; create user gitlab@&apos;localhost&apos; identified by &apos;123456&apos;;</span><br><span class="line">c.创建gitlaba使用的数据库</span><br><span class="line">&gt; CREATE DATABASE IF NOT EXISTS `gitlabhq_production` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;</span><br><span class="line">d.给予gitlab用户权限</span><br><span class="line">&gt; GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `gitlabhq_production`.* TO &apos;gitlab&apos;@&apos;localhost&apos;;</span><br></pre></td></tr></table></figure>
+<h3 id="安装GitLab"><a href="#安装GitLab" class="headerlink" title="安装GitLab"></a>安装GitLab</h3><ol>
+<li>将GitLab安装在git的家目录下：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># su - git</span><br></pre></td></tr></table></figure>
+<ol>
+<li>克隆GitLab并切换分支到6-3-stable</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">a.克隆GitLab</span><br><span class="line"># git clone https://github.com/gitlabhq/gitlabhq.git gitlab</span><br><span class="line">b. 切换到6-3-stable分支</span><br><span class="line"># cd /home/git/gitlab</span><br><span class="line"># git checkout 6-3-stable</span><br><span class="line">c、配置项目</span><br><span class="line">a.复制配置文件</span><br><span class="line"># cp config/gitlab.yml.example config/gitlab.yml</span><br><span class="line">b.修改配置文件中的访问域名</span><br><span class="line"># sed -i &apos;s|localhost|git.example.com|g&apos; config/gitlab.yml</span><br><span class="line">d.设定log和tmp目录所有者和权限</span><br><span class="line"># chown -R git log/</span><br><span class="line"># chown -R git tmp/</span><br><span class="line"># chmod -R u+rwX log/</span><br><span class="line"># chmod -R u+rwX tmp/</span><br><span class="line">e.创建gitlab-satellites目录</span><br><span class="line"># mkdir /home/git/gitlab-satellites</span><br><span class="line">f.创建tmp/pids/和tmp/sockets/目录，确保gitlab有相应的权限</span><br><span class="line"># mkdir tmp/pids/</span><br><span class="line"># mkdir tmp/sockets/</span><br><span class="line"># chmod -R u+rwX tmp/pids/</span><br><span class="line"># chmod -R u+rwX tmp/sockets/</span><br><span class="line">g.创建public/uploads目录</span><br><span class="line"># mkdir public/uploads</span><br><span class="line"># chmod -R u+rwX public/uploads</span><br><span class="line">h.复制unicorn配置</span><br><span class="line"># cp config/unicorn.rb.example config/unicorn.rb</span><br><span class="line">i.保持unicorn配置文件默认配置</span><br><span class="line">g.配置git的用户和邮件</span><br><span class="line"># git config --global user.name &quot;GitLab&quot;</span><br><span class="line"># git config --global user.email &quot;gitlab@git.example.com”</span><br><span class="line"># git config --global core.autocrlf input</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">k.配置数据库访问文件</span><br><span class="line"># cp config/database.yml.mysql config/database.yml</span><br><span class="line">编辑config/database.yml，设置其中连接数据库的账号密码</span><br><span class="line"># vi config/database.yml</span><br><span class="line">———————————————————————————————————</span><br><span class="line">#</span><br><span class="line"># PRODUCTION</span><br><span class="line">#</span><br><span class="line">production:</span><br><span class="line">  adapter: mysql2</span><br><span class="line">  encoding: utf8</span><br><span class="line">  reconnect: false</span><br><span class="line">  database: gitlabhq_production</span><br><span class="line">  pool: 10</span><br><span class="line">  username: gitlab</span><br><span class="line">  password: “123456”</span><br><span class="line">  # host: localhost</span><br><span class="line">  # socket: /tmp/mysql.sock</span><br><span class="line">———————————————————————————————————</span><br><span class="line">修改其中username和password就可以了，其中密码就是上面数据库步骤中创建gitlab用户的密码。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">l.确保该文件只有git账号有权限读取。</span><br><span class="line"># chmod o-rwx config/database.yml</span><br></pre></td></tr></table></figure>
+<h3 id="安装Gems"><a href="#安装Gems" class="headerlink" title="安装Gems"></a>安装Gems</h3><ol>
+<li>安装charlock_holmes</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># su -</span><br><span class="line"># gem install charlock_holmes --version &apos;0.6.9.4&apos;</span><br><span class="line"># exit</span><br></pre></td></tr></table></figure>
+<ol>
+<li>安装mysql包</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># cd /home/git/gitlab/</span><br><span class="line"># vi Gemfile </span><br><span class="line">修改 https://rubygems.org 为 https://ruby.taobao.org</span><br><span class="line"># bundle install --deployment --without development test postgres puma aws</span><br><span class="line">若报Could not find modernizr-2.6.2 in any of the sources错误,没有则无视:</span><br><span class="line">修复方案:</span><br><span class="line"># vi Gemfile</span><br><span class="line">搜索该行   gem &quot;modernizr&quot;,        &quot;2.6.2&quot;</span><br><span class="line">更改为：   gem &quot;modernizr-rails&quot;,  &quot;2.7.1&quot;</span><br><span class="line"># vi Gemfile.lock</span><br><span class="line">搜索该行   modernizr (2.6.2)</span><br><span class="line">更改为：   modernizr-rails (2.7.1)</span><br><span class="line">搜索该行   modernizr (= 2.6.2)：</span><br><span class="line">更改为：   modernizr-rails (= 2.7.1)</span><br><span class="line">重新执行</span><br><span class="line"># bundle install --deployment --without development test postgres puma aws</span><br></pre></td></tr></table></figure>
+<ol>
+<li>初始化数据和激活高级功能</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># cd /home/git/gitlab</span><br><span class="line"># bundle exec rake gitlab:setup RAILS_ENV=production</span><br><span class="line">这步完成后，会生一个默认的管理员账号/密码：</span><br><span class="line">admin@local.host/5iveL!fe</span><br></pre></td></tr></table></figure>
+<ol>
+<li>安装启动脚本</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># su -</span><br><span class="line"># wget -O /etc/init.d/gitlab https://raw.github.com/gitlabhq/gitlab-recipes/5-0-stable/init.d/gitlab</span><br><span class="line"># chmod +x /etc/init.d/gitlab</span><br></pre></td></tr></table></figure>
+<p>5.开机时启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig --add gitlab</span><br><span class="line"># chkconfig gitlab on</span><br></pre></td></tr></table></figure>
+<p>6.检测应用程序状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># su - git</span><br><span class="line"># cd gitlab/</span><br><span class="line"># bundle exec rake gitlab:env:info RAILS_ENV=production</span><br><span class="line"># exit</span><br></pre></td></tr></table></figure>
+<p>可以查看到系统、Ruby、GitLab和GitLab Shell的版本和其他信息。</p>
+<ol>
+<li>启动GitLab实例</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># service gitlab start</span><br></pre></td></tr></table></figure>
+<ol>
+<li>查看应用更加详细的信息</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># su - git</span><br><span class="line"># cd gitlab/</span><br><span class="line"># bundle exec rake gitlab:check RAILS_ENV=production</span><br><span class="line">这里会提示一个Init script up-to-date的错误，如下：</span><br><span class="line">——————————————————————————————————————————————————</span><br><span class="line">Init script up-to-date? ... no</span><br><span class="line">Try fixing it:</span><br><span class="line">Redownload the init script</span><br><span class="line">For more information see:</span><br><span class="line">doc/install/installation.md in section &quot;Install Init Script&quot;</span><br><span class="line">Please fix the error above and rerun the checks.</span><br><span class="line">——————————————————————————————————————————————————</span><br><span class="line">查阅官方自带文档,说明此问题可忽略.</span><br></pre></td></tr></table></figure>
+<h3 id="Nginx配置"><a href="#Nginx配置" class="headerlink" title="Nginx配置"></a>Nginx配置</h3><ol>
+<li>配置Gitlab虚拟主机及SSL连接:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># cd /usr/local/nginx/conf/vhosts/</span><br><span class="line"># vi gitlab-ssl.conf</span><br><span class="line">注: 这里先感谢提供此脚本的极客,该脚本在原基础上稍作改动.</span><br><span class="line">内容用红字标注的地方为需要自定义的地方.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">## GitLab</span><br><span class="line">## Contributors: randx, yin8086, sashkab, orkoden, axilleas</span><br><span class="line">## App Version: 5.4 - 6.0</span><br><span class="line">##</span><br><span class="line">## Modified from nginx http version</span><br><span class="line">## Modified from http://blog.phusion.nl/2012/04/21/tutorial-setting-up-gitlab-on-debian-6/</span><br><span class="line">##</span><br><span class="line">## Lines starting with two hashes (##) are comments containing information</span><br><span class="line">## for configuration. One hash (#) comments are actual configuration parameters</span><br><span class="line">## which you can comment/uncomment to your liking.</span><br><span class="line">##</span><br><span class="line">###################################</span><br><span class="line">##        SSL configuration      ##</span><br><span class="line">###################################</span><br><span class="line">##</span><br><span class="line">## Optimal configuration is taken from:</span><br><span class="line">## https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html</span><br><span class="line">## Make sure to read it and understand what each option does.</span><br><span class="line">##</span><br><span class="line">## [Optional] Generate a self-signed ssl certificate:</span><br><span class="line">##    mkdir /etc/nginx/ssl/</span><br><span class="line">##    cd /etc/nginx/ssl/</span><br><span class="line">##    sudo openssl req -newkey rsa:2048 -x509 -nodes -days 3560 -out gitlab.crt -keyout gitlab.key</span><br><span class="line">##    sudo chmod o-r gitlab.key</span><br><span class="line">##</span><br><span class="line">## Edit `gitlab-shell/config.yml`:</span><br><span class="line">##  1) Set &quot;gitlab_url&quot; param in `gitlab-shell/config.yml` to `https://git.example.com`</span><br><span class="line">##  2) Set &quot;ca_file&quot; to `/etc/nginx/ssl/gitlab.crt`</span><br><span class="line">##  3) Set &quot;self_signed_cert&quot; to `true`</span><br><span class="line">## Edit `gitlab/config/gitlab.yml`:</span><br><span class="line">##  1) Define port for http &quot;port: 443&quot;</span><br><span class="line">##  2) Enable https &quot;https: true&quot;</span><br><span class="line">##  3) Update ssl for gravatar &quot;ssl_url: https://secure.gravatar.com/avatar/%&#123;hash&#125;?s=%&#123;size&#125;&amp;d=mm&quot;</span><br><span class="line">##</span><br><span class="line">##################################</span><br><span class="line">##        CHUNKED TRANSFER      ##</span><br><span class="line">##################################</span><br><span class="line">##</span><br><span class="line">## It is a known issue that Git-over-HTTP requires chunked transfer encoding [0]</span><br><span class="line">## which is not supported by Nginx &lt; 1.3.9 [1]. As a result, pushing a large object</span><br><span class="line">## with Git (i.e. a single large file) can lead to a 411 error. In theory you can get</span><br><span class="line">## around this by tweaking this configuration file and either:</span><br><span class="line">## - installing an old version of Nginx with the chunkin module [2] compiled in, or</span><br><span class="line">## - using a newer version of Nginx.</span><br><span class="line">##</span><br><span class="line">## At the time of writing we do not know if either of these theoretical solutions works. As a workaround</span><br><span class="line">## users can use Git over SSH to push large files.</span><br><span class="line">##</span><br><span class="line">## [0] https://git.kernel.org/cgit/git/git.git/tree/Documentation/technical/http-protocol.txt#n99</span><br><span class="line">## [1] https://github.com/agentzh/chunkin-nginx-module#status</span><br><span class="line">## [2] https://github.com/agentzh/chunkin-nginx-module</span><br><span class="line">upstream gitlab &#123;</span><br><span class="line">  ## Uncomment if you have set up puma/unicorn to listen on a unix socket (recommended).</span><br><span class="line">  server unix:/home/git/gitlab/tmp/sockets/gitlab.socket;</span><br><span class="line">  ## Uncomment if puma/unicorn are configured to listen on a tcp port.</span><br><span class="line">  ## Check the port number in /home/git/gitlab/config/&#123;puma.rb/unicorn.rb&#125;</span><br><span class="line">  # server 127.0.0.1:8080;</span><br><span class="line">&#125;</span><br><span class="line">## This is a normal HTTP host which redirects all traffic to the HTTPS host.</span><br><span class="line">server &#123;</span><br><span class="line">  listen *:80;</span><br><span class="line">  ## Replace git.example.com with your FQDN.</span><br><span class="line">  server_name git.example.com;</span><br><span class="line">  server_tokens off;</span><br><span class="line">  ## This doesn&apos;t have to be a valid path since we are redirecting,</span><br><span class="line">  ## you don&apos;t have to change it.</span><br><span class="line">  root /nowhere;</span><br><span class="line">  rewrite ^ https://$server_name$request_uri permanent;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">  listen 443 ssl;</span><br><span class="line">  ## Replace git.example.com with your FQDN.</span><br><span class="line">  server_name git.example.com;</span><br><span class="line">  server_tokens off;</span><br><span class="line">  root /home/git/gitlab/public;</span><br><span class="line">  ## Increase this if you want to upload large attachments</span><br><span class="line">  ## Or if you want to accept large git objects over http</span><br><span class="line">  client_max_body_size 20m;</span><br><span class="line">  ## Strong SSL Security</span><br><span class="line">  ## https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html</span><br><span class="line">  ssl on;</span><br><span class="line">  ssl_certificate /usr/local/nginx/ssl/gitlab.crt;</span><br><span class="line">  ssl_certificate_key /usr/local/nginx/ssl/gitlab.key;</span><br><span class="line">  ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">  ssl_session_cache  builtin:1000  shared:SSL:10m;</span><br><span class="line"></span><br><span class="line">  #add_header Strict-Transport-Security max-age=63072000;</span><br><span class="line">  #add_header X-Frame-Options DENY;</span><br><span class="line">  #add_header X-Content-Type-Options nosniff;</span><br><span class="line">  ## Individual nginx logs for this GitLab vhost</span><br><span class="line">  access_log  /usr/local/nginx/logs/gitlab_access.log;</span><br><span class="line">  error_log   /usr/local/nginx/logs/gitlab_error.log;</span><br><span class="line">  location / &#123;</span><br><span class="line">    ## Serve static files from defined root folder.</span><br><span class="line">    ## @gitlab is a named location for the upstream fallback, see below.</span><br><span class="line">    try_files $uri $uri/index.html $uri.html @gitlab;</span><br><span class="line">  &#125;</span><br><span class="line">  ## If a file, which is not found in the root folder is requested,</span><br><span class="line">  ## then the proxy pass the request to the upsteam (gitlab unicorn).</span><br><span class="line">  location @gitlab &#123;</span><br><span class="line">    ## If you use https make sure you disable gzip compression</span><br><span class="line">    ## to be safe against BREACH attack.</span><br><span class="line">    gzip off;</span><br><span class="line">    ## https://github.com/gitlabhq/gitlabhq/issues/694</span><br><span class="line">    ## Some requests take more than 30 seconds.</span><br><span class="line">    proxy_read_timeout      300;</span><br><span class="line">    proxy_connect_timeout   300;</span><br><span class="line">    proxy_redirect          off;</span><br><span class="line">    proxy_set_header   Host              $http_host;</span><br><span class="line">    proxy_set_header   X-Real-IP         $remote_addr;</span><br><span class="line">    proxy_set_header   X-Forwarded-Ssl   on;</span><br><span class="line">    proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;</span><br><span class="line">    proxy_set_header   X-Forwarded-Proto $scheme;</span><br><span class="line">    proxy_pass http://127.0.0.1:8080;</span><br><span class="line">  &#125;</span><br><span class="line">  ## Enable gzip compression as per rails guide:</span><br><span class="line">  ## http://guides.rubyonrails.org/asset_pipeline.html#gzip-compression</span><br><span class="line">  location ~ ^/(assets)/ &#123;</span><br><span class="line">    root /home/git/gitlab/public;</span><br><span class="line">    gzip_static on; # to serve pre-gzipped version</span><br><span class="line">    expires max;</span><br><span class="line">    add_header Cache-Control public;</span><br><span class="line">  &#125;</span><br><span class="line">  error_page 502 /502.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>将nginx加入git用户组(重要)</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># usermod -a -G git nginx</span><br><span class="line"># chmod g+rx /home/git/</span><br></pre></td></tr></table></figure>
+<ol>
+<li>生成ssl证书</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># mkdir /usr/local/nginx/ssl</span><br><span class="line"># cd /usr/local/nginx/ssl</span><br><span class="line"># openssl req -new -x509 -nodes -days 3560 -out gitlab.crt -keyout gitlab.key</span><br></pre></td></tr></table></figure>
+<ol>
+<li>开启Git over SSL</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># vi /home/git/gitlab/config/gitlab.yml</span><br><span class="line">  ## GitLab settings</span><br><span class="line">  gitlab:</span><br><span class="line">    ## Web server settings</span><br><span class="line">    host: git.example.com</span><br><span class="line">    port: 443</span><br><span class="line">    https: true</span><br><span class="line"># vi /home/git/gitlab-shell/config.yml</span><br><span class="line">gitlab_url: &quot;https://git.example.com&quot;</span><br><span class="line">http_settings:</span><br><span class="line">#  user: someone</span><br><span class="line">#  password: somepass</span><br><span class="line">#  ca_file: /etc/ssl/cert.pem</span><br><span class="line">#  ca_path: /etc/ssl/</span><br><span class="line">  self_signed_cert: true</span><br><span class="line"></span><br><span class="line">ca_file: &quot;/usr/local/nginx/ssl/gitlab.crt&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>启动nginx</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># service nginx start</span><br></pre></td></tr></table></figure>
+<ol>
+<li>打开web页面 git.example.com<br>nginx直接跳转URL为<a href="https://git.example.com" target="_blank" rel="noopener">https://git.example.com</a></li>
+</ol>
+<p>GitLab默认的账号密码如下:<br>admin@local.host/5iveL!fe</p>
+<h2 id="Client端配置"><a href="#Client端配置" class="headerlink" title="Client端配置:"></a>Client端配置:</h2><h3 id="上传git仓库"><a href="#上传git仓库" class="headerlink" title="上传git仓库"></a>上传git仓库</h3><ol>
+<li>客户端生成秘钥</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cd ~</span><br><span class="line"># ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+<p>一路回车后生成公钥和秘钥对<br>$ cat ~/.ssh/id_rsa.pub </p>
+<p>将这里生成的公钥全部复制并粘贴到gitlab web SSH Keys后台保存即可。</p>
+<ol>
+<li>测试SSH连接</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ssh -p22 git@git.example.com</span><br></pre></td></tr></table></figure>
+<p>若报如下错误:<br>——————————————————————————————————————<br>PTY allocation request failed on channel 1<br>/usr/bin/env: ruby: No such file or directory<br>Connection to git.example.com closed.<br>——————————————————————————————————————<br>说明服务端ruby环境变量未在此目录/usr/bin/ruby<br>在服务器端加此软链即可:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ln -s /usr/local/ruby/bin/ruby /usr/bin/ruby</span><br></pre></td></tr></table></figure>
+<p>注:若服务器端SSH自定义端口,则需要在客户端~/.ssh/config下添加端口配置<br>假定自定义SSH端口为2222</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># echo “Port 2222” &gt;&gt; ~/.ssh/config</span><br></pre></td></tr></table></figure>
+<ol>
+<li>命令行上传git仓库</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># su - </span><br><span class="line"># mkdir testprojiect</span><br><span class="line"># cd testprojiect/</span><br><span class="line"># git init</span><br><span class="line"># echo &quot;What a fucking Hello World&quot; &gt; readme.txt</span><br><span class="line"># git add .</span><br><span class="line"># git commit -m &apos;first commit&apos;</span><br><span class="line"># git remote add origin git@git.example.com:root/testproject.git</span><br><span class="line"># git push -u origin master</span><br></pre></td></tr></table></figure>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">注: 若主页CSS出现错误未加载, 可从新编译assets, 可从新获取CSS文件.</span><br><span class="line"># cd /home/git/gitlab</span><br><span class="line"># bundle exec rake assets:precompile RAILS_ENV=production</span><br><span class="line"></span><br><span class="line">注: 解决Gravatar的头像加载timeout问题</span><br><span class="line">搜索plain_url部分, 将原有部分改成:</span><br><span class="line">plain_url: &quot;http://gravatar.duoshuo.com/avatar/%&#123;hash&#125;?s=%&#123;size&#125;&amp;d=identicon&quot;</span><br><span class="line">#cd /home/git/gitlab</span><br><span class="line">清除缓存</span><br><span class="line"># RAILS_ENV=production bundle exec rake cache:clear</span><br><span class="line"># service gitlab restart</span><br><span class="line"></span><br><span class="line">注: 解决内存耗尽问题</span><br><span class="line">如果你的VPS 为1G内存+1核处理器</span><br><span class="line">建议将默认的unicorn worker_process设置为2, timeout设定为60s, 这样就不会因为长时间加载web页面而出现timeout等问题.</span><br><span class="line"># vi /home/git/gitlab/config/unicorn.rb</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gitlab/">Gitlab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ansible安装部署" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/15/Ansible安装部署/" class="article-date">
+      <time datetime="2016-03-15T08:24:13.000Z" itemprop="datePublished">2016-03-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/15/Ansible安装部署/">Ansible安装部署</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://www.showerlee.com/archives/1649" target="_blank" rel="noopener">Ansible安装部署</a></p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Ansible是一种集成IT系统的配置管理, 应用部署, 执行特定任务的开源平台. 它基于Python语言实现, 部署只需在主控端部署Ansible环境, 被控端无需安装代理工具, 只需打开SSH, 让主控端通过SSH秘钥认证对其进行所有的管理监控操作. 相对于SaltStack, 它除了利用SSH安全传输, 无需在客户端进行任何配置, 而且它有一个很庞大的用户群体以及丰富的API, 相对适合部署到数量比较大且对系统软件安装要求比较严格的集群中.<br>更多配置参考: <a href="https://github.com/ansible" target="_blank" rel="noopener">https://github.com/ansible</a><br>官方文档: <a href="http://docs.ansible.com/ansible" target="_blank" rel="noopener">http://docs.ansible.com/ansible</a></p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>安装环境:<br>System: Centos 6.7 x64<br>Master: master.example.com<br>Minion: client01.example.com<br>Minion: client02.example.com</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h2><ol>
+<li>关闭iptables和SELINUX</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># service iptables stop</span><br><span class="line"># setenforce 0</span><br><span class="line"># vi /etc/sysconfig/selinux</span><br><span class="line">SELINUX=disabled</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Master端安装EPEL第三方yum源</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># rpm -Uvh http://ftp.linux.ncsu.edu/pub/epel/6/i386/epel-release-6-8.noarch.rpm</span><br></pre></td></tr></table></figure>
+<ol>
+<li>安装Ansible<br>a. yum</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum install ansible -y</span><br></pre></td></tr></table></figure>
+<p>b.pip<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install ansible</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>添加环境变量以便vi能正常显示中文注释.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/profile</span><br><span class="line">添加:</span><br><span class="line">export LC_ALL=en_US.UTF-8</span><br><span class="line">export LANG=en_US.UTF-8</span><br><span class="line">export LANGUAGE=en_US.UTF-8</span><br><span class="line"># source /etc/profile</span><br></pre></td></tr></table></figure>
+<h2 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h2><ol>
+<li>修改主机及组配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># cd /etc/ansible</span><br><span class="line"># cp hosts hosts.bak</span><br><span class="line"># cat /dev/null &gt; hosts</span><br><span class="line"># vi /etc/ansible/hosts</span><br><span class="line">[webservers]</span><br><span class="line">client01.example.com</span><br><span class="line">client02.example.com</span><br><span class="line">[nginx01]</span><br><span class="line">client01.example.com</span><br><span class="line">[nginx02]</span><br><span class="line">client02.example.com</span><br></pre></td></tr></table></figure>
+<ol>
+<li>配置SSH秘钥认证</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum install ssh* -y</span><br><span class="line"># ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+<p>同步公钥文件id_rsa.pub到目标主机</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ssh-copy-id -i /root/.ssh/id_rsa.pub root@client01.example.com</span><br><span class="line"># ssh-copy-id -i /root/.ssh/id_rsa.pub root@client02.example.com</span><br></pre></td></tr></table></figure>
+<p>校验SSH免密码配置是否成功.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ssh root@client02.example.com</span><br></pre></td></tr></table></figure>
+<p>如直接进入则配置完成.</p>
+<ol>
+<li>定义主机与组<br>所有定义的主机与组规则都在/etc/Ansible/hosts下.<br>常见的写法:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.21:2135 定义一个IP为192.168.1.21, SSH端口为2135的主机.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jumper ansible_ssh_port=22 ansible_ssh_host=192.168.1.50 定义一个别名为jumper, SSH端口为22, IP为192.168.1.50的主机. </span><br><span class="line">组成员主机名称范例:</span><br><span class="line">[webservers]</span><br><span class="line">www[001:006].example.com</span><br><span class="line">[dbservers]</span><br><span class="line">db-[a:f].example.com</span><br></pre></td></tr></table></figure>
+<ol>
+<li>定义主机变量<br>主机可以指定变量, 后面可以供Playbooks调用</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[atlanta]</span><br><span class="line">host1 http_port=80 maxRequestsPerChild=808</span><br><span class="line">host2 http_port=8080 maxRequestsPerChild=909</span><br><span class="line">5.定义组变量</span><br><span class="line">[atlanta]</span><br><span class="line">host1</span><br><span class="line">host2</span><br><span class="line"></span><br><span class="line">[atlanta:vars]</span><br><span class="line">ntp_server=ntp.atlanta.example.com</span><br><span class="line">proxy=proxy.atlanta.example.com</span><br></pre></td></tr></table></figure>
+<ol>
+<li>匹配目标<br>重启webservers组所有SSH服务.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m service -a &quot;name=sshd state=restarted&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="Ansible常用模块及API"><a href="#Ansible常用模块及API" class="headerlink" title="Ansible常用模块及API"></a>Ansible常用模块及API</h2><ol>
+<li>远程命令模块<br>command: 执行远程主机SHELL命令:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m command -a &quot;free -m&quot;</span><br></pre></td></tr></table></figure>
+<p>script: 远程执行MASTER本地SHELL脚本.(类似scp+shell)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># echo &quot;df -h&quot; &gt; ~/test.sh</span><br><span class="line"># ansible webservers -m script -a &quot;~/test.sh&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>copy模块<br>实现主控端向目标主机拷贝文件, 类似scp功能.<br>该实例实现~/test.sh文件至webservers组目标主机/tmp下, 并更新文件owner和group</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m copy -a &quot;src=~/test.sh dest=/tmp/ owner=root group=root mode=0755&quot;</span><br><span class="line"># ansible webservers -m copy -a &quot;src=~/test.sh dest=/tmp/ owner=root group=root mode=0755&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>stat模块<br>获取远程文件状态信息, 包括atime, ctime, mtime, md5, uid, gid等信息.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m stat -a &quot;path=/etc/sysctl.conf&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>get_url模块<br>实现在远程主机下载指定URL到本地.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m get_url -a &quot;url=http://www.showerlee.com dest=/tmp/index.html mode=0400 force=yes&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>yum模块<br>Linux包管理平台操作,  常见都会有yum和apt, 此处会调用yum管理模式</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible servers -m yum -a &quot;name=curl state=latest&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>cron模块<br>远程主机crontab配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m cron -a &quot;name=&apos;check dir&apos; hour=&apos;5,2&apos; job=&apos;ls -alh &gt; /dev/null&apos;&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>service模块<br>远程主机系统服务管理</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m service -a &quot;name=crond state=stopped&quot;</span><br><span class="line"># ansible webservers -m service -a &quot;name=crond state=restarted&quot;</span><br><span class="line"># ansible webservers -m service -a &quot;name=crond state=reloaded&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>user服务模块<br>远程主机系统用户管理</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">添加用户:</span><br><span class="line"># ansible webservers -m user -a &quot;name=johnd comment=&apos;John Doe&apos;&quot;</span><br><span class="line">删除用户:</span><br><span class="line"># ansible webservers -m user -a &quot;name=johnd state=absent remove=yes&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="playbook介绍"><a href="#playbook介绍" class="headerlink" title="playbook介绍"></a>playbook介绍</h2><p>playbook是一个不同于使用Ansible命令行执行方式的模式, 其功能是将大量命令行配置集成到一起形成一个可定制的多主机配置管理部署工具.<br>它通过YAML格式定义, 可以实现向多台主机的分发应用部署.<br>以下给大家详细介绍一个针对nginx嵌套复用结构的<br>playbook部署实例:</p>
+<ol>
+<li>构建目录结构</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># cd /etc/ansible/</span><br><span class="line"># mkdir group_vars</span><br><span class="line"># mkdir roles</span><br></pre></td></tr></table></figure>
+<ol>
+<li>定义host</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/ansible/hosts</span><br><span class="line">[webservers]</span><br><span class="line">client01.example.com</span><br><span class="line">client02.example.com</span><br><span class="line">[nginx01]</span><br><span class="line">client01.example.com</span><br><span class="line">[nginx02]</span><br><span class="line">client02.example.com</span><br></pre></td></tr></table></figure>
+<ol>
+<li>定义变量</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/ansible/group_vars/nginx01</span><br><span class="line">worker_processes: 4</span><br><span class="line">num_cpus: 4</span><br><span class="line">max_open_file: 65506</span><br><span class="line">root: /data</span><br><span class="line">remote_user: root</span><br><span class="line"># vi /etc/ansible/group_vars/nginx02</span><br><span class="line">worker_processes: 2</span><br><span class="line">num_cpus: 2</span><br><span class="line">max_open_file: 35506</span><br><span class="line">root: /www</span><br><span class="line">remote_user: root</span><br></pre></td></tr></table></figure>
+<p>Tips:这里在group_vars下定义的文件名必须对应hosts文件下的group标签, 通过这里定义的不同参数从而部署不同类型的主机配置.</p>
+<ol>
+<li>创建roles入口文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/ansible/site.yml</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">  - base_env</span><br><span class="line">- hosts: nginx01</span><br><span class="line">  roles:</span><br><span class="line">  - nginx01</span><br><span class="line">- hosts: nginx02</span><br><span class="line">  roles:</span><br><span class="line">  - nginx02</span><br></pre></td></tr></table></figure>
+<p>Tips: 这里的roles:下的字符串需对应roles目录下的目录名.</p>
+<ol>
+<li>定义全局role base_env<br>创建目录结构</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /etc/ansible/roles/base_env/tasks </span><br><span class="line"># vi /etc/ansible/roles/base_env/tasks/main.yml</span><br><span class="line"># 将EPEL的yum源配置文件传送到客户端</span><br><span class="line">- name: Create the contains common plays that will run on all nodes </span><br><span class="line">  copy: src=epel.repo dest=/etc/yum.repos.d/epel.repo</span><br><span class="line">- name: Create the GPG key for EPEL</span><br><span class="line">  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg</span><br><span class="line">  </span><br><span class="line"># 关闭SELINUX</span><br><span class="line">- name: test to see if selling is running</span><br><span class="line">  command: getenforce</span><br><span class="line">  register: sestatus</span><br><span class="line">  changed_when: false</span><br><span class="line"></span><br><span class="line"># 删除iptables默认规则并保存</span><br><span class="line">- name: remove the default iptables rules</span><br><span class="line">  command: iptables -F</span><br><span class="line">- name: save iptables rules</span><br><span class="line">  command: service iptables save</span><br><span class="line">将对应需要拷贝到远程的文件复制到base_env/files目录下</span><br><span class="line"># mkdir -p  /etc/ansible/roles/base_env/files</span><br><span class="line"># cp /etc/yum.repos.d/epel.repo /etc/ansible/roles/base_env/files</span><br><span class="line"># cp /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6 /etc/ansible/roles/base_env/files</span><br></pre></td></tr></table></figure>
+<ol>
+<li>定义nginx01和ngnix02 role<br>创建目录结构</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /etc/ansible/roles/nginx&#123;01,02&#125;</span><br><span class="line"># mkdir -p /etc/ansible/roles/nginx01/tasks</span><br><span class="line"># mkdir -p /etc/ansible/roles/nginx02/tasks</span><br><span class="line"># vi /etc/ansible/roles/nginx01/tasks/main.yml</span><br><span class="line"> # 安装nginx最新版本</span><br><span class="line">- name: ensure nginx is at the latest version</span><br><span class="line">  yum: pkg=nginx state=latest</span><br><span class="line"></span><br><span class="line"># 将nginx配置文件传送到远程目录</span><br><span class="line">- name: write the nginx config file</span><br><span class="line">  template: src=nginx.conf dest=/etc/nginx/nginx.conf</span><br><span class="line">  notify: restart nginx # 重启nginx</span><br><span class="line"></span><br><span class="line"># 创建nginx根目录</span><br><span class="line">- name: Create Web Root</span><br><span class="line">  file: dest=&#123;&#123; root &#125;&#125; mode=775 state=directory owner=nginx group=nginx</span><br><span class="line">  notify: reload nginx</span><br><span class="line">- name: ensure nginx is running</span><br><span class="line">  service: name=nginx state=restarted</span><br><span class="line"># cp /home/ansible/roles/nginx01/tasks/main.yml /home/ansible/roles/nginx02/tasks/main.yml</span><br></pre></td></tr></table></figure>
+<ol>
+<li>定义files</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /etc/ansible/roles/nginx01/templates</span><br><span class="line"># mkdir -p /etc/ansible/roles/nginx02/templates</span><br><span class="line"># vi /etc/ansible/roles/nginx01/templates/nginx.conf</span><br><span class="line"># For more information on configuration, see: </span><br><span class="line"></span><br><span class="line">user              nginx;  </span><br><span class="line">worker_processes  &#123;&#123; worker_processes &#125;&#125;;  </span><br><span class="line">&#123;% if num_cpus == 2 %&#125;  </span><br><span class="line">worker_cpu_affinity 01 10;  </span><br><span class="line">&#123;% elif num_cpus == 4 %&#125;  </span><br><span class="line">worker_cpu_affinity 1000 0100 0010 0001;  </span><br><span class="line">&#123;% elif num_cpus &gt;= 8 %&#125;  </span><br><span class="line">worker_cpu_affinity 00000001 00000010 00000100 00001000 00010000 00100000 01000000 10000000;  </span><br><span class="line">&#123;% else %&#125;  </span><br><span class="line">worker_cpu_affinity 1000 0100 0010 0001;  </span><br><span class="line">&#123;% endif %&#125;  </span><br><span class="line">worker_rlimit_nofile &#123;&#123; max_open_file &#125;&#125;;  </span><br><span class="line">  </span><br><span class="line">error_log  /var/log/nginx/error.log;  </span><br><span class="line">#error_log  /var/log/nginx/error.log  notice;  </span><br><span class="line">#error_log  /var/log/nginx/error.log  info;  </span><br><span class="line">  </span><br><span class="line">pid        /var/run/nginx.pid;  </span><br><span class="line">  </span><br><span class="line">events &#123;  </span><br><span class="line">    worker_connections  &#123;&#123; max_open_file &#125;&#125;;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">http &#123;  </span><br><span class="line">    include       /etc/nginx/mime.types;  </span><br><span class="line">    default_type  application/octet-stream;  </span><br><span class="line">  </span><br><span class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;  </span><br><span class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;  </span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;  </span><br><span class="line">  </span><br><span class="line">    access_log  /var/log/nginx/access.log  main;  </span><br><span class="line">  </span><br><span class="line">    sendfile        on;  </span><br><span class="line">    #tcp_nopush     on;  </span><br><span class="line">  </span><br><span class="line">    #keepalive_timeout  0;  </span><br><span class="line">    keepalive_timeout  65;  </span><br><span class="line">  </span><br><span class="line">    #gzip  on;  </span><br><span class="line">      </span><br><span class="line">    # Load config files from the /etc/nginx/conf.d directory  </span><br><span class="line">    # The default server is in conf.d/default.conf  </span><br><span class="line">    #include /etc/nginx/conf.d/*.conf;  </span><br><span class="line">    server &#123;  </span><br><span class="line">        listen       80 default_server;  </span><br><span class="line">        server_name  _;  </span><br><span class="line">  </span><br><span class="line">        #charset koi8-r;  </span><br><span class="line">  </span><br><span class="line">        #access_log  logs/host.access.log  main;  </span><br><span class="line">  </span><br><span class="line">        location / &#123;  </span><br><span class="line">            root   &#123;&#123; root &#125;&#125;;  </span><br><span class="line">            index  index.html index.htm;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        error_page  404              /404.html;  </span><br><span class="line">        location = /404.html &#123;  </span><br><span class="line">            root   /usr/share/nginx/html;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        # redirect server error pages to the static page /50x.html  </span><br><span class="line">        #  </span><br><span class="line">        error_page   500 502 503 504  /50x.html;  </span><br><span class="line">        location = /50x.html &#123;  </span><br><span class="line">            root   /usr/share/nginx/html;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Tip: worker_processes, num_cpus, max_open_file, root等参数会调用group_vars目录下配置文件中相应的变量值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cp /etc/ansible/roles/nginx01/templates/nginx.conf  /etc/ansible/roles/nginx02/templates/nginx.conf</span><br></pre></td></tr></table></figure>
+<ol>
+<li>执行playbook</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible-playbook -i /etc/ansible/hosts /etc/ansible/site.yml -f 10</span><br></pre></td></tr></table></figure>
+<p>Tips: -f 为启动10个并行进程执行playbook, -i 定义inventory host文件, site.yml 为入口文件 </p>
+<p>最终部署目录结构如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># tree /etc/ansible/</span><br><span class="line">/etc/ansible/</span><br><span class="line">├── ansible.cfg</span><br><span class="line">├── group_vars</span><br><span class="line">│   ├── nginx01</span><br><span class="line">│   └── nginx02</span><br><span class="line">├── hosts</span><br><span class="line">├── hosts.bak</span><br><span class="line">├── roles</span><br><span class="line">│   ├── base_env</span><br><span class="line">│   │   ├── files</span><br><span class="line">│   │   │   ├── epel.repo</span><br><span class="line">│   │   │   └── RPM-GPG-KEY-EPEL-6</span><br><span class="line">│   │   └── tasks</span><br><span class="line">│   │       └── main.yml</span><br><span class="line">│   ├── nginx01</span><br><span class="line">│   │   ├── tasks</span><br><span class="line">│   │   │   └── main.yml</span><br><span class="line">│   │   └── templates</span><br><span class="line">│   │       └── nginx.conf</span><br><span class="line">│   └── nginx02</span><br><span class="line">│       ├── tasks</span><br><span class="line">│       │   └── main.yml</span><br><span class="line">│       └── templates</span><br><span class="line">│           └── nginx.conf</span><br><span class="line">└── site.yml</span><br><span class="line"></span><br><span class="line">11 directories, 13 files</span><br></pre></td></tr></table></figure></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ansible/">Ansible</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Jenkins安装部署" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/15/Jenkins安装部署/" class="article-date">
+      <time datetime="2016-03-15T07:43:04.000Z" itemprop="datePublished">2016-03-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/15/Jenkins安装部署/">Jenkins安装部署</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Jenkins安装部署</p>
+<p>下载 jenkins war包<br>下载tomcat<br>下载jdk</p>
+<p>###配置jenkins安装环境<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv apache-tomcat-8.5.23 jdk1.8.0_151 /usr/local/</span><br></pre></td></tr></table></figure></p>
+<p>建立/usr/local/下的jdk软连接方便以后版本升级 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/jdk1.8.0_151 /usr/local/jdk</span><br><span class="line">ln -s /usr/local/apache-tomcat-8.5.23 /usr/local/tomcat</span><br></pre></td></tr></table></figure>
+<p>###添加jdk环境变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL</span><br><span class="line">这行文件下添加的</span><br><span class="line">在 /etc/profile 中加入以下内容</span><br><span class="line">vim /etc/profile</span><br><span class="line"></span><br><span class="line">#JDK start</span><br><span class="line">JAVA_HOME=/usr/local/jdk</span><br><span class="line">JAVA_BIN=/usr/local/jdk/bin</span><br><span class="line">PATH=$PATH:$JAVA_BIN</span><br><span class="line">CLASSPATH=$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line">export JAVA_HOME JAVA_BIN PATH CLASSPATH</span><br><span class="line">#JDK end</span><br></pre></td></tr></table></figure></p>
+<p>立即生效<code>source /etc/profile</code></p>
+<p>查看java环境变量是否生效<code>java -version</code></p>
+<p>mkdir /data/webapps -p</p>
+<p>/usr/local/tomcat/conf</p>
+<h3 id="启动tomcat"><a href="#启动tomcat" class="headerlink" title="启动tomcat"></a>启动tomcat</h3><p><code>./startup.sh</code><br>server.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Connector port=&quot;80&quot; </span><br><span class="line"></span><br><span class="line">&lt;Host name=&quot;jenkins.ovwane.com&quot;  appBase=&quot;/data/webapps&quot;</span><br><span class="line">149             unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Tomcat安装配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/Tomcat安装配置/" class="article-date">
+      <time datetime="2016-03-07T20:15:00.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/Tomcat安装配置/">Tomcat安装配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://www.zyops.com/java-tomcat" target="_blank" rel="noopener">Tomcat安装配置</a></p>
+<h1 id="Tomcat简介"><a href="#Tomcat简介" class="headerlink" title="Tomcat简介"></a>Tomcat简介</h1><p>Tomcat是Apache软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun和其他一些公司及个人共同开发而成。</p>
+<p>Tomcat服务器是一个免费的开放源代码的Web应用服务器，属于轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试JSP程序的首选。</p>
+<p>Tomcat和Nginx、Apache(httpd)、lighttpd等Web服务器一样，具有处理HTML页面的功能，另外它还是一个Servlet和JSP容器，独立的Servlet容器是Tomcat的默认模式。不过，Tomcat处理静态HTML的能力不如Nginx/Apache服务器。</p>
+<p>目前Tomcat最新版本为9.0。Java容器还有resin、weblogic等。</p>
+<h1 id="Tomcat安装"><a href="#Tomcat安装" class="headerlink" title="Tomcat安装"></a>Tomcat安装</h1><h2 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h2><p>JDK下载：<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a><br>Tomcat下载：<a href="http://tomcat.apache.org/" target="_blank" rel="noopener">http://tomcat.apache.org/</a></p>
+<h2 id="部署java环境"><a href="#部署java环境" class="headerlink" title="部署java环境"></a>部署java环境</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# cd /application/tools/</span><br><span class="line">[root@tomcat tools]# rz</span><br><span class="line">rz waiting to receive.</span><br><span class="line">Starting zmodem transfer.  Press Ctrl+C to cancel.</span><br><span class="line">Transferring apache-tomcat-8.0.27.tar.gz...</span><br><span class="line">  100%    8914 KB    8914 KB/sec    00:00:01       0 Errors  </span><br><span class="line">Transferring jdk-8u60-linux-x64.tar.gz...</span><br><span class="line">  100%  176990 KB    14749 KB/sec    00:00:12       0 Errors  </span><br><span class="line">tar xf jdk-8u60-linux-x64.tar.gz -C /application/</span><br><span class="line">ln -s /application/jdk1.8.0_60 /application/jdk</span><br><span class="line">sed -i.ori &apos;$a export JAVA_HOME=/application/jdk\nexport PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH\nexport CLASSPATH=.$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar&apos; /etc/profile</span><br><span class="line">source /etc/profile</span><br><span class="line">#→出现下面结果证明部署成功</span><br><span class="line">[root@tomcat ~]# java -version</span><br><span class="line">java version &quot;1.8.0_60&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_60-b27)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.60-b23, mixed mode)</span><br></pre></td></tr></table></figure>
+<h2 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">tar xf apache-tomcat-8.0.27.tar.gz -C /application/</span><br><span class="line">ln -s /application/apache-tomcat-8.0.27 /application/tomcat</span><br><span class="line">echo &apos;export TOMCAT_HOME=/application/tomcat&apos;&gt;&gt;/etc/profile</span><br><span class="line">source /etc/profile</span><br><span class="line">chown -R root.root /application/jdk/ /application/tomcat/</span><br><span class="line">[root@tomcat ~]# tail -4 /etc/profile</span><br><span class="line">export JAVA_HOME=/application/jdk</span><br><span class="line">export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH</span><br><span class="line">export CLASSPATH=.$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar</span><br><span class="line">export TOMCAT_HOME=/application/tomcat</span><br></pre></td></tr></table></figure>
+<h2 id="Tomcat目录介绍"><a href="#Tomcat目录介绍" class="headerlink" title="Tomcat目录介绍"></a>Tomcat目录介绍</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# cd /application/tomcat/</span><br><span class="line">[root@tomcat tomcat]# tree -L 1</span><br><span class="line">.</span><br><span class="line">├── bin         #→用以启动、关闭Tomcat或者其它功能的脚本（.bat文件和.sh文件）</span><br><span class="line">├── conf        #→用以配置Tomcat的XML及DTD文件</span><br><span class="line">├── lib         #→存放web应用能访问的JAR包</span><br><span class="line">├── LICENSE</span><br><span class="line">├── logs        #→Catalina和其它Web应用程序的日志文件</span><br><span class="line">├── NOTICE</span><br><span class="line">├── RELEASE-NOTES</span><br><span class="line">├── RUNNING.txt</span><br><span class="line">├── temp        #→临时文件</span><br><span class="line">├── webapps     #→Web应用程序根目录</span><br><span class="line">└── work        #→用以产生有JSP编译出的Servlet的.java和.class文件</span><br><span class="line">7 directories, 4 files</span><br><span class="line">[root@tomcat tomcat]# cd webapps/</span><br><span class="line">[root@tomcat webapps]# ll</span><br><span class="line">total 20</span><br><span class="line">drwxr-xr-x 14 root root 4096 Oct  5 12:09 docs     #→tomcat帮助文档</span><br><span class="line">drwxr-xr-x  6 root root 4096 Oct  5 12:09 examples #→web应用实例</span><br><span class="line">drwxr-xr-x  5 root root 4096 Oct  5 12:09 host-manager #→管理</span><br><span class="line">drwxr-xr-x  5 root root 4096 Oct  5 12:09 manager  #→管理</span><br><span class="line">drwxr-xr-x  3 root root 4096 Oct  5 12:09 ROOT     #→默认网站根目录</span><br></pre></td></tr></table></figure>
+<h2 id="启动Tomcat"><a href="#启动Tomcat" class="headerlink" title="启动Tomcat"></a>启动Tomcat</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#→启动程序/application/tomcat/bin/startup.sh</span><br><span class="line">#→关闭程序/application/tomcat/bin/shutdown.sh</span><br><span class="line">[root@tomcat ~]# /application/tomcat/bin/startup.sh</span><br><span class="line"></span><br><span class="line">[root@tomcat ~]# netstat -tunlp|grep java</span><br><span class="line">          </span><br><span class="line">[root@tomcat ~]# ps -ef|grep [j]ava</span><br></pre></td></tr></table></figure>
+<h2 id="访问网站"><a href="#访问网站" class="headerlink" title="访问网站"></a>访问网站</h2><p>网址：<a href="http://10.0.0.3:8080/" target="_blank" rel="noopener">http://10.0.0.3:8080/</a></p>
+<h2 id="Tomcat日志"><a href="#Tomcat日志" class="headerlink" title="Tomcat日志"></a>Tomcat日志</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# cd /application/tomcat/logs/</span><br><span class="line">[root@tomcat logs]# ls</span><br><span class="line">catalina.2016-01-26.log      localhost.2016-01-26.log</span><br><span class="line">catalina.out                 localhost_access_log.2016-01-26.txt</span><br><span class="line">host-manager.2016-01-26.log  manager.2016-01-26.log</span><br><span class="line">#→tomcat实时日志</span><br><span class="line">[root@tomcat logs]# tailf catalina.out</span><br></pre></td></tr></table></figure>
+<h1 id="Tomcat配置文件"><a href="#Tomcat配置文件" class="headerlink" title="Tomcat配置文件"></a>Tomcat配置文件</h1><h2 id="Tomcat配置文件-1"><a href="#Tomcat配置文件-1" class="headerlink" title="Tomcat配置文件"></a>Tomcat配置文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat conf]# pwd</span><br><span class="line">/application/tomcat/conf</span><br><span class="line">[root@tomcat conf]# ll -h</span><br><span class="line">total 216K</span><br><span class="line">drwxr-xr-x 3 root root 4.0K Jan 26 06:10 Catalina</span><br><span class="line">-rw------- 1 root root  13K Sep 28 16:19 catalina.policy</span><br><span class="line">-rw------- 1 root root 7.0K Sep 28 16:19 catalina.properties</span><br><span class="line">-rw------- 1 root root 1.6K Sep 28 16:19 context.xml</span><br><span class="line">-rw------- 1 root root 3.4K Sep 28 16:19 logging.properties</span><br><span class="line">-rw------- 1 root root 6.4K Sep 28 16:19 server.xml #→主配置文件</span><br><span class="line">-rw------- 1 root root 1.8K Sep 28 16:19 tomcat-users.xml #→Tomcat管理用户配置文件</span><br><span class="line">-rw------- 1 root root 1.9K Sep 28 16:19 tomcat-users.xsd</span><br><span class="line">-rw------- 1 root root 164K Sep 28 16:19 web.xml</span><br></pre></td></tr></table></figure>
+<h2 id="Tomcat管理"><a href="#Tomcat管理" class="headerlink" title="Tomcat管理"></a>Tomcat管理</h2><p>测试功能，生产环境不要用。</p>
+<p>Tomcat管理功能用于对Tomcat自身以及部署在Tomcat上的应用进行管理的web应用。在默认情况下是处于禁用状态的。如果需要开启这个功能，就需要配置管理用户，即配置前面说过的tomcat-users.xml。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# vim /application/tomcat/conf/tomcat-users.xml</span><br><span class="line">…………</span><br><span class="line">&lt;role rolename=&quot;manager-gui&quot;/&gt;</span><br><span class="line">&lt;role rolename=&quot;admin-gui&quot;/&gt;</span><br><span class="line">&lt;user username=&quot;tomcat&quot; password=&quot;tomcat&quot; roles=&quot;manager-gui,admin-gui&quot;/&gt;</span><br><span class="line">&lt;/tomcat-users&gt;  #→在此行前加入上面三行</span><br><span class="line">[root@tomcat ~]# /application/tomcat/bin/shutdown.sh</span><br><span class="line">[root@tomcat ~]# /application/tomcat/bin/startup.sh</span><br></pre></td></tr></table></figure>
+<h2 id="Tomcat主配置文件Server-xml详解"><a href="#Tomcat主配置文件Server-xml详解" class="headerlink" title="Tomcat主配置文件Server.xml详解"></a>Tomcat主配置文件Server.xml详解</h2><ul>
+<li>顶级组件：位于整个配置的顶层，如server。</li>
+<li>容器类组件：可以包含其它组件的组件，如service、engine、host、context。</li>
+<li>连接器组件：连接用户请求至tomcat，如connector。</li>
+<li>被嵌套类组件：位于一个容器当中，不能包含其他组件，如Valve、logger。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;server&gt;</span><br><span class="line">     &lt;service&gt;</span><br><span class="line">     &lt;connector /&gt;</span><br><span class="line">     &lt;engine&gt;</span><br><span class="line">     &lt;host&gt;</span><br><span class="line">     &lt;context&gt;&lt;/context&gt;</span><br><span class="line">     &lt;/host&gt;</span><br><span class="line">     &lt;host&gt;</span><br><span class="line">     &lt;context&gt;&lt;/context&gt;</span><br><span class="line">     &lt;/host&gt;</span><br><span class="line">     &lt;/engine&gt;</span><br><span class="line">     &lt;/service&gt;</span><br><span class="line">&lt;/server&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="组件详解"><a href="#组件详解" class="headerlink" title="组件详解"></a>组件详解</h2><hr>
+<p>engine：核心容器组件，catalina引擎，负责通过connector接收用户请求，并处理请求，将请求转至对应的虚拟主机host。<br>host：类似于httpd中的虚拟主机，一般而言支持基于FQDN的虚拟主机。<br>context：定义一个应用程序，是一个最内层的容器类组件（不能再嵌套）。配置context的主要目的指定对应对的webapp的根目录，类似于httpd的alias，其还能为webapp指定额外的属性，如部署方式等。<br>connector：接收用户请求，类似于httpd的listen配置监听端口的。<br>service（服务）：将connector关联至engine，因此一个service内部可以有多个connector，但只能有一个引擎engine。service内部有两个connector，一个engine。因此，一般情况下一个server内部只有一个service，一个service内部只有一个engine，但一个service内部可以有多个connector。<br>server：表示一个运行于JVM中的tomcat实例。<br>Valve：阀门，拦截请求并在将其转至对应的webapp前进行某种处理操作，可以用于任何容器中，比如记录日志(access log valve)、基于IP做访问控制(remote address filter valve)。<br>logger：日志记录器，用于记录组件内部的状态信息，可以用于除context外的任何容器中。<br>realm：可以用于任意容器类的组件中，关联一个用户认证库，实现认证和授权。可以关联的认证库有两种：UserDatabaseRealm、MemoryRealm和JDBCRealm。<br>UserDatabaseRealm：使用JNDI自定义的用户认证库。<br>MemoryRealm：认证信息定义在tomcat-users.xml中。<br>JDBCRealm：认证信息定义在数据库中，并通过JDBC连接至数据库中查找认证用户。</p>
+<hr>
+<h2 id="配置文件注释"><a href="#配置文件注释" class="headerlink" title="配置文件注释"></a>配置文件注释</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">&lt;Server&gt;元素代表整个容器,是Tomcat实例的顶层元素.由org.apache.catalina.Server接口来定义.它包含一个&lt;Service&gt;元素.并且它不能做为任何元素的子元素.</span><br><span class="line">    port指定Tomcat监听shutdown命令端口.终止服务器运行时,必须在Tomcat服务器所在的机器上发出shutdown命令.该属性是必须的.</span><br><span class="line">    shutdown指定终止Tomcat服务器运行时,发给Tomcat服务器的shutdown监听端口的字符串.该属性必须设置</span><br><span class="line">--&gt;</span><br><span class="line">&lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">  &lt;Listener className=&quot;org.apache.catalina.startup.VersionLoggerListener&quot; /&gt;</span><br><span class="line">  &lt;Listener className=&quot;org.apache.catalina.core.AprLifecycleListener&quot; SSLEngine=&quot;on&quot; /&gt;</span><br><span class="line">  &lt;Listener className=&quot;org.apache.catalina.core.JreMemoryLeakPreventionListener&quot; /&gt;</span><br><span class="line">  &lt;Listener className=&quot;org.apache.catalina.mbeans.GlobalResourcesLifecycleListener&quot; /&gt;</span><br><span class="line">  &lt;Listener className=&quot;org.apache.catalina.core.ThreadLocalLeakPreventionListener&quot; /&gt;</span><br><span class="line">  &lt;GlobalNamingResources&gt;</span><br><span class="line">    &lt;Resource name=&quot;UserDatabase&quot; auth=&quot;Container&quot;</span><br><span class="line">              type=&quot;org.apache.catalina.UserDatabase&quot;</span><br><span class="line">              description=&quot;User database that can be updated and saved&quot;</span><br><span class="line">              factory=&quot;org.apache.catalina.users.MemoryUserDatabaseFactory&quot;</span><br><span class="line">              pathname=&quot;conf/tomcat-users.xml&quot; /&gt;</span><br><span class="line">  &lt;/GlobalNamingResources&gt;</span><br><span class="line">  &lt;!--service服务组件--&gt;</span><br><span class="line">  &lt;Service name=&quot;Catalina&quot;&gt;</span><br><span class="line">    &lt;!--</span><br><span class="line">    connector：接收用户请求，类似于httpd的listen配置监听端口.</span><br><span class="line">        port指定服务器端要创建的端口号，并在这个端口监听来自客户端的请求。</span><br><span class="line">        address：指定连接器监听的地址，默认为所有地址（即0.0.0.0）</span><br><span class="line">        protocol连接器使用的协议，支持HTTP和AJP。AJP（Apache Jserv Protocol）专用于tomcat与apache建立通信的， 在httpd反向代理用户请求至tomcat时使用（可见Nginx反向代理时不可用AJP协议）。</span><br><span class="line">        minProcessors服务器启动时创建的处理请求的线程数</span><br><span class="line">        maxProcessors最大可以创建的处理请求的线程数</span><br><span class="line">        enableLookups如果为true，则可以通过调用request.getRemoteHost()进行DNS查询来得到远程客户端的实际主机名，若为false则不进行DNS查询，而是返回其ip地址</span><br><span class="line">        redirectPort指定服务器正在处理http请求时收到了一个SSL传输请求后重定向的端口号</span><br><span class="line">        acceptCount指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理</span><br><span class="line">        connectionTimeout指定超时的时间数(以毫秒为单位)</span><br><span class="line">    --&gt;</span><br><span class="line">    &lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">               connectionTimeout=&quot;20000&quot;</span><br><span class="line">               redirectPort=&quot;8443&quot; /&gt;</span><br><span class="line">    &lt;Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; /&gt;</span><br><span class="line">    &lt;!--engine,核心容器组件,catalina引擎,负责通过connector接收用户请求,并处理请求,将请求转至对应的虚拟主机host</span><br><span class="line">        defaultHost指定缺省的处理请求的主机名，它至少与其中的一个host元素的name属性值是一样的</span><br><span class="line">    --&gt;</span><br><span class="line">    &lt;Engine name=&quot;Catalina&quot; defaultHost=&quot;localhost&quot;&gt;</span><br><span class="line">      &lt;!--Realm表示存放用户名，密码及role的数据库--&gt;</span><br><span class="line">      &lt;Realm className=&quot;org.apache.catalina.realm.LockOutRealm&quot;&gt;</span><br><span class="line">        &lt;Realm className=&quot;org.apache.catalina.realm.UserDatabaseRealm&quot;</span><br><span class="line">               resourceName=&quot;UserDatabase&quot;/&gt;</span><br><span class="line">      &lt;/Realm&gt;</span><br><span class="line">      &lt;!--</span><br><span class="line">      host表示一个虚拟主机</span><br><span class="line">        name指定主机名</span><br><span class="line">        appBase应用程序基本目录，即存放应用程序的目录.一般为appBase=&quot;webapps&quot; ，相对于CATALINA_HOME而言的，也可以写绝对路径。</span><br><span class="line">        unpackWARs如果为true，则tomcat会自动将WAR文件解压，否则不解压，直接从WAR文件中运行应用程序</span><br><span class="line">        autoDeploy：在tomcat启动时，是否自动部署。</span><br><span class="line">        xmlValidation：是否启动xml的校验功能，一般xmlValidation=&quot;false&quot;。</span><br><span class="line">        xmlNamespaceAware：检测名称空间，一般xmlNamespaceAware=&quot;false&quot;。</span><br><span class="line">      --&gt;</span><br><span class="line">      &lt;Host name=&quot;localhost&quot;  appBase=&quot;webapps&quot;</span><br><span class="line">            unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">        Context表示一个web应用程序，通常为WAR文件</span><br><span class="line">            docBase应用程序的路径或者是WAR文件存放的路径,也可以使用相对路径，起始路径为此Context所属Host中appBase定义的路径。</span><br><span class="line">            path表示此web应用程序的url的前缀，这样请求的url为http://localhost:8080/path/****</span><br><span class="line">            reloadable这个属性非常重要，如果为true，则tomcat会自动检测应用程序的/WEB-INF/lib 和/WEB-INF/classes目录的变化，自动装载新的应用程序，可以在不重启tomcat的情况下改变应用程序</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;Context path=&quot;&quot; docBase=&quot;&quot; debug=&quot;&quot;/&gt;</span><br><span class="line">        &lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot;</span><br><span class="line">               prefix=&quot;localhost_access_log&quot; suffix=&quot;.txt&quot;</span><br><span class="line">               pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&quot; /&gt;</span><br><span class="line">      &lt;/Host&gt;</span><br><span class="line">    &lt;/Engine&gt;</span><br><span class="line">  &lt;/Service&gt;</span><br><span class="line">&lt;/Server&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="WEB站点部署"><a href="#WEB站点部署" class="headerlink" title="WEB站点部署"></a>WEB站点部署</h1><p>上线的代码有两种方式，第一种方式是直接将程序目录放在webapps目录下面，这种方式大家已经明白了，就不多说了。第二种方式是使用开发工具将程序打包成war包，然后上传到webapps目录下面。下面让我们见识一下这种方式。</p>
+<h2 id="使用war包部署web站点"><a href="#使用war包部署web站点" class="headerlink" title="使用war包部署web站点"></a>使用war包部署web站点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat webapps]# pwd</span><br><span class="line">/application/tomcat/webapps</span><br><span class="line">[root@tomcat webapps]# rz  #→上传memtest.war，此文件也在上面的百度网盘里</span><br><span class="line">[root@tomcat webapps]# ls</span><br><span class="line">docs  examples  host-manager  manager  memtest  memtest.war  ROOT</span><br></pre></td></tr></table></figure>
+<p>浏览器访问：<a href="http://10.0.0.3:8080/memtest/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8080/memtest/meminfo.jsp</a></p>
+<h2 id="自定义默认网站目录"><a href="#自定义默认网站目录" class="headerlink" title="自定义默认网站目录"></a>自定义默认网站目录</h2><p>上面访问的网址为<a href="http://10.0.0.3:8080/memtest/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8080/memtest/meminfo.jsp</a><br>现在我想访问格式为<a href="http://10.0.0.3:8080/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8080/meminfo.jsp</a><br>怎么破？</p>
+<p>方法一</p>
+<p>将meminfo.jsp或其他程序放在tomcat/webapps/ROOT目录下即可。因为默认网站根目录为tomcat/webapps/ROOT</p>
+<p>方法二</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# vim /application/tomcat/conf/server.xml</span><br><span class="line">      &lt;Host name=&quot;localhost&quot;  appBase=&quot;webapps&quot;</span><br><span class="line">            unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;</span><br><span class="line">         &lt;Context path=&quot;&quot; docBase=&quot;/application/tomcat/webapps/memtest&quot; debug=&quot;0&quot; reloadable=&quot;false&quot; crossContext=&quot;true&quot;/&gt;</span><br><span class="line">[root@tomcat ~]# /application/tomcat/bin/shutdown.sh</span><br><span class="line">[root@tomcat ~]# /application/tomcat/bin/startup.sh</span><br></pre></td></tr></table></figure>
+<h1 id="Tomcat多实例及集群架构"><a href="#Tomcat多实例及集群架构" class="headerlink" title="Tomcat多实例及集群架构"></a>Tomcat多实例及集群架构</h1><h2 id="Tomcat多实例"><a href="#Tomcat多实例" class="headerlink" title="Tomcat多实例"></a>Tomcat多实例</h2><h3 id="复制Tomcat目录"><a href="#复制Tomcat目录" class="headerlink" title="复制Tomcat目录"></a>复制Tomcat目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# cd /application/</span><br><span class="line">[root@tomcat application]# cp -a apache-tomcat-8.0.27 tomcat8_1</span><br><span class="line">[root@tomcat application]# cp -a apache-tomcat-8.0.27 tomcat8_2</span><br></pre></td></tr></table></figure>
+<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat application]# mkdir -p /data/www/www/ROOT</span><br><span class="line">[root@tomcat application]# cp /application/tomcat/webapps/memtest/meminfo.jsp /data/www/www/ROOT/</span><br><span class="line">[root@tomcat ~]# sed -i &apos;22s#8005#8011#;69s#8080#8081#;123s#appBase=&quot;.*&quot;# appBase=&quot;/data/www/www&quot;#&apos; /application/tomcat8_1/conf/server.xml</span><br><span class="line">[root@tomcat ~]# sed -i &apos;22s#8005#8012#;69s#8080#8082#;123s#appBase=&quot;.*&quot;# appBase=&quot;/data/www/www&quot;#&apos; /application/tomcat8_2/conf/server.xml</span><br><span class="line">[root@tomcat ~]# diff /application/tomcat/conf/server.xml  /application/tomcat8_1/conf/server.xml   </span><br><span class="line">22c22</span><br><span class="line">&lt; &lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">---</span><br><span class="line">&gt; &lt;Server port=&quot;8011&quot; shutdown=&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">69c69</span><br><span class="line">&lt;     &lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">---</span><br><span class="line">&gt;     &lt;Connector port=&quot;8081&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">123c123</span><br><span class="line">&lt;       &lt;Host name=&quot;localhost&quot;  appBase=&quot;/application/tomcat/webapps/memtest&quot;</span><br><span class="line">---</span><br><span class="line">&gt;       &lt;Host name=&quot;localhost&quot;   appBase=&quot;/data/www/www&quot;</span><br><span class="line">[root@tomcat ~]# diff /application/tomcat/conf/server.xml  /application/tomcat8_2/conf/server.xml</span><br><span class="line">22c22</span><br><span class="line">&lt; &lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">---</span><br><span class="line">&gt; &lt;Server port=&quot;8012&quot; shutdown=&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">69c69</span><br><span class="line">&lt;     &lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">---</span><br><span class="line">&gt;     &lt;Connector port=&quot;8082&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">123c123</span><br><span class="line">&lt;       &lt;Host name=&quot;localhost&quot;  appBase=&quot;/application/tomcat/webapps/memtest&quot;</span><br><span class="line">---</span><br><span class="line">&gt;       &lt;Host name=&quot;localhost&quot;    appBase=&quot;/data/www/www&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="启动多实例"><a href="#启动多实例" class="headerlink" title="启动多实例"></a>启动多实例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for i in &#123;1..2&#125;;do /application/tomcat8_$i/bin/startup.sh;done</span><br><span class="line">netstat -tunlp|grep java</span><br></pre></td></tr></table></figure>
+<p>浏览器可以分别访问<a href="http://10.0.0.3:8081/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8081/meminfo.jsp</a> 和 <a href="http://10.0.0.3:8082/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8082/meminfo.jsp</a></p>
+<h2 id="Tomcat集群"><a href="#Tomcat集群" class="headerlink" title="Tomcat集群"></a>Tomcat集群</h2><h3 id="使用nginx-Tomcat反向代理集群"><a href="#使用nginx-Tomcat反向代理集群" class="headerlink" title="使用nginx+Tomcat反向代理集群"></a>使用nginx+Tomcat反向代理集群</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# vim /application/nginx/conf/nginx.conf</span><br><span class="line">    upstream web_pools &#123;</span><br><span class="line">        server 127.0.0.1:8081;</span><br><span class="line">        server 127.0.0.1:8082;</span><br><span class="line">        &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.jsp index.html index.htm;</span><br><span class="line">            proxy_pass http://web_pools;</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">[root@tomcat ~]# /application/nginx/sbin/nginx -t</span><br><span class="line">[root@tomcat ~]# /application/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+<p>浏览器可以访问<a href="http://10.0.0.3/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3/meminfo.jsp</a></p>
+<h1 id="Tomcat监控"><a href="#Tomcat监控" class="headerlink" title="Tomcat监控"></a>Tomcat监控</h1><h1 id="Tomcat安全优化和性能优化"><a href="#Tomcat安全优化和性能优化" class="headerlink" title="Tomcat安全优化和性能优化"></a>Tomcat安全优化和性能优化</h1><h2 id="安全优化"><a href="#安全优化" class="headerlink" title="安全优化"></a>安全优化</h2><p>降权启动<br>telnet管理端口保护<br>ajp连接端口保护<br>禁用管理端</p>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><h3 id="屏蔽dns查询enableLookups-”false”"><a href="#屏蔽dns查询enableLookups-”false”" class="headerlink" title="屏蔽dns查询enableLookups=”false”"></a>屏蔽dns查询enableLookups=”false”</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    &lt;Connector  port=&quot;8081&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">               connectionTimeout=&quot;6000&quot; enableLookups=&quot;false&quot; acceptCount=&quot;800&quot;</span><br><span class="line">               redirectPort=&quot;8443&quot; /&gt;</span><br><span class="line">```          </span><br><span class="line"></span><br><span class="line">## jvm调优</span><br><span class="line">Tomcat最吃内存，只要内存足够，这只猫就跑的很快。</span><br><span class="line">如果系统资源有限，那就需要进行调优，提高资源使用率。</span><br></pre></td></tr></table></figure>
+<p>优化catalina.sh配置文件。在catalina.sh配置文件中添加以下代码：<br>JAVA_OPTS=”-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xms1024m -Xmx1024m -XX:NewSize=512m -XX:MaxNewSize=512m -XX:PermSize=512m -XX:MaxPermSize=512m”<br>server:一定要作为第一个参数，在多个CPU时性能佳<br>-Xms：初始堆内存Heap大小，使用的最小内存,cpu性能高时此值应设的大一些<br>-Xmx：初始堆内存heap最大值，使用的最大内存<br>上面两个值是分配JVM的最小和最大内存，取决于硬件物理内存的大小，建议均设为物理内存的一半。<br>-XX:PermSize:设定内存的永久保存区域<br>-XX:MaxPermSize:设定最大内存的永久保存区域<br>-XX:MaxNewSize:<br>-Xss 15120 这使得JBoss每增加一个线程（thread)就会立即消耗15M内存，而最佳值应该是128K,默认值好像是512k.<br>+XX:AggressiveHeap 会使得 Xms没有意义。这个参数让jvm忽略Xmx参数,疯狂地吃完一个G物理内存,再吃尽一个G的swap。<br>-Xss：每个线程的Stack大小<br>-verbose:gc 现实垃圾收集信息<br>-Xloggc:gc.log 指定垃圾收集日志文件<br>-Xmn：young generation的heap大小，一般设置为Xmx的3、4分之一<br>-XX:+UseParNewGC ：缩短minor收集的时间<br>-XX:+UseConcMarkSweepGC ：缩短major收集的时间<br>```</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web/">Web</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-2015年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -755,250 +1306,9 @@
 
 
   
-    <article id="post-去广州" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/04/14/去广州/" class="article-date">
-      <time datetime="2015-04-14T09:17:00.000Z" itemprop="datePublished">2015-04-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/14/去广州/">去广州</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <pre><code>上海发向广州的火车。没有买到有座位的票，一路站到广州。
-</code></pre>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2014年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/12/31/2014年终总结之败家/" class="article-date">
-      <time datetime="2014-12-31T08:01:09.000Z" itemprop="datePublished">2014-12-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/12/31/2014年终总结之败家/">2014年终总结之败家</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2014年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/12/31/2014年终总结之思考/" class="article-date">
-      <time datetime="2014-12-31T08:00:24.000Z" itemprop="datePublished">2014-12-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/12/31/2014年终总结之思考/">2014年终总结之思考</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-阿铭Linux培训第5期笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/11/10/阿铭Linux培训第5期笔记/" class="article-date">
-      <time datetime="2014-11-10T20:01:25.000Z" itemprop="datePublished">2014-11-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/10/阿铭Linux培训第5期笔记/">阿铭Linux培训第5期笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="01-linux简介-如何学习linux"><a href="#01-linux简介-如何学习linux" class="headerlink" title="01 linux简介 如何学习linux"></a>01 linux简介 如何学习linux</h1>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/22/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/24/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/22/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/24/">Next &raquo;</a>
     </nav>
   
 </div>
