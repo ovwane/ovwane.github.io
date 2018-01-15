@@ -234,15 +234,69 @@ class JobBoleArticleItem(scrapy.Item):
 ```
 distributed_crawler_search_engine
 ```
+```
+scrapy shell -s "输入headers" 
+```
+知乎数据库设计
+
+```
+名 类型
+zhihu_id bigint 20 0 yes primay key 1
+url varchar 300 0 yes
+question_id bigint 20 0 yes
+author_id varchar 100 0 no
+content longtext 0 0 yes
+praise_num int 11 0 yes
+comments_num int 11 0 yes
+create_time date 0 0 yes
+update_time date 0 0 yes
+crawl_time datetime 0 0 yes
+crawl_update_time datetime 0 0 no
+```
+
+```sql
+CREATE TABLE zhihu_question(`zhihu_id` 
+ )
+```
 
 ## 第6章 通过CrawlSpider对招聘网站进行整站爬取
 #### 本章完成招聘网站职位的数据表结构设计，并通过link extractor和rule的形式并配置CrawlSpider完成招聘网站所有职位的爬取，本章也会从源码的角度来分析CrawlSpider让大家对CrawlSpider有深入的理解。
 
 ## 第7章 Scrapy突破反爬虫的限制
-#### 本章会从爬虫和反爬虫的斗争过程开始讲解，然后讲解scrapy的原理，然后通过随机切换user-agent和设置scrapy的ip代理的方式完成突破反爬虫的各种限制。本章也会详细介绍httpresponse和httprequest来详细的分析scrapy的功能，最后会通过云打码平台来完成在线验证码识别以及禁用cookie和访问频率来降低爬虫被屏蔽的可能性。...
+>本章会从爬虫和反爬虫的斗争过程开始讲解，然后讲解scrapy的原理，然后通过随机切换user-agent和设置scrapy的ip代理的方式完成突破反爬虫的各种限制。本章也会详细介绍httpresponse和httprequest来详细的分析scrapy的功能，最后会通过云打码平台来完成在线验证码识别以及禁用cookie和访问频率来降低爬虫被屏蔽的可能性。...
+
+### UA 用户代理
+hellysmile/fake-useragent
+
+### IP代理
+西刺代理 高匿ip代理
+aivarsk/scrapy-proxies
+scrapy-plugins/scrapy-crawlera #收费的
+Tor
+
+### 验证码识别
+tesseract-ocr
+在线打码
+人工打码
+[云打码](http://www.yundama.com)
+
+settings.py
+禁用cookie
+自动限速
+
+爬虫内写入 ，自定义设置单个爬虫
+```py
+custom_settings = {
+	"COOKIES_ENABLED": True
+}
+```
 
 ## 第8章 scrapy进阶开发
-#### 本章将讲解scrapy的更多高级特性，这些高级特性包括通过selenium和phantomjs实现动态网站数据的爬取以及将这二者集成到scrapy中、scrapy信号、自定义中间件、暂停和启动scrapy爬虫、scrapy的核心api、scrapy的telnet、scrapy的web service和scrapy的log配置和email发送等。 这些特性使得我们不仅只是可以通过scrapy来完成...
+>本章将讲解scrapy的更多高级特性，这些高级特性包括通过selenium和phantomjs实现动态网站数据的爬取以及将这二者集成到scrapy中、scrapy信号、自定义中间件、暂停和启动scrapy爬虫、scrapy的核心api、scrapy的telnet、scrapy的web service和scrapy的log配置和email发送等。 这些特性使得我们不仅只是可以通过scrapy来完成...
+
+Selenium浏览器自动化测试框架
+浏览器Drivers
+
 
 ## 第9章 scrapy-redis分布式爬虫
 #### Scrapy-redis分布式爬虫的使用以及scrapy-redis的分布式爬虫的源码分析， 让大家可以根据自己的需求来修改源码以满足自己的需求。最后也会讲解如何将bloomfilter集成到scrapy-redis中。

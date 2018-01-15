@@ -10,60 +10,87 @@ tags:
 ---
 [Tomcat安装配置](http://www.zyops.com/java-tomcat)
 
-# Tomcat简介
+## 安装Tomcat
+- [JDK安装配置](JDK安装配置.md)
+
+- 下载 [Apache tomcat](http://tomcat.apache.org/)
+
+- 安装Tomcat
+
+```bash
+#解压缩tomcat
+tar xf apache-tomcat-8.5.23.tar.gz -C /usr/local/
+#软链接
+ln -s /usr/local/apache-tomcat-8.5.23 /usr/local/tomcat
+#添加系统变量
+echo 'export TOMCAT_HOME=/usr/local/tomcat'>>/etc/profile
+#立即生效系统变量
+source /etc/profile
+#更改tomcat的权限
+chown -R root:root /usr/local/apache-tomcat-8.5.23
+```
+
+## 启动Tomcat
+```bash
+#启动程序
+tomcat/bin/startup.sh
+#关闭程序
+tomcat/bin/shutdown.sh
+#查看网络
+netstat -tunlp|grep java
+#查看进程
+ps -ef|grep [j]ava
+```
+
+访问网站
+网址：http://IP:8080/
+
+Tomcat日志
+
+```bash
+#进入日志目录
+cd tomcat/logs/
+#tomcat实时运行日志
+tail -f catalina.out
+#访问日志
+tail -f 域名_access_log.日期.txt
+```
+
+Tomcat配置文件
+
+```bash
+cd tomcat/conf
+
+#主配置文件
+server.xml
+#Tomcat管理用户配置文件
+tomcat-users.xml
+```
+
+站点目录
+
+```bash
+cd tomcat/webapps/ROOT
+```
+
+
+
+
+
+## Tomcat简介
 Tomcat是Apache软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun和其他一些公司及个人共同开发而成。
 
 Tomcat服务器是一个免费的开放源代码的Web应用服务器，属于轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试JSP程序的首选。
 
-
 Tomcat和Nginx、Apache(httpd)、lighttpd等Web服务器一样，具有处理HTML页面的功能，另外它还是一个Servlet和JSP容器，独立的Servlet容器是Tomcat的默认模式。不过，Tomcat处理静态HTML的能力不如Nginx/Apache服务器。
 
-目前Tomcat最新版本为9.0。Java容器还有resin、weblogic等。
-
-# Tomcat安装
-## 软件准备
-JDK下载：http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html 
-Tomcat下载：http://tomcat.apache.org/
-
-## 部署java环境
-```
-[root@tomcat ~]# cd /application/tools/
-[root@tomcat tools]# rz
-rz waiting to receive.
-Starting zmodem transfer.  Press Ctrl+C to cancel.
-Transferring apache-tomcat-8.0.27.tar.gz...
-  100%    8914 KB    8914 KB/sec    00:00:01       0 Errors  
-Transferring jdk-8u60-linux-x64.tar.gz...
-  100%  176990 KB    14749 KB/sec    00:00:12       0 Errors  
-tar xf jdk-8u60-linux-x64.tar.gz -C /application/
-ln -s /application/jdk1.8.0_60 /application/jdk
-sed -i.ori '$a export JAVA_HOME=/application/jdk\nexport PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH\nexport CLASSPATH=.$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar' /etc/profile
-source /etc/profile
-#→出现下面结果证明部署成功
-[root@tomcat ~]# java -version
-java version "1.8.0_60"
-Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
-Java HotSpot(TM) 64-Bit Server VM (build 25.60-b23, mixed mode)
-```
-
-## 安装Tomcat
-```
-tar xf apache-tomcat-8.0.27.tar.gz -C /application/
-ln -s /application/apache-tomcat-8.0.27 /application/tomcat
-echo 'export TOMCAT_HOME=/application/tomcat'>>/etc/profile
-source /etc/profile
-chown -R root.root /application/jdk/ /application/tomcat/
-[root@tomcat ~]# tail -4 /etc/profile
-export JAVA_HOME=/application/jdk
-export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
-export CLASSPATH=.$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar
-export TOMCAT_HOME=/application/tomcat
-```
+>目前Tomcat最新版本为9.0。Java容器应用还有resin、weblogic等。
 
 ## Tomcat目录介绍
 ```
-[root@tomcat ~]# cd /application/tomcat/
-[root@tomcat tomcat]# tree -L 1
+cd /application/tomcat/
+
+tree -L 1
 .
 ├── bin         #→用以启动、关闭Tomcat或者其它功能的脚本（.bat文件和.sh文件）
 ├── conf        #→用以配置Tomcat的XML及DTD文件
@@ -77,8 +104,11 @@ export TOMCAT_HOME=/application/tomcat
 ├── webapps     #→Web应用程序根目录
 └── work        #→用以产生有JSP编译出的Servlet的.java和.class文件
 7 directories, 4 files
-[root@tomcat tomcat]# cd webapps/
-[root@tomcat webapps]# ll
+
+cd webapps/
+
+ll
+
 total 20
 drwxr-xr-x 14 root root 4096 Oct  5 12:09 docs     #→tomcat帮助文档
 drwxr-xr-x  6 root root 4096 Oct  5 12:09 examples #→web应用实例
@@ -87,48 +117,7 @@ drwxr-xr-x  5 root root 4096 Oct  5 12:09 manager  #→管理
 drwxr-xr-x  3 root root 4096 Oct  5 12:09 ROOT     #→默认网站根目录
 ```
 
-## 启动Tomcat
-```
-#→启动程序/application/tomcat/bin/startup.sh
-#→关闭程序/application/tomcat/bin/shutdown.sh
-[root@tomcat ~]# /application/tomcat/bin/startup.sh
 
-[root@tomcat ~]# netstat -tunlp|grep java
-          
-[root@tomcat ~]# ps -ef|grep [j]ava
-```
-
-## 访问网站
-网址：http://10.0.0.3:8080/
-
-## Tomcat日志
-```
-[root@tomcat ~]# cd /application/tomcat/logs/
-[root@tomcat logs]# ls
-catalina.2016-01-26.log      localhost.2016-01-26.log
-catalina.out                 localhost_access_log.2016-01-26.txt
-host-manager.2016-01-26.log  manager.2016-01-26.log
-#→tomcat实时日志
-[root@tomcat logs]# tailf catalina.out
-```
-
-# Tomcat配置文件
-## Tomcat配置文件
-```
-[root@tomcat conf]# pwd
-/application/tomcat/conf
-[root@tomcat conf]# ll -h
-total 216K
-drwxr-xr-x 3 root root 4.0K Jan 26 06:10 Catalina
--rw------- 1 root root  13K Sep 28 16:19 catalina.policy
--rw------- 1 root root 7.0K Sep 28 16:19 catalina.properties
--rw------- 1 root root 1.6K Sep 28 16:19 context.xml
--rw------- 1 root root 3.4K Sep 28 16:19 logging.properties
--rw------- 1 root root 6.4K Sep 28 16:19 server.xml #→主配置文件
--rw------- 1 root root 1.8K Sep 28 16:19 tomcat-users.xml #→Tomcat管理用户配置文件
--rw------- 1 root root 1.9K Sep 28 16:19 tomcat-users.xsd
--rw------- 1 root root 164K Sep 28 16:19 web.xml
-```
 
 ## Tomcat管理
 测试功能，生产环境不要用。
@@ -146,29 +135,13 @@ Tomcat管理功能用于对Tomcat自身以及部署在Tomcat上的应用进行�
 [root@tomcat ~]# /application/tomcat/bin/startup.sh
 ```
 
-## Tomcat主配置文件Server.xml详解
+## Tomcat主配置文件server.xml详解
 - 顶级组件：位于整个配置的顶层，如server。
 - 容器类组件：可以包含其它组件的组件，如service、engine、host、context。
 - 连接器组件：连接用户请求至tomcat，如connector。
 - 被嵌套类组件：位于一个容器当中，不能包含其他组件，如Valve、logger。
 
-```
-<server>
-     <service>
-     <connector />
-     <engine>
-     <host>
-     <context></context>
-     </host>
-     <host>
-     <context></context>
-     </host>
-     </engine>
-     </service>
-</server>
-```
-
-## 组件详解
+组件详解
 ***
 
 engine：核心容器组件，catalina引擎，负责通过connector接收用户请求，并处理请求，将请求转至对应的虚拟主机host。
@@ -185,8 +158,9 @@ MemoryRealm：认证信息定义在tomcat-users.xml中。
 JDBCRealm：认证信息定义在数据库中，并通过JDBC连接至数据库中查找认证用户。
 ***
 
-## 配置文件注释
-```
+配置文件注释
+
+```xml
 <?xml version='1.0' encoding='utf-8'?>
 <!--
 <Server>元素代表整个容器,是Tomcat实例的顶层元素.由org.apache.catalina.Server接口来定义.它包含一个<Service>元素.并且它不能做为任何元素的子元素.
@@ -260,10 +234,11 @@ JDBCRealm：认证信息定义在数据库中，并通过JDBC连接至数据库�
 </Server>
 ```
 
-# WEB站点部署
+# #WEB站点部署
 上线的代码有两种方式，第一种方式是直接将程序目录放在webapps目录下面，这种方式大家已经明白了，就不多说了。第二种方式是使用开发工具将程序打包成war包，然后上传到webapps目录下面。下面让我们见识一下这种方式。
 
-## 使用war包部署web站点
+- 使用war包部署web站点
+
 ```
 [root@tomcat webapps]# pwd
 /application/tomcat/webapps
@@ -274,7 +249,7 @@ docs  examples  host-manager  manager  memtest  memtest.war  ROOT
 
 浏览器访问：http://10.0.0.3:8080/memtest/meminfo.jsp
 
-## 自定义默认网站目录
+- 自定义默认网站目录
 上面访问的网址为http://10.0.0.3:8080/memtest/meminfo.jsp 
 现在我想访问格式为http://10.0.0.3:8080/meminfo.jsp 
 怎么破？
@@ -294,16 +269,19 @@ docs  examples  host-manager  manager  memtest  memtest.war  ROOT
 [root@tomcat ~]# /application/tomcat/bin/startup.sh
 ```
 
-# Tomcat多实例及集群架构
-## Tomcat多实例
-### 复制Tomcat目录
-```
+## Tomcat多实例及集群架构
+- Tomcat多实例
+
+1. 复制Tomcat目录
+
+ ```
 [root@tomcat ~]# cd /application/
 [root@tomcat application]# cp -a apache-tomcat-8.0.27 tomcat8_1
 [root@tomcat application]# cp -a apache-tomcat-8.0.27 tomcat8_2
 ```
 
-### 修改配置文件
+1. 修改配置文件
+
 ```
 [root@tomcat application]# mkdir -p /data/www/www/ROOT
 [root@tomcat application]# cp /application/tomcat/webapps/memtest/meminfo.jsp /data/www/www/ROOT/
@@ -337,7 +315,8 @@ docs  examples  host-manager  manager  memtest  memtest.war  ROOT
 >       <Host name="localhost"    appBase="/data/www/www"
 ```
 
-### 启动多实例
+3. 启动多实例
+
 ```
 for i in {1..2};do /application/tomcat8_$i/bin/startup.sh;done
 netstat -tunlp|grep java
