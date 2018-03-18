@@ -1,28 +1,27 @@
 language: node_js
-
 sudo: false
-
 cache:
   apt: true
   directories:
   - node_modules
-
 node_js:
-  - "6.9.0"
-
+- 6.9.0
 branches:
   only:
   - hexo
-
 before_install:
-- openssl aes-256-cbc -K $encrypted_b6a9c7fbd133_key -iv $encrypted_b6a9c7fbd133_iv -in .travis/hexo_rsa.enc -out ~/.ssh/hexo_rsa -d
+- openssl aes-256-cbc -K $encrypted_b6a9c7fbd133_key -iv $encrypted_b6a9c7fbd133_iv
+  -in hexo_rsa.enc -out ~\/.ssh/hexo_rsa -d
+- openssl aes-256-cbc -K $encrypted_b6a9c7fbd133_key -iv $encrypted_b6a9c7fbd133_iv
+  -in github_com_rsa.enc -out ~\/.ssh/github_com_rsa -d
+- openssl aes-256-cbc -K $encrypted_b6a9c7fbd133_key -iv $encrypted_b6a9c7fbd133_iv
+  -in .travis/hexo_rsa.enc -out ~/.ssh/hexo_rsa -d
 - chmod 600 ~/.ssh/hexo_rsa
 - eval $(ssh-agent)
 - ssh-add ~/.ssh/hexo_rsa
 - cp .travis/ssh_config ~/.ssh/config
 - git config --global user.name "Jinlong Quan"
 - git config --global user.email "ovwane@gmail.com"
-
 install:
 - npm install hexo-cli -g
 - npm install hexo-deployer-git --save
@@ -30,11 +29,9 @@ install:
 - git clone https://github.com/ovwane/ovwane.github.io .deploy_git
 - cd .deploy_git && git checkout master
 - cd ..
-
 script:
 - hexo clean
 - hexo generate
 - hexo deploy
-
 after_success:
 - echo "OK!网站部署成功啦！"

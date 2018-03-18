@@ -73,6 +73,7 @@ git push origin hexo
 cd ~/projects/blog.ovwane.me
 mkdir .travis
 touch .travis.yml
+brew install travis
 travis login --auto
 travis encrypt-file ~/.ssh/hexo_rsa --add 
 mv hexo_rsa.enc .travis/
