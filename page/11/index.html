@@ -205,6 +205,60 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-浦发银行2万" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/04/浦发银行2万/" class="article-date">
+      <time datetime="2017-09-04T13:47:23.000Z" itemprop="datePublished">2017-09-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/04/浦发银行2万/">浦发银行2万</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-看到她穿的New-Balance，2015年的时候在广州也看看到过别的人穿过。" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -767,7 +821,7 @@
 <p>chmod a+x /usr/local/bin/kube*<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 验证安装</span><br></pre></td></tr></table></figure></p>
 <p>kubectl version</p>
 <p>[root@node01 ~]# kubectl version<br>Client Version: version.Info{Major:”1”, Minor:”7”, GitVersion:”v1.7.3”, GitCommit:”2c2fe6e8278a5db2d15a013987b53968c743f2a1”, GitTreeState:”clean”, BuildDate:”2017-08-03T07:00:21Z”, GoVersion:”go1.8.3”, Compiler:”gc”, Platform:”linux/amd64”}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 创建 admin 证书</span><br><span class="line">cd /root/ssl</span><br><span class="line"></span><br><span class="line">#### admin-csr.json</span><br></pre></td></tr></table></figure></p>
-<p>cat &gt;admin-csr.json&lt;<eof 2048="" {="" "cn":="" "admin",="" "hosts":="" [],="" "key":="" "algo":="" "rsa",="" "size":="" },="" "names":="" [="" "c":="" "cn",="" "st":="" "shenzhen",="" "l":="" "o":="" "system:masters",="" "ou":="" "system"="" }="" ]="" eof="" <figure="" class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 生成 admin 证书和私钥</span><br></pre></td></tr></table></eof></p>
+<p>cat &gt;admin-csr.json&lt;&lt;EOF<br>{<br>  “CN”: “admin”,<br>  “hosts”: [],<br>  “key”: {<br>    “algo”: “rsa”,<br>    “size”: 2048<br>  },<br>  “names”: [<br>    {<br>      “C”: “CN”,<br>      “ST”: “ShenZhen”,<br>      “L”: “ShenZhen”,<br>      “O”: “system:masters”,<br>      “OU”: “System”<br>    }<br>  ]<br>}<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 生成 admin 证书和私钥</span><br></pre></td></tr></table></figure></p>
 <p>cfssl gencert -ca=/etc/kubernetes/ssl/ca.pem \<br>  -ca-key=/etc/kubernetes/ssl/ca-key.pem \<br>  -config=/etc/kubernetes/ssl/config.json \<br>  -profile=kubernetes admin-csr.json |cfssljson -bare admin<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 查看生成</span><br></pre></td></tr></table></figure></p>
 <p>[root@node01 ssl]# ls admin*<br>admin.csr  admin-csr.json  admin-key.pem  admin.pem<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 分发</span><br></pre></td></tr></table></figure></p>
 <p>cp admin*.pem /etc/kubernetes/ssl/</p>
@@ -778,7 +832,7 @@
 <p>kubectl config set-context kubernetes \<br>  –cluster=kubernetes \<br>  –user=admin</p>
 <p>kubectl config use-context kubernetes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### kubectl config 文件</span><br></pre></td></tr></table></figure></p>
 <h1 id="kubeconfig-文件在-如下"><a href="#kubeconfig-文件在-如下" class="headerlink" title="kubeconfig 文件在 如下:"></a>kubeconfig 文件在 如下:</h1><p>/root/.kube<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 部署 Kubernetes Master 节点</span><br><span class="line">Master 需要部署 kube-apiserver , kube-scheduler , kube-controller-manager 这三个组件。</span><br><span class="line"></span><br><span class="line">#### 创建 kubernetes 证书</span><br></pre></td></tr></table></figure></p>
-<p>cat &gt;kubernetes-csr.json&lt;<eof 2048="" {="" "cn":="" "kubernetes",="" "hosts":="" [="" "127.0.0.1",="" "192.168.3.221",="" "192.168.3.222",="" "192.168.3.223",="" "10.254.0.1",="" "kubernetes.default",="" "kubernetes.default.svc",="" "kubernetes.default.svc.cluster",="" "kubernetes.default.svc.cluster.local"="" ],="" "key":="" "algo":="" "rsa",="" "size":="" },="" "names":="" "c":="" "cn",="" "st":="" "shenzhen",="" "l":="" "o":="" "k8s",="" "ou":="" "system"="" }="" ]="" eof="" <figure="" class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 生成 kubernetes 证书和私钥</span><br></pre></td></tr></table></eof></p>
+<p>cat &gt;kubernetes-csr.json&lt;&lt;EOF<br>{<br>  “CN”: “kubernetes”,<br>  “hosts”: [<br>    “127.0.0.1”,<br>    “192.168.3.221”,<br>    “192.168.3.222”,<br>    “192.168.3.223”,<br>    “10.254.0.1”,<br>    “kubernetes”,<br>    “kubernetes.default”,<br>    “kubernetes.default.svc”,<br>    “kubernetes.default.svc.cluster”,<br>    “kubernetes.default.svc.cluster.local”<br>  ],<br>  “key”: {<br>    “algo”: “rsa”,<br>    “size”: 2048<br>  },<br>  “names”: [<br>    {<br>      “C”: “CN”,<br>      “ST”: “ShenZhen”,<br>      “L”: “ShenZhen”,<br>      “O”: “k8s”,<br>      “OU”: “System”<br>    }<br>  ]<br>}<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 生成 kubernetes 证书和私钥</span><br></pre></td></tr></table></figure></p>
 <p>cfssl gencert -ca=/etc/kubernetes/ssl/ca.pem \<br>  -ca-key=/etc/kubernetes/ssl/ca-key.pem \<br>  -config=/etc/kubernetes/ssl/config.json \<br>  -profile=kubernetes kubernetes-csr.json |cfssljson -bare kubernetes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 查看生成</span><br></pre></td></tr></table></figure></p>
 <p>[root@node01 ssl]# ls kubernetes*<br>kubernetes.csr       kubernetes-key.pem<br>kubernetes-csr.json  kubernetes.pem<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 分发</span><br></pre></td></tr></table></figure></p>
 <p>cp -r kubernetes* /etc/kubernetes/ssl/</p>
@@ -850,63 +904,9 @@
 
 
   
-    <article id="post-5个月了，2017-03-16～2017-08-16" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/08/16/5个月了，2017-03-16～2017-08-16/" class="article-date">
-      <time datetime="2017-08-16T11:13:13.000Z" itemprop="datePublished">2017-08-16</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/16/5个月了，2017-03-16～2017-08-16/">5个月了，2017.03.16～2017.08.16</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/10/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/12/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/10/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/12/">Next &raquo;</a>
     </nav>
   
 </div>

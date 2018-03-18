@@ -205,11 +205,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-C语言学习-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS7 安装Python" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/01/17/C语言学习-笔记/" class="article-date">
-      <time datetime="2018-01-17T11:36:59.320Z" itemprop="datePublished">2018-01-17</time>
+      <a href="/2018/03/18/CentOS7 安装Python/" class="article-date">
+      <time datetime="2018-03-18T00:32:49.473Z" itemprop="datePublished">2018-03-18</time>
 </a>
     </div>
   
@@ -221,8 +221,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://blog.csdn.net/zhaoxz1985/article/details/72473045" target="_blank" rel="noopener">C语言基础及进阶教程(视频教程地址)</a></p>
-
+        <h2 id="安装Python"><a href="#安装Python" class="headerlink" title="安装Python"></a>安装Python</h2><h3 id="安装Python依赖"><a href="#安装Python依赖" class="headerlink" title="安装Python依赖"></a>安装Python依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># CentOS7</span><br><span class="line">yum install -y  gcc gcc-c++ make git patch openssl-devel zlib-devel readline-devel sqlite sqlite-devel bzip2-devel curl wget ncurses-devel sqlite-devel gdbm-devel xz-devel tk-devel</span><br></pre></td></tr></table></figure>
+<h3 id="安装pyenv"><a href="#安装pyenv" class="headerlink" title="安装pyenv"></a>安装<a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener">pyenv</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash</span><br></pre></td></tr></table></figure>
+<h4 id="配置bash-profile"><a href="#配置bash-profile" class="headerlink" title="配置bash_profile"></a>配置bash_profile</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 添加参数</span><br><span class="line">vim ~/.bash_profile</span><br><span class="line"></span><br><span class="line">export PATH=&quot;/root/.pyenv/bin:$PATH&quot;</span><br><span class="line">eval &quot;$(pyenv init -)&quot;</span><br><span class="line">eval &quot;$(pyenv virtualenv-init -)&quot;</span><br><span class="line"></span><br><span class="line"># 立即生效</span><br><span class="line">source ~/.bash_profile&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="设置pyenv下载源为本地目录"><a href="#设置pyenv下载源为本地目录" class="headerlink" title="设置pyenv下载源为本地目录"></a>设置pyenv下载源为本地目录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tar.xz</span><br><span class="line"></span><br><span class="line"># 新建存放Python-3.6.2.tar.xz的目录</span><br><span class="line">mkdir /root/python/ &amp;&amp; cd /root/python/</span><br><span class="line"></span><br><span class="line"># 设置变量</span><br><span class="line">export PYTHON_BUILD_CACHE_PATH=/root/python</span><br><span class="line"></span><br><span class="line"># 设置变量</span><br><span class="line">export PYTHON_BUILD_MIRROR_URL=/root/python</span><br><span class="line"></span><br><span class="line"># 查看变量设置</span><br><span class="line">env |grep PYTHON_BUILD_MIRROR_URL</span><br></pre></td></tr></table></figure>
+<h3 id="安装Python-1"><a href="#安装Python-1" class="headerlink" title="安装Python"></a>安装Python</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.2 -v</span><br><span class="line"></span><br><span class="line">pyenv global 3.6.2</span><br><span class="line"></span><br><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure>
+<hr>
+<p>因Supervisor现在不支持python3的版本需要安装Python 2.7.13</p>
+<p>pyenv install 2.7.13 -v<br><br>pyenv global 2.7.13<br><br>pyenv rehash</p>
+<hr>
+<h3 id="更改pypi源"><a href="#更改pypi源" class="headerlink" title="更改pypi源"></a>更改pypi源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
       
       
     </div>
@@ -252,8 +260,8 @@
     <article id="post-Bash快捷键" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/01/17/Bash快捷键/" class="article-date">
-      <time datetime="2018-01-17T11:36:59.320Z" itemprop="datePublished">2018-01-17</time>
+      <a href="/2018/03/18/Bash快捷键/" class="article-date">
+      <time datetime="2018-03-18T00:32:49.473Z" itemprop="datePublished">2018-03-18</time>
 </a>
     </div>
   
@@ -267,6 +275,8 @@
           
         <blockquote>
 <p>macOS 10.13.2<br>iTerm2 3.1.2<br>zsh 5.3 (x86_64-apple-darwin17.0)</p>
+</blockquote>
+<blockquote>
 <p>生活在 Bash shell 中，熟记以下快捷键，将极大的提高你的命令行操作效率。</p>
 </blockquote>
 <p font-color="red">macOS下 Alt 被替换为 Esc</p>
@@ -282,6 +292,52 @@
 <p>1.GNU文档：<a href="http://www.gnu.org/software/bash/manual/" target="_blank" rel="noopener">http://www.gnu.org/software/bash/manual/</a></p>
 <p>2.鸟哥的私房菜：<a href="http://linux.vbird.org/linux_basic/0320bash.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_basic/0320bash.php</a></p>
 <p>3.IBM的一些bash教程：<a href="http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?sort_by=&amp;show_abstract=true&amp;show_all=&amp;search_flag=&amp;contentarea_by=Linux&amp;search_by=bash&amp;topic_by=-1&amp;type_by=%E6%89%80%E6%9C%89%E7%B1%BB%E5%88%AB&amp;ibm-search=%E6%90%9C%E7%B4%A2" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?sort_by=&amp;show_abstract=true&amp;show_all=&amp;search_flag=&amp;contentarea_by=Linux&amp;search_by=bash&amp;topic_by=-1&amp;type_by=%E6%89%80%E6%9C%89%E7%B1%BB%E5%88%AB&amp;ibm-search=%E6%90%9C%E7%B4%A2</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Cisco:H3C交换机配置与管理完全手册" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/18/Cisco:H3C交换机配置与管理完全手册/" class="article-date">
+      <time datetime="2018-03-18T00:32:49.473Z" itemprop="datePublished">2018-03-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://blog.51cto.com/winda" target="_blank" rel="noopener">王达 51cto</a><br><a href="http://blog.csdn.net/lycb_gz" target="_blank" rel="noopener">王达 csdn</a><br><a href="http://blog.chinaunix.net/uid/10659021.html" target="_blank" rel="noopener">王达 chinaunix</a></p>
+<p>思科交换机操作系统IOS和CatOS<br>看三遍<br>第一遍粗看，不进行实际操练。第二遍细看，要求跟着书在实际设备或者模拟器上练习。第三遍粗看，主要是看那些前两遍中没有理解或者没有掌握的内容，以及重点理论、重要功能配置与管理方法。</p>
+<p>Catalyst 6500 4900系列</p>
 
       
       
@@ -732,72 +788,9 @@
 
 
   
-    <article id="post-2017年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/2017年终总结之败家/" class="article-date">
-      <time datetime="2017-12-29T08:31:31.000Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2017年终总结之败家/">2017年终总结之败家</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Apple MacBook Pro 15<br>Sony Xperia XZ1</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
     </nav>
   
 </div>
