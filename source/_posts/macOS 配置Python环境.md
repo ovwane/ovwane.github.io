@@ -20,6 +20,9 @@ brew install pyenv
 [ERROR: The Python ssl extension was not compiled. Missing the OpenSSL lib?](https://github.com/pyenv/pyenv/wiki/Common-build-problems)
 
 ```
+# 设置变量
+export PYTHON_BUILD_CACHE_PATH=/root/python
+# 安装 Python 3.6.3
 CFLAGS="-I$(brew --prefix openssl)/include" \
 LDFLAGS="-L$(brew --prefix openssl)/lib" \
 pyenv install -v 3.6.3

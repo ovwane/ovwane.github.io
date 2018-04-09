@@ -29,6 +29,15 @@ Preferences->Editor->Code Style->Python->Use tab character 取消勾选
 - 调整字母长度分割线
 Preferences->Editor->Code Style->Right margin（columns) 设置为80
 
+- 文件模板
+Preferences->Editor->File and Code Templates
+
+```py
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+__author__ = 'ovwane'
+__date__ = '$DATE $HOUR:$MINUTE'
+```
 
 [Pycharm安装、设置、优化](https://www.cnblogs.com/hester/p/5466579.html)
 
