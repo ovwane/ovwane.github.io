@@ -205,11 +205,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Python爬虫面试题" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-distribute_crawler项目实战" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/18/Python爬虫面试题/" class="article-date">
-      <time datetime="2018-03-18T00:32:49.481Z" itemprop="datePublished">2018-03-18</time>
+      <a href="/2018/04/09/distribute_crawler项目实战/" class="article-date">
+      <time datetime="2018-04-09T05:47:52.489Z" itemprop="datePublished">2018-04-09</time>
 </a>
     </div>
   
@@ -221,14 +221,62 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Python面试题</p>
-<p><a href="http://blog.csdn.net/u014745194/article/details/78835270" target="_blank" rel="noopener">python面试题系列之一</a></p>
-<p><a href="http://www.jianshu.com/p/be60981eed2b" target="_blank" rel="noopener">python爬虫(一)_爬虫原理和数据抓取</a></p>
-<p><a href="http://blog.csdn.net/u014745194/article/details/75258491" target="_blank" rel="noopener">Python爬虫简述系列之一</a></p>
-<p><a href="http://blog.csdn.net/qq_36143300/article/details/54928389" target="_blank" rel="noopener">数据科学工程师面试宝典系列之一–Python爬虫实战</a></p>
-<p>数据分析简历<br><a href="https://erlemar.github.io/" target="_blank" rel="noopener">Data science portfolio by Andrey Lukyanenko</a></p>
-<p><a href="https://github.com/rushter/data-science-blogs" target="_blank" rel="noopener">rushter/data-science-blogs</a></p>
-<p><a href="http://www.jianshu.com/p/97e10182c38a" target="_blank" rel="noopener">数据科学家的成长之路[译]</a></p>
+        <p><a href="http://blog.csdn.net/u011008734/article/details/47259197" target="_blank" rel="noopener">distribute_crawler项目实战</a><br><a href="https://github.com/aware-why/distribute_crawler" target="_blank" rel="noopener">distribute_crawler</a></p>
+<p>Python编译依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y zlib1g-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev</span><br></pre></td></tr></table></figure>
+<p>配置 pyenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br><span class="line"></span><br><span class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line">echo -e &apos;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&apos; &gt;&gt; ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.3</span><br><span class="line">pyenv global 3.6.3</span><br></pre></td></tr></table></figure>
+<p>更改pypi源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd project</span><br><span class="line">pipenv install </span><br><span class="line">pip install scrapy redis pymongo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y redis-server</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6</span><br><span class="line"></span><br><span class="line">echo &quot;deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse&quot; | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list</span><br><span class="line"></span><br><span class="line">apt-get update</span><br><span class="line"></span><br><span class="line">apt-get install -y mongodb-org</span><br><span class="line"></span><br><span class="line">systemctl enable mongod</span><br><span class="line"></span><br><span class="line">systemctl start mongod</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y apache2 libapache2-mod-wsgi \</span><br><span class="line">python-twisted python-cairo python-django-tagging</span><br><span class="line"></span><br><span class="line">pip install Django==1.5.2 tagging carbon whisper graphite-web parse_lookup</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-crawl_spider 环境配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/09/crawl_spider 环境配置/" class="article-date">
+      <time datetime="2018-04-09T05:47:52.489Z" itemprop="datePublished">2018-04-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><code>mkvirtualenv crawl_spider --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</code></p>
 
       
       
@@ -256,11 +304,11 @@
 
 
   
-    <article id="post-Python开发者" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-awk命令总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/18/Python开发者/" class="article-date">
-      <time datetime="2018-03-18T00:32:49.481Z" itemprop="datePublished">2018-03-18</time>
+      <a href="/2018/04/09/awk命令总结/" class="article-date">
+      <time datetime="2018-04-09T05:47:52.489Z" itemprop="datePublished">2018-04-09</time>
 </a>
     </div>
   
@@ -272,22 +320,57 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>优秀Python开发者</p>
-<p>Flask和Requests的作者<br>Celery作者Ask Solem<br>Django<br>kombu</p>
-<p>爬虫<br>刚开始写爬虫用的是urllib2，后来知道了requests，惊为天人。刚开始解析网页用的是re，后来知道了BeautifulSoup，解析页面不能再轻松。再后来看别人的爬虫，知道了scrapy，被这个框架惊艳到了。之后遇到了一些有验证码的网站，于是知道了PIL。但后来知道了opencv，pybrain。当在爬虫中用上人工神经网络识别出验证码，兴奋得守在爬虫旁边看他爬完全站。再后来知道了threading，知道了celery。不断的学习，不断的接触和知道更多的东西，爬虫与反爬虫的对抗会一直进行下去。</p>
-<p>作者：bsdr<br>链接：<a href="https://www.zhihu.com/question/38192299/answer/75884957" target="_blank" rel="noopener">https://www.zhihu.com/question/38192299/answer/75884957</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-<p>requests<br>BeautifulSoup<br>opencv<br>pybrain<br>threading<br>celery</p>
-<p>scrapy<br>selenium<br>phantomjs</p>
-<p>python学习手册 第四版</p>
-<p>python核心编程 第二版</p>
-<p>开始不用学，进阶学习<br>ORM<br>ElasticSearch</p>
-<p>不用存储，爬去数据发送邮件</p>
-<p>抓去顺序</p>
-<p>开放的API<br>手机APP的API<br>Android的API实现抓取知乎的数据<br>HTML</p>
-<p>抓包工具<br>Charles</p>
-<p>lxml<br>xpath</p>
-<p>前端知识</p>
-<p>运维-&gt;运维开发-&gt;Web开发-&gt;数据分析-&gt;需要数据写爬虫</p>
+        <p>-F 字段分隔符<br><code>awk -F&quot;:&quot; &#39;{print $0}&#39; /etc/passwd</code></p>
+<p>$0 整行<br>$1 以“：”冒号分割的第一列<br>$2 以“：”冒号分割的第二列</p>
+<p>NF==7 字段数量<br>NR==2 纪录数量</p>
+<p>用 awk 中查看服务器连接状态并汇总</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -an|awk <span class="string">'/^tcp/&#123;++s[$NF]&#125;END&#123;for(a in s)print a,s[a]&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>统计 web 日志访问流量，要求输出访问次数，请求页面或图片，每个请求的总大小， 总访问流量的大小汇总</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;a[$7]+=$10;++b[$7];total+=$10&#125;END&#123;for(x in a)print b[x],x,a[x]|"sort -rn -k1";print "total size is :"total&#125;'</span> /app/<span class="built_in">log</span>/access_log</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ai_ml" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/09/ai_ml/" class="article-date">
+      <time datetime="2018-04-09T05:47:52.489Z" itemprop="datePublished">2018-04-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>AI，ML，</p>
+<p><a href="https://github.com/wizardforcel" target="_blank" rel="noopener">Wizard Zhang</a></p>
 
       
       
@@ -315,11 +398,11 @@
 
 
   
-    <article id="post-Python学习-老男孩系的学生们的博客" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-acme.sh" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/18/Python学习-老男孩系的学生们的博客/" class="article-date">
-      <time datetime="2018-03-18T00:32:49.481Z" itemprop="datePublished">2018-03-18</time>
+      <a href="/2018/04/09/acme.sh/" class="article-date">
+      <time datetime="2018-04-09T05:47:52.489Z" itemprop="datePublished">2018-04-09</time>
 </a>
     </div>
   
@@ -331,8 +414,70 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://www.cnblogs.com/yangjian1/p/5917621.html" target="_blank" rel="noopener">python基础之初始python</a></p>
-<p><a href="http://www.cnblogs.com/allen-zhang/p/6114864.html" target="_blank" rel="noopener">Python之路,Day1 - Python基础1</a></p>
+        <p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acme.sh</a><br><a href="https://github.com/Neilpang/acme.sh/wiki/dns-manual-mode" target="_blank" rel="noopener">DNS manual mode</a></p>
+<p> yum -y install openssl </p>
+<p> curl <a href="https://get.acme.sh" target="_blank" rel="noopener">https://get.acme.sh</a> | sh</p>
+<p> ./acme.sh –issue -d quanjinlong.cn –dns \<br> –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
+<p>./acme.sh –renew -d quanjinlong.cn \<br>  –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
+<p>copy/安装 证书<br>mkdir -p /data/www/ssl</p>
+<p>./acme.sh –install-cert -d quanjinlong.cn \<br>–key-file       /data/www/ssl/quanjinlong.cn.key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn.cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
+<p>“/root/.acme.sh”/acme.sh –issue –dns dns_cx -d quanjinlong.cn -k ec-256</p>
+<p>./acme.sh –install-cert -d quanjinlong.cn_ecc \<br>–key-file       /data/www/ssl/quanjinlong.cn/ecc_key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn/ecc_cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
+<h2 id="log"><a href="#log" class="headerlink" title="log"></a>log</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">  [root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --issue -d quanjinlong.cn --dns \</span></span><br><span class="line">&gt;  --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:29:42 CST 2018] Registering account</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Registered</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] ACCOUNT_THUMBPRINT=<span class="string">'kiwEXzVZgNIaJAK8Nhfc82QAu8MUgz5hkXiSc-1dNIw'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Creating domain key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] The domain key is here: /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting webroot <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting new-authz <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] The new-authz request is ok.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Add the following TXT record:</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Domain: <span class="string">'_acme-challenge.quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] TXT value: <span class="string">'n1_OFICy66s8pQT9_Y_B6_CPtVggPaBQgILNOMx_Nfw'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please be aware that you prepend _acme-challenge. before your domain</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] so the resulting subdomain will be: _acme-challenge.quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add the TXT records to the domains, and re-run with --renew.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add <span class="string">'--debug'</span> or <span class="string">'--log'</span> to check more details.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] See: https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh</span><br><span class="line">[root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --renew -d quanjinlong.cn \</span></span><br><span class="line">&gt;   --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:35:45 CST 2018] Renew: <span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Verifying:quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:35:55 CST 2018] Pending</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Success</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Verify finished, start to sign.</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Cert success.</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIGBzCCBO+gAwIBAgISAyvAMFcP9Xllga0gd+ZYlZpdMA0GCSqGSIb3DQEBCwUA</span><br><span class="line">MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD</span><br><span class="line">ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xODA0MDUwMDM2MDFaFw0x</span><br><span class="line">ODA3MDQwMDM2MDFaMBkxFzAVBgNVBAMTDnF1YW5qaW5sb25nLmNuMIIBIjANBgkq</span><br><span class="line">hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo91hTopV6JCu8tdfgPka43fkDYIIYu1r</span><br><span class="line">gFVbQcvU01sAVd7XkXUknzpnZCKnCEAfQCrAKyJvqHh/fqtpxkFd6K4XuGH9xJXf</span><br><span class="line">PBd1PZ02NhrCVPpiKTDLsaBqn/IYBS0YzvwUSYNl5bbUjgozCRrAZDFsTzFe0lnM</span><br><span class="line">CM55PyYkBPePWFiWEXXWyUvbjsBerMOa4gQrQl7HNHHLBZ7w0AJwTafz3iDEgrRg</span><br><span class="line">u04NzVehre3FWwfOLcOe396NpH300N6EuGl2bo2cRldgek81CyM0A1JDl5hmFlAh</span><br><span class="line">MlBgt/87PNGtv7ZpTq+/i+t/BfslVgavWbJ+fy7B4a3cBEBYWGbQEwIDAQABo4ID</span><br><span class="line">FjCCAxIwDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEF</span><br><span class="line">BQcDAjAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSiboptH4fpTKM/ozBKc91kBDxB</span><br><span class="line">oDAfBgNVHSMEGDAWgBSoSmpjBH3duubRObemRWXv86jsoTBvBggrBgEFBQcBAQRj</span><br><span class="line">MGEwLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwLmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcwLwYIKwYBBQUHMAKGI2h0dHA6Ly9jZXJ0LmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcvMBkGA1UdEQQSMBCCDnF1YW5qaW5sb25nLmNuMIH+BgNVHSAEgfYwgfMwCAYG</span><br><span class="line">Z4EMAQIBMIHmBgsrBgEEAYLfEwEBATCB1jAmBggrBgEFBQcCARYaaHR0cDovL2Nw</span><br><span class="line">cy5sZXRzZW5jcnlwdC5vcmcwgasGCCsGAQUFBwICMIGeDIGbVGhpcyBDZXJ0aWZp</span><br><span class="line">Y2F0ZSBtYXkgb25seSBiZSByZWxpZWQgdXBvbiBieSBSZWx5aW5nIFBhcnRpZXMg</span><br><span class="line">YW5kIG9ubHkgaW4gYWNjb3JkYW5jZSB3aXRoIHRoZSBDZXJ0aWZpY2F0ZSBQb2xp</span><br><span class="line">Y3kgZm91bmQgYXQgaHR0cHM6Ly9sZXRzZW5jcnlwdC5vcmcvcmVwb3NpdG9yeS8w</span><br><span class="line">ggEEBgorBgEEAdZ5AgQCBIH1BIHyAPAAdgApPFGWVMg5ZbqqUPxYB9S3b79Yeily</span><br><span class="line">3KTDDPTlRUf0eAAAAWKTckIrAAAEAwBHMEUCIQDAxllHOVE/fIfd/1q61yIQb7K3</span><br><span class="line">h+KvMJQm4ob+UjPqVgIgW3OtuN2FVCppgJhV1lKoQHSjgI9neRBGfwbpWyKmNAYA</span><br><span class="line">dgBVgdTCFpA2AUrqC5tXPFPwwOQ4eHAlCBcvo6odBxPTDAAAAWKTckNSAAAEAwBH</span><br><span class="line">MEUCIQDDhoKDEShosj+OYHWp04ZRGb2GBeknEvvQ6RpW/fB9LQIgI8bdN5X17KoH</span><br><span class="line">HEsNhBGAVwPrP3TqcAQ7rYKsz38WWsUwDQYJKoZIhvcNAQELBQADggEBAJCm+iuD</span><br><span class="line">g6CHchyNEPXfooa0zntBgzNKlwjTwSLzMJxKmFD1GBXkZGLZwRtRtu14SRw67dQG</span><br><span class="line">dBUwoxsSRae/F9eHiQLJrqY7p4s79zU/0aHD8NAnGm9nERXPL2ehjnKPx0lgAQc5</span><br><span class="line">8qORHJaRXPaOUGu+XpWBbXnOihq12Uhq4Bx5fIoR+4Kd4+oIET7nv00eeBPMJmiX</span><br><span class="line">83xOxIKRvEAJqWj0W6DOymvkc1NaGp2LCMRRfHNbd2p+l2xLtbewjnhzf/V3XXGv</span><br><span class="line">l9ZdDtEUPH4meQQY4xrAEgu9rTTLOpMmLSSPdNQFN8wJqJqPVHfcxMbPOqusQgGo</span><br><span class="line">I4qVG2BqLb9t3FQ=</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.cer</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert key is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] The intermediate CA cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/ca.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] And the full chain certs is there:  /root/.acme.sh/quanjinlong.cn/fullchain.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] It seems that you are using dns manual mode. please take care: The dns manual mode can not renew automatically, you must issue it again manually. You<span class="string">'d better use the other modes instead.</span></span><br><span class="line"><span class="string">[Thu Apr  5 09:36:03 CST 2018] Call hook error.</span></span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Vim安装配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/09/Vim安装配置/" class="article-date">
+      <time datetime="2018-04-09T05:47:52.489Z" itemprop="datePublished">2018-04-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Vim安装配置"><a href="#Vim安装配置" class="headerlink" title="Vim安装配置"></a>Vim安装配置</h1><p><a href="http://www.jianshu.com/p/a0b452f8f720" target="_blank" rel="noopener">Vim配置、插件和使用技巧</a></p>
+<h2 id="安装-Vim"><a href="#安装-Vim" class="headerlink" title="安装 Vim"></a>安装 <a href="http://www.vim.org/" target="_blank" rel="noopener">Vim</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y vim-common vim-enhanced vim-minimal vim-filesystem</span><br></pre></td></tr></table></figure>
+<h2 id="配置插件管理器-Vundle"><a href="#配置插件管理器-Vundle" class="headerlink" title="配置插件管理器 Vundle"></a>配置插件管理器 <a href="https://github.com/VundleVim/Vundle.vim" target="_blank" rel="noopener">Vundle</a></h2><h3 id="安装Vundle"><a href="#安装Vundle" class="headerlink" title="安装Vundle"></a>安装Vundle</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</span><br></pre></td></tr></table></figure>
+<p><a href="http://zuyunfei.com/2013/04/12/killer-plugin-of-vim-vundle/" target="_blank" rel="noopener">vim中的杀手级插件: vundle</a></p>
+<h3 id="配置-vimrc"><a href="#配置-vimrc" class="headerlink" title="配置 ~/.vimrc"></a>配置 ~/.vimrc</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; ~/.vimrc &lt;&lt; EOF</span><br><span class="line"><span class="built_in">set</span> nocompatible              <span class="string">" be iMproved, required</span></span><br><span class="line"><span class="string">filetype off                  "</span> required</span><br><span class="line"></span><br><span class="line"><span class="string">" set the runtime path to include Vundle and initialize</span></span><br><span class="line"><span class="string">set rtp+=~/.vim/bundle/Vundle.vim</span></span><br><span class="line"><span class="string">call vundle#begin()</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> <span class="built_in">let</span> Vundle manage Vundle, required</span><br><span class="line">Plugin <span class="string">'VundleVim/Vundle.vim'</span></span><br><span class="line"></span><br><span class="line"><span class="string">" Color schemes</span></span><br><span class="line"><span class="string">Plugin 'tomasr/molokai'</span></span><br><span class="line"><span class="string">Plugin 'altercation/vim-colors-solarized'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> Status Color schemes</span><br><span class="line">Plugin <span class="string">'vim-airline/vim-airline'</span></span><br><span class="line">Plugin <span class="string">'vim-airline/vim-airline-themes'</span></span><br><span class="line"></span><br><span class="line"><span class="string">" plugin on GitHub repo</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'tpope/vim-fugitive'</span></span><br><span class="line"><span class="string">" plugin from http://vim-scripts.org/vim/scripts.html</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'L9'</span></span><br><span class="line"><span class="string">" Git plugin not hosted on GitHub</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'git://git.wincent.com/command-t.git'</span></span><br><span class="line"><span class="string">" git repos on your local machine (i.e. when working on your own plugin)</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'file:///home/gmarik/path/to/plugin'</span></span><br><span class="line"><span class="string">" The sparkup vim script is in a subdirectory of this repo called vim.</span></span><br><span class="line"><span class="string">"</span> Pass the path to <span class="built_in">set</span> the runtimepath properly.</span><br><span class="line"><span class="string">" Plugin 'rstacruz/sparkup', &#123;'rtp': 'vim/'&#125;</span></span><br><span class="line"><span class="string">"</span> Install L9 and avoid a Naming conflict <span class="keyword">if</span> you<span class="string">'ve already installed a</span></span><br><span class="line"><span class="string">" different version somewhere else.</span></span><br><span class="line"><span class="string">" Plugin '</span>ascenator/L9<span class="string">', &#123;'</span>name<span class="string">': '</span>newL9<span class="string">'&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">" All of your Plugins must be added before the following line</span></span><br><span class="line"><span class="string">call vundle#end()            " required</span></span><br><span class="line"><span class="string">filetype plugin indent on    " required</span></span><br><span class="line"><span class="string">" To ignore plugin indent changes, instead use:</span></span><br><span class="line"><span class="string">"filetype plugin on</span></span><br><span class="line"><span class="string">" Put your non-Plugin stuff after this line</span></span><br><span class="line"><span class="string">" solarized start</span></span><br><span class="line"><span class="string">"let g:solarized_termcolors=256</span></span><br><span class="line"><span class="string">"let g:solarized_termtrans=1</span></span><br><span class="line"><span class="string">"let g:solarized_contrast="normal"</span></span><br><span class="line"><span class="string">"let g:solarized_visibility="normal"</span></span><br><span class="line"><span class="string">"syntax enable</span></span><br><span class="line"><span class="string">"set background=dark</span></span><br><span class="line"><span class="string">"colorscheme solarized</span></span><br><span class="line"><span class="string">" solarized end</span></span><br><span class="line"><span class="string">" molokai start</span></span><br><span class="line"><span class="string">let g:molokai_original = 1</span></span><br><span class="line"><span class="string">let g:rehash256 = 1</span></span><br><span class="line"><span class="string">colorscheme molokai</span></span><br><span class="line"><span class="string">" molokai end</span></span><br><span class="line"><span class="string">" Airline theme start</span></span><br><span class="line"><span class="string">let g:airline_theme='</span>molokai<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_powerline_fonts = 1</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#enabled = 1</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#buffer_nr_show = 1</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#left_sep = '</span> <span class="string">'</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#left_alt_sep = '</span>|<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline#extensions#whitespace#enabled = 0</span></span><br><span class="line"><span class="string">let g:airline#extensions#whitespace#symbol = '</span>!<span class="string">'</span></span><br><span class="line"><span class="string">if !exists('</span>g:airline_symbols<span class="string">')</span></span><br><span class="line"><span class="string">  let g:airline_symbols = &#123;&#125;</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">" unicode symbols</span></span><br><span class="line"><span class="string">let g:airline_left_sep = '</span>»<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_left_sep = '</span>▶<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_right_sep = '</span>«<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_right_sep = '</span>◀<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.crypt = '</span>🔒<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>☰<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>␊<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>␤<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>¶<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.maxlinenr = '</span><span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.maxlinenr = '</span>㏑<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.branch = '</span>⎇<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.paste = '</span>ρ<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.paste = '</span>Þ<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.paste = '</span>∥<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.spell = '</span>Ꞩ<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.notexists = '</span>∄<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.whitespace = '</span>Ξ<span class="string">'</span></span><br><span class="line"><span class="string">" Airline theme end</span></span><br><span class="line"><span class="string">"</span></span><br><span class="line"><span class="string">set laststatus=2</span></span><br><span class="line"><span class="string">set t_Co=256</span></span><br><span class="line"><span class="string">set encoding=utf-8</span></span><br><span class="line"><span class="string">set syntax enable</span></span><br><span class="line"><span class="string">set syntax on</span></span><br><span class="line"><span class="string">set number</span></span><br><span class="line"><span class="string">"</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim +PluginInstall +qall</span><br></pre></td></tr></table></figure>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot; Brief help</span><br><span class="line">&quot; :PluginList       - lists configured plugins</span><br><span class="line">&quot; :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate</span><br><span class="line">&quot; :PluginSearch foo - searches for foo; append `!` to refresh local cache</span><br><span class="line">&quot; :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal</span><br><span class="line">&quot; see :h vundle for more details or wiki for FAQ</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#安装插件 Install Plugins:</span><br><span class="line"></span><br><span class="line">Launch vim and run :PluginInstall</span><br></pre></td></tr></table></figure>
+<h2 id="Vim插件"><a href="#Vim插件" class="headerlink" title="Vim插件"></a>Vim插件</h2><h3 id="pathogen类似于Vundle"><a href="#pathogen类似于Vundle" class="headerlink" title="pathogen类似于Vundle"></a><a href="https://github.com/tpope/vim-pathogen" target="_blank" rel="noopener">pathogen</a>类似于Vundle</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.vim/autoload ~/.vim/bundle &amp;&amp; \</span><br><span class="line">curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi .vimrc</span><br><span class="line"></span><br><span class="line">execute pathogen#infect()</span><br><span class="line">syntax on</span><br><span class="line">filetype plugin indent on</span><br></pre></td></tr></table></figure>
+<h3 id="vim-airline"><a href="#vim-airline" class="headerlink" title="vim-airline"></a><a href="https://github.com/vim-airline/vim-airline" target="_blank" rel="noopener">vim-airline</a></h3><h3 id="vim-airline-themes"><a href="#vim-airline-themes" class="headerlink" title="vim-airline-themes"></a><a href="https://github.com/vim-airline/vim-airline-themes" target="_blank" rel="noopener">vim-airline-themes</a></h3><h2 id="Vim主题"><a href="#Vim主题" class="headerlink" title="Vim主题"></a>Vim主题</h2><h3 id="Solarized"><a href="#Solarized" class="headerlink" title="Solarized"></a><a href="http://ethanschoonover.com/solarized" target="_blank" rel="noopener">Solarized</a></h3><p><a href="https://github.com/altercation/vim-colors-solarized" target="_blank" rel="noopener">Solarized Colorscheme for Vim</a></p>
+<h3 id="Molokai"><a href="#Molokai" class="headerlink" title="Molokai"></a>Molokai</h3><p><a href="https://github.com/tomasr/molokai" target="_blank" rel="noopener">Molokai Color Scheme for Vim</a></p>
 
       
       
@@ -360,11 +505,11 @@
 
 
   
-    <article id="post-Python分布式爬虫打造搜索引擎-bobby-慕课网-运行环境" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-VMWare Fusion 8 设置固定IP" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/18/Python分布式爬虫打造搜索引擎-bobby-慕课网-运行环境/" class="article-date">
-      <time datetime="2018-03-18T00:32:49.481Z" itemprop="datePublished">2018-03-18</time>
+      <a href="/2018/04/09/VMWare Fusion 8 设置固定IP/" class="article-date">
+      <time datetime="2018-04-09T05:47:52.489Z" itemprop="datePublished">2018-04-09</time>
 </a>
     </div>
   
@@ -376,12 +521,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Python分布式爬虫打造搜索引擎-bobby-慕课网</p>
-<p>ArticleSpider运行环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=</span><br></pre></td></tr></table></figure>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy redis pillow mysqlclient elasticsearch_dsl</span><br></pre></td></tr></table></figure>
-<pre><code>import MySQLdb
-</code></pre><p>ModuleNotFoundError: No module named ‘MySQLdb’</p>
+        <p>/Library/Preferences/VMware\ Fusion/networking</p>
+<p>answer VNET_1_HOSTONLY_NETMASK 255.255.255.0<br>answer VNET_1_HOSTONLY_SUBNET 192.168.2.0<br>answer VNET_8_HOSTONLY_NETMASK 255.255.255.0<br>answer VNET_8_HOSTONLY_SUBNET 192.168.5.0</p>
+<p><a href="http://www.up4dev.com/2016/10/15/vmware-fusion-static-ip/" target="_blank" rel="noopener">给VMWare Fusion设置固定IP</a></p>
 
       
       
@@ -409,11 +551,11 @@
 
 
   
-    <article id="post-Python分布式爬虫打造搜索引擎 学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Tomcat问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/18/Python分布式爬虫打造搜索引擎 学习笔记/" class="article-date">
-      <time datetime="2018-03-18T00:32:49.481Z" itemprop="datePublished">2018-03-18</time>
+      <a href="/2018/04/09/Tomcat问题/" class="article-date">
+      <time datetime="2018-04-09T05:47:52.489Z" itemprop="datePublished">2018-04-09</time>
 </a>
     </div>
   
@@ -425,50 +567,61 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Python分布式爬虫打造搜索引擎"><a href="#Python分布式爬虫打造搜索引擎" class="headerlink" title="Python分布式爬虫打造搜索引擎"></a><a href="http://coding.imooc.com/class/92.html" target="_blank" rel="noopener">Python分布式爬虫打造搜索引擎</a></h1><h2 id="第1章-课程介绍"><a href="#第1章-课程介绍" class="headerlink" title="第1章 课程介绍"></a>第1章 课程介绍</h2><h4 id="介绍课程目标、通过课程能学习到的内容、和系统开发前需要具备的知识"><a href="#介绍课程目标、通过课程能学习到的内容、和系统开发前需要具备的知识" class="headerlink" title="介绍课程目标、通过课程能学习到的内容、和系统开发前需要具备的知识"></a>介绍课程目标、通过课程能学习到的内容、和系统开发前需要具备的知识</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Scrapy </span><br><span class="line">elasticsearch</span><br><span class="line">django</span><br></pre></td></tr></table></figure>
-<h2 id="第2章-windows下搭建开发环境"><a href="#第2章-windows下搭建开发环境" class="headerlink" title="第2章 windows下搭建开发环境"></a>第2章 windows下搭建开发环境</h2><h4 id="介绍项目开发需要安装的开发软件、-python虚拟virtualenv和-virtualenvwrapper的安装和使用、-最后介绍pycharm和navicat的简单使用"><a href="#介绍项目开发需要安装的开发软件、-python虚拟virtualenv和-virtualenvwrapper的安装和使用、-最后介绍pycharm和navicat的简单使用" class="headerlink" title="介绍项目开发需要安装的开发软件、 python虚拟virtualenv和 virtualenvwrapper的安装和使用、 最后介绍pycharm和navicat的简单使用"></a>介绍项目开发需要安装的开发软件、 python虚拟virtualenv和 virtualenvwrapper的安装和使用、 最后介绍pycharm和navicat的简单使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PyCharm安装和配置</span><br><span class="line">MySQL和Navicat的安装使用</span><br><span class="line">CentOS安装Python2和Python3</span><br><span class="line">Python虚拟环境的安装配置virtualenv、virtualenvwrapper</span><br></pre></td></tr></table></figure>
-<h2 id="第3章-爬虫基础知识回顾"><a href="#第3章-爬虫基础知识回顾" class="headerlink" title="第3章 爬虫基础知识回顾"></a>第3章 爬虫基础知识回顾</h2><h4 id="介绍爬虫开发中需要用到的基础知识包括爬虫能做什么，正则表达式，深度优先和广度优先的算法及实现、爬虫url去重的策略、彻底弄清楚unicode和utf8编码的区别和应用。"><a href="#介绍爬虫开发中需要用到的基础知识包括爬虫能做什么，正则表达式，深度优先和广度优先的算法及实现、爬虫url去重的策略、彻底弄清楚unicode和utf8编码的区别和应用。" class="headerlink" title="介绍爬虫开发中需要用到的基础知识包括爬虫能做什么，正则表达式，深度优先和广度优先的算法及实现、爬虫url去重的策略、彻底弄清楚unicode和utf8编码的区别和应用。"></a>介绍爬虫开发中需要用到的基础知识包括爬虫能做什么，正则表达式，深度优先和广度优先的算法及实现、爬虫url去重的策略、彻底弄清楚unicode和utf8编码的区别和应用。</h4><h5 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scrapy vs requests+beautifulsoup</span><br><span class="line">1.requests和beautifulsoup都是库，scrapy是框架</span><br><span class="line">2.scrapy框架中可以加入requests和beautifulsoup</span><br><span class="line">3.scarpy基于twisted，性能是最大的优势</span><br><span class="line">4.scarpy方便扩展，提供了很多内置的功能</span><br><span class="line">5.scrapy内置的css和xpath selector非常方便，beautifulsoup最大的缺点就是慢</span><br></pre></td></tr></table></figure>
-<h5 id="网页分类"><a href="#网页分类" class="headerlink" title="网页分类"></a>网页分类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">常见类型的服务</span><br><span class="line">1.静态网页</span><br><span class="line">2.动态网页</span><br><span class="line">3.webservice(restapi)</span><br></pre></td></tr></table></figure>
-<h5 id="爬虫能做什么"><a href="#爬虫能做什么" class="headerlink" title="爬虫能做什么"></a>爬虫能做什么</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">爬虫作用</span><br><span class="line">1.搜索引擎---百度、google、垂直领域搜索引擎</span><br><span class="line">2.推荐引擎---今日头条</span><br><span class="line">3.机器学习的数据样本</span><br><span class="line">4.数据分析（如金融数据分析）、舆情分析等</span><br></pre></td></tr></table></figure>
-<h4 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">目录</span><br><span class="line">1.特殊字符</span><br><span class="line">1)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 待匹配字符串</span></span><br><span class="line">line = <span class="string">'ssfder'</span></span><br><span class="line"><span class="comment"># 匹配规则</span></span><br><span class="line">regex_str = <span class="string">"^b.*"</span></span><br><span class="line"><span class="comment"># 匹配字符</span></span><br><span class="line"><span class="keyword">if</span> re.match(regex_str, line):</span><br><span class="line">	print(<span class="string">"yes"</span>)</span><br></pre></td></tr></table></figure>
-<h4 id="字符串编码"><a href="#字符串编码" class="headerlink" title="字符串编码"></a>字符串编码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.ASCII</span><br><span class="line">2.Unicode</span><br><span class="line">3.可变长编码 utf-8</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">文件：test.txt utf-8编码---&gt;(read)读取：转换为unicode编码---&gt;(read)内存中 Unicode编码---&gt;(save)保存：转换为utf-8编码</span><br></pre></td></tr></table></figure>
-<h4 id="爬虫去重策略"><a href="#爬虫去重策略" class="headerlink" title="爬虫去重策略"></a>爬虫去重策略</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.将访问过的url保存到数据库中</span><br><span class="line">2.将访问过的url保存到set中，只需要o(1)的代价就可以查询url 100000000*2byte*50个字符/1024/1024/1024 = 9GB </span><br><span class="line">3.url经过md5等方法哈希后保存到set中</span><br><span class="line">4.用bitmap方法，将访问过的url通过hash函数映射到某一位</span><br><span class="line">5.bloomfilter方法对bitmap进行改进，多重hash函数降低冲突</span><br></pre></td></tr></table></figure>
-<h4 id="深度优先和广度优先"><a href="#深度优先和广度优先" class="headerlink" title="深度优先和广度优先"></a>深度优先和广度优先</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">目录</span><br><span class="line">1.网站的树结构</span><br><span class="line">2.深度优先算法和实现</span><br><span class="line">递归实现</span><br><span class="line">3.广度优先算法和实现</span><br><span class="line">队列实现</span><br></pre></td></tr></table></figure>
-<h2 id="第4章-scrapy爬取知名技术文章网站"><a href="#第4章-scrapy爬取知名技术文章网站" class="headerlink" title="第4章 scrapy爬取知名技术文章网站"></a>第4章 scrapy爬取知名技术文章网站</h2><h4 id="搭建scrapy的开发环境，本章介绍scrapy的常用命令以及工程目录结构分析，本章中也会详细的讲解xpath和css选择器的使用。然后通过scrapy提供的spider完成所有文章的爬取。然后详细讲解item以及item-loader方式完成具体字段的提取后使用scrapy提供的pipeline分别将数据保存到json文件以及mysql数据库中。…"><a href="#搭建scrapy的开发环境，本章介绍scrapy的常用命令以及工程目录结构分析，本章中也会详细的讲解xpath和css选择器的使用。然后通过scrapy提供的spider完成所有文章的爬取。然后详细讲解item以及item-loader方式完成具体字段的提取后使用scrapy提供的pipeline分别将数据保存到json文件以及mysql数据库中。…" class="headerlink" title="搭建scrapy的开发环境，本章介绍scrapy的常用命令以及工程目录结构分析，本章中也会详细的讲解xpath和css选择器的使用。然后通过scrapy提供的spider完成所有文章的爬取。然后详细讲解item以及item loader方式完成具体字段的提取后使用scrapy提供的pipeline分别将数据保存到json文件以及mysql数据库中。…"></a>搭建scrapy的开发环境，本章介绍scrapy的常用命令以及工程目录结构分析，本章中也会详细的讲解xpath和css选择器的使用。然后通过scrapy提供的spider完成所有文章的爬取。然后详细讲解item以及item loader方式完成具体字段的提取后使用scrapy提供的pipeline分别将数据保存到json文件以及mysql数据库中。…</h4><h4 id="xpath"><a href="#xpath" class="headerlink" title="xpath"></a>xpath</h4><h5 id="xpath简介"><a href="#xpath简介" class="headerlink" title="xpath简介"></a>xpath简介</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.xpath使用路径表达式在xml和html中进行导航</span><br><span class="line">2.xpath包含标准函数库</span><br><span class="line">3.xpath是一个w3c的标准</span><br></pre></td></tr></table></figure>
-<h5 id="xpath节点关系"><a href="#xpath节点关系" class="headerlink" title="xpath节点关系"></a>xpath节点关系</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.父节点</span><br><span class="line">2.子节点</span><br><span class="line">3.同胞节点</span><br><span class="line">4.先辈节点</span><br><span class="line">5.</span><br></pre></td></tr></table></figure>
-<h5 id="xpath语法"><a href="#xpath语法" class="headerlink" title="xpath语法"></a>xpath语法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">表达式 说明</span><br><span class="line">article 选取所有article元素的所有子节点</span><br><span class="line">/article 选取根元素article</span><br><span class="line">article/a 选取所有属于article的子元素的a元素</span><br><span class="line">//div 选取所有div子元素（不论出现在文档任何地方）</span><br><span class="line">article//div 选取所有属于article元素的后代的div元素，不管它出现在article之下的任何位置</span><br><span class="line">//@class 选取所有名为class的属性</span><br><span class="line"></span><br><span class="line">/div/* 选取属于div元素的所有子节点</span><br><span class="line">//* 选取所有元素</span><br><span class="line">//div[@*] 选取所有带属性的title元素</span><br><span class="line">//div/a|//div/p 选取所有div元素的a和p元素</span><br><span class="line">//span|//ul 选取文档中的span和ul元素</span><br><span class="line">article/div/p|//span 选取所有属于article元素的div元素的p元素 以及文档中所有的span元素</span><br></pre></td></tr></table></figure>
-<h5 id="xpath语法-谓语"><a href="#xpath语法-谓语" class="headerlink" title="xpath语法-谓语"></a>xpath语法-谓语</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">表达式 说明</span><br><span class="line">/article/div[1] 选取属于article子元素的第一个div元素</span><br><span class="line">/article/div[last()] 选取属于article子元素的最后一个div元素</span><br><span class="line">/article/div[last()-1] 选取属于article子元素的倒数第二个div元素</span><br><span class="line">//div[@lang] 选取所有拥有lang属性的div元素</span><br><span class="line">//div[@lang=&apos;eng&apos;] 选取所有lang属性为eng的div元素</span><br></pre></td></tr></table></figure>
-<h5 id="scrapy-shell"><a href="#scrapy-shell" class="headerlink" title="scrapy shell"></a>scrapy shell</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell http://blog.jobbole.com/110287</span><br><span class="line"></span><br><span class="line">title = response.xpath(&quot;//div[@class=&apos;entry-header&apos;]/h1/text()&quot;)</span><br><span class="line"></span><br><span class="line">title</span><br><span class="line"></span><br><span class="line">title.extract()</span><br></pre></td></tr></table></figure>
-<h4 id="css选择器"><a href="#css选择器" class="headerlink" title="css选择器"></a>css选择器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">表达式 说明</span><br><span class="line">* 选择所有节点</span><br><span class="line">#container 选择id为container的节点</span><br><span class="line">.container 选择所有class包含container的节点</span><br><span class="line">li a 选择所有li下的所有a节点</span><br><span class="line">ul + p 选择ul后面的第一个p元素</span><br><span class="line">div#container &gt; ul 选取id为container的div的第一个ul子元素</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">表达式 说明</span><br><span class="line">ul ～ p 选取与ul相邻的所有p元素</span><br><span class="line">a[title] 选取所有有title属性的a元素</span><br><span class="line">a[href=&quot;http://jobbole.com&quot;] 选取所有href属性为jobbole.com值的a元素</span><br><span class="line">a[href*=&quot;jobbole&quot;] 选取所有href属性包含jobbole的a元素</span><br><span class="line">a[href^=&quot;http&quot;] 选取所有href属性值以http开头的a元素</span><br><span class="line">a[href$=&quot;.jpg&quot;] 选取所有href属性值以.jpg结尾的a元素</span><br><span class="line">input[type=radio]:checked 选择选中的radio的元素</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">表达式 说明</span><br><span class="line">div:not(#container) 选取所有id非container的div属性</span><br><span class="line">li:nth-child(3) 选取第三个li元素</span><br><span class="line">tr:nth-child(2n) 第偶数个tr</span><br></pre></td></tr></table></figure>
-<h5 id="scrapy-shell-1"><a href="#scrapy-shell-1" class="headerlink" title="scrapy shell"></a>scrapy shell</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell http://blog.jobbole.com/110287</span><br><span class="line"></span><br><span class="line">title = response.css(&quot;.entry-header h1::text&quot;)</span><br><span class="line"></span><br><span class="line">title</span><br><span class="line"></span><br><span class="line">title.extract()</span><br></pre></td></tr></table></figure>
-<h4 id="scrapy-http"><a href="#scrapy-http" class="headerlink" title="scrapy.http"></a>scrapy.http</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from scrapy.http import Request</span><br></pre></td></tr></table></figure>
-<h4 id="scrapy-djangoitem"><a href="#scrapy-djangoitem" class="headerlink" title="scrapy-djangoitem"></a>scrapy-djangoitem</h4><h4 id="item-loader-jobbole-py"><a href="#item-loader-jobbole-py" class="headerlink" title="item-loader jobbole.py"></a>item-loader jobbole.py</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"><span class="comment"># 通过item_loader加载item,JobboleArticleItem()是item.py里的item。</span></span><br><span class="line">item_loader = ItemLoader(item=JobboleArticleItem(), response=response)</span><br><span class="line">item_loader.add_css(<span class="string">"title"</span>, <span class="string">".entry-header h1::text"</span>)</span><br><span class="line">item_loader.add_xpath()</span><br><span class="line">item_loader.add_value(<span class="string">"url"</span>, response.url)</span><br><span class="line"><span class="comment"># 重新加载</span></span><br><span class="line">article_item = item_loader.load_item()</span><br><span class="line"><span class="comment"># 传出</span></span><br><span class="line"><span class="keyword">yield</span> article_item</span><br></pre></td></tr></table></figure>
-<h4 id="item-py"><a href="#item-py" class="headerlink" title="item.py"></a>item.py</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class JobBoleArticleItem(scrapy.Item):</span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    create_date = scrapy.Field(</span><br><span class="line">        input_processor=MapCompose(date_convert),</span><br><span class="line">    )</span><br><span class="line">    content = scrapy.Field()</span><br></pre></td></tr></table></figure>
-<h2 id="第5章-scrapy爬取知名问答网站"><a href="#第5章-scrapy爬取知名问答网站" class="headerlink" title="第5章 scrapy爬取知名问答网站"></a>第5章 scrapy爬取知名问答网站</h2><hr>
-<p>本章主要完成网站的问题和回答的提取。本章除了分析出问答网站的网络请求以外还会分别通过requests和scrapy的FormRequest两种方式完成网站的模拟登录， 本章详细的分析了网站的网络请求并分别分析出了网站问题回答的api请求接口并将数据提取出来后保存到mysql中。</p>
-<hr>
-<h4 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">distributed_crawler_search_engine</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell -s &quot;输入headers&quot;</span><br></pre></td></tr></table></figure>
-<p>知乎数据库设计</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">名 类型</span><br><span class="line">zhihu_id bigint 20 0 yes primay key 1</span><br><span class="line">url varchar 300 0 yes</span><br><span class="line">question_id bigint 20 0 yes</span><br><span class="line">author_id varchar 100 0 no</span><br><span class="line">content longtext 0 0 yes</span><br><span class="line">praise_num int 11 0 yes</span><br><span class="line">comments_num int 11 0 yes</span><br><span class="line">create_time date 0 0 yes</span><br><span class="line">update_time date 0 0 yes</span><br><span class="line">crawl_time datetime 0 0 yes</span><br><span class="line">crawl_update_time datetime 0 0 no</span><br></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> zhihu_question(<span class="string">`zhihu_id`</span> </span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
-<h2 id="第6章-通过CrawlSpider对招聘网站进行整站爬取"><a href="#第6章-通过CrawlSpider对招聘网站进行整站爬取" class="headerlink" title="第6章 通过CrawlSpider对招聘网站进行整站爬取"></a>第6章 通过CrawlSpider对招聘网站进行整站爬取</h2><h4 id="本章完成招聘网站职位的数据表结构设计，并通过link-extractor和rule的形式并配置CrawlSpider完成招聘网站所有职位的爬取，本章也会从源码的角度来分析CrawlSpider让大家对CrawlSpider有深入的理解。"><a href="#本章完成招聘网站职位的数据表结构设计，并通过link-extractor和rule的形式并配置CrawlSpider完成招聘网站所有职位的爬取，本章也会从源码的角度来分析CrawlSpider让大家对CrawlSpider有深入的理解。" class="headerlink" title="本章完成招聘网站职位的数据表结构设计，并通过link extractor和rule的形式并配置CrawlSpider完成招聘网站所有职位的爬取，本章也会从源码的角度来分析CrawlSpider让大家对CrawlSpider有深入的理解。"></a>本章完成招聘网站职位的数据表结构设计，并通过link extractor和rule的形式并配置CrawlSpider完成招聘网站所有职位的爬取，本章也会从源码的角度来分析CrawlSpider让大家对CrawlSpider有深入的理解。</h4><h2 id="第7章-Scrapy突破反爬虫的限制"><a href="#第7章-Scrapy突破反爬虫的限制" class="headerlink" title="第7章 Scrapy突破反爬虫的限制"></a>第7章 Scrapy突破反爬虫的限制</h2><blockquote>
-<p>本章会从爬虫和反爬虫的斗争过程开始讲解，然后讲解scrapy的原理，然后通过随机切换user-agent和设置scrapy的ip代理的方式完成突破反爬虫的各种限制。本章也会详细介绍httpresponse和httprequest来详细的分析scrapy的功能，最后会通过云打码平台来完成在线验证码识别以及禁用cookie和访问频率来降低爬虫被屏蔽的可能性。…</p>
+        <p>Parallels Desktop 运行的CentOS 7.4.1708</p>
+<p>jdk1.8.151<br>tomcat 8.5.23</p>
+<p>重启tomcat 就打不开了。不知道什么原因。然后用vmware fusion就可以立刻重启。怀疑时paralles的网络有问题。但技术不行暂时找不到问题</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Thinking-书签" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/09/Thinking-书签/" class="article-date">
+      <time datetime="2018-04-09T05:47:52.489Z" itemprop="datePublished">2018-04-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>纸上得来终觉浅，绝知此事要躬行。<br>《冬夜读书示子聿》陆游</p>
 </blockquote>
-<h3 id="UA-用户代理"><a href="#UA-用户代理" class="headerlink" title="UA 用户代理"></a>UA 用户代理</h3><p>hellysmile/fake-useragent</p>
-<h3 id="IP代理"><a href="#IP代理" class="headerlink" title="IP代理"></a>IP代理</h3><p>西刺代理 高匿ip代理<br>aivarsk/scrapy-proxies<br>scrapy-plugins/scrapy-crawlera #收费的<br>Tor</p>
-<h3 id="验证码识别"><a href="#验证码识别" class="headerlink" title="验证码识别"></a>验证码识别</h3><p>tesseract-ocr<br>在线打码<br>人工打码<br><a href="http://www.yundama.com" target="_blank" rel="noopener">云打码</a></p>
-<p>settings.py<br>禁用cookie<br>自动限速</p>
-<p>爬虫内写入 ，自定义设置单个爬虫<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">custom_settings = &#123;</span><br><span class="line">	<span class="string">"COOKIES_ENABLED"</span>: <span class="keyword">True</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="第8章-scrapy进阶开发"><a href="#第8章-scrapy进阶开发" class="headerlink" title="第8章 scrapy进阶开发"></a>第8章 scrapy进阶开发</h2><blockquote>
-<p>本章将讲解scrapy的更多高级特性，这些高级特性包括通过selenium和phantomjs实现动态网站数据的爬取以及将这二者集成到scrapy中、scrapy信号、自定义中间件、暂停和启动scrapy爬虫、scrapy的核心api、scrapy的telnet、scrapy的web service和scrapy的log配置和email发送等。 这些特性使得我们不仅只是可以通过scrapy来完成…</p>
+<blockquote>
+<p>听过读过的道理太多，只觉得不过尔尔。只有亲自 经历、实践 之后，才能对一些事有切身体会。当我（可能）想“明白”了这些事时，我才会总结、积累到这里，不时回顾。</p>
 </blockquote>
-<p>Selenium浏览器自动化测试框架<br>浏览器Drivers</p>
-<h2 id="第9章-scrapy-redis分布式爬虫"><a href="#第9章-scrapy-redis分布式爬虫" class="headerlink" title="第9章 scrapy-redis分布式爬虫"></a>第9章 scrapy-redis分布式爬虫</h2><h4 id="Scrapy-redis分布式爬虫的使用以及scrapy-redis的分布式爬虫的源码分析，-让大家可以根据自己的需求来修改源码以满足自己的需求。最后也会讲解如何将bloomfilter集成到scrapy-redis中。"><a href="#Scrapy-redis分布式爬虫的使用以及scrapy-redis的分布式爬虫的源码分析，-让大家可以根据自己的需求来修改源码以满足自己的需求。最后也会讲解如何将bloomfilter集成到scrapy-redis中。" class="headerlink" title="Scrapy-redis分布式爬虫的使用以及scrapy-redis的分布式爬虫的源码分析， 让大家可以根据自己的需求来修改源码以满足自己的需求。最后也会讲解如何将bloomfilter集成到scrapy-redis中。"></a>Scrapy-redis分布式爬虫的使用以及scrapy-redis的分布式爬虫的源码分析， 让大家可以根据自己的需求来修改源码以满足自己的需求。最后也会讲解如何将bloomfilter集成到scrapy-redis中。</h4><h2 id="第10章-elasticsearch搜索引擎的使用"><a href="#第10章-elasticsearch搜索引擎的使用" class="headerlink" title="第10章 elasticsearch搜索引擎的使用"></a>第10章 elasticsearch搜索引擎的使用</h2><h4 id="本章将讲解elasticsearch的安装和使用，将讲解elasticsearch的基本概念的介绍以及api的使用。本章也会讲解搜索引擎的原理并讲解elasticsearch-dsl的使用，最后讲解如何通过scrapy的pipeline将数据保存到elasticsearch中。"><a href="#本章将讲解elasticsearch的安装和使用，将讲解elasticsearch的基本概念的介绍以及api的使用。本章也会讲解搜索引擎的原理并讲解elasticsearch-dsl的使用，最后讲解如何通过scrapy的pipeline将数据保存到elasticsearch中。" class="headerlink" title="本章将讲解elasticsearch的安装和使用，将讲解elasticsearch的基本概念的介绍以及api的使用。本章也会讲解搜索引擎的原理并讲解elasticsearch-dsl的使用，最后讲解如何通过scrapy的pipeline将数据保存到elasticsearch中。"></a>本章将讲解elasticsearch的安装和使用，将讲解elasticsearch的基本概念的介绍以及api的使用。本章也会讲解搜索引擎的原理并讲解elasticsearch-dsl的使用，最后讲解如何通过scrapy的pipeline将数据保存到elasticsearch中。</h4><h2 id="第11章-课程总结"><a href="#第11章-课程总结" class="headerlink" title="第11章 课程总结"></a>第11章 课程总结</h2><h4 id="本章讲解如何通过django快速搭建搜索网站，-本章也会讲解如何完成django与elasticsearch的搜索查询交互。"><a href="#本章讲解如何通过django快速搭建搜索网站，-本章也会讲解如何完成django与elasticsearch的搜索查询交互。" class="headerlink" title="本章讲解如何通过django快速搭建搜索网站， 本章也会讲解如何完成django与elasticsearch的搜索查询交互。"></a>本章讲解如何通过django快速搭建搜索网站， 本章也会讲解如何完成django与elasticsearch的搜索查询交互。</h4><h2 id="第12章-scrapyd部署scrapy爬虫"><a href="#第12章-scrapyd部署scrapy爬虫" class="headerlink" title="第12章 scrapyd部署scrapy爬虫"></a>第12章 scrapyd部署scrapy爬虫</h2><h4 id="本章主要通过scrapyd完成对scrapy爬虫的线上部署。"><a href="#本章主要通过scrapyd完成对scrapy爬虫的线上部署。" class="headerlink" title="本章主要通过scrapyd完成对scrapy爬虫的线上部署。"></a>本章主要通过scrapyd完成对scrapy爬虫的线上部署。</h4><h2 id="第13章-课程总结"><a href="#第13章-课程总结" class="headerlink" title="第13章 课程总结"></a>第13章 课程总结</h2><h4 id="重新梳理一遍系统开发的整个过程，-让同学对系统和开发过程有一个更加直观的理解"><a href="#重新梳理一遍系统开发的整个过程，-让同学对系统和开发过程有一个更加直观的理解" class="headerlink" title="重新梳理一遍系统开发的整个过程， 让同学对系统和开发过程有一个更加直观的理解"></a>重新梳理一遍系统开发的整个过程， 让同学对系统和开发过程有一个更加直观的理解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install selenium redis elasticsearch_dsl PyMySQL requests</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.iitshare.com/summary-of-the-2015-and-2016-plans.html" target="_blank" rel="noopener">爱分享2015年总结与2016年计划</a></p>
+<p>IceHe</p>
+<p><a href="https://icehe.me/think/life_manual/" target="_blank" rel="noopener">生活指南</a><br>|<br><a href="https://icehe.me/favourites/" target="_blank" rel="noopener">最喜爱的</a><br>|<br><a href="https://icehe.me/old_blog/" target="_blank" rel="noopener">旧博索引</a><br>|<br><a href="https://icehe.me/read/" target="_blank" rel="noopener">文字阅读收藏</a><br>|<br><a href="https://icehe.me/tech/" target="_blank" rel="noopener">技术阅读收藏</a><br>|<br><a href="https://icehe.me/cmd/git_note/" target="_blank" rel="noopener">Git 总结</a></p>
 
       
       
@@ -496,11 +649,11 @@
 
 
   
-    <article id="post-Python+Web开发实战-董伟明-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Systemd使用技巧" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/18/Python+Web开发实战-董伟明-笔记/" class="article-date">
-      <time datetime="2018-03-18T00:32:49.481Z" itemprop="datePublished">2018-03-18</time>
+      <a href="/2018/04/09/Systemd使用技巧/" class="article-date">
+      <time datetime="2018-04-09T05:47:52.489Z" itemprop="datePublished">2018-04-09</time>
 </a>
     </div>
   
@@ -512,213 +665,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>页码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">486 第15章 Web 开发项目实践</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Python+Web开发实战-董伟明-目录" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/18/Python+Web开发实战-董伟明-目录/" class="article-date">
-      <time datetime="2018-03-18T00:32:49.481Z" itemprop="datePublished">2018-03-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>页码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">486 第15章 Web 开发项目实践</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Pyhont学习网站" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/18/Pyhont学习网站/" class="article-date">
-      <time datetime="2018-03-18T00:32:49.481Z" itemprop="datePublished">2018-03-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://bbs.fishc.com/forum-173-1.html" target="_blank" rel="noopener">鱼C工作室-Python教学</a></p>
-<p><a href="https://cuiqingcai.com/" target="_blank" rel="noopener">静觅丨崔庆才的个人博客</a></p>
-<p><a href="https://www.lijinlong.cc/fuwuqi/hjpz/1962.html" target="_blank" rel="noopener">Django、Python3、Nginx、uWSGI环境部署教程</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PyCharm新建项目并使用Github管理代码" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/18/PyCharm新建项目并使用Github管理代码/" class="article-date">
-      <time datetime="2018-03-18T00:32:49.481Z" itemprop="datePublished">2018-03-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <ul>
-<li>在Github上申请token</li>
-</ul>
-<p><a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Github Personal access tokens</a></p>
-<ul>
-<li><p>pycharm 设置github token<br>Preferences-&gt;Version Control-&gt;GIthub</p>
-</li>
-<li><p>pycharm上新建project，名字 python_crawler。</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /Users/jinlong/PycharmProjects/python_crawler</span><br><span class="line"></span><br><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</span><br><span class="line"></span><br><span class="line">sed -i &quot;&quot; &quot;s/python.org/douban.com/g&quot; Pipfile</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>设置pycharm的python解释器<br>Preferences-&gt;Project:python_crawler-&gt;Project Interpreter</p>
-</li>
-<li><p>设置pycharm下的github</p>
-</li>
-</ul>
-<p>VCS-&gt;Import into Version Control-&gt;Share Project On Github</p>
-<h2 id="PyCharm-配置"><a href="#PyCharm-配置" class="headerlink" title="PyCharm 配置"></a>PyCharm 配置</h2><ul>
-<li><p>Tab键设置成4个空格<br>Preferences-&gt;Editor-&gt;Code Style-&gt;Python-&gt;Use tab character 取消勾选</p>
-</li>
-<li><p>调整字母长度分割线<br>Preferences-&gt;Editor-&gt;Code Style-&gt;Right margin（columns) 设置为80</p>
-</li>
-</ul>
-<p><a href="https://www.cnblogs.com/hester/p/5466579.html" target="_blank" rel="noopener">Pycharm安装、设置、优化</a></p>
-<p><a href="http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/contents/" target="_blank" rel="noopener">Google 开源项目风格指南-Python 风格指南 - 内容目录</a></p>
-<h2 id="PyCharm插件"><a href="#PyCharm插件" class="headerlink" title="PyCharm插件"></a>PyCharm插件</h2><p>Mongo Plugin</p>
-<p>Markdown Navigator<br>Markdown support</p>
-<h2 id="Python工具"><a href="#Python工具" class="headerlink" title="Python工具"></a>Python工具</h2><p>nmap<br><code>pip install python-nmap</code></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PowerShell使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/18/PowerShell使用笔记/" class="article-date">
-      <time datetime="2018-03-18T00:32:49.481Z" itemprop="datePublished">2018-03-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#查看PowerShell版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#查看 PSVersion版本，就是PowerShell的版本。</span><br><span class="line">$PSVersionTable</span><br></pre></td></tr></table></figure></p>
+        <p>#Systemd使用技巧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#生成一张启动详细信息矢量图</span><br><span class="line">systemd-analyze plot &gt;boot.svg</span><br></pre></td></tr></table></figure></p>
 
       
       
@@ -748,7 +695,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 </div>
