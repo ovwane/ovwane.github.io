@@ -205,11 +205,288 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Cisco 路由器配置命令" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/13/Cisco 路由器配置命令/" class="article-date">
+      <time datetime="2018-04-13T06:24:54.293Z" itemprop="datePublished">2018-04-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Cisco-路由器配置命令"><a href="#Cisco-路由器配置命令" class="headerlink" title="Cisco 路由器配置命令"></a>Cisco 路由器配置命令</h1><h3 id="改变命令状态"><a href="#改变命令状态" class="headerlink" title="改变命令状态"></a>改变命令状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">任务  命令 </span><br><span class="line">进入特权命令状态 enable </span><br><span class="line">退出特权命令状态 disable </span><br><span class="line">进入设置对话状态 setup  </span><br><span class="line">进入全局设置状态 config terminal </span><br><span class="line">退出全局设置状态 end  </span><br><span class="line">进入端口设置状态 interface type slot/number </span><br><span class="line">进入子端口设置状态 interface type number.subinterface [point-to-point | multipoint] </span><br><span class="line">进入线路设置状态 line type slot/number </span><br><span class="line">进入路由设置状态 router protocol </span><br><span class="line">退出局部设置状态  exit</span><br></pre></td></tr></table></figure>
+<p>路由器的状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">命令状态</span><br><span class="line">route1&gt;</span><br><span class="line">特权命令状态(进入特权enable，退出特权disable)</span><br><span class="line">route1&gt;enable</span><br><span class="line">route1#</span><br><span class="line">特权状态下的命令</span><br><span class="line">进入设置对话状态 setup</span><br><span class="line">route1#setup</span><br><span class="line">         --- System Configuration Dialog ---</span><br><span class="line">Continue with configuration dialog? [yes/no]:</span><br><span class="line"></span><br><span class="line">进入全局设置状态 config terminal(conf t)</span><br><span class="line">route1#conf t</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">route1(config)#</span><br><span class="line"></span><br><span class="line">退出全局设置状态 end</span><br><span class="line">route1(config)#end</span><br><span class="line">route1#</span><br><span class="line">进入端口配置</span><br><span class="line">route2#show ip interface</span><br><span class="line">FastEthernet0/0 is administratively down, line protocol is down</span><br><span class="line">  Internet protocol processing disabled</span><br><span class="line"></span><br><span class="line">route2(config)#interface FastEthernet0/0</span><br><span class="line">route2(config-if)#</span><br></pre></td></tr></table></figure>
+<p>Cisco路由器初始化配置<br>设置路由器内部时钟</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">全局配置模式下 clock timezone GMT +8</span><br><span class="line">exit</span><br><span class="line">特权模式下</span><br><span class="line">clock set 11:54:00 october 22 2017</span><br></pre></td></tr></table></figure>
+<p>1.路由器名<br>2.特权状态密码<br>3.Console密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">line console 0</span><br><span class="line">password 密码</span><br><span class="line">login</span><br></pre></td></tr></table></figure></p>
+<p>4.AUX密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">line aux 0</span><br><span class="line">password 密码</span><br><span class="line">login</span><br></pre></td></tr></table></figure>
+<p>5.VTY密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">使用远程登录，需要先配置特权密码</span><br><span class="line">line vty 0 4</span><br><span class="line">pass 密码</span><br><span class="line">login</span><br><span class="line"></span><br><span class="line">限制IP远程登录</span><br><span class="line">access-list 1 permit 12.1.1.1</span><br><span class="line">line vty 0 4</span><br><span class="line">access-class 1 in</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p>5.配置接口IP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">interface </span><br><span class="line">ip address 10.0.0.1 255.255.255.0</span><br><span class="line">description &quot;描述信息&quot;</span><br><span class="line">ip address 10.1.1.1 255.255.255.0 secondary</span><br><span class="line">no shutdown</span><br></pre></td></tr></table></figure>
+<p>模式转换<br>用户模式–&gt;特权模式 enable<br>特权模式–&gt;全局配置模式 config t<br>全剧配置模式–&gt;接口模式 interface<br>全局配置模式–&gt;线控模式 line</p>
+<p>默认进入的是命令状态，<br>config 之后 状态上有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Cisco3725124-25.T14-1#configure terminal</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Cisco3725124-25.T14-(config)#</span><br></pre></td></tr></table></figure>
+<p>% Unrecognized command<br>％无法识别的命令</p>
+<p>设置路由器主机名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">默认模式转换到全局配置模式 confit t</span><br><span class="line"></span><br><span class="line">Cisco3725124-25.T14-1#configure terminal</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Cisco3725124-25.T14-(config)#hostname riga</span><br></pre></td></tr></table></figure>
+<p>设置特权密码<br>全局配置模式下执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route2(config)#enable secret 密码</span><br></pre></td></tr></table></figure>
+<p>设置访问用户及密码</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Go" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/13/Go/" class="article-date">
+      <time datetime="2018-04-13T06:24:54.293Z" itemprop="datePublished">2018-04-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#<a href="https://golang.org/" target="_blank" rel="noopener">Go</a><br>安装Go</p>
+<p><code>brew install go</code></p>
+<p>安装分布式管理工具hg</p>
+<p> <code>brew install hg</code></p>
+<p>建立go的环境变量文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd $HOME</span><br><span class="line"></span><br><span class="line">mkdir go</span><br></pre></td></tr></table></figure>
+<p>~/.zshrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">export GOPATH=$HOME/go</span><br><span class="line">export PATH=$HOME/bin:$GOPATH/bin:$PATH</span><br></pre></td></tr></table></figure>
+<p><code>brew cask install goland</code></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CentOS7 安装Python" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/13/CentOS7 安装Python/" class="article-date">
+      <time datetime="2018-04-13T06:24:54.293Z" itemprop="datePublished">2018-04-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="安装Python"><a href="#安装Python" class="headerlink" title="安装Python"></a>安装Python</h2><h3 id="安装Python依赖"><a href="#安装Python依赖" class="headerlink" title="安装Python依赖"></a>安装Python依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># CentOS7</span><br><span class="line">yum install -y  gcc gcc-c++ make git patch openssl-devel zlib-devel readline-devel sqlite sqlite-devel bzip2-devel curl wget ncurses-devel sqlite-devel gdbm-devel xz-devel tk-devel</span><br></pre></td></tr></table></figure>
+<h3 id="安装pyenv"><a href="#安装pyenv" class="headerlink" title="安装pyenv"></a>安装<a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener">pyenv</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash</span><br></pre></td></tr></table></figure>
+<h4 id="配置bash-profile"><a href="#配置bash-profile" class="headerlink" title="配置bash_profile"></a>配置bash_profile</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 添加参数</span><br><span class="line">vim ~/.bash_profile</span><br><span class="line"></span><br><span class="line">export PATH=&quot;/root/.pyenv/bin:$PATH&quot;</span><br><span class="line">eval &quot;$(pyenv init -)&quot;</span><br><span class="line">eval &quot;$(pyenv virtualenv-init -)&quot;</span><br><span class="line"></span><br><span class="line"># 立即生效</span><br><span class="line">source ~/.bash_profile&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="设置pyenv下载源为本地目录"><a href="#设置pyenv下载源为本地目录" class="headerlink" title="设置pyenv下载源为本地目录"></a>设置pyenv下载源为本地目录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tar.xz</span><br><span class="line"></span><br><span class="line"># 新建存放Python-3.6.2.tar.xz的目录</span><br><span class="line">mkdir /root/python/ &amp;&amp; cd /root/python/</span><br><span class="line"></span><br><span class="line"># 设置变量</span><br><span class="line">export PYTHON_BUILD_CACHE_PATH=/root/python</span><br><span class="line"></span><br><span class="line"># 设置变量</span><br><span class="line">export PYTHON_BUILD_MIRROR_URL=/root/python</span><br><span class="line"></span><br><span class="line"># 查看变量设置</span><br><span class="line">env |grep PYTHON_BUILD_MIRROR_URL</span><br></pre></td></tr></table></figure>
+<h3 id="安装Python-1"><a href="#安装Python-1" class="headerlink" title="安装Python"></a>安装Python</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.2 -v</span><br><span class="line"></span><br><span class="line">pyenv global 3.6.2</span><br><span class="line"></span><br><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure>
+<hr>
+<p>因Supervisor现在不支持python3的版本需要安装Python 2.7.13</p>
+<p>pyenv install 2.7.13 -v<br><br>pyenv global 2.7.13<br><br>pyenv rehash</p>
+<hr>
+<h3 id="更改pypi源"><a href="#更改pypi源" class="headerlink" title="更改pypi源"></a>更改pypi源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Caddy" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/13/Caddy/" class="article-date">
+      <time datetime="2018-04-13T06:24:54.293Z" itemprop="datePublished">2018-04-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/Unknwon/wuwen.org/issues/11" target="_blank" rel="noopener">Caddy 部署实践</a></p>
+<p><a href="https://github.com/mholt/caddy/releases/" target="_blank" rel="noopener">Caddy</a></p>
+<p><a href="https://www.wolfcstech.com/2017/01/09/Caddy%20Web%E6%9C%8D%E5%8A%A1%E5%99%A8QUIC%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Caddy Web服务器QUIC部署</a></p>
+<p><a href="http://www.infoq.com/cn/news/2018/03/weibo-quic" target="_blank" rel="noopener">QUIC在微博中的落地思考</a></p>
+<p><a href="https://github.com/caddyserver/examples" target="_blank" rel="noopener">Examples for using Caddy Web Server</a></p>
+<p><a href="https://liudanking.com/beautiful-life/%E6%9C%AC%E7%AB%99%E5%BC%80%E5%90%AF%E6%94%AF%E6%8C%81-quic-%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%8E%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">本站开启支持 QUIC 的方法与配置</a></p>
+<p><a href="https://blog.sharpbai.com/2018/02/%E4%BD%BF%E7%94%A8caddy%E9%85%8D%E5%90%88nginx%E6%94%AF%E6%8C%81quic/" target="_blank" rel="noopener">使用caddy配合nginx支持QUIC
+</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/mholt/caddy/releases/download/v0.10.12/caddy_v0.10.12_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf caddy_v0.10.12_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">mv caddy /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<p>/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp –port=32457</p>
+<p>mkdir -p /data/caddy/log/</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /data/caddy/Caddyfile</span><br><span class="line"></span><br><span class="line">ovwane.com:444 &#123;</span><br><span class="line">        tls /data/ssl/ovwane.com/ovwane.com_rsa_fullchain.cer /data/ssl/ovwane.com/ovwane.com_rsa.key</span><br><span class="line">        root /data/www/ovwane.com/public</span><br><span class="line">        gzip</span><br><span class="line">        log /data/caddy/log/ovwane.com.log</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/caddy.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Caddy HTTP/2 web server</span><br><span class="line">Documentation=https://caddyserver.com/docs</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target systemd-networkd-wait-online.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Restart=on-abnormal</span><br><span class="line"></span><br><span class="line">; User and group the process will run as.</span><br><span class="line">;User=caddy</span><br><span class="line">;Group=caddy</span><br><span class="line"></span><br><span class="line">; Letsencrypt-issued certificates will be written to this directory.</span><br><span class="line">Environment=CADDYPATH=/data/caddy</span><br><span class="line"></span><br><span class="line">; Always set "-root" to something safe in case it gets forgotten in the Caddyfile.</span><br><span class="line">ExecStart=/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp</span><br><span class="line">ExecReload=/bin/kill -USR1 $MAINPID</span><br><span class="line"></span><br><span class="line">; Use graceful shutdown with a reasonable timeout</span><br><span class="line">KillMode=mixed</span><br><span class="line">KillSignal=SIGQUIT</span><br><span class="line">TimeoutStopSec=5s</span><br><span class="line"></span><br><span class="line">; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.</span><br><span class="line">LimitNOFILE=1048576</span><br><span class="line">; Unmodified caddy is not expected to use more than that.</span><br><span class="line">LimitNPROC=512</span><br><span class="line"></span><br><span class="line">; Use private /tmp and /var/tmp, which are discarded after caddy stops.</span><br><span class="line">PrivateTmp=true</span><br><span class="line">; Use a minimal /dev (May bring additional security if switched to 'true', but it may not work on Raspberry Pi's or other devices, so it has been disabled in this dist.)</span><br><span class="line">PrivateDevices=false</span><br><span class="line">; Hide /home, /root, and /run/user. Nobody will steal your SSH-keys.</span><br><span class="line">ProtectHome=true</span><br><span class="line">; Make /usr, /boot, /etc and possibly some more folders read-only.</span><br><span class="line">ProtectSystem=full</span><br><span class="line">; … except /etc/ssl/caddy, because we want Letsencrypt-certificates there.</span><br><span class="line">;   This merely retains r/w access rights, it does not add any new. Must still be writable on the host!</span><br><span class="line">ReadWriteDirectories=/data/caddy</span><br><span class="line"></span><br><span class="line">; The following additional security directives only work with systemd v229 or later.</span><br><span class="line">; They further restrict privileges that can be gained by caddy. Uncomment if you like.</span><br><span class="line">; Note that you may have to add capabilities required by any plugins in use.</span><br><span class="line">;CapabilityBoundingSet=CAP_NET_BIND_SERVICE</span><br><span class="line">;AmbientCapabilities=CAP_NET_BIND_SERVICE</span><br><span class="line">;NoNewPrivileges=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable caddy.service</span><br><span class="line">systemctl start caddy.service</span><br><span class="line">systemctl stop caddy.service</span><br><span class="line">systemctl status caddy.service</span><br></pre></td></tr></table></figure>
+<p>日志自动切分</p>
+<p>vim /etc/logrotate.d/caddy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/caddy/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/caddy.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/caddy.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>手动执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/caddy</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Go相关的书签" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/13/Go相关的书签/" class="article-date">
+      <time datetime="2018-04-13T06:24:54.293Z" itemprop="datePublished">2018-04-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://gohack2017.golangfoundation.org/" target="_blank" rel="noopener">Go Hack 2017</a></p>
+<p><a href="https://gocn.io/" target="_blank" rel="noopener"></a></p>
+<p><a href="https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md" target="_blank" rel="noopener">Unknwon/the-way-to-go_ZH_CN</a></p>
+<p><a href="https://keybase.io" target="_blank" rel="noopener">Keybase</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Ele-A面-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/09/Ele-A面-笔记/" class="article-date">
-      <time datetime="2018-04-09T05:47:52.481Z" itemprop="datePublished">2018-04-09</time>
+      <a href="/2018/04/13/Ele-A面-笔记/" class="article-date">
+      <time datetime="2018-04-13T06:24:54.293Z" itemprop="datePublished">2018-04-13</time>
 </a>
     </div>
   
@@ -287,11 +564,11 @@
 
 
   
-    <article id="post-AWS" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Bash快捷键" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/09/AWS/" class="article-date">
-      <time datetime="2018-04-09T05:47:52.481Z" itemprop="datePublished">2018-04-09</time>
+      <a href="/2018/04/13/Bash快捷键/" class="article-date">
+      <time datetime="2018-04-13T06:24:54.289Z" itemprop="datePublished">2018-04-13</time>
 </a>
     </div>
   
@@ -303,15 +580,25 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>mkdir aws<br>cd aws<br>pipenv –python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python<br>pipenv –python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python<br>sed -i “” “s/python.org/douban.com/g” Pipfile</p>
-<h2 id="AWS-Cli"><a href="#AWS-Cli" class="headerlink" title="AWS-Cli"></a>AWS-Cli</h2><p><a href="https://github.com/aws/aws-cli" target="_blank" rel="noopener">AWS-Cli</a><br>AWS-Cli 不支持Python3(2017.12.11)<br>pipenv install awscli</p>
-<p>aws configure</p>
-<p>输入<a href="https://console.aws.amazon.com/iam/home#/home" target="_blank" rel="noopener">Identity and Access Management</a></p>
-<p>AWSAccessKeyId<br>AWSSecretKey</p>
-<p>~/.aws/credentials<br>[default]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
-<p>[testing]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
-<h2 id="Boto-3"><a href="#Boto-3" class="headerlink" title="Boto 3"></a>Boto 3</h2><p><a href="https://boto3.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">Boto 3</a></p>
-<p>pipenv install boto3</p>
+        <blockquote>
+<p>macOS 10.13.2<br>iTerm2 3.1.2<br>zsh 5.3 (x86_64-apple-darwin17.0)</p>
+</blockquote>
+<blockquote>
+<p>生活在 Bash shell 中，熟记以下快捷键，将极大的提高你的命令行操作效率。</p>
+</blockquote>
+<p font-color="red">macOS下 Alt 被替换为 Esc</p>
+
+<h3 id="编辑命令"><a href="#编辑命令" class="headerlink" title="编辑命令"></a>编辑命令</h3><h3 id="命令补全"><a href="#命令补全" class="headerlink" title="命令补全"></a>命令补全</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tab　　　  用于命令补全</span><br><span class="line"></span><br><span class="line">^I 　　　　 可用于命令补全</span><br><span class="line"></span><br><span class="line">^[ 　　　　 相当于Esc，也可补全</span><br></pre></td></tr></table></figure>
+<h3 id="删除命令"><a href="#删除命令" class="headerlink" title="删除命令"></a>删除命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + u ：从光标处删除至命令行首</span><br><span class="line">Ctrl + k ：从光标处删除至命令行尾</span><br><span class="line">Ctrl + w ：从光标处删除至字首</span><br><span class="line">Alt + d ：从光标处删除至字尾</span><br><span class="line">Ctrl + d ：删除光标处的字符</span><br><span class="line">Ctrl + h ：删除光标前的字符</span><br><span class="line">^B 　　　　删除光标所在字母</span><br><span class="line">^Y 　　　　粘贴或恢复上次的删除</span><br></pre></td></tr></table></figure>
+<h3 id="移动命令"><a href="#移动命令" class="headerlink" title="移动命令"></a>移动命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">^P 、^N、 ^B、 ^F    　　方向键 上 下 左 右</span><br><span class="line">Ctrl + a ：移到命令行首</span><br><span class="line">Ctrl + e ：移到命令行尾</span><br><span class="line">Ctrl + f ：按字符前移（右向）</span><br><span class="line">Ctrl + b ：按字符后移（左向）</span><br><span class="line">Alt + f ：按单词前移（右向）</span><br><span class="line">Alt + b ：按单词后移（左向）</span><br><span class="line">Ctrl + xx：在命令行首和光标之间移动</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + y ：粘贴至光标后</span><br><span class="line">Alt + c ：从光标处更改为首字母大写的单词</span><br><span class="line">Alt + u ：从光标处更改为全部大写的单词</span><br><span class="line">Alt + l ：从光标处更改为全部小写的单词</span><br><span class="line">Ctrl + t ：交换光标处和之前的字符</span><br><span class="line">Alt + t ：交换光标处和之前的单词</span><br><span class="line">Alt + Backspace：与 Ctrl + w ~~相同~~类似，分隔符有些差别 [感谢 rezilla 指正]</span><br><span class="line">Ctrl+Alt+E 　扩展命令行</span><br><span class="line">Esc+T 　　 置换前两个单词</span><br></pre></td></tr></table></figure>
+<h3 id="重新执行命令"><a href="#重新执行命令" class="headerlink" title="重新执行命令"></a>重新执行命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + r：逆向搜索命令历史</span><br><span class="line">Ctrl + g：从历史搜索模式退出</span><br><span class="line">Ctrl + p：历史中的上一条命令</span><br><span class="line">Ctrl + n：历史中的下一条命令</span><br><span class="line">Alt + .：使用上一条命令的最后一个参数</span><br><span class="line">Alt+P 　　   非增量方式反向搜索历史</span><br><span class="line"></span><br><span class="line">Alt+&gt; 　　   历史列表中的最后一行命令开始向前</span><br></pre></td></tr></table></figure>
+<h3 id="控制命令"><a href="#控制命令" class="headerlink" title="控制命令"></a>控制命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + l：清屏</span><br><span class="line">Ctrl + o：执行当前命令，并选择上一条命令</span><br><span class="line">Ctrl + s：阻止屏幕输出</span><br><span class="line">Ctrl + q：允许屏幕输出</span><br><span class="line">Ctrl + c：终止命令</span><br><span class="line">Ctrl + z：挂起命令</span><br><span class="line">Bang (!) 命令</span><br><span class="line">^S　　　　锁住屏幕</span><br><span class="line"></span><br><span class="line">^Q　　　　恢复屏幕</span><br><span class="line"></span><br><span class="line">^C　　　　杀死当前进程 </span><br><span class="line"></span><br><span class="line"> ^\　　　　停止当前进程</span><br><span class="line"></span><br><span class="line">^D　　　　退出当前shell</span><br><span class="line"></span><br><span class="line">&amp; 　　　　 后台执行，（nohup以忽略挂起信号方式运行程序）</span><br><span class="line"></span><br><span class="line">^Z　　　　把当前进程转后台运行</span><br><span class="line"></span><br><span class="line">jobs　　　 查看当前后台作业状态</span><br><span class="line"></span><br><span class="line">fg 　　　　将后台作业拿到前台处理</span><br><span class="line"></span><br><span class="line">bg　　　　作业在后台运行</span><br><span class="line">^L　　　　清屏</span><br><span class="line"></span><br><span class="line">^M或^J　  回车</span><br></pre></td></tr></table></figure>
+<h3 id="：执行上一条命令"><a href="#：执行上一条命令" class="headerlink" title="!!：执行上一条命令"></a>!!：执行上一条命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">!blah：执行最近的以 blah 开头的命令，如 !ls</span><br><span class="line">!blah:p：仅打印输出，而不执行</span><br><span class="line">!$：上一条命令的最后一个参数，与 Alt + . 相同</span><br><span class="line">!$:p：打印输出 !$ 的内容</span><br><span class="line">!*：上一条命令的所有参数</span><br><span class="line">!*:p：打印输出 !* 的内容</span><br><span class="line">^blah：删除上一条命令中的 blah</span><br><span class="line">^blah^foo：将上一条命令中的 blah 替换为 foo</span><br><span class="line">^blah^foo^：将上一条命令中所有的 blah 都替换为 foo</span><br></pre></td></tr></table></figure>
+<p>8.一些bash文档</p>
+<p>1.GNU文档：<a href="http://www.gnu.org/software/bash/manual/" target="_blank" rel="noopener">http://www.gnu.org/software/bash/manual/</a></p>
+<p>2.鸟哥的私房菜：<a href="http://linux.vbird.org/linux_basic/0320bash.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_basic/0320bash.php</a></p>
+<p>3.IBM的一些bash教程：<a href="http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?sort_by=&amp;show_abstract=true&amp;show_all=&amp;search_flag=&amp;contentarea_by=Linux&amp;search_by=bash&amp;topic_by=-1&amp;type_by=%E6%89%80%E6%9C%89%E7%B1%BB%E5%88%AB&amp;ibm-search=%E6%90%9C%E7%B4%A2" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?sort_by=&amp;show_abstract=true&amp;show_all=&amp;search_flag=&amp;contentarea_by=Linux&amp;search_by=bash&amp;topic_by=-1&amp;type_by=%E6%89%80%E6%9C%89%E7%B1%BB%E5%88%AB&amp;ibm-search=%E6%90%9C%E7%B4%A2</a></p>
 
       
       
@@ -339,11 +626,11 @@
 
 
   
-    <article id="post-KeePass使用问题" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-AWS" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/09/KeePass使用问题/" class="article-date">
-      <time datetime="2018-04-09T05:47:52.481Z" itemprop="datePublished">2018-04-09</time>
+      <a href="/2018/04/13/AWS/" class="article-date">
+      <time datetime="2018-04-13T06:24:54.289Z" itemprop="datePublished">2018-04-13</time>
 </a>
     </div>
   
@@ -355,13 +642,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>KeePass使用问题</p>
-<p>有些网站不能自动输入密码</p>
-<p>例如 aliyun.com<br>它的密码输入框引用的是”<a href="https://passport.alibaba.com/&quot;阿里巴巴的登录" target="_blank" rel="noopener">https://passport.alibaba.com/&quot;阿里巴巴的登录</a></p>
-<p>KeePassXC<br>设置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KeePassHttp Settings</span><br><span class="line"></span><br><span class="line">&#123;&quot;Allow&quot;:[&quot;passport.alibaba.com&quot;],&quot;Deny&quot;:[],&quot;Realm&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
-<p>允许多个域名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KeePassHttp Settings</span><br><span class="line"></span><br><span class="line">&#123;&quot;Allow&quot;:[&quot;mailsso.mxhichina.com&quot;,&quot;passport.alibaba.com&quot;],&quot;Deny&quot;:[],&quot;Realm&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
+        <p>mkdir aws<br>cd aws<br>pipenv –python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python<br>pipenv –python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python<br>sed -i “” “s/python.org/douban.com/g” Pipfile</p>
+<h2 id="AWS-Cli"><a href="#AWS-Cli" class="headerlink" title="AWS-Cli"></a>AWS-Cli</h2><p><a href="https://github.com/aws/aws-cli" target="_blank" rel="noopener">AWS-Cli</a><br>AWS-Cli 不支持Python3(2017.12.11)<br>pipenv install awscli</p>
+<p>aws configure</p>
+<p>输入<a href="https://console.aws.amazon.com/iam/home#/home" target="_blank" rel="noopener">Identity and Access Management</a></p>
+<p>AWSAccessKeyId<br>AWSSecretKey</p>
+<p>~/.aws/credentials<br>[default]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
+<p>[testing]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
+<h2 id="Boto-3"><a href="#Boto-3" class="headerlink" title="Boto 3"></a>Boto 3</h2><p><a href="https://boto3.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">Boto 3</a></p>
+<p>pipenv install boto3</p>
+
       
       
     </div>
@@ -466,315 +756,6 @@
   
     <h1 itemprop="name">
       <a class="article-title" href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/">重做MacBook Pro的系统macOS 10.13.3</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-云服务服务商" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/02/云服务服务商/" class="article-date">
-      <time datetime="2018-01-02T07:39:00.000Z" itemprop="datePublished">2018-01-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/02/云服务服务商/">云服务</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>VPS</p>
-<p><a href="https://www.aliyun.com/" target="_blank" rel="noopener">阿里云</a><br><a href="https://www.qingcloud.com/" target="_blank" rel="noopener">青云QingCloud</a><br><a href="https://www.linode.com/" target="_blank" rel="noopener">Linode</a><br><a href="https://www.digitalocean.com/" target="_blank" rel="noopener">DigitalOcean</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-学习" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/01/学习/" class="article-date">
-      <time datetime="2018-01-01T01:10:00.000Z" itemprop="datePublished">2018-01-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/01/学习/">学习</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>你学习Linux运维和Python的目的是什么？<br>赚钱，养活自己。</p>
-<p>记录笔记的目的是什么？<br>在自己忘记学习过的知识点后，快速找回记忆。</p>
-<p>总结是归纳知识。</p>
-<p>你之前写的东西，东一点西一点到处乱放。想用的时候又找不到。不就等于没写。</p>
-<p>现在（2018-01-01）的技术关注点</p>
-<ul>
-<li>English</li>
-<li>CentOS</li>
-<li>Python</li>
-</ul>
-<p>文档起名</p>
-<p>案例-命令取名：<br>方法1，按命令分类取名<br>    命令-查看文件及内容处理命令.docx<br>    命令-基础网络操作命令.docx<br>方法2，单命令取名<br>    命令-cd.docx<br>    命令-ls.docx</p>
-<p>案例-分类取名：<br>    项目-sudo 权限集中管理<br>    项目-LAMP 环境部署<br>    文档-用户管理<br>    文档-找回 root 密码</p>
-<p>就如一个技术点，不管是马哥的视频还是老男孩的视频。都总结到一个文件内。时间长了自然积累很多东西。而内容可以分为常用的命令总结或全部命令总结。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Jenkins-持续集成企业实战系列" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/31/Jenkins-持续集成企业实战系列/" class="article-date">
-      <time datetime="2017-12-31T14:05:43.000Z" itemprop="datePublished">2017-12-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/31/Jenkins-持续集成企业实战系列/">Jenkins 持续集成企业实战系列</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>1、传统网站部署流程.wmv 16:17<br>2、主流网站部署流程及方法.wmv 12:05<br>3、Jenkins持续平台安装.wmv 16:42<br>4、Jenkins持续集成MAVEN讲解.wmv 16:09<br>5、Jenkins持续集成JOB工程设置.wmv 18:27<br>6、Jenkins持续集成网站构建实战.wmv 17:06<br>7、Jenkins持续集成自动化部署一.wmv<br>8、Jenkins持续集成自动化部署二.wmv<br>9、Jenkins持续集成插件设置篇.wmv<br>10、Jenkins持续集成邮件设置篇.wmv<br>11、Jenkins持续集成多实例配置.mp4<br>12、Jenkins持续集成Ansible批量部署.mp4</p>
-<p>显示日期 2016-10-09<br>51cto博客 吴光科</p>
-<p>我们学这个软件做什么用？为什么用它？</p>
-<p>持续集成 Continuous Integration</p>
-<p>Jenkins 安装部署</p>
-<p>Jenkins是用java开发的软件，需要jdk和tomcat环境。</p>
-<p>jenkins.war</p>
-<p>解压缩jenkins <code>jar -xvf jenkins.war</code></p>
-<p>tomcat<br>应用存放路径 webapps/ROOT/<br>修改配置 conf/server.xml<br>启动 bin/startup.sh<br>日志 logs/catalina.out</p>
-<p>查看8080端口哪个软件在用<br><code>netstat -tnpl|grep 8080</code></p>
-<p>Make工具<br>Ant工具<br>Maven工具，maven是对ant工具的进一步改进。maven是一个构建工具。maven plugin(maven插件）<br>makefile文件<br>Eclipse工具</p>
-<p>下载maven<br>apache-maven-3.3.9-bin.tar.gz<br>添加maven命令到环境变量</p>
-<p>Jenkins后台配置</p>
-<p>系统管理-&gt;系统全局设置-&gt;<br>Maven Configuration<br>JDK路径<br>Maven</p>
-<p>保存</p>
-<p>IP:121.42.183.93哪个服务商的？</p>
-<p>新建任务<br>构建一个maven项目<br>源码管理<br>pom.xml maven的描述文件类似于makefile</p>
-<p>Build 指定pom.xml文件</p>
-<p>跳过测试 <code>clean install -Dmaven.test.skip=true</code></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Python3操作Excel" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/Python3操作Excel/" class="article-date">
-      <time datetime="2017-12-29T15:18:07.000Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/Python3操作Excel/">Python3操作Excel</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>openpyxl</p>
-<p>xlwings</p>
-<p>xlsxwriter</p>
-<p>xlrd<br>xlwt<br>xlutils</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2007年700-2017年7000" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/2007年700-2017年7000/" class="article-date">
-      <time datetime="2017-12-29T14:48:30.000Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2007年700-2017年7000/">2007年700-2017年7000</a>
     </h1>
   
 
