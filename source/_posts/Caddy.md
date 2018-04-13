@@ -105,6 +105,10 @@ systemctl stop caddy.service
 systemctl status caddy.service
 ```
 
+```shell
+netstat -lnp --inet6 | grep -F caddy
+```
+
 
 
 
