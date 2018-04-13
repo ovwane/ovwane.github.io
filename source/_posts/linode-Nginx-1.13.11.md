@@ -280,6 +280,7 @@ systemctl enable nginx.service
 
 ```shell
 netstat -tulpna | grep nginx
+lsof -i -P|grep nginx
 ```
 
 
