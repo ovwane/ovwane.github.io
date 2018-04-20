@@ -219,6 +219,25 @@ $request_filename：D:\nginx/html/test1/test2/test.php
 
 
 
+### http_auth
+
+配置nginx
+
+```
+location / {
+	auth_basic "secret";
+	auth_basic_user_file /data/nginx/passwd.db; 
+}
+```
+
+生成密码
+
+```shell
+printf "admin:$(openssl passwd -crypt 123456)\n" >>/data/nginx/passwd.db
+```
+
+
+
 ### 参考
 
 [nginx的location配置详解](https://blog.csdn.net/tjcyjd/article/details/50897959)
@@ -227,3 +246,6 @@ $request_filename：D:\nginx/html/test1/test2/test.php
 
 [Nginx 的  从零开始配置](https://segmentfault.com/a/1190000009651161)
 
+
+
+[nginx用户认证配置（ Basic HTTP authentication）](http://www.ttlsa.com/nginx/nginx-basic-http-authentication/)
