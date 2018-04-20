@@ -205,11 +205,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-炼数成金-目录" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/13/炼数成金-目录/" class="article-date">
-      <time datetime="2018-04-13T08:07:21.241Z" itemprop="datePublished">2018-04-13</time>
+      <a href="/2018/04/20/正则表达式/" class="article-date">
+      <time datetime="2018-04-20T01:27:37.367Z" itemprop="datePublished">2018-04-20</time>
 </a>
     </div>
   
@@ -221,8 +221,15 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>炼数成金-目录</p>
-<p>01.解释性脚本语言初探.avi 46:42<br>02.1.Python开发环境windows.avi 21:30<br>02.2.Python开发环境linux.avi 21:40<br>02.3.Python开发环境wingide.avi 25:30<br>03.python使用基础.avi 1:53:25<br>04.python内置容器_.avi 47:02<br>05.并行开发.mp4 1:08:22<br>06.python正则表达式.avi 1:03:49<br>07.socket编程基础.avi 1:18:04<br>08.爬虫.mp4 59:18<br>09.django初探.wmv 1:11:22<br>10.django.avi 1:34:59<br>11.twisted.avi 43:30<br>12.Twisted综合应用.avi 50:09</p>
+        <h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><p>IP是由四段组成，每一段是0-255的数字，段与段之间用小数点隔开，比如192.168.1.1就是合法的IP地址。</p>
+<p>如果正则表达式写成d{1,3}(.d{1,3}){3}无疑是不负责的，因为它可以匹配300.400.555.666这样的非法IP字串。</p>
+<p>如果要匹配一个0-255之间的数，有几种匹配方式，下面是其中一种：</p>
+<p>匹配    正则表达式    说明<br>0-9    d    单个数字<br>10-99    [1-9]d    两位数<br>100-199    1dd    百位为1的三位数<br>200-249    2[0-4]d    三位数，百位是2，十位是0-9<br>250-255    25[0-5]    三位数，百位是2，十位是5，个位是0-5</p>
+<p>写成正则表达式，即：(d|([1-9]d) | (1dd) | (2[0-4]d) | (25[0-5]))，但是这样的正则表达式在匹配254这样的字串时，会分别匹配2、5、4，得到3个匹配，达不到预期效果，正确做法是将次序颠倒为：((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)，因为在(xxx|yyy)这种匹配行为中，是从左向右搜索的。</p>
+<p>完整的正则表达式是：<br>((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)(.((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)){3}</p>
+<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>一个完整的域名，由根域名、顶级域、二级、三级……域名构成，每级域名之间用点分开，每级域名由字母、数字和减号构成（第一个字母不能是减号），不区分大小写，长度不超过63个字符。</p>
+<p>很显然，单独的名字可以由正则表达式[a-zA-Z0-9][-a-zA-Z0-9]{0,62}来匹配，而完整的域名至少包括两个名字（比如google.com，由google和com构成），最后可以有一个表示根域的点（在规范中，最后又一个点的才是完整域名，但一般认为包括两个以上名字的域名也是完整域名，哪怕它后面没有点）。</p>
+<p>匹配完整域名的正则表达式：<br>[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+.?</p>
 
       
       
@@ -250,11 +257,11 @@
 
 
   
-    <article id="post-清华大学开源软件镜像站-CentOS7" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-通过CrawlSpider对招聘网站进行整站爬取" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/13/清华大学开源软件镜像站-CentOS7/" class="article-date">
-      <time datetime="2018-04-13T08:07:21.241Z" itemprop="datePublished">2018-04-13</time>
+      <a href="/2018/04/20/通过CrawlSpider对招聘网站进行整站爬取/" class="article-date">
+      <time datetime="2018-04-20T01:27:37.367Z" itemprop="datePublished">2018-04-20</time>
 </a>
     </div>
   
@@ -266,12 +273,22 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>CentOS-Base.repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"># CentOS-Base.repo</span><br><span class="line">#</span><br><span class="line"># The mirror system uses the connecting IP address of the client and the</span><br><span class="line"># update status of each mirror to pick mirrors that are updated to and</span><br><span class="line"># geographically close to the client.  You should use this for CentOS updates</span><br><span class="line"># unless you are manually picking other mirrors.</span><br><span class="line">#</span><br><span class="line"># If the mirrorlist= does not work for you, as a fall back you can try the</span><br><span class="line"># remarked out baseurl= line instead.</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">[base]</span><br><span class="line">name=CentOS-$releasever - Base</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/os/$basearch/</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">#released updates</span><br><span class="line">[updates]</span><br><span class="line">name=CentOS-$releasever - Updates</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/updates/$basearch/</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">#additional packages that may be useful</span><br><span class="line">[extras]</span><br><span class="line">name=CentOS-$releasever - Extras</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/extras/$basearch/</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">#additional packages that extend functionality of existing packages</span><br><span class="line">[centosplus]</span><br><span class="line">name=CentOS-$releasever - Plus</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/centosplus/$basearch/</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=0</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure>
-<p>epel.repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[epel]</span><br><span class="line">name=Extra Packages for Enterprise Linux 7 - $basearch</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/epel/7/$basearch</span><br><span class="line">#mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-7&amp;arch=$basearch</span><br><span class="line">failovermethod=priority</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7</span><br><span class="line"></span><br><span class="line">[epel-debuginfo]</span><br><span class="line">name=Extra Packages for Enterprise Linux 7 - $basearch - Debug</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/epel/7/$basearch/debug</span><br><span class="line">#mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-debug-7&amp;arch=$basearch</span><br><span class="line">failovermethod=priority</span><br><span class="line">enabled=0</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7</span><br><span class="line">gpgcheck=1</span><br><span class="line"></span><br><span class="line">[epel-source]</span><br><span class="line">name=Extra Packages for Enterprise Linux 7 - $basearch - Source</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/epel/7/SRPMS</span><br><span class="line">#mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-source-7&amp;arch=$basearch</span><br><span class="line">failovermethod=priority</span><br><span class="line">enabled=0</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7</span><br><span class="line">gpgcheck=1</span><br></pre></td></tr></table></figure>
-<p>rpmforge.repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; /etc/yum.repos.d/rpmforge.repo &lt;&lt; EOF</span><br><span class="line">[rpmforge]</span><br><span class="line">name = RHEL $releasever - RPMforge.net - dag</span><br><span class="line">baseurl = https://mirrors.tuna.tsinghua.edu.cn/repoforge/redhat/el7/en/x86_64/rpmforge</span><br><span class="line">mirrorlist = http://mirrorlist.repoforge.org/el7/mirrors-rpmforge</span><br><span class="line">enabled = 1</span><br><span class="line">protect = 0</span><br><span class="line">gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-dag</span><br><span class="line">gpgcheck = 1</span><br><span class="line"></span><br><span class="line">[rpmforge-extras]</span><br><span class="line">name = RHEL $releasever - RPMforge.net - extras</span><br><span class="line">baseurl = https://mirrors.tuna.tsinghua.edu.cn/repoforge/redhat/el7/en/x86_64/extras</span><br><span class="line">mirrorlist = http://mirrorlist.repoforge.org/el7/mirrors-rpmforge-extras</span><br><span class="line">enabled = 0</span><br><span class="line">protect = 0</span><br><span class="line">gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-dag</span><br><span class="line">gpgcheck = 1</span><br><span class="line"></span><br><span class="line">[rpmforge-testing]</span><br><span class="line">name = RHEL $releasever - RPMforge.net - testing</span><br><span class="line">baseurl = https://mirrors.tuna.tsinghua.edu.cn/repoforge/redhat/el7/en/x86_64/testing</span><br><span class="line">mirrorlist = http://mirrorlist.repoforge.org/el7/mirrors-rpmforge-testing</span><br><span class="line">enabled = 0  </span><br><span class="line">protect = 0</span><br><span class="line">gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-dag</span><br><span class="line">gpgcheck = 1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+        <p>Windows下类似linux的终端 ·cmder·</p>
+<p>数据库 article_spider</p>
+<p>数据表 lagou_job</p>
+<p>设计数据表结构</p>
+<p><img src="./lagou_job.png" alt=""></p>
+<p>编写CrawlSpider</p>
+<p>查看scrapy spider提供的模板</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider --list</span><br></pre></td></tr></table></figure>
+<p>生成crawlspider</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider -t crawl lagou www.lagou.com</span><br></pre></td></tr></table></figure>
+<p>变量PYTHONPATH</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">project_dir = os.path.abspath(os.path.dirname(__file__))</span><br><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))</span><br><span class="line">sys.path.insert(<span class="number">0</span>, os.path.join(BASE_DIR, <span class="string">'ArticleSpider'</span>))</span><br></pre></td></tr></table></figure>
+<p>CrawlSpider是个什么类？</p>
+<p>Rule</p>
+<p>LinkExtractor</p>
+
       
       
     </div>
@@ -298,11 +315,11 @@
 
 
   
-    <article id="post-本博客 Nginx 配置之完整篇" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-随记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/13/本博客 Nginx 配置之完整篇/" class="article-date">
-      <time datetime="2018-04-13T08:07:21.241Z" itemprop="datePublished">2018-04-13</time>
+      <a href="/2018/04/20/随记/" class="article-date">
+      <time datetime="2018-04-20T01:27:37.367Z" itemprop="datePublished">2018-04-20</time>
 </a>
     </div>
   
@@ -314,63 +331,120 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="本博客-Nginx-配置之完整篇"><a href="#本博客-Nginx-配置之完整篇" class="headerlink" title="本博客 Nginx 配置之完整篇"></a>本博客 Nginx 配置之完整篇</h1><p>最近有很多朋友邮件或者留言询问本博客服务端配置相关问题，基本都是关于 HTTPS 和 HTTP/2 的，其实我的 Nginx 配置在之前的文章中多次提到过，不过都比较分散。为了方便大家参考，本文贴出完整配置。</p>
-<blockquote>
-<p>本文内容会随时调整和更新，请不要把本文内容全文转载到第三方平台，以免给他人造成困扰或误导。另外限于篇幅，本文不对配置做过多说明，如有疑问或不同意见，欢迎留言讨论。</p>
+        <p>12 自动摘要及正文抽取.flv</p>
+<p>汽车之家 爬取方法</p>
+<p>java爬虫webmagic</p>
+<p>查询信用报表<br>3.20<br>6.20<br>9.20<br>12.20</p>
+<p>已经知道端口，怎么查找占用的服务</p>
+<ol>
+<li>lsof -i tcp:22</li>
+<li>netstat -lntup<br>p显示进程名</li>
+</ol>
+<p>监控<br>Open-Falcon、Cacti、Zabbix、Prometheus、Smokeping</p>
+<p>brew install you-get</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">If you need to have this software first in your PATH run:</span><br><span class="line">  echo &apos;export PATH=&quot;/usr/local/opt/openssl/bin:$PATH&quot;&apos; &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">For compilers to find this software you may need to set:</span><br><span class="line">    LDFLAGS:  -L/usr/local/opt/openssl/lib</span><br><span class="line">    CPPFLAGS: -I/usr/local/opt/openssl/include</span><br><span class="line">For pkg-config to find this software you may need to set:</span><br><span class="line">    PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig</span><br><span class="line">    </span><br><span class="line"> To use post-processing options, `brew install ffmpeg` or `brew install libav`</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-计算机设备" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/20/计算机设备/" class="article-date">
+      <time datetime="2018-04-20T01:27:37.367Z" itemprop="datePublished">2018-04-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="网络设备"><a href="#网络设备" class="headerlink" title="网络设备"></a>网络设备</h2><h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>锐捷</p>
+<h3 id="AC控制器"><a href="#AC控制器" class="headerlink" title="AC控制器"></a>AC控制器</h3><p>华为</p>
+<h3 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h3><p>华为</p>
+<h3 id="POE交换机"><a href="#POE交换机" class="headerlink" title="POE交换机"></a>POE交换机</h3><p>华为</p>
+<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h3 id="NAS"><a href="#NAS" class="headerlink" title="NAS"></a>NAS</h3><p>synology</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-关于她-绝笔" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/20/关于她-绝笔/" class="article-date">
+      <time datetime="2018-04-20T01:27:37.363Z" itemprop="datePublished">2018-04-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>不教而杀谓之虐 不戒视成谓之暴 慢令致期谓之贼</p>
 </blockquote>
 <blockquote>
-<p>本博客最新的 Nginx 配置，见这篇文章：<a href="https://imququ.com/post/enable-tls-1-3.html" target="_blank" rel="noopener">本博客开始支持 TLS 1.3</a>。</p>
+<p>不懂得如何教化孩子，而一昧禁绝，是为虐待者。<br>不花时间和心思与孩子沟通，而只求成绩，是为暴徒。<br>孩子童年时，对其忽视懈怠，长大后却临时抱佛脚，急于求成，是为贼人。<br>千年过去，孔子的话，依然使我们警醒。</p>
 </blockquote>
-          
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-        <p class="article-more-link">
-          <a  href="/2018/04/13/本博客 Nginx 配置之完整篇/#more">大航海 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-暂存书签" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/13/暂存书签/" class="article-date">
-      <time datetime="2018-04-13T08:07:21.241Z" itemprop="datePublished">2018-04-13</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="书签"><a href="#书签" class="headerlink" title="书签"></a>书签</h3><p><a href="http://blog.51cto.com/ganbing/2059541" target="_blank" rel="noopener">总结一下：运维工程师面试的经历及面试相关问题</a></p>
-<p><a href="http://www.cnblogs.com/linhaifeng/p/6264636.html" target="_blank" rel="noopener">openstack系列阅读目录</a></p>
-<p><a href="https://www.sdnlab.com/" target="_blank" rel="noopener">SDNLAB | 专注网络创新技术</a></p>
+<p>你可以喜欢，你可以揣摩心思，但你不能偷窥。这不仅仅是心理问题。也是不尊重他人。你要承受所带来的后果。也要远离。这是你做错了。你不该这样。钱，其他的也带不来你的欢乐。你也不应该去找寻她了。</p>
+<p>发条橙和西部世界</p>
+<blockquote>
+<p>电影里，阿历克斯的父母，只给他中产阶级的生活，其余一切漠不关心。现实中，我偶然看湖南卫视，《变形记》的一幕：一个少年对母亲吼道“滚你妈的”。后来才得知，这位母亲离婚很久，却没把真相告诉儿子。你不尊重我的知情权，还想让我尊重你？《网瘾之戒》的结尾，柴静向“问题少年”的父母们，提出了一些问题——</p>
+</blockquote>
+<p>作者：罗罔极<br>链接：<a href="https://zhuanlan.zhihu.com/p/30386257" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/30386257</a></p>
 
       
       
@@ -401,8 +475,8 @@
     <article id="post-文档排版" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/13/文档排版/" class="article-date">
-      <time datetime="2018-04-13T08:07:21.241Z" itemprop="datePublished">2018-04-13</time>
+      <a href="/2018/04/20/文档排版/" class="article-date">
+      <time datetime="2018-04-20T01:27:37.363Z" itemprop="datePublished">2018-04-20</time>
 </a>
     </div>
   
@@ -444,104 +518,11 @@
 
 
   
-    <article id="post-关于编程学习" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/13/关于编程学习/" class="article-date">
-      <time datetime="2018-04-13T08:07:21.237Z" itemprop="datePublished">2018-04-13</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>关于编程学习</p>
-<p><a href="https://kb.cnblogs.com/page/563790/" target="_blank" rel="noopener">关于编程，你的练习是不是有效的？</a></p>
-<p>前端</p>
-<p><a href="http://caibaojian.com/" target="_blank" rel="noopener">前端开发博客</a></p>
-<p>github</p>
-<p><a href="http://blog.csdn.net/qq1332479771/article/details/56087333" target="_blank" rel="noopener"> github上fork了别人的项目后，再同步更新别人的提交</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-工作职场相关书签" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/13/工作职场相关书签/" class="article-date">
-      <time datetime="2018-04-13T08:07:21.237Z" itemprop="datePublished">2018-04-13</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>招聘网站<br><a href="https://www.lagou.com/" target="_blank" rel="noopener">拉勾网</a><br><a href="https://www.liepin.com/" target="_blank" rel="noopener">猎聘网</a><br><a href="http://www.51job.com/" target="_blank" rel="noopener">前程无忧</a><br><a href="http://maimai.cn/" target="_blank" rel="noopener">脉脉</a><br><a href="https://www.zhaopin.com/" target="_blank" rel="noopener">智联招聘</a><br><a href="">看准网</a><br><a href="">中华英才</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-学习-记忆-规律-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/13/学习-记忆-规律-笔记/" class="article-date">
-      <time datetime="2018-04-13T08:07:21.237Z" itemprop="datePublished">2018-04-13</time>
+      <a href="/2018/04/20/学习-记忆-规律-笔记/" class="article-date">
+      <time datetime="2018-04-20T01:27:37.363Z" itemprop="datePublished">2018-04-20</time>
 </a>
     </div>
   
@@ -592,11 +573,57 @@
 
 
   
+    <article id="post-暂存书签" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/20/暂存书签/" class="article-date">
+      <time datetime="2018-04-20T01:27:37.363Z" itemprop="datePublished">2018-04-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="书签"><a href="#书签" class="headerlink" title="书签"></a>书签</h3><p><a href="http://blog.51cto.com/ganbing/2059541" target="_blank" rel="noopener">总结一下：运维工程师面试的经历及面试相关问题</a></p>
+<p><a href="http://www.cnblogs.com/linhaifeng/p/6264636.html" target="_blank" rel="noopener">openstack系列阅读目录</a></p>
+<p><a href="https://www.sdnlab.com/" target="_blank" rel="noopener">SDNLAB | 专注网络创新技术</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-关注的Github项目" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/13/关注的Github项目/" class="article-date">
-      <time datetime="2018-04-13T08:07:21.237Z" itemprop="datePublished">2018-04-13</time>
+      <a href="/2018/04/20/关注的Github项目/" class="article-date">
+      <time datetime="2018-04-20T01:27:37.363Z" itemprop="datePublished">2018-04-20</time>
 </a>
     </div>
   
@@ -652,11 +679,11 @@
 
 
   
-    <article id="post-python全栈3期day003" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-关于编程学习" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/13/python全栈3期day003/" class="article-date">
-      <time datetime="2018-04-13T08:07:21.237Z" itemprop="datePublished">2018-04-13</time>
+      <a href="/2018/04/20/关于编程学习/" class="article-date">
+      <time datetime="2018-04-20T01:27:37.363Z" itemprop="datePublished">2018-04-20</time>
 </a>
     </div>
   
@@ -668,52 +695,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>01.网络基础和dos命令.mp4 56:43<br>02.为何学习linux.mp4 08:59<br>03.课程内容介绍.mp4 03:12<br>04.操作系统内核与系统调用.mp4 22:18<br>05.操作系统安装原理.mp4 09：02<br>06.linux操作系统安装part1.mp4 28：12<br>07.linux操作系统安装part2.mp4 14:33<br>08.初识linux命令.mp4 34:49<br>09.linux操作系统目录结构.mp4 42:19<br>10.目录及文件操作.mp4 44:05</p>
-<p>2016.11.09 09:39</p>
-<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>局域网<br>城域网<br>广域网</p>
-<p>传输介质<br>有线<br>光纤<br>无线</p>
-<p>568A<br>568B</p>
-<p>交叉线<br>568A-&gt;568B</p>
-<p>同种设备之间连接用交叉线</p>
-<p>非同种设备之间连接用直通线</p>
-<p>IP地址<br>五类</p>
-<p>A<br>B<br>C<br>D<br>E</p>
-<p>ipconfig<br>ping</p>
-<p>cd<br>d:</p>
-<p>rd 删除目录</p>
-<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>Linux学习</p>
-<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>操作系统核心 内核:内核是一个管理和控制程序,负责管理计算机的所有物理资源,文件系统、内存管理，设备管理，进程管理。<br>系统调用接口 api</p>
-<p>内核态:<br>用户态:</p>
-<p>RHEL、CentOS、Fedora、Ubuntu、SuSE</p>
-<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>Linux系统笔刷安装<br>硬件配置<br>1核心<br>内存2GB<br>硬盘20GB</p>
-<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>系统镜像盘 iso</p>
-<p>CentOS 6.8</p>
-<p>/boot 500MB<br>swap 虚拟内存,一般内存的1.5或者2倍.大于16GB就16GB了<br>/ 剩余所有</p>
-<p>Minimal 安装</p>
-<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p>Kdump</p>
-<h2 id="08"><a href="#08" class="headerlink" title="08"></a>08</h2><p>初识linux命令</p>
-<p>UNIX是什么<br>MINIX<br>多任务多用户</p>
-<p>GNU 和 GPL</p>
-<p>Linux是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统</p>
-<p>常用桌面KDE和GNOME</p>
-<p>关闭Linux系统的命令 init 0</p>
-<p>登录后的提示符 $<br>root用户的提示符 #</p>
-<p>退出命令 exit</p>
-<p>Linux命令的格式</p>
-<p>命令 选项 参数</p>
-<p>ls -a /</p>
-<p>ls</p>
-<p>whoami<br>who<br>date<br>hwclock -s<br>cal<br>clear ctrl+l</p>
-<p>useradd<br>su<br>passwd</p>
-<p>终止命令运行 ctrl + c</p>
-<p>man<br>help<br>–help</p>
-<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><p>目录</p>
-<p>/ 根目录<br>. 本目录<br>.. 上一级目录</p>
-<p>pwd</p>
-<p>/bin 二进制可以执行文件<br>/sbin 系统管理的二进制可执行文件<br>/root root用户的家目录<br>/home 普通用户的默认家目录<br>/dev 设备文件目录<br>/etc 配置文件目录</p>
-<p>绝对路径和相对路径</p>
-<p>绝对路径 必须以一个正斜线”/“开始<br>相对路径 相对于某个目录</p>
-<h2 id="10"><a href="#10" class="headerlink" title="10"></a>10</h2><p>cp<br>mv<br>mkdir<br>touch<br>rm<br>alias<br>tr<br>cat<br>head<br>tail<br>more<br>less</p>
+        <p>关于编程学习</p>
+<p><a href="https://kb.cnblogs.com/page/563790/" target="_blank" rel="noopener">关于编程，你的练习是不是有效的？</a></p>
+<p>前端</p>
+<p><a href="http://caibaojian.com/" target="_blank" rel="noopener">前端开发博客</a></p>
+<p>github</p>
+<p><a href="http://blog.csdn.net/qq1332479771/article/details/56087333" target="_blank" rel="noopener"> github上fork了别人的项目后，再同步更新别人的提交</a></p>
 
       
       
@@ -743,7 +730,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </div>
