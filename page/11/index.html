@@ -205,6 +205,308 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-CentOS7 安装SScrapy和SpiderKeeper" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/03/CentOS7 安装SScrapy和SpiderKeeper/" class="article-date">
+      <time datetime="2018-05-03T00:11:32.768Z" itemprop="datePublished">2018-05-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="安装Python"><a href="#安装Python" class="headerlink" title="安装Python"></a>安装Python</h2><h3 id="安装Python依赖"><a href="#安装Python依赖" class="headerlink" title="安装Python依赖"></a>安装Python依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># CentOS7</span><br><span class="line">yum install -y  gcc gcc-c++ make git patch openssl-devel zlib-devel readline-devel sqlite sqlite-devel bzip2-devel curl wget ncurses-devel sqlite-devel gdbm-devel xz-devel tk-devel</span><br></pre></td></tr></table></figure>
+<h3 id="安装pyenv"><a href="#安装pyenv" class="headerlink" title="安装pyenv"></a>安装<a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener">pyenv</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br></pre></td></tr></table></figure>
+<h4 id="配置bash-profile"><a href="#配置bash-profile" class="headerlink" title="配置bash_profile"></a>配置bash_profile</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">echo -e &apos;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">exec &quot;$SHELL&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="安装Python-1"><a href="#安装Python-1" class="headerlink" title="安装Python"></a>安装Python</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.5 -v</span><br><span class="line"></span><br><span class="line">pyenv global 3.6.5</span><br><span class="line"></span><br><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure>
+<p>/root/.pyenv/versions/3.6.5/bin/python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install virtualenvwrapper pipenv</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">start virtualwrapper</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/root/.pyenv/versions/3.6.5/bin/python</span><br><span class="line">export WORKON_HOME='~/.virtualenv'</span><br><span class="line">source /root/.pyenv/versions/3.6.5/bin/virtualenvwrapper.sh</span><br><span class="line"><span class="meta">#</span><span class="bash">end</span></span><br></pre></td></tr></table></figure>
+<p>pipenv –python=/root/.pyenv/versions/3.6.5/bin/python</p>
+<p>因Supervisor现在不支持python3的版本需要安装Python 2.7.14</p>
+<p>pyenv install 2.7.14 -v<br>pyenv global 2.7.14<br>pyenv rehash</p>
+<h3 id="更改pypi源"><a href="#更改pypi源" class="headerlink" title="更改pypi源"></a>更改pypi源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h2 id="安装Supervisor-Supervisor使用简介"><a href="#安装Supervisor-Supervisor使用简介" class="headerlink" title="安装Supervisor Supervisor使用简介"></a>安装Supervisor <a href="http://liuzxc.github.io/blog/supervisor/" target="_blank" rel="noopener">Supervisor使用简介</a></h2><h3 id="新建虚拟环境"><a href="#新建虚拟环境" class="headerlink" title="新建虚拟环境"></a>新建虚拟环境</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/</span><br><span class="line">mkdir py2 py3</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/py2</span><br><span class="line">pipenv --python=/root/.pyenv/versions/2.7.14/bin/python</span><br><span class="line"></span><br><span class="line">workon py2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv virtualenv 2.7.13 supervisor</span><br></pre></td></tr></table></figure>
+<h3 id="激活虚拟环境"><a href="#激活虚拟环境" class="headerlink" title="激活虚拟环境"></a>激活虚拟环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /root/.pyenv/versions/2.7.13/envs/supervisor/bin/activate</span><br></pre></td></tr></table></figure>
+<h3 id="安装supervisor"><a href="#安装supervisor" class="headerlink" title="安装supervisor"></a>安装supervisor</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install supervisor</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /etc/supervisor/</span><br><span class="line"></span><br><span class="line">echo_supervisord_conf &gt; /etc/supervisord.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo_supervisord_conf &gt; /etc/supervisor/supervisord.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/supervisord.conf</span><br><span class="line"></span><br><span class="line">[include]</span><br><span class="line">files = /etc/supervisor/conf.d/*.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/root/.virtualenv/py2-kYuLH55n/bin/supervisord -c /etc/supervisord.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/supervisord.service</span><br><span class="line"></span><br><span class="line">[Unit]                                                              </span><br><span class="line">Description=supervisord - Supervisor process control system for UNIX</span><br><span class="line">Documentation=http://supervisord.org                                </span><br><span class="line">After=network.target                                                </span><br><span class="line"></span><br><span class="line">[Service]                                                           </span><br><span class="line">Type=forking                                                        </span><br><span class="line">ExecStart=/root/.virtualenv/py2-kYuLH55n/bin/supervisord -c /etc/supervisord.conf             </span><br><span class="line">ExecReload=/root/.virtualenv/py2-kYuLH55n/bin/supervisorctl reload                            </span><br><span class="line">ExecStop=/root/.virtualenv/py2-kYuLH55n/bin/supervisorctl shutdown                            </span><br><span class="line"></span><br><span class="line">[Install]                                                           </span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<h3 id="启动supervisor"><a href="#启动supervisor" class="headerlink" title="启动supervisor"></a>启动supervisor</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 查看进程</span><br><span class="line">ps aux | grep supervisord</span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable supervisord</span><br><span class="line">systemctl start supervisord</span><br><span class="line">systemctl status supervisord -l</span><br><span class="line">systemctl stop supervisord</span><br><span class="line">systemctl reload supervisord</span><br></pre></td></tr></table></figure>
+<h2 id="Scrapyd"><a href="#Scrapyd" class="headerlink" title="Scrapyd"></a>Scrapyd</h2><h3 id="新建虚拟环境-1"><a href="#新建虚拟环境-1" class="headerlink" title="新建虚拟环境"></a>新建虚拟环境</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/py3</span><br><span class="line">pipenv --python=/root/.pyenv/versions/3.6.5/bin/python</span><br><span class="line"></span><br><span class="line">workon py3-hv-Nhry6</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pyenv virtualenv 3.6.2 scrapyd</span><br><span class="line"></span><br><span class="line">source /root/.pyenv/versions/3.6.2/envs/scrapyd/bin/activate</span><br><span class="line"></span><br><span class="line">pyenv activate scrapyd</span><br><span class="line"></span><br><span class="line">pyenv deactivate</span><br></pre></td></tr></table></figure>
+<h3 id="安装scrapyd"><a href="#安装scrapyd" class="headerlink" title="安装scrapyd"></a>安装scrapyd</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapyd</span><br></pre></td></tr></table></figure>
+<p>mkdir -p /data/scrapyd</p>
+<h3 id="配置scrapyd"><a href="#配置scrapyd" class="headerlink" title="配置scrapyd"></a>配置scrapyd</h3><p>/etc/supervisor/scrapyd.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/supervisor/scrapyd.conf&lt;&lt;EOF</span><br><span class="line">[program:scrapyd]</span><br><span class="line">command=workon py3-hv-Nhry6</span><br><span class="line">directory=/data/scrapyd</span><br><span class="line">command=/root/.virtualenv/py3-hv-Nhry6/bin/scrapyd</span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">redirect_stderr=true</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="重启supervisor"><a href="#重启supervisor" class="headerlink" title="重启supervisor"></a>重启supervisor</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/root/.virtualenv/py2-kYuLH55n/bin/supervisorctl</span><br><span class="line"></span><br><span class="line">status</span><br><span class="line"></span><br><span class="line">reread|reload</span><br></pre></td></tr></table></figure>
+<h2 id="安装SipderKeeper"><a href="#安装SipderKeeper" class="headerlink" title="安装SipderKeeper"></a>安装SipderKeeper</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source /root/.pyenv/versions/3.6.2/envs/scrapyd/bin/activate</span><br><span class="line"></span><br><span class="line">pip install spiderkeeper</span><br></pre></td></tr></table></figure>
+<p>mkdir -p /data/spiderkeeper</p>
+<h3 id="配置spiderkeeper"><a href="#配置spiderkeeper" class="headerlink" title="配置spiderkeeper"></a>配置spiderkeeper</h3><p>/etc/supervisor/spiderkeeper.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/supervisor/spiderkeeper.conf&lt;&lt;EOF</span><br><span class="line">[program:spiderkeeper]</span><br><span class="line">command=source /root/.pyenv/versions/3.6.2/envs/scrapyd/bin/activate</span><br><span class="line">directory=/data/spiderkeeper</span><br><span class="line">command=/root/.virtualenv/py3-hv-Nhry6/bin/spiderkeeper --port=8000 --server=http://localhost:6800 --username=admin --password=admin</span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">startretries=3</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="重启supervisor-1"><a href="#重启supervisor-1" class="headerlink" title="重启supervisor"></a>重启supervisor</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/root/.pyenv/versions/supervisor/bin/supervisorctl</span><br><span class="line"></span><br><span class="line">status</span><br><span class="line"></span><br><span class="line">reread|reload</span><br></pre></td></tr></table></figure>
+<p>### </p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-4-20今天要发工资了" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/20/4-20今天要发工资了/" class="article-date">
+      <time datetime="2018-04-20T09:22:28.000Z" itemprop="datePublished">2018-04-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/20/4-20今天要发工资了/">4.20今天要发工资了</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 10.13.3 配置pipenv" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/26/macOS 10.13.3 配置pipenv/" class="article-date">
+      <time datetime="2018-03-26T20:39:00.000Z" itemprop="datePublished">2018-03-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/26/macOS 10.13.3 配置pipenv/">macOS 10.13.3 配置pipenv</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://docs.pipenv.org/" target="_blank" rel="noopener">Python Development Workflow for Humans</a><br><a href="https://github.com/pypa/pipenv" target="_blank" rel="noopener">pipenv</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line">#start pipenv</span><br><span class="line">eval &quot;$(pipenv --completion)&quot;</span><br><span class="line">#end</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.4/bin/python</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#显示安装全部过程</span><br><span class="line">pipenv install -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv graph</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv shell</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-重做MacBook-Pro的系统macOS-10-13-3" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/" class="article-date">
+      <time datetime="2018-03-18T08:02:03.000Z" itemprop="datePublished">2018-03-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/">重做MacBook Pro的系统macOS 10.13.3</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-云服务服务商" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/02/云服务服务商/" class="article-date">
+      <time datetime="2018-01-02T07:39:00.000Z" itemprop="datePublished">2018-01-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/02/云服务服务商/">云服务</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>VPS</p>
+<p><a href="https://www.aliyun.com/" target="_blank" rel="noopener">阿里云</a><br><a href="https://www.qingcloud.com/" target="_blank" rel="noopener">青云QingCloud</a><br><a href="https://www.linode.com/" target="_blank" rel="noopener">Linode</a><br><a href="https://www.digitalocean.com/" target="_blank" rel="noopener">DigitalOcean</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-学习" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -513,407 +815,9 @@
 
 
   
-    <article id="post-2017年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/2017年终总结之思考/" class="article-date">
-      <time datetime="2017-12-29T08:32:31.000Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2017年终总结之思考/">2017年终总结之思考</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>暂无</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2017年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/2017年终总结之败家/" class="article-date">
-      <time datetime="2017-12-29T08:31:31.000Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2017年终总结之败家/">2017年终总结之败家</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Apple MacBook Pro 15<br>Sony Xperia XZ1</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2017年总结与2018年计划" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/2017年总结与2018年计划/" class="article-date">
-      <time datetime="2017-12-29T08:25:00.000Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2017年总结与2018年计划/">2017年总结与2018年计划</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="当前背景"><a href="#当前背景" class="headerlink" title="当前背景"></a>当前背景</h2><p>今天星期五，明天就开始休息和放假啦！</p>
-<h2 id="工作总结与计划的重要性"><a href="#工作总结与计划的重要性" class="headerlink" title="工作总结与计划的重要性"></a>工作总结与计划的重要性</h2><h3 id="计划的时间"><a href="#计划的时间" class="headerlink" title="计划的时间"></a>计划的时间</h3><ol>
-<li>每年度结束时，新的一年即将开始时。</li>
-</ol>
-<h3 id="计划的目的"><a href="#计划的目的" class="headerlink" title="计划的目的"></a>计划的目的</h3><ol>
-<li>对新的一年的整体计划，从家庭、工作、学习、健康、生活、旅行等方面出发，规划自己新的一年的整体目标</li>
-<li>通过整体的规划，可以定期的对自己进行监督，从而使自己能够完整规划的目标。</li>
-</ol>
-<h3 id="总结的价值"><a href="#总结的价值" class="headerlink" title="总结的价值"></a>总结的价值</h3><ol>
-<li>有助于更好的规划自己的时间，不断的进行提升。</li>
-<li>作为监督自己的一种方式</li>
-<li>可以帮助自己做好自己的职业规划</li>
-</ol>
-<h1 id="2017年度总结"><a href="#2017年度总结" class="headerlink" title="2017年度总结"></a>2017年度总结</h1><h2 id="生活上"><a href="#生活上" class="headerlink" title="生活上"></a>生活上</h2><p>生了一场大病，人生第一次去了急诊，住院。<br>买了一台苹果本</p>
-<h2 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h2><p>经历了第一次被人fire</p>
-<h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><p>学习Python</p>
-<h2 id="业余"><a href="#业余" class="headerlink" title="业余"></a>业余</h2><p>摄影，</p>
-<h1 id="2018年计划"><a href="#2018年计划" class="headerlink" title="2018年计划"></a>2018年计划</h1><h2 id="生活上-1"><a href="#生活上-1" class="headerlink" title="生活上"></a>生活上</h2><ol>
-<li>在北京周边买一套房子，进行投资</li>
-<li>进行2次长线旅游、4次以上短途旅游</li>
-</ol>
-<h2 id="工作-1"><a href="#工作-1" class="headerlink" title="工作"></a>工作</h2><ol>
-<li>换工作，找一个做互联网相关的公司</li>
-<li>薪水能够有所提高，尤其是公积金的缴纳基数</li>
-<li>能够设计和上线一款互联网相关的产品</li>
-</ol>
-<h2 id="学习-1"><a href="#学习-1" class="headerlink" title="学习"></a>学习</h2><ol>
-<li>读一本产品经理相关的图书</li>
-<li>学习一套产品设计相关的视频课程</li>
-<li>参加一次产品经理相关的培训课程</li>
-<li>每天坚持看两遍关于产品和运营相关的文章，早上、晚上各一篇</li>
-</ol>
-<h2 id="业余-1"><a href="#业余-1" class="headerlink" title="业余"></a>业余</h2><p>学习如何与人交流，沟通，相处。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu-新装服务器部署流程" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/18/Ubuntu-新装服务器部署流程/" class="article-date">
-      <time datetime="2017-12-18T15:02:01.000Z" itemprop="datePublished">2017-12-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/18/Ubuntu-新装服务器部署流程/">Ubuntu 新装服务器部署流程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Ubuntu-新装服务器部署流程"><a href="#Ubuntu-新装服务器部署流程" class="headerlink" title="Ubuntu 新装服务器部署流程"></a>Ubuntu 新装服务器部署流程</h1><blockquote>
-<p>Ubuntu 16.04.3</p>
-</blockquote>
-<p><a href="http://wzlinux.blog.51cto.com/8021085/1964616" target="_blank" rel="noopener">Ubuntu 新装服务器部署流程</a><br><a href="http://blog.51cto.com/wzlinux/2043586" target="_blank" rel="noopener">Ubuntu 新装服务器部署流程</a></p>
-<h3 id="配置IP"><a href="#配置IP" class="headerlink" title="配置IP"></a>配置IP</h3><p>修改文件/etc/network/interfaces</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">auto ens33</span><br><span class="line">iface ens33 inet static</span><br><span class="line">address 192.168.8.100</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.8.1</span><br><span class="line">dns-nameserver 8.8.8.8</span><br></pre></td></tr></table></figure>
-<p>重启网络</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart netwoking.service</span><br><span class="line">/etc/init.d/networking restart</span><br></pre></td></tr></table></figure>
-<h3 id="设定时区"><a href="#设定时区" class="headerlink" title="设定时区"></a>设定时区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -f /etc/localtime</span><br><span class="line">cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line">date -R</span><br></pre></td></tr></table></figure>
-<h3 id="配置apt-get源"><a href="#配置apt-get源" class="headerlink" title="配置apt-get源"></a>配置apt-get源</h3><p>ubuntu 14.04</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -f /etc/apt/sources.list</span><br><span class="line">wget -P /etc/apt/ http://mirrors.163.com/.help/sources.list.trusty</span><br><span class="line">mv /etc/apt/sources.list.trusty /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
-<p>ubuntu 16.04<br><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apt</span><br><span class="line">cp source.list source.list.bak</span><br><span class="line"></span><br><span class="line">vi source.list</span><br><span class="line"></span><br><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
-<h3 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
-<h3 id="安装软件包"><a href="#安装软件包" class="headerlink" title="安装软件包"></a>安装软件包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y openssh-server vim lrzsz git tree bash-completion sysstat</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">### 开启root登录</span></span><br></pre></td></tr></table></figure>
-<p>vi /etc/ssh/sshd_config<br>PermitRootLogin yes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">service ssh restart</span><br><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure></p>
-<h3 id="踢出终端tty用户"><a href="#踢出终端tty用户" class="headerlink" title="踢出终端tty用户"></a>踢出终端tty用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkill -kill -t tty</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-分布式爬虫实战第二期-杨真-小象学院-笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-笔记/" class="article-date">
-      <time datetime="2017-12-08T16:27:00.000Z" itemprop="datePublished">2017-12-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-笔记/">手把手带你构建一个分布式爬虫系统实战-小象学院-笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>01 静态网页爬虫：爬虫的基础技术.flv 2:40:54<br>02 登录及动态网页的抓取.flv 2:19:24<br>03 微博的抓取.flv 2:42:00<br>04 多线程与多进程的爬虫.flv 2:02:20<br>05 微博数据的存储：分布式数据库及应用.flv 2:15:07<br>06 多机并行的微博抓取：分布式系统设计.flv 2:12:20<br>07 应对反爬虫的策略.flv 2:25:33<br>08 分布式系统的高可用与高并发处理.flv 2:13:47<br>09 日志系统、以及基于Page Rank的顺序调整.flv 2:13:54<br>10 日志、守护线程以及验证码处理.flv 2:07:54<br>11 分布式数据库架构分析、优化及要点.flv 2:23:10<br>12 自动摘要及正文抽取.flv 1:57:54<br>13 网页分类与针对文本的机器学习应用.flv 2:17:14<br>14 信息检索、搜索引擎原理及应用.flv 2:31:18<br>15 Scrapy录播视频.flv 2:21:02<br>16 Scrapy进阶录播视频.flv 2:10:09<br>17 网页排重.flv 2:19:19</p>
-<h1 id="01"><a href="#01" class="headerlink" title="01"></a>01</h1><p>新建PyCharm项目 chinahadoop_crawl_spider<br>新建PyCharm项目 chinahadoop_crawl_spider_py2.7</p>
-<p>cd chinahadoop_crawl_spider</p>
-<p>macOS下安装pipenv</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install pipenv</span><br></pre></td></tr></table></figure>
-<p>添加pipenv自动补全</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(pipenv --completion)</span>"</span></span><br></pre></td></tr></table></figure>
-<p>初始化pipenv</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</span><br></pre></td></tr></table></figure>
-<p>修改pypi源</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#linux</span></span><br><span class="line">sed -i <span class="string">"s#python.org#douban.com#g"</span> Pipfile</span><br><span class="line"></span><br><span class="line"><span class="comment">#macOS 和linux不同，需要加“”</span></span><br><span class="line">sed -i <span class="string">""</span> <span class="string">"s#python.org#douban.com#g"</span> Pipfile</span><br></pre></td></tr></table></figure>
-<p>BITMAP 方式记录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install murmurhash3 bitarray</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2.7.14 安装murmurhash3失败</span><br></pre></td></tr></table></figure>
-<p>Bloom Filter<br>pybloomfilter</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pybloomfilter</span><br></pre></td></tr></table></figure>
-<h1 id="02"><a href="#02" class="headerlink" title="02"></a>02</h1><p>lxml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install lxml</span><br></pre></td></tr></table></figure>
-<p>Selenium</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install selenium</span><br></pre></td></tr></table></figure>
-<p>PhantomJS</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install phantomjs</span><br></pre></td></tr></table></figure>
-<h1 id="03"><a href="#03" class="headerlink" title="03"></a>03</h1><h1 id="04"><a href="#04" class="headerlink" title="04"></a>04</h1><p>Python Mysql Connector</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymysql</span><br></pre></td></tr></table></figure>
-<p>Python Mysql Connector<br>py2.7</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mysqlclient</span><br></pre></td></tr></table></figure>
-<h1 id="05"><a href="#05" class="headerlink" title="05"></a>05</h1><p>Python hdfs module</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install hdfs</span><br></pre></td></tr></table></figure>
-<p>MongoDB<br>pymongo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymongo</span><br></pre></td></tr></table></figure>
-<p>Python Redis</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install redis</span><br></pre></td></tr></table></figure>
-<h1 id="06"><a href="#06" class="headerlink" title="06"></a>06</h1><h1 id="07"><a href="#07" class="headerlink" title="07"></a>07</h1><h1 id="08"><a href="#08" class="headerlink" title="08"></a>08</h1><p>Scrapy</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
-<h1 id="09"><a href="#09" class="headerlink" title="09"></a>09</h1><p>Python 的 PageRank - NetworkX</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install networkx</span><br></pre></td></tr></table></figure>
-<p>查重算法<br>SimHash – 海明距离</p>
-<p>依赖 sh库</p>
-<p><a href="https://www.the5fire.com/analyze-python-lib-sh.html" target="_blank" rel="noopener">[Python库]分析一个python库–sh（系统调用）</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install simhash</span><br></pre></td></tr></table></figure>
-<h1 id="10"><a href="#10" class="headerlink" title="10"></a>10</h1><p>Daemontool</p>
-<p>Pillow</p>
-<p>Pillow 是一个图像工具包，包含了一个 Image 类用来做图像的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pillow</span><br></pre></td></tr></table></figure>
-<p>Tesseract-Ocr</p>
-<p>Tesseract-Ocr 是一个 Google 主导的开源 OCR (Optical Character Recongnition) 引擎。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pytesseract</span><br></pre></td></tr></table></figure>
-<h1 id="12"><a href="#12" class="headerlink" title="12"></a>12</h1><p>Goose<br>PyGoose</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install goose3</span><br></pre></td></tr></table></figure>
-<p>py2.7</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pygoose</span><br></pre></td></tr></table></figure>
-<h1 id="13"><a href="#13" class="headerlink" title="13"></a>13</h1><p>结巴分词</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install jieba</span><br></pre></td></tr></table></figure>
-<p>Python TF-IDF</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install sklearn scipy numpy</span><br></pre></td></tr></table></figure>
-<h1 id="14"><a href="#14" class="headerlink" title="14"></a>14</h1><p>Elastic Search</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/10/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/12/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/10/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/12/">Next &raquo;</a>
     </nav>
   
 </div>
