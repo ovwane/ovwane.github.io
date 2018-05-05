@@ -253,7 +253,7 @@
   
     <div class="article-meta">
       <a href="/2018/05/05/随记/" class="article-date">
-      <time datetime="2018-05-05T16:02:39.683Z" itemprop="datePublished">2018-05-05</time>
+      <time datetime="2018-05-05T16:06:54.072Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -303,69 +303,11 @@
 
 
   
-    <article id="post-通过CrawlSpider对招聘网站进行整站爬取" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/通过CrawlSpider对招聘网站进行整站爬取/" class="article-date">
-      <time datetime="2018-05-05T16:02:39.683Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Windows下类似linux的终端 ·cmder·</p>
-<p>数据库 article_spider</p>
-<p>数据表 lagou_job</p>
-<p>设计数据表结构</p>
-<p><img src="./lagou_job.png" alt=""></p>
-<p>编写CrawlSpider</p>
-<p>查看scrapy spider提供的模板</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider --list</span><br></pre></td></tr></table></figure>
-<p>生成crawlspider</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider -t crawl lagou www.lagou.com</span><br></pre></td></tr></table></figure>
-<p>变量PYTHONPATH</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">project_dir = os.path.abspath(os.path.dirname(__file__))</span><br><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))</span><br><span class="line">sys.path.insert(<span class="number">0</span>, os.path.join(BASE_DIR, <span class="string">'ArticleSpider'</span>))</span><br></pre></td></tr></table></figure>
-<p>CrawlSpider是个什么类？</p>
-<p>Rule</p>
-<p>LinkExtractor</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-金融" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/05/金融/" class="article-date">
-      <time datetime="2018-05-05T16:02:39.683Z" itemprop="datePublished">2018-05-05</time>
+      <time datetime="2018-05-05T16:06:54.072Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -426,11 +368,111 @@
 
 
   
+    <article id="post-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/正则表达式/" class="article-date">
+      <time datetime="2018-05-05T16:06:54.068Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><p>IP是由四段组成，每一段是0-255的数字，段与段之间用小数点隔开，比如192.168.1.1就是合法的IP地址。</p>
+<p>如果正则表达式写成d{1,3}(.d{1,3}){3}无疑是不负责的，因为它可以匹配300.400.555.666这样的非法IP字串。</p>
+<p>如果要匹配一个0-255之间的数，有几种匹配方式，下面是其中一种：</p>
+<p>匹配    正则表达式    说明<br>0-9    d    单个数字<br>10-99    [1-9]d    两位数<br>100-199    1dd    百位为1的三位数<br>200-249    2[0-4]d    三位数，百位是2，十位是0-9<br>250-255    25[0-5]    三位数，百位是2，十位是5，个位是0-5</p>
+<p>写成正则表达式，即：(d|([1-9]d) | (1dd) | (2[0-4]d) | (25[0-5]))，但是这样的正则表达式在匹配254这样的字串时，会分别匹配2、5、4，得到3个匹配，达不到预期效果，正确做法是将次序颠倒为：((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)，因为在(xxx|yyy)这种匹配行为中，是从左向右搜索的。</p>
+<p>完整的正则表达式是：<br>((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)(.((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)){3}</p>
+<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>一个完整的域名，由根域名、顶级域、二级、三级……域名构成，每级域名之间用点分开，每级域名由字母、数字和减号构成（第一个字母不能是减号），不区分大小写，长度不超过63个字符。</p>
+<p>很显然，单独的名字可以由正则表达式[a-zA-Z0-9][-a-zA-Z0-9]{0,62}来匹配，而完整的域名至少包括两个名字（比如google.com，由google和com构成），最后可以有一个表示根域的点（在规范中，最后又一个点的才是完整域名，但一般认为包括两个以上名字的域名也是完整域名，哪怕它后面没有点）。</p>
+<p>匹配完整域名的正则表达式：<br>[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+.?</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-计算机设备" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/计算机设备/" class="article-date">
+      <time datetime="2018-05-05T16:06:54.068Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="网络设备"><a href="#网络设备" class="headerlink" title="网络设备"></a>网络设备</h2><h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>锐捷</p>
+<h3 id="AC控制器"><a href="#AC控制器" class="headerlink" title="AC控制器"></a>AC控制器</h3><p>华为</p>
+<h3 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h3><p>华为</p>
+<h3 id="POE交换机"><a href="#POE交换机" class="headerlink" title="POE交换机"></a>POE交换机</h3><p>华为</p>
+<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h3 id="NAS"><a href="#NAS" class="headerlink" title="NAS"></a>NAS</h3><p>synology</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-老男孩教育Python课程老师们的博客" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/05/老男孩教育Python课程老师们的博客/" class="article-date">
-      <time datetime="2018-05-05T16:02:39.679Z" itemprop="datePublished">2018-05-05</time>
+      <time datetime="2018-05-05T16:06:54.068Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -489,7 +531,7 @@
   
     <div class="article-meta">
       <a href="/2018/05/05/老男孩Python自动化开发s16-笔记/" class="article-date">
-      <time datetime="2018-05-05T16:02:39.679Z" itemprop="datePublished">2018-05-05</time>
+      <time datetime="2018-05-05T16:06:54.068Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -539,7 +581,7 @@
   
     <div class="article-meta">
       <a href="/2018/05/05/生成证书/" class="article-date">
-      <time datetime="2018-05-05T16:02:39.679Z" itemprop="datePublished">2018-05-05</time>
+      <time datetime="2018-05-05T16:06:54.068Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -631,7 +673,7 @@
   
     <div class="article-meta">
       <a href="/2018/05/05/生产环境部署/" class="article-date">
-      <time datetime="2018-05-05T16:02:39.679Z" itemprop="datePublished">2018-05-05</time>
+      <time datetime="2018-05-05T16:06:54.068Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -690,7 +732,7 @@
   
     <div class="article-meta">
       <a href="/2018/05/05/炼数成金-笔记/" class="article-date">
-      <time datetime="2018-05-05T16:02:39.679Z" itemprop="datePublished">2018-05-05</time>
+      <time datetime="2018-05-05T16:06:54.068Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -800,54 +842,9 @@
 
 
   
-    <article id="post-炼数成金-目录" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/炼数成金-目录/" class="article-date">
-      <time datetime="2018-05-05T16:02:39.679Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>炼数成金-目录</p>
-<p>01.解释性脚本语言初探.avi 46:42<br>02.1.Python开发环境windows.avi 21:30<br>02.2.Python开发环境linux.avi 21:40<br>02.3.Python开发环境wingide.avi 25:30<br>03.python使用基础.avi 1:53:25<br>04.python内置容器_.avi 47:02<br>05.并行开发.mp4 1:08:22<br>06.python正则表达式.avi 1:03:49<br>07.socket编程基础.avi 1:18:04<br>08.爬虫.mp4 59:18<br>09.django初探.wmv 1:11:22<br>10.django.avi 1:34:59<br>11.twisted.avi 43:30<br>12.Twisted综合应用.avi 50:09</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>
