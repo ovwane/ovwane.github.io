@@ -1,0 +1,13 @@
+date: 2018-05-05 08:00
+
+
+
+购买的应用
+
+iStat Menus 6
+
+```key
+电子邮件地址：ovwane@gmail.com
+序列号：GAWAE-FD8HG-HMQTF-ZC4QY-4SARF-EVGLZ-4ENDW-R58QC-CRD7W-76W7E-CM5BD-5HDDW-SPGLE-UFSUL-LPFU
+```
+
