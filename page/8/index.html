@@ -205,11 +205,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-PyCharm新建项目并使用Github管理代码" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-homebrew install list" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/03/PyCharm新建项目并使用Github管理代码/" class="article-date">
-      <time datetime="2018-05-03T00:11:32.776Z" itemprop="datePublished">2018-05-03</time>
+      <a href="/2018/05/05/homebrew install list/" class="article-date">
+      <time datetime="2018-05-05T15:58:30.262Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -221,38 +221,109 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <ul>
-<li>在Github上申请token</li>
-</ul>
-<p><a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Github Personal access tokens</a></p>
+        <p>java8 goland clion eclipse-cpp</p>
+<p>postman</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Nginx-1.13.11" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Nginx-1.13.11/" class="article-date">
+      <time datetime="2018-05-05T15:58:30.262Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>vim /etc/yum.repos.d/nginx.repo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[nginx]</span><br><span class="line">name=nginx repo</span><br><span class="line">baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure>
+<p><code>yum install nginx -y</code></p>
+<p>查看nginx版本 <code>nginx -v</code><br>获取编译参数 <code>nginx -V</code><br>文件位置<br>/usr/lib/systemd/system/nginx.service<br>user  nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=nginx - high performance web server</span><br><span class="line">Documentation=http://nginx.org/en/docs/</span><br><span class="line">After=network-online.target remote-fs.target nss-lookup.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/var/run/nginx.pid</span><br><span class="line">ExecStart=/usr/sbin/nginx -c /etc/nginx/nginx.conf</span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line">ExecStop=/bin/kill -s TERM $MAINPID</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/<span class="built_in">log</span>/nginx/error.log --http-log-path=/var/<span class="built_in">log</span>/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --with-cc-opt=<span class="string">'-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -fPIC'</span> --with-ld-opt=<span class="string">'-Wl,-z,relro -Wl,-z,now -pie'</span></span><br></pre></td></tr></table></figure>
+<h2 id="编译安装nginx"><a href="#编译安装nginx" class="headerlink" title="编译安装nginx"></a>编译安装nginx</h2><p>安装依赖环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y make git pcre-devel zlib-devel</span><br></pre></td></tr></table></figure>
+<p>添加nginx用户和组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -s /sbin/nologin -M nginx</span><br></pre></td></tr></table></figure>
+<p>获取源码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b 1.13.12 https://github.com/nginx/nginx.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/openssl/openssl.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/grahamedgecombe/nginx-ct.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/google/ngx_brotli.git&amp;&amp;<span class="built_in">cd</span> ngx_brotli&amp;&amp;git submodule update --init&amp;&amp;<span class="built_in">cd</span> ..</span><br></pre></td></tr></table></figure>
+<p>编译</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> nginx</span><br><span class="line"></span><br><span class="line">auto/configure --prefix=/usr/<span class="built_in">local</span>/nginx-1.13.11 --user=nginx --group=nginx --add-module=../ngx_brotli --add-module=../nginx-ct --with-openssl=../openssl --with-openssl-opt=<span class="string">'enable-tls1_3 enable-weak-ssl-ciphers'</span> --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>/usr/lib/systemd/system/nginx.service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/usr/lib/systemd/system/nginx.service&lt;&lt;EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=nginx - high performance web server</span><br><span class="line">Documentation=http://nginx.org/en/docs/</span><br><span class="line">After=network-online.target remote-fs.target nss-lookup.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/var/run/nginx.pid</span><br><span class="line">ExecStartPre=/usr/local/nginx-1.13.11/sbin/nginx -t -c /usr/local/nginx-1.13.11/conf/nginx.conf</span><br><span class="line">ExecStart=/usr/local/nginx-1.13.11/sbin/nginx -c /usr/local/nginx-1.13.11/conf/nginx.conf</span><br><span class="line">ExecReload=/usr/local/nginx-1.13.11/sbin/nginx -s reload</span><br><span class="line">ExecStop=/usr/local/nginx-1.13.11/sbin/nginx -s quit</span><br><span class="line">PrivateTmp=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<p>/usr/local/nginx-1.13.11/conf/nginx.conf</p>
+<h3 id="使用acme-sh工具获取ssl证书"><a href="#使用acme-sh工具获取ssl证书" class="headerlink" title="使用acme.sh工具获取ssl证书"></a>使用<a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="noopener">acme.sh</a>工具获取ssl证书</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://get.acme.sh | sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1. DNSPod API Key and ID</span></span><br><span class="line"><span class="built_in">export</span> DP_Id=<span class="string">""</span></span><br><span class="line"><span class="built_in">export</span> DP_Key=<span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">acme.sh --issue --dns dns_dp --nginx --keylength 4096 -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn</span><br><span class="line"></span><br><span class="line"><span class="comment">#3.</span></span><br><span class="line">acme.sh --issue --dns dns_dp --nginx --keylength 4096 -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn --keylength ec-256</span><br><span class="line"></span><br><span class="line"><span class="comment">#4.</span></span><br><span class="line">acme.sh --installcert -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn \</span><br><span class="line">        --key-file   /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa.key \</span><br><span class="line">        --fullchain-file /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain.cer \</span><br><span class="line">        --reloadcmd  <span class="string">"systemctl restart nginx.service"</span></span><br><span class="line">      </span><br><span class="line"><span class="comment">#4.        </span></span><br><span class="line">acme.sh --install-cert -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn \</span><br><span class="line">--key-file       /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_key.pem  \</span><br><span class="line">--fullchain-file /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem \</span><br><span class="line">--reloadcmd     <span class="string">"systemctl restart nginx.service"</span></span><br></pre></td></tr></table></figure>
+<p>日志自动切分</p>
+<p>vim /etc/logrotate.d/nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/nginx/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/nginx.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/nginx.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>手动执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/nginx</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx.service</span><br><span class="line">systemctl restart nginx.service</span><br><span class="line">systemctl stop nginx.service</span><br><span class="line">systemctl status nginx.service</span><br><span class="line">systemctl <span class="built_in">enable</span> nginx.service</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener">ssl 测试工具</a></p>
 <ul>
-<li><p>pycharm 设置github token<br>Preferences-&gt;Version Control-&gt;GIthub</p>
+<li><p>TLS 1.3<br><a href="https://imququ.com/post/enable-tls-1-3.html" target="_blank" rel="noopener">本博客开始支持 TLS 1.3</a>|<a href="https://www.coldawn.com/tag/draft-23/" target="_blank" rel="noopener">CentOS 7 编译安装nginx并启用TLS1.3</a></p>
 </li>
-<li><p>pycharm上新建project，名字 python_crawler。</p>
+<li><p>CT<br><a href="https://imququ.com/post/certificate-transparency.html#toc-2" target="_blank" rel="noopener">通过 nginx-ct 启用 CT</a></p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /Users/jinlong/PycharmProjects/python_crawler</span><br><span class="line"></span><br><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</span><br><span class="line"></span><br><span class="line">sed -i &quot;&quot; &quot;s/python.org/douban.com/g&quot; Pipfile</span><br></pre></td></tr></table></figure>
+<p><a href="https://ct.grahamedgecombe.com/" target="_blank" rel="noopener">Certificate Transparency Monitor</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yum -y install golang</span><br><span class="line"></span><br><span class="line">wget -O ct-submit.zip -c https://github.com/grahamedgecombe/ct-submit/archive/v1.1.2.zip</span><br><span class="line">unzip ct-submit.zip</span><br><span class="line"><span class="built_in">cd</span> ct-submit-1.1.2</span><br><span class="line">go build</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#rsa</span><br><span class="line">./ct-submit-1.1.2 ct.googleapis.com/icarus &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/icarus.sct</span><br><span class="line"></span><br><span class="line">./ct-submit-1.1.2 ct1.digicert-ct.com/log &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/digicert.sct</span><br><span class="line"></span><br><span class="line">./ct-submit-1.1.2 mammoth.ct.comodo.com &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/comodo.sct</span><br><span class="line"></span><br><span class="line">#ecc</span><br><span class="line">./ct-submit-1.1.2 ct.googleapis.com/icarus &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_ecc_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/icarus_ecc.sct</span><br><span class="line"></span><br><span class="line">./ct-submit-1.1.2 ct1.digicert-ct.com/log &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_ecc_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/digicert_ecc.sct</span><br><span class="line"></span><br><span class="line">./ct-submit-1.1.2 mammoth.ct.comodo.com &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_ecc_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/comodo_ecc.sct</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>设置pycharm的python解释器<br>Preferences-&gt;Project:python_crawler-&gt;Project Interpreter</p>
-</li>
-<li><p>设置pycharm下的github</p>
-</li>
+<li><a href="">HSTS</a></li>
 </ul>
-<p>VCS-&gt;Import into Version Control-&gt;Share Project On Github</p>
-<h2 id="PyCharm-配置"><a href="#PyCharm-配置" class="headerlink" title="PyCharm 配置"></a>PyCharm 配置</h2><ul>
-<li><p>Tab键设置成4个空格<br>Preferences-&gt;Editor-&gt;Code Style-&gt;Python-&gt;Use tab character 取消勾选</p>
-</li>
-<li><p>调整字母长度分割线<br>Preferences-&gt;Editor-&gt;Code Style-&gt;Right margin（columns) 设置为80</p>
-</li>
-<li><p>文件模板<br>Preferences-&gt;Editor-&gt;File and Code Templates</p>
-</li>
+<p>nginx server conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_header               Strict-Transport-Security &quot;max-age=31536000; includeSubDomains; preload&quot;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://gist.github.com/esurdam/ef72f1c47be7c074499cb920683bd307" target="_blank" rel="noopener">HKPK</a></li>
 </ul>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line">__author__ = <span class="string">'ovwane'</span></span><br><span class="line">__date__ = <span class="string">'$DATE $HOUR:$MINUTE'</span></span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/hester/p/5466579.html" target="_blank" rel="noopener">Pycharm安装、设置、优化</a></p>
-<p><a href="http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/contents/" target="_blank" rel="noopener">Google 开源项目风格指南-Python 风格指南 - 内容目录</a></p>
-<h2 id="PyCharm插件"><a href="#PyCharm插件" class="headerlink" title="PyCharm插件"></a>PyCharm插件</h2><p>Mongo Plugin</p>
-<p>Markdown Navigator<br>Markdown support</p>
-<h2 id="Python工具"><a href="#Python工具" class="headerlink" title="Python工具"></a>Python工具</h2><p>nmap<br><code>pip install python-nmap</code></p>
+<p><a href="https://letsencrypt.org/certificates/" target="_blank" rel="noopener">Chain of Trust - Let’s Encrypt - Free SSL/TLS Certificates</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget -O lets-encrypt-x3-cross-signed.pem https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt</span><br><span class="line"></span><br><span class="line">wget -O lets-encrypt-x4-cross-signed.pem https://letsencrypt.org/certs/lets-encrypt-x4-cross-signed.pem.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -noout -in lets-encrypt-x3-cross-signed.pem -pubkey | \</span><br><span class="line">openssl rsa -pubin -outform der | \</span><br><span class="line">openssl dgst -sha256 -binary | \</span><br><span class="line">base64</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -noout -in lets-encrypt-x4-cross-signed.pem -pubkey | \</span><br><span class="line">openssl rsa -pubin -outform der | \</span><br><span class="line">openssl dgst -sha256 -binary | \</span><br><span class="line">base64</span><br></pre></td></tr></table></figure>
+<p>nginx server conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_header Public-Key-Pins &apos;pin-sha256=&quot;YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg=&quot;; pin-sha256=&quot;sRHdihwgkaib1P1gxX8HFszlD+7/gTfNvuAybgLPNis==&quot;; max-age=2592000; includeSubDomains&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://weakdh.org/sysadmin.html" target="_blank" rel="noopener">ssl_dhparam</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl dhparam -out dhparams.pem 2048</span><br></pre></td></tr></table></figure>
+<p>nginx server conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssl_dhparam dhparams.pem</span><br></pre></td></tr></table></figure>
+<p><a href="https://imququ.com/post/my-nginx-conf.html" target="_blank" rel="noopener">imquu.com-本博客 Nginx 配置之完整篇</a></p>
 
       
       
@@ -280,11 +351,11 @@
 
 
   
-    <article id="post-PowerShell使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ai_ml" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/03/PowerShell使用笔记/" class="article-date">
-      <time datetime="2018-05-03T00:11:32.776Z" itemprop="datePublished">2018-05-03</time>
+      <a href="/2018/05/05/ai_ml/" class="article-date">
+      <time datetime="2018-05-05T15:58:30.262Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -296,7 +367,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>#查看PowerShell版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#查看 PSVersion版本，就是PowerShell的版本。</span><br><span class="line">$PSVersionTable</span><br></pre></td></tr></table></figure></p>
+        <p>AI，ML，</p>
+<p><a href="https://github.com/wizardforcel" target="_blank" rel="noopener">Wizard Zhang</a></p>
 
       
       
@@ -324,11 +396,11 @@
 
 
   
-    <article id="post-Vim安装配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-article_jobbole" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/03/Vim安装配置/" class="article-date">
-      <time datetime="2018-05-03T00:11:32.776Z" itemprop="datePublished">2018-05-03</time>
+      <a href="/2018/05/05/article_jobbole/" class="article-date">
+      <time datetime="2018-05-05T15:58:30.262Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -340,70 +412,323 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Vim安装配置"><a href="#Vim安装配置" class="headerlink" title="Vim安装配置"></a>Vim安装配置</h1><p><a href="http://www.jianshu.com/p/a0b452f8f720" target="_blank" rel="noopener">Vim配置、插件和使用技巧</a></p>
-<h2 id="安装-Vim"><a href="#安装-Vim" class="headerlink" title="安装 Vim"></a>安装 <a href="http://www.vim.org/" target="_blank" rel="noopener">Vim</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y vim-common vim-enhanced vim-minimal vim-filesystem</span><br></pre></td></tr></table></figure>
-<h2 id="配置插件管理器-Vundle"><a href="#配置插件管理器-Vundle" class="headerlink" title="配置插件管理器 Vundle"></a>配置插件管理器 <a href="https://github.com/VundleVim/Vundle.vim" target="_blank" rel="noopener">Vundle</a></h2><h3 id="安装Vundle"><a href="#安装Vundle" class="headerlink" title="安装Vundle"></a>安装Vundle</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</span><br></pre></td></tr></table></figure>
-<p><a href="http://zuyunfei.com/2013/04/12/killer-plugin-of-vim-vundle/" target="_blank" rel="noopener">vim中的杀手级插件: vundle</a></p>
-<h3 id="配置-vimrc"><a href="#配置-vimrc" class="headerlink" title="配置 ~/.vimrc"></a>配置 ~/.vimrc</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; ~/.vimrc &lt;&lt; EOF</span><br><span class="line"><span class="built_in">set</span> nocompatible              <span class="string">" be iMproved, required</span></span><br><span class="line"><span class="string">filetype off                  "</span> required</span><br><span class="line"></span><br><span class="line"><span class="string">" set the runtime path to include Vundle and initialize</span></span><br><span class="line"><span class="string">set rtp+=~/.vim/bundle/Vundle.vim</span></span><br><span class="line"><span class="string">call vundle#begin()</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> <span class="built_in">let</span> Vundle manage Vundle, required</span><br><span class="line">Plugin <span class="string">'VundleVim/Vundle.vim'</span></span><br><span class="line"></span><br><span class="line"><span class="string">" Color schemes</span></span><br><span class="line"><span class="string">Plugin 'tomasr/molokai'</span></span><br><span class="line"><span class="string">Plugin 'altercation/vim-colors-solarized'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> Status Color schemes</span><br><span class="line">Plugin <span class="string">'vim-airline/vim-airline'</span></span><br><span class="line">Plugin <span class="string">'vim-airline/vim-airline-themes'</span></span><br><span class="line"></span><br><span class="line"><span class="string">" plugin on GitHub repo</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'tpope/vim-fugitive'</span></span><br><span class="line"><span class="string">" plugin from http://vim-scripts.org/vim/scripts.html</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'L9'</span></span><br><span class="line"><span class="string">" Git plugin not hosted on GitHub</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'git://git.wincent.com/command-t.git'</span></span><br><span class="line"><span class="string">" git repos on your local machine (i.e. when working on your own plugin)</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'file:///home/gmarik/path/to/plugin'</span></span><br><span class="line"><span class="string">" The sparkup vim script is in a subdirectory of this repo called vim.</span></span><br><span class="line"><span class="string">"</span> Pass the path to <span class="built_in">set</span> the runtimepath properly.</span><br><span class="line"><span class="string">" Plugin 'rstacruz/sparkup', &#123;'rtp': 'vim/'&#125;</span></span><br><span class="line"><span class="string">"</span> Install L9 and avoid a Naming conflict <span class="keyword">if</span> you<span class="string">'ve already installed a</span></span><br><span class="line"><span class="string">" different version somewhere else.</span></span><br><span class="line"><span class="string">" Plugin '</span>ascenator/L9<span class="string">', &#123;'</span>name<span class="string">': '</span>newL9<span class="string">'&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">" All of your Plugins must be added before the following line</span></span><br><span class="line"><span class="string">call vundle#end()            " required</span></span><br><span class="line"><span class="string">filetype plugin indent on    " required</span></span><br><span class="line"><span class="string">" To ignore plugin indent changes, instead use:</span></span><br><span class="line"><span class="string">"filetype plugin on</span></span><br><span class="line"><span class="string">" Put your non-Plugin stuff after this line</span></span><br><span class="line"><span class="string">" solarized start</span></span><br><span class="line"><span class="string">"let g:solarized_termcolors=256</span></span><br><span class="line"><span class="string">"let g:solarized_termtrans=1</span></span><br><span class="line"><span class="string">"let g:solarized_contrast="normal"</span></span><br><span class="line"><span class="string">"let g:solarized_visibility="normal"</span></span><br><span class="line"><span class="string">"syntax enable</span></span><br><span class="line"><span class="string">"set background=dark</span></span><br><span class="line"><span class="string">"colorscheme solarized</span></span><br><span class="line"><span class="string">" solarized end</span></span><br><span class="line"><span class="string">" molokai start</span></span><br><span class="line"><span class="string">let g:molokai_original = 1</span></span><br><span class="line"><span class="string">let g:rehash256 = 1</span></span><br><span class="line"><span class="string">colorscheme molokai</span></span><br><span class="line"><span class="string">" molokai end</span></span><br><span class="line"><span class="string">" Airline theme start</span></span><br><span class="line"><span class="string">let g:airline_theme='</span>molokai<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_powerline_fonts = 1</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#enabled = 1</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#buffer_nr_show = 1</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#left_sep = '</span> <span class="string">'</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#left_alt_sep = '</span>|<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline#extensions#whitespace#enabled = 0</span></span><br><span class="line"><span class="string">let g:airline#extensions#whitespace#symbol = '</span>!<span class="string">'</span></span><br><span class="line"><span class="string">if !exists('</span>g:airline_symbols<span class="string">')</span></span><br><span class="line"><span class="string">  let g:airline_symbols = &#123;&#125;</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">" unicode symbols</span></span><br><span class="line"><span class="string">let g:airline_left_sep = '</span>»<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_left_sep = '</span>▶<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_right_sep = '</span>«<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_right_sep = '</span>◀<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.crypt = '</span>🔒<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>☰<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>␊<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>␤<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>¶<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.maxlinenr = '</span><span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.maxlinenr = '</span>㏑<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.branch = '</span>⎇<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.paste = '</span>ρ<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.paste = '</span>Þ<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.paste = '</span>∥<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.spell = '</span>Ꞩ<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.notexists = '</span>∄<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.whitespace = '</span>Ξ<span class="string">'</span></span><br><span class="line"><span class="string">" Airline theme end</span></span><br><span class="line"><span class="string">"</span></span><br><span class="line"><span class="string">set laststatus=2</span></span><br><span class="line"><span class="string">set t_Co=256</span></span><br><span class="line"><span class="string">set encoding=utf-8</span></span><br><span class="line"><span class="string">set syntax enable</span></span><br><span class="line"><span class="string">set syntax on</span></span><br><span class="line"><span class="string">set number</span></span><br><span class="line"><span class="string">"</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
-<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim +PluginInstall +qall</span><br></pre></td></tr></table></figure>
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot; Brief help</span><br><span class="line">&quot; :PluginList       - lists configured plugins</span><br><span class="line">&quot; :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate</span><br><span class="line">&quot; :PluginSearch foo - searches for foo; append `!` to refresh local cache</span><br><span class="line">&quot; :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal</span><br><span class="line">&quot; see :h vundle for more details or wiki for FAQ</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#安装插件 Install Plugins:</span><br><span class="line"></span><br><span class="line">Launch vim and run :PluginInstall</span><br></pre></td></tr></table></figure>
-<h2 id="Vim插件"><a href="#Vim插件" class="headerlink" title="Vim插件"></a>Vim插件</h2><h3 id="pathogen类似于Vundle"><a href="#pathogen类似于Vundle" class="headerlink" title="pathogen类似于Vundle"></a><a href="https://github.com/tpope/vim-pathogen" target="_blank" rel="noopener">pathogen</a>类似于Vundle</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.vim/autoload ~/.vim/bundle &amp;&amp; \</span><br><span class="line">curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi .vimrc</span><br><span class="line"></span><br><span class="line">execute pathogen#infect()</span><br><span class="line">syntax on</span><br><span class="line">filetype plugin indent on</span><br></pre></td></tr></table></figure>
-<h3 id="vim-airline"><a href="#vim-airline" class="headerlink" title="vim-airline"></a><a href="https://github.com/vim-airline/vim-airline" target="_blank" rel="noopener">vim-airline</a></h3><h3 id="vim-airline-themes"><a href="#vim-airline-themes" class="headerlink" title="vim-airline-themes"></a><a href="https://github.com/vim-airline/vim-airline-themes" target="_blank" rel="noopener">vim-airline-themes</a></h3><h2 id="Vim主题"><a href="#Vim主题" class="headerlink" title="Vim主题"></a>Vim主题</h2><h3 id="Solarized"><a href="#Solarized" class="headerlink" title="Solarized"></a><a href="http://ethanschoonover.com/solarized" target="_blank" rel="noopener">Solarized</a></h3><p><a href="https://github.com/altercation/vim-colors-solarized" target="_blank" rel="noopener">Solarized Colorscheme for Vim</a></p>
-<h3 id="Molokai"><a href="#Molokai" class="headerlink" title="Molokai"></a>Molokai</h3><p><a href="https://github.com/tomasr/molokai" target="_blank" rel="noopener">Molokai Color Scheme for Vim</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Thinking-书签" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/03/Thinking-书签/" class="article-date">
-      <time datetime="2018-05-03T00:11:32.776Z" itemprop="datePublished">2018-05-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
-<p>纸上得来终觉浅，绝知此事要躬行。<br>《冬夜读书示子聿》陆游</p>
-</blockquote>
+        <p>爬取策略的深度优先和广度优先</p>
+<p>爬虫网址去重策略</p>
+<p>基础环境</p>
 <blockquote>
-<p>听过读过的道理太多，只觉得不过尔尔。只有亲自 经历、实践 之后，才能对一些事有切身体会。当我（可能）想“明白”了这些事时，我才会总结、积累到这里，不时回顾。</p>
+<p>Python 3.6.5  <br><br>PyCharm 2017.3.4 <br><br>MariaDB <br><br>Navicat <br></p>
 </blockquote>
-<p><a href="http://www.iitshare.com/summary-of-the-2015-and-2016-plans.html" target="_blank" rel="noopener">爱分享2015年总结与2016年计划</a></p>
-<p>IceHe</p>
-<p><a href="https://icehe.me/think/life_manual/" target="_blank" rel="noopener">生活指南</a><br>|<br><a href="https://icehe.me/favourites/" target="_blank" rel="noopener">最喜爱的</a><br>|<br><a href="https://icehe.me/old_blog/" target="_blank" rel="noopener">旧博索引</a><br>|<br><a href="https://icehe.me/read/" target="_blank" rel="noopener">文字阅读收藏</a><br>|<br><a href="https://icehe.me/tech/" target="_blank" rel="noopener">技术阅读收藏</a><br>|<br><a href="https://icehe.me/cmd/git_note/" target="_blank" rel="noopener">Git 总结</a></p>
+<p><code>pip install scrapy</code></p>
+<p>命令行创建scrapy项目</p>
+<p><code>scrapy startproject ArticleSpider</code></p>
+<p>scrapy目录结构</p>
+<blockquote>
+<p>scrapy.cfg</p>
+</blockquote>
+<p>配置文件</p>
+<blockquote>
+<p>setings.py<br>设置<br>SPIDER_MODULES = [‘ArticleSpider.spiders’] #存放spider的路径<br>NEWSPIDER_MODULE = ‘ArticleSpider.spiders’<br>pipelines.py:</p>
+</blockquote>
+<p>做跟数据存储相关的东西</p>
+<blockquote>
+<p>middilewares.py:</p>
+</blockquote>
+<p>自己定义的middlewares 定义方法，处理响应的IO操作</p>
+<blockquote>
+<p>init.py:</p>
+</blockquote>
+<p>项目的初始化文件。</p>
+<blockquote>
+<p>items.py：</p>
+</blockquote>
+<p>定义我们所要爬取的信息的相关属性。Item对象是种类似于表单，用来保存获取到的数据</p>
+<p>创建我们的spider</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ArticleSpider</span><br><span class="line">scrapy genspider jobbole blog.jobbole.com</span><br></pre></td></tr></table></figure>
+<p>scray在命令行启动Spyder的命令:</p>
+<p><code>scrapy crawl jobbole</code></p>
+<p>创建我们的调试工具类*</p>
+<p>在项目根目录里创建main.py<br>作为调试工具文件</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#将系统当前目录设置为项目根目录</span></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line">execute([<span class="string">"scrapy"</span>, <span class="string">"crawl"</span> , <span class="string">"jobbole"</span>])</span><br></pre></td></tr></table></figure>
+<p>开启控制台调试</p>
+<p><code>scrapy shell http://blog.jobbole.com/110287/</code></p>
+<p>twist异步机制</p>
+<p>Scrapy使用了Twisted作为框架，Twisted有些特殊的地方是它是事件驱动的，并且比较适合异步的代码。在任何情况下，都不要写阻塞的代码。阻塞的代码包括:</p>
+<ul>
+<li>访问文件、数据库或者Web</li>
+<li>产生新的进程并需要处理新进程的输出，如运行shell命令</li>
+<li>执行系统层次操作的代码，如等待系统队列</li>
+</ul>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-awk命令总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/awk命令总结/" class="article-date">
+      <time datetime="2018-05-05T15:58:30.262Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>-F 字段分隔符<br><code>awk -F&quot;:&quot; &#39;{print $0}&#39; /etc/passwd</code></p>
+<p>$0 整行<br>$1 以“：”冒号分割的第一列<br>$2 以“：”冒号分割的第二列</p>
+<p>NF==7 字段数量<br>NR==2 纪录数量</p>
+<p>用 awk 中查看服务器连接状态并汇总</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -an|awk <span class="string">'/^tcp/&#123;++s[$NF]&#125;END&#123;for(a in s)print a,s[a]&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>统计 web 日志访问流量，要求输出访问次数，请求页面或图片，每个请求的总大小， 总访问流量的大小汇总</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;a[$7]+=$10;++b[$7];total+=$10&#125;END&#123;for(x in a)print b[x],x,a[x]|"sort -rn -k1";print "total size is :"total&#125;'</span> /app/<span class="built_in">log</span>/access_log</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-MariaDB使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/MariaDB使用笔记/" class="article-date">
+      <time datetime="2018-05-05T15:58:30.262Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>MariaDB 10.2.13</p>
+<h3 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a><a href="https://www.cnblogs.com/liufei88866/p/5619215.html" target="_blank" rel="noopener">修改密码</a></h3><h4 id="方法1：-用SET-PASSWORD命令"><a href="#方法1：-用SET-PASSWORD命令" class="headerlink" title="方法1： 用SET PASSWORD命令"></a>方法1： 用SET PASSWORD命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">mysql&gt; SET PASSWORD FOR &apos;root&apos;@&apos;localhost&apos; = PASSWORD(&apos;newpass&apos;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">方法2：用mysqladmin</span><br><span class="line"></span><br><span class="line">　　mysqladmin -u root password &quot;newpass&quot;</span><br><span class="line"></span><br><span class="line">　　如果root已经设置过密码，采用如下方法</span><br><span class="line"></span><br><span class="line">　　mysqladmin -u root password oldpass &quot;newpass&quot;</span><br><span class="line"></span><br><span class="line">方法3： 用UPDATE直接编辑user表</span><br><span class="line"></span><br><span class="line">　　mysql -u root</span><br><span class="line"></span><br><span class="line">　　mysql&gt; use mysql;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; UPDATE user SET Password = PASSWORD(&apos;newpass&apos;) WHERE user = &apos;root&apos;;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line"></span><br><span class="line">在丢失root密码的时候，可以这样</span><br><span class="line"></span><br><span class="line">　　mysqld_safe --skip-grant-tables&amp;</span><br><span class="line"></span><br><span class="line">　　mysql -u root mysql</span><br><span class="line"></span><br><span class="line">　　mysql&gt; UPDATE user SET password=PASSWORD(&quot;new password&quot;) WHERE user=&apos;root&apos;;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="#新建数据库"></a>#新建数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database proxy_ip;</span><br></pre></td></tr></table></figure>
+<h3 id="新建数据表"><a href="#新建数据表" class="headerlink" title="#新建数据表"></a>#新建数据表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table xici_proxy(ip varchar(20) COMMENT &apos;地址&apos;,</span><br><span class="line">port varchar(5) COMMENT &apos;端口&apos;, </span><br><span class="line">proxy_type varchar(5) COMMENT &apos;类型&apos;, </span><br><span class="line">speed varchar(10) NULL COMMENT &apos;速度&apos;,</span><br><span class="line">PRIMARY KEY(ip)</span><br><span class="line">)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&apos;西刺代理IP池&apos;;</span><br></pre></td></tr></table></figure>
+<h3 id="查看表结构"><a href="#查看表结构" class="headerlink" title="#查看表结构"></a>#查看表结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc xici_proxy;</span><br></pre></td></tr></table></figure>
+<h3 id="查看表生成的DDL"><a href="#查看表生成的DDL" class="headerlink" title="#查看表生成的DDL"></a>#查看表生成的DDL</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table xici_proxy;</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Synology NAS文件删除记录" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Synology NAS文件删除记录/" class="article-date">
+      <time datetime="2018-05-05T15:58:30.262Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Synology NAS文件删除记录</p>
+<p>Seagate硬盘是复制NAS上的文件。现在进行筛选处理。</p>
+<p>删除的文件</p>
+<p>/Volumes/Seagete/course/Python/老男孩 python 14期 29.08GB</p>
+<p>/Volumes/Seagete/course/Python/python分布式爬虫打造搜索引擎 9.5GB</p>
+<p>/Volumes/Seagete/course/Python/Python就业班 46GB<br>大概 46GB，忘记统计大小类。删除后才想起来统计大小。所以 46GB可能和NAS上的不太一样。</p>
+<p>/Volumes/Seagete/course/Python/第十六期 5.0MB</p>
+<p>5.6G    Python<br> 99G    Python视频教程<br> 73G    python传智播客<br> 56G    python全栈开发<br> 20G    老男孩-python运维8期<br> 48G    零基础入门学习Python</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-acme.sh" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/acme.sh/" class="article-date">
+      <time datetime="2018-05-05T15:58:30.262Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acme.sh</a><br><a href="https://github.com/Neilpang/acme.sh/wiki/dns-manual-mode" target="_blank" rel="noopener">DNS manual mode</a></p>
+<p> yum -y install openssl </p>
+<p> curl <a href="https://get.acme.sh" target="_blank" rel="noopener">https://get.acme.sh</a> | sh</p>
+<p> ./acme.sh –issue -d quanjinlong.cn –dns \<br> –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
+<p>./acme.sh –renew -d quanjinlong.cn \<br>  –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
+<p>copy/安装 证书<br>mkdir -p /data/www/ssl</p>
+<p>./acme.sh –install-cert -d quanjinlong.cn \<br>–key-file       /data/www/ssl/quanjinlong.cn.key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn.cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
+<p>“/root/.acme.sh”/acme.sh –issue –dns dns_cx -d quanjinlong.cn -k ec-256</p>
+<p>./acme.sh –install-cert -d quanjinlong.cn_ecc \<br>–key-file       /data/www/ssl/quanjinlong.cn/ecc_key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn/ecc_cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
+<h2 id="log"><a href="#log" class="headerlink" title="log"></a>log</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">  [root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --issue -d quanjinlong.cn --dns \</span></span><br><span class="line">&gt;  --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:29:42 CST 2018] Registering account</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Registered</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] ACCOUNT_THUMBPRINT=<span class="string">'kiwEXzVZgNIaJAK8Nhfc82QAu8MUgz5hkXiSc-1dNIw'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Creating domain key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] The domain key is here: /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting webroot <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting new-authz <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] The new-authz request is ok.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Add the following TXT record:</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Domain: <span class="string">'_acme-challenge.quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] TXT value: <span class="string">'n1_OFICy66s8pQT9_Y_B6_CPtVggPaBQgILNOMx_Nfw'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please be aware that you prepend _acme-challenge. before your domain</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] so the resulting subdomain will be: _acme-challenge.quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add the TXT records to the domains, and re-run with --renew.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add <span class="string">'--debug'</span> or <span class="string">'--log'</span> to check more details.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] See: https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh</span><br><span class="line">[root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --renew -d quanjinlong.cn \</span></span><br><span class="line">&gt;   --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:35:45 CST 2018] Renew: <span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Verifying:quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:35:55 CST 2018] Pending</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Success</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Verify finished, start to sign.</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Cert success.</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIGBzCCBO+gAwIBAgISAyvAMFcP9Xllga0gd+ZYlZpdMA0GCSqGSIb3DQEBCwUA</span><br><span class="line">MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD</span><br><span class="line">ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xODA0MDUwMDM2MDFaFw0x</span><br><span class="line">ODA3MDQwMDM2MDFaMBkxFzAVBgNVBAMTDnF1YW5qaW5sb25nLmNuMIIBIjANBgkq</span><br><span class="line">hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo91hTopV6JCu8tdfgPka43fkDYIIYu1r</span><br><span class="line">gFVbQcvU01sAVd7XkXUknzpnZCKnCEAfQCrAKyJvqHh/fqtpxkFd6K4XuGH9xJXf</span><br><span class="line">PBd1PZ02NhrCVPpiKTDLsaBqn/IYBS0YzvwUSYNl5bbUjgozCRrAZDFsTzFe0lnM</span><br><span class="line">CM55PyYkBPePWFiWEXXWyUvbjsBerMOa4gQrQl7HNHHLBZ7w0AJwTafz3iDEgrRg</span><br><span class="line">u04NzVehre3FWwfOLcOe396NpH300N6EuGl2bo2cRldgek81CyM0A1JDl5hmFlAh</span><br><span class="line">MlBgt/87PNGtv7ZpTq+/i+t/BfslVgavWbJ+fy7B4a3cBEBYWGbQEwIDAQABo4ID</span><br><span class="line">FjCCAxIwDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEF</span><br><span class="line">BQcDAjAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSiboptH4fpTKM/ozBKc91kBDxB</span><br><span class="line">oDAfBgNVHSMEGDAWgBSoSmpjBH3duubRObemRWXv86jsoTBvBggrBgEFBQcBAQRj</span><br><span class="line">MGEwLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwLmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcwLwYIKwYBBQUHMAKGI2h0dHA6Ly9jZXJ0LmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcvMBkGA1UdEQQSMBCCDnF1YW5qaW5sb25nLmNuMIH+BgNVHSAEgfYwgfMwCAYG</span><br><span class="line">Z4EMAQIBMIHmBgsrBgEEAYLfEwEBATCB1jAmBggrBgEFBQcCARYaaHR0cDovL2Nw</span><br><span class="line">cy5sZXRzZW5jcnlwdC5vcmcwgasGCCsGAQUFBwICMIGeDIGbVGhpcyBDZXJ0aWZp</span><br><span class="line">Y2F0ZSBtYXkgb25seSBiZSByZWxpZWQgdXBvbiBieSBSZWx5aW5nIFBhcnRpZXMg</span><br><span class="line">YW5kIG9ubHkgaW4gYWNjb3JkYW5jZSB3aXRoIHRoZSBDZXJ0aWZpY2F0ZSBQb2xp</span><br><span class="line">Y3kgZm91bmQgYXQgaHR0cHM6Ly9sZXRzZW5jcnlwdC5vcmcvcmVwb3NpdG9yeS8w</span><br><span class="line">ggEEBgorBgEEAdZ5AgQCBIH1BIHyAPAAdgApPFGWVMg5ZbqqUPxYB9S3b79Yeily</span><br><span class="line">3KTDDPTlRUf0eAAAAWKTckIrAAAEAwBHMEUCIQDAxllHOVE/fIfd/1q61yIQb7K3</span><br><span class="line">h+KvMJQm4ob+UjPqVgIgW3OtuN2FVCppgJhV1lKoQHSjgI9neRBGfwbpWyKmNAYA</span><br><span class="line">dgBVgdTCFpA2AUrqC5tXPFPwwOQ4eHAlCBcvo6odBxPTDAAAAWKTckNSAAAEAwBH</span><br><span class="line">MEUCIQDDhoKDEShosj+OYHWp04ZRGb2GBeknEvvQ6RpW/fB9LQIgI8bdN5X17KoH</span><br><span class="line">HEsNhBGAVwPrP3TqcAQ7rYKsz38WWsUwDQYJKoZIhvcNAQELBQADggEBAJCm+iuD</span><br><span class="line">g6CHchyNEPXfooa0zntBgzNKlwjTwSLzMJxKmFD1GBXkZGLZwRtRtu14SRw67dQG</span><br><span class="line">dBUwoxsSRae/F9eHiQLJrqY7p4s79zU/0aHD8NAnGm9nERXPL2ehjnKPx0lgAQc5</span><br><span class="line">8qORHJaRXPaOUGu+XpWBbXnOihq12Uhq4Bx5fIoR+4Kd4+oIET7nv00eeBPMJmiX</span><br><span class="line">83xOxIKRvEAJqWj0W6DOymvkc1NaGp2LCMRRfHNbd2p+l2xLtbewjnhzf/V3XXGv</span><br><span class="line">l9ZdDtEUPH4meQQY4xrAEgu9rTTLOpMmLSSPdNQFN8wJqJqPVHfcxMbPOqusQgGo</span><br><span class="line">I4qVG2BqLb9t3FQ=</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.cer</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert key is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] The intermediate CA cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/ca.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] And the full chain certs is there:  /root/.acme.sh/quanjinlong.cn/fullchain.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] It seems that you are using dns manual mode. please take care: The dns manual mode can not renew automatically, you must issue it again manually. You<span class="string">'d better use the other modes instead.</span></span><br><span class="line"><span class="string">[Thu Apr  5 09:36:03 CST 2018] Call hook error.</span></span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Python自动化开发之路-Alex" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Python自动化开发之路-Alex/" class="article-date">
+      <time datetime="2018-05-05T15:58:30.262Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>老男孩教育Python自动化2.0课程课件目录</p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5465198.html" target="_blank" rel="noopener">Python之路,Day1 - Python基础1</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5717620.html" target="_blank" rel="noopener">Python之路,Day2 - Python基础2</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5740985.html" target="_blank" rel="noopener">Python之路,Day3 - Python基础3</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5143440.html" target="_blank" rel="noopener">Python之路,Day4</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5765046.html" target="_blank" rel="noopener">Python之路,Day4 - Python基础4 (new版)</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5161349.html" target="_blank" rel="noopener">Python 之路 Day5 - 常用模块学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5188179.html" target="_blank" rel="noopener">Python之路,Day6 - 面向对象学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5213184.html" target="_blank" rel="noopener">Python之路，Day7 - 面向对象编程进阶</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5830365.html" target="_blank" rel="noopener">Python之路,Day8 - Socket网络编程</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5227251.html" target="_blank" rel="noopener">Python之路,Day8 - Socket编程进阶</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5248247.html" target="_blank" rel="noopener">Python之路,Day9 - 异步IO\数据库\队列\缓存</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5230609.html" target="_blank" rel="noopener">Python之路,Day9, 进程、线程、协程篇</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5978329.html" target="_blank" rel="noopener">Python 之路，Day11 - sqlalchemy ORM</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5950372.html" target="_blank" rel="noopener">python 之路，Day11 - python mysql and ORM</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5286889.html" target="_blank" rel="noopener">Python之路,Day12 - 那就做个堡垒机吧</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5457672.html" target="_blank" rel="noopener">Python之路,Day14 - It’s time for Django</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5512568.html" target="_blank" rel="noopener">Python之路,Day15 - Django适当进阶篇</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5535652.html" target="_blank" rel="noopener">Python之路,Day16 - Django 进阶</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5311625.html" target="_blank" rel="noopener">Python之路,Day17 - 分分钟做个BBS论坛</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5337630.html" target="_blank" rel="noopener">Python之路,Day18 - 开发一个WEB聊天来撩妹吧</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5420433.html" target="_blank" rel="noopener">Python之路,Day19 - CMDB、CMDB、CMDB</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5450798.html" target="_blank" rel="noopener">Python之路,Day20 - 分布式监控系统开发</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5474411.html" target="_blank" rel="noopener">Python之路,Day21 - 常用算法学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5714238.html" target="_blank" rel="noopener">Python之路,Day22 - 网站用户访问质量分析监测分析项目开发</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5760582.html" target="_blank" rel="noopener">Python之路，Day24 常用设计模式学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/6100840.html" target="_blank" rel="noopener">Python 之路，Day27 - 主机管理+堡垒机系统开发</a></p>
 
       
       
@@ -434,8 +759,8 @@
     <article id="post-Python自动化开发" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/03/Python自动化开发/" class="article-date">
-      <time datetime="2018-05-03T00:11:32.776Z" itemprop="datePublished">2018-05-03</time>
+      <a href="/2018/05/05/Python自动化开发/" class="article-date">
+      <time datetime="2018-05-05T15:58:30.262Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -722,321 +1047,6 @@
 <li>机器学习主要流程5：模型评估与调参</li>
 <li>神经网络介绍</li>
 </ol>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Nginx-1.13.11" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/03/Nginx-1.13.11/" class="article-date">
-      <time datetime="2018-05-03T00:11:32.776Z" itemprop="datePublished">2018-05-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>vim /etc/yum.repos.d/nginx.repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[nginx]</span><br><span class="line">name=nginx repo</span><br><span class="line">baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure>
-<p><code>yum install nginx -y</code></p>
-<p>查看nginx版本 <code>nginx -v</code><br>获取编译参数 <code>nginx -V</code><br>文件位置<br>/usr/lib/systemd/system/nginx.service<br>user  nginx</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=nginx - high performance web server</span><br><span class="line">Documentation=http://nginx.org/en/docs/</span><br><span class="line">After=network-online.target remote-fs.target nss-lookup.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/var/run/nginx.pid</span><br><span class="line">ExecStart=/usr/sbin/nginx -c /etc/nginx/nginx.conf</span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line">ExecStop=/bin/kill -s TERM $MAINPID</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/<span class="built_in">log</span>/nginx/error.log --http-log-path=/var/<span class="built_in">log</span>/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --with-cc-opt=<span class="string">'-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -fPIC'</span> --with-ld-opt=<span class="string">'-Wl,-z,relro -Wl,-z,now -pie'</span></span><br></pre></td></tr></table></figure>
-<h2 id="编译安装nginx"><a href="#编译安装nginx" class="headerlink" title="编译安装nginx"></a>编译安装nginx</h2><p>安装依赖环境</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y make git pcre-devel zlib-devel</span><br></pre></td></tr></table></figure>
-<p>添加nginx用户和组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -s /sbin/nologin -M nginx</span><br></pre></td></tr></table></figure>
-<p>获取源码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b 1.13.12 https://github.com/nginx/nginx.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/openssl/openssl.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/grahamedgecombe/nginx-ct.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/google/ngx_brotli.git&amp;&amp;<span class="built_in">cd</span> ngx_brotli&amp;&amp;git submodule update --init&amp;&amp;<span class="built_in">cd</span> ..</span><br></pre></td></tr></table></figure>
-<p>编译</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> nginx</span><br><span class="line"></span><br><span class="line">auto/configure --prefix=/usr/<span class="built_in">local</span>/nginx-1.13.11 --user=nginx --group=nginx --add-module=../ngx_brotli --add-module=../nginx-ct --with-openssl=../openssl --with-openssl-opt=<span class="string">'enable-tls1_3 enable-weak-ssl-ciphers'</span> --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-<p>/usr/lib/systemd/system/nginx.service</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/usr/lib/systemd/system/nginx.service&lt;&lt;EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=nginx - high performance web server</span><br><span class="line">Documentation=http://nginx.org/en/docs/</span><br><span class="line">After=network-online.target remote-fs.target nss-lookup.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/var/run/nginx.pid</span><br><span class="line">ExecStartPre=/usr/local/nginx-1.13.11/sbin/nginx -t -c /usr/local/nginx-1.13.11/conf/nginx.conf</span><br><span class="line">ExecStart=/usr/local/nginx-1.13.11/sbin/nginx -c /usr/local/nginx-1.13.11/conf/nginx.conf</span><br><span class="line">ExecReload=/usr/local/nginx-1.13.11/sbin/nginx -s reload</span><br><span class="line">ExecStop=/usr/local/nginx-1.13.11/sbin/nginx -s quit</span><br><span class="line">PrivateTmp=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<p>配置</p>
-<p>/usr/local/nginx-1.13.11/conf/nginx.conf</p>
-<h3 id="使用acme-sh工具获取ssl证书"><a href="#使用acme-sh工具获取ssl证书" class="headerlink" title="使用acme.sh工具获取ssl证书"></a>使用<a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="noopener">acme.sh</a>工具获取ssl证书</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://get.acme.sh | sh</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1. DNSPod API Key and ID</span></span><br><span class="line"><span class="built_in">export</span> DP_Id=<span class="string">""</span></span><br><span class="line"><span class="built_in">export</span> DP_Key=<span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">acme.sh --issue --dns dns_dp --nginx --keylength 4096 -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn</span><br><span class="line"></span><br><span class="line"><span class="comment">#3.</span></span><br><span class="line">acme.sh --issue --dns dns_dp --nginx --keylength 4096 -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn --keylength ec-256</span><br><span class="line"></span><br><span class="line"><span class="comment">#4.</span></span><br><span class="line">acme.sh --installcert -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn \</span><br><span class="line">        --key-file   /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa.key \</span><br><span class="line">        --fullchain-file /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain.cer \</span><br><span class="line">        --reloadcmd  <span class="string">"systemctl restart nginx.service"</span></span><br><span class="line">      </span><br><span class="line"><span class="comment">#4.        </span></span><br><span class="line">acme.sh --install-cert -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn \</span><br><span class="line">--key-file       /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_key.pem  \</span><br><span class="line">--fullchain-file /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem \</span><br><span class="line">--reloadcmd     <span class="string">"systemctl restart nginx.service"</span></span><br></pre></td></tr></table></figure>
-<p>日志自动切分</p>
-<p>vim /etc/logrotate.d/nginx</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/nginx/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/nginx.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/nginx.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>手动执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/nginx</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx.service</span><br><span class="line">systemctl restart nginx.service</span><br><span class="line">systemctl stop nginx.service</span><br><span class="line">systemctl status nginx.service</span><br><span class="line">systemctl <span class="built_in">enable</span> nginx.service</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener">ssl 测试工具</a></p>
-<ul>
-<li><p>TLS 1.3<br><a href="https://imququ.com/post/enable-tls-1-3.html" target="_blank" rel="noopener">本博客开始支持 TLS 1.3</a>|<a href="https://www.coldawn.com/tag/draft-23/" target="_blank" rel="noopener">CentOS 7 编译安装nginx并启用TLS1.3</a></p>
-</li>
-<li><p>CT<br><a href="https://imququ.com/post/certificate-transparency.html#toc-2" target="_blank" rel="noopener">通过 nginx-ct 启用 CT</a></p>
-</li>
-</ul>
-<p><a href="https://ct.grahamedgecombe.com/" target="_blank" rel="noopener">Certificate Transparency Monitor</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yum -y install golang</span><br><span class="line"></span><br><span class="line">wget -O ct-submit.zip -c https://github.com/grahamedgecombe/ct-submit/archive/v1.1.2.zip</span><br><span class="line">unzip ct-submit.zip</span><br><span class="line"><span class="built_in">cd</span> ct-submit-1.1.2</span><br><span class="line">go build</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#rsa</span><br><span class="line">./ct-submit-1.1.2 ct.googleapis.com/icarus &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/icarus.sct</span><br><span class="line"></span><br><span class="line">./ct-submit-1.1.2 ct1.digicert-ct.com/log &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/digicert.sct</span><br><span class="line"></span><br><span class="line">./ct-submit-1.1.2 mammoth.ct.comodo.com &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/comodo.sct</span><br><span class="line"></span><br><span class="line">#ecc</span><br><span class="line">./ct-submit-1.1.2 ct.googleapis.com/icarus &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_ecc_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/icarus_ecc.sct</span><br><span class="line"></span><br><span class="line">./ct-submit-1.1.2 ct1.digicert-ct.com/log &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_ecc_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/digicert_ecc.sct</span><br><span class="line"></span><br><span class="line">./ct-submit-1.1.2 mammoth.ct.comodo.com &lt;/data/ssl/quanjinlong.cn/quanjinlong_cn_ecc_fullchain_cert.pem &gt;/data/ssl/quanjinlong.cn/scts/comodo_ecc.sct</span><br></pre></td></tr></table></figure>
-<ul>
-<li><a href="">HSTS</a></li>
-</ul>
-<p>nginx server conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_header               Strict-Transport-Security &quot;max-age=31536000; includeSubDomains; preload&quot;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><a href="https://gist.github.com/esurdam/ef72f1c47be7c074499cb920683bd307" target="_blank" rel="noopener">HKPK</a></li>
-</ul>
-<p><a href="https://letsencrypt.org/certificates/" target="_blank" rel="noopener">Chain of Trust - Let’s Encrypt - Free SSL/TLS Certificates</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget -O lets-encrypt-x3-cross-signed.pem https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt</span><br><span class="line"></span><br><span class="line">wget -O lets-encrypt-x4-cross-signed.pem https://letsencrypt.org/certs/lets-encrypt-x4-cross-signed.pem.txt</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -noout -in lets-encrypt-x3-cross-signed.pem -pubkey | \</span><br><span class="line">openssl rsa -pubin -outform der | \</span><br><span class="line">openssl dgst -sha256 -binary | \</span><br><span class="line">base64</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -noout -in lets-encrypt-x4-cross-signed.pem -pubkey | \</span><br><span class="line">openssl rsa -pubin -outform der | \</span><br><span class="line">openssl dgst -sha256 -binary | \</span><br><span class="line">base64</span><br></pre></td></tr></table></figure>
-<p>nginx server conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_header Public-Key-Pins &apos;pin-sha256=&quot;YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg=&quot;; pin-sha256=&quot;sRHdihwgkaib1P1gxX8HFszlD+7/gTfNvuAybgLPNis==&quot;; max-age=2592000; includeSubDomains&apos;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><a href="https://weakdh.org/sysadmin.html" target="_blank" rel="noopener">ssl_dhparam</a></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl dhparam -out dhparams.pem 2048</span><br></pre></td></tr></table></figure>
-<p>nginx server conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssl_dhparam dhparams.pem</span><br></pre></td></tr></table></figure>
-<p><a href="https://imququ.com/post/my-nginx-conf.html" target="_blank" rel="noopener">imquu.com-本博客 Nginx 配置之完整篇</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Python自动化开发之路-Alex" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/03/Python自动化开发之路-Alex/" class="article-date">
-      <time datetime="2018-05-03T00:11:32.776Z" itemprop="datePublished">2018-05-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>老男孩教育Python自动化2.0课程课件目录</p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5465198.html" target="_blank" rel="noopener">Python之路,Day1 - Python基础1</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5717620.html" target="_blank" rel="noopener">Python之路,Day2 - Python基础2</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5740985.html" target="_blank" rel="noopener">Python之路,Day3 - Python基础3</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5143440.html" target="_blank" rel="noopener">Python之路,Day4</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5765046.html" target="_blank" rel="noopener">Python之路,Day4 - Python基础4 (new版)</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5161349.html" target="_blank" rel="noopener">Python 之路 Day5 - 常用模块学习</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5188179.html" target="_blank" rel="noopener">Python之路,Day6 - 面向对象学习</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5213184.html" target="_blank" rel="noopener">Python之路，Day7 - 面向对象编程进阶</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5830365.html" target="_blank" rel="noopener">Python之路,Day8 - Socket网络编程</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5227251.html" target="_blank" rel="noopener">Python之路,Day8 - Socket编程进阶</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5248247.html" target="_blank" rel="noopener">Python之路,Day9 - 异步IO\数据库\队列\缓存</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5230609.html" target="_blank" rel="noopener">Python之路,Day9, 进程、线程、协程篇</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5978329.html" target="_blank" rel="noopener">Python 之路，Day11 - sqlalchemy ORM</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5950372.html" target="_blank" rel="noopener">python 之路，Day11 - python mysql and ORM</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5286889.html" target="_blank" rel="noopener">Python之路,Day12 - 那就做个堡垒机吧</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5457672.html" target="_blank" rel="noopener">Python之路,Day14 - It’s time for Django</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5512568.html" target="_blank" rel="noopener">Python之路,Day15 - Django适当进阶篇</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5535652.html" target="_blank" rel="noopener">Python之路,Day16 - Django 进阶</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5311625.html" target="_blank" rel="noopener">Python之路,Day17 - 分分钟做个BBS论坛</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5337630.html" target="_blank" rel="noopener">Python之路,Day18 - 开发一个WEB聊天来撩妹吧</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5420433.html" target="_blank" rel="noopener">Python之路,Day19 - CMDB、CMDB、CMDB</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5450798.html" target="_blank" rel="noopener">Python之路,Day20 - 分布式监控系统开发</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5474411.html" target="_blank" rel="noopener">Python之路,Day21 - 常用算法学习</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5714238.html" target="_blank" rel="noopener">Python之路,Day22 - 网站用户访问质量分析监测分析项目开发</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/5760582.html" target="_blank" rel="noopener">Python之路，Day24 常用设计模式学习</a></p>
-<p><a href="http://www.cnblogs.com/alex3714/articles/6100840.html" target="_blank" rel="noopener">Python 之路，Day27 - 主机管理+堡垒机系统开发</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Systemd使用技巧" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/03/Systemd使用技巧/" class="article-date">
-      <time datetime="2018-05-03T00:11:32.776Z" itemprop="datePublished">2018-05-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#Systemd使用技巧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#生成一张启动详细信息矢量图</span><br><span class="line">systemd-analyze plot &gt;boot.svg</span><br></pre></td></tr></table></figure></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-MariaDB使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/03/MariaDB使用笔记/" class="article-date">
-      <time datetime="2018-05-03T00:11:32.776Z" itemprop="datePublished">2018-05-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>MariaDB 10.2.13</p>
-<h3 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a><a href="https://www.cnblogs.com/liufei88866/p/5619215.html" target="_blank" rel="noopener">修改密码</a></h3><h4 id="方法1：-用SET-PASSWORD命令"><a href="#方法1：-用SET-PASSWORD命令" class="headerlink" title="方法1： 用SET PASSWORD命令"></a>方法1： 用SET PASSWORD命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">mysql&gt; SET PASSWORD FOR &apos;root&apos;@&apos;localhost&apos; = PASSWORD(&apos;newpass&apos;);</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">方法2：用mysqladmin</span><br><span class="line"></span><br><span class="line">　　mysqladmin -u root password &quot;newpass&quot;</span><br><span class="line"></span><br><span class="line">　　如果root已经设置过密码，采用如下方法</span><br><span class="line"></span><br><span class="line">　　mysqladmin -u root password oldpass &quot;newpass&quot;</span><br><span class="line"></span><br><span class="line">方法3： 用UPDATE直接编辑user表</span><br><span class="line"></span><br><span class="line">　　mysql -u root</span><br><span class="line"></span><br><span class="line">　　mysql&gt; use mysql;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; UPDATE user SET Password = PASSWORD(&apos;newpass&apos;) WHERE user = &apos;root&apos;;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line"></span><br><span class="line">在丢失root密码的时候，可以这样</span><br><span class="line"></span><br><span class="line">　　mysqld_safe --skip-grant-tables&amp;</span><br><span class="line"></span><br><span class="line">　　mysql -u root mysql</span><br><span class="line"></span><br><span class="line">　　mysql&gt; UPDATE user SET password=PASSWORD(&quot;new password&quot;) WHERE user=&apos;root&apos;;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
-<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="#新建数据库"></a>#新建数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database proxy_ip;</span><br></pre></td></tr></table></figure>
-<h3 id="新建数据表"><a href="#新建数据表" class="headerlink" title="#新建数据表"></a>#新建数据表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table xici_proxy(ip varchar(20) COMMENT &apos;地址&apos;,</span><br><span class="line">port varchar(5) COMMENT &apos;端口&apos;, </span><br><span class="line">proxy_type varchar(5) COMMENT &apos;类型&apos;, </span><br><span class="line">speed varchar(10) NULL COMMENT &apos;速度&apos;,</span><br><span class="line">PRIMARY KEY(ip)</span><br><span class="line">)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&apos;西刺代理IP池&apos;;</span><br></pre></td></tr></table></figure>
-<h3 id="查看表结构"><a href="#查看表结构" class="headerlink" title="#查看表结构"></a>#查看表结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc xici_proxy;</span><br></pre></td></tr></table></figure>
-<h3 id="查看表生成的DDL"><a href="#查看表生成的DDL" class="headerlink" title="#查看表生成的DDL"></a>#查看表生成的DDL</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table xici_proxy;</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Synology NAS文件删除记录" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/03/Synology NAS文件删除记录/" class="article-date">
-      <time datetime="2018-05-03T00:11:32.776Z" itemprop="datePublished">2018-05-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Synology NAS文件删除记录</p>
-<p>Seagate硬盘是复制NAS上的文件。现在进行筛选处理。</p>
-<p>删除的文件</p>
-<p>/Volumes/Seagete/course/Python/老男孩 python 14期 29.08GB</p>
-<p>/Volumes/Seagete/course/Python/python分布式爬虫打造搜索引擎 9.5GB</p>
-<p>/Volumes/Seagete/course/Python/Python就业班 46GB<br>大概 46GB，忘记统计大小类。删除后才想起来统计大小。所以 46GB可能和NAS上的不太一样。</p>
-<p>/Volumes/Seagete/course/Python/第十六期 5.0MB</p>
-<p>5.6G    Python<br> 99G    Python视频教程<br> 73G    python传智播客<br> 56G    python全栈开发<br> 20G    老男孩-python运维8期<br> 48G    零基础入门学习Python</p>
 
       
       
