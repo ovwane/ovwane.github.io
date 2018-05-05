@@ -182,26 +182,7 @@ git commit -m "添加.travis.yml打包命令，并添加拉取master分支，防
 git push origin hexo
 ```
 
-
-## Git
-### git常用命令
-```
-#克隆仓库
-git clone git@github.com:ovwane/ovwane.github.io.git
-#创建分支
-git checkout -b blog
-#切换分支
-git checout blog
-#查看分支
-git branch
-#查看所有分支
-git branch -a
-#删除分支
-git push origin :blog
-git push origin -d blog
-#删除子模块
-git rm -r --cached themes/spfk
-```
+### 参考
 
 
 [使用 Travis CI 自動發布 Hexo 內容到 Github](https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/)
