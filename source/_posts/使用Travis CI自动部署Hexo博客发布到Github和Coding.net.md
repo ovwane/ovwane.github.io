@@ -1,7 +1,4 @@
-date: 2017-05-05 22:54
-
 ## 安装hexo
-
 ```
 nvm install 8.9.1
 npm install hexo-cli -g
@@ -16,34 +13,29 @@ ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f ~/.ssh/hexo_rsa
 
 #github和coding.net都是设置的只有这个项目可以使用这个公钥
 ```
-```shell
+```
 vim ~/.ssh/config
-
 # github.com
 Host github.com
 HostName github.com
 PreferredAuthentications publickey
-IdentityFile ~/.ssh/github_rsa
+IdentityFile ~/.ssh/hexo_rsa
 
 # git.coding.net
 Host git.coding.net
 HostName git.coding.net
 PreferredAuthentications publickey
-IdentityFile ~/.ssh/coding_net_rsa
+IdentityFile ~/.ssh/hexo_rsa
 ```
 
 ### 测试
-```shell
-$ ssh -T git@github.com
-$ ssh -T git@git.coding.net
+```
+ssh -T git@github.com
+ssh -T git@git.coding.net
 ```
 
 ### 初始化blog分支
-```shell
-
-$ git config --global user.name "Jinlong Quan"
-$ git config --global user.email "ovwane@gmail.com"
-
+```
 cd ~/projects
 
 hexo init blog.ovwane.me
@@ -77,30 +69,25 @@ git push origin hexo
 ### 修改_config.yml 和 主题的 _config.yml替换主题的图片
 
 ### 配置travis
-```shell
+```
 cd ~/projects/blog.ovwane.me
 mkdir .travis
 touch .travis.yml
-
-$ brew install travis
-$ travis login --auto
-$ travis encrypt-file ~/.ssh/github_rsa --add
-$ travis encrypt-file ~/.ssh/coding_net_rsa --add
-
-$ mv github_rsa.enc .travis/
-$ mv coding_net_rsa.enc .travis/
+brew install travis
+travis login --auto
+travis encrypt-file ~/.ssh/hexo_rsa --add 
+mv hexo_rsa.enc .travis/
 ```
 
 ### .travis/ssh_config
-```shell
+```
 vim .travis/ssh_config
-
 # github.com
 Host github.com
 	HostName github.com
 	User git
 	StrictHostKeyChecking no
-	IdentityFile ~/.ssh/github_rsa
+	IdentityFile ~/.ssh/hexo_rsa
 	IdentitiesOnly yes
 	
 # git.coding.net
@@ -108,7 +95,7 @@ Host git.coding.net
 	HostName git.coding.net
 	User git
 	StrictHostKeyChecking no
-	IdentityFile ~/.ssh/coding_net_rsa
+	IdentityFile ~/.ssh/hexo_rsa
 	IdentitiesOnly yes
 ```
 
@@ -195,10 +182,29 @@ git commit -m "添加.travis.yml打包命令，并添加拉取master分支，防
 git push origin hexo
 ```
 
-### 参考
+
+## Git
+### git常用命令
+```
+#克隆仓库
+git clone git@github.com:ovwane/ovwane.github.io.git
+#创建分支
+git checkout -b blog
+#切换分支
+git checout blog
+#查看分支
+git branch
+#查看所有分支
+git branch -a
+#删除分支
+git push origin :blog
+git push origin -d blog
+#删除子模块
+git rm -r --cached themes/spfk
+```
+
 
 [使用 Travis CI 自動發布 Hexo 內容到 Github](https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/)
-
 [使用Travis CI自动构建hexo博客](http://magicse7en.github.io/2016/03/27/travis-ci-auto-deploy-hexo-github/)
 [使用Travis CI自动部署Github/Coding Pages博客
 ](https://imzlp.me/posts/42318/)
