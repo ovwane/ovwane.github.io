@@ -24,13 +24,15 @@ VCS->Import into Version Control->Share Project On Github
 
 ## PyCharm 配置
 - Tab键设置成4个空格
-Preferences->Editor->Code Style->Python->Use tab character 取消勾选
+  Preferences->Editor->Code Style->Python->Use tab character 取消勾选
 
 - 调整字母长度分割线
-Preferences->Editor->Code Style->Right margin（columns) 设置为80
+  Preferences->Editor->Code Style->Right margin（columns) 设置为80
 
 - 文件模板
-Preferences->Editor->File and Code Templates
+  Preferences->Editor->File and Code Templates
+
+  Enable Live Templates
 
 ```py
 #!/usr/bin/env python

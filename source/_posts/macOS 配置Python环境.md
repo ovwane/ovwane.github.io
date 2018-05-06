@@ -8,47 +8,60 @@ tags:
 - macOS
 ---
 macOS 配置Python环境
+
 10.12.6
+
 10.13
 
+10.13.4 2018-05-05 20:01
+
 ### 安装pyenv
-```
-brew install pyenv
+```shell
+$ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 ```
 
-### 安装Python
+查看可安装Python版本
+
+`pyenv install -l`
+
+**安装Python**
+
 [ERROR: The Python ssl extension was not compiled. Missing the OpenSSL lib?](https://github.com/pyenv/pyenv/wiki/Common-build-problems)
 
 ```
 # 设置变量
-export PYTHON_BUILD_CACHE_PATH=/root/python
-# 安装 Python 3.6.3
+export PYTHON_BUILD_CACHE_PATH=~/Downloads
+# 安装 Python 3.6.5
 CFLAGS="-I$(brew --prefix openssl)/include" \
 LDFLAGS="-L$(brew --prefix openssl)/lib" \
-pyenv install -v 3.6.3
+pyenv install -v 3.6.5
 ```
 
-```
-pyenv install 3.6.3
-pyenv install 2.7.14
+```shell
+$ pyenv install 3.6.5
+$ pyenv install 2.7.15
 
 # 添加环境变量
-vim ~/.zshrc
-#start pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-#end
+$ vim ~/.zshrc
+
+# start pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+
+if [ -d "${PYENV_ROOT}" ]; then
+  export PATH="${PYENV_ROOT}/bin:${PATH}"
+  eval "$(pyenv init -)"
+fi
+# end pyenv
 
 # 重新加载shell
-exec $SHELL -l
+$ exec $SHELL -l
 
-# 设置 3.6.3 为默认版本
-pyenv global 3.6.3
-pyenv rehash
+# 设置 3.6.5 为默认版本
+$ pyenv global 3.6.5
+$ pyenv rehash
 
 # 查看python版本
-python -V
+$ python -V
 ```
 
 ### 设置pip 使用豆瓣源
@@ -62,20 +75,57 @@ index-url = https://pypi.douban.com/simple
 EOF
 ```
 
-### 安装Python插件
-```
-pip install virtualenvwrapper
+更新pip
 
-# 添加环境变量
-vim ~/.zshrc
-#start virtualwrapper
-VIRTUALENVWRAPPER_PYTHON=/Users/jinlong/.pyenv/versions/3.6.3/bin/python
-export WORKON_HOME='~/.virtualenv'
-source /Users/jinlong/.pyenv/versions/3.6.3/bin/virtualenvwrapper.sh
-#end
+```shell
+$ pip install --upgrade pip
 ```
+
+
+
+### 安装Python插件
+
+**virtualenvwrapper**
+
+```shell
+$ pip install virtualenvwrapper
+
+# start virtualwrapper
+PY=$HOME/.pyenv/versions/3.6.5/bin
+VIRTUALENVWRAPPER_PYTHON=$PY/python
+export VIRTUALENV_USE_DISTRIBUTE=1
+export WORKON_HOME=~/.virtualenv
+if [ -e $PY/virtualenvwrapper.sh ]; then
+    source $PY/virtualenvwrapper.sh
+else
+    echo "error, cannot found virtualenvwrapper"
+fi
+export PIP_VIRTUALENV_BASE=$WORKON_HOME
+export PIP_RESPECT_VIRTUALENV=true
+export PIP_REQUIRE_VIRTUALENV=true
+# end virtualwrapper
+```
+
+**pipenv**
+
+```shell
+$ pip install pipenv
+```
+
+pipenv环境变量
+
+```shell
+$ vim ~/.zshrc
+
+# start pipenv
+eval "$(pipenv --completion)"
+# end pipenv
+```
+
+
 
 ### python虚拟环境
+
 ```
 # 新建虚拟环境
 mkvirtualenv test
@@ -88,6 +138,10 @@ deactivate
 # 删除虚拟环境
 rmvirtualenv test
 ```
+
+### 参考
+
+
 
 
 
