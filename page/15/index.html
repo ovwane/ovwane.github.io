@@ -205,6 +205,188 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-uWSGI搭配Nginx配置Django部署环境" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/" class="article-date">
+      <time datetime="2017-11-11T14:09:00.000Z" itemprop="datePublished">2017-11-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/">uWSGI搭配Nginx配置Django部署环境</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://www.nowamagic.net/academy/detail/1330308" target="_blank" rel="noopener">uWSGI搭配Nginx配置</a>Django部署环境</p>
+<h1 id="WSGI简介"><a href="#WSGI简介" class="headerlink" title="WSGI简介"></a>WSGI简介</h1><p>WSGI是什么？</p>
+<p>WSGI，全称 Web Server Gateway Interface，或者 Python Web Server Gateway Interface ，是为 Python 语言定义的 Web 服务器和 Web 应用程序或框架之间的一种简单而通用的接口。自从 WSGI 被开发出来以后，许多其它语言中也出现了类似接口。</p>
+<p>WSGI 的官方定义是，the Python Web Server Gateway Interface。从名字就可以看出来，这东西是一个Gateway，也就是网关。网关的作用就是在协议之间进行转换。</p>
+<p>WSGI 是作为 Web 服务器与 Web 应用程序或应用框架之间的一种低级别的接口，以提升可移植 Web 应用开发的共同点。WSGI 是基于现存的 CGI 标准而设计的。</p>
+<p>很多框架都自带了 WSGI server ，比如 Flask，webpy，Django、CherryPy等等。当然性能都不好，自带的 web server 更多的是测试用途，发布时则使用生产环境的 WSGI server或者是联合 nginx 做 uwsgi 。</p>
+<p>WSGI的作用</p>
+<p>WSGI有两方：“服务器”或“网关”一方，以及“应用程序”或“应用框架”一方。服务方调用应用方，提供环境信息，以及一个回调函数（提供给应用程序用来将消息头传递给服务器方），并接收Web内容作为返回值。</p>
+<p>所谓的 WSGI中间件同时实现了API的两方，因此可以在WSGI服务和WSGI应用之间起调解作用：从WSGI服务器的角度来说，中间件扮演应用程序，而从应用程序的角度来说，中间件扮演服务器。“中间件”组件可以执行以下功能：</p>
+<p>重写环境变量后，根据目标URL，将请求消息路由到不同的应用对象。<br>允许在一个进程中同时运行多个应用程序或应用框架。<br>负载均衡和远程处理，通过在网络上转发请求和响应消息。<br>进行内容后处理，例如应用XSLT样式表。<br>WSGI 的设计确实参考了 Java 的 servlet</p>
+<p>WSGI是一种Web服务器网关接口。它是一个Web服务器（如nginx）与应用服务器（如uWSGI服务器）通信的一种规范。</p>
+<p>接下来，我们要介绍的是 uWSGI。</p>
+<p>uWSGI</p>
+<p>uWSGI是一个Web服务器，它实现了WSGI协议、uwsgi、http等协议。Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换。</p>
+<p>要注意 WSGI / uwsgi / uWSGI 这三个概念的区分。</p>
+<p>WSGI是一种通信协议。<br>uwsgi同WSGI一样是一种通信协议。<br>而uWSGI是实现了uwsgi和WSGI两种协议的Web服务器。<br>uwsgi协议是一个uWSGI服务器自有的协议，它用于定义传输信息的类型（type of information），每一个uwsgi packet前4byte为传输信息类型描述，它与WSGI相比是两样东西。</p>
+<h1 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h1><p>在 nginx.conf 上加入/修改，我的 server 配置如下（一切从简……）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  115.28.0.89;</span><br><span class="line">    #server_name localhost;</span><br><span class="line"></span><br><span class="line">    access_log /home/nowamagic/logs/access.log;</span><br><span class="line">    error_log /home/nowamagic/logs/error.log;</span><br><span class="line"></span><br><span class="line">    #root         /root/nowamagic_venv/nowamagic_pj;</span><br><span class="line">    location / &#123;</span><br><span class="line">        uwsgi_pass 127.0.0.1:8077;</span><br><span class="line">        #include uwsgi_params;</span><br><span class="line">        include /etc/nginx/uwsgi_params;</span><br><span class="line">        #uwsgi_pass 127.0.0.1:8077;</span><br><span class="line">        #uwsgi_param UWSGI_SCRIPT index;</span><br><span class="line">        #uwsgi_param UWSGI_PYHOME $document_root;</span><br><span class="line">        #uwsgi_param UWSGI_CHDIR  $document_root;</span><br><span class="line">   &#125;</span><br><span class="line">   access_log off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意保证配置里写的目录 /home/nowamagic/logs/ 和 /home/nowamagic/logs/ 存在，接下来就没啥问题了，Nginx 配置很简单。</p>
+<h1 id="uWSGI-配置"><a href="#uWSGI-配置" class="headerlink" title="uWSGI 配置"></a>uWSGI 配置</h1><h2 id="安装uWSGI"><a href="#安装uWSGI" class="headerlink" title="安装uWSGI"></a>安装uWSGI</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure>
+<p>在实际部署环境中，我们常用的是配置文件的方式，而非命令行的方式。</p>
+<p>我的 Django 程序目录：/root/nowamagic_venv/nowamagic_pj/</p>
+<p>这里让 Nginx 采用 8077 端口与 uWSGI 通讯，请确保此端口没有被其它程序采用。</p>
+<p>uWSGI 支持多种配置文件格式，比如 xml，ini，json 等等都可以。</p>
+<p>xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vi /root/nowamagic_venv/nowamagic_pj/nowamgic_pj.xml</span><br><span class="line"></span><br><span class="line">&lt;uwsgi&gt;</span><br><span class="line"> &lt;socket&gt;127.0.0.1:8077&lt;/socket&gt;</span><br><span class="line"> &lt;listen&gt;80&lt;/listen&gt;</span><br><span class="line"> &lt;master&gt;true&lt;/master&gt;</span><br><span class="line"> &lt;pythonpath&gt;/root/nowamagic_venv/nowamagic_pj&lt;/pythonpath&gt;</span><br><span class="line"> &lt;processes&gt;1&lt;/processes&gt;</span><br><span class="line"> &lt;logdate&gt;true&lt;/logdate&gt;</span><br><span class="line"> &lt;daemonize&gt;/var/log/uwsgi.log&lt;/daemonize&gt;</span><br><span class="line"> &lt;plugins&gt;python&lt;/plugins&gt;</span><br><span class="line">&lt;/uwsgi&gt;</span><br></pre></td></tr></table></figure>
+<p>然后执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/bin/uwsgi -x /root/nowamagic_venv/nowamagic_pj/nowamagic_pj.xml</span><br></pre></td></tr></table></figure>
+<p>ini 配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">vhost = false</span><br><span class="line">plugins = python</span><br><span class="line">socket = 127.0.0.1:8077</span><br><span class="line">master = true</span><br><span class="line">enable-threads = true</span><br><span class="line">workers = 1</span><br><span class="line">wsgi-file = /root/nowamagic_venv/nowamagic_pj/nowamagic_pj/wsgi.py</span><br><span class="line">virtualenv = /root/nowamagic_venv</span><br><span class="line">chdir = /root/nowamagic_venv/nowamagic_pj</span><br></pre></td></tr></table></figure>
+<p>执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --ini /root/nowamagic_venv/nowamagic_pj.ini&amp;</span><br></pre></td></tr></table></figure>
+<p>uwsgi 这样就启动起来了。如果无意外的话，就能在网上访问你的 Python 项目了。</p>
+<p>一些我在配置时用到的命令，省得你去搜索：</p>
+<p>关闭 uWSGI：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">killall  -9 uwsgi</span><br><span class="line">killall -s HUP /var/www/uwsgi </span><br><span class="line">killall -s HUP /usr/local/bin/uwsgi</span><br></pre></td></tr></table></figure>
+<p>列出端口占用情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lpnt</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a><a class="article-category-link" href="/categories/技术/Linux/Python/">Python</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/uWSGI/">uWSGI</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 配置Python环境" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/20/macOS 配置Python环境/" class="article-date">
+      <time datetime="2017-10-20T21:55:00.000Z" itemprop="datePublished">2017-10-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/20/macOS 配置Python环境/">macOS 配置Python环境</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>macOS 配置Python环境</p>
+<p>10.12.6</p>
+<p>10.13</p>
+<p>10.13.4 2018-05-05 20:01</p>
+<h3 id="安装pyenv"><a href="#安装pyenv" class="headerlink" title="安装pyenv"></a>安装pyenv</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/pyenv/pyenv.git ~/.pyenv</span></span><br></pre></td></tr></table></figure>
+<p>查看可安装Python版本</p>
+<p><code>pyenv install -l</code></p>
+<p><strong>安装Python</strong></p>
+<p><a href="https://github.com/pyenv/pyenv/wiki/Common-build-problems" target="_blank" rel="noopener">ERROR: The Python ssl extension was not compiled. Missing the OpenSSL lib?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 设置变量</span><br><span class="line">export PYTHON_BUILD_CACHE_PATH=~/Downloads</span><br><span class="line"># 安装 Python 3.6.5</span><br><span class="line">CFLAGS=&quot;-I$(brew --prefix openssl)/include&quot; \</span><br><span class="line">LDFLAGS=&quot;-L$(brew --prefix openssl)/lib&quot; \</span><br><span class="line">pyenv install -v 3.6.5</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pyenv install 3.6.5</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pyenv install 2.7.15</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加环境变量</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> start pyenv</span></span><br><span class="line">export PYENV_ROOT="$&#123;HOME&#125;/.pyenv"</span><br><span class="line"></span><br><span class="line">if [ -d "$&#123;PYENV_ROOT&#125;" ]; then</span><br><span class="line">  export PATH="$&#123;PYENV_ROOT&#125;/bin:$&#123;PATH&#125;"</span><br><span class="line">  eval "$(pyenv init -)"</span><br><span class="line">fi</span><br><span class="line"><span class="meta">#</span><span class="bash"> end pyenv</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重新加载shell</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">exec</span> <span class="variable">$SHELL</span> -l</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置 3.6.5 为默认版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pyenv global 3.6.5</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pyenv <span class="built_in">rehash</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看python版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> python -V</span></span><br></pre></td></tr></table></figure>
+<h3 id="设置pip-使用豆瓣源"><a href="#设置pip-使用豆瓣源" class="headerlink" title="设置pip 使用豆瓣源"></a>设置pip 使用豆瓣源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;~/.pip/pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">--format=columns</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>更新pip</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install --upgrade pip</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装Python插件"><a href="#安装Python插件" class="headerlink" title="安装Python插件"></a>安装Python插件</h3><p><strong>virtualenvwrapper</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install virtualenvwrapper</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> start virtualwrapper</span></span><br><span class="line">PY=$HOME/.pyenv/versions/3.6.5/bin</span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=$PY/python</span><br><span class="line">export VIRTUALENV_USE_DISTRIBUTE=1</span><br><span class="line">export WORKON_HOME=~/.virtualenv</span><br><span class="line">if [ -e $PY/virtualenvwrapper.sh ]; then</span><br><span class="line">    source $PY/virtualenvwrapper.sh</span><br><span class="line">else</span><br><span class="line">    echo "error, cannot found virtualenvwrapper"</span><br><span class="line">fi</span><br><span class="line">export PIP_VIRTUALENV_BASE=$WORKON_HOME</span><br><span class="line">export PIP_RESPECT_VIRTUALENV=true</span><br><span class="line">export PIP_REQUIRE_VIRTUALENV=true</span><br><span class="line"><span class="meta">#</span><span class="bash"> end virtualwrapper</span></span><br></pre></td></tr></table></figure>
+<p><strong>pipenv</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install pipenv</span></span><br></pre></td></tr></table></figure>
+<p>pipenv环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> start pipenv</span></span><br><span class="line">eval "$(pipenv --completion)"</span><br><span class="line"><span class="meta">#</span><span class="bash"> end pipenv</span></span><br></pre></td></tr></table></figure>
+<h3 id="python虚拟环境"><a href="#python虚拟环境" class="headerlink" title="python虚拟环境"></a>python虚拟环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 新建虚拟环境</span><br><span class="line">mkvirtualenv test</span><br><span class="line"># 新建虚拟环境并指定python版本</span><br><span class="line">mkvirtualenv django_xadmin --python=/Users/jinlong/.pyenv/versions/2.7.12/bin/python</span><br><span class="line"># 使用虚拟环境</span><br><span class="line">workon test</span><br><span class="line"># 离开虚拟环境</span><br><span class="line">deactivate</span><br><span class="line"># 删除虚拟环境</span><br><span class="line">rmvirtualenv test</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Python/">Python</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-2016-12-12-2017-10-20" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1088,114 +1270,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LANGUAGE_CODE = &apos;zh-hans&apos;  # 语言</span><br><span class="line"></span><br><span class="line">TIME_ZONE = &apos;Asia/Shanghai&apos;  # 时区</span><br><span class="line"></span><br><span class="line">USE_I18N = True  # 语言</span><br><span class="line"></span><br><span class="line">USE_L10N = True  # 数据和时间格式</span><br><span class="line"></span><br><span class="line">USE_TZ = True  # 启用时区</span><br></pre></td></tr></table></figure>
 <p>在admin中，展示带有choices属性的字段时，Django会自动帮我们调用get_status_display方法，所以我们不用配置。</p>
 
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-潭州课堂退学费" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/10/潭州课堂退学费/" class="article-date">
-      <time datetime="2017-10-10T08:02:17.000Z" itemprop="datePublished">2017-10-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/10/潭州课堂退学费/">潭州课堂退学费</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2017-10-08-从明天要好好工作了，要去赚钱了。" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/08/2017-10-08-从明天要好好工作了，要去赚钱了。/" class="article-date">
-      <time datetime="2017-10-08T12:51:41.000Z" itemprop="datePublished">2017-10-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/08/2017-10-08-从明天要好好工作了，要去赚钱了。/">2017.10.08 从明天要好好工作了，要去赚钱了。</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
       
       
     </div>

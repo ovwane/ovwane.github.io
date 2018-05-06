@@ -205,11 +205,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-AWS" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Django生产环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/AWS/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.032Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/Django生产环境搭建/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.318Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -221,15 +221,31 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>mkdir aws<br>cd aws<br>pipenv –python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python<br>pipenv –python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python<br>sed -i “” “s/python.org/douban.com/g” Pipfile</p>
-<h2 id="AWS-Cli"><a href="#AWS-Cli" class="headerlink" title="AWS-Cli"></a>AWS-Cli</h2><p><a href="https://github.com/aws/aws-cli" target="_blank" rel="noopener">AWS-Cli</a><br>AWS-Cli 不支持Python3(2017.12.11)<br>pipenv install awscli</p>
-<p>aws configure</p>
-<p>输入<a href="https://console.aws.amazon.com/iam/home#/home" target="_blank" rel="noopener">Identity and Access Management</a></p>
-<p>AWSAccessKeyId<br>AWSSecretKey</p>
-<p>~/.aws/credentials<br>[default]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
-<p>[testing]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
-<h2 id="Boto-3"><a href="#Boto-3" class="headerlink" title="Boto 3"></a>Boto 3</h2><p><a href="https://boto3.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">Boto 3</a></p>
-<p>pipenv install boto3</p>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pipenv install</span><br><span class="line"></span><br><span class="line">pipenv install uwsgi</span><br><span class="line"></span><br><span class="line">pipenv install django</span><br><span class="line"></span><br><span class="line">pipenv install gunicorn</span><br></pre></td></tr></table></figure>
+<p>django 2.0.4</p>
+<p>pip show django</p>
+<p>uwsgi 2.0.17</p>
+<p>pip show uwsgi</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django-admin startproject teacher</span><br></pre></td></tr></table></figure>
+<p>使用的</p>
+<p>mkdir -p /data/uwsgi/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">vim /data/uwsgi/teacher.ini</span><br><span class="line"></span><br><span class="line">[uwsgi]</span><br><span class="line"># 项目目录</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line"># 指定项目的application</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line"># 进程个数</span><br><span class="line">workers=2</span><br><span class="line">pidfile = /data/uwsgi/uwsgi_teacher.pid</span><br><span class="line"># 指定IP端口</span><br><span class="line">http=127.0.0.1:8001</span><br><span class="line"># 指定静态文件</span><br><span class="line"># static-map=/root/py3/teacher/static</span><br><span class="line"># 启动uwsgi的用户名和用户组</span><br><span class="line">uid=root</span><br><span class="line">gid=root</span><br><span class="line"># 启用主进程</span><br><span class="line">master=true</span><br><span class="line"># 自动移除unix Socket和pid文件当服务停止的时候</span><br><span class="line">vacuum=true</span><br><span class="line"># 序列化接受的内容，如果可能的话</span><br><span class="line">thunder-lock=true</span><br><span class="line"># 启用线程</span><br><span class="line">enable-threads=true</span><br><span class="line"># 设置自中断时间</span><br><span class="line">harakiri=30</span><br><span class="line"># 设置缓冲</span><br><span class="line">post-buffering=4096</span><br><span class="line"># 设置日志目录</span><br><span class="line">daemonize=/data/uwsgi/teacher.log</span><br><span class="line"># 指定sock的文件路径</span><br><span class="line">socket=/data/uwsgi/teacher.sock</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unix:/data/uwsgi.sock;</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 启动uwsgi配置</span><br><span class="line">uwsgi --ini /data/uwsgi/teacher.ini   </span><br><span class="line"></span><br><span class="line"># 关闭uwsgi</span><br><span class="line">uwsgi --stop uwsgi.pid  </span><br><span class="line">killall -s INT /root/.virtualenv/py3-xzcW3AwM/bin/uwsgi</span><br><span class="line"></span><br><span class="line">#重新加载配置</span><br><span class="line">uwsgi --reload uwsgi.pid</span><br></pre></td></tr></table></figure>
+<p>nginx配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 指定项目路径uwsgi</span><br><span class="line">       location /django/ &#123;        # 这个location就和咱们Django的url(r&apos;^admin/&apos;, admin.site.urls),</span><br><span class="line">           include uwsgi_params;  # 导入一个Nginx模块他是用来和uWSGI进行通讯的</span><br><span class="line">           uwsgi_connect_timeout 30;  # 设置连接uWSGI超时时间</span><br><span class="line">           # 指定uwsgi的sock文件所有动态请求就会直接丢给他</span><br><span class="line">           uwsgi_pass unix:/opt/project_teacher/script/uwsgi.sock;  </span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       # 指定静态文件路径</span><br><span class="line">       location /static/ &#123;</span><br><span class="line">           alias  /opt/project_teacher/teacher/static/;</span><br><span class="line">           index  index.html index.htm;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">[uwsgi]</span><br><span class="line">socket = 127.0.0.1:9090</span><br><span class="line">master = true         //主进程</span><br><span class="line">vhost = true          //多站模式</span><br><span class="line">no-site = true        //多站模式时不设置入口模块和文件</span><br><span class="line">workers = 2           //子进程数</span><br><span class="line">reload-mercy = 10     </span><br><span class="line">vacuum = true         //退出、重启时清理文件</span><br><span class="line">max-requests = 1000   </span><br><span class="line">limit-as = 512</span><br><span class="line">buffer-size = 30000</span><br><span class="line">pidfile = /var/run/uwsgi9090.pid    //pid文件，用于下面的脚本启动、停止该进程</span><br><span class="line">daemonize = /data/log/uwsgi9090.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line">master=True</span><br><span class="line">pidfile=/var/run/uwsgi9090.pid</span><br><span class="line">vacuum=True</span><br><span class="line">max-requests=5000</span><br><span class="line">daemonize=/data/log/uwsgi9090.logi</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line">uid=nobody</span><br><span class="line">gid=nobody</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line">socket=/data/uwsgi.sock</span><br><span class="line">master=true</span><br><span class="line">workers=5</span><br><span class="line">pidfile=/data/uwsgi.pid</span><br><span class="line">vacuum=true</span><br><span class="line">thunder-lock=true</span><br><span class="line">enable-threads=true</span><br><span class="line">harakiri=30</span><br><span class="line">post-buffering=4096</span><br><span class="line">daemonize=/data/uwsgi.log</span><br></pre></td></tr></table></figure>
+<h3 id="django静态文件收集"><a href="#django静态文件收集" class="headerlink" title="django静态文件收集"></a><strong>django静态文件收集</strong></h3><p>​    1.setting.py设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DEBUG = False</span><br><span class="line">STATIC_ROOT = os.path.join(BASE_DIR, &apos;statics&apos;)</span><br></pre></td></tr></table></figure>
+<p>​    2. 执行collectstatic命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py collectstatic</span><br></pre></td></tr></table></figure>
+<p>好处：django把静态文件拷贝到你设置的statics目录下（这样可以更方便的和nignx集成，权限管理也更方便）</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.chenxm.cc/post/275.html" target="_blank" rel="noopener">Liunx之Ubuntu下Django+uWSGI+nginx部署</a></p>
+<p><a href="https://www.cnblogs.com/chenice/p/6921727.html" target="_blank" rel="noopener"><a href="http://www.cnblogs.com/chenice/p/6921727.html" target="_blank" rel="noopener">Django + Uwsgi + Nginx 的生产环境部署</a></a></p>
+<p><a href="https://www.zhihu.com/question/27295854" target="_blank" rel="noopener">如何配置nginx+uwsgi+django?</a>˜</p>
 
       
       
@@ -257,11 +273,11 @@
 
 
   
-    <article id="post-Bash快捷键" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Ele-A面-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/Bash快捷键/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.032Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/Ele-A面-笔记/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.318Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -274,25 +290,98 @@
       
           
         <blockquote>
-<p>macOS 10.13.2<br>iTerm2 3.1.2<br>zsh 5.3 (x86_64-apple-darwin17.0)</p>
+<p>当你做某件事的时候，一旦想要求快，就表示你再也不关心它，而想去做别的事。</p>
 </blockquote>
 <blockquote>
-<p>生活在 Bash shell 中，熟记以下快捷键，将极大的提高你的命令行操作效率。</p>
+<p>Fighting and Happy Coding O(∩_∩)O~<br><a href="http://ictar.github.io/" target="_blank" rel="noopener">Ele - A面</a></p>
 </blockquote>
-<p font-color="red">macOS下 Alt 被替换为 Esc</p>
+<p><a href="http://ictar.github.io/2016/03/01/2016%E5%B9%B4%E7%82%B9%E4%BA%AE%E6%8A%80%E8%83%BD%E6%A0%91%E7%9A%84%E6%9F%90%E4%B8%AA%E6%9E%9D%E6%A1%A0/" target="_blank" rel="noopener">2016年点亮技能树的某个枝桠</a></p>
+<p>nginx<br>uwsgi<br>couchbase<br>rbmq<br>redis</p>
+<p>pdb和traceback来做调试</p>
+<p>awk,sed 来快速搜索</p>
+<p>pd来做统计分析</p>
+<p><a href="http://ictar.github.io/2017/01/27/%E5%8E%BB%E5%90%A7%E5%8E%BB%E5%90%A7%EF%BC%8C2016/" target="_blank" rel="noopener">去吧去吧，2016</a></p>
+<p><a href="https://book.douban.com/subject/5372651/" target="_blank" rel="noopener">Pragmatic Thinking and Learning - Refactor Your Wetware</a></p>
+<p>Docker<br>Go<br>DjangoCon US 2016<br>PyCon 2016<br>个人wiki<br>StackOverflow<br>得到上面订了一年的硅谷来信<br>pssh<br>ansible</p>
+<p><a href="https://book.douban.com/subject/22793675/" target="_blank" rel="noopener">深入理解Nginx
+</a><br>涂先生写的数据之巅<br>吴军老师的智能时代<br>Docker源码分析<br><a href="https://book.douban.com/subject/11577300/" target="_blank" rel="noopener">Go语言编程</a><br><a href="https://book.douban.com/subject/26351257/" target="_blank" rel="noopener">算法的乐趣</a><br><a href="https://book.douban.com/subject/25942191/" target="_blank" rel="noopener">第一行代码</a></p>
+<blockquote>
+<p>这个月发生了一件令我有所触动的小事。工作上使用了python的一个库，但有些功能它并不具备，因此写了一些shell script来做辅助，算是外部对功能进行扩展吧。后来发现这样做要填补的坑是在太多了，而且坑中有坑，不知何处还有坑。搞得头发又掉了好几百根。再后来觉得不行，决定破釜沉舟，从内部解决。于是好好分析了下那个库的代码，做了类继承，重写了一些功能。幸好那个库是可以扩展的，也幸好代码逻辑简单，花的功夫竟然比纠结的时间还少。这件事告诉我，不要觉得重写很麻烦，也不要害怕替换，虽然本质上是对自己的及其不信任。但是做总比不做来得强，更何况很多时候，那些困难不过是自己想出来吓唬自己的，要有所增进，不就是要打败一只只挡在路上的大大小小的真/假纸老虎吗？</p>
+</blockquote>
+<blockquote>
+<p>上个月呀，信誓旦旦的要看uwsgi代码。于是某日，真的沐浴更衣，准备潜心阅读。但一看到它长长的一下子拉不到底的uwsgi_sever结构，嗯，我怂了。为了不误入歧途，索性准备换一下，潜心看uwsgi官方文档。</p>
+</blockquote>
+<blockquote>
+<p>六月份要把Eva的个人网站加上xadmin (这也是最近玩得最多的package呀！！！)，修整一下，差不多可以给它买个域名买个空间了。</p>
+</blockquote>
+<blockquote>
+<p>前段时间看到某个博客上有个menu叫做”exchange”，是博主用来挂他看过的书并且希望换书的。我觉得这种想法相当的好！可惜当时没收藏，已经找不到是哪位的了。但是，Ele计划借鉴一下，也在自己的博客新增一个menu，放自己看过的书并且希望有人可以跟我换书看。</p>
+</blockquote>
+<blockquote>
+<p>我几乎包办了产品在这个项目的需求分析、开发、测试、交付和问题处理，以及偶尔的人力预算分析。经过那些日子的洗礼，那个一无所知的小女孩也可以在别人需要帮助的时候出现在旁边，那些对从前的我来说晦涩难懂的东西也变得开明易懂起来，跟别人沟通也不再是一件艰难的事。而我的眼界也慢慢的放开。</p>
+</blockquote>
+<hr>
+<p>就这样被折腾了一段时间，在某天项目清闲的时候，我终于忍不住，想对这个过程进行自动化。当然，全自动化是理想，半自动化却相对比较容易实现不是。这个决定大大提高了版本管理的效率，减缓了我的焦躁，以及奠定了我对python的喜爱。</p>
+<p>先是用脚本统计N份文档中的代码量，然后将所有版本资料整理成规定形式，接着检查资料规范及完整性。随着对win32com这个python库进一步熟悉，还用它帮忙拷贝几十份文档的病毒扫描结果，提取相关信息以帮助输出版本度量表。从此，QA能挑出的毛病越来越少，我花在版本这件事上的时间也越来越少。而因为大大减少了文档的打开及复制粘贴，从此手也不酸了。直接跑个脚本，然后该干嘛干嘛。</p>
+<p>人生苦短，我用python.</p>
+<p>用脚本实现这些繁琐的工作，还有一个好处。中途因为出差，将版本这件事转交给另一个同事的时候，我只需要告诉他怎么使用这些脚本即可。</p>
+<hr>
+<p><a href="http://ictar.github.io/2015/12/16/%E9%82%A3%E4%BA%9B%E4%BB%A4%E4%BA%BAwow%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7%E9%9B%86%E9%94%A6/" target="_blank" rel="noopener">那些令人wow的小技巧集锦</a></p>
+<p>五月不定阴晴暴雨时时至，不如静坐写代码<br>六月艳日夏愈显，吹着风扇写代码<br>七月浑浑又噩噩，打着呵欠写代码<br>八月早睡早起身体好，对着砖书写代码<br>九月团团圆圆平平淡淡，啃着糕点写代码<br>十月秋风扫落叶，啃着文档写代码</p>
 
-<h3 id="编辑命令"><a href="#编辑命令" class="headerlink" title="编辑命令"></a>编辑命令</h3><h3 id="命令补全"><a href="#命令补全" class="headerlink" title="命令补全"></a>命令补全</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tab　　　  用于命令补全</span><br><span class="line"></span><br><span class="line">^I 　　　　 可用于命令补全</span><br><span class="line"></span><br><span class="line">^[ 　　　　 相当于Esc，也可补全</span><br></pre></td></tr></table></figure>
-<h3 id="删除命令"><a href="#删除命令" class="headerlink" title="删除命令"></a>删除命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + u ：从光标处删除至命令行首</span><br><span class="line">Ctrl + k ：从光标处删除至命令行尾</span><br><span class="line">Ctrl + w ：从光标处删除至字首</span><br><span class="line">Alt + d ：从光标处删除至字尾</span><br><span class="line">Ctrl + d ：删除光标处的字符</span><br><span class="line">Ctrl + h ：删除光标前的字符</span><br><span class="line">^B 　　　　删除光标所在字母</span><br><span class="line">^Y 　　　　粘贴或恢复上次的删除</span><br></pre></td></tr></table></figure>
-<h3 id="移动命令"><a href="#移动命令" class="headerlink" title="移动命令"></a>移动命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">^P 、^N、 ^B、 ^F    　　方向键 上 下 左 右</span><br><span class="line">Ctrl + a ：移到命令行首</span><br><span class="line">Ctrl + e ：移到命令行尾</span><br><span class="line">Ctrl + f ：按字符前移（右向）</span><br><span class="line">Ctrl + b ：按字符后移（左向）</span><br><span class="line">Alt + f ：按单词前移（右向）</span><br><span class="line">Alt + b ：按单词后移（左向）</span><br><span class="line">Ctrl + xx：在命令行首和光标之间移动</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + y ：粘贴至光标后</span><br><span class="line">Alt + c ：从光标处更改为首字母大写的单词</span><br><span class="line">Alt + u ：从光标处更改为全部大写的单词</span><br><span class="line">Alt + l ：从光标处更改为全部小写的单词</span><br><span class="line">Ctrl + t ：交换光标处和之前的字符</span><br><span class="line">Alt + t ：交换光标处和之前的单词</span><br><span class="line">Alt + Backspace：与 Ctrl + w ~~相同~~类似，分隔符有些差别 [感谢 rezilla 指正]</span><br><span class="line">Ctrl+Alt+E 　扩展命令行</span><br><span class="line">Esc+T 　　 置换前两个单词</span><br></pre></td></tr></table></figure>
-<h3 id="重新执行命令"><a href="#重新执行命令" class="headerlink" title="重新执行命令"></a>重新执行命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + r：逆向搜索命令历史</span><br><span class="line">Ctrl + g：从历史搜索模式退出</span><br><span class="line">Ctrl + p：历史中的上一条命令</span><br><span class="line">Ctrl + n：历史中的下一条命令</span><br><span class="line">Alt + .：使用上一条命令的最后一个参数</span><br><span class="line">Alt+P 　　   非增量方式反向搜索历史</span><br><span class="line"></span><br><span class="line">Alt+&gt; 　　   历史列表中的最后一行命令开始向前</span><br></pre></td></tr></table></figure>
-<h3 id="控制命令"><a href="#控制命令" class="headerlink" title="控制命令"></a>控制命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + l：清屏</span><br><span class="line">Ctrl + o：执行当前命令，并选择上一条命令</span><br><span class="line">Ctrl + s：阻止屏幕输出</span><br><span class="line">Ctrl + q：允许屏幕输出</span><br><span class="line">Ctrl + c：终止命令</span><br><span class="line">Ctrl + z：挂起命令</span><br><span class="line">Bang (!) 命令</span><br><span class="line">^S　　　　锁住屏幕</span><br><span class="line"></span><br><span class="line">^Q　　　　恢复屏幕</span><br><span class="line"></span><br><span class="line">^C　　　　杀死当前进程 </span><br><span class="line"></span><br><span class="line"> ^\　　　　停止当前进程</span><br><span class="line"></span><br><span class="line">^D　　　　退出当前shell</span><br><span class="line"></span><br><span class="line">&amp; 　　　　 后台执行，（nohup以忽略挂起信号方式运行程序）</span><br><span class="line"></span><br><span class="line">^Z　　　　把当前进程转后台运行</span><br><span class="line"></span><br><span class="line">jobs　　　 查看当前后台作业状态</span><br><span class="line"></span><br><span class="line">fg 　　　　将后台作业拿到前台处理</span><br><span class="line"></span><br><span class="line">bg　　　　作业在后台运行</span><br><span class="line">^L　　　　清屏</span><br><span class="line"></span><br><span class="line">^M或^J　  回车</span><br></pre></td></tr></table></figure>
-<h3 id="：执行上一条命令"><a href="#：执行上一条命令" class="headerlink" title="!!：执行上一条命令"></a>!!：执行上一条命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">!blah：执行最近的以 blah 开头的命令，如 !ls</span><br><span class="line">!blah:p：仅打印输出，而不执行</span><br><span class="line">!$：上一条命令的最后一个参数，与 Alt + . 相同</span><br><span class="line">!$:p：打印输出 !$ 的内容</span><br><span class="line">!*：上一条命令的所有参数</span><br><span class="line">!*:p：打印输出 !* 的内容</span><br><span class="line">^blah：删除上一条命令中的 blah</span><br><span class="line">^blah^foo：将上一条命令中的 blah 替换为 foo</span><br><span class="line">^blah^foo^：将上一条命令中所有的 blah 都替换为 foo</span><br></pre></td></tr></table></figure>
-<p>8.一些bash文档</p>
-<p>1.GNU文档：<a href="http://www.gnu.org/software/bash/manual/" target="_blank" rel="noopener">http://www.gnu.org/software/bash/manual/</a></p>
-<p>2.鸟哥的私房菜：<a href="http://linux.vbird.org/linux_basic/0320bash.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_basic/0320bash.php</a></p>
-<p>3.IBM的一些bash教程：<a href="http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?sort_by=&amp;show_abstract=true&amp;show_all=&amp;search_flag=&amp;contentarea_by=Linux&amp;search_by=bash&amp;topic_by=-1&amp;type_by=%E6%89%80%E6%9C%89%E7%B1%BB%E5%88%AB&amp;ibm-search=%E6%90%9C%E7%B4%A2" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?sort_by=&amp;show_abstract=true&amp;show_all=&amp;search_flag=&amp;contentarea_by=Linux&amp;search_by=bash&amp;topic_by=-1&amp;type_by=%E6%89%80%E6%9C%89%E7%B1%BB%E5%88%AB&amp;ibm-search=%E6%90%9C%E7%B4%A2</a></p>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
 
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CentOS7 安装Python" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/06/CentOS7 安装Python/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.318Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="安装Python"><a href="#安装Python" class="headerlink" title="安装Python"></a>安装Python</h2><h3 id="安装Python依赖"><a href="#安装Python依赖" class="headerlink" title="安装Python依赖"></a>安装Python依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># CentOS7</span><br><span class="line">yum install -y  gcc gcc-c++ make git patch openssl-devel zlib-devel readline-devel sqlite sqlite-devel bzip2-devel curl wget ncurses-devel sqlite-devel gdbm-devel xz-devel tk-devel</span><br></pre></td></tr></table></figure>
+<h3 id="安装pyenv"><a href="#安装pyenv" class="headerlink" title="安装pyenv"></a>安装<a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener">pyenv</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br></pre></td></tr></table></figure>
+<h4 id="配置bash-profile"><a href="#配置bash-profile" class="headerlink" title="配置bash_profile"></a>配置bash_profile</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">echo -e &apos;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">exec &quot;$SHELL&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="安装Python-1"><a href="#安装Python-1" class="headerlink" title="安装Python"></a>安装Python</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.5 -v</span><br><span class="line"></span><br><span class="line">pyenv global 3.6.5</span><br><span class="line"></span><br><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure>
+<p>/root/.pyenv/versions/3.6.5/bin/python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install virtualenvwrapper pipenv</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">start virtualwrapper</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/root/.pyenv/versions/3.6.5/bin/python</span><br><span class="line">export WORKON_HOME='~/.virtualenv'</span><br><span class="line">source /root/.pyenv/versions/3.6.5/bin/virtualenvwrapper.sh</span><br><span class="line"><span class="meta">#</span><span class="bash">end</span></span><br></pre></td></tr></table></figure>
+<p>pipenv –python=/root/.pyenv/versions/3.6.5/bin/python</p>
+<p>因Supervisor现在不支持python3的版本需要安装Python 2.7.13</p>
+<p>pyenv install 2.7.14 -v<br>pyenv global 2.7.14<br>pyenv rehash</p>
+<h3 id="更改pypi源"><a href="#更改pypi源" class="headerlink" title="更改pypi源"></a>更改pypi源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
       
       
     </div>
@@ -322,8 +411,8 @@
     <article id="post-CentOS7 安装SScrapy和SpiderKeeper" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/CentOS7 安装SScrapy和SpiderKeeper/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.032Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/CentOS7 安装SScrapy和SpiderKeeper/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.318Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -397,11 +486,11 @@
 
 
   
-    <article id="post-CentOS7安装配置Mariadb" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-AWS" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/CentOS7安装配置Mariadb/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.032Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/AWS/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.314Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -413,450 +502,59 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import http://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/yum.repos.d/mariadb.repo&lt;&lt;EOF</span><br><span class="line"># MariaDB 10.2 CentOS repository list - created 2018-04-20 08:34 UTC</span><br><span class="line"># http://downloads.mariadb.org/mariadb/repositories/</span><br><span class="line">[mariadb]</span><br><span class="line">name = MariaDB</span><br><span class="line">baseurl = http://yum.mariadb.org/10.2/centos7-amd64</span><br><span class="line">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br><span class="line">gpgcheck=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum list --showduplicates MariaDB-server</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install MariaDB-server-10.2.13 MariaDB-client-10.2.13 MariaDB-common-10.2.13 MariaDB-compat-10.2.13 MariaDB-shared-10.2.13</span><br></pre></td></tr></table></figure>
-<p>配置</p>
-<h2 id="编码配置（重点呀）"><a href="#编码配置（重点呀）" class="headerlink" title="编码配置（重点呀）"></a>编码配置（重点呀）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 编辑/etc/my.cnf</span><br><span class="line">vim /etc/my.cnf</span><br><span class="line"></span><br><span class="line"># 在[mysqld]标签下添加下面内容</span><br><span class="line">default_storage_engine = innodb</span><br><span class="line">innodb_file_per_table</span><br><span class="line">max_connections = 4096</span><br><span class="line">collation-server = utf8_general_ci</span><br><span class="line">character-set-server = utf8</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 编辑/etc/my.cnf.d/client.cnf</span><br><span class="line">vim /etc/my.cnf.d/client.cnf</span><br><span class="line"></span><br><span class="line"># 在[client]标签下添加下面内容</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 编辑/etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line">vim /etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line"></span><br><span class="line"># 在[mysql]标签下添加下面内容</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mariadb.service</span><br><span class="line">systemctl start mariadb.service</span><br><span class="line">systemctl status mariadb.service</span><br><span class="line">systemctl stop mariadb.service</span><br></pre></td></tr></table></figure>
-<p>设置密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>序号</th>
-<th>配置流程</th>
-<th>说明</th>
-<th>操作</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>Enter current password for root (enter for none)</td>
-<td>输入 root 密码</td>
-<td>初次运行直接回车</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Set root password? [Y/n]</td>
-<td>是设置 root 密码</td>
-<td>可以 y 或者 回车</td>
-</tr>
-<tr>
-<td>3</td>
-<td>New password</td>
-<td>输入新密码</td>
-<td></td>
-</tr>
-<tr>
-<td>4</td>
-<td>Re-enter new password</td>
-<td>再次输入新密码</td>
-<td></td>
-</tr>
-<tr>
-<td>5</td>
-<td>Remove anonymous users? [Y/n]</td>
-<td>是否删除匿名用户</td>
-<td>可以 y 或者 回车</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Disallow root login remotely? [Y/n]</td>
-<td>是否禁止 root 远程登录</td>
-<td>可以 y 或者 回车</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Remove test database and access to it? [Y/n]</td>
-<td>是否删除 test 数据库</td>
-<td>y 或者 回车</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Reload privilege tables now? [Y/n]</td>
-<td>是否重新加载权限表</td>
-<td>y 或者 回车</td>
-</tr>
-</tbody>
-</table>
-<p>查看版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p version</span><br></pre></td></tr></table></figure>
-<p>查看字符集</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show variables like &quot;%character%&quot;;show variables like &quot;%collation%&quot;;</span><br><span class="line"></span><br><span class="line">#默认的字符集</span><br><span class="line">show global variables like &apos;%char%&apos;;</span><br><span class="line"></span><br><span class="line">#当前数据库支持的字符集</span><br><span class="line">show character set;</span><br></pre></td></tr></table></figure>
-<p>添加用户，设置权限</p>
-<ul>
-<li>创建用户（本地无法远程登录）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user &lt;username&gt;@localhost identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>直接创建用户并授权的命令（本地无法远程登录）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all on *.* to &lt;username&gt;@localhost identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>授予远程登陆权限</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &lt;username&gt;@&apos;%&apos; identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>授予权限并且可以授权（指定 hostname 操作）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &lt;username&gt;@&apos;&lt;hostname&gt;&apos; identified by &apos;&lt;password&gt;&apos; with grant option;</span><br></pre></td></tr></table></figure>
-<p>基础知识</p>
-<p>MariaDB 数据类型</p>
-<ul>
-<li>字符类型</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-<th>范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CHAR</td>
-<td>固定长度的非 Unicode 字符数据</td>
-<td>0~255 长度</td>
-</tr>
-<tr>
-<td>VARCHAR</td>
-<td>可变长度的非 Unicode 数据</td>
-<td>0~65535 长度</td>
-</tr>
-<tr>
-<td>BINARY</td>
-<td>二进制字节字符串</td>
-<td></td>
-</tr>
-<tr>
-<td>VARBINARY</td>
-<td>可变长度的二进制字节字符串</td>
-<td></td>
-</tr>
-<tr>
-<td>BLOB</td>
-<td>blob 列</td>
-<td>0~65535 长度</td>
-</tr>
-<tr>
-<td>TINYBLOB</td>
-<td>blob 列</td>
-<td>0~255 长度</td>
-</tr>
-<tr>
-<td>MEDIUMBLOB</td>
-<td>blob 列</td>
-<td>0-2^24 字节，16,777,215 最大长度</td>
-</tr>
-<tr>
-<td>LONGBLOB</td>
-<td>blob 列</td>
-<td>0-2^32 字节，4,294,967,295 最大长度</td>
-</tr>
-<tr>
-<td>TEXT</td>
-<td>字符的文本列</td>
-<td>0~65635 长度</td>
-</tr>
-<tr>
-<td>TINYTEXT</td>
-<td>字符的文本列</td>
-<td>0~255 长度</td>
-</tr>
-<tr>
-<td>MEDIUMTEXT</td>
-<td>字符的文本列</td>
-<td>0-2^24 字节，16,777,215 最大长度</td>
-</tr>
-<tr>
-<td>LONGTEXT</td>
-<td>字符的文本列</td>
-<td>0-2^32 字节，4,294,967,295 最大长度</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>使用修饰符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>NULL</td>
-<td>可以为空值</td>
-</tr>
-<tr>
-<td>NOT NULL</td>
-<td>不能为空值</td>
-</tr>
-<tr>
-<td>DEFAULT #</td>
-<td>设置默认值，不适用于 text 类型</td>
-</tr>
-<tr>
-<td>character set</td>
-<td>修改字符集</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>使用通配符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>通配符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>%</td>
-<td>匹配任意长度的任意字符</td>
-</tr>
-<tr>
-<td>_</td>
-<td>匹配任意单个字符</td>
-</tr>
-</tbody>
-</table>
-<h3 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h3><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-<th>范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>INT</td>
-<td>整数</td>
-<td>0-2^32 字节，0~4,294,967,295</td>
-</tr>
-<tr>
-<td>TINYINT</td>
-<td>整数</td>
-<td>-128~127 的有符号范围，0~255 的无符号范围</td>
-</tr>
-<tr>
-<td>SMALLINT</td>
-<td>整数</td>
-<td>-32768~32768 的有符号范围，0~65535 的无符号范围</td>
-</tr>
-<tr>
-<td>MEDIUMINT</td>
-<td>整数</td>
-<td>-8388608~8388607 的有符号范围，0~16777215 的无符号范围</td>
-</tr>
-<tr>
-<td>BIGINT</td>
-<td>整数</td>
-<td>有符号范围 -9223372036854775808~9223372036854775807内整数，无符号范围 0 ~18446744073709551615 的整数</td>
-</tr>
-<tr>
-<td>BOOLEAN</td>
-<td>布尔值</td>
-<td>值 0 与 false 相关联，值 1 与 true 相关联</td>
-</tr>
-<tr>
-<td>DECIMAL(m,d)</td>
-<td>小数</td>
-<td>m 表示数字的总长度，小数点不占位，d 表示小数点后面的数字长度。</td>
-</tr>
-<tr>
-<td>FLOAT</td>
-<td>小数</td>
-<td>-3.402823466E+38~-1.175494351E-38，1.175494351E-38~3.402823466E+38</td>
-</tr>
-<tr>
-<td>DOUBLE</td>
-<td>小数</td>
-<td>-1.7976931348623157E+308~-2.2250738585072014E-308，2.2250738585072014E-308~1.7976931348623157E+308</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>使用修饰符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>UNSIGNED</td>
-<td>无符号数值</td>
-</tr>
-<tr>
-<td>NULL</td>
-<td>可以为空值</td>
-</tr>
-<tr>
-<td>NOT NULL</td>
-<td>不能为空值</td>
-</tr>
-<tr>
-<td>DEFAULT #</td>
-<td>设置默认值</td>
-</tr>
-<tr>
-<td>AUTO_INCREMENT</td>
-<td>数值自动增长</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>日期时间类型</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-<th>范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>DATE</td>
-<td>日期</td>
-<td>1000-01-01 到 9999-12-31，并使用 yyyy-MM-dd 日期格式</td>
-</tr>
-<tr>
-<td>TIME</td>
-<td>时间</td>
-<td>-838：59：59.999999 到 838：59：59.999999 时间范围</td>
-</tr>
-<tr>
-<td>DATETIME</td>
-<td>日期时间</td>
-<td>1000-01-01 00：00：00.000000 至 9999-12-31 23：59：59.999999。使用 yyyy-MM-dd hh：mm：ss 格式</td>
-</tr>
-<tr>
-<td>TIMESTAMP</td>
-<td>时间戳</td>
-<td>19700101080001-20380119111407</td>
-</tr>
-<tr>
-<td>YEAR</td>
-<td>年份</td>
-<td>1901 到 2155 和 0000 范围内的值</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>使用修饰符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>NULL</td>
-<td>可以为空值</td>
-</tr>
-<tr>
-<td>NOT NULL</td>
-<td>不能为空值</td>
-</tr>
-<tr>
-<td>DEFAULT #</td>
-<td>设置默认值</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>如何设置字段自动获取当前时间<ul>
-<li>将字段类型设为  <strong>TIMESTAMP</strong></li>
-<li>将默认值设为 <strong>CURRENT_TIMESTAMP</strong></li>
-</ul>
-</li>
-</ul>
-<h3 id="内建类型"><a href="#内建类型" class="headerlink" title="内建类型"></a>内建类型</h3><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-<th>范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ENUM</td>
-<td>枚举类型</td>
-<td>仅能从给出的选项中选择其中一个，其它值无效</td>
-</tr>
-<tr>
-<td>SET</td>
-<td>集合类型</td>
-<td>使用给出的元素组合成字符串</td>
-</tr>
-<tr>
-<td>JSON</td>
-<td>原生 JSON 对象</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>使用修饰符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>NULL</td>
-<td>可以为空值</td>
-</tr>
-<tr>
-<td>NOT NULL</td>
-<td>不能为空值</td>
-</tr>
-<tr>
-<td>DEFAULT #</td>
-<td>设置默认值</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>JSON 使用方法<ul>
-<li>JSON_EXTRACT(context,’$.<key>‘) 查询提取 JSON 对象的某个属性值。</key></li>
-<li>JSON_KEYS(context) 查询获取健对。</li>
-<li>JSON_INSERT(context,’$.<key>‘,”<value>“) 插入 JSON 属性与值。</value></key></li>
-<li>JSON_SET(context,’$.<key>‘,”<value>“) 更改 JSON 属性的值。</value></key></li>
-<li>JSON_REMOVE(context,’$.<key>‘) 删除 JSON 属性。</key></li>
-</ul>
-</li>
-</ul>
-<p>参考</p>
-<p><a href="https://downloads.mariadb.org/mariadb/repositories/#mirror=neusoft&amp;distro=CentOS&amp;distro_release=centos7-amd64--centos7&amp;version=10.2" target="_blank" rel="noopener">Setting up MariaDB Repositories</a></p>
-<p><a href="https://mariadb.com/kb/en/library/yum/" target="_blank" rel="noopener">Installing MariaDB with yum</a></p>
-<p><a href="https://www.jianshu.com/p/e67f1dbaa107" target="_blank" rel="noopener">Centos 7 下 mariadb 的安装与配置</a></p>
-<p><a href="https://mariadb.com/kb/zh-cn/setting-character-sets-and-collations/" target="_blank" rel="noopener">设置字符集和排序规则</a></p>
+        <p>mkdir aws<br>cd aws<br>pipenv –python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python<br>pipenv –python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python<br>sed -i “” “s/python.org/douban.com/g” Pipfile</p>
+<h2 id="AWS-Cli"><a href="#AWS-Cli" class="headerlink" title="AWS-Cli"></a>AWS-Cli</h2><p><a href="https://github.com/aws/aws-cli" target="_blank" rel="noopener">AWS-Cli</a><br>AWS-Cli 不支持Python3(2017.12.11)<br>pipenv install awscli</p>
+<p>aws configure</p>
+<p>输入<a href="https://console.aws.amazon.com/iam/home#/home" target="_blank" rel="noopener">Identity and Access Management</a></p>
+<p>AWSAccessKeyId<br>AWSSecretKey</p>
+<p>~/.aws/credentials<br>[default]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
+<p>[testing]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
+<h2 id="Boto-3"><a href="#Boto-3" class="headerlink" title="Boto 3"></a>Boto 3</h2><p><a href="https://boto3.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">Boto 3</a></p>
+<p>pipenv install boto3</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2018-05-06" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/06/2018-05-06/" class="article-date">
+      <time datetime="2018-05-06T00:01:00.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>2018-05-06 00:01</p>
 
       
       
@@ -1081,147 +779,6 @@
           
         <p>VPS</p>
 <p><a href="https://www.aliyun.com/" target="_blank" rel="noopener">阿里云</a><br><a href="https://www.qingcloud.com/" target="_blank" rel="noopener">青云QingCloud</a><br><a href="https://www.linode.com/" target="_blank" rel="noopener">Linode</a><br><a href="https://www.digitalocean.com/" target="_blank" rel="noopener">DigitalOcean</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-学习" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/01/学习/" class="article-date">
-      <time datetime="2018-01-01T01:10:00.000Z" itemprop="datePublished">2018-01-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/01/学习/">学习</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>你学习Linux运维和Python的目的是什么？<br>赚钱，养活自己。</p>
-<p>记录笔记的目的是什么？<br>在自己忘记学习过的知识点后，快速找回记忆。</p>
-<p>总结是归纳知识。</p>
-<p>你之前写的东西，东一点西一点到处乱放。想用的时候又找不到。不就等于没写。</p>
-<p>现在（2018-01-01）的技术关注点</p>
-<ul>
-<li>English</li>
-<li>CentOS</li>
-<li>Python</li>
-</ul>
-<p>文档起名</p>
-<p>案例-命令取名：<br>方法1，按命令分类取名<br>    命令-查看文件及内容处理命令.docx<br>    命令-基础网络操作命令.docx<br>方法2，单命令取名<br>    命令-cd.docx<br>    命令-ls.docx</p>
-<p>案例-分类取名：<br>    项目-sudo 权限集中管理<br>    项目-LAMP 环境部署<br>    文档-用户管理<br>    文档-找回 root 密码</p>
-<p>就如一个技术点，不管是马哥的视频还是老男孩的视频。都总结到一个文件内。时间长了自然积累很多东西。而内容可以分为常用的命令总结或全部命令总结。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Jenkins-持续集成企业实战系列" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/31/Jenkins-持续集成企业实战系列/" class="article-date">
-      <time datetime="2017-12-31T14:05:43.000Z" itemprop="datePublished">2017-12-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/31/Jenkins-持续集成企业实战系列/">Jenkins 持续集成企业实战系列</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>1、传统网站部署流程.wmv 16:17<br>2、主流网站部署流程及方法.wmv 12:05<br>3、Jenkins持续平台安装.wmv 16:42<br>4、Jenkins持续集成MAVEN讲解.wmv 16:09<br>5、Jenkins持续集成JOB工程设置.wmv 18:27<br>6、Jenkins持续集成网站构建实战.wmv 17:06<br>7、Jenkins持续集成自动化部署一.wmv<br>8、Jenkins持续集成自动化部署二.wmv<br>9、Jenkins持续集成插件设置篇.wmv<br>10、Jenkins持续集成邮件设置篇.wmv<br>11、Jenkins持续集成多实例配置.mp4<br>12、Jenkins持续集成Ansible批量部署.mp4</p>
-<p>显示日期 2016-10-09<br>51cto博客 吴光科</p>
-<p>我们学这个软件做什么用？为什么用它？</p>
-<p>持续集成 Continuous Integration</p>
-<p>Jenkins 安装部署</p>
-<p>Jenkins是用java开发的软件，需要jdk和tomcat环境。</p>
-<p>jenkins.war</p>
-<p>解压缩jenkins <code>jar -xvf jenkins.war</code></p>
-<p>tomcat<br>应用存放路径 webapps/ROOT/<br>修改配置 conf/server.xml<br>启动 bin/startup.sh<br>日志 logs/catalina.out</p>
-<p>查看8080端口哪个软件在用<br><code>netstat -tnpl|grep 8080</code></p>
-<p>Make工具<br>Ant工具<br>Maven工具，maven是对ant工具的进一步改进。maven是一个构建工具。maven plugin(maven插件）<br>makefile文件<br>Eclipse工具</p>
-<p>下载maven<br>apache-maven-3.3.9-bin.tar.gz<br>添加maven命令到环境变量</p>
-<p>Jenkins后台配置</p>
-<p>系统管理-&gt;系统全局设置-&gt;<br>Maven Configuration<br>JDK路径<br>Maven</p>
-<p>保存</p>
-<p>IP:121.42.183.93哪个服务商的？</p>
-<p>新建任务<br>构建一个maven项目<br>源码管理<br>pom.xml maven的描述文件类似于makefile</p>
-<p>Build 指定pom.xml文件</p>
-<p>跳过测试 <code>clean install -Dmaven.test.skip=true</code></p>
 
       
       

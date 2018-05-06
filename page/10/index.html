@@ -205,11 +205,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Python分布式爬虫打造搜索引擎笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Python自动化开发之路-Alex" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/Python分布式爬虫打造搜索引擎笔记/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.040Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/Python自动化开发之路-Alex/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.326Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -221,81 +221,34 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>2018.03.19 20:01</p>
-<p>作者博客<br><a href="http://projectsedu.com" target="_blank" rel="noopener">http://projectsedu.com</a><br>github.com/liyaopinner</p>
-<p>IDE pycharm<br>数据库 mysql redis </p>
-<p>Python 2.7.13<br>Python 3.5.3</p>
-<p>第三章 基础知识</p>
-<p>技术选型:<br>scrapy<br>requests<br>scrapy selector</p>
-<p>网页分类：<br>静态网页<br>动态网页<br>微博service(rest api)</p>
-<p>爬虫能做什么<br>1、搜索引擎-百度<br>2、推荐引擎-今日头条<br>3、机器学习的数据样本<br>4、数据分析、舆情分析</p>
-<p>正则表达式<br>非贪婪模式 ？<br>至少出现一次 +<br>限定前面的字符出现的次数 {}<br>满足任意一个 []<br>\s 代表空格<br>\S 只要不是空格就行一个字符<br>\w 代表a-zA-Z0-9_ 代表字符<br>\W 不代表a-Z0-9_<br>\d 代表数字</p>
-<p>深度优先和广度优先算法</p>
-<p>深度优先 递归实现<br>广度优先 队列实现</p>
-<p>数据结构里很重要的算法</p>
-<p>深度优先过程</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">depth_tree</span><span class="params">(tree_node)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> tree_node <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">		print(tree_node._data)</span><br><span class="line">		<span class="keyword">if</span> tree_node._left <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			<span class="keyword">return</span> depth_tree(tree_node._left):</span><br><span class="line">		<span class="keyword">if</span> tree_node._right <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			<span class="keyword">return</span> depth_tree(tree_node._right)</span><br></pre></td></tr></table></figure>
-<p>广度优先过程</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">level_queue</span><span class="params">(root)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> root <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	my_queue = []</span><br><span class="line">	node = root</span><br><span class="line">	my_queue.append(node)</span><br><span class="line">	<span class="keyword">while</span> my_queue:</span><br><span class="line">		node = my_queue.pop(<span class="number">0</span>)</span><br><span class="line">		print(node.elem)</span><br><span class="line">		<span class="keyword">if</span> node.lchild <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			my_queue.append(node.lchild)</span><br><span class="line">		<span class="keyword">if</span> node.rchild <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			my_queue.append(node.rchild)</span><br></pre></td></tr></table></figure>
-<p>url去重策略</p>
-<p>1、将访问过的url保存到数据库<br>2、将访问过的url保存到set中<br>3、url经过md5等方法哈希后保存到set中 scrapy使用的是这个方法<br>4、用bitmap方法，<br>5、bloomfilter方法对bitmap进行改进，多重hash函数降低冲突</p>
-<p>unicode和utf8编码<br>内存中的数据都是unicode编码<br>python3中文件中存的数据是utf-8编码<br>所有编码解码 decode为unicode<br>uncode编码 encode为utf-8</p>
-<p>获取系统默认的编码<br>sys.getdefaultencoding()</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-*- coding: utf<span class="number">-8</span> -*-</span><br></pre></td></tr></table></figure>
-<p>scrapy爬取jobbole</p>
-<p>pycharm 中调试scrapy</p>
-<p>main.py main.py放在和scrapy.cfg同一目录</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找main.py的执行位置</span></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line"><span class="comment"># 执行爬虫</span></span><br><span class="line">execute([<span class="string">'scrapy'</span>, <span class="string">'crawl'</span>, <span class="string">'jobbole'</span>])</span><br></pre></td></tr></table></figure>
-<p>xpath语法<br>div[@class=”goods-add fn-clear J-DAddToBag”]<br>//span[contains(@class, ‘J-DAddToBag’)]</p>
-<p>/article/div[1] 选取属于article子元素的第一个div元素<br>/article/div[last()] 选取属于article子元素的最后一个div元素<br>/article/div[last()-1] 选取属于article子元素的倒数第二个div元素<br>//div/<em> 选取属于div元素的所有子节点<br>//div[@</em>] 选取所有带属性的title元素<br>/div/a|//div/p 选取所有div元素的a和p元素<br>//span|//ul 选取文档中的span和ul元素<br>article/div/p| //span 选取所有属于span元素的div元素的p元素以及文档中的所有的span元素</p>
-<p>css selector语法<br>li a 选取所有li下的所有a元素<br>ul + p 选择ul后面的第一个p元素<br>div#container &gt; ul 选取id为container的div的第一个ul子元素<br>ul ~ p 选取与ul相邻的所有p元素<br>a[title] 选取所有有title属性的a元素<br>a[href=”<a href="http://jobbole.com&quot;]" target="_blank" rel="noopener">http://jobbole.com&quot;]</a> 选取所有href属性为jobbole.com值的a元素<br>a[href*=”jobbole”] 选取所有href属性包含jobbole.com的a元素<br>a[href^=”http”] 选取所有href属性以http开头的a元素<br>a[href$=”.jpg”] 选取所有href属性以.jpg结尾的a元素<br>input[type=radio]:checked 选择选中的radio的元素<br>div:not(#container) 选取所有id非container属性的div元素<br>li:nth-child(3) 选取第三个li元素<br>tr:nth-child(2n) 第偶数个tr</p>
-<p>伪类选择器<br>h1::text<br>div h1::attr(href) </p>
-<p>列表生成式<br>tag_list = [‘职场’, ‘1 评论’, ‘fuck两点水’]</p>
-<p>[ element for element in tag_list if not element.strip().endswith(“评论”)]</p>
-<p>正则表达式<br>fav_nums = “sssd123werwe”<br>match_re = re.match(“.<em>(\d+).</em>“, fav_nums)<br>if match_re:<br>    fav_nums = int(match_re.group(1))<br>else:<br>    fav_nums = 0</p>
-<p>字符串方法<br>tags = “,”.join(‘12345’)        结果 ‘1,2,3,4,5’</p>
-<p>response.xpath().extract() 需要异常处理<br>response.xpath().extract_first()</p>
-<p>from scrapy.http import Request<br>Request(url=,callback=)</p>
-<p>from urllib import parse<br>parse.urljoin()</p>
-<p>meta<br>scrapy.Request(url=,meta={‘goodsid’:goodsid},callback=)<br>goodsid = response.meta.get(“goodsid”, “”)</p>
-<p>scrapy 图片管道 imagespipeline <code>pip install pillow</code><br>settings.py<br>scrapy.pipelines.images.ImagesPipeLine<br>IMAGES_URLS_FIELD = “items.py 中的item,url需要是list类型”<br>project_dir = os.path.abspath(os.path.dirname(<strong>file</strong>))<br>IMAGES_STORE = os.path.join(project_dir, ‘images’)</p>
-<p><a href="https://coding.imooc.com/lesson/92.html#mid=2878" target="_blank" rel="noopener">DIY pipeline</a><br>图片管道自定义<br>4-12 items设计-3 视频的02:12</p>
-<p>ImagesPipeline<br>item_completed()</p>
-<p>utils/<br><strong>init</strong>.py<br>common.py</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_md5</span><span class="params">(url)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> isinstance(url, str):</span><br><span class="line">		url = url.encode(<span class="string">"utf-8"</span>)</span><br><span class="line">	m = hashlib.md5()</span><br><span class="line">	m.update(url)</span><br><span class="line">	<span class="keyword">return</span> m.hexdigest()</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">	print(get_md5(<span class="string">"http://www.baidu.com"</span>)</span><br></pre></td></tr></table></figure>
-<p>数据保存<br>pipeline</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.file = codecs.open(<span class="string">'article.json'</span>, <span class="string">'w'</span>, encoding=<span class="string">"utf-8"</span>)</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">	lines = json.dumps(dict(item), ensure_ascii=<span class="keyword">False</span>) + <span class="string">"\n"</span></span><br><span class="line">	self.write(lines)</span><br><span class="line">	<span class="keyword">return</span> item</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">            self.file.close()</span><br></pre></td></tr></table></figure>
-<p>JsonItemExporter</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.exporters <span class="keyword">import</span> JsonItemExporter</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonExporterPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.file = open(<span class="string">'articleexporter.json'</span>, <span class="string">'wb'</span>)</span><br><span class="line">		self.exporter = JsonItemExporter(self.file, encoding=<span class="string">"utf-8"</span>, ensure_ascii=<span class="keyword">False</span>)</span><br><span class="line">		self.exporter.start_exporting()</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self. item, spider)</span>:</span></span><br><span class="line">		self.exporter.export_item(item)</span><br><span class="line">		<span class="keyword">return</span> item</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">		self.exporter.finish_exporting()</span><br><span class="line">		self.file.close()</span><br></pre></td></tr></table></figure>
-<p>数据库</p>
-<p>新建数据库<br>新建数据表</p>
-<p><img src="./jobbole_article_mysql.png" alt="jobbole_article_mysql"></p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create_date = <span class="string">'时间字符串'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	datetime.datetime.strptime(create_date, <span class="string">"%Y/%m/%d"</span>).date()</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">	create_date = datetime.datetime.now().date()</span><br></pre></td></tr></table></figure>
-<p>pip install mysqlclient pymysql</p>
-<p>同步插入mysql</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MysqlPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.conn = pymysql.connect(<span class="string">'host'</span>, <span class="string">'user'</span>, <span class="string">'password'</span>, <span class="string">'port'</span>, <span class="string">'dbname'</span>, charset=<span class="string">"utf-8"</span>, use_unicode=Ture)</span><br><span class="line">		self.cursor = self.conn.cursor()</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">		insert_sql = <span class="string">"""</span></span><br><span class="line"><span class="string">			insert into jobbole_article(title, url)</span></span><br><span class="line"><span class="string">			VALUES (%s,%s)"""</span></span><br><span class="line">		self.cursor.execute(insert_sql, (item[<span class="string">"title"</span>], item[<span class="string">"url"</span>])</span><br><span class="line">		self.conn.commit()</span><br></pre></td></tr></table></figure>
-<p>异步插入mysql</p>
-<p>连接池</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> twisted.enterprise <span class="keyword">import</span> adbapi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MysqlTwistedPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.dbpool = dbpool</span><br><span class="line">	</span><br><span class="line"><span class="meta">	@classmethod</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">from_settings</span><span class="params">(cls, settings)</span>:</span></span><br><span class="line">		dbparms = dict(</span><br><span class="line">			host = settings[<span class="string">"MYSQL_HOST"</span>],</span><br><span class="line">			db = settings[<span class="string">"MYSQL_DBNAME"</span>],</span><br><span class="line">			user = settings[<span class="string">"MYSQL_USER"</span>],</span><br><span class="line">			password = settings[<span class="string">"MYSQL_PASSWORD"</span>],</span><br><span class="line">			charset = <span class="string">'utf-8'</span>,</span><br><span class="line">			cursorclass = pymysql.cursors.DictCursor,</span><br><span class="line">			use_unicode = <span class="keyword">True</span>,</span><br><span class="line">		)</span><br><span class="line">		dbpool = adbapi.ConnectionPool(<span class="string">"pymysql"</span>, **dbparms)</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> cls(dbpool)</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">		query = self.dbpool.runInteraction(do_insert, item)</span><br><span class="line">		query.addErrback(self.handle_error)</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">handle_error</span><span class="params">(self, failure)</span>:</span></span><br><span class="line">		print(failure)</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">do_insert</span><span class="params">(self, cursor, item)</span>:</span></span><br><span class="line">		insert_sql = <span class="string">"""</span></span><br><span class="line"><span class="string">			insert into jobbole_article(title, url)</span></span><br><span class="line"><span class="string">			VALUES (%s,%s)"""</span></span><br><span class="line">		cursor.execute(insert_sql, (item[<span class="string">"title"</span>], item[<span class="string">"url"</span>])</span><br></pre></td></tr></table></figure>
-<p>scrapy-djangoitem</p>
-<p>pip install scrapy-djangoitem</p>
-<p>scrapy item loader 机制</p>
-<p>itemloader会将所有提取的值变为list类型</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">item_loader = ItemLoader(item=JobboleItem(),response=response)</span><br><span class="line"></span><br><span class="line">itemloader.add_xpath()</span><br><span class="line">itemloader.add_css()</span><br><span class="line">itemloader.value()</span><br><span class="line"></span><br><span class="line">item = itemloader.load_item()</span><br><span class="line"></span><br><span class="line"><span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
-<p>items.py</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.loader.processors <span class="keyword">import</span> MapCompose</span><br><span class="line"></span><br><span class="line"><span class="comment">#取第一个值</span></span><br><span class="line"><span class="keyword">from</span> scrapy.loader.processors <span class="keyword">import</span> TakeFirst，Join</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_jobbole</span><span class="params">(value)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> value + <span class="string">"-jobbole"</span></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">title = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(add_jobbole)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">name = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(<span class="keyword">lambda</span> x:x+<span class="string">"-jinlong"</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">urls = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(<span class="keyword">lambda</span> x:x+<span class="string">"-kjj"</span>, add_jobbole)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">create_date = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(add_jobbole)</span><br><span class="line">	output_processor = TakeFirst()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>自定义itemloader</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArticleItemLoader</span><span class="params">(ItemLoader)</span>:</span></span><br><span class="line">	default_output_processor = TakeFirst()</span><br></pre></td></tr></table></figure>
-<p>session和cookie自动登录机制<br>session服务器端<br>cookie客户端</p>
-<p>settings.py<br>AUTOTHROTTLE_ENABLED = True</p>
-<p>spider.py</p>
-<p>custom_settings = {<br>    “COOKIES_ENABLED”: True<br>}</p>
-<p>selenuim driver</p>
-<p>ChromeDriver - WebDriver for Chrome</p>
-<p><a href="https://sites.google.com/a/chromium.org/chromedriver/downloads" target="_blank" rel="noopener">https://sites.google.com/a/chromium.org/chromedriver/downloads</a></p>
-<p>brew install chromedriver</p>
-<p><a href="https://segmentfault.com/a/1190000013067705" target="_blank" rel="noopener">https://segmentfault.com/a/1190000013067705</a></p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.chrome.options <span class="keyword">import</span> Options</span><br><span class="line">chrome_options = Options()</span><br><span class="line">chrome_options.add_argument(<span class="string">'window-size=1920x3000'</span>) <span class="comment">#指定浏览器分辨率</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'--disable-gpu'</span>) <span class="comment">#谷歌文档提到需要加上这个属性来规避bug</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'--hide-scrollbars'</span>) <span class="comment">#隐藏滚动条, 应对一些特殊页面</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'blink-settings=imagesEnabled=false'</span>) <span class="comment">#不加载图片, 提升速度</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'--headless'</span>) <span class="comment">#浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败</span></span><br><span class="line">chrome_options.binary_location = <span class="string">r'/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'</span> <span class="comment">#手动指定使用的浏览器位置</span></span><br></pre></td></tr></table></figure>
+        <p>老男孩教育Python自动化2.0课程课件目录</p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5465198.html" target="_blank" rel="noopener">Python之路,Day1 - Python基础1</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5717620.html" target="_blank" rel="noopener">Python之路,Day2 - Python基础2</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5740985.html" target="_blank" rel="noopener">Python之路,Day3 - Python基础3</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5143440.html" target="_blank" rel="noopener">Python之路,Day4</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5765046.html" target="_blank" rel="noopener">Python之路,Day4 - Python基础4 (new版)</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5161349.html" target="_blank" rel="noopener">Python 之路 Day5 - 常用模块学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5188179.html" target="_blank" rel="noopener">Python之路,Day6 - 面向对象学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5213184.html" target="_blank" rel="noopener">Python之路，Day7 - 面向对象编程进阶</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5830365.html" target="_blank" rel="noopener">Python之路,Day8 - Socket网络编程</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5227251.html" target="_blank" rel="noopener">Python之路,Day8 - Socket编程进阶</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5248247.html" target="_blank" rel="noopener">Python之路,Day9 - 异步IO\数据库\队列\缓存</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5230609.html" target="_blank" rel="noopener">Python之路,Day9, 进程、线程、协程篇</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5978329.html" target="_blank" rel="noopener">Python 之路，Day11 - sqlalchemy ORM</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5950372.html" target="_blank" rel="noopener">python 之路，Day11 - python mysql and ORM</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5286889.html" target="_blank" rel="noopener">Python之路,Day12 - 那就做个堡垒机吧</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5457672.html" target="_blank" rel="noopener">Python之路,Day14 - It’s time for Django</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5512568.html" target="_blank" rel="noopener">Python之路,Day15 - Django适当进阶篇</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5535652.html" target="_blank" rel="noopener">Python之路,Day16 - Django 进阶</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5311625.html" target="_blank" rel="noopener">Python之路,Day17 - 分分钟做个BBS论坛</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5337630.html" target="_blank" rel="noopener">Python之路,Day18 - 开发一个WEB聊天来撩妹吧</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5420433.html" target="_blank" rel="noopener">Python之路,Day19 - CMDB、CMDB、CMDB</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5450798.html" target="_blank" rel="noopener">Python之路,Day20 - 分布式监控系统开发</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5474411.html" target="_blank" rel="noopener">Python之路,Day21 - 常用算法学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5714238.html" target="_blank" rel="noopener">Python之路,Day22 - 网站用户访问质量分析监测分析项目开发</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/5760582.html" target="_blank" rel="noopener">Python之路，Day24 常用设计模式学习</a></p>
+<p><a href="http://www.cnblogs.com/alex3714/articles/6100840.html" target="_blank" rel="noopener">Python 之路，Day27 - 主机管理+堡垒机系统开发</a></p>
+
       
       
     </div>
@@ -322,11 +275,11 @@
 
 
   
-    <article id="post-Hugo" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-KeePassXC 配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/Hugo/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.036Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/KeePassXC 配置/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.322Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -338,29 +291,59 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a></p>
-<p><a href="http://nanshu.wang/post/2015-01-31/" target="_blank" rel="noopener">Hugo静态网站生成器中文教程</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/magefile/mage</span><br><span class="line">go get -d github.com/gohugoio/hugo</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;GOPATH:-$HOME/go&#125;</span>/src/github.com/gohugoio/hugo</span><br><span class="line">mage vendor</span><br><span class="line">mage install</span><br></pre></td></tr></table></figure>
-<p>新建hugo项目</p>
-<p><code>hugo new site hugo.ovwane.me</code></p>
-<p>初始化git</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd hugo.ovwane.me</span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
-<p>Install DocDock as git submodule</p>
-<p><code>git submodule add https://github.com/vjeantet/hugo-theme-docdock.git themes/hugo-theme-docdock</code></p>
-<p><code>git submodule add https://github.com/spf13/hugoThemes.git themes/spf13</code></p>
-<p>Next initialize submodule for parent git repo:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git submodule init</span><br><span class="line">git submodule update</span><br></pre></td></tr></table></figure>
-<p>Configure<br>Import sample config from sample site to Hugo root.</p>
-<p><code>cp themes/hugo-theme-docdock/exampleSite/config.toml .</code></p>
-<p>Preview site</p>
-<p><code>hugo server</code></p>
-<p><code>hugo new post/first-article.md</code></p>
-<p><code>git clone https://github.com/vjeantet/hugo-theme-docdock.git themes/docdock</code></p>
-<p>git checkout -b hugo</p>
-<p>git add .</p>
-<p>git commit -m “初始化分支，主题使用psf13的”</p>
-<p>git push –set-upstream origin hugo</p>
+        <p>date: 2018-0505 09:12</p>
+<h3 id="浏览器配合"><a href="#浏览器配合" class="headerlink" title="浏览器配合"></a>浏览器配合</h3><p>✅启用KeepassXC浏览器集成</p>
+<p>Google Chrome</p>
 
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-MariaDB使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/06/MariaDB使用笔记/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.322Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>MariaDB 10.2.13</p>
+<h3 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a><a href="https://www.cnblogs.com/liufei88866/p/5619215.html" target="_blank" rel="noopener">修改密码</a></h3><h4 id="方法1：-用SET-PASSWORD命令"><a href="#方法1：-用SET-PASSWORD命令" class="headerlink" title="方法1： 用SET PASSWORD命令"></a>方法1： 用SET PASSWORD命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">mysql&gt; SET PASSWORD FOR &apos;root&apos;@&apos;localhost&apos; = PASSWORD(&apos;newpass&apos;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">方法2：用mysqladmin</span><br><span class="line"></span><br><span class="line">　　mysqladmin -u root password &quot;newpass&quot;</span><br><span class="line"></span><br><span class="line">　　如果root已经设置过密码，采用如下方法</span><br><span class="line"></span><br><span class="line">　　mysqladmin -u root password oldpass &quot;newpass&quot;</span><br><span class="line"></span><br><span class="line">方法3： 用UPDATE直接编辑user表</span><br><span class="line"></span><br><span class="line">　　mysql -u root</span><br><span class="line"></span><br><span class="line">　　mysql&gt; use mysql;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; UPDATE user SET Password = PASSWORD(&apos;newpass&apos;) WHERE user = &apos;root&apos;;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line"></span><br><span class="line">在丢失root密码的时候，可以这样</span><br><span class="line"></span><br><span class="line">　　mysqld_safe --skip-grant-tables&amp;</span><br><span class="line"></span><br><span class="line">　　mysql -u root mysql</span><br><span class="line"></span><br><span class="line">　　mysql&gt; UPDATE user SET password=PASSWORD(&quot;new password&quot;) WHERE user=&apos;root&apos;;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="#新建数据库"></a>#新建数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database proxy_ip;</span><br></pre></td></tr></table></figure>
+<h3 id="新建数据表"><a href="#新建数据表" class="headerlink" title="#新建数据表"></a>#新建数据表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table xici_proxy(ip varchar(20) COMMENT &apos;地址&apos;,</span><br><span class="line">port varchar(5) COMMENT &apos;端口&apos;, </span><br><span class="line">proxy_type varchar(5) COMMENT &apos;类型&apos;, </span><br><span class="line">speed varchar(10) NULL COMMENT &apos;速度&apos;,</span><br><span class="line">PRIMARY KEY(ip)</span><br><span class="line">)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&apos;西刺代理IP池&apos;;</span><br></pre></td></tr></table></figure>
+<h3 id="查看表结构"><a href="#查看表结构" class="headerlink" title="#查看表结构"></a>#查看表结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc xici_proxy;</span><br></pre></td></tr></table></figure>
+<h3 id="查看表生成的DDL"><a href="#查看表生成的DDL" class="headerlink" title="#查看表生成的DDL"></a>#查看表生成的DDL</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table xici_proxy;</span><br></pre></td></tr></table></figure>
       
       
     </div>
@@ -390,8 +373,8 @@
     <article id="post-Linux下服务器性能测试" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/Linux下服务器性能测试/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.036Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/Linux下服务器性能测试/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.322Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -442,63 +425,11 @@
 
 
   
-    <article id="post-Go" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/Go/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.036Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#<a href="https://golang.org/" target="_blank" rel="noopener">Go</a><br>安装Go</p>
-<p><code>brew install go</code></p>
-<p>安装分布式管理工具hg</p>
-<p> <code>brew install hg</code></p>
-<p>建立go的环境变量文件夹</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd $HOME</span><br><span class="line"></span><br><span class="line">mkdir go</span><br></pre></td></tr></table></figure>
-<p>~/.zshrc</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">export GOPATH=$HOME/go</span><br><span class="line">export PATH=$HOME/bin:$GOPATH/bin:$PATH</span><br></pre></td></tr></table></figure>
-<p><code>brew cask install goland</code></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-Kubernetes" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/Kubernetes/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.036Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/Kubernetes/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.322Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -686,8 +617,8 @@
     <article id="post-KeePass使用问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/KeePass使用问题/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.036Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/KeePass使用问题/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.322Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -732,11 +663,11 @@
 
 
   
-    <article id="post-KeePassXC 配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS7安装配置Mariadb" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/KeePassXC 配置/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.036Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/CentOS7安装配置Mariadb/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.318Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -748,9 +679,450 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date: 2018-0505 09:12</p>
-<h3 id="浏览器配合"><a href="#浏览器配合" class="headerlink" title="浏览器配合"></a>浏览器配合</h3><p>✅启用KeepassXC浏览器集成</p>
-<p>Google Chrome</p>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import http://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/yum.repos.d/mariadb.repo&lt;&lt;EOF</span><br><span class="line"># MariaDB 10.2 CentOS repository list - created 2018-04-20 08:34 UTC</span><br><span class="line"># http://downloads.mariadb.org/mariadb/repositories/</span><br><span class="line">[mariadb]</span><br><span class="line">name = MariaDB</span><br><span class="line">baseurl = http://yum.mariadb.org/10.2/centos7-amd64</span><br><span class="line">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br><span class="line">gpgcheck=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum list --showduplicates MariaDB-server</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install MariaDB-server-10.2.13 MariaDB-client-10.2.13 MariaDB-common-10.2.13 MariaDB-compat-10.2.13 MariaDB-shared-10.2.13</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<h2 id="编码配置（重点呀）"><a href="#编码配置（重点呀）" class="headerlink" title="编码配置（重点呀）"></a>编码配置（重点呀）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 编辑/etc/my.cnf</span><br><span class="line">vim /etc/my.cnf</span><br><span class="line"></span><br><span class="line"># 在[mysqld]标签下添加下面内容</span><br><span class="line">default_storage_engine = innodb</span><br><span class="line">innodb_file_per_table</span><br><span class="line">max_connections = 4096</span><br><span class="line">collation-server = utf8_general_ci</span><br><span class="line">character-set-server = utf8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 编辑/etc/my.cnf.d/client.cnf</span><br><span class="line">vim /etc/my.cnf.d/client.cnf</span><br><span class="line"></span><br><span class="line"># 在[client]标签下添加下面内容</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 编辑/etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line">vim /etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line"></span><br><span class="line"># 在[mysql]标签下添加下面内容</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mariadb.service</span><br><span class="line">systemctl start mariadb.service</span><br><span class="line">systemctl status mariadb.service</span><br><span class="line">systemctl stop mariadb.service</span><br></pre></td></tr></table></figure>
+<p>设置密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>配置流程</th>
+<th>说明</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Enter current password for root (enter for none)</td>
+<td>输入 root 密码</td>
+<td>初次运行直接回车</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Set root password? [Y/n]</td>
+<td>是设置 root 密码</td>
+<td>可以 y 或者 回车</td>
+</tr>
+<tr>
+<td>3</td>
+<td>New password</td>
+<td>输入新密码</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Re-enter new password</td>
+<td>再次输入新密码</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Remove anonymous users? [Y/n]</td>
+<td>是否删除匿名用户</td>
+<td>可以 y 或者 回车</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Disallow root login remotely? [Y/n]</td>
+<td>是否禁止 root 远程登录</td>
+<td>可以 y 或者 回车</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Remove test database and access to it? [Y/n]</td>
+<td>是否删除 test 数据库</td>
+<td>y 或者 回车</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Reload privilege tables now? [Y/n]</td>
+<td>是否重新加载权限表</td>
+<td>y 或者 回车</td>
+</tr>
+</tbody>
+</table>
+<p>查看版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p version</span><br></pre></td></tr></table></figure>
+<p>查看字符集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show variables like &quot;%character%&quot;;show variables like &quot;%collation%&quot;;</span><br><span class="line"></span><br><span class="line">#默认的字符集</span><br><span class="line">show global variables like &apos;%char%&apos;;</span><br><span class="line"></span><br><span class="line">#当前数据库支持的字符集</span><br><span class="line">show character set;</span><br></pre></td></tr></table></figure>
+<p>添加用户，设置权限</p>
+<ul>
+<li>创建用户（本地无法远程登录）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user &lt;username&gt;@localhost identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>直接创建用户并授权的命令（本地无法远程登录）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all on *.* to &lt;username&gt;@localhost identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>授予远程登陆权限</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &lt;username&gt;@&apos;%&apos; identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>授予权限并且可以授权（指定 hostname 操作）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &lt;username&gt;@&apos;&lt;hostname&gt;&apos; identified by &apos;&lt;password&gt;&apos; with grant option;</span><br></pre></td></tr></table></figure>
+<p>基础知识</p>
+<p>MariaDB 数据类型</p>
+<ul>
+<li>字符类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHAR</td>
+<td>固定长度的非 Unicode 字符数据</td>
+<td>0~255 长度</td>
+</tr>
+<tr>
+<td>VARCHAR</td>
+<td>可变长度的非 Unicode 数据</td>
+<td>0~65535 长度</td>
+</tr>
+<tr>
+<td>BINARY</td>
+<td>二进制字节字符串</td>
+<td></td>
+</tr>
+<tr>
+<td>VARBINARY</td>
+<td>可变长度的二进制字节字符串</td>
+<td></td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>blob 列</td>
+<td>0~65535 长度</td>
+</tr>
+<tr>
+<td>TINYBLOB</td>
+<td>blob 列</td>
+<td>0~255 长度</td>
+</tr>
+<tr>
+<td>MEDIUMBLOB</td>
+<td>blob 列</td>
+<td>0-2^24 字节，16,777,215 最大长度</td>
+</tr>
+<tr>
+<td>LONGBLOB</td>
+<td>blob 列</td>
+<td>0-2^32 字节，4,294,967,295 最大长度</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>字符的文本列</td>
+<td>0~65635 长度</td>
+</tr>
+<tr>
+<td>TINYTEXT</td>
+<td>字符的文本列</td>
+<td>0~255 长度</td>
+</tr>
+<tr>
+<td>MEDIUMTEXT</td>
+<td>字符的文本列</td>
+<td>0-2^24 字节，16,777,215 最大长度</td>
+</tr>
+<tr>
+<td>LONGTEXT</td>
+<td>字符的文本列</td>
+<td>0-2^32 字节，4,294,967,295 最大长度</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值，不适用于 text 类型</td>
+</tr>
+<tr>
+<td>character set</td>
+<td>修改字符集</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用通配符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>通配符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%</td>
+<td>匹配任意长度的任意字符</td>
+</tr>
+<tr>
+<td>_</td>
+<td>匹配任意单个字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INT</td>
+<td>整数</td>
+<td>0-2^32 字节，0~4,294,967,295</td>
+</tr>
+<tr>
+<td>TINYINT</td>
+<td>整数</td>
+<td>-128~127 的有符号范围，0~255 的无符号范围</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>整数</td>
+<td>-32768~32768 的有符号范围，0~65535 的无符号范围</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>整数</td>
+<td>-8388608~8388607 的有符号范围，0~16777215 的无符号范围</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>整数</td>
+<td>有符号范围 -9223372036854775808~9223372036854775807内整数，无符号范围 0 ~18446744073709551615 的整数</td>
+</tr>
+<tr>
+<td>BOOLEAN</td>
+<td>布尔值</td>
+<td>值 0 与 false 相关联，值 1 与 true 相关联</td>
+</tr>
+<tr>
+<td>DECIMAL(m,d)</td>
+<td>小数</td>
+<td>m 表示数字的总长度，小数点不占位，d 表示小数点后面的数字长度。</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>小数</td>
+<td>-3.402823466E+38~-1.175494351E-38，1.175494351E-38~3.402823466E+38</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>小数</td>
+<td>-1.7976931348623157E+308~-2.2250738585072014E-308，2.2250738585072014E-308~1.7976931348623157E+308</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNSIGNED</td>
+<td>无符号数值</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值</td>
+</tr>
+<tr>
+<td>AUTO_INCREMENT</td>
+<td>数值自动增长</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>日期时间类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATE</td>
+<td>日期</td>
+<td>1000-01-01 到 9999-12-31，并使用 yyyy-MM-dd 日期格式</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>时间</td>
+<td>-838：59：59.999999 到 838：59：59.999999 时间范围</td>
+</tr>
+<tr>
+<td>DATETIME</td>
+<td>日期时间</td>
+<td>1000-01-01 00：00：00.000000 至 9999-12-31 23：59：59.999999。使用 yyyy-MM-dd hh：mm：ss 格式</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>时间戳</td>
+<td>19700101080001-20380119111407</td>
+</tr>
+<tr>
+<td>YEAR</td>
+<td>年份</td>
+<td>1901 到 2155 和 0000 范围内的值</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>如何设置字段自动获取当前时间<ul>
+<li>将字段类型设为  <strong>TIMESTAMP</strong></li>
+<li>将默认值设为 <strong>CURRENT_TIMESTAMP</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="内建类型"><a href="#内建类型" class="headerlink" title="内建类型"></a>内建类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ENUM</td>
+<td>枚举类型</td>
+<td>仅能从给出的选项中选择其中一个，其它值无效</td>
+</tr>
+<tr>
+<td>SET</td>
+<td>集合类型</td>
+<td>使用给出的元素组合成字符串</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>原生 JSON 对象</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>JSON 使用方法<ul>
+<li>JSON_EXTRACT(context,’$.<key>‘) 查询提取 JSON 对象的某个属性值。</key></li>
+<li>JSON_KEYS(context) 查询获取健对。</li>
+<li>JSON_INSERT(context,’$.<key>‘,”<value>“) 插入 JSON 属性与值。</value></key></li>
+<li>JSON_SET(context,’$.<key>‘,”<value>“) 更改 JSON 属性的值。</value></key></li>
+<li>JSON_REMOVE(context,’$.<key>‘) 删除 JSON 属性。</key></li>
+</ul>
+</li>
+</ul>
+<p>参考</p>
+<p><a href="https://downloads.mariadb.org/mariadb/repositories/#mirror=neusoft&amp;distro=CentOS&amp;distro_release=centos7-amd64--centos7&amp;version=10.2" target="_blank" rel="noopener">Setting up MariaDB Repositories</a></p>
+<p><a href="https://mariadb.com/kb/en/library/yum/" target="_blank" rel="noopener">Installing MariaDB with yum</a></p>
+<p><a href="https://www.jianshu.com/p/e67f1dbaa107" target="_blank" rel="noopener">Centos 7 下 mariadb 的安装与配置</a></p>
+<p><a href="https://mariadb.com/kb/zh-cn/setting-character-sets-and-collations/" target="_blank" rel="noopener">设置字符集和排序规则</a></p>
 
       
       
@@ -778,11 +1150,11 @@
 
 
   
-    <article id="post-Go相关的书签" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Git 教程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/Go相关的书签/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.036Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/Git 教程/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.318Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -794,10 +1166,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://gohack2017.golangfoundation.org/" target="_blank" rel="noopener">Go Hack 2017</a></p>
-<p><a href="https://gocn.io/" target="_blank" rel="noopener"></a></p>
-<p><a href="https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md" target="_blank" rel="noopener">Unknwon/the-way-to-go_ZH_CN</a></p>
-<p><a href="https://keybase.io" target="_blank" rel="noopener">Keybase</a></p>
+        <h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">克隆仓库</span></span><br><span class="line">git clone git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"><span class="meta">#</span><span class="bash">创建分支</span></span><br><span class="line">git checkout -b blog</span><br><span class="line"><span class="meta">#</span><span class="bash">切换分支</span></span><br><span class="line">git checout blog</span><br><span class="line"><span class="meta">#</span><span class="bash">查看分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="meta">#</span><span class="bash">查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"><span class="meta">#</span><span class="bash">删除分支</span></span><br><span class="line">git push origin :blog</span><br><span class="line">git push origin -d blog</span><br><span class="line"><span class="meta">#</span><span class="bash">删除子模块</span></span><br><span class="line">git rm -r --cached themes/spfk</span><br></pre></td></tr></table></figure>
+<h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看之前提交的git commit的id </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">log</span> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成撤销,同时将代码恢复到前一commit_id 对应的版本 </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git reset --hard id</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改</span></span><br><span class="line">git reset id</span><br></pre></td></tr></table></figure>
 
       
       
@@ -825,11 +1195,11 @@
 
 
   
-    <article id="post-Caddy" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS安装配置MongoDB" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/Caddy/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.032Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/CentOS安装配置MongoDB/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.318Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
@@ -841,27 +1211,42 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="https://github.com/Unknwon/wuwen.org/issues/11" target="_blank" rel="noopener">Caddy 部署实践</a></p>
-<p><a href="https://github.com/mholt/caddy/releases/" target="_blank" rel="noopener">Caddy</a></p>
-<p><a href="https://www.wolfcstech.com/2017/01/09/Caddy%20Web%E6%9C%8D%E5%8A%A1%E5%99%A8QUIC%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Caddy Web服务器QUIC部署</a></p>
-<p><a href="http://www.infoq.com/cn/news/2018/03/weibo-quic" target="_blank" rel="noopener">QUIC在微博中的落地思考</a></p>
-<p><a href="https://github.com/caddyserver/examples" target="_blank" rel="noopener">Examples for using Caddy Web Server</a></p>
-<p><a href="https://liudanking.com/beautiful-life/%E6%9C%AC%E7%AB%99%E5%BC%80%E5%90%AF%E6%94%AF%E6%8C%81-quic-%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%8E%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">本站开启支持 QUIC 的方法与配置</a></p>
-<p><a href="https://blog.sharpbai.com/2018/02/%E4%BD%BF%E7%94%A8caddy%E9%85%8D%E5%90%88nginx%E6%94%AF%E6%8C%81quic/" target="_blank" rel="noopener">使用caddy配合nginx支持QUIC
-</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/mholt/caddy/releases/download/v0.10.12/caddy_v0.10.12_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf caddy_v0.10.12_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">mv caddy /usr/local/bin/</span><br></pre></td></tr></table></figure>
-<p>/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp –port=32457</p>
-<p>mkdir -p /data/caddy/log/</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /data/caddy/Caddyfile</span><br><span class="line"></span><br><span class="line">ovwane.com:444 &#123;</span><br><span class="line">        tls /data/ssl/ovwane.com/ovwane.com_rsa_fullchain.cer /data/ssl/ovwane.com/ovwane.com_rsa.key</span><br><span class="line">        root /data/www/ovwane.com/public</span><br><span class="line">        gzip</span><br><span class="line">        log /data/caddy/log/ovwane.com.log</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/caddy.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Caddy HTTP/2 web server</span><br><span class="line">Documentation=https://caddyserver.com/docs</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target systemd-networkd-wait-online.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Restart=on-abnormal</span><br><span class="line"></span><br><span class="line">; User and group the process will run as.</span><br><span class="line">;User=caddy</span><br><span class="line">;Group=caddy</span><br><span class="line"></span><br><span class="line">; Letsencrypt-issued certificates will be written to this directory.</span><br><span class="line">Environment=CADDYPATH=/data/caddy</span><br><span class="line"></span><br><span class="line">; Always set "-root" to something safe in case it gets forgotten in the Caddyfile.</span><br><span class="line">ExecStart=/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp</span><br><span class="line">ExecReload=/bin/kill -USR1 $MAINPID</span><br><span class="line"></span><br><span class="line">; Use graceful shutdown with a reasonable timeout</span><br><span class="line">KillMode=mixed</span><br><span class="line">KillSignal=SIGQUIT</span><br><span class="line">TimeoutStopSec=5s</span><br><span class="line"></span><br><span class="line">; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.</span><br><span class="line">LimitNOFILE=1048576</span><br><span class="line">; Unmodified caddy is not expected to use more than that.</span><br><span class="line">LimitNPROC=512</span><br><span class="line"></span><br><span class="line">; Use private /tmp and /var/tmp, which are discarded after caddy stops.</span><br><span class="line">PrivateTmp=true</span><br><span class="line">; Use a minimal /dev (May bring additional security if switched to 'true', but it may not work on Raspberry Pi's or other devices, so it has been disabled in this dist.)</span><br><span class="line">PrivateDevices=false</span><br><span class="line">; Hide /home, /root, and /run/user. Nobody will steal your SSH-keys.</span><br><span class="line">ProtectHome=true</span><br><span class="line">; Make /usr, /boot, /etc and possibly some more folders read-only.</span><br><span class="line">ProtectSystem=full</span><br><span class="line">; … except /etc/ssl/caddy, because we want Letsencrypt-certificates there.</span><br><span class="line">;   This merely retains r/w access rights, it does not add any new. Must still be writable on the host!</span><br><span class="line">ReadWriteDirectories=/data/caddy</span><br><span class="line"></span><br><span class="line">; The following additional security directives only work with systemd v229 or later.</span><br><span class="line">; They further restrict privileges that can be gained by caddy. Uncomment if you like.</span><br><span class="line">; Note that you may have to add capabilities required by any plugins in use.</span><br><span class="line">;CapabilityBoundingSet=CAP_NET_BIND_SERVICE</span><br><span class="line">;AmbientCapabilities=CAP_NET_BIND_SERVICE</span><br><span class="line">;NoNewPrivileges=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable caddy.service</span><br><span class="line">systemctl start caddy.service</span><br><span class="line">systemctl stop caddy.service</span><br><span class="line">systemctl status caddy.service</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp --inet6 | grep -F caddy</span><br></pre></td></tr></table></figure>
-<p>日志自动切分</p>
-<p>vim /etc/logrotate.d/caddy</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/caddy/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/caddy.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/caddy.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>手动执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/caddy</span><br></pre></td></tr></table></figure>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.mongodb.org/static/pgp/server-3.6.asc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/yum.repos.d/mongodb-org-3.6.repo&lt;&lt;EOF</span><br><span class="line">[mongodb-org-3.6]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.6/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=https://www.mongodb.org/static/pgp/server-3.6.asc</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mongodb-org-3.6.4 mongodb-org-server-3.6.4 mongodb-org-shell-3.6.4 mongodb-org-tools-3.6.4 mongodb-org-mongos-3.6.4</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/mongodb/db</span><br><span class="line">chown mongod:mongod /data/mongodb/db</span><br></pre></td></tr></table></figure>
+<p>/etc/mongod.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">systemLog:</span><br><span class="line">  destination: file</span><br><span class="line">  logAppend: true</span><br><span class="line">  path: /data/mongodb/mongod.log</span><br><span class="line"></span><br><span class="line">storage:</span><br><span class="line">  dbPath: /data/mongodb/db</span><br><span class="line">  journal:</span><br><span class="line">    enabled: true</span><br><span class="line"></span><br><span class="line">processManagement:</span><br><span class="line">  fork: true  # fork and run in background</span><br><span class="line">  pidFilePath: /data/mongodb/mongod.pid  # location of pidfile</span><br><span class="line">  timeZoneInfo: /usr/share/zoneinfo</span><br><span class="line">  </span><br><span class="line">net:</span><br><span class="line">  port: 27017</span><br><span class="line">  bindIp: 127.0.0.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mongod.service</span><br><span class="line">systemctl start mongod.service</span><br><span class="line">systemctl restart mongod.service</span><br><span class="line">systemctl status mongod.service</span><br><span class="line">systemctl stop mongod.service</span><br></pre></td></tr></table></figure>
+<h3 id="开启权限验证"><a href="#开启权限验证" class="headerlink" title="开启权限验证"></a>开启权限验证</h3><p>下Mongodb中角色的定义：<br>角色说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">read：允许用户读取指定数据库 </span><br><span class="line">readWrite：允许用户读写指定数据库 </span><br><span class="line">dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile </span><br><span class="line">userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户 </span><br><span class="line">clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限。 </span><br><span class="line">readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限 </span><br><span class="line">readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限 </span><br><span class="line">userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限 </span><br><span class="line">dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。 </span><br><span class="line">root：只在admin数据库中可用。超级账号，超级权限</span><br></pre></td></tr></table></figure>
+<p>添加管理员账号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(    &#123;</span><br><span class="line">        user: &quot;root&quot;,</span><br><span class="line">        pwd: &quot;UbM43zUgecBnb8v8MLiu&quot;,</span><br><span class="line">        roles: [ &#123; role: &quot;root&quot;, db: &quot;admin&quot; &#125; ]</span><br><span class="line">   &#125;</span><br><span class="line">  ) </span><br><span class="line"></span><br><span class="line">#查看用户</span><br><span class="line">show users</span><br><span class="line">db.system.users.find()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: &quot;admin&quot;,</span><br><span class="line">     pwd: &quot;mongodb:passok&quot;,</span><br><span class="line">     roles: [ &#123; role: &quot;userAdminAnyDatabase&quot;, db: &quot;admin&quot; &#125; ]</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="添加普通用户"><a href="#添加普通用户" class="headerlink" title="添加普通用户"></a>添加普通用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: &quot;test&quot;,</span><br><span class="line">     pwd: &quot;123456&quot;,</span><br><span class="line">     roles: [ &#123; role: &quot;readWrite&quot;, db: &quot;test&quot; &#125;],</span><br><span class="line">   &#125;</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/mongod.conf</span><br><span class="line"></span><br><span class="line">security:</span><br><span class="line">  authorization: enabled</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">重启</span></span><br><span class="line">systemctl restart mongod.service</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">登陆</span></span><br><span class="line">mongo -u "admin" -p "密码" --authenticationDatabase "admin"</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#数据库中登陆</span><br><span class="line">use admin</span><br><span class="line">db.auth(&quot;admin&quot;, &quot;密码&quot;)</span><br></pre></td></tr></table></figure>
+<p>修改用户密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.changeUserPassword(&apos;root&apos;,&apos;密码&apos;)</span><br></pre></td></tr></table></figure>
+<p>操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; show dbs  #显示数据库列表 </span><br><span class="line">&gt; show collections  #显示当前数据库中的集合（类似关系数据库中的表）</span><br><span class="line">&gt; show users  #显示用户</span><br><span class="line">&gt; use &lt;db name&gt;  #切换当前数据库，如果数据库不存在则创建数据库。 </span><br><span class="line">&gt; db.help()  #显示数据库操作命令，里面有很多的命令 </span><br><span class="line">&gt; db.foo.help()  #显示集合操作命令，同样有很多的命令，foo指的是当前数据库下，一个叫foo的集合，并非真正意义上的命令 </span><br><span class="line">&gt; db.foo.find()  #对于当前数据库中的foo集合进行数据查找（由于没有条件，会列出所有数据） </span><br><span class="line">&gt; db.foo.find( &#123; a : 1 &#125; )  #对于当前数据库中的foo集合进行查找，条件是数据中有一个属性叫a，且a的值为1</span><br><span class="line">&gt; db.dropDatabase()  #删除当前使用数据库</span><br><span class="line">&gt; db.cloneDatabase(&quot;127.0.0.1&quot;)   #将指定机器上的数据库的数据克隆到当前数据库</span><br><span class="line">&gt; db.copyDatabase(&quot;mydb&quot;, &quot;temp&quot;, &quot;127.0.0.1&quot;)  #将本机的mydb的数据复制到temp数据库中</span><br><span class="line">&gt; db.repairDatabase()  #修复当前数据库</span><br><span class="line">&gt; db.getName()  #查看当前使用的数据库，也可以直接用db</span><br><span class="line">&gt; db.stats()  #显示当前db状态</span><br><span class="line">&gt; db.version()  #当前db版本</span><br><span class="line">&gt; db.getMongo()  ＃查看当前db的链接机器地址</span><br><span class="line">&gt; db.serverStatus()  #查看数据库服务器的状态</span><br></pre></td></tr></table></figure>
+<h3 id="那么如何正常关闭mongodb？"><a href="#那么如何正常关闭mongodb？" class="headerlink" title="那么如何正常关闭mongodb？"></a>那么如何正常关闭mongodb？</h3><p>可以去看官方文档：<br><a href="http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/" target="_blank" rel="noopener">http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/</a></p>
+<p>先通过shell连上服务器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mongo</span><br><span class="line"></span><br><span class="line">use admin</span><br><span class="line"></span><br><span class="line">db.shutdownServer()</span><br></pre></td></tr></table></figure>
+<p>错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WARNING: /sys/kernel/mm/transparent_hugepage/enabled is &apos;always&apos;.</span><br><span class="line"></span><br><span class="line">We suggest setting it to &apos;never&apos;</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/" target="_blank" rel="noopener">Install MongoDB Community Edition on Red Hat Enterprise or CentOS Linux[¶]</a></p>
+<p><a href="https://docs.mongodb.com/manual/reference/configuration-options/" target="_blank" rel="noopener">MongoDB Configuration File Options</a></p>
+<p><a href="http://www.mongoing.com/archives/631" target="_blank" rel="noopener">安全部署MongoDB最佳实践</a></p>
+<p><a href="http://blog.51cto.com/hld1992/2074619" target="_blank" rel="noopener">Mongodb之权限认证管理</a></p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/enable-authentication/" target="_blank" rel="noopener">Enable Auth</a></p>
+<p><a href="https://www.jianshu.com/p/a4e94bb8a052" target="_blank" rel="noopener">如何对MongoDB 3.2.7进行用户权限管理配置</a></p>
+<p>[<a href="http://www.itttl.com/blog/mongodb_user_roles.html" target="_blank" rel="noopener">MongoDB 用户的创建、删除、密码修改，角色分配</a>]</p>
+<p><a href="http://blog.51yip.com/nosql/1576.html" target="_blank" rel="noopener">mongodb 修改用户密码 2种方法</a></p>
+<p><a href="https://blog.csdn.net/sinat_30397435/article/details/50774175" target="_blank" rel="noopener">mongodb启动不了：child process failed, exited with error number 100</a></p>
 
       
       
@@ -892,8 +1277,8 @@
     <article id="post-CentOS7安装配置zsh" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/CentOS7安装配置zsh/" class="article-date">
-      <time datetime="2018-05-05T16:06:54.032Z" itemprop="datePublished">2018-05-05</time>
+      <a href="/2018/05/06/CentOS7安装配置zsh/" class="article-date">
+      <time datetime="2018-05-06T04:51:47.318Z" itemprop="datePublished">2018-05-06</time>
 </a>
     </div>
   
