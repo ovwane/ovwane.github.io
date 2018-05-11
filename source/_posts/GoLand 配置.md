@@ -29,3 +29,7 @@ Default
 Font: Menlo
 
 Size: 20
+
+
+
+[Gogland更名为GoLand，并附加新功能](http://stozen.net/163.html)
