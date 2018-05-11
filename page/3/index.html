@@ -9,6 +9,7 @@
 <meta property="og:title" content="幻舞梦境">
 <meta property="og:url" content="http://ovwane.me/page/3/index.html">
 <meta property="og:site_name" content="幻舞梦境">
+<meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="幻舞梦境">
   
@@ -205,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-tencent_vps" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-文档排版" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/06/tencent_vps/" class="article-date">
-      <time datetime="2018-05-06T04:51:47.346Z" itemprop="datePublished">2018-05-06</time>
+      <a href="/2018/05/11/文档排版/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.570Z" itemprop="datePublished">2018-05-11</time>
 </a>
     </div>
   
@@ -221,48 +222,118 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname quanjinlong.cn</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd jinlong</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">visudo</span><br><span class="line">jinlong ALL=(ALL)       ALL</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f tencent_vps_rsa</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.ssh</span><br><span class="line">vim ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br><span class="line">chmod 700 ~/.ssh</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/handongyu/p/6386789.html" target="_blank" rel="noopener">设置 SSH，打开密钥登录功能</a><br>编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Port 22</span><br><span class="line">Protocol 2</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">#禁止root用户通过SSH登录</span><br><span class="line">PermitRootLogin no</span><br><span class="line">#禁用密码登录</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">ChallengeResponseAuthentication no</span><br><span class="line">UsePAM yes</span><br><span class="line">UseDNS no</span><br><span class="line">X11Forwarding no</span><br></pre></td></tr></table></figure>
-<p>最后，重启 SSH 服务：<br>systemctl restart sshd.service</p>
-<p>#优化</p>
-<ol>
-<li>关闭SELinux</li>
-<li>关闭firewalld</li>
-<li>最大进程数和最大文件打开数<br> 修改/etc/security/limits.conf文件</li>
-<li><p>删除默认用户<br>centos</p>
-</li>
-<li><p>更换yum源<br><a href="https://www.centos.org/download/mirrors/" target="_blank" rel="noopener">CentOS mirrors List</a></p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"></span><br><span class="line">删除缓存</span><br><span class="line">yum clean all</span><br><span class="line">rm -rf /var/cache/yum</span><br><span class="line"></span><br><span class="line">生成缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.jianshu.com/p/4df7692bdc2b" target="_blank" rel="noopener">yum upgrade</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y upgrade</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel  </span><br><span class="line"></span><br><span class="line">yum -y autoremove kernel-3.10.0-693.el7</span><br><span class="line">yum -y autoremove kernel-devel-3.10.0-693.el7</span><br></pre></td></tr></table></figure>
-<ol>
-<li>时间<br><a href="https://blog.csdn.net/maxsky/article/details/53866475" target="_blank" rel="noopener">ntp</a></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ntpd.service</span><br><span class="line"></span><br><span class="line">yum list installed|grep ntp</span><br><span class="line">ntp.x86_64                              4.2.6p5-25.el7.centos.2        @anaconda</span><br><span class="line">ntpdate.x86_64 </span><br><span class="line"></span><br><span class="line">time5.aliyun.com</span><br><span class="line">cn.pool.ntp.org</span><br></pre></td></tr></table></figure>
-<p><a href="https://chrony.tuxfamily.org/documentation.html" target="_blank" rel="noopener">chrony</a></p>
-<p><a href="https://www.cnblogs.com/clsn/archive/2017/11/16/7844857.html" target="_blank" rel="noopener">chrony软件使用说明</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum -y install chrony</span><br><span class="line"></span><br><span class="line">systemctl start chronyd.service</span><br><span class="line">systemctl enable chronyd.service</span><br><span class="line">systemctl status chronyd.service</span><br><span class="line"></span><br><span class="line">查看同步状态</span><br><span class="line">chronyc sourcestats</span><br></pre></td></tr></table></figure>
-<p><a href="http://www.mamicode.com/info-detail-1553924.html" target="_blank" rel="noopener">删除软件包并删除孤立的依赖包</a><br><a href="https://segmentfault.com/q/1010000000626683" target="_blank" rel="noopener">https://segmentfault.com/q/1010000000626683</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">需要在 /etc/yum.conf 里面添加一个配置：</span><br><span class="line">clean_requirements_on_remove=1</span><br><span class="line"></span><br><span class="line">yum autoremove</span><br></pre></td></tr></table></figure>
-<p>删除ntp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum list installed |grep ntp</span><br><span class="line"></span><br><span class="line">yum -y autoremove ntp</span><br><span class="line"></span><br><span class="line">rm -rf /etc/ntp.conf.rpmsave</span><br><span class="line"></span><br><span class="line">yum autoremove ntpdate</span><br></pre></td></tr></table></figure></p>
-<p>删除postfix</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove postfix</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch /var/lock/subsys/local</span><br><span class="line">/usr/local/qcloud/rps/set_rps.sh &gt;/tmp/setRps.log 2&gt;&amp;1</span><br><span class="line">/usr/local/qcloud/irq/net_smp_affinity.sh &gt;/tmp/net_affinity.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-<p>删除 firewalld</p>
-<p>删除 wpa_supplicant<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove wpa_supplicant</span><br></pre></td></tr></table></figure></p>
-<p>删除用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd</span><br><span class="line">/etc/shadow</span><br><span class="line">/etc/group</span><br><span class="line">/etc/gshadow</span><br><span class="line"></span><br><span class="line">postfix</span><br><span class="line">ntp</span><br><span class="line">games</span><br><span class="line">ftp</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/duzhaoqi/p/7582404.html" target="_blank" rel="noopener">centOS7服务管理与启动流程</a></p>
-<p>下载必要软件包<br>再安装操作系统的时候使用的最小化安装，有很多包没有安装，使用时发现好多命令没有如{vim、wget、tree…等}，下面就安装命令，可以根据需求自行调整。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget net-tools screen lsof tcpdump nc mtr openssl-devel vim bash-completion lrzsz nmap telnet tree ntpdate</span><br></pre></td></tr></table></figure>
+        <p>连排版都不好，谁看你内容啊！</p>
+<p>目录结构清晰</p>
+<p>标题一般3级就没有了。4级标题很少见。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-学习-记忆-规律-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/11/学习-记忆-规律-笔记/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.570Z" itemprop="datePublished">2018-05-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://www.jianshu.com/p/4f5d1aaf9e89" target="_blank" rel="noopener">艾宾浩斯计划表这样做</a></p>
+<p><a href="http://exam4.us/" target="_blank" rel="noopener">17天搞定GRE单词背诵计划时间表生成器</a></p>
+<p>如何记住词汇<br><a href="https://www.youtube.com/watch?v=JuoqE2lpRUM" target="_blank" rel="noopener">How to Remember Vocabulary</a></p>
+<p><a href="https://www.youtube.com/channel/UCxJGMJbjokfnr2-s4_RXPxQ" target="_blank" rel="noopener">Speak English With Vanessa</a></p>
+<p><a href="https://www.youtube.com/watch?v=n7gnhTAJwCI" target="_blank" rel="noopener">Come up with ideas!</a></p>
+<p>学好英语<br>2017.12.21 16:16</p>
+<blockquote>
+<p>子曰：”无欲速，无见小利。欲速，则不达；见小利，则大事不成。“</p>
+</blockquote>
+<p>自信的技巧<br><a href="https://www.youtube.com/watch?v=w-HYZv6HzAs" target="_blank" rel="noopener">The skill of self confidence</a></p>
+<p><a href="https://www.youtube.com/watch?v=MY5SatbZMAo" target="_blank" rel="noopener">What makes you special? | Mariana Atencio | TEDxUniversityofNevada</a></p>
+<p><a href="https://www.youtube.com/watch?v=eIho2S0ZahI" target="_blank" rel="noopener">How to speak so that people want to listen | Julian Treasure</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-如何使用restgo-admin" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/11/如何使用restgo-admin/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.570Z" itemprop="datePublished">2018-05-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>date: 2018-05-08 11:34</p>
+<h1 id="如何使用restgo-admin"><a href="#如何使用restgo-admin" class="headerlink" title="如何使用restgo-admin"></a>如何使用<a href="https://github.com/winlion/restgo-admin/" target="_blank" rel="noopener">restgo-admin</a></h1><h2 id="使用如下指令克隆"><a href="#使用如下指令克隆" class="headerlink" title="使用如下指令克隆"></a>使用如下指令克隆</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH/src</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/winlion/restgo-admin.git</span><br></pre></td></tr></table></figure>
+<p>你将得到restgo-admin 目录 进入目录 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd restgo-admin</span><br></pre></td></tr></table></figure>
+<h2 id="建立数据库"><a href="#建立数据库" class="headerlink" title="建立数据库"></a>建立数据库</h2><p>新建数据库名称为restgo-admin,编码为utf-8<br>将restgo-admin.sql导入到数据库中</p>
+<h2 id="初始化依赖包"><a href="#初始化依赖包" class="headerlink" title="初始化依赖包"></a>初始化依赖包</h2><p>使用前先使用如下指令安装指令安装文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/go-sql-driver/mysql</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get -v -u github.com/alecthomas/log4go</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/gin-gonic/gin</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/go-xorm/xorm</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/tommy351/gin-sessions</span></span><br></pre></td></tr></table></figure>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>使用前先使用如下指令启动应用<br><code>go run main.go</code><br>使用前先使用如下指令打包应用<br><code>build.bat</code></p>
+<p># </p>
+
       
       
     </div>
@@ -292,8 +363,8 @@
     <article id="post-关注的Github项目" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/06/关注的Github项目/" class="article-date">
-      <time datetime="2018-05-06T04:51:47.346Z" itemprop="datePublished">2018-05-06</time>
+      <a href="/2018/05/11/关注的Github项目/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.570Z" itemprop="datePublished">2018-05-11</time>
 </a>
     </div>
   
@@ -349,11 +420,60 @@
 
 
   
+    <article id="post-关于编程学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/11/关于编程学习/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.570Z" itemprop="datePublished">2018-05-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>关于编程学习</p>
+<p><a href="https://kb.cnblogs.com/page/563790/" target="_blank" rel="noopener">关于编程，你的练习是不是有效的？</a></p>
+<p>前端</p>
+<p><a href="http://caibaojian.com/" target="_blank" rel="noopener">前端开发博客</a></p>
+<p>github</p>
+<p><a href="http://blog.csdn.net/qq1332479771/article/details/56087333" target="_blank" rel="noopener"> github上fork了别人的项目后，再同步更新别人的提交</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-关于她-绝笔" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/06/关于她-绝笔/" class="article-date">
-      <time datetime="2018-05-06T04:51:47.346Z" itemprop="datePublished">2018-05-06</time>
+      <a href="/2018/05/11/关于她-绝笔/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.570Z" itemprop="datePublished">2018-05-11</time>
 </a>
     </div>
   
@@ -404,11 +524,11 @@
 
 
   
-    <article id="post-使用Travis CI自动部署Hexo博客发布到Github和Coding.net" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-工作职场相关书签" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/06/使用Travis CI自动部署Hexo博客发布到Github和Coding.net/" class="article-date">
-      <time datetime="2018-05-06T04:51:47.346Z" itemprop="datePublished">2018-05-06</time>
+      <a href="/2018/05/11/工作职场相关书签/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.570Z" itemprop="datePublished">2018-05-11</time>
 </a>
     </div>
   
@@ -420,23 +540,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nvm install 8.9.1</span><br><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line">hexo version</span><br></pre></td></tr></table></figure>
-<h3 id="生产sshkey"><a href="#生产sshkey" class="headerlink" title="生产sshkey"></a>生产sshkey</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f ~/.ssh/hexo_rsa</span><br><span class="line"></span><br><span class="line">#github和coding.net都是设置的只有这个项目可以使用这个公钥</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br><span class="line"># github.com</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line"></span><br><span class="line"># git.coding.net</span><br><span class="line">Host git.coding.net</span><br><span class="line">HostName git.coding.net</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_rsa</span><br></pre></td></tr></table></figure>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br><span class="line">ssh -T git@git.coding.net</span><br></pre></td></tr></table></figure>
-<h3 id="初始化blog分支"><a href="#初始化blog分支" class="headerlink" title="初始化blog分支"></a>初始化blog分支</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects</span><br><span class="line"></span><br><span class="line">hexo init blog.ovwane.me</span><br><span class="line">cd blog.ovwane.me</span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line">初始化git</span><br><span class="line">git clone -b hexo git@github.com:ovwane/ovwane.github.io.git blog.ovwane.me</span><br><span class="line">git init</span><br><span class="line">git checkout -b hexo</span><br><span class="line">git submodule add https://github.com/ovwane/hexo-theme-spfk.git themes/spfk</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;初始化hexo分支&quot;</span><br><span class="line">git remote add origin git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<h3 id="更改主题为spfk"><a href="#更改主题为spfk" class="headerlink" title="更改主题为spfk"></a>更改主题为spfk</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">rm -rf themes/landscape</span><br><span class="line">#sed -i &apos;s/theme: landscape/theme: spfk/g&apos; _config.yml</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;删除默认主题landscape，然后修改主题为spfk&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<h3 id="修改-config-yml-和-主题的-config-yml替换主题的图片"><a href="#修改-config-yml-和-主题的-config-yml替换主题的图片" class="headerlink" title="修改_config.yml 和 主题的 _config.yml替换主题的图片"></a>修改_config.yml 和 主题的 _config.yml替换主题的图片</h3><h3 id="配置travis"><a href="#配置travis" class="headerlink" title="配置travis"></a>配置travis</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">mkdir .travis</span><br><span class="line">touch .travis.yml</span><br><span class="line">brew install travis</span><br><span class="line">travis login --auto</span><br><span class="line">travis encrypt-file ~/.ssh/hexo_rsa --add </span><br><span class="line">mv hexo_rsa.enc .travis/</span><br></pre></td></tr></table></figure>
-<h3 id="travis-ssh-config"><a href="#travis-ssh-config" class="headerlink" title=".travis/ssh_config"></a>.travis/ssh_config</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">vim .travis/ssh_config</span><br><span class="line"># github.com</span><br><span class="line">Host github.com</span><br><span class="line">	HostName github.com</span><br><span class="line">	User git</span><br><span class="line">	StrictHostKeyChecking no</span><br><span class="line">	IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line">	IdentitiesOnly yes</span><br><span class="line">	</span><br><span class="line"># git.coding.net</span><br><span class="line">Host git.coding.net</span><br><span class="line">	HostName git.coding.net</span><br><span class="line">	User git</span><br><span class="line">	StrictHostKeyChecking no</span><br><span class="line">	IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line">	IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加travis ci相关文件&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim _config.yml</span><br><span class="line">title: 幻舞梦境</span><br><span class="line">author: 幻舞梦境</span><br><span class="line">url: http://ovwane.me</span><br><span class="line">skip_render:</span><br><span class="line">  - README.md</span><br><span class="line"> </span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">      github: git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line">      coding: git@git.coding.net:ovwane/ovwane.coding.me.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;修改_config.yml添加deploy信息&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<h3 id="travis-yml"><a href="#travis-yml" class="headerlink" title=".travis.yml"></a>.travis.yml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">language: node_js</span><br><span class="line">sudo: false</span><br><span class="line">node_js:</span><br><span class="line">- 8.9.1</span><br><span class="line">branches:</span><br><span class="line">  only:</span><br><span class="line">  - hexo</span><br><span class="line">cache:</span><br><span class="line">  apt: true</span><br><span class="line">  yarn: true</span><br><span class="line">  directories:</span><br><span class="line">  - node_modules</span><br><span class="line">before_install:</span><br><span class="line">- openssl aes-256-cbc -K $encrypted_b6a9c7fbd133_key -iv $encrypted_b6a9c7fbd133_iv -in .travis/hexo_rsa.enc -out ~/.ssh/hexo_rsa -d</span><br><span class="line">- chmod 600 ~/.ssh/hexo_rsa</span><br><span class="line">- eval $(ssh-agent)</span><br><span class="line">- ssh-add ~/.ssh/hexo_rsa</span><br><span class="line">- cp .travis/ssh_config ~/.ssh/config</span><br><span class="line">- git config --global user.name &quot;Jinlong Quan&quot;</span><br><span class="line">- git config --global user.email &quot;ovwane@gmail.com&quot;</span><br><span class="line">install:</span><br><span class="line">- npm install hexo-cli -g</span><br><span class="line">- npm install hexo-deployer-git --save</span><br><span class="line">- npm install</span><br><span class="line">- git clone https://github.com/ovwane/ovwane.github.io .deploy_git</span><br><span class="line">- cd .deploy_git &amp;&amp; git checkout master</span><br><span class="line">- cd ..</span><br><span class="line">script:</span><br><span class="line">- hexo clean</span><br><span class="line">- hexo generate</span><br><span class="line">- hexo deploy</span><br><span class="line">after_success:</span><br><span class="line">- echo &quot;OK!网站部署成功啦！&quot;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加.travis.yml打包命令&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- git clone https://github.com/ovwane/ovwane.github.io .deploy_git</span><br><span class="line">- cd .deploy_git &amp;&amp; git checkout master</span><br><span class="line">- cd ..</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加.travis.yml打包命令，并添加拉取master分支，防止每次更新全部文件。&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/" target="_blank" rel="noopener">使用 Travis CI 自動發布 Hexo 內容到 Github</a><br><a href="http://magicse7en.github.io/2016/03/27/travis-ci-auto-deploy-hexo-github/" target="_blank" rel="noopener">使用Travis CI自动构建hexo博客</a><br><a href="https://imzlp.me/posts/42318/" target="_blank" rel="noopener">使用Travis CI自动部署Github/Coding Pages博客
-</a><br><a href="https://changkun.us/archives/2017/06/232/" target="_blank" rel="noopener">#232 Hexo + GitHub + Travis CI + VPS 自动部署</a><br><a href="https://ssarcandy.tw/2016/07/29/hexo-auto-deploy/" target="_blank" rel="noopener">用 Travis CI 自動部屬 hexo 到 GitHub</a><br><a href="http://blog.acwong.org/2016/03/20/auto-deploy-hexo-with-travis-CI/" target="_blank" rel="noopener">用 Travis CI 自动部署 hexo</a><br><a href="https://blog.nfz.moe/archives/hexo-auto-deploy-with-travis-ci.html" target="_blank" rel="noopener">使用 Travis CI 持续构建 Hexo</a></p>
+        <p>招聘网站<br><a href="https://www.lagou.com/" target="_blank" rel="noopener">拉勾网</a><br><a href="https://www.liepin.com/" target="_blank" rel="noopener">猎聘网</a><br><a href="http://www.51job.com/" target="_blank" rel="noopener">前程无忧</a><br><a href="http://maimai.cn/" target="_blank" rel="noopener">脉脉</a><br><a href="https://www.zhaopin.com/" target="_blank" rel="noopener">智联招聘</a><br><a href="">看准网</a><br><a href="">中华英才</a></p>
 
       
       
@@ -467,8 +571,8 @@
     <article id="post-代码质量" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/06/代码质量/" class="article-date">
-      <time datetime="2018-05-06T04:51:47.346Z" itemprop="datePublished">2018-05-06</time>
+      <a href="/2018/05/11/代码质量/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.570Z" itemprop="datePublished">2018-05-11</time>
 </a>
     </div>
   
@@ -513,11 +617,11 @@
 
 
   
-    <article id="post-学习-记忆-规律-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/06/学习-记忆-规律-笔记/" class="article-date">
-      <time datetime="2018-05-06T04:51:47.346Z" itemprop="datePublished">2018-05-06</time>
+      <a href="/2018/05/11/macOS 10.13 安装软件/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.566Z" itemprop="datePublished">2018-05-11</time>
 </a>
     </div>
   
@@ -529,18 +633,26 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://www.jianshu.com/p/4f5d1aaf9e89" target="_blank" rel="noopener">艾宾浩斯计划表这样做</a></p>
-<p><a href="http://exam4.us/" target="_blank" rel="noopener">17天搞定GRE单词背诵计划时间表生成器</a></p>
-<p>如何记住词汇<br><a href="https://www.youtube.com/watch?v=JuoqE2lpRUM" target="_blank" rel="noopener">How to Remember Vocabulary</a></p>
-<p><a href="https://www.youtube.com/channel/UCxJGMJbjokfnr2-s4_RXPxQ" target="_blank" rel="noopener">Speak English With Vanessa</a></p>
-<p><a href="https://www.youtube.com/watch?v=n7gnhTAJwCI" target="_blank" rel="noopener">Come up with ideas!</a></p>
-<p>学好英语<br>2017.12.21 16:16</p>
-<blockquote>
-<p>子曰：”无欲速，无见小利。欲速，则不达；见小利，则大事不成。“</p>
-</blockquote>
-<p>自信的技巧<br><a href="https://www.youtube.com/watch?v=w-HYZv6HzAs" target="_blank" rel="noopener">The skill of self confidence</a></p>
-<p><a href="https://www.youtube.com/watch?v=MY5SatbZMAo" target="_blank" rel="noopener">What makes you special? | Mariana Atencio | TEDxUniversityofNevada</a></p>
-<p><a href="https://www.youtube.com/watch?v=eIho2S0ZahI" target="_blank" rel="noopener">How to speak so that people want to listen | Julian Treasure</a></p>
+        <p>date: 2018-05-05 06:51</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1.安装<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases" target="_blank" rel="noopener"><strong>ShadowsocksX-NG</strong></a></p>
+<p>2.安装<a href="https://brew.sh" target="_blank" rel="noopener">Homebrew</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span><br></pre></td></tr></table></figure>
+<p>3.安装<a href="http://caskroom.io" target="_blank" rel="noopener">Homebrew Cask</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/cask</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/versions</span></span><br></pre></td></tr></table></figure>
+<p>4.安装<a href="https://github.com/mas-cli/mas" target="_blank" rel="noopener">mas</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install mas</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><h3 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install vim wget git</span></span><br></pre></td></tr></table></figure>
+<h3 id="Homebrew-Cask"><a href="#Homebrew-Cask" class="headerlink" title="Homebrew Cask"></a>Homebrew Cask</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install typora google-chrome firefox sublime-text keepassxc qq youdaodict youdaonote iina istat-menus baidunetdisk</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install firefox-developer-edition iterm2 zoc wireshark charles pycharm goland</span></span><br></pre></td></tr></table></figure>
+<h3 id="mas"><a href="#mas" class="headerlink" title="mas"></a>mas</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mas install 409201541 409203825 409183694 410628904 836500024</span></span><br></pre></td></tr></table></figure>
+<p>409201541 Pages</p>
+<p>409203825 Numbers</p>
+<p>409183694 Keynote</p>
+<p>410628904 Wunderlist </p>
+<p>836500024 WeChat </p>
+<h2 id="手动安装软件"><a href="#手动安装软件" class="headerlink" title="手动安装软件"></a>手动安装软件</h2><p><a href="https://www.jianguoyun.com/s/downloads" target="_blank" rel="noopener">坚果云</a>|<a href="https://creative.adobe.com/products/download/creative-cloud" target="_blank" rel="noopener">Adobe Creative Cloud</a></p>
+<h4 id="激活软件"><a href="#激活软件" class="headerlink" title="激活软件"></a>激活软件</h4><p><a href="https://www.52pojie.cn/thread-725112-1-1.html" target="_blank" rel="noopener">Charles 4.2.5 Mac and Win通用破解文件</a></p>
+<p>/Applications/Charles.app/Contents/Java/charles.jar</p>
 
       
       
@@ -568,11 +680,11 @@
 
 
   
-    <article id="post-书签" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-京峰教育Linux运维-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/06/书签/" class="article-date">
-      <time datetime="2018-05-06T04:51:47.346Z" itemprop="datePublished">2018-05-06</time>
+      <a href="/2018/05/11/京峰教育Linux运维-笔记/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.566Z" itemprop="datePublished">2018-05-11</time>
 </a>
     </div>
   
@@ -584,150 +696,61 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>书签</p>
-<p><a href="运维相关的书签.md">运维</a></p>
-<p><a href="Python相关的书签.md">Python</a></p>
-<p><a href="Thinking-书签.md">Thinking</a></p>
-<p><a href="ai_ml.md">人工</a></p>
-<p><a href="工作职场相关书签.md">工作</a></p>
+        <h1 id="你每天在公司做什么工作"><a href="#你每天在公司做什么工作" class="headerlink" title="你每天在公司做什么工作?"></a>你每天在公司做什么工作?</h1><p>自动化工具，脚本</p>
+<p>7*24服务监控</p>
+<p>处理故障</p>
+<p>写运维文档</p>
+<p>运维流程</p>
+<p>话术，<br>编写自动化脚本。哪些自动化脚本。</p>
+<p>说话不要有气无力。</p>
+<p>熟悉，网站自动化。目前在学习Python自动化。</p>
+<p>squid原理是什么？</p>
+<p>LVS工作原理是什么？有哪些算法？<br>dr </p>
+<p>Nginx日常的优化参数都有哪些？<br>Nginx动静分离是什么？</p>
+<p>Linux内核优化，你都优化过哪些参数</p>
+<p>你在维护网站的过程中，曾经遇到过什么重大故障<br>bad gateway 502，<br>upstream 后端超时<br>out of memory apache内存溢出<br>超时504<br>DDOS<br>SYN攻击</p>
+<p>你对哪一块比较熟悉？<br>项目经验说成工作经验。</p>
+<p>自己说的实验经验 是 项目经验</p>
+<p>排错，INnoDB写多，myisam查询性能高</p>
+<p>apache 2000，nginx10000多。</p>
+<p>网站出口20m，阿里云，AWS没有限制</p>
+<p>10台 10m</p>
+<p>50台 30m</p>
+<p>uv 3万作业<br>pv 20万</p>
+<p>Nginx日志查询</p>
+<p>w3c标准</p>
+<p>Linux运维工程师的职责是什么？<br>创新，学习新技能</p>
+<p>你为什么离职？<br>业务量不是很大，找一个有挑战的工作。<br>没问题。</p>
+<p>外包公司没有成长。<br>拖欠工资。</p>
+<p>职业规划，发展平台。</p>
+<p>你未来5-10年的职业规划。运维开发方向发展。</p>
+<p>你有还是什么缺点，自动化运维方面比较欠缺。k8s</p>
+<p>带过怎么项目。</p>
+<p>多面试多总结。面试十几家，总结面试经验。</p>
+<p>HR会问你现在多少钱？</p>
+<p>8k要10k</p>
+<p>13k<br>10k<br>只要发offer 90%成功了。</p>
+<p>20%左右</p>
+<p>心态<br>双向的，没有谁欠谁的？</p>
+<p>就算做几个月不行还可以离开。</p>
+<p>自我介绍，怎么自我介绍？话术<br>我叫，我毕业于。精简，浓缩精华，我介绍完毕，谢谢！</p>
+<p>机会太多了。面试心态特别好。面试不上又能怎样？是不是。</p>
+<p>最后总结一点，为什么失败。做什么事情自信最重要。</p>
+<p>当你相信你行的时候你就行！<br>每天都是新的一天，沉迷于过去有什么用处吗？没有的。</p>
+<p>活法！</p>
+<p>不要认为自己没有用-夏日娃娃</p>
+<p>如果你自己都不愿意动，谁还能帮你成功！</p>
+<p>不要让自卑左右你成功。</p>
+<h1 id="MySQL主从原理？"><a href="#MySQL主从原理？" class="headerlink" title="MySQL主从原理？"></a>MySQL主从原理？</h1><p>异步复制，binlog，同步是通过bin-log</p>
+<p>relay-log</p>
+<p>没有实践过，难道没有听过吗？</p>
+<h1 id="面试？怎么去面试？"><a href="#面试？怎么去面试？" class="headerlink" title="面试？怎么去面试？"></a>面试？怎么去面试？</h1><p>自信成就人生。<br>技术，心态，技巧。</p>
+<p>zhaopin.com<br>高级运维工程师</p>
+<p>薪资是衡量技术能力的。</p>
+<p>干了10年还是1万多的工资。</p>
+<p>信心和信念。<br>工资低，说明技术不行。</p>
+<p>现在停留在什么阶段，想要做到什么地步。</p>
 
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-个人履历" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/06/个人履历/" class="article-date">
-      <time datetime="2018-05-06T04:51:47.346Z" itemprop="datePublished">2018-05-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>个人履历</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-关于编程学习" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/06/关于编程学习/" class="article-date">
-      <time datetime="2018-05-06T04:51:47.346Z" itemprop="datePublished">2018-05-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>关于编程学习</p>
-<p><a href="https://kb.cnblogs.com/page/563790/" target="_blank" rel="noopener">关于编程，你的练习是不是有效的？</a></p>
-<p>前端</p>
-<p><a href="http://caibaojian.com/" target="_blank" rel="noopener">前端开发博客</a></p>
-<p>github</p>
-<p><a href="http://blog.csdn.net/qq1332479771/article/details/56087333" target="_blank" rel="noopener"> github上fork了别人的项目后，再同步更新别人的提交</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-sed命令总结" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/06/sed命令总结/" class="article-date">
-      <time datetime="2018-05-06T04:51:47.346Z" itemprop="datePublished">2018-05-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>批量替换文件名<br>&amp; 正则匹配的内容，<br>\1 正则括号内匹配的内容</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls *.mp4|sed <span class="string">'s/\(^[0-9][0-9]\).*\(day1.*\)/mv "&amp;" "\1.\2"/g'</span>|bash</span><br></pre></td></tr></table></figure>
       
       
     </div>
@@ -756,7 +779,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </div>

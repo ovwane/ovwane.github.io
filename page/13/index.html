@@ -9,6 +9,7 @@
 <meta property="og:title" content="幻舞梦境">
 <meta property="og:url" content="http://ovwane.me/page/13/index.html">
 <meta property="og:site_name" content="幻舞梦境">
+<meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="幻舞梦境">
   
@@ -205,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-学习" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS7安装配置zsh" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/01/01/学习/" class="article-date">
-      <time datetime="2018-01-01T01:10:00.000Z" itemprop="datePublished">2018-01-01</time>
+      <a href="/2018/05/11/CentOS7安装配置zsh/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.550Z" itemprop="datePublished">2018-05-11</time>
 </a>
     </div>
   
@@ -218,34 +219,26 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/01/学习/">学习</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>你学习Linux运维和Python的目的是什么？<br>赚钱，养活自己。</p>
-<p>记录笔记的目的是什么？<br>在自己忘记学习过的知识点后，快速找回记忆。</p>
-<p>总结是归纳知识。</p>
-<p>你之前写的东西，东一点西一点到处乱放。想用的时候又找不到。不就等于没写。</p>
-<p>现在（2018-01-01）的技术关注点</p>
-<ul>
-<li>English</li>
-<li>CentOS</li>
-<li>Python</li>
-</ul>
-<p>文档起名</p>
-<p>案例-命令取名：<br>方法1，按命令分类取名<br>    命令-查看文件及内容处理命令.docx<br>    命令-基础网络操作命令.docx<br>方法2，单命令取名<br>    命令-cd.docx<br>    命令-ls.docx</p>
-<p>案例-分类取名：<br>    项目-sudo 权限集中管理<br>    项目-LAMP 环境部署<br>    文档-用户管理<br>    文档-找回 root 密码</p>
-<p>就如一个技术点，不管是马哥的视频还是老男孩的视频。都总结到一个文件内。时间长了自然积累很多东西。而内容可以分为常用的命令总结或全部命令总结。</p>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install zsh</span><br></pre></td></tr></table></figure>
+<p>查看shell列表</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/shells</span><br></pre></td></tr></table></figure>
+<p>切换shell为zsh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</span><br></pre></td></tr></table></figure>
+<p>插件</p>
+<p>插件管理工具</p>
+<p>antigen、zgen、prezto、zplug</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone --recursive https://github.com/sorin-ionescu/prezto.git "$&#123;ZDOTDIR:-$HOME&#125;/.zprezto"</span><br><span class="line"></span><br><span class="line">setopt EXTENDED_GLOB</span><br><span class="line">for rcfile in "$&#123;ZDOTDIR:-$HOME&#125;"/.zprezto/runcoms/^README.md(.N); do</span><br><span class="line">  ln -s "$rcfile" "$&#123;ZDOTDIR:-$HOME&#125;/.$&#123;rcfile:t&#125;"</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h1 id="zsh-syntax-highlighting"><a href="#zsh-syntax-highlighting" class="headerlink" title="zsh-syntax-highlighting"></a><strong>zsh-syntax-highlighting</strong></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim .zshrc</span><br><span class="line"></span><br><span class="line">plugins=( [plugins...] zsh-syntax-highlighting)</span><br></pre></td></tr></table></figure>
+<h1 id="zsh-completions"><a href="#zsh-completions" class="headerlink" title="zsh-completions"></a><strong>zsh-completions</strong></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim .zshrc</span><br><span class="line"></span><br><span class="line">plugins=(… zsh-completions)</span><br><span class="line">autoload -U compinit &amp;&amp; compinit</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.zshrc</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="https://www.jianshu.com/p/d194d29e488c" target="_blank" rel="noopener">oh-my-zsh,让你的终端从未这么爽过</a></p>
 
       
       
@@ -273,11 +266,11 @@
 
 
   
-    <article id="post-Jenkins-持续集成企业实战系列" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS安装配置MongoDB" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/31/Jenkins-持续集成企业实战系列/" class="article-date">
-      <time datetime="2017-12-31T14:05:43.000Z" itemprop="datePublished">2017-12-31</time>
+      <a href="/2018/05/11/CentOS安装配置MongoDB/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.550Z" itemprop="datePublished">2018-05-11</time>
 </a>
     </div>
   
@@ -286,39 +279,45 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/31/Jenkins-持续集成企业实战系列/">Jenkins 持续集成企业实战系列</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>1、传统网站部署流程.wmv 16:17<br>2、主流网站部署流程及方法.wmv 12:05<br>3、Jenkins持续平台安装.wmv 16:42<br>4、Jenkins持续集成MAVEN讲解.wmv 16:09<br>5、Jenkins持续集成JOB工程设置.wmv 18:27<br>6、Jenkins持续集成网站构建实战.wmv 17:06<br>7、Jenkins持续集成自动化部署一.wmv<br>8、Jenkins持续集成自动化部署二.wmv<br>9、Jenkins持续集成插件设置篇.wmv<br>10、Jenkins持续集成邮件设置篇.wmv<br>11、Jenkins持续集成多实例配置.mp4<br>12、Jenkins持续集成Ansible批量部署.mp4</p>
-<p>显示日期 2016-10-09<br>51cto博客 吴光科</p>
-<p>我们学这个软件做什么用？为什么用它？</p>
-<p>持续集成 Continuous Integration</p>
-<p>Jenkins 安装部署</p>
-<p>Jenkins是用java开发的软件，需要jdk和tomcat环境。</p>
-<p>jenkins.war</p>
-<p>解压缩jenkins <code>jar -xvf jenkins.war</code></p>
-<p>tomcat<br>应用存放路径 webapps/ROOT/<br>修改配置 conf/server.xml<br>启动 bin/startup.sh<br>日志 logs/catalina.out</p>
-<p>查看8080端口哪个软件在用<br><code>netstat -tnpl|grep 8080</code></p>
-<p>Make工具<br>Ant工具<br>Maven工具，maven是对ant工具的进一步改进。maven是一个构建工具。maven plugin(maven插件）<br>makefile文件<br>Eclipse工具</p>
-<p>下载maven<br>apache-maven-3.3.9-bin.tar.gz<br>添加maven命令到环境变量</p>
-<p>Jenkins后台配置</p>
-<p>系统管理-&gt;系统全局设置-&gt;<br>Maven Configuration<br>JDK路径<br>Maven</p>
-<p>保存</p>
-<p>IP:121.42.183.93哪个服务商的？</p>
-<p>新建任务<br>构建一个maven项目<br>源码管理<br>pom.xml maven的描述文件类似于makefile</p>
-<p>Build 指定pom.xml文件</p>
-<p>跳过测试 <code>clean install -Dmaven.test.skip=true</code></p>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.mongodb.org/static/pgp/server-3.6.asc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/yum.repos.d/mongodb-org-3.6.repo&lt;&lt;EOF</span><br><span class="line">[mongodb-org-3.6]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.6/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=https://www.mongodb.org/static/pgp/server-3.6.asc</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mongodb-org-3.6.4 mongodb-org-server-3.6.4 mongodb-org-shell-3.6.4 mongodb-org-tools-3.6.4 mongodb-org-mongos-3.6.4</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/mongodb/db</span><br><span class="line">chown mongod:mongod /data/mongodb/db</span><br></pre></td></tr></table></figure>
+<p>/etc/mongod.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">systemLog:</span><br><span class="line">  destination: file</span><br><span class="line">  logAppend: true</span><br><span class="line">  path: /data/mongodb/mongod.log</span><br><span class="line"></span><br><span class="line">storage:</span><br><span class="line">  dbPath: /data/mongodb/db</span><br><span class="line">  journal:</span><br><span class="line">    enabled: true</span><br><span class="line"></span><br><span class="line">processManagement:</span><br><span class="line">  fork: true  # fork and run in background</span><br><span class="line">  pidFilePath: /data/mongodb/mongod.pid  # location of pidfile</span><br><span class="line">  timeZoneInfo: /usr/share/zoneinfo</span><br><span class="line">  </span><br><span class="line">net:</span><br><span class="line">  port: 27017</span><br><span class="line">  bindIp: 127.0.0.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mongod.service</span><br><span class="line">systemctl start mongod.service</span><br><span class="line">systemctl restart mongod.service</span><br><span class="line">systemctl status mongod.service</span><br><span class="line">systemctl stop mongod.service</span><br></pre></td></tr></table></figure>
+<h3 id="开启权限验证"><a href="#开启权限验证" class="headerlink" title="开启权限验证"></a>开启权限验证</h3><p>下Mongodb中角色的定义：<br>角色说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">read：允许用户读取指定数据库 </span><br><span class="line">readWrite：允许用户读写指定数据库 </span><br><span class="line">dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile </span><br><span class="line">userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户 </span><br><span class="line">clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限。 </span><br><span class="line">readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限 </span><br><span class="line">readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限 </span><br><span class="line">userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限 </span><br><span class="line">dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。 </span><br><span class="line">root：只在admin数据库中可用。超级账号，超级权限</span><br></pre></td></tr></table></figure>
+<p>添加管理员账号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(    &#123;</span><br><span class="line">        user: &quot;root&quot;,</span><br><span class="line">        pwd: &quot;UbM43zUgecBnb8v8MLiu&quot;,</span><br><span class="line">        roles: [ &#123; role: &quot;root&quot;, db: &quot;admin&quot; &#125; ]</span><br><span class="line">   &#125;</span><br><span class="line">  ) </span><br><span class="line"></span><br><span class="line">#查看用户</span><br><span class="line">show users</span><br><span class="line">db.system.users.find()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: &quot;admin&quot;,</span><br><span class="line">     pwd: &quot;mongodb:passok&quot;,</span><br><span class="line">     roles: [ &#123; role: &quot;userAdminAnyDatabase&quot;, db: &quot;admin&quot; &#125; ]</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="添加普通用户"><a href="#添加普通用户" class="headerlink" title="添加普通用户"></a>添加普通用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: &quot;test&quot;,</span><br><span class="line">     pwd: &quot;123456&quot;,</span><br><span class="line">     roles: [ &#123; role: &quot;readWrite&quot;, db: &quot;test&quot; &#125;],</span><br><span class="line">   &#125;</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/mongod.conf</span><br><span class="line"></span><br><span class="line">security:</span><br><span class="line">  authorization: enabled</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">重启</span></span><br><span class="line">systemctl restart mongod.service</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">登陆</span></span><br><span class="line">mongo -u "admin" -p "密码" --authenticationDatabase "admin"</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#数据库中登陆</span><br><span class="line">use admin</span><br><span class="line">db.auth(&quot;admin&quot;, &quot;密码&quot;)</span><br></pre></td></tr></table></figure>
+<p>修改用户密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.changeUserPassword(&apos;root&apos;,&apos;密码&apos;)</span><br></pre></td></tr></table></figure>
+<p>操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; show dbs  #显示数据库列表 </span><br><span class="line">&gt; show collections  #显示当前数据库中的集合（类似关系数据库中的表）</span><br><span class="line">&gt; show users  #显示用户</span><br><span class="line">&gt; use &lt;db name&gt;  #切换当前数据库，如果数据库不存在则创建数据库。 </span><br><span class="line">&gt; db.help()  #显示数据库操作命令，里面有很多的命令 </span><br><span class="line">&gt; db.foo.help()  #显示集合操作命令，同样有很多的命令，foo指的是当前数据库下，一个叫foo的集合，并非真正意义上的命令 </span><br><span class="line">&gt; db.foo.find()  #对于当前数据库中的foo集合进行数据查找（由于没有条件，会列出所有数据） </span><br><span class="line">&gt; db.foo.find( &#123; a : 1 &#125; )  #对于当前数据库中的foo集合进行查找，条件是数据中有一个属性叫a，且a的值为1</span><br><span class="line">&gt; db.dropDatabase()  #删除当前使用数据库</span><br><span class="line">&gt; db.cloneDatabase(&quot;127.0.0.1&quot;)   #将指定机器上的数据库的数据克隆到当前数据库</span><br><span class="line">&gt; db.copyDatabase(&quot;mydb&quot;, &quot;temp&quot;, &quot;127.0.0.1&quot;)  #将本机的mydb的数据复制到temp数据库中</span><br><span class="line">&gt; db.repairDatabase()  #修复当前数据库</span><br><span class="line">&gt; db.getName()  #查看当前使用的数据库，也可以直接用db</span><br><span class="line">&gt; db.stats()  #显示当前db状态</span><br><span class="line">&gt; db.version()  #当前db版本</span><br><span class="line">&gt; db.getMongo()  ＃查看当前db的链接机器地址</span><br><span class="line">&gt; db.serverStatus()  #查看数据库服务器的状态</span><br></pre></td></tr></table></figure>
+<h3 id="那么如何正常关闭mongodb？"><a href="#那么如何正常关闭mongodb？" class="headerlink" title="那么如何正常关闭mongodb？"></a>那么如何正常关闭mongodb？</h3><p>可以去看官方文档：<br><a href="http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/" target="_blank" rel="noopener">http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/</a></p>
+<p>先通过shell连上服务器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mongo</span><br><span class="line"></span><br><span class="line">use admin</span><br><span class="line"></span><br><span class="line">db.shutdownServer()</span><br></pre></td></tr></table></figure>
+<p>错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WARNING: /sys/kernel/mm/transparent_hugepage/enabled is &apos;always&apos;.</span><br><span class="line"></span><br><span class="line">We suggest setting it to &apos;never&apos;</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/" target="_blank" rel="noopener">Install MongoDB Community Edition on Red Hat Enterprise or CentOS Linux[¶]</a></p>
+<p><a href="https://docs.mongodb.com/manual/reference/configuration-options/" target="_blank" rel="noopener">MongoDB Configuration File Options</a></p>
+<p><a href="http://www.mongoing.com/archives/631" target="_blank" rel="noopener">安全部署MongoDB最佳实践</a></p>
+<p><a href="http://blog.51cto.com/hld1992/2074619" target="_blank" rel="noopener">Mongodb之权限认证管理</a></p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/enable-authentication/" target="_blank" rel="noopener">Enable Auth</a></p>
+<p><a href="https://www.jianshu.com/p/a4e94bb8a052" target="_blank" rel="noopener">如何对MongoDB 3.2.7进行用户权限管理配置</a></p>
+<p>[<a href="http://www.itttl.com/blog/mongodb_user_roles.html" target="_blank" rel="noopener">MongoDB 用户的创建、删除、密码修改，角色分配</a>]</p>
+<p><a href="http://blog.51yip.com/nosql/1576.html" target="_blank" rel="noopener">mongodb 修改用户密码 2种方法</a></p>
+<p><a href="https://blog.csdn.net/sinat_30397435/article/details/50774175" target="_blank" rel="noopener">mongodb启动不了：child process failed, exited with error number 100</a></p>
 
       
       
@@ -346,11 +345,11 @@
 
 
   
-    <article id="post-Python3操作Excel" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Go-Gin" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/Python3操作Excel/" class="article-date">
-      <time datetime="2017-12-29T15:18:07.000Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2018/05/11/Go-Gin/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.550Z" itemprop="datePublished">2018-05-11</time>
 </a>
     </div>
   
@@ -359,24 +358,11 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/Python3操作Excel/">Python3操作Excel</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>openpyxl</p>
-<p>xlwings</p>
-<p>xlsxwriter</p>
-<p>xlrd<br>xlwt<br>xlutils</p>
+        <p>date: 2018-05-08 08:58</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/gin-gonic/gin</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/winlion/restgo-admin.git</span></span><br></pre></td></tr></table></figure>
 
       
       
@@ -404,11 +390,155 @@
 
 
   
-    <article id="post-2007年700-2017年7000" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Go" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/2007年700-2017年7000/" class="article-date">
-      <time datetime="2017-12-29T14:48:30.000Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2018/05/11/Go/" class="article-date">
+      <time datetime="2018-05-11T04:52:11.550Z" itemprop="datePublished">2018-05-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#<a href="https://golang.org/" target="_blank" rel="noopener">Go</a><br>安装Go</p>
+<p><code>brew install go</code></p>
+<p>安装分布式管理工具hg</p>
+<p> <code>brew install hg</code></p>
+<p>建立go的环境变量文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd $HOME</span><br><span class="line"></span><br><span class="line">mkdir go</span><br></pre></td></tr></table></figure>
+<p>~/.zshrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">export GOPATH=$HOME/go</span><br><span class="line">export PATH=$HOME/bin:$GOPATH/bin:$PATH</span><br></pre></td></tr></table></figure>
+<p><code>brew cask install goland</code></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Alfred 配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/06/Alfred 配置/" class="article-date">
+      <time datetime="2018-05-06T06:09:00.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p> <strong>如何解决 alfred 每次开机都弹出 alfred 想访问你的通讯录</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo codesign -f -d -s - /Applications/Alfred\ 3.app/Contents/Frameworks/Alfred\ Framework.framework/Versions/A/Alfred\ Framework</span><br></pre></td></tr></table></figure>
+<p>成功返回:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Alfred 3.app/Contents/Frameworks/Alfred Framework.framework/Versions/A/Alfred Framework: replacing existing signature</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/cc206abae6e5" target="_blank" rel="noopener">【玩转MAC】解决Alfred每次开机后，都会提示“是否允许访问通讯录”</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2018-05-06" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/06/2018-05-06/" class="article-date">
+      <time datetime="2018-05-06T00:01:00.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>2018-05-06 00:01</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-4-20今天要发工资了" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/20/4-20今天要发工资了/" class="article-date">
+      <time datetime="2018-04-20T09:22:28.000Z" itemprop="datePublished">2018-04-20</time>
 </a>
     </div>
   
@@ -421,7 +551,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2007年700-2017年7000/">2007年700-2017年7000</a>
+      <a class="article-title" href="/2018/04/20/4-20今天要发工资了/">4.20今天要发工资了</a>
     </h1>
   
 
@@ -458,11 +588,11 @@
 
 
   
-    <article id="post-CS50-2017" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13.3 配置pipenv" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/CS50-2017/" class="article-date">
-      <time datetime="2017-12-29T13:55:24.000Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2018/03/26/macOS 10.13.3 配置pipenv/" class="article-date">
+      <time datetime="2018-03-26T20:39:00.000Z" itemprop="datePublished">2018-03-26</time>
 </a>
     </div>
   
@@ -475,7 +605,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/CS50-2017/">CS50 2017</a>
+      <a class="article-title" href="/2018/03/26/macOS 10.13.3 配置pipenv/">macOS 10.13.3 配置pipenv</a>
     </h1>
   
 
@@ -485,8 +615,13 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="https://www.youtube.com/watch?v=y62zj9ozPOM" target="_blank" rel="noopener">CS50 2017 - Lecture 0 - Scratch</a></p>
-
+        <p><a href="https://docs.pipenv.org/" target="_blank" rel="noopener">Python Development Workflow for Humans</a><br><a href="https://github.com/pypa/pipenv" target="_blank" rel="noopener">pipenv</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line">#start pipenv</span><br><span class="line">eval &quot;$(pipenv --completion)&quot;</span><br><span class="line">#end</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.4/bin/python</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#显示安装全部过程</span><br><span class="line">pipenv install -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv graph</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv shell</span><br></pre></td></tr></table></figure>
       
       
     </div>
@@ -513,11 +648,11 @@
 
 
   
-    <article id="post-2017年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-重做MacBook-Pro的系统macOS-10-13-3" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/2017年终总结之思考/" class="article-date">
-      <time datetime="2017-12-29T08:32:31.000Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/" class="article-date">
+      <time datetime="2018-03-18T08:02:03.000Z" itemprop="datePublished">2018-03-18</time>
 </a>
     </div>
   
@@ -530,7 +665,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2017年终总结之思考/">2017年终总结之思考</a>
+      <a class="article-title" href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/">重做MacBook Pro的系统macOS 10.13.3</a>
     </h1>
   
 
@@ -540,162 +675,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>暂无</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2017年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/2017年终总结之败家/" class="article-date">
-      <time datetime="2017-12-29T08:31:31.000Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2017年终总结之败家/">2017年终总结之败家</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Apple MacBook Pro 15<br>Sony Xperia XZ1</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2017年总结与2018年计划" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/2017年总结与2018年计划/" class="article-date">
-      <time datetime="2017-12-29T08:25:00.000Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2017年总结与2018年计划/">2017年总结与2018年计划</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="当前背景"><a href="#当前背景" class="headerlink" title="当前背景"></a>当前背景</h2><p>今天星期五，明天就开始休息和放假啦！</p>
-<h2 id="工作总结与计划的重要性"><a href="#工作总结与计划的重要性" class="headerlink" title="工作总结与计划的重要性"></a>工作总结与计划的重要性</h2><h3 id="计划的时间"><a href="#计划的时间" class="headerlink" title="计划的时间"></a>计划的时间</h3><ol>
-<li>每年度结束时，新的一年即将开始时。</li>
-</ol>
-<h3 id="计划的目的"><a href="#计划的目的" class="headerlink" title="计划的目的"></a>计划的目的</h3><ol>
-<li>对新的一年的整体计划，从家庭、工作、学习、健康、生活、旅行等方面出发，规划自己新的一年的整体目标</li>
-<li>通过整体的规划，可以定期的对自己进行监督，从而使自己能够完整规划的目标。</li>
-</ol>
-<h3 id="总结的价值"><a href="#总结的价值" class="headerlink" title="总结的价值"></a>总结的价值</h3><ol>
-<li>有助于更好的规划自己的时间，不断的进行提升。</li>
-<li>作为监督自己的一种方式</li>
-<li>可以帮助自己做好自己的职业规划</li>
-</ol>
-<h1 id="2017年度总结"><a href="#2017年度总结" class="headerlink" title="2017年度总结"></a>2017年度总结</h1><h2 id="生活上"><a href="#生活上" class="headerlink" title="生活上"></a>生活上</h2><p>生了一场大病，人生第一次去了急诊，住院。<br>买了一台苹果本</p>
-<h2 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h2><p>经历了第一次被人fire</p>
-<h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><p>学习Python</p>
-<h2 id="业余"><a href="#业余" class="headerlink" title="业余"></a>业余</h2><p>摄影，</p>
-<h1 id="2018年计划"><a href="#2018年计划" class="headerlink" title="2018年计划"></a>2018年计划</h1><h2 id="生活上-1"><a href="#生活上-1" class="headerlink" title="生活上"></a>生活上</h2><ol>
-<li>在北京周边买一套房子，进行投资</li>
-<li>进行2次长线旅游、4次以上短途旅游</li>
-</ol>
-<h2 id="工作-1"><a href="#工作-1" class="headerlink" title="工作"></a>工作</h2><ol>
-<li>换工作，找一个做互联网相关的公司</li>
-<li>薪水能够有所提高，尤其是公积金的缴纳基数</li>
-<li>能够设计和上线一款互联网相关的产品</li>
-</ol>
-<h2 id="学习-1"><a href="#学习-1" class="headerlink" title="学习"></a>学习</h2><ol>
-<li>读一本产品经理相关的图书</li>
-<li>学习一套产品设计相关的视频课程</li>
-<li>参加一次产品经理相关的培训课程</li>
-<li>每天坚持看两遍关于产品和运营相关的文章，早上、晚上各一篇</li>
-</ol>
-<h2 id="业余-1"><a href="#业余-1" class="headerlink" title="业余"></a>业余</h2><p>学习如何与人交流，沟通，相处。</p>
-
       
       
     </div>
@@ -722,11 +702,11 @@
 
 
   
-    <article id="post-Ubuntu-新装服务器部署流程" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-云服务服务商" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/18/Ubuntu-新装服务器部署流程/" class="article-date">
-      <time datetime="2017-12-18T15:02:01.000Z" itemprop="datePublished">2017-12-18</time>
+      <a href="/2018/01/02/云服务服务商/" class="article-date">
+      <time datetime="2018-01-02T07:39:00.000Z" itemprop="datePublished">2018-01-02</time>
 </a>
     </div>
   
@@ -739,7 +719,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/18/Ubuntu-新装服务器部署流程/">Ubuntu 新装服务器部署流程</a>
+      <a class="article-title" href="/2018/01/02/云服务服务商/">云服务</a>
     </h1>
   
 
@@ -749,85 +729,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Ubuntu-新装服务器部署流程"><a href="#Ubuntu-新装服务器部署流程" class="headerlink" title="Ubuntu 新装服务器部署流程"></a>Ubuntu 新装服务器部署流程</h1><blockquote>
-<p>Ubuntu 16.04.3</p>
-</blockquote>
-<p><a href="http://wzlinux.blog.51cto.com/8021085/1964616" target="_blank" rel="noopener">Ubuntu 新装服务器部署流程</a><br><a href="http://blog.51cto.com/wzlinux/2043586" target="_blank" rel="noopener">Ubuntu 新装服务器部署流程</a></p>
-<h3 id="配置IP"><a href="#配置IP" class="headerlink" title="配置IP"></a>配置IP</h3><p>修改文件/etc/network/interfaces</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">auto ens33</span><br><span class="line">iface ens33 inet static</span><br><span class="line">address 192.168.8.100</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.8.1</span><br><span class="line">dns-nameserver 8.8.8.8</span><br></pre></td></tr></table></figure>
-<p>重启网络</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart netwoking.service</span><br><span class="line">/etc/init.d/networking restart</span><br></pre></td></tr></table></figure>
-<h3 id="设定时区"><a href="#设定时区" class="headerlink" title="设定时区"></a>设定时区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -f /etc/localtime</span><br><span class="line">cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line">date -R</span><br></pre></td></tr></table></figure>
-<h3 id="配置apt-get源"><a href="#配置apt-get源" class="headerlink" title="配置apt-get源"></a>配置apt-get源</h3><p>ubuntu 14.04</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -f /etc/apt/sources.list</span><br><span class="line">wget -P /etc/apt/ http://mirrors.163.com/.help/sources.list.trusty</span><br><span class="line">mv /etc/apt/sources.list.trusty /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
-<p>ubuntu 16.04<br><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apt</span><br><span class="line">cp source.list source.list.bak</span><br><span class="line"></span><br><span class="line">vi source.list</span><br><span class="line"></span><br><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
-<h3 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
-<h3 id="安装软件包"><a href="#安装软件包" class="headerlink" title="安装软件包"></a>安装软件包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y openssh-server vim lrzsz git tree bash-completion sysstat</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">### 开启root登录</span></span><br></pre></td></tr></table></figure>
-<p>vi /etc/ssh/sshd_config<br>PermitRootLogin yes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">service ssh restart</span><br><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure></p>
-<h3 id="踢出终端tty用户"><a href="#踢出终端tty用户" class="headerlink" title="踢出终端tty用户"></a>踢出终端tty用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkill -kill -t tty</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-分布式爬虫实战第二期-杨真-小象学院-目录" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-目录/" class="article-date">
-      <time datetime="2017-12-08T16:27:00.000Z" itemprop="datePublished">2017-12-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-目录/">手把手带你构建一个分布式爬虫系统实战-小象学院-目录</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>01 静态网页爬虫：爬虫的基础技术.flv 2:40:54<br>02 登录及动态网页的抓取.flv 2:19:24<br>03 微博的抓取.flv 2:42:00<br>04 多线程与多进程的爬虫.flv 2:02:20<br>05 微博数据的存储：分布式数据库及应用.flv 2:15:07<br>06 多机并行的微博抓取：分布式系统设计.flv 2:12:20<br>07 应对反爬虫的策略.flv 2:25:33<br>08 分布式系统的高可用与高并发处理.flv 2:13:47<br>09 日志系统、以及基于Page Rank的顺序调整.flv 2:13:54<br>10 日志、守护线程以及验证码处理.flv 2:07:54<br>11 分布式数据库架构分析、优化及要点.flv 2:23:10<br>12 自动摘要及正文抽取.flv 1:57:54<br>13 网页分类与针对文本的机器学习应用.flv 2:17:14<br>14 信息检索、搜索引擎原理及应用.flv 2:31:18<br>15 Scrapy录播视频.flv 2:21:02<br>16 Scrapy进阶录播视频.flv 2:10:09<br>17 网页排重.flv 2:19:19</p>
+        <p>VPS</p>
+<p><a href="https://www.aliyun.com/" target="_blank" rel="noopener">阿里云</a><br><a href="https://www.qingcloud.com/" target="_blank" rel="noopener">青云QingCloud</a><br><a href="https://www.linode.com/" target="_blank" rel="noopener">Linode</a><br><a href="https://www.digitalocean.com/" target="_blank" rel="noopener">DigitalOcean</a></p>
 
       
       
@@ -857,7 +760,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
     </nav>
   
 </div>
