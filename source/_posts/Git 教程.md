@@ -1,3 +1,7 @@
+date: 2013-05-11 12:48
+
+
+
 ### git常用命令
 
 ```shell
@@ -12,7 +16,7 @@ git branch
 #查看所有分支
 git branch -a
 #删除分支
-git push origin :blog
+git push origin blog
 git push origin -d blog
 #删除子模块
 git rm -r --cached themes/spfk
