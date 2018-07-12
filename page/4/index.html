@@ -206,11 +206,71 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-使用Travis CI自动部署Hexo博客发布到Github和Coding.net" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/使用Travis CI自动部署Hexo博客发布到Github和Coding.net/" class="article-date">
+      <time datetime="2018-07-12T05:00:32.855Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nvm install 8.9.1</span><br><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line">hexo version</span><br></pre></td></tr></table></figure>
+<h3 id="生产sshkey"><a href="#生产sshkey" class="headerlink" title="生产sshkey"></a>生产sshkey</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f ~/.ssh/hexo_rsa</span><br><span class="line"></span><br><span class="line">#github和coding.net都是设置的只有这个项目可以使用这个公钥</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br><span class="line"># github.com</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line"></span><br><span class="line"># git.coding.net</span><br><span class="line">Host git.coding.net</span><br><span class="line">HostName git.coding.net</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_rsa</span><br></pre></td></tr></table></figure>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br><span class="line">ssh -T git@git.coding.net</span><br></pre></td></tr></table></figure>
+<h3 id="初始化blog分支"><a href="#初始化blog分支" class="headerlink" title="初始化blog分支"></a>初始化blog分支</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects</span><br><span class="line"></span><br><span class="line">hexo init blog.ovwane.me</span><br><span class="line">cd blog.ovwane.me</span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line">初始化git</span><br><span class="line">git clone -b hexo git@github.com:ovwane/ovwane.github.io.git blog.ovwane.me</span><br><span class="line">git init</span><br><span class="line">git checkout -b hexo</span><br><span class="line">git submodule add https://github.com/ovwane/hexo-theme-spfk.git themes/spfk</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;初始化hexo分支&quot;</span><br><span class="line">git remote add origin git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<h3 id="更改主题为spfk"><a href="#更改主题为spfk" class="headerlink" title="更改主题为spfk"></a>更改主题为spfk</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">rm -rf themes/landscape</span><br><span class="line">#sed -i &apos;s/theme: landscape/theme: spfk/g&apos; _config.yml</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;删除默认主题landscape，然后修改主题为spfk&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<h3 id="修改-config-yml-和-主题的-config-yml替换主题的图片"><a href="#修改-config-yml-和-主题的-config-yml替换主题的图片" class="headerlink" title="修改_config.yml 和 主题的 _config.yml替换主题的图片"></a>修改_config.yml 和 主题的 _config.yml替换主题的图片</h3><h3 id="配置travis"><a href="#配置travis" class="headerlink" title="配置travis"></a>配置travis</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">mkdir .travis</span><br><span class="line">touch .travis.yml</span><br><span class="line">brew install travis</span><br><span class="line">travis login --auto</span><br><span class="line">travis encrypt-file ~/.ssh/hexo_rsa --add </span><br><span class="line">mv hexo_rsa.enc .travis/</span><br></pre></td></tr></table></figure>
+<h3 id="travis-ssh-config"><a href="#travis-ssh-config" class="headerlink" title=".travis/ssh_config"></a>.travis/ssh_config</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">vim .travis/ssh_config</span><br><span class="line"># github.com</span><br><span class="line">Host github.com</span><br><span class="line">	HostName github.com</span><br><span class="line">	User git</span><br><span class="line">	StrictHostKeyChecking no</span><br><span class="line">	IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line">	IdentitiesOnly yes</span><br><span class="line">	</span><br><span class="line"># git.coding.net</span><br><span class="line">Host git.coding.net</span><br><span class="line">	HostName git.coding.net</span><br><span class="line">	User git</span><br><span class="line">	StrictHostKeyChecking no</span><br><span class="line">	IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line">	IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加travis ci相关文件&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim _config.yml</span><br><span class="line">title: 幻舞梦境</span><br><span class="line">author: 幻舞梦境</span><br><span class="line">url: http://ovwane.me</span><br><span class="line">skip_render:</span><br><span class="line">  - README.md</span><br><span class="line"> </span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">      github: git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line">      coding: git@git.coding.net:ovwane/ovwane.coding.me.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;修改_config.yml添加deploy信息&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<h3 id="travis-yml"><a href="#travis-yml" class="headerlink" title=".travis.yml"></a>.travis.yml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">language: node_js</span><br><span class="line">sudo: false</span><br><span class="line">node_js:</span><br><span class="line">- 8.9.1</span><br><span class="line">branches:</span><br><span class="line">  only:</span><br><span class="line">  - hexo</span><br><span class="line">cache:</span><br><span class="line">  apt: true</span><br><span class="line">  yarn: true</span><br><span class="line">  directories:</span><br><span class="line">  - node_modules</span><br><span class="line">before_install:</span><br><span class="line">- openssl aes-256-cbc -K $encrypted_b6a9c7fbd133_key -iv $encrypted_b6a9c7fbd133_iv -in .travis/hexo_rsa.enc -out ~/.ssh/hexo_rsa -d</span><br><span class="line">- chmod 600 ~/.ssh/hexo_rsa</span><br><span class="line">- eval $(ssh-agent)</span><br><span class="line">- ssh-add ~/.ssh/hexo_rsa</span><br><span class="line">- cp .travis/ssh_config ~/.ssh/config</span><br><span class="line">- git config --global user.name &quot;Jinlong Quan&quot;</span><br><span class="line">- git config --global user.email &quot;ovwane@gmail.com&quot;</span><br><span class="line">install:</span><br><span class="line">- npm install hexo-cli -g</span><br><span class="line">- npm install hexo-deployer-git --save</span><br><span class="line">- npm install</span><br><span class="line">- git clone https://github.com/ovwane/ovwane.github.io .deploy_git</span><br><span class="line">- cd .deploy_git &amp;&amp; git checkout master</span><br><span class="line">- cd ..</span><br><span class="line">script:</span><br><span class="line">- hexo clean</span><br><span class="line">- hexo generate</span><br><span class="line">- hexo deploy</span><br><span class="line">after_success:</span><br><span class="line">- echo &quot;OK!网站部署成功啦！&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加.travis.yml打包命令&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- git clone https://github.com/ovwane/ovwane.github.io .deploy_git</span><br><span class="line">- cd .deploy_git &amp;&amp; git checkout master</span><br><span class="line">- cd ..</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加.travis.yml打包命令，并添加拉取master分支，防止每次更新全部文件。&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/" target="_blank" rel="noopener">使用 Travis CI 自動發布 Hexo 內容到 Github</a><br><a href="http://magicse7en.github.io/2016/03/27/travis-ci-auto-deploy-hexo-github/" target="_blank" rel="noopener">使用Travis CI自动构建hexo博客</a><br><a href="https://imzlp.me/posts/42318/" target="_blank" rel="noopener">使用Travis CI自动部署Github/Coding Pages博客
+</a><br><a href="https://changkun.us/archives/2017/06/232/" target="_blank" rel="noopener">#232 Hexo + GitHub + Travis CI + VPS 自动部署</a><br><a href="https://ssarcandy.tw/2016/07/29/hexo-auto-deploy/" target="_blank" rel="noopener">用 Travis CI 自動部屬 hexo 到 GitHub</a><br><a href="http://blog.acwong.org/2016/03/20/auto-deploy-hexo-with-travis-CI/" target="_blank" rel="noopener">用 Travis CI 自动部署 hexo</a><br><a href="https://blog.nfz.moe/archives/hexo-auto-deploy-with-travis-ci.html" target="_blank" rel="noopener">使用 Travis CI 持续构建 Hexo</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-代码质量" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/12/代码质量/" class="article-date">
-      <time datetime="2018-07-12T04:20:14.712Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T05:00:32.855Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -259,7 +319,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/京峰教育Linux运维-笔记/" class="article-date">
-      <time datetime="2018-07-12T04:20:14.712Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T05:00:32.855Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -356,7 +416,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/书签/" class="article-date">
-      <time datetime="2018-07-12T04:20:14.712Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T05:00:32.855Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -405,7 +465,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/个人履历/" class="article-date">
-      <time datetime="2018-07-12T04:20:14.712Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T05:00:32.855Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -445,11 +505,11 @@
 
 
   
-    <article id="post-tencent_vps" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-博客" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/tencent_vps/" class="article-date">
-      <time datetime="2018-07-12T04:20:14.712Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/12/博客/" class="article-date">
+      <time datetime="2018-07-12T05:00:32.855Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -461,48 +521,66 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname quanjinlong.cn</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd jinlong</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">visudo</span><br><span class="line">jinlong ALL=(ALL)       ALL</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f tencent_vps_rsa</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.ssh</span><br><span class="line">vim ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br><span class="line">chmod 700 ~/.ssh</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/handongyu/p/6386789.html" target="_blank" rel="noopener">设置 SSH，打开密钥登录功能</a><br>编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Port 22</span><br><span class="line">Protocol 2</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">#禁止root用户通过SSH登录</span><br><span class="line">PermitRootLogin no</span><br><span class="line">#禁用密码登录</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">ChallengeResponseAuthentication no</span><br><span class="line">UsePAM yes</span><br><span class="line">UseDNS no</span><br><span class="line">X11Forwarding no</span><br></pre></td></tr></table></figure>
-<p>最后，重启 SSH 服务：<br>systemctl restart sshd.service</p>
-<p>#优化</p>
-<ol>
-<li>关闭SELinux</li>
-<li>关闭firewalld</li>
-<li>最大进程数和最大文件打开数<br> 修改/etc/security/limits.conf文件</li>
-<li><p>删除默认用户<br>centos</p>
-</li>
-<li><p>更换yum源<br><a href="https://www.centos.org/download/mirrors/" target="_blank" rel="noopener">CentOS mirrors List</a></p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"></span><br><span class="line">删除缓存</span><br><span class="line">yum clean all</span><br><span class="line">rm -rf /var/cache/yum</span><br><span class="line"></span><br><span class="line">生成缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.jianshu.com/p/4df7692bdc2b" target="_blank" rel="noopener">yum upgrade</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y upgrade</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel  </span><br><span class="line"></span><br><span class="line">yum -y autoremove kernel-3.10.0-693.el7</span><br><span class="line">yum -y autoremove kernel-devel-3.10.0-693.el7</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>时间<br><a href="https://blog.csdn.net/maxsky/article/details/53866475" target="_blank" rel="noopener">ntp</a></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ntpd.service</span><br><span class="line"></span><br><span class="line">yum list installed|grep ntp</span><br><span class="line">ntp.x86_64                              4.2.6p5-25.el7.centos.2        @anaconda</span><br><span class="line">ntpdate.x86_64 </span><br><span class="line"></span><br><span class="line">time5.aliyun.com</span><br><span class="line">cn.pool.ntp.org</span><br></pre></td></tr></table></figure>
-<p><a href="https://chrony.tuxfamily.org/documentation.html" target="_blank" rel="noopener">chrony</a></p>
-<p><a href="https://www.cnblogs.com/clsn/archive/2017/11/16/7844857.html" target="_blank" rel="noopener">chrony软件使用说明</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum -y install chrony</span><br><span class="line"></span><br><span class="line">systemctl start chronyd.service</span><br><span class="line">systemctl enable chronyd.service</span><br><span class="line">systemctl status chronyd.service</span><br><span class="line"></span><br><span class="line">查看同步状态</span><br><span class="line">chronyc sourcestats</span><br></pre></td></tr></table></figure>
-<p><a href="http://www.mamicode.com/info-detail-1553924.html" target="_blank" rel="noopener">删除软件包并删除孤立的依赖包</a><br><a href="https://segmentfault.com/q/1010000000626683" target="_blank" rel="noopener">https://segmentfault.com/q/1010000000626683</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">需要在 /etc/yum.conf 里面添加一个配置：</span><br><span class="line">clean_requirements_on_remove=1</span><br><span class="line"></span><br><span class="line">yum autoremove</span><br></pre></td></tr></table></figure>
-<p>删除ntp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum list installed |grep ntp</span><br><span class="line"></span><br><span class="line">yum -y autoremove ntp</span><br><span class="line"></span><br><span class="line">rm -rf /etc/ntp.conf.rpmsave</span><br><span class="line"></span><br><span class="line">yum autoremove ntpdate</span><br></pre></td></tr></table></figure></p>
-<p>删除postfix</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove postfix</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch /var/lock/subsys/local</span><br><span class="line">/usr/local/qcloud/rps/set_rps.sh &gt;/tmp/setRps.log 2&gt;&amp;1</span><br><span class="line">/usr/local/qcloud/irq/net_smp_affinity.sh &gt;/tmp/net_affinity.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-<p>删除 firewalld</p>
-<p>删除 wpa_supplicant<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove wpa_supplicant</span><br></pre></td></tr></table></figure></p>
-<p>删除用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd</span><br><span class="line">/etc/shadow</span><br><span class="line">/etc/group</span><br><span class="line">/etc/gshadow</span><br><span class="line"></span><br><span class="line">postfix</span><br><span class="line">ntp</span><br><span class="line">games</span><br><span class="line">ftp</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/duzhaoqi/p/7582404.html" target="_blank" rel="noopener">centOS7服务管理与启动流程</a></p>
-<p>下载必要软件包<br>再安装操作系统的时候使用的最小化安装，有很多包没有安装，使用时发现好多命令没有如{vim、wget、tree…等}，下面就安装命令，可以根据需求自行调整。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget net-tools screen lsof tcpdump nc mtr openssl-devel vim bash-completion lrzsz nmap telnet tree ntpdate</span><br></pre></td></tr></table></figure>
+        <p>date: 2016-07-20 19:22</p>
+<p>落格博客<br><a href="https://www.logcg.com/" target="_blank" rel="noopener">https://www.logcg.com/</a></p>
+<p>爱情守望者<br><a href="http://www.waitsun.com/" target="_blank" rel="noopener">http://www.waitsun.com/</a></p>
+<p><a href="http://blog.rickysu.com" target="_blank" rel="noopener">http://blog.rickysu.com</a></p>
+<p>思考，行动，再思考，再总结<br><a href="http://blog.csdn.net/philofly" target="_blank" rel="noopener">http://blog.csdn.net/philofly</a></p>
+<p>张砷镓<br><a href="http://zhangshenjia.com/" target="_blank" rel="noopener">http://zhangshenjia.com/</a><br><a href="http://www.cnblogs.com/zhangshenjia/" target="_blank" rel="noopener">http://www.cnblogs.com/zhangshenjia/</a></p>
+<p><a href="http://nosame.net/" target="_blank" rel="noopener">http://nosame.net/</a></p>
+<p>阿堆哥的博客<br><a href="http://blog.sina.com.cn/wangmeng" target="_blank" rel="noopener">http://blog.sina.com.cn/wangmeng</a></p>
+<p>￼</p>
+<p><a href="http://eheima.com/" target="_blank" rel="noopener">http://eheima.com/</a></p>
+<p>东东东 陈煜东的博客<br><a href="http://www.chenyudong.com/" target="_blank" rel="noopener">http://www.chenyudong.com/</a></p>
+<p>Jerry Qu<br><a href="https://imququ.com/" target="_blank" rel="noopener">https://imququ.com/</a></p>
+<p>Scott H. Young<br><a href="http://www.scotthyoung.com/blog/" target="_blank" rel="noopener">http://www.scotthyoung.com/blog/</a></p>
+<p>QLChan的博客<br><a href="http://blog.sina.com.cn/qlchan" target="_blank" rel="noopener">http://blog.sina.com.cn/qlchan</a></p>
+<p>SHENLIYANG<br><a href="http://blog.chinaunix.net/uid/25508645.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid/25508645.html</a></p>
+<p>施昌权–淘宝卫霍<br><a href="http://blog.chinaunix.net/uid/22312037.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid/22312037.html</a></p>
+<p>唐巧的技术博客<br><a href="http://blog.devtang.com/" target="_blank" rel="noopener">http://blog.devtang.com/</a></p>
+<p>土木坛子 <a href="https://tumutanzi.com/" target="_blank" rel="noopener">https://tumutanzi.com/</a> 谭智军<br>王垠 <a href="http://www.yinwang.org/" target="_blank" rel="noopener">http://www.yinwang.org/</a><br>张宴 <a href="http://zyan.cc/" target="_blank" rel="noopener">http://zyan.cc/</a><br>曾月天 <a href="http://www.zengyuetian.com/" target="_blank" rel="noopener">http://www.zengyuetian.com/</a><br>月光博客 <a href="http://www.williamlong.info/" target="_blank" rel="noopener">http://www.williamlong.info/</a><br>小赖子 <a href="https://justyy.com/" target="_blank" rel="noopener">https://justyy.com/</a><br>勺子先生 <a href="https://chenghouwen.com/" target="_blank" rel="noopener">https://chenghouwen.com/</a><br>常阳时光 <a href="https://cyhour.com/" target="_blank" rel="noopener">https://cyhour.com/</a><br><a href="http://www.wswing.net/" target="_blank" rel="noopener">http://www.wswing.net/</a><br>燕渡寒潭 <a href="http://hisherry.com/" target="_blank" rel="noopener">http://hisherry.com/</a><br>阮一峰 <a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/</a><br>王叨叨 <a href="http://wangdaodao.com/" target="_blank" rel="noopener">http://wangdaodao.com/</a><br>谷奥站长 <a href="http://b.gkp.cc/" target="_blank" rel="noopener">http://b.gkp.cc/</a><br>霍炬 <a href="http://blog.devep.net/virushuo/" target="_blank" rel="noopener">http://blog.devep.net/virushuo/</a><br>delphij’s Chaos <a href="https://blog.delphij.net/" target="_blank" rel="noopener">https://blog.delphij.net/</a><br>Treri <a href="http://isay.me/" target="_blank" rel="noopener">http://isay.me/</a><br>博士牌民工 <a href="http://www.yue366.com/" target="_blank" rel="noopener">http://www.yue366.com/</a><br>哲尔夫 <a href="http://www.zeove.com/" target="_blank" rel="noopener">http://www.zeove.com/</a><br>随望淡思 <a href="http://www.lushaojun.com/" target="_blank" rel="noopener">http://www.lushaojun.com/</a><br>一路狂飙 <a href="http://www.ylkb.net/" target="_blank" rel="noopener">http://www.ylkb.net/</a><br>Leyar <a href="http://www.leyar.me/" target="_blank" rel="noopener">http://www.leyar.me/</a><br>安静的粉丝 <a href="http://zhanggang.net/" target="_blank" rel="noopener">http://zhanggang.net/</a><br>西边一个木头 <a href="http://ximuing.com/" target="_blank" rel="noopener">http://ximuing.com/</a><br>Xhinker <a href="http://xhinker.com/" target="_blank" rel="noopener">http://xhinker.com/</a><br>zhiqiang <a href="http://zhiqiang.org/blog/" target="_blank" rel="noopener">http://zhiqiang.org/blog/</a><br>不能吧 <a href="http://bunengba.com/" target="_blank" rel="noopener">http://bunengba.com/</a><br>施乐遥 <a href="https://shileyao.wordpress.com/" target="_blank" rel="noopener">https://shileyao.wordpress.com/</a><br>慧眼 Wisdom Eyes <a href="http://www.zhangxinghui.com/" target="_blank" rel="noopener">http://www.zhangxinghui.com/</a><br>佐仔志 <a href="http://www.jinbo123.com/" target="_blank" rel="noopener">http://www.jinbo123.com/</a><br>精品博客 <a href="http://jingpin.org/" target="_blank" rel="noopener">http://jingpin.org/</a><br>XJP的碎碎念 <a href="http://www.xjp.cc/" target="_blank" rel="noopener">http://www.xjp.cc/</a><br>大鹏志 <a href="http://dapengde.com/" target="_blank" rel="noopener">http://dapengde.com/</a><br>土木达人 <a href="http://tumudaren.com/" target="_blank" rel="noopener">http://tumudaren.com/</a><br>戴睿可 <a href="http://cn.derekyang.us/" target="_blank" rel="noopener">http://cn.derekyang.us/</a><br>dudo博客<a href="http://dudo.org/" target="_blank" rel="noopener">http://dudo.org/</a></p>
+<p>刘未鹏<br><a href="http://mindhacks.cn/" target="_blank" rel="noopener">http://mindhacks.cn/</a></p>
+<p>ChildhoodAndy<br><a href="http://dabing1022.github.io/" target="_blank" rel="noopener">http://dabing1022.github.io/</a></p>
+<p>john-scalzi<br><a href="http://whatever.scalzi.com/" target="_blank" rel="noopener">http://whatever.scalzi.com/</a></p>
+<p>Teckoo<br><a href="http://teckoo.com/" target="_blank" rel="noopener">http://teckoo.com/</a></p>
+<p>柳暗花明<br><a href="http://www.dehengxu.com/" target="_blank" rel="noopener">http://www.dehengxu.com/</a></p>
+<p>巩朋<br><a href="http://lucida.me/" target="_blank" rel="noopener">http://lucida.me/</a></p>
+<p>活小勇<br><a href="http://www.atdevin.com/" target="_blank" rel="noopener">http://www.atdevin.com/</a></p>
+<p>Cutsin受难记<br><a href="http://blog.moonless.net" target="_blank" rel="noopener">http://blog.moonless.net</a></p>
+<p>雪诺·帕德<br><a href="http://www.snowperd.com" target="_blank" rel="noopener">http://www.snowperd.com</a></p>
+<p>Yusky<br><a href="https://yusky.me" target="_blank" rel="noopener">https://yusky.me</a></p>
+<p>海底苍鹰(tank)博客<br><a href="http://blog.51yip.com/" target="_blank" rel="noopener">http://blog.51yip.com/</a></p>
+<p>DiggLife<br><a href="http://www.digglife.net/" target="_blank" rel="noopener">http://www.digglife.net/</a></p>
+<p>阿辛的网志<br><a href="http://xinple.org/" target="_blank" rel="noopener">http://xinple.org/</a></p>
+<p>编程随想录<br><a href="http://whatsdjgpp.github.io/" target="_blank" rel="noopener">http://whatsdjgpp.github.io/</a></p>
+<p>照牛排<br><a href="http://www.zhaoniupai.com/" target="_blank" rel="noopener">http://www.zhaoniupai.com/</a></p>
+<p>MWB日常笔记<br><a href="http://blog.atime.me/" target="_blank" rel="noopener">http://blog.atime.me/</a></p>
+<p>岁寒<br><a href="https://lvwenhan.com/" target="_blank" rel="noopener">https://lvwenhan.com/</a></p>
+<p>江新宇的博客<br><a href="http://www.cnblogs.com/php5/" target="_blank" rel="noopener">http://www.cnblogs.com/php5/</a></p>
+<p>志存高远<br><a href="http://www.ddazhi.com/" target="_blank" rel="noopener">http://www.ddazhi.com/</a></p>
+<p>刘荣星的博客<br><a href="https://www.liurongxing.com/" target="_blank" rel="noopener">https://www.liurongxing.com/</a></p>
+<p>俊彦博客<br><a href="http://jybb.me/" target="_blank" rel="noopener">http://jybb.me/</a></p>
+<p>微宇宙<br><a href="http://yzs.me/" target="_blank" rel="noopener">http://yzs.me/</a></p>
+<p>明学的白板<br><a href="http://ksmx.me" target="_blank" rel="noopener">http://ksmx.me</a></p>
+<p>D.H.Q的烂笔头<br><a href="http://dhq.me" target="_blank" rel="noopener">http://dhq.me</a></p>
+<p>uniEagle<br><a href="http://blog.unieagle.net" target="_blank" rel="noopener">http://blog.unieagle.net</a></p>
+<p>Sagacity——池建强的BLOG<br><a href="http://www.cnblogs.com/chijianqiang/" target="_blank" rel="noopener">http://www.cnblogs.com/chijianqiang/</a></p>
+<p>未来的博客<br><a href="http://blog.sina.com.cn/ongamelive" target="_blank" rel="noopener">http://blog.sina.com.cn/ongamelive</a></p>
+<p>菲利克斯猫(Felix.mao)的IT技术专栏<br><a href="http://blog.csdn.net/maojudong" target="_blank" rel="noopener">http://blog.csdn.net/maojudong</a></p>
+<p>架构师的成长之路<br><a href="http://niyunjiu.iteye.com/" target="_blank" rel="noopener">http://niyunjiu.iteye.com/</a></p>
+<p>松花江以南</p>
+<p><a href="http://www.cnblogs.com/iphone520/" target="_blank" rel="noopener">http://www.cnblogs.com/iphone520/</a></p>
+<p><a href="http://www.blogjava.net/greatyuqing/" target="_blank" rel="noopener">http://www.blogjava.net/greatyuqing/</a><br><a href="http://nqdeng.github.io/7-days-nodejs/" target="_blank" rel="noopener">http://nqdeng.github.io/7-days-nodejs/</a><br><a href="http://www.code521.com/" target="_blank" rel="noopener">http://www.code521.com/</a><br><a href="http://www.yexi.ml/" target="_blank" rel="noopener">http://www.yexi.ml/</a><br><a href="http://blog.csdn.net/lord_is_layuping" target="_blank" rel="noopener">http://blog.csdn.net/lord_is_layuping</a></p>
+<p>Snowolf的意境空间！<br><a href="http://snowolf.iteye.com" target="_blank" rel="noopener">http://snowolf.iteye.com</a></p>
+<p>IFATIMA<br><a href="http://ifatima.lofter.com" target="_blank" rel="noopener">http://ifatima.lofter.com</a></p>
+<p>Rei<br><a href="http://chloerei.com" target="_blank" rel="noopener">http://chloerei.com</a></p>
+<p><a href="mailto:Peter@Norvig.com" target="_blank" rel="noopener">Peter@Norvig.com</a><br><a href="http://norvig.com" target="_blank" rel="noopener">http://norvig.com</a></p>
+<p>Brad Fitzpatrick<br><a href="http://bradfitz.com" target="_blank" rel="noopener">http://bradfitz.com</a></p>
+<p>Paul Graham<br><a href="http://www.paulgraham.com/" target="_blank" rel="noopener">http://www.paulgraham.com/</a></p>
+<p>ihower { blogging }<br><a href="https://ihower.tw/blog/" target="_blank" rel="noopener">https://ihower.tw/blog/</a></p>
+<p>Ri Xu Online<br><a href="https://xuri.me/" target="_blank" rel="noopener">https://xuri.me/</a></p>
+<p><a href="http://www.cnblogs.com/wuyinan0126/p/4604109.html" target="_blank" rel="noopener">http://www.cnblogs.com/wuyinan0126/p/4604109.html</a></p>
+
       
       
     </div>
@@ -533,7 +611,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/sed命令总结/" class="article-date">
-      <time datetime="2018-07-12T04:20:14.712Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T05:00:32.855Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -577,7 +655,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/python全栈3期day104/" class="article-date">
-      <time datetime="2018-07-12T04:20:14.712Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T05:00:32.855Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -632,7 +710,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/python全栈3期day005/" class="article-date">
-      <time datetime="2018-07-12T04:20:14.712Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T05:00:32.855Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -689,7 +767,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/python全栈3期day004/" class="article-date">
-      <time datetime="2018-07-12T04:20:14.712Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T05:00:32.855Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -765,98 +843,9 @@
 
 
   
-    <article id="post-python全栈3期day003" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/python全栈3期day003/" class="article-date">
-      <time datetime="2018-07-12T04:20:14.712Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>01.网络基础和dos命令.mp4 56:43<br>02.为何学习linux.mp4 08:59<br>03.课程内容介绍.mp4 03:12<br>04.操作系统内核与系统调用.mp4 22:18<br>05.操作系统安装原理.mp4 09：02<br>06.linux操作系统安装part1.mp4 28：12<br>07.linux操作系统安装part2.mp4 14:33<br>08.初识linux命令.mp4 34:49<br>09.linux操作系统目录结构.mp4 42:19<br>10.目录及文件操作.mp4 44:05</p>
-<p>2016.11.09 09:39</p>
-<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>局域网<br>城域网<br>广域网</p>
-<p>传输介质<br>有线<br>光纤<br>无线</p>
-<p>568A<br>568B</p>
-<p>交叉线<br>568A-&gt;568B</p>
-<p>同种设备之间连接用交叉线</p>
-<p>非同种设备之间连接用直通线</p>
-<p>IP地址<br>五类</p>
-<p>A<br>B<br>C<br>D<br>E</p>
-<p>ipconfig<br>ping</p>
-<p>cd<br>d:</p>
-<p>rd 删除目录</p>
-<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>Linux学习</p>
-<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>操作系统核心 内核:内核是一个管理和控制程序,负责管理计算机的所有物理资源,文件系统、内存管理，设备管理，进程管理。<br>系统调用接口 api</p>
-<p>内核态:<br>用户态:</p>
-<p>RHEL、CentOS、Fedora、Ubuntu、SuSE</p>
-<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>Linux系统笔刷安装<br>硬件配置<br>1核心<br>内存2GB<br>硬盘20GB</p>
-<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>系统镜像盘 iso</p>
-<p>CentOS 6.8</p>
-<p>/boot 500MB<br>swap 虚拟内存,一般内存的1.5或者2倍.大于16GB就16GB了<br>/ 剩余所有</p>
-<p>Minimal 安装</p>
-<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p>Kdump</p>
-<h2 id="08"><a href="#08" class="headerlink" title="08"></a>08</h2><p>初识linux命令</p>
-<p>UNIX是什么<br>MINIX<br>多任务多用户</p>
-<p>GNU 和 GPL</p>
-<p>Linux是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统</p>
-<p>常用桌面KDE和GNOME</p>
-<p>关闭Linux系统的命令 init 0</p>
-<p>登录后的提示符 $<br>root用户的提示符 #</p>
-<p>退出命令 exit</p>
-<p>Linux命令的格式</p>
-<p>命令 选项 参数</p>
-<p>ls -a /</p>
-<p>ls</p>
-<p>whoami<br>who<br>date<br>hwclock -s<br>cal<br>clear ctrl+l</p>
-<p>useradd<br>su<br>passwd</p>
-<p>终止命令运行 ctrl + c</p>
-<p>man<br>help<br>–help</p>
-<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><p>目录</p>
-<p>/ 根目录<br>. 本目录<br>.. 上一级目录</p>
-<p>pwd</p>
-<p>/bin 二进制可以执行文件<br>/sbin 系统管理的二进制可执行文件<br>/root root用户的家目录<br>/home 普通用户的默认家目录<br>/dev 设备文件目录<br>/etc 配置文件目录</p>
-<p>绝对路径和相对路径</p>
-<p>绝对路径 必须以一个正斜线”/“开始<br>相对路径 相对于某个目录</p>
-<h2 id="10"><a href="#10" class="headerlink" title="10"></a>10</h2><p>cp<br>mv<br>mkdir<br>touch<br>rm<br>alias<br>tr<br>cat<br>head<br>tail<br>more<br>less</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 </div>
