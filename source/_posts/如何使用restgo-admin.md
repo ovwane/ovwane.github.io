@@ -42,6 +42,4 @@ $ go get github.com/tommy351/gin-sessions
 使用前先使用如下指令打包应用
 `build.bat`
 
-# 
-
  

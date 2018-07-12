@@ -1,7 +1,6 @@
 老男孩教育Python课程老师们的博客
 
 Alex
-[]()
 
 武沛齐
 [Mr.Seven](http://www.cnblogs.com/wupeiqi/)
