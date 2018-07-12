@@ -206,11 +206,69 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-CentOS Go环境配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/CentOS Go环境配置/" class="article-date">
+      <time datetime="2018-07-12T02:06:07.321Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>date: 2018-05-08 17:01</p>
+<p><strong>安装依赖</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mercurial bison</span><br></pre></td></tr></table></figure>
+<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span><br></pre></td></tr></table></figure>
+<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
+<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -B 表示只安装二进制包</span><br><span class="line"><span class="meta">$</span> gvm install go1.10.1 -B</span><br><span class="line"><span class="meta">$</span> gvm use go1.10.1</span><br><span class="line"><span class="meta">$</span> export GOROOT_BOOTSTRAP=$GOROOT</span><br><span class="line"><span class="meta">$</span> gvm install go1.10.2</span><br></pre></td></tr></table></figure>
+<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> gvm use go1.10.2 --default</span><br></pre></td></tr></table></figure>
+<p><strong>使用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看可以安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm listall</span><br><span class="line"><span class="meta">#</span> 查看本地安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm list</span><br><span class="line"><span class="meta">#</span> go环境变量</span><br><span class="line"><span class="meta">$</span> go env</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
+<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
+<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Go相关的书签" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/12/Go相关的书签/" class="article-date">
-      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:06:07.321Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -253,67 +311,11 @@
 
 
   
-    <article id="post-GoLand 配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/GoLand 配置/" class="article-date">
-      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>GoLand 2018.1.2</p>
-<p>/Users/jinlong/Library/Application Support/GoLand2018.1</p>
-<p>/Users/jinlong/Library/Preferences/GoLand2018.1</p>
-<p>/Users/jinlong//Library/Logs/GoLand2018.1</p>
-<p>/Users/jinlong/Library/Caches/GoLand2018.1</p>
-<p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
-<p><strong>Theme</strong> Darcula</p>
-<p><strong>Keymap</strong></p>
-<p>Default</p>
-<p><strong>Editor</strong></p>
-<p>Font: Menlo</p>
-<p>Size: 20</p>
-<p><a href="http://stozen.net/163.html" target="_blank" rel="noopener">Gogland更名为GoLand，并附加新功能</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-Google资深工程师深度讲解Go语言-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/12/Google资深工程师深度讲解Go语言-笔记/" class="article-date">
-      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:06:07.321Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -426,11 +428,66 @@
 
 
   
+    <article id="post-Go 项目列表" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/Go 项目列表/" class="article-date">
+      <time datetime="2018-07-12T02:06:07.321Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>date:2018-05-11 12:58</p>
+<p><a href="https://github.com/avelino/awesome-go" target="_blank" rel="noopener">awesome-go</a></p>
+<p><a href="https://github.com/enocom/gopher-reading-list" target="_blank" rel="noopener">gopher-reading-list</a></p>
+<p><a href="https://github.com/docker/docker-ce" target="_blank" rel="noopener">docker-ce</a></p>
+<p><a href="https://github.com/kubernetes/kubernetes" target="_blank" rel="noopener">Kubernetes</a></p>
+<p>[Caddy]</p>
+<p><a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">Gin</a></p>
+<p><a href="https://github.com/astaxie/beego/" target="_blank" rel="noopener">Beego</a></p>
+<p>[CockroachDB]</p>
+<p><a href="https://github.com/ego008/goyoubbs" target="_blank" rel="noopener">youBBS</a></p>
+<p><a href="https://github.com/qor" target="_blank" rel="noopener">QOR</a></p>
+<p><a href="https://github.com/EOSIO/eos" target="_blank" rel="noopener">eos</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Go-Gin" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/12/Go-Gin/" class="article-date">
-      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:06:07.321Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -443,7 +500,7 @@
       
           
         <p>date: 2018-05-08 08:58</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/gin-gonic/gin</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/winlion/restgo-admin.git</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> go get github.com/gin-gonic/gin</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> cd $GOPATH/src </span><br><span class="line"><span class="meta">$</span> git clone https://github.com/winlion/restgo-admin.git</span><br></pre></td></tr></table></figure>
 
       
       
@@ -471,11 +528,11 @@
 
 
   
-    <article id="post-Caddy" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-GoLand 配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/Caddy/" class="article-date">
-      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/12/GoLand 配置/" class="article-date">
+      <time datetime="2018-07-12T02:06:07.321Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -487,27 +544,19 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="https://github.com/Unknwon/wuwen.org/issues/11" target="_blank" rel="noopener">Caddy 部署实践</a></p>
-<p><a href="https://github.com/mholt/caddy/releases/" target="_blank" rel="noopener">Caddy</a></p>
-<p><a href="https://www.wolfcstech.com/2017/01/09/Caddy%20Web%E6%9C%8D%E5%8A%A1%E5%99%A8QUIC%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Caddy Web服务器QUIC部署</a></p>
-<p><a href="http://www.infoq.com/cn/news/2018/03/weibo-quic" target="_blank" rel="noopener">QUIC在微博中的落地思考</a></p>
-<p><a href="https://github.com/caddyserver/examples" target="_blank" rel="noopener">Examples for using Caddy Web Server</a></p>
-<p><a href="https://liudanking.com/beautiful-life/%E6%9C%AC%E7%AB%99%E5%BC%80%E5%90%AF%E6%94%AF%E6%8C%81-quic-%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%8E%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">本站开启支持 QUIC 的方法与配置</a></p>
-<p><a href="https://blog.sharpbai.com/2018/02/%E4%BD%BF%E7%94%A8caddy%E9%85%8D%E5%90%88nginx%E6%94%AF%E6%8C%81quic/" target="_blank" rel="noopener">使用caddy配合nginx支持QUIC
-</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/mholt/caddy/releases/download/v0.10.12/caddy_v0.10.12_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf caddy_v0.10.12_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">mv caddy /usr/local/bin/</span><br></pre></td></tr></table></figure>
-<p>/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp –port=32457</p>
-<p>mkdir -p /data/caddy/log/</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /data/caddy/Caddyfile</span><br><span class="line"></span><br><span class="line">ovwane.com:444 &#123;</span><br><span class="line">        tls /data/ssl/ovwane.com/ovwane.com_rsa_fullchain.cer /data/ssl/ovwane.com/ovwane.com_rsa.key</span><br><span class="line">        root /data/www/ovwane.com/public</span><br><span class="line">        gzip</span><br><span class="line">        log /data/caddy/log/ovwane.com.log</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/caddy.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Caddy HTTP/2 web server</span><br><span class="line">Documentation=https://caddyserver.com/docs</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target systemd-networkd-wait-online.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Restart=on-abnormal</span><br><span class="line"></span><br><span class="line">; User and group the process will run as.</span><br><span class="line">;User=caddy</span><br><span class="line">;Group=caddy</span><br><span class="line"></span><br><span class="line">; Letsencrypt-issued certificates will be written to this directory.</span><br><span class="line">Environment=CADDYPATH=/data/caddy</span><br><span class="line"></span><br><span class="line">; Always set "-root" to something safe in case it gets forgotten in the Caddyfile.</span><br><span class="line">ExecStart=/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp</span><br><span class="line">ExecReload=/bin/kill -USR1 $MAINPID</span><br><span class="line"></span><br><span class="line">; Use graceful shutdown with a reasonable timeout</span><br><span class="line">KillMode=mixed</span><br><span class="line">KillSignal=SIGQUIT</span><br><span class="line">TimeoutStopSec=5s</span><br><span class="line"></span><br><span class="line">; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.</span><br><span class="line">LimitNOFILE=1048576</span><br><span class="line">; Unmodified caddy is not expected to use more than that.</span><br><span class="line">LimitNPROC=512</span><br><span class="line"></span><br><span class="line">; Use private /tmp and /var/tmp, which are discarded after caddy stops.</span><br><span class="line">PrivateTmp=true</span><br><span class="line">; Use a minimal /dev (May bring additional security if switched to 'true', but it may not work on Raspberry Pi's or other devices, so it has been disabled in this dist.)</span><br><span class="line">PrivateDevices=false</span><br><span class="line">; Hide /home, /root, and /run/user. Nobody will steal your SSH-keys.</span><br><span class="line">ProtectHome=true</span><br><span class="line">; Make /usr, /boot, /etc and possibly some more folders read-only.</span><br><span class="line">ProtectSystem=full</span><br><span class="line">; … except /etc/ssl/caddy, because we want Letsencrypt-certificates there.</span><br><span class="line">;   This merely retains r/w access rights, it does not add any new. Must still be writable on the host!</span><br><span class="line">ReadWriteDirectories=/data/caddy</span><br><span class="line"></span><br><span class="line">; The following additional security directives only work with systemd v229 or later.</span><br><span class="line">; They further restrict privileges that can be gained by caddy. Uncomment if you like.</span><br><span class="line">; Note that you may have to add capabilities required by any plugins in use.</span><br><span class="line">;CapabilityBoundingSet=CAP_NET_BIND_SERVICE</span><br><span class="line">;AmbientCapabilities=CAP_NET_BIND_SERVICE</span><br><span class="line">;NoNewPrivileges=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable caddy.service</span><br><span class="line">systemctl start caddy.service</span><br><span class="line">systemctl stop caddy.service</span><br><span class="line">systemctl status caddy.service</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp --inet6 | grep -F caddy</span><br></pre></td></tr></table></figure>
-<p>日志自动切分</p>
-<p>vim /etc/logrotate.d/caddy</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/caddy/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/caddy.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/caddy.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>手动执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/caddy</span><br></pre></td></tr></table></figure>
+        <p>GoLand 2018.1.2</p>
+<p>/Users/jinlong/Library/Application Support/GoLand2018.1</p>
+<p>/Users/jinlong/Library/Preferences/GoLand2018.1</p>
+<p>/Users/jinlong//Library/Logs/GoLand2018.1</p>
+<p>/Users/jinlong/Library/Caches/GoLand2018.1</p>
+<p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
+<p><strong>Theme</strong> Darcula</p>
+<p><strong>Keymap</strong></p>
+<p>Default</p>
+<p><strong>Editor</strong></p>
+<p>Font: Menlo</p>
+<p>Size: 20</p>
+<p><a href="http://stozen.net/163.html" target="_blank" rel="noopener">Gogland更名为GoLand，并附加新功能</a></p>
 
       
       
@@ -535,11 +584,11 @@
 
 
   
-    <article id="post-CentOS Go环境配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Go" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/CentOS Go环境配置/" class="article-date">
-      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/12/Go/" class="article-date">
+      <time datetime="2018-07-12T02:06:07.321Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -551,75 +600,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date: 2018-05-08 17:01</p>
-<p><strong>安装依赖</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mercurial bison</span><br></pre></td></tr></table></figure>
-<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span><br></pre></td></tr></table></figure>
-<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
-<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -B 表示只安装二进制包</span><br><span class="line"><span class="meta">$</span> gvm install go1.10.1 -B</span><br><span class="line"><span class="meta">$</span> gvm use go1.10.1</span><br><span class="line"><span class="meta">$</span> export GOROOT_BOOTSTRAP=$GOROOT</span><br><span class="line"><span class="meta">$</span> gvm install go1.10.2</span><br></pre></td></tr></table></figure>
-<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> gvm use go1.10.2 --default</span><br></pre></td></tr></table></figure>
-<p><strong>使用</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看可以安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm listall</span><br><span class="line"><span class="meta">#</span> 查看本地安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm list</span><br><span class="line"><span class="meta">#</span> go环境变量</span><br><span class="line"><span class="meta">$</span> go env</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
-<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
-<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
+        <p>#<a href="https://golang.org/" target="_blank" rel="noopener">Go</a><br>安装Go</p>
+<p><code>brew install go</code></p>
+<p>安装分布式管理工具hg</p>
+<p> <code>brew install hg</code></p>
+<p>建立go的环境变量文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd $HOME</span><br><span class="line"></span><br><span class="line">mkdir go</span><br></pre></td></tr></table></figure>
+<p>~/.zshrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">export GOPATH=$HOME/go</span><br><span class="line">export PATH=$HOME/bin:$GOPATH/bin:$PATH</span><br></pre></td></tr></table></figure>
+<p><code>brew cask install goland</code></p>
 
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-CentOS7 安装Python" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/CentOS7 安装Python/" class="article-date">
-      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="安装Python"><a href="#安装Python" class="headerlink" title="安装Python"></a>安装Python</h2><h3 id="安装Python依赖"><a href="#安装Python依赖" class="headerlink" title="安装Python依赖"></a>安装Python依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># CentOS7</span><br><span class="line">yum install -y  gcc gcc-c++ make git patch openssl-devel zlib-devel readline-devel sqlite sqlite-devel bzip2-devel curl wget ncurses-devel sqlite-devel gdbm-devel xz-devel tk-devel</span><br></pre></td></tr></table></figure>
-<h3 id="安装pyenv"><a href="#安装pyenv" class="headerlink" title="安装pyenv"></a>安装<a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener">pyenv</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br></pre></td></tr></table></figure>
-<h4 id="配置bash-profile"><a href="#配置bash-profile" class="headerlink" title="配置bash_profile"></a>配置bash_profile</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">echo -e &apos;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">exec &quot;$SHELL&quot;</span><br></pre></td></tr></table></figure>
-<h4 id="安装Python-1"><a href="#安装Python-1" class="headerlink" title="安装Python"></a>安装Python</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.5 -v</span><br><span class="line"></span><br><span class="line">pyenv global 3.6.5</span><br><span class="line"></span><br><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure>
-<p>/root/.pyenv/versions/3.6.5/bin/python</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install virtualenvwrapper pipenv</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>start virtualwrapper</span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/root/.pyenv/versions/3.6.5/bin/python</span><br><span class="line">export WORKON_HOME='~/.virtualenv'</span><br><span class="line">source /root/.pyenv/versions/3.6.5/bin/virtualenvwrapper.sh</span><br><span class="line"><span class="meta">#</span>end</span><br></pre></td></tr></table></figure>
-<p>pipenv –python=/root/.pyenv/versions/3.6.5/bin/python</p>
-<p>因Supervisor现在不支持python3的版本需要安装Python 2.7.13</p>
-<p>pyenv install 2.7.14 -v<br>pyenv global 2.7.14<br>pyenv rehash</p>
-<h3 id="更改pypi源"><a href="#更改pypi源" class="headerlink" title="更改pypi源"></a>更改pypi源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
       
       
     </div>
