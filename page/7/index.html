@@ -206,11 +206,100 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/hexo/" class="article-date">
+      <time datetime="2018-07-12T03:35:35.848Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>ssh-keygen -t rsa -b 4096 -C “<a href="mailto:ovwane@gmail.com" target="_blank" rel="noopener">ovwane@gmail.com</a>“ -f ~/.ssh/github_rsa </p>
+<p>ssh-keygen -t rsa -b 4096 -C “<a href="mailto:ovwane@gmail.com" target="_blank" rel="noopener">ovwane@gmail.com</a>“ -f ~/.ssh/coding_net_rsa </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br><span class="line"></span><br><span class="line">Host github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/github_rsa</span><br><span class="line">  </span><br><span class="line">Host git.coding.net</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/coding_net_rsa</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> -b hexo git@github.com:ovwane/ovwane.github.io.git blog.ovwane.me</span></span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-firewalld" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/firewalld/" class="article-date">
+      <time datetime="2018-07-12T03:35:35.848Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#显示状态</span><br><span class="line">firewall-cmd --state</span><br><span class="line"></span><br><span class="line">#查看区域信息</span><br><span class="line">firewall-cmd --get-default-zone</span><br><span class="line"></span><br><span class="line">#将接口添加到区域，默认接口都在public</span><br><span class="line">firewall-cmd --zone=public --add-interface=eth0 --permanent</span><br><span class="line"></span><br><span class="line">#设置默认接口区域</span><br><span class="line">firewall-cmd --set-default-zone=public</span><br><span class="line"></span><br><span class="line">#查看指定接口所属区域</span><br><span class="line">firewall-cmd --get-zone-of-interface=eth0</span><br><span class="line"></span><br><span class="line">#要得到特定区域的所有配置</span><br><span class="line">firewall-cmd --zone=public --list-all</span><br><span class="line"></span><br><span class="line">#查看所有打开的端口</span><br><span class="line">firewall-cmd --zone=public --list-ports</span><br><span class="line"></span><br><span class="line">#查看所有打开的服务</span><br><span class="line">firewall-cmd --zone=public --list-services</span><br><span class="line"></span><br><span class="line">#开启服务</span><br><span class="line">firewall-cmd --zone=public --add-service=http</span><br><span class="line"></span><br><span class="line">#永久开启服务</span><br><span class="line">firewall-cmd --zone=public --add-service=http --permanent</span><br><span class="line"></span><br><span class="line">#移除服务</span><br><span class="line">firewall-cmd --zone=public --remove-service=dhcpv6-client --permanent</span><br><span class="line"></span><br><span class="line">#更新防火墙规则</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-docker" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/12/docker/" class="article-date">
-      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T03:35:35.848Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -259,7 +348,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/distribute_crawler项目实战/" class="article-date">
-      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T03:35:35.848Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -314,7 +403,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/crawl_spider 环境配置/" class="article-date">
-      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T03:35:35.848Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -358,7 +447,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/awk命令总结/" class="article-date">
-      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T03:35:35.848Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -407,7 +496,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/article_jobbole/" class="article-date">
-      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T03:35:35.848Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -496,7 +585,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/ai_ml/" class="article-date">
-      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T03:35:35.848Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -541,7 +630,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/acme.sh/" class="article-date">
-      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T03:35:35.848Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -593,7 +682,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/Windows 安装软件/" class="article-date">
-      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T03:35:35.848Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -608,117 +697,6 @@
         <p>date:2018-05-06 15:41</p>
 <p><a href="http://www.edrawsoft.cn/download-edrawmax.php" target="_blank" rel="noopener">亿图图示</a></p>
 <p><a href="http://www.yipojie.cn/684.html" target="_blank" rel="noopener">[亿图图示 Edraw Max v9.1 中文破解版及破解授权补丁]</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Vim安装配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/Vim安装配置/" class="article-date">
-      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Vim安装配置"><a href="#Vim安装配置" class="headerlink" title="Vim安装配置"></a>Vim安装配置</h1><p><a href="http://www.jianshu.com/p/a0b452f8f720" target="_blank" rel="noopener">Vim配置、插件和使用技巧</a></p>
-<h2 id="安装-Vim"><a href="#安装-Vim" class="headerlink" title="安装 Vim"></a>安装 <a href="http://www.vim.org/" target="_blank" rel="noopener">Vim</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y vim-common vim-enhanced vim-minimal vim-filesystem</span><br></pre></td></tr></table></figure>
-<h2 id="配置插件管理器-Vundle"><a href="#配置插件管理器-Vundle" class="headerlink" title="配置插件管理器 Vundle"></a>配置插件管理器 <a href="https://github.com/VundleVim/Vundle.vim" target="_blank" rel="noopener">Vundle</a></h2><h3 id="安装Vundle"><a href="#安装Vundle" class="headerlink" title="安装Vundle"></a>安装Vundle</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</span><br></pre></td></tr></table></figure>
-<p><a href="http://zuyunfei.com/2013/04/12/killer-plugin-of-vim-vundle/" target="_blank" rel="noopener">vim中的杀手级插件: vundle</a></p>
-<h3 id="配置-vimrc"><a href="#配置-vimrc" class="headerlink" title="配置 ~/.vimrc"></a>配置 ~/.vimrc</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; ~/.vimrc &lt;&lt; EOF</span><br><span class="line"><span class="built_in">set</span> nocompatible              <span class="string">" be iMproved, required</span></span><br><span class="line"><span class="string">filetype off                  "</span> required</span><br><span class="line"></span><br><span class="line"><span class="string">" set the runtime path to include Vundle and initialize</span></span><br><span class="line"><span class="string">set rtp+=~/.vim/bundle/Vundle.vim</span></span><br><span class="line"><span class="string">call vundle#begin()</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> <span class="built_in">let</span> Vundle manage Vundle, required</span><br><span class="line">Plugin <span class="string">'VundleVim/Vundle.vim'</span></span><br><span class="line"></span><br><span class="line"><span class="string">" Color schemes</span></span><br><span class="line"><span class="string">Plugin 'tomasr/molokai'</span></span><br><span class="line"><span class="string">Plugin 'altercation/vim-colors-solarized'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> Status Color schemes</span><br><span class="line">Plugin <span class="string">'vim-airline/vim-airline'</span></span><br><span class="line">Plugin <span class="string">'vim-airline/vim-airline-themes'</span></span><br><span class="line"></span><br><span class="line"><span class="string">" plugin on GitHub repo</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'tpope/vim-fugitive'</span></span><br><span class="line"><span class="string">" plugin from http://vim-scripts.org/vim/scripts.html</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'L9'</span></span><br><span class="line"><span class="string">" Git plugin not hosted on GitHub</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'git://git.wincent.com/command-t.git'</span></span><br><span class="line"><span class="string">" git repos on your local machine (i.e. when working on your own plugin)</span></span><br><span class="line"><span class="string">"</span> Plugin <span class="string">'file:///home/gmarik/path/to/plugin'</span></span><br><span class="line"><span class="string">" The sparkup vim script is in a subdirectory of this repo called vim.</span></span><br><span class="line"><span class="string">"</span> Pass the path to <span class="built_in">set</span> the runtimepath properly.</span><br><span class="line"><span class="string">" Plugin 'rstacruz/sparkup', &#123;'rtp': 'vim/'&#125;</span></span><br><span class="line"><span class="string">"</span> Install L9 and avoid a Naming conflict <span class="keyword">if</span> you<span class="string">'ve already installed a</span></span><br><span class="line"><span class="string">" different version somewhere else.</span></span><br><span class="line"><span class="string">" Plugin '</span>ascenator/L9<span class="string">', &#123;'</span>name<span class="string">': '</span>newL9<span class="string">'&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">" All of your Plugins must be added before the following line</span></span><br><span class="line"><span class="string">call vundle#end()            " required</span></span><br><span class="line"><span class="string">filetype plugin indent on    " required</span></span><br><span class="line"><span class="string">" To ignore plugin indent changes, instead use:</span></span><br><span class="line"><span class="string">"filetype plugin on</span></span><br><span class="line"><span class="string">" Put your non-Plugin stuff after this line</span></span><br><span class="line"><span class="string">" solarized start</span></span><br><span class="line"><span class="string">"let g:solarized_termcolors=256</span></span><br><span class="line"><span class="string">"let g:solarized_termtrans=1</span></span><br><span class="line"><span class="string">"let g:solarized_contrast="normal"</span></span><br><span class="line"><span class="string">"let g:solarized_visibility="normal"</span></span><br><span class="line"><span class="string">"syntax enable</span></span><br><span class="line"><span class="string">"set background=dark</span></span><br><span class="line"><span class="string">"colorscheme solarized</span></span><br><span class="line"><span class="string">" solarized end</span></span><br><span class="line"><span class="string">" molokai start</span></span><br><span class="line"><span class="string">let g:molokai_original = 1</span></span><br><span class="line"><span class="string">let g:rehash256 = 1</span></span><br><span class="line"><span class="string">colorscheme molokai</span></span><br><span class="line"><span class="string">" molokai end</span></span><br><span class="line"><span class="string">" Airline theme start</span></span><br><span class="line"><span class="string">let g:airline_theme='</span>molokai<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_powerline_fonts = 1</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#enabled = 1</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#buffer_nr_show = 1</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#left_sep = '</span> <span class="string">'</span></span><br><span class="line"><span class="string">let g:airline#extensions#tabline#left_alt_sep = '</span>|<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline#extensions#whitespace#enabled = 0</span></span><br><span class="line"><span class="string">let g:airline#extensions#whitespace#symbol = '</span>!<span class="string">'</span></span><br><span class="line"><span class="string">if !exists('</span>g:airline_symbols<span class="string">')</span></span><br><span class="line"><span class="string">  let g:airline_symbols = &#123;&#125;</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">" unicode symbols</span></span><br><span class="line"><span class="string">let g:airline_left_sep = '</span>»<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_left_sep = '</span>▶<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_right_sep = '</span>«<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_right_sep = '</span>◀<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.crypt = '</span>🔒<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>☰<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>␊<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>␤<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.linenr = '</span>¶<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.maxlinenr = '</span><span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.maxlinenr = '</span>㏑<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.branch = '</span>⎇<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.paste = '</span>ρ<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.paste = '</span>Þ<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.paste = '</span>∥<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.spell = '</span>Ꞩ<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.notexists = '</span>∄<span class="string">'</span></span><br><span class="line"><span class="string">let g:airline_symbols.whitespace = '</span>Ξ<span class="string">'</span></span><br><span class="line"><span class="string">" Airline theme end</span></span><br><span class="line"><span class="string">"</span></span><br><span class="line"><span class="string">set laststatus=2</span></span><br><span class="line"><span class="string">set t_Co=256</span></span><br><span class="line"><span class="string">set encoding=utf-8</span></span><br><span class="line"><span class="string">set syntax enable</span></span><br><span class="line"><span class="string">set syntax on</span></span><br><span class="line"><span class="string">set number</span></span><br><span class="line"><span class="string">"</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
-<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim +PluginInstall +qall</span><br></pre></td></tr></table></figure>
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot; Brief help</span><br><span class="line">&quot; :PluginList       - lists configured plugins</span><br><span class="line">&quot; :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate</span><br><span class="line">&quot; :PluginSearch foo - searches for foo; append `!` to refresh local cache</span><br><span class="line">&quot; :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal</span><br><span class="line">&quot; see :h vundle for more details or wiki for FAQ</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#安装插件 Install Plugins:</span><br><span class="line"></span><br><span class="line">Launch vim and run :PluginInstall</span><br></pre></td></tr></table></figure>
-<h2 id="Vim插件"><a href="#Vim插件" class="headerlink" title="Vim插件"></a>Vim插件</h2><h3 id="pathogen类似于Vundle"><a href="#pathogen类似于Vundle" class="headerlink" title="pathogen类似于Vundle"></a><a href="https://github.com/tpope/vim-pathogen" target="_blank" rel="noopener">pathogen</a>类似于Vundle</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.vim/autoload ~/.vim/bundle &amp;&amp; \</span><br><span class="line">curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi .vimrc</span><br><span class="line"></span><br><span class="line">execute pathogen#infect()</span><br><span class="line">syntax on</span><br><span class="line">filetype plugin indent on</span><br></pre></td></tr></table></figure>
-<h3 id="vim-airline"><a href="#vim-airline" class="headerlink" title="vim-airline"></a><a href="https://github.com/vim-airline/vim-airline" target="_blank" rel="noopener">vim-airline</a></h3><h3 id="vim-airline-themes"><a href="#vim-airline-themes" class="headerlink" title="vim-airline-themes"></a><a href="https://github.com/vim-airline/vim-airline-themes" target="_blank" rel="noopener">vim-airline-themes</a></h3><h2 id="Vim主题"><a href="#Vim主题" class="headerlink" title="Vim主题"></a>Vim主题</h2><h3 id="Solarized"><a href="#Solarized" class="headerlink" title="Solarized"></a><a href="http://ethanschoonover.com/solarized" target="_blank" rel="noopener">Solarized</a></h3><p><a href="https://github.com/altercation/vim-colors-solarized" target="_blank" rel="noopener">Solarized Colorscheme for Vim</a></p>
-<h3 id="Molokai"><a href="#Molokai" class="headerlink" title="Molokai"></a>Molokai</h3><p><a href="https://github.com/tomasr/molokai" target="_blank" rel="noopener">Molokai Color Scheme for Vim</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Vim 配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/Vim 配置/" class="article-date">
-      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date: 2018-05-05 17:00</p>
-<p><a href="http://github.com/VundleVim/Vundle.vim" target="_blank" rel="noopener">Vundle</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.vimrc</span><br><span class="line"></span><br><span class="line">set nocompatible              &quot; be iMproved, required</span><br><span class="line">filetype off                  &quot; required</span><br><span class="line"></span><br><span class="line">&quot; set the runtime path to include Vundle and initialize</span><br><span class="line">set rtp+=~/.vim/bundle/Vundle.vim</span><br><span class="line">call vundle#begin()</span><br><span class="line">&quot; alternatively, pass a path where Vundle should install plugins</span><br><span class="line">&quot;call vundle#begin(&apos;~/some/path/here&apos;)</span><br><span class="line"></span><br><span class="line">&quot; let Vundle manage Vundle, required</span><br><span class="line">Plugin &apos;VundleVim/Vundle.vim&apos;</span><br><span class="line"></span><br><span class="line">&quot; The following are examples of different formats supported.</span><br><span class="line">&quot; Keep Plugin commands between vundle#begin/end.</span><br><span class="line">&quot; plugin on GitHub repo</span><br><span class="line">Plugin &apos;tpope/vim-fugitive&apos;</span><br><span class="line">&quot; plugin from http://vim-scripts.org/vim/scripts.html</span><br><span class="line">&quot; Plugin &apos;L9&apos;</span><br><span class="line">&quot; Git plugin not hosted on GitHub</span><br><span class="line">Plugin &apos;git://git.wincent.com/command-t.git&apos;</span><br><span class="line">&quot; git repos on your local machine (i.e. when working on your own plugin)</span><br><span class="line">Plugin &apos;file:///home/gmarik/path/to/plugin&apos;</span><br><span class="line">&quot; The sparkup vim script is in a subdirectory of this repo called vim.</span><br><span class="line">&quot; Pass the path to set the runtimepath properly.</span><br><span class="line">Plugin &apos;rstacruz/sparkup&apos;, &#123;&apos;rtp&apos;: &apos;vim/&apos;&#125;</span><br><span class="line">&quot; Install L9 and avoid a Naming conflict if you&apos;ve already installed a</span><br><span class="line">&quot; different version somewhere else.</span><br><span class="line">&quot; Plugin &apos;ascenator/L9&apos;, &#123;&apos;name&apos;: &apos;newL9&apos;&#125;</span><br><span class="line"></span><br><span class="line">&quot; All of your Plugins must be added before the following line</span><br><span class="line">call vundle#end()            &quot; required</span><br><span class="line">filetype plugin indent on    &quot; required</span><br><span class="line">&quot; To ignore plugin indent changes, instead use:</span><br><span class="line">&quot;filetype plugin on</span><br><span class="line">&quot;</span><br><span class="line">&quot; Brief help</span><br><span class="line">&quot; :PluginList       - lists configured plugins</span><br><span class="line">&quot; :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate</span><br><span class="line">&quot; :PluginSearch foo - searches for foo; append `!` to refresh local cache</span><br><span class="line">&quot; :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal</span><br><span class="line">&quot;</span><br><span class="line">&quot; see :h vundle for more details or wiki for FAQ</span><br><span class="line">&quot; Put your non-Plugin stuff after this line</span><br></pre></td></tr></table></figure>
-<p>Install Plugins:</p>
-<p>Launch <code>vim</code> and run <code>:PluginInstall</code></p>
-<p>To install from command line: <code>vim +PluginInstall +qall</code></p>
-<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">“显示行号</span><br><span class="line">　　set nummber</span><br><span class="line">　　“语法高亮度显示</span><br><span class="line">　　 syntax on </span><br><span class="line">　　“下面两行在进行编写代码时，在格式对起上很有用；</span><br><span class="line">　　“第一行，vim使用自动对起，也就是把当前行的对起格式应用到下一行；</span><br><span class="line">　　“第二行，依据上面的对起格式，智能的选择对起方式，对于类似C语言编</span><br><span class="line">　　“写上很有用</span><br><span class="line">　　set autoindent</span><br><span class="line">　　set smartindent</span><br><span class="line">　　“第一行设置tab键为4个空格，第二行设置当行之间交错时使用4个空格</span><br><span class="line">　　set tabstop=4</span><br><span class="line">　　set shiftwidth=4</span><br><span class="line">　　“设置匹配模式，类似当输入一个左括号时会匹配相应的那个右括号</span><br><span class="line">　　set showmatch</span><br></pre></td></tr></table></figure>
-<h3 id="主题配色"><a href="#主题配色" class="headerlink" title="主题配色"></a>主题配色</h3><p>[vim-colors-solarized</p>
-<h3 id="Vim插件"><a href="#Vim插件" class="headerlink" title="Vim插件"></a>Vim插件</h3><p><a href="https://github.com/vim-airline/vim-airline" target="_blank" rel="noopener">vim-airline</a></p>
-<p><a href="https://github.com/scrooloose/nerdtree" target="_blank" rel="noopener"><strong>nerdtree</strong></a></p>
-<p><a href="https://github.com/Xuyuanp/nerdtree-git-plugin" target="_blank" rel="noopener">nerdtree-git-plugin</a></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/3066b3191cb1" target="_blank" rel="noopener">上古神器vim插件：你真的学会用NERDTree了吗？</a></p>
 
       
       
