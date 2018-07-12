@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Go编码规范指南" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-IntelliJ IDEA 配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/11/Go编码规范指南/" class="article-date">
-      <time datetime="2018-05-11T09:23:01.799Z" itemprop="datePublished">2018-05-11</time>
+      <a href="/2018/07/12/IntelliJ IDEA 配置/" class="article-date">
+      <time datetime="2018-07-12T01:54:05.674Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -222,138 +222,17 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date: 2018-05-11 13:59</p>
-<h1 id="Go编码规范指南"><a href="#Go编码规范指南" class="headerlink" title="Go编码规范指南"></a>Go编码规范指南</h1><h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>看过很多方面的编码规范，可能每一家公司都有不同的规范，这份编码规范是写给我自己的，同时希望我们公司内部同事也能遵循这个规范来写Go代码。</p>
-<p>如果你的代码没有办法找到下面的规范，那么就遵循标准库的规范，多阅读标准库的源码，标准库的代码可以说是我们写代码参考的标杆。</p>
-<h2 id="格式化规范"><a href="#格式化规范" class="headerlink" title="格式化规范"></a>格式化规范</h2><p>go默认已经有了gofmt工具，但是我们强烈建议使用goimport工具，这个在gofmt的基础上增加了自动删除和引入包.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get golang.org/x/tools/cmd/goimports</span></span><br></pre></td></tr></table></figure>
-<p>不同的编辑器有不同的配置, sublime的配置教程：<a href="http://michaelwhatcott.com/gosublime-goimports/" target="_blank" rel="noopener">http://michaelwhatcott.com/gosublime-goimports/</a></p>
-<p>LiteIDE默认已经支持了goimports，如果你的不支持请点击属性配置-&gt;golangfmt-&gt;勾选goimports</p>
-<p>保存之前自动fmt你的代码。</p>
-<h2 id="行长约定"><a href="#行长约定" class="headerlink" title="行长约定"></a>行长约定</h2><p>一行最长不超过80个字符，超过的请使用换行展示，尽量保持格式优雅。</p>
-<h2 id="go-vet"><a href="#go-vet" class="headerlink" title="go vet"></a>go vet</h2><p>vet工具可以帮我们静态分析我们的源码存在的各种问题，例如多余的代码，提前return的逻辑，struct的tag是否符合标准等。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get golang.org/x/tools/cmd/vet</span></span><br></pre></td></tr></table></figure>
-<p>使用如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go vet .</span></span><br></pre></td></tr></table></figure>
-<h2 id="package名字"><a href="#package名字" class="headerlink" title="package名字"></a>package名字</h2><p>保持package的名字和目录保持一致，尽量采取有意义的包名，简短，有意义，尽量和标准库不要冲突。</p>
-<h2 id="import-规范"><a href="#import-规范" class="headerlink" title="import 规范"></a>import 规范</h2><p>import在多行的情况下，goimports会自动帮你格式化，但是我们这里还是规范一下import的一些规范，如果你在一个文件里面引入了一个package，还是建议采用如下格式：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>如果你的包引入了三种类型的包，标准库包，程序内部包，第三方包，建议采用如下方式进行组织你的包：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"encoding/json"</span></span><br><span class="line">    <span class="string">"strings"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"myproject/models"</span></span><br><span class="line">    <span class="string">"myproject/controller"</span></span><br><span class="line">    <span class="string">"myproject/utils"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"github.com/astaxie/beego"</span></span><br><span class="line">    <span class="string">"github.com/go-sql-driver/mysql"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>有顺序的引入包，不同的类型采用空格分离，第一种实标准库，第二是项目包，第三是第三方包。</p>
-<p>在项目中不要使用相对路径引入包：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是不好的导入</span></span><br><span class="line"><span class="keyword">import</span> “../net”</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这是正确的做法</span></span><br><span class="line"><span class="keyword">import</span> “github.com/repo/proj/src/net”</span><br></pre></td></tr></table></figure>
-<h2 id="变量申明"><a href="#变量申明" class="headerlink" title="变量申明"></a>变量申明</h2><p>变量名采用驼峰标准，不要使用<code>_</code>来命名变量名，多个变量申明放在一起</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    Found <span class="keyword">bool</span></span><br><span class="line">    count <span class="keyword">int</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>在函数外部申明必须使用var,不要采用<code>:=</code>，容易踩到变量的作用域的问题。</p>
-<h2 id="自定义类型的string循环问题"><a href="#自定义类型的string循环问题" class="headerlink" title="自定义类型的string循环问题"></a>自定义类型的string循环问题</h2><p>如果自定义的类型定义了String方法，那么在打印的时候会产生隐藏的一些bug</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyInt <span class="keyword">int</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MyInt)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123; </span><br><span class="line">    <span class="keyword">return</span> fmt.Sprint(m)   <span class="comment">//<span class="doctag">BUG:</span>死循环</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(m MyInt)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123; </span><br><span class="line">    <span class="keyword">return</span> fmt.Sprint(<span class="keyword">int</span>(m))   <span class="comment">//这是安全的,因为我们内部进行了类型转换</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="避免返回命名的参数"><a href="#避免返回命名的参数" class="headerlink" title="避免返回命名的参数"></a>避免返回命名的参数</h2><p>如果你的函数很短小，少于10行代码，那么可以使用，不然请直接使用类型，因为如果使用命名变量很<br>容易引起隐藏的bug</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Foo</span><span class="params">(a <span class="keyword">int</span>, b <span class="keyword">int</span>)</span> <span class="params">(<span class="keyword">string</span>, ok)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当然如果是有多个相同类型的参数返回，那么命名参数可能更清晰：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *Foo)</span> <span class="title">Location</span><span class="params">()</span> <span class="params">(<span class="keyword">float64</span>, <span class="keyword">float64</span>, error)</span></span></span><br></pre></td></tr></table></figure>
-<p>下面的代码就更清晰了：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Location returns f's latitude and longitude.</span></span><br><span class="line"><span class="comment">// Negative values mean south and west, respectively.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *Foo)</span> <span class="title">Location</span><span class="params">()</span> <span class="params">(lat, long <span class="keyword">float64</span>, err error)</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>错误处理的原则就是不能丢弃任何有返回err的调用，不要采用<code>_</code>丢弃，必须全部处理。接收到错误，要么返回err，要么实在不行就panic，或者使用log记录下来</p>
-<h3 id="error-信息"><a href="#error-信息" class="headerlink" title="error 信息"></a>error 信息</h3><p>error的信息不要采用大写字母，尽量保持你的错误简短，但是要足够表达你的错误的意思。</p>
-<h2 id="长句子打印或者调用，使用参数进行格式化分行"><a href="#长句子打印或者调用，使用参数进行格式化分行" class="headerlink" title="长句子打印或者调用，使用参数进行格式化分行"></a>长句子打印或者调用，使用参数进行格式化分行</h2><p>我们在调用<code>fmt.Sprint</code>或者<code>log.Sprint</code>之类的函数时，有时候会遇到很长的句子，我们需要在参数调用处进行多行分割：</p>
-<p>下面是错误的方式：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log.Printf(“A long format <span class="keyword">string</span>: %s %d %d %s”, myStringParameter, <span class="built_in">len</span>(a),</span><br><span class="line">    expected.Size, defrobnicate(“Anotherlongstringparameter”,</span><br><span class="line">        expected.Growth.Nanoseconds() /<span class="number">1e6</span>))</span><br></pre></td></tr></table></figure>
-<p>应该是如下的方式：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">log.Printf( </span><br><span class="line">    “A long format <span class="keyword">string</span>: %s %d %d %s”, </span><br><span class="line">    myStringParameter,</span><br><span class="line">    <span class="built_in">len</span>(a),</span><br><span class="line">    expected.Size,</span><br><span class="line">    defrobnicate(</span><br><span class="line">        “Anotherlongstringparameter”,</span><br><span class="line">        expected.Growth.Nanoseconds()/<span class="number">1e6</span>, </span><br><span class="line">    ),</span><br><span class="line">）</span><br></pre></td></tr></table></figure>
-<h2 id="注意闭包的调用"><a href="#注意闭包的调用" class="headerlink" title="注意闭包的调用"></a>注意闭包的调用</h2><p>在循环中调用函数或者goroutine方法，一定要采用显示的变量调用，不要再闭包函数里面调用循环的参数</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fori:=<span class="number">0</span>;i&lt;limit;i++&#123;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; DoSomething(i) &#125;() <span class="comment">//错误的做法</span></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>)</span></span>&#123; DoSomething(i) &#125;(i)<span class="comment">//正确的做法</span></span><br><span class="line">￼&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="http://golang.org/doc/articles/race_detector.html#Race_on_loop_counter" target="_blank" rel="noopener">http://golang.org/doc/articles/race_detector.html#Race_on_loop_counter</a></p>
-<h2 id="在逻辑处理中禁用panic"><a href="#在逻辑处理中禁用panic" class="headerlink" title="在逻辑处理中禁用panic"></a>在逻辑处理中禁用panic</h2><p>在main包中只有当实在不可运行的情况采用panic，例如文件无法打开，数据库无法连接导致程序无法<br>正常运行，但是对于其他的package对外的接口不能有panic，只能在包内采用。</p>
-<p>强烈建议在main包中使用log.Fatal来记录错误，这样就可以由log来结束程序。</p>
-<h2 id="注释规范"><a href="#注释规范" class="headerlink" title="注释规范"></a>注释规范</h2><p>注释可以帮我们很好的完成文档的工作，写得好的注释可以方便我们以后的维护。详细的如何写注释可以<br>参考：<a href="http://golang.org/doc/effective_go.html#commentary" target="_blank" rel="noopener">http://golang.org/doc/effective_go.html#commentary</a></p>
-<h3 id="bug注释"><a href="#bug注释" class="headerlink" title="bug注释"></a>bug注释</h3><p>针对代码中出现的bug，可以采用如下教程使用特殊的注释，在godocs可以做到注释高亮：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BUG(astaxie):This divides by zero. </span></span><br><span class="line"><span class="keyword">var</span> i float = <span class="number">1</span>/<span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p><a href="http://blog.golang.org/2011/03/godoc%C2%ADdocumenting%C2%ADgo%C2%ADcode.html" target="_blank" rel="noopener">http://blog.golang.org/2011/03/godoc­documenting­go­code.html</a></p>
-<h2 id="struct规范"><a href="#struct规范" class="headerlink" title="struct规范"></a>struct规范</h2><h3 id="struct申明和初始化格式采用多行："><a href="#struct申明和初始化格式采用多行：" class="headerlink" title="struct申明和初始化格式采用多行："></a>struct申明和初始化格式采用多行：</h3><p>定义如下：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span>&#123;</span><br><span class="line">    Username  <span class="keyword">string</span></span><br><span class="line">    Email     <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>初始化如下：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">u := User&#123;</span><br><span class="line">    Username: <span class="string">"astaxie"</span>,</span><br><span class="line">    Email:    <span class="string">"astaxie@gmail.com"</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="recieved是值类型还是指针类型"><a href="#recieved是值类型还是指针类型" class="headerlink" title="recieved是值类型还是指针类型"></a>recieved是值类型还是指针类型</h3><p>到底是采用值类型还是指针类型主要参考如下原则：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(w Win)</span> <span class="title">Tally</span><span class="params">(playerPlayer)</span><span class="title">int</span>    //<span class="title">w</span>不会有任何改变 </span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(w *Win)</span> <span class="title">Tally</span><span class="params">(playerPlayer)</span><span class="title">int</span>    //<span class="title">w</span>会改变数据</span></span><br></pre></td></tr></table></figure>
-<p>更多的请参考：<a href="https://code.google.com/p/go-wiki/wiki/CodeReviewComments#Receiver_Type" target="_blank" rel="noopener">https://code.google.com/p/go-wiki/wiki/CodeReviewComments#Receiver_Type</a></p>
-<h3 id="带mutex的struct必须是指针receivers"><a href="#带mutex的struct必须是指针receivers" class="headerlink" title="带mutex的struct必须是指针receivers"></a>带mutex的struct必须是指针receivers</h3><p>如果你定义的struct中带有mutex,那么你的receivers必须是指针</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><a href="https://code.google.com/p/go-wiki/wiki/CodeReviewComments" target="_blank" rel="noopener">https://code.google.com/p/go-wiki/wiki/CodeReviewComments</a></li>
-<li><a href="http://golang.org/doc/effective_go.html" target="_blank" rel="noopener">http://golang.org/doc/effective_go.html</a></li>
-<li><a href="http://golanghome.com/post/550" target="_blank" rel="noopener">http://golanghome.com/post/550</a></li>
-<li><a href="https://talks.golang.org/2014/names.slide#1" target="_blank" rel="noopener">https://talks.golang.org/2014/names.slide#1</a></li>
-</ol>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-CentOS安装配置Redis" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/11/CentOS安装配置Redis/" class="article-date">
-      <time datetime="2018-05-11T09:23:01.799Z" itemprop="datePublished">2018-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://redis.io" target="_blank" rel="noopener">Redis</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-4.0.9.tar.gz</span><br><span class="line">tar xzf redis-4.0.9.tar.gz</span><br><span class="line">cd redis-4.0.9</span><br><span class="line">make</span><br><span class="line">make test</span><br><span class="line"></span><br><span class="line">cd utils</span><br><span class="line">./install_server.sh</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/redis/6379</span><br><span class="line">mkdir -p /data/redis/log</span><br><span class="line">mkdir /etc/redis</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//增加redis用户组</span><br><span class="line">groupadd redis</span><br><span class="line">useradd -c Redis Server -s /sbin/nologin -d /var/lib/redis -g redis -G root 123</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>reids参数解释：<br>-c 用户描述信息<br>-s 用户执行脚本，此处为安全考虑，redis用户是不允许远程登录，故使用/sbin/nologin<br>-d 用户home目录，此处无需在/home目录下创建redis子目录，故将其定位于/var/lib/redis空目录中<br>-G 扩展用户组，即表示此用户同时属于root用户组</p>
-</blockquote>
-<p>配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/redis/6379.conf</span><br><span class="line"></span><br><span class="line">bind 127.0.0.1</span><br><span class="line">protected-mode yes</span><br><span class="line">port 6379</span><br><span class="line">tcp-backlog 511</span><br><span class="line">timeout 0</span><br><span class="line">tcp-keepalive 300</span><br><span class="line">daemonize yes</span><br><span class="line">supervised systemd</span><br><span class="line">pidfile /data/redis/redis_6379.pid</span><br><span class="line">loglevel notice</span><br><span class="line">logfile /data/redis/log/redis_6379.log</span><br><span class="line">databases 16</span><br><span class="line">always-show-logo yes</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line">rdbcompression yes</span><br><span class="line">rdbchecksum yes</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line">dir /data/redis/6379</span><br><span class="line">slave-serve-stale-data yes</span><br><span class="line">slave-read-only yes</span><br><span class="line">repl-diskless-sync no</span><br><span class="line">repl-diskless-sync-delay 5</span><br><span class="line">repl-disable-tcp-nodelay no</span><br><span class="line">slave-priority 100</span><br><span class="line">lazyfree-lazy-eviction no</span><br><span class="line">lazyfree-lazy-expire no</span><br><span class="line">lazyfree-lazy-server-del no</span><br><span class="line">slave-lazy-flush no</span><br><span class="line">appendonly no</span><br><span class="line">appendfilename &quot;appendonly.aof&quot;</span><br><span class="line">appendfsync everysec</span><br><span class="line">no-appendfsync-on-rewrite no</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br><span class="line">aof-load-truncated yes</span><br><span class="line">aof-use-rdb-preamble no</span><br><span class="line">lua-time-limit 5000</span><br><span class="line">slowlog-log-slower-than 10000</span><br><span class="line">slowlog-max-len 128</span><br><span class="line">latency-monitor-threshold 0</span><br><span class="line">notify-keyspace-events &quot;&quot;</span><br><span class="line">hash-max-ziplist-entries 512</span><br><span class="line">hash-max-ziplist-value 64</span><br><span class="line">list-max-ziplist-size -2</span><br><span class="line">list-compress-depth 0</span><br><span class="line">set-max-intset-entries 512</span><br><span class="line">zset-max-ziplist-entries 128</span><br><span class="line">zset-max-ziplist-value 64</span><br><span class="line">hll-sparse-max-bytes 3000</span><br><span class="line">activerehashing yes</span><br><span class="line">client-output-buffer-limit normal 0 0 0</span><br><span class="line">client-output-buffer-limit slave 256mb 64mb 60</span><br><span class="line">client-output-buffer-limit pubsub 32mb 8mb 60</span><br><span class="line">hz 10</span><br><span class="line">aof-rewrite-incremental-fsync yes</span><br></pre></td></tr></table></figure>
-<p>Systemd</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/redis.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Redis In-Memory Data Store</span><br><span class="line">After=network.target</span><br><span class="line">[Service]</span><br><span class="line">User=root</span><br><span class="line">Group=root</span><br><span class="line">PIDFile=/data/redis/redis_6379.pid</span><br><span class="line">ExecStart=/usr/local/bin/redis-server /etc/redis/6379.conf</span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line">ExecStop=/usr/local/bin/redis-cli -h 127.0.0.1 -p 6379 -a 密码 shutdown</span><br><span class="line">#ExecStop=/bin/kill -s QUIT $MAINPID</span><br><span class="line">PrivateTmp=true</span><br><span class="line">Restart=always</span><br><span class="line">Type=forking</span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">systemctl enable redis.service</span><br><span class="line">systemctl start redis.service</span><br><span class="line">systemctl restart redis.service</span><br><span class="line">systemctl stop redis.service</span><br><span class="line">systemctl status redis.service</span><br></pre></td></tr></table></figure>
-<h4 id="设置redis密码"><a href="#设置redis密码" class="headerlink" title="设置redis密码"></a>设置redis密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/redis.conf</span><br><span class="line"></span><br><span class="line">requirepass 密码</span><br></pre></td></tr></table></figure>
-<p>登陆有密码的Redis：</p>
-<p>在登录的时候的时候输入密码：</p>
-   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -p 6379 -a test123</span><br></pre></td></tr></table></figure>
-<p>   先登陆后验证：</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -p 6379</span><br><span class="line"></span><br><span class="line">redis 127.0.0.1:6379&gt; auth test123</span><br></pre></td></tr></table></figure>
-<p>查看密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config get requirepass</span><br></pre></td></tr></table></figure>
-<p>参考</p>
-<p><a href="https://www.hugeserver.com/kb/install-redis-4-centos-ubuntu-debian/" target="_blank" rel="noopener">How to install Redis 4 on Centos 6 / 7, Ubuntu 16 and Debian 8 (Updated)</a></p>
-<p><a href="https://www.tecmint.com/install-redis-server-in-centos-ubuntu-debian/" target="_blank" rel="noopener">How to Install Redis Server in CentOS and Debian Based Systems</a></p>
-<p><a href="https://www.cnblogs.com/sybblogs/p/5665123.html" target="_blank" rel="noopener"><a href="http://www.cnblogs.com/sybblogs/p/5665123.html" target="_blank" rel="noopener">Redis配置成系统服务（CentOS7）</a></a></p>
-<p><a href="https://blog.csdn.net/javacspring/article/details/53618570" target="_blank" rel="noopener">CentOS7源码安装Redis及配置系统服务</a></p>
-<p><a href="http://blog.51yip.com/nosql/1724.html" target="_blank" rel="noopener">redis 配置 参数 详解</a></p>
+        <p>date: 2018-05-11 12:00</p>
+<p>IntelliJ IDEA 2018.1.2</p>
+<p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
+<p>Theme Darcula</p>
+<p><strong>Keymap</strong></p>
+<p>Mac OS X 10.5+</p>
+<p><strong>Editor</strong></p>
+<p>Font: Menlo</p>
+<p>Size: 20</p>
+<p><strong>Plugins</strong></p>
+<p>Go</p>
 
       
       
@@ -384,8 +263,8 @@
     <article id="post-Hugo" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/11/Hugo/" class="article-date">
-      <time datetime="2018-05-11T09:23:01.799Z" itemprop="datePublished">2018-05-11</time>
+      <a href="/2018/07/12/Hugo/" class="article-date">
+      <time datetime="2018-07-12T01:54:05.674Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -446,11 +325,11 @@
 
 
   
-    <article id="post-IntelliJ IDEA 配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Git 教程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/11/IntelliJ IDEA 配置/" class="article-date">
-      <time datetime="2018-05-11T09:23:01.799Z" itemprop="datePublished">2018-05-11</time>
+      <a href="/2018/07/12/Git 教程/" class="article-date">
+      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -462,17 +341,342 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date: 2018-05-11 12:00</p>
-<p>IntelliJ IDEA 2018.1.2</p>
-<p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
-<p>Theme Darcula</p>
-<p><strong>Keymap</strong></p>
-<p>Mac OS X 10.5+</p>
-<p><strong>Editor</strong></p>
-<p>Font: Menlo</p>
-<p>Size: 20</p>
-<p><strong>Plugins</strong></p>
-<p>Go</p>
+        <p>date: 2013-05-11 12:48</p>
+<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">克隆仓库</span></span><br><span class="line">git clone git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"><span class="meta">#</span><span class="bash">创建分支</span></span><br><span class="line">git checkout -b blog</span><br><span class="line"><span class="meta">#</span><span class="bash">切换分支</span></span><br><span class="line">git checout blog</span><br><span class="line"><span class="meta">#</span><span class="bash">查看分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="meta">#</span><span class="bash">查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"><span class="meta">#</span><span class="bash">删除分支</span></span><br><span class="line">git push origin blog</span><br><span class="line">git push origin -d blog</span><br><span class="line"><span class="meta">#</span><span class="bash">删除子模块</span></span><br><span class="line">git rm -r --cached themes/spfk</span><br></pre></td></tr></table></figure>
+<h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看之前提交的git commit的id </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">log</span> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成撤销,同时将代码恢复到前一commit_id 对应的版本 </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git reset --hard id</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改</span></span><br><span class="line">git reset id</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CentOS7安装配置zsh" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/CentOS7安装配置zsh/" class="article-date">
+      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install zsh</span><br></pre></td></tr></table></figure>
+<p>查看shell列表</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/shells</span><br></pre></td></tr></table></figure>
+<p>切换shell为zsh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</span><br></pre></td></tr></table></figure>
+<p>插件</p>
+<p>插件管理工具</p>
+<p>antigen、zgen、prezto、zplug</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone --recursive https://github.com/sorin-ionescu/prezto.git "$&#123;ZDOTDIR:-$HOME&#125;/.zprezto"</span><br><span class="line"></span><br><span class="line">setopt EXTENDED_GLOB</span><br><span class="line">for rcfile in "$&#123;ZDOTDIR:-$HOME&#125;"/.zprezto/runcoms/^README.md(.N); do</span><br><span class="line">  ln -s "$rcfile" "$&#123;ZDOTDIR:-$HOME&#125;/.$&#123;rcfile:t&#125;"</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h1 id="zsh-syntax-highlighting"><a href="#zsh-syntax-highlighting" class="headerlink" title="zsh-syntax-highlighting"></a><strong>zsh-syntax-highlighting</strong></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim .zshrc</span><br><span class="line"></span><br><span class="line">plugins=( [plugins...] zsh-syntax-highlighting)</span><br></pre></td></tr></table></figure>
+<h1 id="zsh-completions"><a href="#zsh-completions" class="headerlink" title="zsh-completions"></a><strong>zsh-completions</strong></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim .zshrc</span><br><span class="line"></span><br><span class="line">plugins=(… zsh-completions)</span><br><span class="line">autoload -U compinit &amp;&amp; compinit</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.zshrc</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="https://www.jianshu.com/p/d194d29e488c" target="_blank" rel="noopener">oh-my-zsh,让你的终端从未这么爽过</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Django生产环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/Django生产环境搭建/" class="article-date">
+      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pipenv install</span><br><span class="line"></span><br><span class="line">pipenv install uwsgi</span><br><span class="line"></span><br><span class="line">pipenv install django</span><br><span class="line"></span><br><span class="line">pipenv install gunicorn</span><br></pre></td></tr></table></figure>
+<p>django 2.0.4</p>
+<p>pip show django</p>
+<p>uwsgi 2.0.17</p>
+<p>pip show uwsgi</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django-admin startproject teacher</span><br></pre></td></tr></table></figure>
+<p>使用的</p>
+<p>mkdir -p /data/uwsgi/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">vim /data/uwsgi/teacher.ini</span><br><span class="line"></span><br><span class="line">[uwsgi]</span><br><span class="line"># 项目目录</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line"># 指定项目的application</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line"># 进程个数</span><br><span class="line">workers=2</span><br><span class="line">pidfile = /data/uwsgi/uwsgi_teacher.pid</span><br><span class="line"># 指定IP端口</span><br><span class="line">http=127.0.0.1:8001</span><br><span class="line"># 指定静态文件</span><br><span class="line"># static-map=/root/py3/teacher/static</span><br><span class="line"># 启动uwsgi的用户名和用户组</span><br><span class="line">uid=root</span><br><span class="line">gid=root</span><br><span class="line"># 启用主进程</span><br><span class="line">master=true</span><br><span class="line"># 自动移除unix Socket和pid文件当服务停止的时候</span><br><span class="line">vacuum=true</span><br><span class="line"># 序列化接受的内容，如果可能的话</span><br><span class="line">thunder-lock=true</span><br><span class="line"># 启用线程</span><br><span class="line">enable-threads=true</span><br><span class="line"># 设置自中断时间</span><br><span class="line">harakiri=30</span><br><span class="line"># 设置缓冲</span><br><span class="line">post-buffering=4096</span><br><span class="line"># 设置日志目录</span><br><span class="line">daemonize=/data/uwsgi/teacher.log</span><br><span class="line"># 指定sock的文件路径</span><br><span class="line">socket=/data/uwsgi/teacher.sock</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unix:/data/uwsgi.sock;</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 启动uwsgi配置</span><br><span class="line">uwsgi --ini /data/uwsgi/teacher.ini   </span><br><span class="line"></span><br><span class="line"># 关闭uwsgi</span><br><span class="line">uwsgi --stop uwsgi.pid  </span><br><span class="line">killall -s INT /root/.virtualenv/py3-xzcW3AwM/bin/uwsgi</span><br><span class="line"></span><br><span class="line">#重新加载配置</span><br><span class="line">uwsgi --reload uwsgi.pid</span><br></pre></td></tr></table></figure>
+<p>nginx配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 指定项目路径uwsgi</span><br><span class="line">       location /django/ &#123;        # 这个location就和咱们Django的url(r&apos;^admin/&apos;, admin.site.urls),</span><br><span class="line">           include uwsgi_params;  # 导入一个Nginx模块他是用来和uWSGI进行通讯的</span><br><span class="line">           uwsgi_connect_timeout 30;  # 设置连接uWSGI超时时间</span><br><span class="line">           # 指定uwsgi的sock文件所有动态请求就会直接丢给他</span><br><span class="line">           uwsgi_pass unix:/opt/project_teacher/script/uwsgi.sock;  </span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       # 指定静态文件路径</span><br><span class="line">       location /static/ &#123;</span><br><span class="line">           alias  /opt/project_teacher/teacher/static/;</span><br><span class="line">           index  index.html index.htm;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">[uwsgi]</span><br><span class="line">socket = 127.0.0.1:9090</span><br><span class="line">master = true         //主进程</span><br><span class="line">vhost = true          //多站模式</span><br><span class="line">no-site = true        //多站模式时不设置入口模块和文件</span><br><span class="line">workers = 2           //子进程数</span><br><span class="line">reload-mercy = 10     </span><br><span class="line">vacuum = true         //退出、重启时清理文件</span><br><span class="line">max-requests = 1000   </span><br><span class="line">limit-as = 512</span><br><span class="line">buffer-size = 30000</span><br><span class="line">pidfile = /var/run/uwsgi9090.pid    //pid文件，用于下面的脚本启动、停止该进程</span><br><span class="line">daemonize = /data/log/uwsgi9090.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line">master=True</span><br><span class="line">pidfile=/var/run/uwsgi9090.pid</span><br><span class="line">vacuum=True</span><br><span class="line">max-requests=5000</span><br><span class="line">daemonize=/data/log/uwsgi9090.logi</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line">uid=nobody</span><br><span class="line">gid=nobody</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line">socket=/data/uwsgi.sock</span><br><span class="line">master=true</span><br><span class="line">workers=5</span><br><span class="line">pidfile=/data/uwsgi.pid</span><br><span class="line">vacuum=true</span><br><span class="line">thunder-lock=true</span><br><span class="line">enable-threads=true</span><br><span class="line">harakiri=30</span><br><span class="line">post-buffering=4096</span><br><span class="line">daemonize=/data/uwsgi.log</span><br></pre></td></tr></table></figure>
+<h3 id="django静态文件收集"><a href="#django静态文件收集" class="headerlink" title="django静态文件收集"></a><strong>django静态文件收集</strong></h3><p>​    1.setting.py设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DEBUG = False</span><br><span class="line">STATIC_ROOT = os.path.join(BASE_DIR, &apos;statics&apos;)</span><br></pre></td></tr></table></figure>
+<p>​    2. 执行collectstatic命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py collectstatic</span><br></pre></td></tr></table></figure>
+<p>好处：django把静态文件拷贝到你设置的statics目录下（这样可以更方便的和nignx集成，权限管理也更方便）</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.chenxm.cc/post/275.html" target="_blank" rel="noopener">Liunx之Ubuntu下Django+uWSGI+nginx部署</a></p>
+<p><a href="https://www.cnblogs.com/chenice/p/6921727.html" target="_blank" rel="noopener"><a href="http://www.cnblogs.com/chenice/p/6921727.html" target="_blank" rel="noopener">Django + Uwsgi + Nginx 的生产环境部署</a></a></p>
+<p><a href="https://www.zhihu.com/question/27295854" target="_blank" rel="noopener">如何配置nginx+uwsgi+django?</a>˜</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-C语言学习-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/C语言学习-笔记/" class="article-date">
+      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://blog.csdn.net/zhaoxz1985/article/details/72473045" target="_blank" rel="noopener">C语言基础及进阶教程(视频教程地址)</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ele-A面-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/Ele-A面-笔记/" class="article-date">
+      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>当你做某件事的时候，一旦想要求快，就表示你再也不关心它，而想去做别的事。</p>
+</blockquote>
+<blockquote>
+<p>Fighting and Happy Coding O(∩_∩)O~<br><a href="http://ictar.github.io/" target="_blank" rel="noopener">Ele - A面</a></p>
+</blockquote>
+<p><a href="http://ictar.github.io/2016/03/01/2016%E5%B9%B4%E7%82%B9%E4%BA%AE%E6%8A%80%E8%83%BD%E6%A0%91%E7%9A%84%E6%9F%90%E4%B8%AA%E6%9E%9D%E6%A1%A0/" target="_blank" rel="noopener">2016年点亮技能树的某个枝桠</a></p>
+<p>nginx<br>uwsgi<br>couchbase<br>rbmq<br>redis</p>
+<p>pdb和traceback来做调试</p>
+<p>awk,sed 来快速搜索</p>
+<p>pd来做统计分析</p>
+<p><a href="http://ictar.github.io/2017/01/27/%E5%8E%BB%E5%90%A7%E5%8E%BB%E5%90%A7%EF%BC%8C2016/" target="_blank" rel="noopener">去吧去吧，2016</a></p>
+<p><a href="https://book.douban.com/subject/5372651/" target="_blank" rel="noopener">Pragmatic Thinking and Learning - Refactor Your Wetware</a></p>
+<p>Docker<br>Go<br>DjangoCon US 2016<br>PyCon 2016<br>个人wiki<br>StackOverflow<br>得到上面订了一年的硅谷来信<br>pssh<br>ansible</p>
+<p><a href="https://book.douban.com/subject/22793675/" target="_blank" rel="noopener">深入理解Nginx
+</a><br>涂先生写的数据之巅<br>吴军老师的智能时代<br>Docker源码分析<br><a href="https://book.douban.com/subject/11577300/" target="_blank" rel="noopener">Go语言编程</a><br><a href="https://book.douban.com/subject/26351257/" target="_blank" rel="noopener">算法的乐趣</a><br><a href="https://book.douban.com/subject/25942191/" target="_blank" rel="noopener">第一行代码</a></p>
+<blockquote>
+<p>这个月发生了一件令我有所触动的小事。工作上使用了python的一个库，但有些功能它并不具备，因此写了一些shell script来做辅助，算是外部对功能进行扩展吧。后来发现这样做要填补的坑是在太多了，而且坑中有坑，不知何处还有坑。搞得头发又掉了好几百根。再后来觉得不行，决定破釜沉舟，从内部解决。于是好好分析了下那个库的代码，做了类继承，重写了一些功能。幸好那个库是可以扩展的，也幸好代码逻辑简单，花的功夫竟然比纠结的时间还少。这件事告诉我，不要觉得重写很麻烦，也不要害怕替换，虽然本质上是对自己的及其不信任。但是做总比不做来得强，更何况很多时候，那些困难不过是自己想出来吓唬自己的，要有所增进，不就是要打败一只只挡在路上的大大小小的真/假纸老虎吗？</p>
+</blockquote>
+<blockquote>
+<p>上个月呀，信誓旦旦的要看uwsgi代码。于是某日，真的沐浴更衣，准备潜心阅读。但一看到它长长的一下子拉不到底的uwsgi_sever结构，嗯，我怂了。为了不误入歧途，索性准备换一下，潜心看uwsgi官方文档。</p>
+</blockquote>
+<blockquote>
+<p>六月份要把Eva的个人网站加上xadmin (这也是最近玩得最多的package呀！！！)，修整一下，差不多可以给它买个域名买个空间了。</p>
+</blockquote>
+<blockquote>
+<p>前段时间看到某个博客上有个menu叫做”exchange”，是博主用来挂他看过的书并且希望换书的。我觉得这种想法相当的好！可惜当时没收藏，已经找不到是哪位的了。但是，Ele计划借鉴一下，也在自己的博客新增一个menu，放自己看过的书并且希望有人可以跟我换书看。</p>
+</blockquote>
+<blockquote>
+<p>我几乎包办了产品在这个项目的需求分析、开发、测试、交付和问题处理，以及偶尔的人力预算分析。经过那些日子的洗礼，那个一无所知的小女孩也可以在别人需要帮助的时候出现在旁边，那些对从前的我来说晦涩难懂的东西也变得开明易懂起来，跟别人沟通也不再是一件艰难的事。而我的眼界也慢慢的放开。</p>
+</blockquote>
+<hr>
+<p>就这样被折腾了一段时间，在某天项目清闲的时候，我终于忍不住，想对这个过程进行自动化。当然，全自动化是理想，半自动化却相对比较容易实现不是。这个决定大大提高了版本管理的效率，减缓了我的焦躁，以及奠定了我对python的喜爱。</p>
+<p>先是用脚本统计N份文档中的代码量，然后将所有版本资料整理成规定形式，接着检查资料规范及完整性。随着对win32com这个python库进一步熟悉，还用它帮忙拷贝几十份文档的病毒扫描结果，提取相关信息以帮助输出版本度量表。从此，QA能挑出的毛病越来越少，我花在版本这件事上的时间也越来越少。而因为大大减少了文档的打开及复制粘贴，从此手也不酸了。直接跑个脚本，然后该干嘛干嘛。</p>
+<p>人生苦短，我用python.</p>
+<p>用脚本实现这些繁琐的工作，还有一个好处。中途因为出差，将版本这件事转交给另一个同事的时候，我只需要告诉他怎么使用这些脚本即可。</p>
+<hr>
+<p><a href="http://ictar.github.io/2015/12/16/%E9%82%A3%E4%BA%9B%E4%BB%A4%E4%BA%BAwow%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7%E9%9B%86%E9%94%A6/" target="_blank" rel="noopener">那些令人wow的小技巧集锦</a></p>
+<p>五月不定阴晴暴雨时时至，不如静坐写代码<br>六月艳日夏愈显，吹着风扇写代码<br>七月浑浑又噩噩，打着呵欠写代码<br>八月早睡早起身体好，对着砖书写代码<br>九月团团圆圆平平淡淡，啃着糕点写代码<br>十月秋风扫落叶，啃着文档写代码</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CentOS安装配置MongoDB" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/CentOS安装配置MongoDB/" class="article-date">
+      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.mongodb.org/static/pgp/server-3.6.asc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/yum.repos.d/mongodb-org-3.6.repo&lt;&lt;EOF</span><br><span class="line">[mongodb-org-3.6]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.6/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=https://www.mongodb.org/static/pgp/server-3.6.asc</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mongodb-org-3.6.4 mongodb-org-server-3.6.4 mongodb-org-shell-3.6.4 mongodb-org-tools-3.6.4 mongodb-org-mongos-3.6.4</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/mongodb/db</span><br><span class="line">chown mongod:mongod /data/mongodb/db</span><br></pre></td></tr></table></figure>
+<p>/etc/mongod.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">systemLog:</span><br><span class="line">  destination: file</span><br><span class="line">  logAppend: true</span><br><span class="line">  path: /data/mongodb/mongod.log</span><br><span class="line"></span><br><span class="line">storage:</span><br><span class="line">  dbPath: /data/mongodb/db</span><br><span class="line">  journal:</span><br><span class="line">    enabled: true</span><br><span class="line"></span><br><span class="line">processManagement:</span><br><span class="line">  fork: true  # fork and run in background</span><br><span class="line">  pidFilePath: /data/mongodb/mongod.pid  # location of pidfile</span><br><span class="line">  timeZoneInfo: /usr/share/zoneinfo</span><br><span class="line">  </span><br><span class="line">net:</span><br><span class="line">  port: 27017</span><br><span class="line">  bindIp: 127.0.0.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mongod.service</span><br><span class="line">systemctl start mongod.service</span><br><span class="line">systemctl restart mongod.service</span><br><span class="line">systemctl status mongod.service</span><br><span class="line">systemctl stop mongod.service</span><br></pre></td></tr></table></figure>
+<h3 id="开启权限验证"><a href="#开启权限验证" class="headerlink" title="开启权限验证"></a>开启权限验证</h3><p>下Mongodb中角色的定义：<br>角色说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">read：允许用户读取指定数据库 </span><br><span class="line">readWrite：允许用户读写指定数据库 </span><br><span class="line">dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile </span><br><span class="line">userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户 </span><br><span class="line">clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限。 </span><br><span class="line">readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限 </span><br><span class="line">readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限 </span><br><span class="line">userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限 </span><br><span class="line">dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。 </span><br><span class="line">root：只在admin数据库中可用。超级账号，超级权限</span><br></pre></td></tr></table></figure>
+<p>添加管理员账号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(    &#123;</span><br><span class="line">        user: &quot;root&quot;,</span><br><span class="line">        pwd: &quot;UbM43zUgecBnb8v8MLiu&quot;,</span><br><span class="line">        roles: [ &#123; role: &quot;root&quot;, db: &quot;admin&quot; &#125; ]</span><br><span class="line">   &#125;</span><br><span class="line">  ) </span><br><span class="line"></span><br><span class="line">#查看用户</span><br><span class="line">show users</span><br><span class="line">db.system.users.find()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: &quot;admin&quot;,</span><br><span class="line">     pwd: &quot;mongodb:passok&quot;,</span><br><span class="line">     roles: [ &#123; role: &quot;userAdminAnyDatabase&quot;, db: &quot;admin&quot; &#125; ]</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="添加普通用户"><a href="#添加普通用户" class="headerlink" title="添加普通用户"></a>添加普通用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: &quot;test&quot;,</span><br><span class="line">     pwd: &quot;123456&quot;,</span><br><span class="line">     roles: [ &#123; role: &quot;readWrite&quot;, db: &quot;test&quot; &#125;],</span><br><span class="line">   &#125;</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/mongod.conf</span><br><span class="line"></span><br><span class="line">security:</span><br><span class="line">  authorization: enabled</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">重启</span></span><br><span class="line">systemctl restart mongod.service</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">登陆</span></span><br><span class="line">mongo -u "admin" -p "密码" --authenticationDatabase "admin"</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#数据库中登陆</span><br><span class="line">use admin</span><br><span class="line">db.auth(&quot;admin&quot;, &quot;密码&quot;)</span><br></pre></td></tr></table></figure>
+<p>修改用户密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.changeUserPassword(&apos;root&apos;,&apos;密码&apos;)</span><br></pre></td></tr></table></figure>
+<p>操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; show dbs  #显示数据库列表 </span><br><span class="line">&gt; show collections  #显示当前数据库中的集合（类似关系数据库中的表）</span><br><span class="line">&gt; show users  #显示用户</span><br><span class="line">&gt; use &lt;db name&gt;  #切换当前数据库，如果数据库不存在则创建数据库。 </span><br><span class="line">&gt; db.help()  #显示数据库操作命令，里面有很多的命令 </span><br><span class="line">&gt; db.foo.help()  #显示集合操作命令，同样有很多的命令，foo指的是当前数据库下，一个叫foo的集合，并非真正意义上的命令 </span><br><span class="line">&gt; db.foo.find()  #对于当前数据库中的foo集合进行数据查找（由于没有条件，会列出所有数据） </span><br><span class="line">&gt; db.foo.find( &#123; a : 1 &#125; )  #对于当前数据库中的foo集合进行查找，条件是数据中有一个属性叫a，且a的值为1</span><br><span class="line">&gt; db.dropDatabase()  #删除当前使用数据库</span><br><span class="line">&gt; db.cloneDatabase(&quot;127.0.0.1&quot;)   #将指定机器上的数据库的数据克隆到当前数据库</span><br><span class="line">&gt; db.copyDatabase(&quot;mydb&quot;, &quot;temp&quot;, &quot;127.0.0.1&quot;)  #将本机的mydb的数据复制到temp数据库中</span><br><span class="line">&gt; db.repairDatabase()  #修复当前数据库</span><br><span class="line">&gt; db.getName()  #查看当前使用的数据库，也可以直接用db</span><br><span class="line">&gt; db.stats()  #显示当前db状态</span><br><span class="line">&gt; db.version()  #当前db版本</span><br><span class="line">&gt; db.getMongo()  ＃查看当前db的链接机器地址</span><br><span class="line">&gt; db.serverStatus()  #查看数据库服务器的状态</span><br></pre></td></tr></table></figure>
+<h3 id="那么如何正常关闭mongodb？"><a href="#那么如何正常关闭mongodb？" class="headerlink" title="那么如何正常关闭mongodb？"></a>那么如何正常关闭mongodb？</h3><p>可以去看官方文档：<br><a href="http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/" target="_blank" rel="noopener">http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/</a></p>
+<p>先通过shell连上服务器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mongo</span><br><span class="line"></span><br><span class="line">use admin</span><br><span class="line"></span><br><span class="line">db.shutdownServer()</span><br></pre></td></tr></table></figure>
+<p>错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WARNING: /sys/kernel/mm/transparent_hugepage/enabled is &apos;always&apos;.</span><br><span class="line"></span><br><span class="line">We suggest setting it to &apos;never&apos;</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/" target="_blank" rel="noopener">Install MongoDB Community Edition on Red Hat Enterprise or CentOS Linux[¶]</a></p>
+<p><a href="https://docs.mongodb.com/manual/reference/configuration-options/" target="_blank" rel="noopener">MongoDB Configuration File Options</a></p>
+<p><a href="http://www.mongoing.com/archives/631" target="_blank" rel="noopener">安全部署MongoDB最佳实践</a></p>
+<p><a href="http://blog.51cto.com/hld1992/2074619" target="_blank" rel="noopener">Mongodb之权限认证管理</a></p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/enable-authentication/" target="_blank" rel="noopener">Enable Auth</a></p>
+<p><a href="https://www.jianshu.com/p/a4e94bb8a052" target="_blank" rel="noopener">如何对MongoDB 3.2.7进行用户权限管理配置</a></p>
+<p>[<a href="http://www.itttl.com/blog/mongodb_user_roles.html" target="_blank" rel="noopener">MongoDB 用户的创建、删除、密码修改，角色分配</a>]</p>
+<p><a href="http://blog.51yip.com/nosql/1576.html" target="_blank" rel="noopener">mongodb 修改用户密码 2种方法</a></p>
+<p><a href="https://blog.csdn.net/sinat_30397435/article/details/50774175" target="_blank" rel="noopener">mongodb启动不了：child process failed, exited with error number 100</a></p>
 
       
       
@@ -503,8 +707,8 @@
     <article id="post-Cisco 路由器配置命令" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/11/Cisco 路由器配置命令/" class="article-date">
-      <time datetime="2018-05-11T09:23:01.799Z" itemprop="datePublished">2018-05-11</time>
+      <a href="/2018/07/12/Cisco 路由器配置命令/" class="article-date">
+      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -563,11 +767,11 @@
 
 
   
-    <article id="post-Cisco:H3C交换机配置与管理完全手册" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS7安装配置Mariadb" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/11/Cisco:H3C交换机配置与管理完全手册/" class="article-date">
-      <time datetime="2018-05-11T09:23:01.799Z" itemprop="datePublished">2018-05-11</time>
+      <a href="/2018/07/12/CentOS7安装配置Mariadb/" class="article-date">
+      <time datetime="2018-07-12T01:54:05.670Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -579,223 +783,450 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://blog.51cto.com/winda" target="_blank" rel="noopener">王达 51cto</a><br><a href="http://blog.csdn.net/lycb_gz" target="_blank" rel="noopener">王达 csdn</a><br><a href="http://blog.chinaunix.net/uid/10659021.html" target="_blank" rel="noopener">王达 chinaunix</a></p>
-<p>思科交换机操作系统IOS和CatOS<br>看三遍<br>第一遍粗看，不进行实际操练。第二遍细看，要求跟着书在实际设备或者模拟器上练习。第三遍粗看，主要是看那些前两遍中没有理解或者没有掌握的内容，以及重点理论、重要功能配置与管理方法。</p>
-<p>Catalyst 6500 4900系列</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-C语言学习-笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/11/C语言学习-笔记/" class="article-date">
-      <time datetime="2018-05-11T09:23:01.799Z" itemprop="datePublished">2018-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://blog.csdn.net/zhaoxz1985/article/details/72473045" target="_blank" rel="noopener">C语言基础及进阶教程(视频教程地址)</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Debian8安装Shadowsock和moeSS" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/11/Debian8安装Shadowsock和moeSS/" class="article-date">
-      <time datetime="2018-05-11T09:23:01.799Z" itemprop="datePublished">2018-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y git</span><br></pre></td></tr></table></figure>
-<h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone -b manyuser https://github.com/mengskysama/shadowsocks.git</span><br><span class="line">git clone https://github.com/wzxjohn/moeSS.git</span><br></pre></td></tr></table></figure>
-<h3 id="配置LAMP环境"><a href="#配置LAMP环境" class="headerlink" title="配置LAMP环境"></a>配置LAMP环境</h3><p>http2.4<br>php5.4+<br>mysql5.6</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#安装apache httpd web服务</span><br><span class="line">apt-get install -y apache2</span><br><span class="line"></span><br><span class="line">#设置开机自启动</span><br><span class="line">systemctl enable apache2</span><br><span class="line">#启动应用</span><br><span class="line">systemctl start apache2</span><br><span class="line"></span><br><span class="line">#开启rewrite功能</span><br><span class="line">a2enmod rewrite</span><br><span class="line">systemctl restart apache2</span><br></pre></td></tr></table></figure>
-<p>修改配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/apache2/apache2.conf</span><br><span class="line">/var/www/html/ #此路径为web服务器存放网页的地方。</span><br><span class="line">AllowOverride All #开启rewrite所有</span><br></pre></td></tr></table></figure>
-<h3 id="安装mysql数据库"><a href="#安装mysql数据库" class="headerlink" title="安装mysql数据库"></a>安装mysql数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y mysql-server</span><br><span class="line"></span><br><span class="line">#开机自启动</span><br><span class="line">systemctl enable mysql</span><br><span class="line">systemctl start mysql</span><br><span class="line"></span><br><span class="line">#新建数据库 shaodowsocks</span><br><span class="line">create database shadowsocks;</span><br><span class="line">#导入数据库结构表。</span><br><span class="line">mysql -uroot -p shadowsocks &lt;shadowsocks.sql</span><br></pre></td></tr></table></figure>
-<h3 id="安装php和php插件"><a href="#安装php和php插件" class="headerlink" title="安装php和php插件"></a>安装php和php插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get -y install php5 libapache2-mod-php5 php5-mysql php5-mysqlnd php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl</span><br><span class="line"></span><br><span class="line">#重启web服务</span><br><span class="line">systemctl restart apache2</span><br></pre></td></tr></table></figure>
-<h3 id="安装shadowsocks-插件"><a href="#安装shadowsocks-插件" class="headerlink" title="安装shadowsocks 插件"></a>安装shadowsocks 插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#安装pip工具，</span><br><span class="line">apt-get install -y python-pip python-m2crypto</span><br><span class="line"></span><br><span class="line">#安装python数据库支持</span><br><span class="line">pip install cymysql</span><br><span class="line"></span><br><span class="line">#运行shadowsocks</span><br><span class="line">cd shadowsocks </span><br><span class="line">nohup python server.py &amp;</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Go 项目列表" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/11/Go 项目列表/" class="article-date">
-      <time datetime="2018-05-11T09:23:01.799Z" itemprop="datePublished">2018-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date:2018-05-11 12:58</p>
-<p><a href="https://github.com/avelino/awesome-go" target="_blank" rel="noopener">awesome-go</a></p>
-<p><a href="https://github.com/enocom/gopher-reading-list" target="_blank" rel="noopener">gopher-reading-list</a></p>
-<p><a href="https://github.com/docker/docker-ce" target="_blank" rel="noopener">docker-ce</a></p>
-<p><a href="https://github.com/kubernetes/kubernetes" target="_blank" rel="noopener">Kubernetes</a></p>
-<p>[Caddy]</p>
-<p><a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">Gin</a></p>
-<p><a href="https://github.com/astaxie/beego/" target="_blank" rel="noopener">Beego</a></p>
-<p>[CockroachDB]</p>
-<p><a href="https://github.com/ego008/goyoubbs" target="_blank" rel="noopener">youBBS</a></p>
-<p><a href="https://github.com/qor" target="_blank" rel="noopener">QOR</a></p>
-<p><a href="https://github.com/EOSIO/eos" target="_blank" rel="noopener">eos</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Caddy" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/11/Caddy/" class="article-date">
-      <time datetime="2018-05-11T09:23:01.799Z" itemprop="datePublished">2018-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://github.com/Unknwon/wuwen.org/issues/11" target="_blank" rel="noopener">Caddy 部署实践</a></p>
-<p><a href="https://github.com/mholt/caddy/releases/" target="_blank" rel="noopener">Caddy</a></p>
-<p><a href="https://www.wolfcstech.com/2017/01/09/Caddy%20Web%E6%9C%8D%E5%8A%A1%E5%99%A8QUIC%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Caddy Web服务器QUIC部署</a></p>
-<p><a href="http://www.infoq.com/cn/news/2018/03/weibo-quic" target="_blank" rel="noopener">QUIC在微博中的落地思考</a></p>
-<p><a href="https://github.com/caddyserver/examples" target="_blank" rel="noopener">Examples for using Caddy Web Server</a></p>
-<p><a href="https://liudanking.com/beautiful-life/%E6%9C%AC%E7%AB%99%E5%BC%80%E5%90%AF%E6%94%AF%E6%8C%81-quic-%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%8E%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">本站开启支持 QUIC 的方法与配置</a></p>
-<p><a href="https://blog.sharpbai.com/2018/02/%E4%BD%BF%E7%94%A8caddy%E9%85%8D%E5%90%88nginx%E6%94%AF%E6%8C%81quic/" target="_blank" rel="noopener">使用caddy配合nginx支持QUIC
-</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/mholt/caddy/releases/download/v0.10.12/caddy_v0.10.12_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf caddy_v0.10.12_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">mv caddy /usr/local/bin/</span><br></pre></td></tr></table></figure>
-<p>/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp –port=32457</p>
-<p>mkdir -p /data/caddy/log/</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /data/caddy/Caddyfile</span><br><span class="line"></span><br><span class="line">ovwane.com:444 &#123;</span><br><span class="line">        tls /data/ssl/ovwane.com/ovwane.com_rsa_fullchain.cer /data/ssl/ovwane.com/ovwane.com_rsa.key</span><br><span class="line">        root /data/www/ovwane.com/public</span><br><span class="line">        gzip</span><br><span class="line">        log /data/caddy/log/ovwane.com.log</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/caddy.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Caddy HTTP/2 web server</span><br><span class="line">Documentation=https://caddyserver.com/docs</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target systemd-networkd-wait-online.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Restart=on-abnormal</span><br><span class="line"></span><br><span class="line">; User and group the process will run as.</span><br><span class="line">;User=caddy</span><br><span class="line">;Group=caddy</span><br><span class="line"></span><br><span class="line">; Letsencrypt-issued certificates will be written to this directory.</span><br><span class="line">Environment=CADDYPATH=/data/caddy</span><br><span class="line"></span><br><span class="line">; Always set "-root" to something safe in case it gets forgotten in the Caddyfile.</span><br><span class="line">ExecStart=/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp</span><br><span class="line">ExecReload=/bin/kill -USR1 $MAINPID</span><br><span class="line"></span><br><span class="line">; Use graceful shutdown with a reasonable timeout</span><br><span class="line">KillMode=mixed</span><br><span class="line">KillSignal=SIGQUIT</span><br><span class="line">TimeoutStopSec=5s</span><br><span class="line"></span><br><span class="line">; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.</span><br><span class="line">LimitNOFILE=1048576</span><br><span class="line">; Unmodified caddy is not expected to use more than that.</span><br><span class="line">LimitNPROC=512</span><br><span class="line"></span><br><span class="line">; Use private /tmp and /var/tmp, which are discarded after caddy stops.</span><br><span class="line">PrivateTmp=true</span><br><span class="line">; Use a minimal /dev (May bring additional security if switched to 'true', but it may not work on Raspberry Pi's or other devices, so it has been disabled in this dist.)</span><br><span class="line">PrivateDevices=false</span><br><span class="line">; Hide /home, /root, and /run/user. Nobody will steal your SSH-keys.</span><br><span class="line">ProtectHome=true</span><br><span class="line">; Make /usr, /boot, /etc and possibly some more folders read-only.</span><br><span class="line">ProtectSystem=full</span><br><span class="line">; … except /etc/ssl/caddy, because we want Letsencrypt-certificates there.</span><br><span class="line">;   This merely retains r/w access rights, it does not add any new. Must still be writable on the host!</span><br><span class="line">ReadWriteDirectories=/data/caddy</span><br><span class="line"></span><br><span class="line">; The following additional security directives only work with systemd v229 or later.</span><br><span class="line">; They further restrict privileges that can be gained by caddy. Uncomment if you like.</span><br><span class="line">; Note that you may have to add capabilities required by any plugins in use.</span><br><span class="line">;CapabilityBoundingSet=CAP_NET_BIND_SERVICE</span><br><span class="line">;AmbientCapabilities=CAP_NET_BIND_SERVICE</span><br><span class="line">;NoNewPrivileges=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable caddy.service</span><br><span class="line">systemctl start caddy.service</span><br><span class="line">systemctl stop caddy.service</span><br><span class="line">systemctl status caddy.service</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp --inet6 | grep -F caddy</span><br></pre></td></tr></table></figure>
-<p>日志自动切分</p>
-<p>vim /etc/logrotate.d/caddy</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/caddy/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/caddy.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/caddy.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>手动执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/caddy</span><br></pre></td></tr></table></figure>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import http://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/yum.repos.d/mariadb.repo&lt;&lt;EOF</span><br><span class="line"># MariaDB 10.2 CentOS repository list - created 2018-04-20 08:34 UTC</span><br><span class="line"># http://downloads.mariadb.org/mariadb/repositories/</span><br><span class="line">[mariadb]</span><br><span class="line">name = MariaDB</span><br><span class="line">baseurl = http://yum.mariadb.org/10.2/centos7-amd64</span><br><span class="line">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br><span class="line">gpgcheck=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum list --showduplicates MariaDB-server</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install MariaDB-server-10.2.13 MariaDB-client-10.2.13 MariaDB-common-10.2.13 MariaDB-compat-10.2.13 MariaDB-shared-10.2.13</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<h2 id="编码配置（重点呀）"><a href="#编码配置（重点呀）" class="headerlink" title="编码配置（重点呀）"></a>编码配置（重点呀）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 编辑/etc/my.cnf</span><br><span class="line">vim /etc/my.cnf</span><br><span class="line"></span><br><span class="line"># 在[mysqld]标签下添加下面内容</span><br><span class="line">default_storage_engine = innodb</span><br><span class="line">innodb_file_per_table</span><br><span class="line">max_connections = 4096</span><br><span class="line">collation-server = utf8_general_ci</span><br><span class="line">character-set-server = utf8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 编辑/etc/my.cnf.d/client.cnf</span><br><span class="line">vim /etc/my.cnf.d/client.cnf</span><br><span class="line"></span><br><span class="line"># 在[client]标签下添加下面内容</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 编辑/etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line">vim /etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line"></span><br><span class="line"># 在[mysql]标签下添加下面内容</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mariadb.service</span><br><span class="line">systemctl start mariadb.service</span><br><span class="line">systemctl status mariadb.service</span><br><span class="line">systemctl stop mariadb.service</span><br></pre></td></tr></table></figure>
+<p>设置密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>配置流程</th>
+<th>说明</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Enter current password for root (enter for none)</td>
+<td>输入 root 密码</td>
+<td>初次运行直接回车</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Set root password? [Y/n]</td>
+<td>是设置 root 密码</td>
+<td>可以 y 或者 回车</td>
+</tr>
+<tr>
+<td>3</td>
+<td>New password</td>
+<td>输入新密码</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Re-enter new password</td>
+<td>再次输入新密码</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Remove anonymous users? [Y/n]</td>
+<td>是否删除匿名用户</td>
+<td>可以 y 或者 回车</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Disallow root login remotely? [Y/n]</td>
+<td>是否禁止 root 远程登录</td>
+<td>可以 y 或者 回车</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Remove test database and access to it? [Y/n]</td>
+<td>是否删除 test 数据库</td>
+<td>y 或者 回车</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Reload privilege tables now? [Y/n]</td>
+<td>是否重新加载权限表</td>
+<td>y 或者 回车</td>
+</tr>
+</tbody>
+</table>
+<p>查看版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p version</span><br></pre></td></tr></table></figure>
+<p>查看字符集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show variables like &quot;%character%&quot;;show variables like &quot;%collation%&quot;;</span><br><span class="line"></span><br><span class="line">#默认的字符集</span><br><span class="line">show global variables like &apos;%char%&apos;;</span><br><span class="line"></span><br><span class="line">#当前数据库支持的字符集</span><br><span class="line">show character set;</span><br></pre></td></tr></table></figure>
+<p>添加用户，设置权限</p>
+<ul>
+<li>创建用户（本地无法远程登录）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user &lt;username&gt;@localhost identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>直接创建用户并授权的命令（本地无法远程登录）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all on *.* to &lt;username&gt;@localhost identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>授予远程登陆权限</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &lt;username&gt;@&apos;%&apos; identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>授予权限并且可以授权（指定 hostname 操作）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &lt;username&gt;@&apos;&lt;hostname&gt;&apos; identified by &apos;&lt;password&gt;&apos; with grant option;</span><br></pre></td></tr></table></figure>
+<p>基础知识</p>
+<p>MariaDB 数据类型</p>
+<ul>
+<li>字符类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHAR</td>
+<td>固定长度的非 Unicode 字符数据</td>
+<td>0~255 长度</td>
+</tr>
+<tr>
+<td>VARCHAR</td>
+<td>可变长度的非 Unicode 数据</td>
+<td>0~65535 长度</td>
+</tr>
+<tr>
+<td>BINARY</td>
+<td>二进制字节字符串</td>
+<td></td>
+</tr>
+<tr>
+<td>VARBINARY</td>
+<td>可变长度的二进制字节字符串</td>
+<td></td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>blob 列</td>
+<td>0~65535 长度</td>
+</tr>
+<tr>
+<td>TINYBLOB</td>
+<td>blob 列</td>
+<td>0~255 长度</td>
+</tr>
+<tr>
+<td>MEDIUMBLOB</td>
+<td>blob 列</td>
+<td>0-2^24 字节，16,777,215 最大长度</td>
+</tr>
+<tr>
+<td>LONGBLOB</td>
+<td>blob 列</td>
+<td>0-2^32 字节，4,294,967,295 最大长度</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>字符的文本列</td>
+<td>0~65635 长度</td>
+</tr>
+<tr>
+<td>TINYTEXT</td>
+<td>字符的文本列</td>
+<td>0~255 长度</td>
+</tr>
+<tr>
+<td>MEDIUMTEXT</td>
+<td>字符的文本列</td>
+<td>0-2^24 字节，16,777,215 最大长度</td>
+</tr>
+<tr>
+<td>LONGTEXT</td>
+<td>字符的文本列</td>
+<td>0-2^32 字节，4,294,967,295 最大长度</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值，不适用于 text 类型</td>
+</tr>
+<tr>
+<td>character set</td>
+<td>修改字符集</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用通配符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>通配符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%</td>
+<td>匹配任意长度的任意字符</td>
+</tr>
+<tr>
+<td>_</td>
+<td>匹配任意单个字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INT</td>
+<td>整数</td>
+<td>0-2^32 字节，0~4,294,967,295</td>
+</tr>
+<tr>
+<td>TINYINT</td>
+<td>整数</td>
+<td>-128~127 的有符号范围，0~255 的无符号范围</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>整数</td>
+<td>-32768~32768 的有符号范围，0~65535 的无符号范围</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>整数</td>
+<td>-8388608~8388607 的有符号范围，0~16777215 的无符号范围</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>整数</td>
+<td>有符号范围 -9223372036854775808~9223372036854775807内整数，无符号范围 0 ~18446744073709551615 的整数</td>
+</tr>
+<tr>
+<td>BOOLEAN</td>
+<td>布尔值</td>
+<td>值 0 与 false 相关联，值 1 与 true 相关联</td>
+</tr>
+<tr>
+<td>DECIMAL(m,d)</td>
+<td>小数</td>
+<td>m 表示数字的总长度，小数点不占位，d 表示小数点后面的数字长度。</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>小数</td>
+<td>-3.402823466E+38~-1.175494351E-38，1.175494351E-38~3.402823466E+38</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>小数</td>
+<td>-1.7976931348623157E+308~-2.2250738585072014E-308，2.2250738585072014E-308~1.7976931348623157E+308</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNSIGNED</td>
+<td>无符号数值</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值</td>
+</tr>
+<tr>
+<td>AUTO_INCREMENT</td>
+<td>数值自动增长</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>日期时间类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATE</td>
+<td>日期</td>
+<td>1000-01-01 到 9999-12-31，并使用 yyyy-MM-dd 日期格式</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>时间</td>
+<td>-838：59：59.999999 到 838：59：59.999999 时间范围</td>
+</tr>
+<tr>
+<td>DATETIME</td>
+<td>日期时间</td>
+<td>1000-01-01 00：00：00.000000 至 9999-12-31 23：59：59.999999。使用 yyyy-MM-dd hh：mm：ss 格式</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>时间戳</td>
+<td>19700101080001-20380119111407</td>
+</tr>
+<tr>
+<td>YEAR</td>
+<td>年份</td>
+<td>1901 到 2155 和 0000 范围内的值</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>如何设置字段自动获取当前时间<ul>
+<li>将字段类型设为  <strong>TIMESTAMP</strong></li>
+<li>将默认值设为 <strong>CURRENT_TIMESTAMP</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="内建类型"><a href="#内建类型" class="headerlink" title="内建类型"></a>内建类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ENUM</td>
+<td>枚举类型</td>
+<td>仅能从给出的选项中选择其中一个，其它值无效</td>
+</tr>
+<tr>
+<td>SET</td>
+<td>集合类型</td>
+<td>使用给出的元素组合成字符串</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>原生 JSON 对象</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>JSON 使用方法<ul>
+<li>JSON_EXTRACT(context,’$.<key>‘) 查询提取 JSON 对象的某个属性值。</key></li>
+<li>JSON_KEYS(context) 查询获取健对。</li>
+<li>JSON_INSERT(context,’$.<key>‘,”<value>“) 插入 JSON 属性与值。</value></key></li>
+<li>JSON_SET(context,’$.<key>‘,”<value>“) 更改 JSON 属性的值。</value></key></li>
+<li>JSON_REMOVE(context,’$.<key>‘) 删除 JSON 属性。</key></li>
+</ul>
+</li>
+</ul>
+<p>参考</p>
+<p><a href="https://downloads.mariadb.org/mariadb/repositories/#mirror=neusoft&amp;distro=CentOS&amp;distro_release=centos7-amd64--centos7&amp;version=10.2" target="_blank" rel="noopener">Setting up MariaDB Repositories</a></p>
+<p><a href="https://mariadb.com/kb/en/library/yum/" target="_blank" rel="noopener">Installing MariaDB with yum</a></p>
+<p><a href="https://www.jianshu.com/p/e67f1dbaa107" target="_blank" rel="noopener">Centos 7 下 mariadb 的安装与配置</a></p>
+<p><a href="https://mariadb.com/kb/zh-cn/setting-character-sets-and-collations/" target="_blank" rel="noopener">设置字符集和排序规则</a></p>
 
       
       
