@@ -206,59 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-mac OS 10.13 配置微信小助手" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/mac OS 10.13 配置微信小助手/" class="article-date">
-      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>mac OS 10.13 微信小助手</p>
-<p><a href="https://github.com/TKkk-iOSer/WeChatPlugin-MacOS" target="_blank" rel="noopener">WeChatPlugin-MacOS</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/Downloads &amp;&amp; rm -rf WeChatPlugin-MacOS</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/TKkk-iOSer/WeChatPlugin-MacOS.git --depth=1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./WeChatPlugin-MacOS/Other/Install.sh</span></span><br></pre></td></tr></table></figure>
-<p>没有使用的</p>
-<p><a href="https://github.com/Sunnyyoung/WeChatTweak-macOS" target="_blank" rel="noopener"><strong>WeChatTweak-macOS</strong></a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-logrotate" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/12/logrotate/" class="article-date">
-      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:20:57.517Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -306,7 +258,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/linode_vps安装Python/" class="article-date">
-      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:20:57.517Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -356,11 +308,100 @@
 
 
   
+    <article id="post-linode_vps" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/linode_vps/" class="article-date">
+      <time datetime="2018-07-12T02:20:57.517Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-timezone America/Los_Angeles</span><br><span class="line">hostnamectl set-hostname ovwane.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd jinlong</span><br><span class="line">passwd jinlong</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">visudo</span><br><span class="line">jinlong ALL=(ALL)       ALL</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f linode_vps_rsa</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.ssh</span><br><span class="line">vim ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br><span class="line">chmod 700 ~/.ssh</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/handongyu/p/6386789.html" target="_blank" rel="noopener">设置 SSH，打开密钥登录功能</a><br>编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line">Port 22</span><br><span class="line">Protocol 2</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">#禁止root用户通过SSH登录</span><br><span class="line">PermitRootLogin no</span><br><span class="line">#禁用密码登录</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">ChallengeResponseAuthentication no</span><br><span class="line">GSSAPIAuthentication no</span><br><span class="line">UsePAM yes</span><br><span class="line">UseDNS no</span><br><span class="line">X11Forwarding no</span><br></pre></td></tr></table></figure>
+<p>最后，重启 SSH 服务：<br><code>systemctl restart sshd.service</code></p>
+<p>#优化</p>
+<ol>
+<li><p>关闭SELinux</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最大进程数和最大文件打开数<br>修改/etc/security/limits.conf文件</p>
+</li>
+<li><p>删除默认用户<br>centos</p>
+</li>
+<li><p>更换yum源<br><a href="https://www.centos.org/download/mirrors/" target="_blank" rel="noopener">CentOS mirrors List</a></p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"></span><br><span class="line">删除缓存</span><br><span class="line">yum clean all</span><br><span class="line">rm -rf /var/cache/yum</span><br><span class="line"></span><br><span class="line">生成缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+<p><a href="https://admin.fedoraproject.org/mirrormanager/mirrors/EPEL/7/x86_64" target="_blank" rel="noopener">EPEL mirrors</a></p>
+<p>mirrors.cat.pdx.edu</p>
+<p>yum upgrade](<a href="https://www.jianshu.com/p/4df7692bdc2b" target="_blank" rel="noopener">https://www.jianshu.com/p/4df7692bdc2b</a>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y upgrade</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel  </span><br><span class="line"></span><br><span class="line">yum -y autoremove kernel-3.10.0-693.el7</span><br><span class="line">yum -y autoremove kernel-3.10.0-693.2.2.el7.x86_64</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li><p>时间</p>
+<p><a href="https://chrony.tuxfamily.org/documentation.html" target="_blank" rel="noopener">chrony</a></p>
+</li>
+</ol>
+<p><a href="https://www.cnblogs.com/clsn/archive/2017/11/16/7844857.html" target="_blank" rel="noopener">chrony软件使用说明</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum -y install chrony</span><br><span class="line"></span><br><span class="line">systemctl start chronyd.service</span><br><span class="line">systemctl enable chronyd.service</span><br><span class="line">systemctl status chronyd.service</span><br><span class="line"></span><br><span class="line">查看同步状态</span><br><span class="line">chronyc sourcestats</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.mamicode.com/info-detail-1553924.html" target="_blank" rel="noopener">删除软件包并删除孤立的依赖包</a><br><a href="https://segmentfault.com/q/1010000000626683" target="_blank" rel="noopener">https://segmentfault.com/q/1010000000626683</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">需要在 /etc/yum.conf 里面添加一个配置：</span><br><span class="line">clean_requirements_on_remove=1</span><br><span class="line"></span><br><span class="line">yum autoremove</span><br></pre></td></tr></table></figure>
+<p>删除postfix</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove postfix</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch /var/lock/subsys/local</span><br><span class="line">/usr/local/qcloud/rps/set_rps.sh &gt;/tmp/setRps.log 2&gt;&amp;1</span><br><span class="line">/usr/local/qcloud/irq/net_smp_affinity.sh &gt;/tmp/net_affinity.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>删除 wpa_supplicant<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove wpa_supplicant</span><br></pre></td></tr></table></figure></p>
+<p>删除用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd</span><br><span class="line">/etc/shadow</span><br><span class="line">/etc/group</span><br><span class="line">/etc/gshadow</span><br><span class="line"></span><br><span class="line">postfix</span><br><span class="line">ntp</span><br><span class="line">games</span><br><span class="line">ftp</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/duzhaoqi/p/7582404.html" target="_blank" rel="noopener">centOS7服务管理与启动流程</a></p>
+<p>下载必要软件包<br>再安装操作系统的时候使用的最小化安装，有很多包没有安装，使用时发现好多命令没有如{vim、wget、tree…等}，下面就安装命令，可以根据需求自行调整。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget vim lrzsz screen lsof tree unzip git</span><br><span class="line"># tcpdump nc mtr openssl-devel  bash-completion  nmap telnet ntpdate net-tools</span><br></pre></td></tr></table></figure>
+<p>开启firewalld</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start firewalld.service</span><br><span class="line">systemctl status firewalld.service</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-linode-Nginx-1.13.11" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/12/linode-Nginx-1.13.11/" class="article-date">
-      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:20:57.517Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -412,7 +453,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/jollychic/" class="article-date">
-      <time datetime="2018-07-12T02:14:23.449Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:20:57.513Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -463,7 +504,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/grep命令总结/" class="article-date">
-      <time datetime="2018-07-12T02:14:23.445Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -506,7 +547,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/iTerm2 配置/" class="article-date">
-      <time datetime="2018-07-12T02:14:23.445Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -556,7 +597,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/homebrew install list/" class="article-date">
-      <time datetime="2018-07-12T02:14:23.445Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -601,7 +642,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/hexo/" class="article-date">
-      <time datetime="2018-07-12T02:14:23.445Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -647,7 +688,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/firewalld/" class="article-date">
-      <time datetime="2018-07-12T02:14:23.445Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:20:57.505Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
