@@ -1,5 +1,5 @@
 title: macOS 安装配置Hexo
-date: 2017-10-20 13:11:00
+date: 2017-10-08 13:27:00
 categories:
 - 技术
 - macOS
@@ -18,7 +18,7 @@ brew install git
 ```
 
 #### 配置git
-```
+```shell
 #添加git用户姓名和邮箱地址
 git config --global user.name "Jinlong Quan"
 git config --global user.email "ovwane@gmail.com"
@@ -30,13 +30,13 @@ git config --global --list
 ### 配置SSH
 [参考](http://blog.csdn.net/system1024/article/details/52044900)
 #### 生成SSH key
-```
+```shell
 ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f ~/.ssh/hexo_github_rsa
 ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f ~/.ssh/hexo_coding_net_rsa
 ```
 
 #### 配置访问权限
-```
+```shell
 vim ~/.ssh/config
 # github.com
 Host github.com
@@ -52,7 +52,7 @@ IdentityFile ~/.ssh/hexo_coding_net_rsa
 ```
 
 #### 测试SSH
-```
+```shell
 ssh -T git@github.com
 ssh -T git@git.coding.net
 ```
