@@ -210,7 +210,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/工作职场相关书签/" class="article-date">
-      <time datetime="2018-07-12T02:06:07.349Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:14:23.461Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -250,11 +250,71 @@
 
 
   
+    <article id="post-使用Travis CI自动部署Hexo博客发布到Github和Coding.net" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/使用Travis CI自动部署Hexo博客发布到Github和Coding.net/" class="article-date">
+      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nvm install 8.9.1</span><br><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line">hexo version</span><br></pre></td></tr></table></figure>
+<h3 id="生产sshkey"><a href="#生产sshkey" class="headerlink" title="生产sshkey"></a>生产sshkey</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f ~/.ssh/hexo_rsa</span><br><span class="line"></span><br><span class="line">#github和coding.net都是设置的只有这个项目可以使用这个公钥</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br><span class="line"># github.com</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line"></span><br><span class="line"># git.coding.net</span><br><span class="line">Host git.coding.net</span><br><span class="line">HostName git.coding.net</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_rsa</span><br></pre></td></tr></table></figure>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br><span class="line">ssh -T git@git.coding.net</span><br></pre></td></tr></table></figure>
+<h3 id="初始化blog分支"><a href="#初始化blog分支" class="headerlink" title="初始化blog分支"></a>初始化blog分支</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects</span><br><span class="line"></span><br><span class="line">hexo init blog.ovwane.me</span><br><span class="line">cd blog.ovwane.me</span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line">初始化git</span><br><span class="line">git clone -b hexo git@github.com:ovwane/ovwane.github.io.git blog.ovwane.me</span><br><span class="line">git init</span><br><span class="line">git checkout -b hexo</span><br><span class="line">git submodule add https://github.com/ovwane/hexo-theme-spfk.git themes/spfk</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;初始化hexo分支&quot;</span><br><span class="line">git remote add origin git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<h3 id="更改主题为spfk"><a href="#更改主题为spfk" class="headerlink" title="更改主题为spfk"></a>更改主题为spfk</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">rm -rf themes/landscape</span><br><span class="line">#sed -i &apos;s/theme: landscape/theme: spfk/g&apos; _config.yml</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;删除默认主题landscape，然后修改主题为spfk&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<h3 id="修改-config-yml-和-主题的-config-yml替换主题的图片"><a href="#修改-config-yml-和-主题的-config-yml替换主题的图片" class="headerlink" title="修改_config.yml 和 主题的 _config.yml替换主题的图片"></a>修改_config.yml 和 主题的 _config.yml替换主题的图片</h3><h3 id="配置travis"><a href="#配置travis" class="headerlink" title="配置travis"></a>配置travis</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">mkdir .travis</span><br><span class="line">touch .travis.yml</span><br><span class="line">brew install travis</span><br><span class="line">travis login --auto</span><br><span class="line">travis encrypt-file ~/.ssh/hexo_rsa --add </span><br><span class="line">mv hexo_rsa.enc .travis/</span><br></pre></td></tr></table></figure>
+<h3 id="travis-ssh-config"><a href="#travis-ssh-config" class="headerlink" title=".travis/ssh_config"></a>.travis/ssh_config</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">vim .travis/ssh_config</span><br><span class="line"># github.com</span><br><span class="line">Host github.com</span><br><span class="line">	HostName github.com</span><br><span class="line">	User git</span><br><span class="line">	StrictHostKeyChecking no</span><br><span class="line">	IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line">	IdentitiesOnly yes</span><br><span class="line">	</span><br><span class="line"># git.coding.net</span><br><span class="line">Host git.coding.net</span><br><span class="line">	HostName git.coding.net</span><br><span class="line">	User git</span><br><span class="line">	StrictHostKeyChecking no</span><br><span class="line">	IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line">	IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加travis ci相关文件&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim _config.yml</span><br><span class="line">title: 幻舞梦境</span><br><span class="line">author: 幻舞梦境</span><br><span class="line">url: http://ovwane.me</span><br><span class="line">skip_render:</span><br><span class="line">  - README.md</span><br><span class="line"> </span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">      github: git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line">      coding: git@git.coding.net:ovwane/ovwane.coding.me.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;修改_config.yml添加deploy信息&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<h3 id="travis-yml"><a href="#travis-yml" class="headerlink" title=".travis.yml"></a>.travis.yml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">language: node_js</span><br><span class="line">sudo: false</span><br><span class="line">node_js:</span><br><span class="line">- 8.9.1</span><br><span class="line">branches:</span><br><span class="line">  only:</span><br><span class="line">  - hexo</span><br><span class="line">cache:</span><br><span class="line">  apt: true</span><br><span class="line">  yarn: true</span><br><span class="line">  directories:</span><br><span class="line">  - node_modules</span><br><span class="line">before_install:</span><br><span class="line">- openssl aes-256-cbc -K $encrypted_b6a9c7fbd133_key -iv $encrypted_b6a9c7fbd133_iv -in .travis/hexo_rsa.enc -out ~/.ssh/hexo_rsa -d</span><br><span class="line">- chmod 600 ~/.ssh/hexo_rsa</span><br><span class="line">- eval $(ssh-agent)</span><br><span class="line">- ssh-add ~/.ssh/hexo_rsa</span><br><span class="line">- cp .travis/ssh_config ~/.ssh/config</span><br><span class="line">- git config --global user.name &quot;Jinlong Quan&quot;</span><br><span class="line">- git config --global user.email &quot;ovwane@gmail.com&quot;</span><br><span class="line">install:</span><br><span class="line">- npm install hexo-cli -g</span><br><span class="line">- npm install hexo-deployer-git --save</span><br><span class="line">- npm install</span><br><span class="line">- git clone https://github.com/ovwane/ovwane.github.io .deploy_git</span><br><span class="line">- cd .deploy_git &amp;&amp; git checkout master</span><br><span class="line">- cd ..</span><br><span class="line">script:</span><br><span class="line">- hexo clean</span><br><span class="line">- hexo generate</span><br><span class="line">- hexo deploy</span><br><span class="line">after_success:</span><br><span class="line">- echo &quot;OK!网站部署成功啦！&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加.travis.yml打包命令&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- git clone https://github.com/ovwane/ovwane.github.io .deploy_git</span><br><span class="line">- cd .deploy_git &amp;&amp; git checkout master</span><br><span class="line">- cd ..</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加.travis.yml打包命令，并添加拉取master分支，防止每次更新全部文件。&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/" target="_blank" rel="noopener">使用 Travis CI 自動發布 Hexo 內容到 Github</a><br><a href="http://magicse7en.github.io/2016/03/27/travis-ci-auto-deploy-hexo-github/" target="_blank" rel="noopener">使用Travis CI自动构建hexo博客</a><br><a href="https://imzlp.me/posts/42318/" target="_blank" rel="noopener">使用Travis CI自动部署Github/Coding Pages博客
+</a><br><a href="https://changkun.us/archives/2017/06/232/" target="_blank" rel="noopener">#232 Hexo + GitHub + Travis CI + VPS 自动部署</a><br><a href="https://ssarcandy.tw/2016/07/29/hexo-auto-deploy/" target="_blank" rel="noopener">用 Travis CI 自動部屬 hexo 到 GitHub</a><br><a href="http://blog.acwong.org/2016/03/20/auto-deploy-hexo-with-travis-CI/" target="_blank" rel="noopener">用 Travis CI 自动部署 hexo</a><br><a href="https://blog.nfz.moe/archives/hexo-auto-deploy-with-travis-ci.html" target="_blank" rel="noopener">使用 Travis CI 持续构建 Hexo</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-学习-记忆-规律-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/12/学习-记忆-规律-笔记/" class="article-date">
-      <time datetime="2018-07-12T02:06:07.349Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -309,7 +369,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/如何使用restgo-admin/" class="article-date">
-      <time datetime="2018-07-12T02:06:07.349Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -362,7 +422,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/关注的Github项目/" class="article-date">
-      <time datetime="2018-07-12T02:06:07.349Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -418,11 +478,60 @@
 
 
   
+    <article id="post-关于编程学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/关于编程学习/" class="article-date">
+      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>关于编程学习</p>
+<p><a href="https://kb.cnblogs.com/page/563790/" target="_blank" rel="noopener">关于编程，你的练习是不是有效的？</a></p>
+<p>前端</p>
+<p><a href="http://caibaojian.com/" target="_blank" rel="noopener">前端开发博客</a></p>
+<p>github</p>
+<p><a href="http://blog.csdn.net/qq1332479771/article/details/56087333" target="_blank" rel="noopener"> github上fork了别人的项目后，再同步更新别人的提交</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-关于她-绝笔" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/07/12/关于她-绝笔/" class="article-date">
-      <time datetime="2018-07-12T02:06:07.349Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -473,11 +582,11 @@
 
 
   
-    <article id="post-关于编程学习" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 购买的应用清单" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/关于编程学习/" class="article-date">
-      <time datetime="2018-07-12T02:06:07.349Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/12/macOS 10.13 购买的应用清单/" class="article-date">
+      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -489,169 +598,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>关于编程学习</p>
-<p><a href="https://kb.cnblogs.com/page/563790/" target="_blank" rel="noopener">关于编程，你的练习是不是有效的？</a></p>
-<p>前端</p>
-<p><a href="http://caibaojian.com/" target="_blank" rel="noopener">前端开发博客</a></p>
-<p>github</p>
-<p><a href="http://blog.csdn.net/qq1332479771/article/details/56087333" target="_blank" rel="noopener"> github上fork了别人的项目后，再同步更新别人的提交</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-炼数成金-目录" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/炼数成金-目录/" class="article-date">
-      <time datetime="2018-07-12T02:06:07.349Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>炼数成金-目录</p>
-<p>01.解释性脚本语言初探.avi 46:42<br>02.1.Python开发环境windows.avi 21:30<br>02.2.Python开发环境linux.avi 21:40<br>02.3.Python开发环境wingide.avi 25:30<br>03.python使用基础.avi 1:53:25<br>04.python内置容器_.avi 47:02<br>05.并行开发.mp4 1:08:22<br>06.python正则表达式.avi 1:03:49<br>07.socket编程基础.avi 1:18:04<br>08.爬虫.mp4 59:18<br>09.django初探.wmv 1:11:22<br>10.django.avi 1:34:59<br>11.twisted.avi 43:30<br>12.Twisted综合应用.avi 50:09</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.13 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/macOS 10.13 安装软件/" class="article-date">
-      <time datetime="2018-07-12T02:06:07.345Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date: 2018-05-05 06:51</p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1.安装<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases" target="_blank" rel="noopener"><strong>ShadowsocksX-NG</strong></a></p>
-<p>2.安装<a href="https://brew.sh" target="_blank" rel="noopener">Homebrew</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span><br></pre></td></tr></table></figure>
-<p>3.安装<a href="http://caskroom.io" target="_blank" rel="noopener">Homebrew Cask</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/cask</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/versions</span></span><br></pre></td></tr></table></figure>
-<p>4.安装<a href="https://github.com/mas-cli/mas" target="_blank" rel="noopener">mas</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install mas</span></span><br></pre></td></tr></table></figure>
-<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><h3 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install vim wget git</span></span><br></pre></td></tr></table></figure>
-<h3 id="Homebrew-Cask"><a href="#Homebrew-Cask" class="headerlink" title="Homebrew Cask"></a>Homebrew Cask</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install typora google-chrome firefox sublime-text keepassxc qq youdaodict youdaonote iina istat-menus baidunetdisk</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install firefox-developer-edition iterm2 zoc wireshark charles pycharm goland</span></span><br></pre></td></tr></table></figure>
-<h3 id="mas"><a href="#mas" class="headerlink" title="mas"></a>mas</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mas install 409201541 409203825 409183694 410628904 836500024</span></span><br></pre></td></tr></table></figure>
-<p>409201541 Pages</p>
-<p>409203825 Numbers</p>
-<p>409183694 Keynote</p>
-<p>410628904 Wunderlist </p>
-<p>836500024 WeChat </p>
-<h2 id="手动安装软件"><a href="#手动安装软件" class="headerlink" title="手动安装软件"></a>手动安装软件</h2><p><a href="https://www.jianguoyun.com/s/downloads" target="_blank" rel="noopener">坚果云</a>|<a href="https://creative.adobe.com/products/download/creative-cloud" target="_blank" rel="noopener">Adobe Creative Cloud</a></p>
-<h4 id="激活软件"><a href="#激活软件" class="headerlink" title="激活软件"></a>激活软件</h4><p><a href="https://www.52pojie.cn/thread-725112-1-1.html" target="_blank" rel="noopener">Charles 4.2.5 Mac and Win通用破解文件</a></p>
-<p>/Applications/Charles.app/Contents/Java/charles.jar</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-代码质量" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/代码质量/" class="article-date">
-      <time datetime="2018-07-12T02:06:07.345Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://foofish.net/idiomatic_python.html" target="_blank" rel="noopener">代码这样写更优雅(Python版)</a></p>
-<p>代码质量<br><a href="http://douban-code.github.io/pages/about.html" target="_blank" rel="noopener">豆瓣 CODE</a><br><a href="https://zhuanlan.zhihu.com/p/32265601" target="_blank" rel="noopener">Litmus代码质量平台实践总结</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/22338225" target="_blank" rel="noopener">保证代码质量二三事</a></p>
-<p>开源<br><a href="https://github.com/lifesinger/blog/issues/167" target="_blank" rel="noopener">什么是开源精神</a></p>
-<p><a href="http://pythonguidecn.readthedocs.io/zh/latest/dev/env.html" target="_blank" rel="noopener">您的开发环境¶</a></p>
-<p><a href="https://www.zhihu.com/question/21572891?answer_deleted_redirect=true" target="_blank" rel="noopener">Python 程序如何高效地调试？</a></p>
+        <p>date: 2018-05-05 08:00</p>
+<p>购买的应用</p>
+<p>iStat Menus 6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">电子邮件地址：ovwane@gmail.com</span><br><span class="line">序列号：GAWAE-FD8HG-HMQTF-ZC4QY-4SARF-EVGLZ-4ENDW-R58QC-CRD7W-76W7E-CM5BD-5HDDW-SPGLE-UFSUL-LPFU</span><br></pre></td></tr></table></figure>
 
       
       
@@ -683,7 +633,7 @@
   
     <div class="article-meta">
       <a href="/2018/07/12/京峰教育Linux运维-笔记/" class="article-date">
-      <time datetime="2018-07-12T02:06:07.345Z" itemprop="datePublished">2018-07-12</time>
+      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -749,6 +699,55 @@
 <p>干了10年还是1万多的工资。</p>
 <p>信心和信念。<br>工资低，说明技术不行。</p>
 <p>现在停留在什么阶段，想要做到什么地步。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-代码质量" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/代码质量/" class="article-date">
+      <time datetime="2018-07-12T02:14:23.457Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://foofish.net/idiomatic_python.html" target="_blank" rel="noopener">代码这样写更优雅(Python版)</a></p>
+<p>代码质量<br><a href="http://douban-code.github.io/pages/about.html" target="_blank" rel="noopener">豆瓣 CODE</a><br><a href="https://zhuanlan.zhihu.com/p/32265601" target="_blank" rel="noopener">Litmus代码质量平台实践总结</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/22338225" target="_blank" rel="noopener">保证代码质量二三事</a></p>
+<p>开源<br><a href="https://github.com/lifesinger/blog/issues/167" target="_blank" rel="noopener">什么是开源精神</a></p>
+<p><a href="http://pythonguidecn.readthedocs.io/zh/latest/dev/env.html" target="_blank" rel="noopener">您的开发环境¶</a></p>
+<p><a href="https://www.zhihu.com/question/21572891?answer_deleted_redirect=true" target="_blank" rel="noopener">Python 程序如何高效地调试？</a></p>
 
       
       
