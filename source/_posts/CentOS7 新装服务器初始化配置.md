@@ -71,7 +71,7 @@ yum install -y chrony;systemctl enable chronyd.service&&systemctl start chronyd.
 
 ## 常用软件
 ```
-yum install -y lrzsz wget vim git tree bash-completion sysstat lsof net-tools
+yum install -y lrzsz wget vim git tree bash-completion sysstat lsof net-tools unzip
 ```
 
 ## VIM安装配置

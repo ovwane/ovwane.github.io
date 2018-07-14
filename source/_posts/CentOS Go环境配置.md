@@ -1,9 +1,13 @@
 date: 2018-05-08 17:01
 
+> CentOS Linux release 7.5.1804 (Core)
+>
+> Linux 3.10.0-862.3.3.el7.x86_64
+
 **安装依赖**
 
 ```shell
-yum -y install mercurial bison
+yum install -y mercurial gcc bison
 ```
 
 **安装**[gvm](https://github.com/moovweb/gvm)
@@ -14,15 +18,26 @@ curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gv
 
 Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译
 
-[[解决 golang在macos编译时fatal error: MSpanList_Insert错误]](https://github.com/moovweb/gvm/issues/264)|[gvm install go1.9.2 fails on macOS 10.12.6](https://github.com/moovweb/gvm/issues/284)
-
 ```shell
 # -B 表示只安装二进制包
-$ gvm install go1.10.1 -B
-$ gvm use go1.10.1
+$ gvm install go1.4.3 -B
+$ gvm use go1.4.3
 $ export GOROOT_BOOTSTRAP=$GOROOT
 $ gvm install go1.10.2
 ```
+
+**离线安装**
+
+```shell
+# git clone 官方源go1.10.2
+git clone -b go1.10.2 https://go.googlesource.com/go go1.10.2
+#可以放到别的电脑上
+tar cvfz go1.10.2.tar.bz2 go1.10.2
+#指定本地go1.10.2 git源
+gvm install go1.10.2 --source=/root/go1.10.2
+```
+
+[[解决 golang在macos编译时fatal error: MSpanList_Insert错误]](https://github.com/moovweb/gvm/issues/264)|[gvm install go1.9.2 fails on macOS 10.12.6](https://github.com/moovweb/gvm/issues/284)
 
 安装好之后，指定默认使用这个版本，加上 `--default` 即可，省去每次敲 `gvm use`
 
