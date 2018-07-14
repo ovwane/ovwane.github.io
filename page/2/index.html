@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-第12章-结构体" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第1章-简介和配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/第12章-结构体/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.307Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/第1章-简介和配置/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.827Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -222,49 +222,161 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="第12章-结构体"><a href="#第12章-结构体" class="headerlink" title="第12章-结构体"></a>第12章-结构体</h1><p> 2018-03-02</p>
-<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><h2 id="1-1-什么是接口"><a href="#1-1-什么是接口" class="headerlink" title="1.1 什么是接口?"></a>1.1 什么是接口?</h2><p>面向对象世界中的接口的一般定义是“接口定义对象的行为”。它只指定对象应该做什么。实现这种行为的方法(实现细节)是针对对象的。</p>
-<p>在Go中，接口是一组方法签名。当类型为接口中的所有方法提供定义时，它被称为实现接口。它与OOP非常相似。接口指定了类型应该具有的方法，类型决定了如何实现这些方法。</p>
-<blockquote>
-<p>它把所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实现了这个接口</p>
-<p>接口定义了一组方法，如果某个对象实现了某个接口的所有方法，则此对象就实现了该接口。</p>
-</blockquote>
-<h2 id="1-2-接口的定义语法"><a href="#1-2-接口的定义语法" class="headerlink" title="1.2 接口的定义语法"></a>1.2 接口的定义语法</h2><p>定义接口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/* 定义接口 */</span><br><span class="line">type interface_name interface &#123;</span><br><span class="line">   method_name1 [return_type]</span><br><span class="line">   method_name2 [return_type]</span><br><span class="line">   method_name3 [return_type]</span><br><span class="line">   ...</span><br><span class="line">   method_namen [return_type]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 定义结构体 */</span><br><span class="line">type struct_name struct &#123;</span><br><span class="line">   /* variables */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 实现接口方法 */</span><br><span class="line">func (struct_name_variable struct_name) method_name1() [return_type] &#123;</span><br><span class="line">   /* 方法实现 */</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line">func (struct_name_variable struct_name) method_namen() [return_type] &#123;</span><br><span class="line">   /* 方法实现*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>示例代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Phone interface &#123;</span><br><span class="line">    call()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type NokiaPhone struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (nokiaPhone NokiaPhone) call() &#123;</span><br><span class="line">    fmt.Println(&quot;I am Nokia, I can call you!&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type IPhone struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (iPhone IPhone) call() &#123;</span><br><span class="line">    fmt.Println(&quot;I am iPhone, I can call you!&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    var phone Phone</span><br><span class="line"></span><br><span class="line">    phone = new(NokiaPhone)</span><br><span class="line">    phone.call()</span><br><span class="line"></span><br><span class="line">    phone = new(IPhone)</span><br><span class="line">    phone.call()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>结果</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">I am Nokia, I can call you!</span><br><span class="line">I am iPhone, I can call you!</span><br></pre></td></tr></table></figure>
+        <p>date:2018-05-09 13:35</p>
+<h1 id="第1章-简介和配置"><a href="#第1章-简介和配置" class="headerlink" title="第1章-简介和配置"></a>第1章-简介和配置</h1><p> 2018-02-19</p>
+<h1 id="一、介绍和安装"><a href="#一、介绍和安装" class="headerlink" title="一、介绍和安装"></a>一、介绍和安装</h1><h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h2><h3 id="1-1-什么是Golang"><a href="#1-1-什么是Golang" class="headerlink" title="1.1 什么是Golang"></a>1.1 什么是Golang</h3><p>Go也被称为Golang，它是由谷歌创建的一种开源、编译和静态类型的编程语言。</p>
+<p>Golang的主要目标是使高可用性和可伸缩的web应用程序的开发变得简单易行。</p>
+<h3 id="1-2-为什么选择Golang"><a href="#1-2-为什么选择Golang" class="headerlink" title="1.2 为什么选择Golang"></a>1.2 为什么选择Golang</h3><p>当有很多其他语言(如python、ruby、node.js)时，为什么选择Golang作为服务端编程语言呢?</p>
 <ul>
-<li>interface可以被任意的对象实现</li>
-<li>一个对象可以实现任意多个interface</li>
-<li>任意的类型都实现了空interface(我们这样定义：interface{})，也就是包含0个method的interface</li>
+<li>并发是语言的一个固有部分。因此编写多线程程序是小菜一碟。这是通过Goroutines和channel实现的，我们将在后面的教程中讨论。</li>
+<li>Golang是一种编译语言。源代码编译成原生二进制。这在解释语言(如nodejs中使用的JavaScript)中丢失了。</li>
+<li>语言规范非常简单。整个规范适合于一个页面，您甚至可以使用它来编写自己的编译器:)</li>
+<li>go编译器支持静态链接。所有的go代码都可以静态地链接到一个大的fat二进制文件中，并且可以轻松地部署到云服务器中，而不用担心依赖关系。</li>
 </ul>
-<h2 id="1-3-interface值"><a href="#1-3-interface值" class="headerlink" title="1.3 interface值"></a>1.3 interface值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">type Human struct &#123;</span><br><span class="line">	name  string</span><br><span class="line">	age   int</span><br><span class="line">	phone string</span><br><span class="line">&#125;</span><br><span class="line">type Student struct &#123;</span><br><span class="line">	Human  //匿名字段</span><br><span class="line">	school string</span><br><span class="line">	loan   float32</span><br><span class="line">&#125;</span><br><span class="line">type Employee struct &#123;</span><br><span class="line">	Human   //匿名字段</span><br><span class="line">	company string</span><br><span class="line">	money   float32</span><br><span class="line">&#125; //Human实现Sayhi方法</span><br><span class="line">func (h Human) SayHi() &#123;</span><br><span class="line">	fmt.Printf(&quot;Hi, I am %s you can call me on %s\n&quot;, h.name, h.phone)</span><br><span class="line">&#125; //Human实现Sing方法</span><br><span class="line">func (h Human) Sing(lyrics string) &#123;</span><br><span class="line">	fmt.Println(&quot;La la la la...&quot;, lyrics)</span><br><span class="line">&#125; //Employee重写Human的SayHi方法</span><br><span class="line">func (e Employee) SayHi() &#123;</span><br><span class="line">	fmt.Printf(&quot;Hi, I am %s, I work at %s. Call me on %s\n&quot;, e.name,</span><br><span class="line">		e.company, e.phone) //Yes you can split into 2 lines here.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Interface Men被Human,Student和Employee实现</span><br><span class="line">// 因为这三个类型都实现了这两个方法</span><br><span class="line">type Men interface &#123;</span><br><span class="line">	SayHi()</span><br><span class="line">	Sing(lyrics string)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	mike := Student&#123;Human&#123;&quot;Mike&quot;, 25, &quot;222-222-XXX&quot;&#125;, &quot;MIT&quot;, 0.00&#125;</span><br><span class="line">	paul := Student&#123;Human&#123;&quot;Paul&quot;, 26, &quot;111-222-XXX&quot;&#125;, &quot;Harvard&quot;, 100&#125;</span><br><span class="line">	sam := Employee&#123;Human&#123;&quot;Sam&quot;, 36, &quot;444-222-XXX&quot;&#125;, &quot;Golang Inc.&quot;, 1000&#125;</span><br><span class="line">	Tom := Employee&#123;Human&#123;&quot;Sam&quot;, 36, &quot;444-222-XXX&quot;&#125;, &quot;Things Ltd.&quot;, 5000&#125;</span><br><span class="line">	//定义Men类型的变量i</span><br><span class="line">	var i Men</span><br><span class="line">	//i能存储Student</span><br><span class="line">	i = mike</span><br><span class="line">	fmt.Println(&quot;This is Mike, a Student:&quot;)</span><br><span class="line">	i.SayHi()</span><br><span class="line">	i.Sing(&quot;November rain&quot;)</span><br><span class="line">	//i也能存储Employee</span><br><span class="line">	i = Tom</span><br><span class="line">	fmt.Println(&quot;This is Tom, an Employee:&quot;)</span><br><span class="line">	i.SayHi()</span><br><span class="line">	i.Sing(&quot;Born to be wild&quot;)</span><br><span class="line">	//定义了slice Men</span><br><span class="line">	fmt.Println(&quot;Let&apos;s use a slice of Men and see what happens&quot;)</span><br><span class="line">	x := make([]Men, 3)</span><br><span class="line">	//T这三个都是不同类型的元素，但是他们实现了interface同一个接口</span><br><span class="line">	x[0], x[1], x[2] = paul, sam, mike</span><br><span class="line">	for _, value := range x &#123;</span><br><span class="line">		value.SayHi()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>结果</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">This is Mike, a Student:</span><br><span class="line">Hi, I am Mike you can call me on 222-222-XXX</span><br><span class="line">La la la la... November rain</span><br><span class="line">This is Tom, an Employee:</span><br><span class="line">Hi, I am Sam, I work at Things Ltd.. Call me on 444-222-XXX</span><br><span class="line">La la la la... Born to be wild</span><br><span class="line">Let&apos;s use a slice of Men and see what happens</span><br><span class="line">Hi, I am Paul you can call me on 111-222-XXX</span><br><span class="line">Hi, I am Sam, I work at Golang Inc.. Call me on 444-222-XXX</span><br><span class="line">Hi, I am Mike you can call me on 222-222-XXX</span><br></pre></td></tr></table></figure>
-<p>那么interface里面到底能存什么值呢？如果我们定义了一个interface的变量，那么这个变量里面可以存实现这个 interface的任意类型的对象。例如上面例子中，我们定义了一个Men interface类型的变量m，那么m里面可以存 Human、Student或者Employee值</p>
+<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><h3 id="2-1下载"><a href="#2-1下载" class="headerlink" title="2.1下载"></a>2.1下载</h3><p>在Mac、Windows和Linux三个平台上都支持Golang。您可以从<a href="https://golang.org/dl/下载相应平台的二进制文件。" target="_blank" rel="noopener">https://golang.org/dl/下载相应平台的二进制文件。</a></p>
+<p><img src="http://om1c35wrq.bkt.clouddn.com/001_%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E5%8C%85.jpg" alt="img"></p>
+<p>Mac OS 从<a href="https://golang.org/dl/" target="_blank" rel="noopener">https://golang.org/dl/</a>下载<code>osx</code>安装程序。双击启动安装。按照提示，这应该在<code>/usr/local/go</code>中安装了<code>Golang</code>，并且还会将文件夹<code>/usr/local/go/bin</code>添加到您的<code>PATH</code>环境变量中。</p>
+<p>Windows 从<a href="https://golang.org/dl/" target="_blank" rel="noopener">https://golang.org/dl/</a>下载<code>MSI</code>安装程序。双击启动安装并遵循提示。这将在位置<code>C</code>中安装<code>Golang:\Go</code>，并且还将添加目录<code>C:\Go\bin</code>到您的<code>path</code>环境变量。</p>
+<p>Linux 从<a href="https://golang.org/dl/" target="_blank" rel="noopener">https://golang.org/dl/</a>下载 <code>tar</code>文件，并将其解压到<code>/usr/local</code>。</p>
+<p>将<code>/usr/local/go/bin</code>添加到<code>PATH</code>环境变量中。这应该安装在<code>linux</code>中。</p>
+<h3 id="2-2-windows下安装并配置环境变量"><a href="#2-2-windows下安装并配置环境变量" class="headerlink" title="2.2 windows下安装并配置环境变量"></a>2.2 windows下安装并配置环境变量</h3><p>安装步骤就不在多说什么了，一路到底</p>
+<p><strong>A、配置环境变量</strong></p>
+<p>注意：如果是 <code>msi</code> 安装文件，<code>Go</code> 语言的环境变量会自动设置好。</p>
+<p>我的电脑——右键“属性”——“高级系统设置”——“环境变量”——“系统变量”</p>
+<p>​    假设GO安装于C盘根目录</p>
+<p><strong>新建：</strong></p>
+<ul>
+<li><code>GOROOT：Go</code> 安装路径（例：<code>C:\Go</code>）</li>
+<li><code>GOBIN：Go</code>安装路径的bin路径（例：<code>C:\Go\bin</code>）</li>
+<li><code>GOPATH：Go</code>工程的路径（例：<code>E:\go</code>）。如果有多个，就以分号分隔添加</li>
+</ul>
+<p><strong>修改：</strong></p>
+<ul>
+<li><code>Path：</code> 添加上<code>Go</code>安装路径，以分号结尾</li>
+</ul>
 <blockquote>
-<p>当然，使用指针的方式，也是可以的</p>
-<p>但是，接口对象不能调用实现对象的属性</p>
+<p>工作目录就是我们用来存放开发的源代码的地方，对应的也是Go里的GOPATH这个环境变量。这个环境变量指定之后，我们编译源代码等生成的文件都会放到这个目录下，GOPATH环境变量的配置参考上面的安装Go，配置到Windows下的系统变量里。</p>
 </blockquote>
-<p><strong>interface函数参数</strong></p>
-<p>interface的变量可以持有任意实现该interface类型的对象，这给我们编写函数(包括method)提供了一些额外的思 考，我们是不是可以通过定义interface参数，让函数接受各种类型的参数</p>
-<p><strong>嵌入interface</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">type Human interface &#123;</span><br><span class="line">	Len()</span><br><span class="line">&#125;</span><br><span class="line">type Student interface &#123;</span><br><span class="line">	Human</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Test struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (h *Test) Len() &#123;</span><br><span class="line">	fmt.Println(&quot;成功&quot;)</span><br><span class="line">&#125;</span><br><span class="line">func main() &#123;</span><br><span class="line">	var s Student</span><br><span class="line">	s = new(Test)</span><br><span class="line">	s.Len()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>结果</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">成功</span><br></pre></td></tr></table></figure>
-<p><code>例</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package test</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Controller struct &#123;</span><br><span class="line">	M int32</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Something interface &#123;</span><br><span class="line">	Get()</span><br><span class="line">	Post()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c *Controller) Get() &#123;</span><br><span class="line">	fmt.Print(&quot;GET&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c *Controller) Post() &#123;</span><br><span class="line">	fmt.Print(&quot;POST&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;test&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type T struct &#123;</span><br><span class="line">	test.Controller</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (t *T) Get() &#123;</span><br><span class="line">	//new(test.Controller).Get()</span><br><span class="line">	fmt.Print(&quot;T&quot;)</span><br><span class="line">&#125;</span><br><span class="line">func (t *T) Post() &#123;</span><br><span class="line">	fmt.Print(&quot;T&quot;)</span><br><span class="line">&#125;</span><br><span class="line">func main() &#123;</span><br><span class="line">	var something test.Something</span><br><span class="line">	something = new(T)</span><br><span class="line">	var t T</span><br><span class="line">	t.M = 1</span><br><span class="line">	//	t.Controller.M = 1</span><br><span class="line">	something.Get()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>结果</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T</span><br></pre></td></tr></table></figure>
-<p>Controller实现了所有的Something接口方法，当结构体T中调用Controller结构体的时候，T就相当于Java中的继承，T继承了Controller，因此，T可以不用重写所有的Something接口中的方法，因为父构造器已经实现了接口。</p>
-<p>如果Controller没有实现Something接口方法，则T要调用Something中方法，就要实现其所有方法。</p>
-<p>如果<code>something = new(test.Controller)</code>则调用的是Controller中的Get方法。</p>
-<p>T可以使用Controller结构体中定义的变量</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>接口对象不能调用接口实现对象的属性</p>
+<p><strong>B、查看是否安装配置成功</strong></p>
+<p>使用快捷键win+R键，输入cmd，打开命令行提示符，在命令行中输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go env  # 查看得到go的配置信息</span><br><span class="line">go version  # 查看go的版本号</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-mac系统安装并配置"><a href="#2-3-mac系统安装并配置" class="headerlink" title="2.3 mac系统安装并配置"></a>2.3 mac系统安装并配置</h3><p><strong>安装</strong></p>
+<p>双击 pkg 包，顺着指引，即可安装成功。 在命令行输入 go version，获取到 go 的version，则代表安装成功。</p>
+<p><strong>配置环境变量</strong></p>
+<p>1、打开终端输入cd ~进入用户主目录; 2、输入ls -all命令查看是否存在.bash_profile; 3、存在既使用vim .bash_profile 打开文件; 4、输入 i 进入vim编辑模式； 5、输入下面代码， 其中 GOPATH: 日常开发的根目录。GOBIN:是GOPATH下的bin目录。</p>
+<blockquote>
+<p><code>export GOPATH=/Users/yztc/go</code></p>
+<p><code>export GOBIN=$GOPATH/bin</code></p>
+<p><code>export PATH=$PATH:$GOBIN</code></p>
+</blockquote>
+<p>6、点击ESC，并输入 :wq 保存并退出编辑。可输入vim .bash_profile 查看是否保存成功。</p>
+<p>7、输入source ~/.bash_profile 完成对golang环境变量的配置，配置成功没有提示。 8、输入go env 查看配置结果</p>
+<h1 id="二、搭建开发工具"><a href="#二、搭建开发工具" class="headerlink" title="二、搭建开发工具"></a>二、搭建开发工具</h1><p>安装好atom工具，然后安装go-plus插件和atom-terminal-panel插件。</p>
+<p>1.安装go-plus插件</p>
+<p><img src="http://om1c35wrq.bkt.clouddn.com/002_%E6%8F%92%E4%BB%B6.bmp" alt="img"></p>
+<p>2.安装atom-terminal-panel插件</p>
+<p><img src="http://om1c35wrq.bkt.clouddn.com/001_%E6%8F%92%E4%BB%B6.bmp" alt="img"></p>
+<h1 id="三、第一个程序：HelloWorld"><a href="#三、第一个程序：HelloWorld" class="headerlink" title="三、第一个程序：HelloWorld"></a>三、第一个程序：HelloWorld</h1><h3 id="3-1-编写第一个程序"><a href="#3-1-编写第一个程序" class="headerlink" title="3.1 编写第一个程序"></a>3.1 编写第一个程序</h3><p>1.打开编辑器创建一个新的helloworld.go文件，并输入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">   /* 输出 */</span><br><span class="line">   fmt.Println(&quot;Hello, World!&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.执行go程序</p>
+<p>执行go程序由几种方式</p>
+<p>方式一：使用go run命令</p>
+<p>​    step1：使用快捷键win+R，输入cmd打开命令行提示符</p>
+<p>​    step2：进入helloworld.go所在的目录</p>
+<p>​    step3：输入go run helloworld.go命令并观察运行结果。</p>
+<p>方式二：使用go build命令</p>
+<p>​    step1：使用快捷键win+R，输入cmd打开命令行提示符</p>
+<p>​    step2：进入helloworld.go所在的目录</p>
+<p>​    step3：输入go build helloworld.go命令进行编译，产生同名的helloworld.exe文件</p>
+<p>​    step4：输入helloworld.exe，执行</p>
+<p>方式三：使用 go playground</p>
+<p>​    step1：打开一下网址<a href="https://play.golang.org/" target="_blank" rel="noopener">https://play.golang.org/</a></p>
+<h3 id="3-2-第一个程序的解释说明"><a href="#3-2-第一个程序的解释说明" class="headerlink" title="3.2 第一个程序的解释说明"></a>3.2 第一个程序的解释说明</h3><h4 id="3-2-1-package"><a href="#3-2-1-package" class="headerlink" title="3.2.1 package"></a>3.2.1 package</h4><ul>
+<li>在同一个包下面的文件属于同一个工程文件，不用<code>import</code>包，可以直接使用</li>
+<li>在同一个包下面的所有文件的package名，都是一样的</li>
+<li>在同一个包下面的文件<code>package</code>名都建议设为是该目录名，但也可以不是</li>
+</ul>
+<h4 id="3-2-2-import"><a href="#3-2-2-import" class="headerlink" title="3.2.2 import"></a>3.2.2 import</h4><p>import “fmt” 告诉 Go 编译器这个程序需要使用 fmt 包的函数，fmt 包实现了格式化 IO（输入/输出）的函数</p>
+<p>可以是相对路径也可以是绝对路径，推荐使用绝对路径（起始于工程根目录）</p>
+<ol>
+<li><p>点操作 我们有时候会看到如下的方式导入包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import(</span><br><span class="line">	. &quot;fmt&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>这个点操作的含义就是这个包导入之后在你调用这个包的函数时，你可以省略前缀的包名，也就是前面你调</p>
+<p>用的<code>fmt.Println(&quot;hello world&quot;)</code>可以省略的写成<code>Println(&quot;hello world&quot;)</code></p>
+</li>
+<li><p>别名操作 别名操作顾名思义我们可以把包命名成另一个我们用起来容易记忆的名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import(</span><br><span class="line">	f &quot;fmt&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>别名操作的话调用包函数时前缀变成了我们的前缀，即<code>f.Println(&quot;hello world&quot;)</code></p>
+</li>
+<li><p>_操作 这个操作经常是让很多人费解的一个操作符，请看下面这个import</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">  &quot;database/sql&quot;</span><br><span class="line">  _ &quot;github.com/ziutek/mymysql/godrv&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>_操作其实是引入该包，而不直接使用包里面的函数，而是调用了该包里面的init函数</p>
+</li>
+</ol>
+<h4 id="3-3-3-main与init"><a href="#3-3-3-main与init" class="headerlink" title="3.3.3 main与init"></a>3.3.3 main与init</h4><ul>
+<li>这两个函数在定义时不能有任何的参数和返回值</li>
+<li>虽然一个package里面可以写任意多个init函数，但推荐只用一个</li>
+<li>Go程序会自动调用init()和main()</li>
+<li>每个package中的init函数都是可选的，但package main就必须包含一个main函数</li>
+<li>先调用init函数，再调用main函数</li>
+<li>运行程序，必须要运行存在main函数的go文件</li>
+</ul>
+<p><code>初始化顺序：</code></p>
+<p>程序的初始化和执行都起始于main包。如果main包还导入了其它的包，那么就会在编译时将它们依次导入。有时一个包会被多个包同时导入，那么它只会被导入一次（例如很多包可能都会用到fmt包，但它只会被导入一次，因为没有必要导入多次）。当一个包被导入时，如果该包还导入了其它的包，那么会先将其它包导入进来，然后再对这些包中的包级常量和变量进行初始化，接着执行init函数（如果有的话），依次类推。等所有被导入的包都加载完毕了，就会开始对main包中的包级常量和变量进行初始化，然后执行main包中的init函数（如果存在的话），最后执行main函数。</p>
+<h1 id="四、编码规范"><a href="#四、编码规范" class="headerlink" title="四、编码规范"></a>四、编码规范</h1><h3 id="4-1-编码规范"><a href="#4-1-编码规范" class="headerlink" title="4.1 编码规范"></a>4.1 编码规范</h3><h3 id="4-2-注释"><a href="#4-2-注释" class="headerlink" title="4.2 注释"></a>4.2 注释</h3><ul>
+<li>单行注释是最常见的注释形式，你可以在任何地方使用以 // 开头的单行注释</li>
+<li>多行注释也叫块注释，均已以 /<em> 开头，并以 </em>/ 结尾，且不可以嵌套使用，多行注释一般用于包的文档描述或注释成块的代码片段</li>
+</ul>
+<h3 id="4-3-标识符"><a href="#4-3-标识符" class="headerlink" title="4.3 标识符"></a>4.3 标识符</h3><p>当标识符（包括常量、变量、类型、函数名、结构字段等等）以一个大写字母开头，如：Group1，那么使用这种形式的标识符的对象就<strong>可以被外部包的代码所使用</strong>（客户端程序需要先导入这个包），这被称为导出（像面向对象语言中的 public）；<strong>标识符如果以小写字母开头，则对包外是不可见的，但是他们在整个包的内部是可见并且可用的</strong>（像面向对象语言中的 private ）</p>
+<h3 id="4-4-语句的结尾"><a href="#4-4-语句的结尾" class="headerlink" title="4.4 语句的结尾"></a>4.4 语句的结尾</h3><p>Go语言中是不需要类似于Java需要冒号结尾，默认一行就是一条数据</p>
+<p>如果你打算将多个语句写在同一行，它们则必须使用 <strong>;</strong></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://liyuechun.org/2018/02/19/golang-introduce/" target="_blank" rel="noopener">第1章-简介和配置</a></p>
 
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-阿铭Linux培训第5期笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/14/阿铭Linux培训第5期笔记/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.827Z" itemprop="datePublished">2018-07-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>title: 阿铭Linux培训第5期笔记</p>
+<p>date: 2014-11-10 20:01:25</p>
+<h1 id="01-linux简介-如何学习linux"><a href="#01-linux简介-如何学习linux" class="headerlink" title="01 linux简介 如何学习linux"></a>01 linux简介 如何学习linux</h1>
       
       
     </div>
@@ -294,8 +406,8 @@
     <article id="post-生成证书" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/生成证书/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.307Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/生成证书/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.827Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -386,8 +498,8 @@
     <article id="post-生产环境部署" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/生产环境部署/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.307Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/生产环境部署/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.827Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -445,8 +557,8 @@
     <article id="post-炼数成金-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/炼数成金-笔记/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.307Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/炼数成金-笔记/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.827Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -559,8 +671,8 @@
     <article id="post-炼数成金-目录" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/炼数成金-目录/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.307Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/炼数成金-目录/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.827Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -604,8 +716,8 @@
     <article id="post-清华大学开源软件镜像站-CentOS7" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/清华大学开源软件镜像站-CentOS7/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.307Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/清华大学开源软件镜像站-CentOS7/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.827Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -652,8 +764,8 @@
     <article id="post-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/正则表达式/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.307Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/正则表达式/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.827Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -704,8 +816,8 @@
     <article id="post-本博客 Nginx 配置之完整篇" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/本博客 Nginx 配置之完整篇/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.307Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/本博客 Nginx 配置之完整篇/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.827Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -736,7 +848,7 @@
       
       
         <p class="article-more-link">
-          <a  href="/2018/07/12/本博客 Nginx 配置之完整篇/#more">大航海 >></a>
+          <a  href="/2018/07/14/本博客 Nginx 配置之完整篇/#more">大航海 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -758,8 +870,8 @@
     <article id="post-暂存书签" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/暂存书签/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.307Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/暂存书签/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.827Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -774,61 +886,6 @@
         <h3 id="书签"><a href="#书签" class="headerlink" title="书签"></a>书签</h3><p><a href="http://blog.51cto.com/ganbing/2059541" target="_blank" rel="noopener">总结一下：运维工程师面试的经历及面试相关问题</a></p>
 <p><a href="http://www.cnblogs.com/linhaifeng/p/6264636.html" target="_blank" rel="noopener">openstack系列阅读目录</a></p>
 <p><a href="https://www.sdnlab.com/" target="_blank" rel="noopener">SDNLAB | 专注网络创新技术</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-新世纪五笔" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/新世纪五笔/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.307Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p><a href="http://tieba.baidu.com/p/2020857181" target="_blank" rel="noopener">新世纪五笔吧</a></p>
-<h3 id="平台"><a href="#平台" class="headerlink" title="平台"></a>平台</h3><p>macOS</p>
-<p><a href="http://rime.im/" target="_blank" rel="noopener">RIME | 中州韻輸入法引擎</a></p>
-<p>鼠鬚管（squirrel）Rime for macOS</p>
-<p>安装<code>brew cask install squirrel</code></p>
-<p>Squirrel 配置工具 <a href="https://github.com/neolee/SCU" target="_blank" rel="noopener">SCU</a></p>
-<p>用戶設定<code>~/Library/Rime/</code></p>
-<p>使用新世纪码表<a href="https://github.com/lswqzhang/RIME-wubi/tree/master/%E9%BC%A0%E9%A1%BB%E7%AE%A1%E8%AF%8D%E5%BA%93_%E6%96%B0%E4%B8%96%E7%BA%AA%E4%BA%94%E7%AC%94" target="_blank" rel="noopener">鼠须管词库_新世纪五笔</a></p>
-<p>macSO将 RIME 文件夹中的文件复制到 RIME输入法 <strong>用户设定</strong>文件夹。</p>
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://github.com/lswqzhang/RIME-wubi" target="_blank" rel="noopener">RIME（鼠须管、小狼毫、中州韵）输入法五笔方案，98版，新世纪版</a></p>
-<p><a href="http://www.dreamxu.com/install-config-squirrel/" target="_blank" rel="noopener"><a href="http://www.dreamxu.com/install-config-squirrel/" target="_blank" rel="noopener">安装及配置 Mac 上的 Rime 输入法——鼠鬚管 (Squirrel)</a></a></p>
-<p><a href="https://scomper.me/gtd/-shu-xu-guan-de-diao-jiao-bi-ji" target="_blank" rel="noopener">「鼠须管」的调教笔记</a>|<a href="http://3xp10it.cc/vim/2017/05/19/vim%E4%B8%AD%E8%8B%B1%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A2%E5%AE%8C%E7%BE%8E%E6%96%B9%E6%A1%88/" target="_blank" rel="noopener">vim中英文输入法自动切换完美方案</a></p>
 
       
       

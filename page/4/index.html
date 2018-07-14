@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-使用Travis CI自动部署Hexo博客发布到Github和Coding.net" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-关于编程学习" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/使用Travis CI自动部署Hexo博客发布到Github和Coding.net/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.299Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/关于编程学习/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.823Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -222,23 +222,214 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nvm install 8.9.1</span><br><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line">hexo version</span><br></pre></td></tr></table></figure>
-<h3 id="生产sshkey"><a href="#生产sshkey" class="headerlink" title="生产sshkey"></a>生产sshkey</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f ~/.ssh/hexo_rsa</span><br><span class="line"></span><br><span class="line">#github和coding.net都是设置的只有这个项目可以使用这个公钥</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br><span class="line"># github.com</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line"></span><br><span class="line"># git.coding.net</span><br><span class="line">Host git.coding.net</span><br><span class="line">HostName git.coding.net</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_rsa</span><br></pre></td></tr></table></figure>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br><span class="line">ssh -T git@git.coding.net</span><br></pre></td></tr></table></figure>
-<h3 id="初始化blog分支"><a href="#初始化blog分支" class="headerlink" title="初始化blog分支"></a>初始化blog分支</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects</span><br><span class="line"></span><br><span class="line">hexo init blog.ovwane.me</span><br><span class="line">cd blog.ovwane.me</span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line">初始化git</span><br><span class="line">git clone -b hexo git@github.com:ovwane/ovwane.github.io.git blog.ovwane.me</span><br><span class="line">git init</span><br><span class="line">git checkout -b hexo</span><br><span class="line">git submodule add https://github.com/ovwane/hexo-theme-spfk.git themes/spfk</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;初始化hexo分支&quot;</span><br><span class="line">git remote add origin git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<h3 id="更改主题为spfk"><a href="#更改主题为spfk" class="headerlink" title="更改主题为spfk"></a>更改主题为spfk</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">rm -rf themes/landscape</span><br><span class="line">#sed -i &apos;s/theme: landscape/theme: spfk/g&apos; _config.yml</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;删除默认主题landscape，然后修改主题为spfk&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<h3 id="修改-config-yml-和-主题的-config-yml替换主题的图片"><a href="#修改-config-yml-和-主题的-config-yml替换主题的图片" class="headerlink" title="修改_config.yml 和 主题的 _config.yml替换主题的图片"></a>修改_config.yml 和 主题的 _config.yml替换主题的图片</h3><h3 id="配置travis"><a href="#配置travis" class="headerlink" title="配置travis"></a>配置travis</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">mkdir .travis</span><br><span class="line">touch .travis.yml</span><br><span class="line">brew install travis</span><br><span class="line">travis login --auto</span><br><span class="line">travis encrypt-file ~/.ssh/hexo_rsa --add </span><br><span class="line">mv hexo_rsa.enc .travis/</span><br></pre></td></tr></table></figure>
-<h3 id="travis-ssh-config"><a href="#travis-ssh-config" class="headerlink" title=".travis/ssh_config"></a>.travis/ssh_config</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">vim .travis/ssh_config</span><br><span class="line"># github.com</span><br><span class="line">Host github.com</span><br><span class="line">	HostName github.com</span><br><span class="line">	User git</span><br><span class="line">	StrictHostKeyChecking no</span><br><span class="line">	IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line">	IdentitiesOnly yes</span><br><span class="line">	</span><br><span class="line"># git.coding.net</span><br><span class="line">Host git.coding.net</span><br><span class="line">	HostName git.coding.net</span><br><span class="line">	User git</span><br><span class="line">	StrictHostKeyChecking no</span><br><span class="line">	IdentityFile ~/.ssh/hexo_rsa</span><br><span class="line">	IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加travis ci相关文件&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim _config.yml</span><br><span class="line">title: 幻舞梦境</span><br><span class="line">author: 幻舞梦境</span><br><span class="line">url: http://ovwane.me</span><br><span class="line">skip_render:</span><br><span class="line">  - README.md</span><br><span class="line"> </span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:</span><br><span class="line">      github: git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line">      coding: git@git.coding.net:ovwane/ovwane.coding.me.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;修改_config.yml添加deploy信息&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<h3 id="travis-yml"><a href="#travis-yml" class="headerlink" title=".travis.yml"></a>.travis.yml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">language: node_js</span><br><span class="line">sudo: false</span><br><span class="line">node_js:</span><br><span class="line">- 8.9.1</span><br><span class="line">branches:</span><br><span class="line">  only:</span><br><span class="line">  - hexo</span><br><span class="line">cache:</span><br><span class="line">  apt: true</span><br><span class="line">  yarn: true</span><br><span class="line">  directories:</span><br><span class="line">  - node_modules</span><br><span class="line">before_install:</span><br><span class="line">- openssl aes-256-cbc -K $encrypted_b6a9c7fbd133_key -iv $encrypted_b6a9c7fbd133_iv -in .travis/hexo_rsa.enc -out ~/.ssh/hexo_rsa -d</span><br><span class="line">- chmod 600 ~/.ssh/hexo_rsa</span><br><span class="line">- eval $(ssh-agent)</span><br><span class="line">- ssh-add ~/.ssh/hexo_rsa</span><br><span class="line">- cp .travis/ssh_config ~/.ssh/config</span><br><span class="line">- git config --global user.name &quot;Jinlong Quan&quot;</span><br><span class="line">- git config --global user.email &quot;ovwane@gmail.com&quot;</span><br><span class="line">install:</span><br><span class="line">- npm install hexo-cli -g</span><br><span class="line">- npm install hexo-deployer-git --save</span><br><span class="line">- npm install</span><br><span class="line">- git clone https://github.com/ovwane/ovwane.github.io .deploy_git</span><br><span class="line">- cd .deploy_git &amp;&amp; git checkout master</span><br><span class="line">- cd ..</span><br><span class="line">script:</span><br><span class="line">- hexo clean</span><br><span class="line">- hexo generate</span><br><span class="line">- hexo deploy</span><br><span class="line">after_success:</span><br><span class="line">- echo &quot;OK!网站部署成功啦！&quot;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加.travis.yml打包命令&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- git clone https://github.com/ovwane/ovwane.github.io .deploy_git</span><br><span class="line">- cd .deploy_git &amp;&amp; git checkout master</span><br><span class="line">- cd ..</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects/blog.ovwane.me</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;添加.travis.yml打包命令，并添加拉取master分支，防止每次更新全部文件。&quot;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/" target="_blank" rel="noopener">使用 Travis CI 自動發布 Hexo 內容到 Github</a><br><a href="http://magicse7en.github.io/2016/03/27/travis-ci-auto-deploy-hexo-github/" target="_blank" rel="noopener">使用Travis CI自动构建hexo博客</a><br><a href="https://imzlp.me/posts/42318/" target="_blank" rel="noopener">使用Travis CI自动部署Github/Coding Pages博客
-</a><br><a href="https://changkun.us/archives/2017/06/232/" target="_blank" rel="noopener">#232 Hexo + GitHub + Travis CI + VPS 自动部署</a><br><a href="https://ssarcandy.tw/2016/07/29/hexo-auto-deploy/" target="_blank" rel="noopener">用 Travis CI 自動部屬 hexo 到 GitHub</a><br><a href="http://blog.acwong.org/2016/03/20/auto-deploy-hexo-with-travis-CI/" target="_blank" rel="noopener">用 Travis CI 自动部署 hexo</a><br><a href="https://blog.nfz.moe/archives/hexo-auto-deploy-with-travis-ci.html" target="_blank" rel="noopener">使用 Travis CI 持续构建 Hexo</a></p>
+        <p>关于编程学习</p>
+<p><a href="https://kb.cnblogs.com/page/563790/" target="_blank" rel="noopener">关于编程，你的练习是不是有效的？</a></p>
+<p>前端</p>
+<p><a href="http://caibaojian.com/" target="_blank" rel="noopener">前端开发博客</a></p>
+<p>github</p>
+<p><a href="http://blog.csdn.net/qq1332479771/article/details/56087333" target="_blank" rel="noopener"> github上fork了别人的项目后，再同步更新别人的提交</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-关于她-绝笔" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/14/关于她-绝笔/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.823Z" itemprop="datePublished">2018-07-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>不教而杀谓之虐 不戒视成谓之暴 慢令致期谓之贼</p>
+</blockquote>
+<blockquote>
+<p>不懂得如何教化孩子，而一昧禁绝，是为虐待者。<br>不花时间和心思与孩子沟通，而只求成绩，是为暴徒。<br>孩子童年时，对其忽视懈怠，长大后却临时抱佛脚，急于求成，是为贼人。<br>千年过去，孔子的话，依然使我们警醒。</p>
+</blockquote>
+<p>你可以喜欢，你可以揣摩心思，但你不能偷窥。这不仅仅是心理问题。也是不尊重他人。你要承受所带来的后果。也要远离。这是你做错了。你不该这样。钱，其他的也带不来你的欢乐。你也不应该去找寻她了。</p>
+<p>发条橙和西部世界</p>
+<blockquote>
+<p>电影里，阿历克斯的父母，只给他中产阶级的生活，其余一切漠不关心。现实中，我偶然看湖南卫视，《变形记》的一幕：一个少年对母亲吼道“滚你妈的”。后来才得知，这位母亲离婚很久，却没把真相告诉儿子。你不尊重我的知情权，还想让我尊重你？《网瘾之戒》的结尾，柴静向“问题少年”的父母们，提出了一些问题——</p>
+</blockquote>
+<p>作者：罗罔极<br>链接：<a href="https://zhuanlan.zhihu.com/p/30386257" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/30386257</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-使用Vagrant和Virtualbox搭建Kubernetes集群" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/14/使用Vagrant和Virtualbox搭建Kubernetes集群/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.823Z" itemprop="datePublished">2018-07-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>date: 2018-07-08 17:00</p>
+<h1 id="使用Vagrant和Virtualbox搭建Kubernetes集群"><a href="#使用Vagrant和Virtualbox搭建Kubernetes集群" class="headerlink" title="使用Vagrant和Virtualbox搭建Kubernetes集群"></a>使用Vagrant和Virtualbox搭建Kubernetes集群</h1><h2 id="安装Vagrant和VirtualBox"><a href="#安装Vagrant和VirtualBox" class="headerlink" title="安装Vagrant和VirtualBox"></a>安装Vagrant和VirtualBox</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew cask install vagrant</span><br><span class="line">brew cask install virtualbox</span><br></pre></td></tr></table></figure>
+<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><p>确保安装好以上的准备环境后，执行下列命令启动kubernetes集群：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ovwane/kubernetes-vagrant-centos-cluster.git</span><br><span class="line">cd kubernetes-vagrant-centos-cluster</span><br><span class="line">vagrant up</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：克隆完Git仓库后，需要提前下载kubernetes的压缩包到<code>kubenetes-vagrant-centos-cluster</code>目录下，包括如下两个文件：</p>
+<ul>
+<li>kubernetes-client-linux-amd64.tar.gz</li>
+<li>kubernetes-server-linux-amd64.tar.gz</li>
+</ul>
+<p>如果是首次部署，会自动下载<code>centos/7</code>的box，这需要花费一些时间，另外每个节点还需要下载安装一系列软件包，整个过程大概需要10几分钟。</p>
+<p>如果您在运行<code>vagrant up</code>的过程中发现无法下载<code>centos/7</code>的box，可以手动下载后将其添加到vagrant中。</p>
+<p><strong>手动添加centos/7 box</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1805_01.VirtualBox.box</span><br><span class="line">vagrant box add CentOS-7-x86_64-Vagrant-1805_01.VirtualBox.box --name centos/7</span><br></pre></td></tr></table></figure>
+<p>这样下次运行<code>vagrant up</code>的时候就会自动读取本地的<code>centos/7</code> box而不会再到网上下载。</p>
+<h3 id="访问kubernetes集群"><a href="#访问kubernetes集群" class="headerlink" title="访问kubernetes集群"></a>访问kubernetes集群</h3><p>访问Kubernetes集群的方式有三种：</p>
+<ul>
+<li>本地访问</li>
+<li>在VM内部访问</li>
+<li>kubernetes dashboard</li>
+</ul>
+<p><strong>通过本地访问</strong></p>
+<p>可以直接在你自己的本地环境中操作该kubernetes集群，而无需登录到虚拟机中，执行以下步骤：</p>
+<p>将<code>conf/admin.kubeconfig</code>文件放到<code>~/.kube/config</code>目录下即可在本地使用<code>kubectl</code>命令操作集群。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.kube</span><br><span class="line">cp conf/admin.kubeconfig ~/.kube/config</span><br></pre></td></tr></table></figure>
+<p>我们推荐您使用这种方式。</p>
+<p><strong>在虚拟机内部访问</strong></p>
+<p>如果有任何问题可以登录到虚拟机内部调试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vagrant ssh node1</span><br><span class="line">sudo -i</span><br><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+<p><strong>Kubernetes dashboard</strong></p>
+<p>还可以直接通过dashboard UI来访问：<a href="https://172.17.8.101:8443/" target="_blank" rel="noopener">https://172.17.8.101:8443</a></p>
+<p>可以在本地执行以下命令获取token的值（需要提前安装kubectl）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-system describe secret `kubectl -n kube-system get secret|grep admin-token|cut -d &quot; &quot; -f1`|grep &quot;token:&quot;|tr -s &quot; &quot;|cut -d &quot; &quot; -f2</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：token的值也可以在<code>vagrant up</code>的日志的最后看到。</p>
+<p><strong>Heapster监控</strong></p>
+<p>创建Heapster监控：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/heapster/</span><br></pre></td></tr></table></figure>
+<p>访问Grafana</p>
+<p>使用Ingress方式暴露的服务，在本地<code>/etc/hosts</code>中增加一条配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 grafana.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>访问Grafana：<a href="http://grafana.jimmysong.io/" target="_blank" rel="noopener">http://grafana.jimmysong.io</a></p>
+<p><strong>Traefik</strong></p>
+<p>部署Traefik ingress controller和增加ingress配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/traefik-ingress</span><br></pre></td></tr></table></figure>
+<p>在本地<code>/etc/hosts</code>中增加一条配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 traefik.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>访问Traefik UI：<a href="http://traefik.jimmysong.io/" target="_blank" rel="noopener">http://traefik.jimmysong.io</a></p>
+<p><strong>EFK</strong></p>
+<p>使用EFK做日志收集。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/efk/</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：运行EFK的每个节点需要消耗很大的CPU和内存，请保证每台虚拟机至少分配了4G内存。</p>
+<p><strong>Helm</strong></p>
+<p>用来部署helm。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack/deploy-helm.sh</span><br></pre></td></tr></table></figure>
+<h3 id="Service-Mesh"><a href="#Service-Mesh" class="headerlink" title="Service Mesh"></a>Service Mesh</h3><p>我们使用 <a href="https://istio.io/" target="_blank" rel="noopener">istio</a> 作为 service mesh。</p>
+<p><strong>安装</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/istio/</span><br></pre></td></tr></table></figure>
+<p><strong>运行示例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -n default -f &lt;(istioctl kube-inject -f yaml/istio-bookinfo/bookinfo.yaml)</span><br><span class="line">istioctl create -f yaml/istio-bookinfo/bookinfo-gateway.yaml</span><br></pre></td></tr></table></figure>
+<p>在您自己的本地主机的<code>/etc/hosts</code>文件中增加如下配置项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 grafana.istio.jimmysong.io</span><br><span class="line">172.17.8.102 servicegraph.istio.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>我们可以通过下面的URL地址访问以上的服务。</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>grafana</td>
+<td><a href="http://grafana.istio.jimmysong.io/" target="_blank" rel="noopener">http://grafana.istio.jimmysong.io</a></td>
+</tr>
+<tr>
+<td>servicegraph</td>
+<td><a href="http://servicegraph.istio.jimmysong.io/dotviz%3E" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/dotviz&gt;</a>, <a href="http://servicegraph.istio.jimmysong.io/graph" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/graph</a>,<a href="http://servicegraph.istio.jimmysong.io/force/forcegraph.html" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/force/forcegraph.html</a></td>
+</tr>
+<tr>
+<td>tracing</td>
+<td><a href="http://172.17.8.101:$JAEGER_PORT/" target="_blank" rel="noopener">http://172.17.8.101:$JAEGER_PORT</a></td>
+</tr>
+<tr>
+<td>productpage</td>
+<td><a href="http://172.17.8.101:$GATEWAY_PORT/productpage" target="_blank" rel="noopener">http://172.17.8.101:$GATEWAY_PORT/productpage</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意</strong>：<code>JAEGER_PORT</code>可以通过<code>kubectl -n istio-system get svc tracing -o jsonpath=&#39;{.spec.ports[0].nodePort}&#39;</code>获取，<code>GATEWAY_PORT</code>可以通过<code>kubectl -n istio-system get svc istio-ingressgateway -o jsonpath=&#39;{.spec.ports[0].nodePort}&#39;</code>获取。</p>
+<p>详细信息请参阅 <a href="https://istio.io/docs/guides/bookinfo.html" target="_blank" rel="noopener">https://istio.io/docs/guides/bookinfo.html</a></p>
+<h2 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h2><p>除了特别说明，以下命令都在当前的repo目录下操作。</p>
+<h3 id="挂起"><a href="#挂起" class="headerlink" title="挂起"></a>挂起</h3><p>将当前的虚拟机挂起，以便下次恢复。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant suspend</span><br></pre></td></tr></table></figure>
+<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><p>恢复虚拟机的上次状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant resume</span><br></pre></td></tr></table></figure>
+<p>注意：我们每次挂起虚拟机后再重新启动它们的时候，看到的虚拟机中的时间依然是挂载时候的时间，这样将导致监控查看起来比较麻烦。因此请考虑先停机再重新启动虚拟机。</p>
+<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><p>停机后重启启动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">vagrant halt</span><br><span class="line">vagrant up</span><br><span class="line"># login to node1</span><br><span class="line">vagrant ssh node1</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">exit</span><br><span class="line"># login to node2</span><br><span class="line">vagrant ssh node2</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">exit</span><br><span class="line"># login to node3</span><br><span class="line">vagrant ssh node3</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">sudo -i</span><br><span class="line">cd /vagrant/hack</span><br><span class="line">./deploy-base-services.sh</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>现在你已经拥有一个完整的基础的kubernetes运行环境，在该repo的根目录下执行下面的命令可以获取kubernetes dahsboard的admin用户的token。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack/get-dashboard-token.sh</span><br></pre></td></tr></table></figure>
+<p>根据提示登录即可。</p>
+<h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><p>清理虚拟机。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vagrant destroy</span><br><span class="line">rm -rf .vagrant</span><br></pre></td></tr></table></figure>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>仅做开发测试使用，不要在生产环境使用该项目。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://jimmysong.io/kubernetes-handbook/develop/using-vagrant-and-virtualbox-for-development.html" target="_blank" rel="noopener">本地分布式开发环境搭建（使用Vagrant和Virtualbox）</a></p>
 
       
       
@@ -269,8 +460,8 @@
     <article id="post-代码质量" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/代码质量/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.299Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/代码质量/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.823Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -318,8 +509,8 @@
     <article id="post-京峰教育Linux运维-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/京峰教育Linux运维-笔记/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.299Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/京峰教育Linux运维-笔记/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.823Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -415,8 +606,8 @@
     <article id="post-书签" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/书签/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.299Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/书签/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.823Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -461,11 +652,11 @@
 
 
   
-    <article id="post-个人履历" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/个人履历/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.299Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/macOS 10.13 安装软件/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.823Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -477,7 +668,26 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>个人履历</p>
+        <p>date: 2018-05-05 06:51</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1.安装<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases" target="_blank" rel="noopener"><strong>ShadowsocksX-NG</strong></a></p>
+<p>2.安装<a href="https://brew.sh" target="_blank" rel="noopener">Homebrew</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span><br></pre></td></tr></table></figure>
+<p>3.安装<a href="http://caskroom.io" target="_blank" rel="noopener">Homebrew Cask</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/cask</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/versions</span></span><br></pre></td></tr></table></figure>
+<p>4.安装<a href="https://github.com/mas-cli/mas" target="_blank" rel="noopener">mas</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install mas</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><h3 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install vim wget git</span></span><br></pre></td></tr></table></figure>
+<h3 id="Homebrew-Cask"><a href="#Homebrew-Cask" class="headerlink" title="Homebrew Cask"></a>Homebrew Cask</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install typora google-chrome firefox sublime-text keepassxc qq youdaodict youdaonote iina istat-menus baidunetdisk</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install firefox-developer-edition iterm2 zoc wireshark charles pycharm goland</span></span><br></pre></td></tr></table></figure>
+<h3 id="mas"><a href="#mas" class="headerlink" title="mas"></a>mas</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mas install 409201541 409203825 409183694 410628904 836500024</span></span><br></pre></td></tr></table></figure>
+<p>409201541 Pages</p>
+<p>409203825 Numbers</p>
+<p>409183694 Keynote</p>
+<p>410628904 Wunderlist </p>
+<p>836500024 WeChat </p>
+<h2 id="手动安装软件"><a href="#手动安装软件" class="headerlink" title="手动安装软件"></a>手动安装软件</h2><p><a href="https://www.jianguoyun.com/s/downloads" target="_blank" rel="noopener">坚果云</a>|<a href="https://creative.adobe.com/products/download/creative-cloud" target="_blank" rel="noopener">Adobe Creative Cloud</a></p>
+<h4 id="激活软件"><a href="#激活软件" class="headerlink" title="激活软件"></a>激活软件</h4><p><a href="https://www.52pojie.cn/thread-725112-1-1.html" target="_blank" rel="noopener">Charles 4.2.5 Mac and Win通用破解文件</a></p>
+<p>/Applications/Charles.app/Contents/Java/charles.jar</p>
 
       
       
@@ -508,8 +718,8 @@
     <article id="post-tencent_vps" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/tencent_vps/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.299Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/tencent_vps/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.823Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -592,8 +802,8 @@
     <article id="post-sed命令总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/sed命令总结/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.299Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/sed命令总结/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.823Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -636,8 +846,8 @@
     <article id="post-python全栈3期day104" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/python全栈3期day104/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.299Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/14/python全栈3期day104/" class="article-date">
+      <time datetime="2018-07-14T01:47:38.823Z" itemprop="datePublished">2018-07-14</time>
 </a>
     </div>
   
@@ -661,143 +871,6 @@
 <p>uWSGI + Django<br>安装 uwsgi<br>pip install uwsgi</p>
 <p>使用命令启动<br>uwsgi –http –file django/wsgi.py –static-map=/static=static</p>
 <p>视频不完整 </p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-python全栈3期day005" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/python全栈3期day005/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.299Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>01.上节课复习.mp4 26:42<br>02.文件合并与文件归档.mp4 23:26<br>03.文件归档与两种压缩方式.mp4 21：05<br>04.vim编辑器.mp4<br>05.系统启动流程.mp4<br>06.grub加密.mp4<br>07.bios加密.mp4<br>08.top命令.mp4<br>09.free命令.mp4<br>10.进程管理.mp4</p>
-<p>开始日期 2016.11.14 09:35</p>
-<p><a href="http://www.cnblogs.com/nulige/p/6052941.html" target="_blank" rel="noopener">努力哥-运维自动化</a></p>
-<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>/etc/passwd 文件列含义<br>/etc/shadow</p>
-<p>/etc/group<br>/etc/gshadow</p>
-<p>/var/spool/mail<br>/home</p>
-<p>groupadd<br>groupmod<br>groupdel</p>
-<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>重定向&gt;,&gt;&gt;,&lt;,&lt;&lt;</p>
-<p>wc -l</p>
-<p>归档<br>tar</p>
-<p>打包文件<br>tar<br>c 创建一个新的tar文件<br>t 列出tar文件中目录的内容<br>x 抽取文件<br>f 指定归档文件<br>v 显示详细<br>z gzip<br>j bzip2<br>C 解压到指定目录</p>
-<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>压缩的定义，将一个大的文件通过一些压缩算法变成一个小文件<br>gzip<br>bzip2</p>
-<p>tar czvf gzip压缩<br>tar cjvf bzip2压缩</p>
-<h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>该看这章了</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-python全栈3期day004" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/python全栈3期day004/" class="article-date">
-      <time datetime="2018-07-12T05:51:19.299Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>01.上节课复习.mp4 17：25<br>02.创建用户相关的文件.mp4 55：10<br>03.用户增删该查及组相关操作.mp4 26：05<br>04.对文件的权限管理.mp4 1：08：24<br>05.对目录的权限管理.mp4 26：08<br>06.权限管理补充..mp4 04:10<br>07.属主属组及基于数字的权限管理.mp4 15：33</p>
-<p>开始日期 2016.11.10 09：40<br>2016.11.10 16:30</p>
-<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>怎么安装系统</p>
-<p>系统提示符$和#的区别</p>
-<p><a href="http://www.cnblogs.com/linhaifeng/articles/6045600.html" target="_blank" rel="noopener">Linux基础</a></p>
-<p>相对路径和绝对路径</p>
-<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>linux核心一切皆文件</p>
-<p>useradd<br>/etc/passwd</p>
-<p>用户:密码:uid:gid:描述信息:用户家目录:sh类型<br>root:x:0:0:root:/root:/bin/bash</p>
-<p>/etc/shadow</p>
-<p>/etc/group</p>
-<p>组名:密码:gid<br>root:x:0</p>
-<p>/etc/gshadow</p>
-<p>/home<br>home下的文件模板 /etc/skel目录下</p>
-<p>/var/spool/mail/</p>
-<p>id</p>
-<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>useradd<br>-u 指定用户的UID<br>-g 指定用户所属的群组<br>-d 指定用户目录<br>-c 指定备注信息<br>-s 指定shell</p>
-<p>userdel</p>
-<p>usermod<br>-d 更改用户家目录<br>-aG 添加附加组</p>
-<p>groupadd</p>
-<h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>文件权限信息 硬链接 属主 属组 文件大小 文件创建日期 文件名<br>-rwxrwxrwx@ 1 jinlong  staff   66347968  3 21 13:54 01.上节课复习.mp4</p>
-<p>SELinux</p>
-<ul>
-<li>文件<br>d 目录<br>l 软连接<br>b 设备<br>p 管道文件</li>
-</ul>
-<p>rwx rwx rwx<br>属主 属组 其它</p>
-<p>chmod<br>u=user<br>g=group<br>o=other<br>a=all</p>
-<p>执行sh文件<br>sh 文件名<br>bash 文件名<br>. 文件名<br>./文件名</p>
-<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>目录可读可写</p>
-<p>rwx r可以ls目录下的文件名 w可以新建删除重命名目录内的文件 x可以cd进入目录</p>
-<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>vim 强制保存退出<br>wq!</p>
-<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p>r 读 4,w 写 2,x 执行 1</p>
-<p>chown</p>
-<p>chown root.root<br>chown root:root</p>
-<p>chown root<br>chown .root </p>
-<p>touch {1..9}.txt</p>
-<p>chmod 664 a.txt</p>
 
       
       

@@ -206,6 +206,68 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-2016年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/31/2016年终总结之思考/" class="article-date">
+      <time datetime="2016-12-31T12:00:02.000Z" itemprop="datePublished">2016-12-31</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/31/2016年终总结之思考/">2016年终总结之思考</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Rsync安装配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -4765,187 +4827,6 @@ Nagios通常由一个主程序(Nagios)、一个插件程序(Nagios-plugins)和�
       
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gitlab/">Gitlab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ansible安装部署" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/15/Ansible安装部署/" class="article-date">
-      <time datetime="2016-03-15T08:24:13.000Z" itemprop="datePublished">2016-03-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/15/Ansible安装部署/">Ansible安装部署</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://www.showerlee.com/archives/1649" target="_blank" rel="noopener">Ansible安装部署</a></p>
-<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Ansible是一种集成IT系统的配置管理, 应用部署, 执行特定任务的开源平台. 它基于Python语言实现, 部署只需在主控端部署Ansible环境, 被控端无需安装代理工具, 只需打开SSH, 让主控端通过SSH秘钥认证对其进行所有的管理监控操作. 相对于SaltStack, 它除了利用SSH安全传输, 无需在客户端进行任何配置, 而且它有一个很庞大的用户群体以及丰富的API, 相对适合部署到数量比较大且对系统软件安装要求比较严格的集群中.<br>更多配置参考: <a href="https://github.com/ansible" target="_blank" rel="noopener">https://github.com/ansible</a><br>官方文档: <a href="http://docs.ansible.com/ansible" target="_blank" rel="noopener">http://docs.ansible.com/ansible</a></p>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>安装环境:<br>System: Centos 6.7 x64<br>Master: master.example.com<br>Minion: client01.example.com<br>Minion: client02.example.com</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h2><ol>
-<li>关闭iptables和SELINUX</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># service iptables stop</span><br><span class="line"># setenforce 0</span><br><span class="line"># vi /etc/sysconfig/selinux</span><br><span class="line">SELINUX=disabled</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>Master端安装EPEL第三方yum源</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># rpm -Uvh http://ftp.linux.ncsu.edu/pub/epel/6/i386/epel-release-6-8.noarch.rpm</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>安装Ansible<br>a. yum</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum install ansible -y</span><br></pre></td></tr></table></figure>
-<p>b.pip<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install ansible</span><br></pre></td></tr></table></figure></p>
-<ol start="4">
-<li>添加环境变量以便vi能正常显示中文注释.</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/profile</span><br><span class="line">添加:</span><br><span class="line">export LC_ALL=en_US.UTF-8</span><br><span class="line">export LANG=en_US.UTF-8</span><br><span class="line">export LANGUAGE=en_US.UTF-8</span><br><span class="line"># source /etc/profile</span><br></pre></td></tr></table></figure>
-<h2 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h2><ol>
-<li>修改主机及组配置</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># cd /etc/ansible</span><br><span class="line"># cp hosts hosts.bak</span><br><span class="line"># cat /dev/null &gt; hosts</span><br><span class="line"># vi /etc/ansible/hosts</span><br><span class="line">[webservers]</span><br><span class="line">client01.example.com</span><br><span class="line">client02.example.com</span><br><span class="line">[nginx01]</span><br><span class="line">client01.example.com</span><br><span class="line">[nginx02]</span><br><span class="line">client02.example.com</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>配置SSH秘钥认证</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum install ssh* -y</span><br><span class="line"># ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
-<p>同步公钥文件id_rsa.pub到目标主机</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ssh-copy-id -i /root/.ssh/id_rsa.pub root@client01.example.com</span><br><span class="line"># ssh-copy-id -i /root/.ssh/id_rsa.pub root@client02.example.com</span><br></pre></td></tr></table></figure>
-<p>校验SSH免密码配置是否成功.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ssh root@client02.example.com</span><br></pre></td></tr></table></figure>
-<p>如直接进入则配置完成.</p>
-<ol start="3">
-<li>定义主机与组<br>所有定义的主机与组规则都在/etc/Ansible/hosts下.<br>常见的写法:</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.21:2135 定义一个IP为192.168.1.21, SSH端口为2135的主机.</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jumper ansible_ssh_port=22 ansible_ssh_host=192.168.1.50 定义一个别名为jumper, SSH端口为22, IP为192.168.1.50的主机. </span><br><span class="line">组成员主机名称范例:</span><br><span class="line">[webservers]</span><br><span class="line">www[001:006].example.com</span><br><span class="line">[dbservers]</span><br><span class="line">db-[a:f].example.com</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>定义主机变量<br>主机可以指定变量, 后面可以供Playbooks调用</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[atlanta]</span><br><span class="line">host1 http_port=80 maxRequestsPerChild=808</span><br><span class="line">host2 http_port=8080 maxRequestsPerChild=909</span><br><span class="line">5.定义组变量</span><br><span class="line">[atlanta]</span><br><span class="line">host1</span><br><span class="line">host2</span><br><span class="line"></span><br><span class="line">[atlanta:vars]</span><br><span class="line">ntp_server=ntp.atlanta.example.com</span><br><span class="line">proxy=proxy.atlanta.example.com</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>匹配目标<br>重启webservers组所有SSH服务.</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m service -a &quot;name=sshd state=restarted&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="Ansible常用模块及API"><a href="#Ansible常用模块及API" class="headerlink" title="Ansible常用模块及API"></a>Ansible常用模块及API</h2><ol>
-<li>远程命令模块<br>command: 执行远程主机SHELL命令:</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m command -a &quot;free -m&quot;</span><br></pre></td></tr></table></figure>
-<p>script: 远程执行MASTER本地SHELL脚本.(类似scp+shell)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># echo &quot;df -h&quot; &gt; ~/test.sh</span><br><span class="line"># ansible webservers -m script -a &quot;~/test.sh&quot;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>copy模块<br>实现主控端向目标主机拷贝文件, 类似scp功能.<br>该实例实现~/test.sh文件至webservers组目标主机/tmp下, 并更新文件owner和group</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m copy -a &quot;src=~/test.sh dest=/tmp/ owner=root group=root mode=0755&quot;</span><br><span class="line"># ansible webservers -m copy -a &quot;src=~/test.sh dest=/tmp/ owner=root group=root mode=0755&quot;</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>stat模块<br>获取远程文件状态信息, 包括atime, ctime, mtime, md5, uid, gid等信息.</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m stat -a &quot;path=/etc/sysctl.conf&quot;</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>get_url模块<br>实现在远程主机下载指定URL到本地.</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m get_url -a &quot;url=http://www.showerlee.com dest=/tmp/index.html mode=0400 force=yes&quot;</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>yum模块<br>Linux包管理平台操作,  常见都会有yum和apt, 此处会调用yum管理模式</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible servers -m yum -a &quot;name=curl state=latest&quot;</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>cron模块<br>远程主机crontab配置</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m cron -a &quot;name=&apos;check dir&apos; hour=&apos;5,2&apos; job=&apos;ls -alh &gt; /dev/null&apos;&quot;</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>service模块<br>远程主机系统服务管理</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m service -a &quot;name=crond state=stopped&quot;</span><br><span class="line"># ansible webservers -m service -a &quot;name=crond state=restarted&quot;</span><br><span class="line"># ansible webservers -m service -a &quot;name=crond state=reloaded&quot;</span><br></pre></td></tr></table></figure>
-<ol start="8">
-<li>user服务模块<br>远程主机系统用户管理</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">添加用户:</span><br><span class="line"># ansible webservers -m user -a &quot;name=johnd comment=&apos;John Doe&apos;&quot;</span><br><span class="line">删除用户:</span><br><span class="line"># ansible webservers -m user -a &quot;name=johnd state=absent remove=yes&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="playbook介绍"><a href="#playbook介绍" class="headerlink" title="playbook介绍"></a>playbook介绍</h2><p>playbook是一个不同于使用Ansible命令行执行方式的模式, 其功能是将大量命令行配置集成到一起形成一个可定制的多主机配置管理部署工具.<br>它通过YAML格式定义, 可以实现向多台主机的分发应用部署.<br>以下给大家详细介绍一个针对nginx嵌套复用结构的<br>playbook部署实例:</p>
-<ol>
-<li>构建目录结构</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># cd /etc/ansible/</span><br><span class="line"># mkdir group_vars</span><br><span class="line"># mkdir roles</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>定义host</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/ansible/hosts</span><br><span class="line">[webservers]</span><br><span class="line">client01.example.com</span><br><span class="line">client02.example.com</span><br><span class="line">[nginx01]</span><br><span class="line">client01.example.com</span><br><span class="line">[nginx02]</span><br><span class="line">client02.example.com</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>定义变量</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/ansible/group_vars/nginx01</span><br><span class="line">worker_processes: 4</span><br><span class="line">num_cpus: 4</span><br><span class="line">max_open_file: 65506</span><br><span class="line">root: /data</span><br><span class="line">remote_user: root</span><br><span class="line"># vi /etc/ansible/group_vars/nginx02</span><br><span class="line">worker_processes: 2</span><br><span class="line">num_cpus: 2</span><br><span class="line">max_open_file: 35506</span><br><span class="line">root: /www</span><br><span class="line">remote_user: root</span><br></pre></td></tr></table></figure>
-<p>Tips:这里在group_vars下定义的文件名必须对应hosts文件下的group标签, 通过这里定义的不同参数从而部署不同类型的主机配置.</p>
-<ol start="4">
-<li>创建roles入口文件</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/ansible/site.yml</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">  - base_env</span><br><span class="line">- hosts: nginx01</span><br><span class="line">  roles:</span><br><span class="line">  - nginx01</span><br><span class="line">- hosts: nginx02</span><br><span class="line">  roles:</span><br><span class="line">  - nginx02</span><br></pre></td></tr></table></figure>
-<p>Tips: 这里的roles:下的字符串需对应roles目录下的目录名.</p>
-<ol start="5">
-<li>定义全局role base_env<br>创建目录结构</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /etc/ansible/roles/base_env/tasks </span><br><span class="line"># vi /etc/ansible/roles/base_env/tasks/main.yml</span><br><span class="line"># 将EPEL的yum源配置文件传送到客户端</span><br><span class="line">- name: Create the contains common plays that will run on all nodes </span><br><span class="line">  copy: src=epel.repo dest=/etc/yum.repos.d/epel.repo</span><br><span class="line">- name: Create the GPG key for EPEL</span><br><span class="line">  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg</span><br><span class="line">  </span><br><span class="line"># 关闭SELINUX</span><br><span class="line">- name: test to see if selling is running</span><br><span class="line">  command: getenforce</span><br><span class="line">  register: sestatus</span><br><span class="line">  changed_when: false</span><br><span class="line"></span><br><span class="line"># 删除iptables默认规则并保存</span><br><span class="line">- name: remove the default iptables rules</span><br><span class="line">  command: iptables -F</span><br><span class="line">- name: save iptables rules</span><br><span class="line">  command: service iptables save</span><br><span class="line">将对应需要拷贝到远程的文件复制到base_env/files目录下</span><br><span class="line"># mkdir -p  /etc/ansible/roles/base_env/files</span><br><span class="line"># cp /etc/yum.repos.d/epel.repo /etc/ansible/roles/base_env/files</span><br><span class="line"># cp /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6 /etc/ansible/roles/base_env/files</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>定义nginx01和ngnix02 role<br>创建目录结构</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /etc/ansible/roles/nginx&#123;01,02&#125;</span><br><span class="line"># mkdir -p /etc/ansible/roles/nginx01/tasks</span><br><span class="line"># mkdir -p /etc/ansible/roles/nginx02/tasks</span><br><span class="line"># vi /etc/ansible/roles/nginx01/tasks/main.yml</span><br><span class="line"> # 安装nginx最新版本</span><br><span class="line">- name: ensure nginx is at the latest version</span><br><span class="line">  yum: pkg=nginx state=latest</span><br><span class="line"></span><br><span class="line"># 将nginx配置文件传送到远程目录</span><br><span class="line">- name: write the nginx config file</span><br><span class="line">  template: src=nginx.conf dest=/etc/nginx/nginx.conf</span><br><span class="line">  notify: restart nginx # 重启nginx</span><br><span class="line"></span><br><span class="line"># 创建nginx根目录</span><br><span class="line">- name: Create Web Root</span><br><span class="line">  file: dest=&#123;&#123; root &#125;&#125; mode=775 state=directory owner=nginx group=nginx</span><br><span class="line">  notify: reload nginx</span><br><span class="line">- name: ensure nginx is running</span><br><span class="line">  service: name=nginx state=restarted</span><br><span class="line"># cp /home/ansible/roles/nginx01/tasks/main.yml /home/ansible/roles/nginx02/tasks/main.yml</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>定义files</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /etc/ansible/roles/nginx01/templates</span><br><span class="line"># mkdir -p /etc/ansible/roles/nginx02/templates</span><br><span class="line"># vi /etc/ansible/roles/nginx01/templates/nginx.conf</span><br><span class="line"># For more information on configuration, see: </span><br><span class="line"></span><br><span class="line">user              nginx;  </span><br><span class="line">worker_processes  &#123;&#123; worker_processes &#125;&#125;;  </span><br><span class="line">&#123;% if num_cpus == 2 %&#125;  </span><br><span class="line">worker_cpu_affinity 01 10;  </span><br><span class="line">&#123;% elif num_cpus == 4 %&#125;  </span><br><span class="line">worker_cpu_affinity 1000 0100 0010 0001;  </span><br><span class="line">&#123;% elif num_cpus &gt;= 8 %&#125;  </span><br><span class="line">worker_cpu_affinity 00000001 00000010 00000100 00001000 00010000 00100000 01000000 10000000;  </span><br><span class="line">&#123;% else %&#125;  </span><br><span class="line">worker_cpu_affinity 1000 0100 0010 0001;  </span><br><span class="line">&#123;% endif %&#125;  </span><br><span class="line">worker_rlimit_nofile &#123;&#123; max_open_file &#125;&#125;;  </span><br><span class="line">  </span><br><span class="line">error_log  /var/log/nginx/error.log;  </span><br><span class="line">#error_log  /var/log/nginx/error.log  notice;  </span><br><span class="line">#error_log  /var/log/nginx/error.log  info;  </span><br><span class="line">  </span><br><span class="line">pid        /var/run/nginx.pid;  </span><br><span class="line">  </span><br><span class="line">events &#123;  </span><br><span class="line">    worker_connections  &#123;&#123; max_open_file &#125;&#125;;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">http &#123;  </span><br><span class="line">    include       /etc/nginx/mime.types;  </span><br><span class="line">    default_type  application/octet-stream;  </span><br><span class="line">  </span><br><span class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;  </span><br><span class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;  </span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;  </span><br><span class="line">  </span><br><span class="line">    access_log  /var/log/nginx/access.log  main;  </span><br><span class="line">  </span><br><span class="line">    sendfile        on;  </span><br><span class="line">    #tcp_nopush     on;  </span><br><span class="line">  </span><br><span class="line">    #keepalive_timeout  0;  </span><br><span class="line">    keepalive_timeout  65;  </span><br><span class="line">  </span><br><span class="line">    #gzip  on;  </span><br><span class="line">      </span><br><span class="line">    # Load config files from the /etc/nginx/conf.d directory  </span><br><span class="line">    # The default server is in conf.d/default.conf  </span><br><span class="line">    #include /etc/nginx/conf.d/*.conf;  </span><br><span class="line">    server &#123;  </span><br><span class="line">        listen       80 default_server;  </span><br><span class="line">        server_name  _;  </span><br><span class="line">  </span><br><span class="line">        #charset koi8-r;  </span><br><span class="line">  </span><br><span class="line">        #access_log  logs/host.access.log  main;  </span><br><span class="line">  </span><br><span class="line">        location / &#123;  </span><br><span class="line">            root   &#123;&#123; root &#125;&#125;;  </span><br><span class="line">            index  index.html index.htm;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        error_page  404              /404.html;  </span><br><span class="line">        location = /404.html &#123;  </span><br><span class="line">            root   /usr/share/nginx/html;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        # redirect server error pages to the static page /50x.html  </span><br><span class="line">        #  </span><br><span class="line">        error_page   500 502 503 504  /50x.html;  </span><br><span class="line">        location = /50x.html &#123;  </span><br><span class="line">            root   /usr/share/nginx/html;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Tip: worker_processes, num_cpus, max_open_file, root等参数会调用group_vars目录下配置文件中相应的变量值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cp /etc/ansible/roles/nginx01/templates/nginx.conf  /etc/ansible/roles/nginx02/templates/nginx.conf</span><br></pre></td></tr></table></figure>
-<ol start="8">
-<li>执行playbook</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible-playbook -i /etc/ansible/hosts /etc/ansible/site.yml -f 10</span><br></pre></td></tr></table></figure>
-<p>Tips: -f 为启动10个并行进程执行playbook, -i 定义inventory host文件, site.yml 为入口文件 </p>
-<p>最终部署目录结构如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># tree /etc/ansible/</span><br><span class="line">/etc/ansible/</span><br><span class="line">├── ansible.cfg</span><br><span class="line">├── group_vars</span><br><span class="line">│   ├── nginx01</span><br><span class="line">│   └── nginx02</span><br><span class="line">├── hosts</span><br><span class="line">├── hosts.bak</span><br><span class="line">├── roles</span><br><span class="line">│   ├── base_env</span><br><span class="line">│   │   ├── files</span><br><span class="line">│   │   │   ├── epel.repo</span><br><span class="line">│   │   │   └── RPM-GPG-KEY-EPEL-6</span><br><span class="line">│   │   └── tasks</span><br><span class="line">│   │       └── main.yml</span><br><span class="line">│   ├── nginx01</span><br><span class="line">│   │   ├── tasks</span><br><span class="line">│   │   │   └── main.yml</span><br><span class="line">│   │   └── templates</span><br><span class="line">│   │       └── nginx.conf</span><br><span class="line">│   └── nginx02</span><br><span class="line">│       ├── tasks</span><br><span class="line">│       │   └── main.yml</span><br><span class="line">│       └── templates</span><br><span class="line">│           └── nginx.conf</span><br><span class="line">└── site.yml</span><br><span class="line"></span><br><span class="line">11 directories, 13 files</span><br></pre></td></tr></table></figure></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ansible/">Ansible</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li></ul>
     </div>
 
       
