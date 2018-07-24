@@ -206,313 +206,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-2016年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/31/2016年终总结之思考/" class="article-date">
-      <time datetime="2016-12-31T12:00:02.000Z" itemprop="datePublished">2016-12-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/31/2016年终总结之思考/">2016年终总结之思考</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Rsync安装配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/27/Rsync安装配置/" class="article-date">
-      <time datetime="2016-12-27T15:55:02.000Z" itemprop="datePublished">2016-12-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/27/Rsync安装配置/">Rsync安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://www.showerlee.com/archives/419" target="_blank" rel="noopener">Rsync安装配置</a></p>
-<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>rsync是linux下的文件同步服务，功能简单来说就是服务端打开873端口,客户端连接这个端口,并对服务器端配置的目录进行同步,可以理解为客户端比对服务器端资源后，对增量或者差异的数据进行增删改操作，功能支持上传(推送)或下载（获取）比对，也就是远程数据比对本地数据而后对远程数据进行增删改操作，以及本地数据比对远程数据然后对本地数据进行增删改操作。<br>    centos6.3下默认已经安装，只需保证依赖服务xinetd开启即可。</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>首先关闭selinux与iptables</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/sysconfig/selinux</span><br><span class="line">---------</span><br><span class="line">SELINUX=disabled</span><br><span class="line">---------</span><br><span class="line"># setenforce 0</span><br><span class="line"># service iptables stop</span><br><span class="line">``` </span><br><span class="line">配置分为2个部分</span><br><span class="line"></span><br><span class="line">## server端：</span><br><span class="line">1. 安装rsync(centos6.3默认已安装)</span><br></pre></td></tr></table></figure>
-<h1 id="yum-install-rsync-y"><a href="#yum-install-rsync-y" class="headerlink" title="yum install rsync -y"></a>yum install rsync -y</h1><h1 id="yum-install-xinetd-y"><a href="#yum-install-xinetd-y" class="headerlink" title="yum install xinetd -y"></a>yum install xinetd -y</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 启动rsync依赖服务</span><br></pre></td></tr></table></figure>
-<h1 id="etc-init-d-xinetd-start"><a href="#etc-init-d-xinetd-start" class="headerlink" title="/etc/init.d/xinetd start"></a>/etc/init.d/xinetd start</h1><h1 id="chkconfig-xinetd-on"><a href="#chkconfig-xinetd-on" class="headerlink" title="chkconfig xinetd on"></a>chkconfig xinetd on</h1><h2 id="3-配置-etc-rsyncd-conf"><a href="#3-配置-etc-rsyncd-conf" class="headerlink" title="3.配置/etc/rsyncd.conf"></a>3.配置/etc/rsyncd.conf</h2><p>uid = root<br>gid = root<br>use chroot = no<br>max connections = 10<br>strict modes = yes<br>port = 873<br>address = 172.24.40.30<br>[mail]<br>path = /home/domains/<br>comment = mirror for extmail<br>ignore errors<br>read only = no<br>list = no<br>auth users = user<br>secrets file = /etc/rsync.pas<br>hosts allow = 172.24.40.50<br>hosts deny = 0.0.0.0/0<br>pid file = /var/run/rsyncd.pid<br>lock file = /var/run/rsync.lock</p>
-<h2 id="log-file-var-log-rsyncd-log"><a href="#log-file-var-log-rsyncd-log" class="headerlink" title="log file = /var/log/rsyncd.log"></a>log file = /var/log/rsyncd.log</h2><h1 id="表示可写"><a href="#表示可写" class="headerlink" title="表示可写"></a>表示可写</h1><p>read only = no</p>
-<h1 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h1><p>port = 873<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">4. 配置/etc/rsync.pas  </span><br><span class="line">在服务器端，必须加入登陆名和密码，在client上，只需要输入密码</span><br></pre></td></tr></table></figure></p>
-<h1 id="vi-etc-rsync-pas"><a href="#vi-etc-rsync-pas" class="headerlink" title="vi /etc/rsync.pas"></a>vi /etc/rsync.pas</h1><hr>
-<h2 id="user-123456"><a href="#user-123456" class="headerlink" title="user:123456"></a>user:123456</h2><p>并给与相关权限(重要,必须是600)</p>
-<h1 id="chmod-600-etc-rsync-pas"><a href="#chmod-600-etc-rsync-pas" class="headerlink" title="chmod 600 /etc/rsync.pas"></a>chmod 600 /etc/rsync.pas</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">5. 配置/etc/rsync.motd</span><br></pre></td></tr></table></figure>
-<h1 id="vi-etc-rsyncd-motd"><a href="#vi-etc-rsyncd-motd" class="headerlink" title="vi /etc/rsyncd.motd"></a>vi /etc/rsyncd.motd</h1><p>welcome to use the rsync services!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">6. 启动rsync</span><br></pre></td></tr></table></figure></p>
-<h1 id="rsync-–daemon-–config-etc-rsyncd-conf"><a href="#rsync-–daemon-–config-etc-rsyncd-conf" class="headerlink" title="rsync –daemon –config=/etc/rsyncd.conf"></a>rsync –daemon –config=/etc/rsyncd.conf</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## client端：</span><br><span class="line">1. 安装rsync(centos6.3默认已安装)</span><br></pre></td></tr></table></figure>
-<h1 id="yum-install-rsync-y-1"><a href="#yum-install-rsync-y-1" class="headerlink" title="yum install rsync -y"></a>yum install rsync -y</h1><h1 id="yum-install-xinetd-y-1"><a href="#yum-install-xinetd-y-1" class="headerlink" title="yum install xinetd -y"></a>yum install xinetd -y</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 启动rsync依赖服务</span><br></pre></td></tr></table></figure>
-<h1 id="etc-init-d-xinetd-start-1"><a href="#etc-init-d-xinetd-start-1" class="headerlink" title="/etc/init.d/xinetd start"></a>/etc/init.d/xinetd start</h1><h1 id="chkconfig-xinetd-on-1"><a href="#chkconfig-xinetd-on-1" class="headerlink" title="chkconfig xinetd on"></a>chkconfig xinetd on</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3.客户端必须配置密码文件</span><br></pre></td></tr></table></figure>
-<h1 id="vi-etc-rsync-pas-1"><a href="#vi-etc-rsync-pas-1" class="headerlink" title="vi /etc/rsync.pas"></a>vi /etc/rsync.pas</h1><hr>
-<h2 id="123456"><a href="#123456" class="headerlink" title="123456"></a>123456</h2><p>并给与相关权限(重要,必须是600)</p>
-<h1 id="chmod-600-etc-rsync-pas-1"><a href="#chmod-600-etc-rsync-pas-1" class="headerlink" title="chmod 600 /etc/rsync.pas"></a>chmod 600 /etc/rsync.pas</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">4. 然后在客户端输入命令同步：</span><br></pre></td></tr></table></figure>
-<p>下载(获取):</p>
-<h1 id="rsync-auzv-–progress-–delete-–password-file-etc-rsync-pas-user-172-24-40-30-mail-home-domains"><a href="#rsync-auzv-–progress-–delete-–password-file-etc-rsync-pas-user-172-24-40-30-mail-home-domains" class="headerlink" title="rsync -auzv –progress –delete  –password-file=/etc/rsync.pas user@172.24.40.30::mail      /home/domains"></a>rsync -auzv –progress –delete  –password-file=/etc/rsync.pas <a href="mailto:user@172.24.40.30" target="_blank" rel="noopener">user@172.24.40.30</a>::mail      /home/domains</h1><p>上传(推送):</p>
-<h1 id="rsync-auzv-–progress-–delete-–password-file-etc-rsync-pas-home-domains-user-172-24-40-30-mail"><a href="#rsync-auzv-–progress-–delete-–password-file-etc-rsync-pas-home-domains-user-172-24-40-30-mail" class="headerlink" title="rsync -auzv –progress –delete  –password-file=/etc/rsync.pas /home/domains/* user@172.24.40.30::mail"></a>rsync -auzv –progress –delete  –password-file=/etc/rsync.pas /home/domains/* <a href="mailto:user@172.24.40.30" target="_blank" rel="noopener">user@172.24.40.30</a>::mail</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">注：后面加 --port 873 可添加端口号信息，若在配置文件中自定义端口，这里需要加--port参数。</span><br><span class="line">请注意这部分:</span><br><span class="line">user@172.24.40.30::mail /home/domains</span><br><span class="line">----------------</span><br><span class="line">user对应server端配置文件的auth users = user</span><br><span class="line">      和server端/etc/rsync.pas内用户名:密码(user:123456)</span><br><span class="line">172.24.40.30对应服务端IP地址</span><br><span class="line">mail对应server端配置文件的[mail]</span><br><span class="line">/home/domains表示client端同步server端数据后数据保存在client端目录的路径</span><br><span class="line">@与::均起到字符连接功能</span><br><span class="line">----------------</span><br></pre></td></tr></table></figure>
-<p>以上方法为明文传输，传输过程中密码可能会被sniffer截取：<br>所以推荐线上使用ssh秘钥认证+rsync加密传输，<br><a href="http://showerlee.blog.51cto.com/2047005/1217651" target="_blank" rel="noopener">ssh秘钥认证配置</a></p>
-<p>按照上面的格式加密重写(完整格式)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">下载(获取):</span><br><span class="line"># rsync -auzvP --delete -e &quot;ssh -p22&quot; root@172.24.40.30:/home/domains/ /home/domains/ --port 873</span><br><span class="line">上传(推送):</span><br><span class="line"># rsync -auzvP --delete -e &quot;ssh -p22&quot; /home/domains/ root@172.24.40.30:/home/domains/ --port 873</span><br></pre></td></tr></table></figure>
-<p>注： –progress 可以简写为 -P</p>
-<ol start="5">
-<li>定时计划任务：<br>在crontab中增加一条命令，设置每分钟自动执行一次。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># crontab -e</span><br><span class="line">----------------------</span><br><span class="line">* * * * * /usr/bin/rsync  -auzv --progress --delete  --password-file=/etc/rsync.pas user@172.24.40.30::mail /home/domains</span><br><span class="line">---------------------</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>为了安全，若系统启用防火墙，建议增加一条iptables命令</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># iptables -A INPUT -P tcp --dport:873 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>如果需要多个不同目录支持同步，再增加一个</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[MYSQL]</span><br><span class="line">path = /usr/local/mysql/data</span><br><span class="line">comment = mysql mirror</span><br><span class="line">ignore errors</span><br><span class="line">read only = yes</span><br><span class="line">list = no</span><br><span class="line">auth users = root</span><br><span class="line">secrets file = /etc/rsync.pas</span><br><span class="line">hosts allow = 172.24.40.50</span><br><span class="line">hosts deny = 0.0.0.0/0</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsync.lock</span><br><span class="line">log file = /var/log/rsyncd.log</span><br></pre></td></tr></table></figure>
-<p>重启rsync</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># pkill rsync</span><br><span class="line"># rsync --daemon --config=/etc/rsyncd.conf</span><br></pre></td></tr></table></figure>
-<p>然后在客户端输入命令同步</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync  -auzv --progress --delete  --password-file=/etc/rsync.pas user@172.24.40.30::MYSQL /usr/local/mysql/data</span><br></pre></td></tr></table></figure>
-<p>#问题<br>注：配置过程问题：</p>
-<p>问题1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在client上遇到问题：</span><br><span class="line">rsync -auzv --progress --password-file=/etc/rsync.pas root@192.168.133.128::backup /home/</span><br><span class="line">rsync: could not open password file &quot;/etc/rsync.pas&quot;: No such file or directory (2)</span><br><span class="line">Password:</span><br><span class="line">@ERROR: auth failed on module backup</span><br><span class="line">rsync error: error starting client-server protocol (code 5) at main.c(1506) [Receiver=3.0.7]</span><br><span class="line">遇到这个问题：client端没有设置/etc/rsync.pas这个文件，而在使用rsync命令的时候，加了这个参数--</span><br><span class="line">password-file=/etc/rsync.pas</span><br></pre></td></tr></table></figure>
-<p>问题2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rsync -auzv --progress --password-file=/etc/rsync.pas root@192.168.133.128::backup /home/</span><br><span class="line">@ERROR: auth failed on module backup</span><br><span class="line">rsync error: error starting client-server protocol (code 5) at main.c(1506) [Receiver=3.0.7]</span><br><span class="line">遇到这个问题：client端已经设置/etc/rsync.pas这个文件，里面也设置了密码111111，和服务器一致，但是</span><br><span class="line">服务器段设置有错误，服务器端应该设置/etc/rsync.pas  ，里面内容root:111111 ,这里登陆名不可缺少</span><br></pre></td></tr></table></figure>
-<p>问题3：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rsync -auzv --progress --password-file=/etc/rsync.pas root@192.168.133.128::backup /home/</span><br><span class="line">@ERROR: chdir failed</span><br><span class="line">rsync error: error starting client-server protocol (code 5) at main.c(1506) [Receiver=3.0.7]</span><br><span class="line">遇到这个问题，是因为服务器端的/home/backup  其中backup这个目录并没有设置，所以提示：chdir failed</span><br></pre></td></tr></table></figure>
-<p>问题4：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rsync: write failed on &quot;/home/backup2010/wensong&quot;: No space left on device (28)</span><br><span class="line">rsync error: error in file IO (code 11) at receiver.c(302) [receiver=3.0.7]</span><br><span class="line">rsync: connection unexpectedly closed (2721 bytes received so far) [generator]</span><br><span class="line">rsync error: error in rsync protocol data stream (code 12) at io.c(601) [generator=3.0.7]</span><br><span class="line">磁盘空间不够，所以无法操作。</span><br><span class="line">可以通过df /home/backup2010 来查看可用空间和已用空间</span><br></pre></td></tr></table></figure>
-<p>问题5：网络收集问题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1、权限问题</span><br><span class="line">类似如下的提示：rsync: opendir &quot;/kexue&quot; (in dtsChannel) failed: Permission denied (13)注意查看同步的目录权限是否为755</span><br><span class="line">2、time out</span><br><span class="line">rsync: failed to connect to 203.100.192.66: Connection timed out (110)</span><br><span class="line">rsync error: error in socket IO (code 10) at clientserver.c(124) [receiver=3.0.5]</span><br><span class="line">检查服务器的端口netstat –tunlp，远程telnet测试。</span><br><span class="line">3、服务未启动</span><br><span class="line">rsync: failed to connect to 10.10.10.170: Connection refused (111)</span><br><span class="line">rsync error: error in socket IO (code 10) at clientserver.c(124) [receiver=3.0.5]</span><br><span class="line">启动服务：rsync --daemon --config=/etc/rsyncd.conf</span><br><span class="line">4、磁盘空间满</span><br><span class="line">rsync: recv_generator: mkdir &quot;/teacherclubBackup/rsync……&quot; failed: No space left on device (28)</span><br><span class="line">*** Skipping any contents from this failed directory ***</span><br><span class="line">5、Ctrl+C或者大量文件</span><br><span class="line">rsync error: received SIGINT, SIGTERM, or SIGHUP (code 20) at rsync.c(544) [receiver=3.0.5]</span><br><span class="line">rsync error: received SIGINT, SIGTERM, or SIGHUP (code 20) at rsync.c(544) [generator=3.0.5]</span><br><span class="line">6、xnetid启动</span><br><span class="line">rsync: read error: Connection reset by peer (104)</span><br><span class="line">rsync error: error in rsync protocol data stream (code 12) at io.c(759) [receiver=3.0.5]</span><br></pre></td></tr></table></figure>
-<p>查看rsync日志<br>rsync: unable to open configuration file “/etc/rsyncd.conf”: No such file or directory<br>xnetid查找的配置文件位置默认是/etc下，根据具体情况创建软链接。例如：<br>ln -s /etc/rsyncd/rsyncd.conf /etc/rsyncd.conf<br>或者更改指定默认的配置文件路径，在/etc/xinetd.d/rsync配置文件中</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rsync/">rsync</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Redis安装配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/24/Redis安装配置/" class="article-date">
-      <time datetime="2016-12-24T16:20:31.000Z" itemprop="datePublished">2016-12-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/24/Redis安装配置/">Redis安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Redis的多种启动方式"><a href="#Redis的多种启动方式" class="headerlink" title="Redis的多种启动方式"></a>Redis的多种启动方式</h1><p><a href="http://renzhiyuan.blog.51cto.com/10433137/1881202" target="_blank" rel="noopener">Redis的多种启动方式比较！</a></p>
-<blockquote>
-<p>有感:Redis玩了许久时间，真心感觉启动方式还是自己定义的方便！</p>
-</blockquote>
-<p>1）直接启动和关闭：（配置文件默认）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">开启：redis-server &amp;（&amp;后台运行）</span><br><span class="line">#daemonize yes（也可配置文件修改此参数）</span><br><span class="line">关闭：redis-cli shutdown or killall -9 redis-server</span><br></pre></td></tr></table></figure>
-<p>2）指定配置文件启动：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis-server /etc/redis.conf(配置文件可自己定义)</span><br><span class="line">如果更改了redis默认端口：</span><br><span class="line">redis-cli shutdown (-p 端口)</span><br><span class="line">redis-cli shutdown (-p 端口) （-a 认证密码）</span><br></pre></td></tr></table></figure>
-<p>3）自己定义启动文件并配置(推荐）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@redis1 ~]# cpredis-2.8.24/utils/redis_init_script /etc/init.d/redis</span><br><span class="line">注册为系统服务：</span><br><span class="line">[root@redis1 ~]# sed -i &apos;2i #chkconfig:2345 80 90&apos; /etc/init.d/redis</span><br><span class="line">[root@redis1 ~]# chkconfig --add redis</span><br></pre></td></tr></table></figure>
-<p>修改配置文件（因为路径自己定义,sed也可以）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">REDISPORT=7000  #注意slave端口自己定义即可</span><br><span class="line">EXEC=/usr/local/redis/bin/redis-server</span><br><span class="line">CLIEXEC=/usr/local/redis/bin/redis-cli</span><br><span class="line"> </span><br><span class="line">PIDFILE=/var/run/redis_$&#123;REDISPORT&#125;.pid</span><br><span class="line">CONF=&quot;/etc/redis/$&#123;REDISPORT&#125;.conf&quot;</span><br></pre></td></tr></table></figure>
-<p>脚本如下（自己配置的，大家也可在此基础上进行修改）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">#chkconfig: 2345 80 90</span><br><span class="line"># Simple Redis init.d script conceivedto work on Linux systems</span><br><span class="line"># as it does use of the /procfilesystem.</span><br><span class="line">  </span><br><span class="line">REDISPORT=7000</span><br><span class="line">EXEC=/usr/local/redis/bin/redis-server</span><br><span class="line">CLIEXEC=/usr/local/redis/bin/redis-cli</span><br><span class="line">  </span><br><span class="line">PIDFILE=/var/run/redis_$&#123;REDISPORT&#125;.pid</span><br><span class="line">CONF=&quot;/etc/redis/$&#123;REDISPORT&#125;.conf&quot;</span><br><span class="line">  </span><br><span class="line">case &quot;$1&quot; in</span><br><span class="line">   start)</span><br><span class="line">       if [ -f $PIDFILE ]</span><br><span class="line">       then</span><br><span class="line">                echo -e &quot;\033[31m $PIDFILEexists, process is already running or crashed \033[0m&quot;</span><br><span class="line">       else</span><br><span class="line">                echo -e &quot;\033[32m Waitingfor Redis to start...\033[0m&quot;</span><br><span class="line">                $EXEC $CONF</span><br><span class="line">                if [ $? -eq 0 ]</span><br><span class="line">                then</span><br><span class="line">                echo -e &quot;\033[32m Redis isalready started successfully! \033[0m&quot;</span><br><span class="line">                else</span><br><span class="line">                echo -e &quot;\033[31m Redisstart fail \033[0m&quot;</span><br><span class="line">                fi</span><br><span class="line">       fi</span><br><span class="line">       ;;</span><br><span class="line">   stop)</span><br><span class="line">       if [ ! -f $PIDFILE ]</span><br><span class="line">       then</span><br><span class="line">                echo -e &quot;\033[31m $PIDFILEdoes not exist, process is not running \033[0m&quot;</span><br><span class="line">       else</span><br><span class="line">                PID=$(cat $PIDFILE)</span><br><span class="line">                echo -e &quot;\033[32m Waitingfor Redis to stop ... \033[0m&quot;</span><br><span class="line">                $CLIEXEC -p $REDISPORT  shutdown</span><br><span class="line">                while [ -x /proc/$&#123;PID&#125; ] </span><br><span class="line">                do</span><br><span class="line">                    echo -e &quot;\033[32mWaiting for Redis to shutdown ... \033[0m&quot;</span><br><span class="line">                   sleep 1</span><br><span class="line">                done</span><br><span class="line">                echo -e &quot;\033[32m Redis isalready stopped successfully! \033[0m&quot;</span><br><span class="line">       fi</span><br><span class="line">       ;;</span><br><span class="line">   status)</span><br><span class="line">                 ps aux|grep redis-server|grep-v grep &amp;&gt;/dev/null</span><br><span class="line">                 if [ $? -eq 0 ]</span><br><span class="line">                 then</span><br><span class="line">                 echo -e &quot;\033[32m Redisis running... \033[0m&quot;</span><br><span class="line">                 else</span><br><span class="line">                 echo -e &quot;\033[31m Redisis already stopped \033[0m&quot;</span><br><span class="line">                 fi</span><br><span class="line">                 ;;</span><br><span class="line">   restart)</span><br><span class="line">               $CLIEXEC -p $REDISPORT  shutdown</span><br><span class="line">               if [ $? -eq 0 ]</span><br><span class="line">               then</span><br><span class="line">               echo -e &quot;\033[32m Redis isalready stopped successfully! \033[0m&quot;</span><br><span class="line">               else </span><br><span class="line">               echo -e &quot;\033[31m Redisstop fail \033[0m&quot;</span><br><span class="line">               fi</span><br><span class="line">               $EXEC $CONF</span><br><span class="line">               if [ $? -eq 0 ]</span><br><span class="line">               then</span><br><span class="line">               echo -e &quot;\033[32m Redis isalready started successfully! \033[0m&quot;</span><br><span class="line">               else</span><br><span class="line">               echo -e &quot;\033[31m Redisstart fail \033[0m&quot;</span><br><span class="line">               fi</span><br><span class="line">               ;;</span><br><span class="line">    *)</span><br><span class="line">     echo &quot;the usage is service redis start|stop|status|restart&quot;</span><br><span class="line">     esac</span><br></pre></td></tr></table></figure>
-<p>查看redis状态，启动，关闭，重启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@redis1 ~]# /etc/init.d/redis status</span><br><span class="line"> Redis is running... </span><br><span class="line">[root@redis1 ~]# /etc/init.d/redis stop</span><br><span class="line"> Waiting for Redis to stop ... </span><br><span class="line"> Waiting for Redis to shutdown ... </span><br><span class="line"> Redis is already stopped successfully! </span><br><span class="line">[root@redis1 ~]# /etc/init.d/redis start</span><br><span class="line"> Waiting for Redis to start...</span><br><span class="line"> Redis is already started successfully! </span><br><span class="line">[root@redis1 ~]# /etc/init.d/redis restart</span><br><span class="line"> Redis is already stopped successfully! </span><br><span class="line"> Redis is already started successfully! </span><br><span class="line">[root@redis1 ~]#</span><br><span class="line">[root@redis1 ~]# ps aux|grep redis-server|grep -v grep</span><br><span class="line">root       2881  0.1  0.1 128296  1692 ?        Ssl  12:45   0:01 /usr/local/redis/bin/redis-server *:7000              </span><br><span class="line">[root@redis1 ~]#</span><br></pre></td></tr></table></figure>
-<h1 id="Redis数据持久化"><a href="#Redis数据持久化" class="headerlink" title="Redis数据持久化"></a>Redis数据持久化</h1><p>[Redis数据持久化](<a href="http://renzhiyuan.blog.51cto.com/10433137/1881895" target="_blank" rel="noopener">http://renzhiyuan.blog.51cto.com/10433137/1881895</a><br>Redis是个支持持久化的内存数据库，redis需要经常将内存中的数据同步到磁盘来保证持久化。</p>
-<p>1、RDB方式（Snapshotting默认快照方式）：<br>1.1）配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">save 900 1       #在900秒(15分钟)之后，如果至少有1个key发生变化，则dump内存快照。</span><br><span class="line">save 300 10      #在300秒(5分钟)之后，如果至少有10个key发生变化，则dump内存快照。</span><br><span class="line">save 60 10000    #在60秒(1分钟)之后，如果至少有10000个key发生变化，则dump内存快照。</span><br></pre></td></tr></table></figure>
-<p>1.2）工作原理：<br>1.2.1）Redis使用fork函数复制一份当前进程（父进程）的副本（子进程）；<br>1.2.2）父进程继续接收并处理客户端发来的命令，而子进程开始将内存中的数据写入硬盘中的临时文件；<br>1.2.3）当子进程写入完所有数据后会用该临时文件替换旧的RDB文件，至此一次快照操作完成。</p>
-<p>1.3）查看dump.rdb:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:7000&gt; config get dir</span><br><span class="line">1) &quot;dir&quot;</span><br><span class="line">2) &quot;/usr/local/redis/db&quot;</span><br><span class="line">127.0.0.1:7000&gt;</span><br></pre></td></tr></table></figure>
-<p>1.4）优点：<br>1.4.1）RDB是个非常紧凑的文件，保存了redis在某个时间点上的数据集，使得我们可以通过定时备份RDB文件来实现Redis数据库备份和灾难恢复，也可以将其传送到其他的数据中心用于保存。<br>1.4.2）RDB可以最大化redis的性能，执行RDB持久化时只需要fork一个子进程，并由子进程进行持久化工作，父进程不需要处理任何磁盘I/O操作。<br>1.4.3）RDB在恢复大数据集时比AOF要快，启动效率要高许多。<br>1.4.4）RDB文件是经过压缩（可以配置rdbcompression参数以禁用压缩节省CPU占用）的二进制格式，所以占用的空间会小于内存中的数据大小，更加利于传输。</p>
-<p>1.5）缺点：<br>1.5.1）每次快照持久化都是将内存数据完整写入到磁盘一次，并不是增量的只同步增数据。如果数据量大的话，而且写操作比较多，必然会引起大量的磁盘io操作，可能会严重影响性能。<br>1.5.2）快照方式是在一定间隔时间做一次的，所以如果redis意外down掉的话，就会丢失最后一次快照后的所有修改，有一些数据丢失的风险。<br>1.5.2）client的save或者bgsave命令通知redis做一次快照持久化不推荐。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:7000&gt; save</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
-<p>原因：save操作是在主线程中保存快照的，由于redis是用一个主线程来处理所有 client的请求，这种方式会阻塞所有client请求。所以不推荐使用。</p>
-<p>2、Append-only file（缩写aof）的方式：<br>2.1）配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">appendonly yes  </span><br><span class="line">#开启aof</span><br><span class="line">appendfilename &quot;appendonly.aof&quot;  </span><br><span class="line">#名字</span><br><span class="line"># appendfsync always   </span><br><span class="line"># 每次执行写入都会执行同步，最安全也最慢</span><br><span class="line">appendfsync everysec   </span><br><span class="line"># 每秒执行一次同步操作</span><br><span class="line"># appendfsync no </span><br><span class="line">#不主动进行同步操作，而是完全交由操作系统来做（即每30秒一次),最快也最不安全。</span><br><span class="line">#配置写入AOF文件后，要求系统刷新硬盘缓存的机制</span><br><span class="line">auto-aof-rewrite-percentage 100  </span><br><span class="line"># 当目前的AOF文件大小超过上一次重写时的AOF文件大小的百分之多少时会再次进行重写，如果之前没有重写过，则以启动时的AOF文件大小为依据</span><br><span class="line">auto-aof-rewrite-min-size 64mb   </span><br><span class="line"># 允许重写的最小AOF文件大小</span><br></pre></td></tr></table></figure>
-<p>2.2）工作原理：<br>2.2.1）redis调用fork ，现在有父子两个进程<br>2.2.2）子进程根据内存中的数据库快照，往临时文件中写入重建数据库状态的命令<br>2.2.3）父进程继续处理client请求，除了把写命令写入到原来的aof文件中。同时把收到的写命令缓存起来。这样就能保证如果子进程重写失败的话并不会出问题。<br>2.2.4.）当子进程把快照内容写入已命令方式写到临时文件中后，子进程发信号通知父进程。然后父进程把缓存的写命令也写入到临时文件。<br>2.2.5）现在父进程可以使用临时文件替换老的aof文件，并重命名，后面收到的写命令也开始往新的aof文件中追加。</p>
-<p>2.3）查看aof<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:7000&gt; config get dir</span><br><span class="line">1) &quot;dir&quot;</span><br><span class="line">2) &quot;/usr/local/redis/db&quot;</span><br><span class="line">127.0.0.1:7000&gt;</span><br><span class="line">[root@redis1 db]# ll</span><br><span class="line">总用量 8</span><br><span class="line">-rw-r--r-- 1 root root 146 2月   1 08:36 appendonly.aof</span><br><span class="line">-rw-r--r-- 1 root root  74 2月   1 09:20 dump.rdb</span><br><span class="line">[root@redis1 db]#</span><br></pre></td></tr></table></figure></p>
-<p>2.4）优点：<br>2.4.1）该机制可以带来更高的数据安全性，即数据持久性。<br>2.4.2）由于该机制对日志文件的写入操作采用的是append模式，因此在写入过程中即使出现宕机现象，也不会破坏日志文件中已经存在的内容。然而如果我们本次操作只是写入了一半数据就出现了系统崩溃问题，不用担心，在Redis下一次启动之前，我们可以通过redis-check-aof工具来帮助我们解决数据一致性的问题。<br>2.4.3）如果日志过大，Redis可以自动启用rewrite机制。即Redis以append模式不断的将修改数据写入到老的磁盘文件中，同时Redis还会创建一个新的文件用于记录此期间有哪些修改命令被执行。因此在进行rewrite切换时可以更好的保证数据安全性。<br>2.4.4） AOF包含一个格式清晰、易于理解的日志文件用于记录所有的修改操作。事实上，也可以通过该文件完成数据的重建。</p>
-<p>2.5：缺点：<br>2.5.1）对于相同数量的数据集而言，AOF文件通常要大于RDB文件，持久化文件会变的越来越大。<br>2.5.2） 根据同步策略的不同，AOF在运行效率上往往会慢于RDB。</p>
-<p>3、其它<br>虚拟内存方式和diskstore方式。：（不建议，而且虚拟内存据说2.4版本后弃用，diskstore也不常用）<br>相关配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">持久化文件会变的越来越大。</span><br><span class="line">vm-enabled yes          </span><br><span class="line">#开启vm功能</span><br><span class="line">vm-swap-file /tmp/redis.swap   </span><br><span class="line">#交换出来的value保存的文件路径/tmp/redis.swap</span><br><span class="line">vm-max-memory 1000000  </span><br><span class="line">#redis使用的最大内存上限，超过上限后redis开始交换value到磁盘文件中</span><br><span class="line">vm-page-size 32        </span><br><span class="line">#每个页面的大小32个字节</span><br><span class="line">vm-pages 134217728     </span><br><span class="line">#最多使用在文件中使用多少页面,交换文件的大小 = vm-page-size * vm-pages</span><br><span class="line">vm-max-threads 4       </span><br><span class="line">#用于执行value对象换入换出的工作线程数量，0表示不使用工作线程</span><br></pre></td></tr></table></figure>
-<p>总结：<br>1、Redis允许同时开启AOF和RDB，既保证了数据安全又使得进行备份等操作十分容易。重新启动Redis后Redis会使用AOF文件来恢复数据，因为AOF方式的持久化可能丢失的数据更少。</p>
-<p>2、读写分离 通过复制可以实现读写分离以提高服务器的负载能力。在常见的场景中，读的频率大于写，当单机的Redis无法应付大量的读请求时（尤其是较耗资源的请求，比如SORT命令等）可以通过复制功能建立多个从数据库，主数据库只进行写操作，而从数据库负责读操作。</p>
-<p>3、从数据库持久化 持久化通常相对比较耗时，为了提高性能，可以通过复制功能建立一个（或若干个）从数据库，并在从数据库中启用持久化，同时在主数据库禁用持久化。当从数据库崩溃时重启后主数据库会自动将数据同步过来，所以无需担心数据丢失。而当主数据库崩溃时，需要在从数据库中使用SLAVEOF NO ONE命令将从数据库提升成主数据库继续服务，并在原来的主数据库启动后使用SLAVEOF命令将其设置成新的主数据库的从数据库，即可将数据同步回来。</p>
-<h1 id="Redis-常用命令"><a href="#Redis-常用命令" class="headerlink" title="Redis 常用命令"></a>Redis 常用命令</h1><p><a href="http://zengestudy.blog.51cto.com/1702365/1854097" target="_blank" rel="noopener">Redis 常用命令</a></p>
-<p>Redis命令有两种类型：<br>1）键值相关命令<br>2）服务相关命令</p>
-<h2 id="键值相关命令"><a href="#键值相关命令" class="headerlink" title="键值相关命令"></a>键值相关命令</h2><p>keys：返回满足给定pattern的所有key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">127.0.0.1:6379&gt; keys my*</span><br></pre></td></tr></table></figure>
-<p>2、exists：确认一个key是否存在，存在返回1，否则返回0</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; exists mylist</span><br><span class="line">127.0.0.1:6379&gt; exists my</span><br></pre></td></tr></table></figure>
-<p>3、del：删除一个key，删除成功返回1</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; del name</span><br><span class="line">(integer) 1&apos;</span><br><span class="line">127.0.0.1:6379&gt; exists name</span><br><span class="line">(integer) 0</span><br></pre></td></tr></table></figure>
-<p>4、expire：设置一个key的过期时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; expire age 10</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 7</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) -2</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
-<p>5、move：将当前数据库中的key转移到其他数据库中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; select 0  //select 选择数据库</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set age 10</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get age</span><br><span class="line">&quot;10&quot;</span><br><span class="line">127.0.0.1:6379&gt; move age 1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; get age</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt; select 1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[1]&gt; get age</span><br><span class="line">&quot;10&quot;</span><br></pre></td></tr></table></figure>
-<p>6、persist：移除给定key的过期时间，取消成功返回1</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379[1]&gt; expire age 200</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379[1]&gt; ttl age</span><br><span class="line">(integer) 196</span><br><span class="line">127.0.0.1:6379[1]&gt; persist age</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379[1]&gt; ttl age</span><br><span class="line">(integer) -1</span><br></pre></td></tr></table></figure>
-<p>7、rename：重命名key<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">127.0.0.1:6379&gt; rename mail email</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br></pre></td></tr></table></figure></p>
-<p>8、type：返回值的类型,如果key不存在则返回none</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; type mylist</span><br><span class="line">list</span><br><span class="line">127.0.0.1:6379&gt; type name  </span><br><span class="line">none</span><br><span class="line">127.0.0.1:6379&gt; type zeng</span><br><span class="line">string</span><br><span class="line">127.0.0.1:6379&gt; type use</span><br><span class="line">hash</span><br></pre></td></tr></table></figure>
-<h2 id="服务器相关命令"><a href="#服务器相关命令" class="headerlink" title="服务器相关命令"></a>服务器相关命令</h2><p>1、ping：检测连接是否存活</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; ping </span><br><span class="line">PONG</span><br></pre></td></tr></table></figure>
-<p>2、echo：在命令行输出指定信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; echo &quot;hello,world&quot;</span><br><span class="line">&quot;hello,world&quot;</span><br></pre></td></tr></table></figure>
-<p>3、select：选择数据库</p>
-<p>4、quit、exit：退出命令行</p>
-<p>5、dbsize：返回当前数据库中key的数目</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;name&quot;</span><br><span class="line">2) &quot;age&quot;</span><br><span class="line">127.0.0.1:6379&gt; dbsize</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
-<p>6、info：获取服务器的信息和统计</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; info</span><br><span class="line"># Server</span><br><span class="line">redis_version:3.2.1</span><br></pre></td></tr></table></figure>
-<p>7、config get：实时转储收到的请求</p>
-<p>8、flushdb：删除当前选择数据库中的所有key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; dbsize </span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; flushdb </span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; dbsize</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(empty list or set)</span><br></pre></td></tr></table></figure>
-<p>9、flushall：删除所有数据库中的所有key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; select 0</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(empty list or set)</span><br><span class="line">127.0.0.1:6379&gt; set name zeng</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; dbsize</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; select 1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[1]&gt; flushall</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[1]&gt; select 0</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(empty list or set)</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-Tomcat+Nginx动静分离和负载均衡" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -992,6 +685,61 @@ Nagios通常由一个主程序(Nagios)、一个插件程序(Nagios-plugins)和�
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
     </div>
 
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-网络端口详解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/20/网络端口详解/" class="article-date">
+      <time datetime="2016-07-20T19:41:06.000Z" itemprop="datePublished">2016-07-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/20/网络端口详解/">网络端口详细</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="网络端口详解"><a href="#网络端口详解" class="headerlink" title="网络端口详解"></a>网络端口详解</h1><p>0|无效端口,通常用于分析操作系统<br>1|传输控制协议端口服务多路开关选择器<br>2|管理实用程序<br>3|压缩进程<br>5|远程作业登录<br>7|回显<br>9|丢弃<br>11|在线用户<br>13|时间<br>17|每日引用<br>18|消息发送协议<br>19|字符发生器<br>20|FTP文件传输协议(默认数据口)　<br>21|FTP文件传输协议(控制)<br>22|SSH远程登录协议<br>23|telnet(终端仿真协议),木马Tiny Telnet Server开放此端口<br>24|预留给个人用邮件系统<br>25|SMTP服务器所开放的端口，用于发送邮件<br>27|NSW 用户系统 FE<br> 29|MSG ICP<br> 31|MSG验证,木马Master Paradise、HackersParadise开放此端口<br>33|显示支持协议<br>35|预留给个人打印机服务<br>37|时间<br>38|路由访问协议<br>39|资源定位协议<br>41|图形<br>42|主机名服务<br>43|who is服务<br>44|MPM(消息处理模块)标志协议<br>45|消息处理模块　<br>46|消息处理模块(默认发送口)<br>47|NI FTP<br> 48|数码音频后台服务　<br>49|TACACS登录主机协议<br>50|远程邮件检查协议<br>51|IMP(接口信息处理机)逻辑地址维护<br>52|施乐网络服务系统时间协议<br>53|dns域名服务器<br>54|施乐网络服务系统票据交换<br>55|ISI图形语言<br>56|施乐网络服务系统验证<br>57|预留个人用终端访问<br>58|施乐网络服务系统邮件<br>59|预留个人文件服务<br>60|未定义<br>61|NI邮件<br>62|异步通讯适配器服务<br>63|whois++<br> 64|通讯接口<br>65|TACACS数据库服务<br>66|Oracle SQL*NET<br> 67|引导程序协议服务端<br>68|引导程序协议客户端<br>69|小型文件传输协议<br>70|信息检索协议<br>71|远程作业服务<br>72|远程作业服务<br>73|远程作业服务<br>74|远程作业服务<br>75|预留给个人拨出服务<br>76|分布式外部对象存储<br>77|预留给个人远程作业输入服务<br>78|修正TCP<br> 79|查询远程主机在线用户等信息<br>80|http,用于网页浏览,木马Executor开放此端口<br>81|HOST2名称服务<br>82|传输实用程序<br>83|模块化智能终端ML设备<br>84|公用追踪设备<br>85|模块化智能终端ML设备<br>86|Micro Focus Cobol编程语言<br>87|预留给个人终端连接<br>88|Kerberros安全认证系统<br>89|SU/MIT telnet(终端仿真网关)<br>90|DNSIX 安全属性标记图<br>91|MIT Dover假脱机<br>92|网络打印协议<br>93|设备控制协议<br>94|Tivoli对象调度<br>96|DIXIE协议规范<br>97|快速远程虚拟文件协议<br>98|TAC新闻协议<br>99|后门程序ncx99开放此端口<br>100|未知用途<br>101|NIC 主机名称服务<br>102|消息传输代理<br>103|Genesis 点对点传输网络<br>105|信箱名称服务<br>106|3COM-TSMUX开放端口<br>107|远程Telnet服务<br>108|SNA 网关访问服务<br>109|POP2服务器开放此端口,用于接收邮件<br>110|POP3服务器开放此端口,用于接收邮件<br>111|SUN公司的RPC服务所有端口<br>112|McIDAS 数据传输协议<br>113|认证服务，用于鉴别TCP连接的用户<br>114|音频新闻多点服务<br>115|简单文件传输服务<br>116|ANSA REX 通知<br>117|UUCP 路径服务<br>118|SQL 服务<br>119|NEWS新闻组传输协议，承载USENET通信<br>121|木马BO jammerkillahV开放端口<br>122|SMAKY网络<br>123|网络时间协议，蠕虫病毒会利用，一般关闭<br>128|GSS X许可认证<br>129|密码生成器协议<br>130|Cisco软件开放端口<br>131|Cisco软件开放端口<br>132|Cisco软件开放端口<br>133|统计服务<br>134|INGRES-网络服务<br>135|DCOM服务，冲击波病毒利用，不能关闭<br>136|命名系统<br>137|NETBIOS协议应用，为共享开放<br>138|NETBIOS协议应用，为共享开放<br>139|NETBIOS协议应用，为共享开放<br>140|EMFIS数据服务<br>141|EMFIS控制服务<br>143|Interim邮件访问协议<br>144|UMA软件开放端口<br>145|UAAC协议<br>149|AED 512仿真服务<br>150|SQL(结构化查询语言)-网络<br>152|后台文件传输协议<br>156|SQL(结构化查询语言)服务<br>158|PC邮件服务器<br>159|NSS-路由<br>160|SGMP-陷阱<br>161|简单网络管理协议<br>162|SNMP陷阱<br>163|CMIP/TCP 管理<br>164|CMIP/TCP 代理<br>166|Sirius系统<br>169|发送<br>170|网络附言<br>177|x显示管理控制协议，入侵者通过它访问X-windows操作台<br>178|NextStep Window 服务<br>179|边界网关协议<br>180|图表<br>181|统一<br>184|OC服务器<br>185|远程-KIS<br> 186|KIS 协议<br>187|应用通信接口<br>189|队列文件传输<br>190|网关进入控制协议<br>191|Prospero 目录服务<br>192|OSU 网络监视系统<br>193|Spider 远程控制协议<br>194|多线交谈协议<br>197|目录地址服务<br>198|目录地址服务监视器<br>200|IBM系统资源控制器<br>201|AppleTalk(Mac机所用的网络协议)路由保证<br>202|AppleTalk(Mac机所用的网络协议)Name Binding<br> 203|AppleTalk(Mac机所用的网络协议)未用端口<br>204|AppleTalk(Mac机所用的网络协议)回显<br>205|AppleTalk(Mac机所用的网络协议)未用端口<br>206|AppleTalk(Mac机所用的网络协议)区信息<br>207|AppleTalk(Mac机所用的网络协议)未用端口<br>208|AppleTalk(Mac机所用的网络协议)未用端口<br>209|快速邮件传输协议<br>210|ANSI(美国国家标准协会)Z39.50<br> 211|Texas Instruments 914C/G终端<br>213|IPX(以太网所用的协议)<br>218|Netix消息记录协议<br>219|Unisys ARPs<br> 220|交互邮件访问协议 v3<br> 223|证书分发中心<br>224|masq拨号器<br>241|预留端口 (224-241)<br> 245|链接<br>246|显示系统协议<br>257|安全电子交易系统<br>258|Yak Winsock 个人聊天<br>259|有效短程遥控<br>260|开放端口<br>261|IIOP 基于TLS/SSL的命名服务<br>266|SCSI(小型计算机系统接口)on ST<br> 267|Tobit David服务层<br>268|Tobit David复制<br>281|个人连结<br>282|Cable端口A/X<br> 286|FXP通信<br>308|Novastor备份<br>313|Magenta逻辑<br>318|PKIX时间标记<br>333|Texar安全端口<br>344|Prospero数据存取协议<br>345|Perf分析工作台<br>346|Zebra服务器<br>347|Fatmen服务器<br>348|Cabletron管理协议<br>358|Shrink可上网家电协议<br>359|网络安全风险管理协议<br>362|SRS发送<br>363|RSVP隧道<br>372|列表处理<br>373|Legend公司<br>374|Legend公司<br>376|AmigaEnvoy网络查询协议<br>377|NEC公司<br>378|NEC公司<br>379|TIA/EIA/IS-99调制解调器客户端<br>380|TIA/EIA/IS-99调制解调器服务器<br>381|hp(惠普)性能数据收集器<br>382|hp(惠普)性能数据控制节点<br>383|hp(惠普)性能数据警报管理<br>384|远程网络服务器系统<br>385|IBM应用程序<br>386|ASA信息路由器定义文件.<br>387|Appletalk更新路由.<br>389|轻型目录访问协议<br>395|网络监视控制协议<br>396|Novell(美国Novell公司)Netware(Novell公司出的网络操作系统)over IP<br> 400|工作站解决方案<br>401|持续电源<br>402|Genie协议<br>406|交互式邮件支持协议<br>408|Prospero资源管理程序<br>409|Prospero资源节点管理.<br>410|DEC(数据设备公司)远程调试协议<br>411|远程MT协议<br>412|陷阱协定端口<br>413|存储管理服务协议<br>414|信息查询<br>415|B网络<br>423|IBM操作计划和控制开端<br>424|IBM操作计划和控制追踪<br>425|智能计算机辅助设计<br>427|服务起位置<br>434|移动ip代理<br>435|移动ip管理<br>443|基于TLS/SSL的网页浏览端口，能提供加密和通过安全端口传输的另一种HTTP<br> 444|简单网络内存分页协议<br>445|Microsoft-DS，为共享开放，震荡波病毒利用，一般应关闭<br>446|DDM-远程关系数据库访问<br>447|DDM-分布式文件管理<br>448|DDM-使用安全访问远程数据库<br>456|木马HACKERS PARADISE开放此端口<br>458|apple quick time软件开放端口<br>459|ampr-rcmd命令<br>464|k密码服务<br>469|广播控制协议<br>470|scx-代理<br>472|ljk-登陆<br>481|Ph服务<br>487|简单异步文件传输<br>489|nest-协议<br>491|go-登陆<br>499|ISO ILL协议<br>500|Internet密钥交换，Lsass开放端口，不能关闭<br>509|陷阱<br>510|FirstClass协议<br>512|远程进程执行<br>513|远程登陆<br>514|cmd命令<br>515|spooler<br> 516|可视化数据<br>518|交谈<br>519|unix时间<br>520|扩展文件名称服务器<br>525|时间服务<br>526|新日期<br>529|在线聊天系统服务<br>530|远程过程调用<br>531|聊天<br>532|读新闻<br>533|紧急广播端口<br>534|MegaMedia管理端<br>537|网络流媒体协议<br>542|商业<br>543|Kerberos(软件)v4/v5<br> 544|krcmd命令<br>546|DHCPv6 客户端<br>547|DHCPv6 服务器<br>552|设备共享<br>554|Real Time Stream控制协议<br>555|木马PhAse1.0、Stealth Spy、IniKiller开放此端口<br>556|远距离文件服务器<br>563|基于TLS/SSL的网络新闻传输协议<br>564|plan 9文件服务<br>565|whoami查询<br>566|streettalk<br> 567|banyan-rpc(远程过程调用)<br>568|DPA成员资格<br>569|MSN成员资格<br>570|demon(调试监督程序)<br>571|udemon(调试监督程序)<br>572|声纳<br>573|banyan-贵宾<br>574|FTP软件代理系统<br>581|Bundle Discovery 协议<br>582|SCC安全<br>583|Philips视频会议<br>584|密钥服务器<br>585|IMAP4+SSL (Use 993 instead)<br> 586|密码更改<br>587|申请<br>589|Eye连结<br>595|CAB协议<br>597|PTC名称服务<br>598|SCO网络服务器管理3<br> 599|Aeolon Core协议<br>600|Sun IPC(进程间通讯)服务器<br>601|可靠系统登陆服务<br>604|通道<br>606|Cray统一资源管理<br>608|发送人-传递/提供 文件传输器<br>609|npmp-陷阱<br>610|npmp-本地<br>611|npmp-gui( 图形用户界面)<br>612|HMMP指引<br>613|HMMP操作<br>614|SSL(加密套接字协议层)shell(壳)<br>615|Internet配置管理<br>616|SCO(Unix系统)系统管理服务器<br>617|SCO桌面管理服务器<br>619|Compaq(康柏公司)EVM<br> 620|SCO服务器管理<br>623|ASF远程管理控制协议<br>624|Crypto管理<br>631|IPP (Internet打印协议)<br>633|服务更新(Sterling软件)<br>637|局域网服务器<br>641|repcmd命令<br>647|DHCP(动态主机配置协议)Failover<br> 648|注册登记协议(RRP)<br> 649|Cadview-3d软件协议<br>666|木马Attack FTP、Satanz Backdoor开放此端口<br>808|ccproxy http/gopher/ftp (over http)协议<br>1001|木马Silencer，WebEx开放端口<br>1011|木马Doly开放端口<br>1024|动态端口的开始,木马yai开放端口<br>1025|inetinfo.exe(互联网信息服务)木马netspy开放端口<br>1026|inetinfo.exe(互联网信息服务)<br>1027|应用层网关服务<br>1030|应用层网关服务<br>1031|BBN IAD<br> 1033|本地网络信息端口<br>1034|同步通知<br>1036|安全部分传输协议<br>1070|木马Psyber Stream，Streaming Audio开放端口<br>1071|网络服务开放端口<br>1074|网络服务开放端口<br>1080|Socks这一协议以通道方式穿过防火墙，允许防火墙后面的人通过一个IP地址访问INTERNET<br> 1110|卡巴斯基反病毒软件开放此端口<br>1125|卡巴斯基反病毒软件开放此端口<br>1203|许可证生效端口<br>1204|登陆请求监听端口<br>1206|Anthony数据端口<br>1222|SNI R&amp;D网络端口<br>1233|普遍的附录服务器端口<br>1234|木马SubSeven2.0、Ultors Trojan开放此端口<br>1243|木马SubSeven1.0/1.9开放此端口<br>1245|木马Vodoo，GabanBus，NetBus，Vodoo开放此端口<br>1273|EMC-网关端口<br>1289|JWalk服务器端口<br>1290|WinJa服务器端口<br>1333|密码策略(网络服务)(svchost.exe)<br> 1334|网络服务(svchost.exe)<br> 1335|数字公正协议<br>1336|即时聊天协议(svchost.exe)<br> 1349|注册网络协议端口<br>1350|注册网络协议端口<br>1371|富士通配置协议端口<br>1372|富士通配置协议端口<br>1374|EPI软件系统端口<br>1376|IBM个人-个人软件端口<br>1377|Cichlid许可证管理端口<br>1378|Elan许可证管理端口<br>1380|Telesis网络许可证管理端口<br>1381|苹果网络许可证管理端口<br>1386|CheckSum 许可证管理端口<br>1387|系统开放端口(rundll32.exe)<br> 1388|数据库高速缓存端口<br>1389|文档管理端口<br>1390|存储控制器端口<br>1391|存储器存取服务器端口<br>1392|打印管理端口<br>1393|网络登陆服务器端口<br>1394|网络登陆客户端端口<br>1395|PC工作站管理软件端口<br>1396|DVL活跃邮件端口<br>1397|音频活跃邮件端口<br>1398|视频活跃邮件端口<br>1399|Cadkey许可证管理端口<br>1433|Microsoft的SQL服务开放端口<br>1434|Microsoft的SQL服务监视端口<br>1492|木马FTP99CMP开放此端口<br>1509|木马Psyber Streaming Server开放此端口<br>1512|Microsoft Windows网络名称服务<br>1524|许多攻击脚本安装一个后门SHELL于这个端口<br>1600|木马Shivka-Burka开放此端口<br>1645|远程认证拨号用户服务<br>1701|第2层隧道协议<br>1731|NetMeeting音频调用控制<br>1801|Microsoft消息队列服务器<br>1807|木马SpySender开放此端口<br>1900|可被利用ddos攻击，一般关闭<br>1912|金山词霸开放此端口<br>1981|木马ShockRave开放此端口<br>1999|木马BackDoor,yai开放此端口<br>2000|木马GirlFriend 1.3、Millenium 1.0开放此端口<br>2001|木马Millenium 1.0、Trojan Cow,黑洞2001开放此端口<br>2003|GNU 查询<br>2023|木马Pass Ripper开放此端口<br>2049|NFS程序常运行于此端口<br>2115|木马Bugs开放此端口<br>2140|木马Deep Throat 1.0/3.0，The Invasor开放此端口<br>2500|应用固定端口会话复制的RPC客户<br>2504|网络平衡负荷<br>2565|木马Striker开放此端口<br>2583|木马Wincrash 2.0开放此端口<br>2801|木马Phineas Phucker开放此端口<br>2847|诺顿反病毒服务开放此端口<br>3024|木马WinCrash开放此端口<br>3128|squid http代理服务器开放此端口<br>3129|木马Master Paradise开放此端口<br>3150|木马The Invasor,deep throat开放此端口<br>3210|木马SchoolBus开放此端口<br>3306|MySQL开放此端口<br>3333|木马Prosiak开放此端口<br>3389|WINDOWS 2000终端开放此端口<br>3456|inetinfo.exe(互联网信息服务)开放端口，VAT默认数据<br>3457|VAT默认控制<br>3527|Microsoft消息队列服务器<br>3700|木马Portal of Doom开放此端口<br>3996|木马RemoteAnything开放此端口<br>4000|腾讯QQ客户端开放此端口<br>4060|木马RemoteAnything开放此端口<br>4092|木马WinCrash开放此端口<br>4133|NUTS Bootp服务器<br>4134|NIFTY-Serve HMI协议<br>4141|Workflow服务器<br>4142|文档服务器<br>4143|文档复制<br>4145|VVR控制<br>4321|远程Who Is查询<br>4333|微型sql服务器<br>4349|文件系统端口记录<br>4350|网络设备<br>4351|PLCY网络服务<br>4453|NSS警报管理<br>4454|NSS代理管理<br>4455|PR聊天用户<br>4456|PR聊天服务器<br>4457|PR注册<br>4480|Proxy+ HTTP代理端口<br>4500|Lsass开放端口，不能关闭<br>4547|Lanner许可管理<br>4555|RSIP端口<br>4590|木马ICQTrojan开放此端口<br>4672|远程文件访问服务器<br>4752|简单网络音频服务器<br>4800|Icona快速消息系统<br>4801|Icona网络聊天<br>4802|Icona许可系统服务器<br>4848|App服务器-Admin HTTP<br> 4849|App服务器-Admin HTTPS<br> 4950|木马IcqTrojan开放5000端口<br>5000|木马blazer5，Sockets de Troie开放5000端口，一般应关闭<br>5001|木马Sockets de Troie开放5001端口<br>5006|wsm服务器<br>5007|wsm服务器ssl<br> 5022|mice服务器<br>5050|多媒体会议控制协议<br>5051|ITA代理<br>5052|ITA管理<br>5137|MyCTS服务器端口<br>5150|Ascend通道管理协议<br>5154|BZFlag游戏服务器<br>5190|America-Online(美国在线)<br>5191|AmericaOnline1(美国在线)<br>5192|AmericaOnline2(美国在线)<br>5193|AmericaOnline3(美国在线)<br>5222|Jabber客户端连接<br>5225|HP(惠普公司)服务器<br>5226|HP(惠普公司)<br>5232|SGI绘图软件端口<br>5250|i网关<br>5264|3Com网络端口1<br> 5265|3Com网络端口2<br> 5269|Jabber服务器连接<br>5306|Sun MC组<br>5321|木马Sockets de Troie开放5321端口<br>5400|木马Blade Runner开放此端口<br>5401|木马Blade Runner开放此端口<br>5402|木马Blade Runner开放此端口<br>5405|网络支持<br>5409|Salient数据服务器<br>5410|Salient用户管理<br>5415|NS服务器<br>5416|SNS网关<br>5417|SNS代理<br>5421|网络支持2<br> 5423|虚拟用户<br>5427|SCO-PEER-TTA(Unix系统)<br>5432|PostgreSQL数据库<br>5550|木马xtcp开放此端口<br>5569|木马Robo-Hack开放此端口<br>5599|公司远程安全安装<br>5600|公司安全管理<br>5601|公司安全代理<br>5631|pcANYWHERE(软件)数据<br>5632|pcANYWHERE(软件)数据<br>5673|JACL消息服务器<br>5675|V5UA应用端口<br>5676|RA管理<br>5678|远程复制代理连接<br>5679|直接电缆连接<br>5720|MS-执照<br>5729|Openmail用户代理层<br>5730|Steltor’s日历访问<br>5731|netscape(网景)suiteware<br> 5732|netscape(网景)suiteware<br> 5742|木马WinCrash1.03开放此端口<br>5745|fcopy-服务器<br>5746|fcopys-服务器<br>5755|OpenMail(邮件服务器)桌面网关服务器<br>5757|OpenMail(邮件服务器)X.500目录服务器<br>5766|OpenMail (邮件服务器)NewMail服务器<br>5767|OpenMail (邮件服务器)请求代理曾(安全)<br>5768|OpenMail(邮件服务器) CMTS服务器<br>5777|DALI端口<br>5800|虚拟网络计算<br>5801|虚拟网络计算<br>5802|虚拟网络计算HTTP访问, d<br> 5803|虚拟网络计算HTTP访问, d<br> 5900|虚拟网络计算机显示0<br> 5901|虚拟网络计算机显示1<br> 5902|虚拟网络计算机显示2<br> 5903|虚拟网络计算机显示3<br> 6000|X Window 系统<br>6001|X Window 服务器<br>6002|X Window 服务器<br>6003|X Window 服务器<br>6004|X Window 服务器<br>6005|X Window 服务器<br>6006|X Window 服务器<br>6007|X Window 服务器<br>6008|X Window 服务器<br>6009|X Window 服务器<br>6010|X Window 系统<br>6011|X Window 系统<br>6012|X Window 系统<br>6013|X Window 系统<br>6014|X Window 系统<br>6015|X Window 系统<br>6016|X Window 系统<br>6017|X Window 系统<br>6018|X Window 系统<br>6019|X Window 系统<br>6020|X Window 系统<br>6021|X Window 系统<br>6022|X Window 系统<br>6023|X Window 系统<br>6024|X Window 系统<br>6025|X Window 系统<br>6026|X Window 系统<br>6027|X Window 系统<br>6028|X Window 系统<br>6029|X Window 系统<br>6030|X Window 系统<br>6031|X Window 系统<br>6032|X Window 系统<br>6033|X Window 系统<br>6034|X Window 系统<br>6035|X Window 系统<br>6036|X Window 系统<br>6037|X Window 系统<br>6038|X Window 系统<br>6039|X Window 系统<br>6040|X Window 系统<br>6041|X Window 系统<br>6042|X Window 系统<br>6043|X Window 系统<br>6044|X Window 系统<br>6045|X Window 系统<br>6046|X Window 系统<br>6047|X Window 系统<br>6048|X Window 系统<br>6049|X Window 系统<br>6050|ARCserve 代理<br>6051|X Window 系统<br>6052|X Window 系统<br>6053|X Window 系统<br>6054|X Window 系统<br>6055|X Window 系统<br>6056|X Window 系统<br>6057|X Window 系统<br>6058|X Window 系统<br>6059|X Window 系统<br>6060|X Window 系统<br>6061|X Window 系统<br>6062|X Window 系统<br>6063|X Window 系统<br>6267|木马广外女生开放此端口<br>6400|木马The tHing开放此端口<br>6401|seagate(美国希捷公司)<br>6455|SKIP证书接受<br>6456|SKIP证书发送<br>6471|LVision许可管理器<br>6505|BoKS管理私人端口<br>6506|BoKS管理公共端口<br>6507|BoKS Dir服务器,私人端口<br>6508|BoKS Dir服务器,公共端口<br>6509|MGCS-MFP端口<br>6510|MCER端口<br>6566|SANE控制端口<br>6580|Parsec主服务器<br>6581|Parsec对等网络<br>6582|Parsec游戏服务器<br>6588|AnalogX HTTP代理端口<br>6631|Mitchell电信主机<br>6667|Internet多线交谈<br>6668|Internet多线交谈<br>6670|木马Deep Throat开放此端口<br>6671|木马Deep Throat 3.0开放此端口<br>6699|Napster文件(MP3)共享服务<br>6701|KTI/ICAD名称服务器<br>6788|SMC软件-HTTP<br> 6789|SMC软件-HTTPS<br> 6841|Netmo软件默认开放端口<br>6842|Netmo HTTP服务<br>6883|木马DeltaSource开放此端口<br>6939|木马Indoctrination开放此端口<br>6969|木马Gatecrasher、Priority开放此端口<br>6970|real音频开放此端口<br>7000|木马Remote Grab开放此端口<br>7002|使用者&amp; 组 数据库<br>7003|音量定位数据库<br>7004|AFS/Kerberos认证服务<br>7005|音量管理服务<br>7006|错误解释服务<br>7007|Basic监督进程<br>7008|服务器-服务器更新程序<br>7009|远程缓存管理服务<br>7011|Talon软件发现端口<br>7012|Talon软件引擎<br>7013|Microtalon发现<br>7014|Microtalon通信<br>7015|Talon网络服务器<br>7020|DP服务<br>7021|DP服务管理<br>7100|X字型服务<br>7121|虚拟原型许可证管理<br>7300|木马NetMonitor开放此端口<br>7301|木马NetMonitor开放此端口<br>7306|木马NetMonitor，NetSpy1.0开放此端口<br>7307|木马NetMonitor开放此端口<br>7308|木马NetMonitor开放此端口<br>7323|Sygate服务器端<br>7511|木马聪明基因开放此端口<br>7588|Sun许可证管理<br>7597|木马Quaz开放此端口<br>7626|木马冰河开放此端口<br>7633|PMDF管理<br>7674|iMQ SSL通道<br>7675|iMQ通道<br>7676|木马Giscier开放此端口<br>7720|Med图象入口<br>7743|Sakura脚本传递协议<br>7789|木马ICKiller开放此端口<br>7797|Propel连接器端口<br>7798|Propel编码器端口<br>8000|腾讯QQ服务器端开放此端口<br>8001|VCOM通道<br>8007|Apache(类似iis)jServ协议1.x<br> 8008|HTTP Alternate<br> 8009|Apache(类似iis)JServ协议1.3<br> 8010|Wingate代理开放此端口<br>8011|木马way2.4开放此端口<br>8022|OA-系统<br>8080|WWW代理开放此端口<br>8081|ICECap控制台<br>8082|BlackIce(防止黑客软件)警报发送到此端口<br>8118|Privoxy HTTP代理<br>8121|Apollo数据端口<br>8122|Apollo软件管理端口<br>8181|Imail<br> 8225|木马灰鸽子开放此端口<br>8311|木马初恋情人开放此端口<br>8351|服务器寻找<br>8416|eSpeech Session协议<br>8417|eSpeech RTP协议<br>8473|虚拟点对点<br>8668|网络地址转换<br>8786|Message客户端<br>8787|Message服务器<br>8954|Cumulus管理端口<br>9000|CS监听<br>9001|ETL服务管理<br>9002|动态id验证<br>9021|Pangolin验证<br>9022|PrivateArk远程代理<br>9023|安全网络登陆-1<br> 9024|安全网络登陆-2<br> 9025|安全网络登陆-3<br> 9026|安全网络登陆-4<br> 9101|Bacula控制器<br>9102|Bacula文件后台<br>9103|Bacula存储邮件后台<br>9111|DragonIDS控制台<br>9217|FSC通讯端口<br>9281|软件传送端口1<br> 9282|软件传送端口2<br> 9346|C技术监听<br>9400|木马Incommand 1.0开放此端口<br>9401|木马Incommand 1.0开放此端口<br>9402|木马Incommand 1.0开放此端口<br>9594|信息系统<br>9595|Ping Discovery服务<br>9800|WebDav源端口<br>9801|Sakura脚本转移协议-2<br> 9802|WebDAV Source TLS/SSL<br> 9872|木马Portal of Doom开放此端口<br>9873|木马Portal of Doom开放此端口<br>9874|木马Portal of Doom开放此端口<br>9875|木马Portal of Doom开放此端口<br>9899|木马InIkiller开放此端口<br>9909|域名时间<br>9911|SYPECom传送协议<br>9989|木马iNi-Killer开放此端口<br>9990|OSM Applet程序服务器<br>9991|OSM事件服务器<br>10000|网络数据管理协议<br>10001|SCP构造端口<br>10005|安全远程登陆<br>10008|Octopus多路器<br>10067|木马iNi-Killer开放此端口<br>10113|NetIQ端点<br>10115|NetIQ端点<br>10116|NetIQVoIP鉴定器<br>10167|木马iNi-Killer开放此端口<br>11000|木马SennaSpy开放此端口<br>11113|金山词霸开放此端口<br>11233|木马Progenic trojan开放此端口<br>12076|木马Telecommando开放此端口<br>12223|木马Hack’99 KeyLogger开放此端口<br>12345|木马NetBus1.60/1.70、GabanBus开放此端口<br>12346|木马NetBus1.60/1.70、GabanBus开放此端口<br>12361|木马Whack-a-mole开放此端口<br>13223|PowWow 客户端，是Tribal Voice的聊天程序<br>13224|PowWow 服务器，是Tribal Voice的聊天程序<br>16959|木马Subseven开放此端口<br>16969|木马Priority开放此端口<br>17027|外向连接<br>19191|木马蓝色火焰开放此端口<br>20000|木马Millennium开放此端口<br>20001|木马Millennium开放此端口<br>20034|木马NetBus Pro开放此端口<br>21554|木马GirlFriend开放此端口<br>22222|木马Prosiak开放此端口<br>23444|木马网络公牛开放此端口<br>23456|木马Evil FTP、Ugly FTP开放此端口<br>25793|Vocaltec地址服务器<br>26262|K3软件-服务器<br>26263|K3软件客户端<br>26274|木马Delta开放此端口<br>27374|木马Subseven 2.1开放此端口<br>30100|木马NetSphere开放此端口<br>30129|木马Masters Paradise开放此端口<br>30303|木马Socket23开放此端口<br>30999|木马Kuang开放此端口<br>31337|木马BO(Back Orifice)开放此端口<br>31338|木马BO(Back Orifice)，DeepBO开放此端口<br>31339|木马NetSpy DK开放此端口<br>31666|木马BOWhack开放此端口<br>31789|Hack-a-tack<br> 32770|sun solaris RPC服务开放此端口<br>33333|木马Prosiak开放此端口<br>33434|路由跟踪<br>34324|木马Tiny Telnet Server、BigGluck、TN开放此端口<br>36865|KastenX软件端口<br>38201|Galaxy7软件数据通道<br>39681|TurboNote默认端口<br>40412|木马The Spy开放此端口<br>40421|木马Masters Paradise开放此端口<br>40422|木马Masters Paradise开放此端口<br>40423|木马Masters Paradise开放此端口<br>40426|木马Masters Paradise开放此端口<br>40843|CSCC 防火墙<br>43210|木马SchoolBus 1.0/2.0开放此端口<br>43190|IP-PROVISION<br> 44321|PCP服务器(pmcd)<br> 44322|PCP服务器(pmcd)代理<br>44334|微型个人防火墙端口<br>44442|ColdFusion软件端口<br>44443|ColdFusion软件端口<br>44445|木马Happypig开放此端口<br>45576|E代时光专业代理开放此端口<br>47262|木马Delta开放此端口<br>47624|Direct Play服务器<br>47806|ALC协议<br>48003|Nimbus网关<br>50505|木马Sockets de Troie开放此端口<br>50766|木马Fore开放此端口<br>53001|木马Remote Windows Shutdown开放此端口<br>54320|木马bo2000开放此端口<br>54321|木马SchoolBus 1.0/2.0开放此端口<br>61466|木马Telecommando开放此端口<br>65000|木马Devil 1.03开放此端口<br>65301|PC Anywhere软件开放端口</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
       
       <div class="clearfix"></div>
     </div>
@@ -4827,6 +4575,256 @@ Nagios通常由一个主程序(Nagios)、一个插件程序(Nagios-plugins)和�
       
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gitlab/">Gitlab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ansible安装部署" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/15/Ansible安装部署/" class="article-date">
+      <time datetime="2016-03-15T08:24:13.000Z" itemprop="datePublished">2016-03-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/15/Ansible安装部署/">Ansible安装部署</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://www.showerlee.com/archives/1649" target="_blank" rel="noopener">Ansible安装部署</a></p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Ansible是一种集成IT系统的配置管理, 应用部署, 执行特定任务的开源平台. 它基于Python语言实现, 部署只需在主控端部署Ansible环境, 被控端无需安装代理工具, 只需打开SSH, 让主控端通过SSH秘钥认证对其进行所有的管理监控操作. 相对于SaltStack, 它除了利用SSH安全传输, 无需在客户端进行任何配置, 而且它有一个很庞大的用户群体以及丰富的API, 相对适合部署到数量比较大且对系统软件安装要求比较严格的集群中.<br>更多配置参考: <a href="https://github.com/ansible" target="_blank" rel="noopener">https://github.com/ansible</a><br>官方文档: <a href="http://docs.ansible.com/ansible" target="_blank" rel="noopener">http://docs.ansible.com/ansible</a></p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>安装环境:<br>System: Centos 6.7 x64<br>Master: master.example.com<br>Minion: client01.example.com<br>Minion: client02.example.com</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h2><ol>
+<li>关闭iptables和SELINUX</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># service iptables stop</span><br><span class="line"># setenforce 0</span><br><span class="line"># vi /etc/sysconfig/selinux</span><br><span class="line">SELINUX=disabled</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Master端安装EPEL第三方yum源</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># rpm -Uvh http://ftp.linux.ncsu.edu/pub/epel/6/i386/epel-release-6-8.noarch.rpm</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装Ansible<br>a. yum</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># yum install ansible -y</span><br></pre></td></tr></table></figure>
+<p>b.pip<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install ansible</span><br></pre></td></tr></table></figure></p>
+<ol start="4">
+<li>添加环境变量以便vi能正常显示中文注释.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/profile</span><br><span class="line">添加:</span><br><span class="line">export LC_ALL=en_US.UTF-8</span><br><span class="line">export LANG=en_US.UTF-8</span><br><span class="line">export LANGUAGE=en_US.UTF-8</span><br><span class="line"># source /etc/profile</span><br></pre></td></tr></table></figure>
+<h2 id="初始配置"><a href="#初始配置" class="headerlink" title="初始配置"></a>初始配置</h2><ol>
+<li>修改主机及组配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># cd /etc/ansible</span><br><span class="line"># cp hosts hosts.bak</span><br><span class="line"># cat /dev/null &gt; hosts</span><br><span class="line"># vi /etc/ansible/hosts</span><br><span class="line">[webservers]</span><br><span class="line">client01.example.com</span><br><span class="line">client02.example.com</span><br><span class="line">[nginx01]</span><br><span class="line">client01.example.com</span><br><span class="line">[nginx02]</span><br><span class="line">client02.example.com</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>配置SSH秘钥认证</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum install ssh* -y</span><br><span class="line"># ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+<p>同步公钥文件id_rsa.pub到目标主机</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ssh-copy-id -i /root/.ssh/id_rsa.pub root@client01.example.com</span><br><span class="line"># ssh-copy-id -i /root/.ssh/id_rsa.pub root@client02.example.com</span><br></pre></td></tr></table></figure>
+<p>校验SSH免密码配置是否成功.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ssh root@client02.example.com</span><br></pre></td></tr></table></figure>
+<p>如直接进入则配置完成.</p>
+<ol start="3">
+<li>定义主机与组<br>所有定义的主机与组规则都在/etc/Ansible/hosts下.<br>常见的写法:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.21:2135 定义一个IP为192.168.1.21, SSH端口为2135的主机.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jumper ansible_ssh_port=22 ansible_ssh_host=192.168.1.50 定义一个别名为jumper, SSH端口为22, IP为192.168.1.50的主机. </span><br><span class="line">组成员主机名称范例:</span><br><span class="line">[webservers]</span><br><span class="line">www[001:006].example.com</span><br><span class="line">[dbservers]</span><br><span class="line">db-[a:f].example.com</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>定义主机变量<br>主机可以指定变量, 后面可以供Playbooks调用</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[atlanta]</span><br><span class="line">host1 http_port=80 maxRequestsPerChild=808</span><br><span class="line">host2 http_port=8080 maxRequestsPerChild=909</span><br><span class="line">5.定义组变量</span><br><span class="line">[atlanta]</span><br><span class="line">host1</span><br><span class="line">host2</span><br><span class="line"></span><br><span class="line">[atlanta:vars]</span><br><span class="line">ntp_server=ntp.atlanta.example.com</span><br><span class="line">proxy=proxy.atlanta.example.com</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>匹配目标<br>重启webservers组所有SSH服务.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m service -a &quot;name=sshd state=restarted&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="Ansible常用模块及API"><a href="#Ansible常用模块及API" class="headerlink" title="Ansible常用模块及API"></a>Ansible常用模块及API</h2><ol>
+<li>远程命令模块<br>command: 执行远程主机SHELL命令:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m command -a &quot;free -m&quot;</span><br></pre></td></tr></table></figure>
+<p>script: 远程执行MASTER本地SHELL脚本.(类似scp+shell)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># echo &quot;df -h&quot; &gt; ~/test.sh</span><br><span class="line"># ansible webservers -m script -a &quot;~/test.sh&quot;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>copy模块<br>实现主控端向目标主机拷贝文件, 类似scp功能.<br>该实例实现~/test.sh文件至webservers组目标主机/tmp下, 并更新文件owner和group</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m copy -a &quot;src=~/test.sh dest=/tmp/ owner=root group=root mode=0755&quot;</span><br><span class="line"># ansible webservers -m copy -a &quot;src=~/test.sh dest=/tmp/ owner=root group=root mode=0755&quot;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>stat模块<br>获取远程文件状态信息, 包括atime, ctime, mtime, md5, uid, gid等信息.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m stat -a &quot;path=/etc/sysctl.conf&quot;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>get_url模块<br>实现在远程主机下载指定URL到本地.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m get_url -a &quot;url=http://www.showerlee.com dest=/tmp/index.html mode=0400 force=yes&quot;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>yum模块<br>Linux包管理平台操作,  常见都会有yum和apt, 此处会调用yum管理模式</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible servers -m yum -a &quot;name=curl state=latest&quot;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>cron模块<br>远程主机crontab配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m cron -a &quot;name=&apos;check dir&apos; hour=&apos;5,2&apos; job=&apos;ls -alh &gt; /dev/null&apos;&quot;</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>service模块<br>远程主机系统服务管理</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ansible webservers -m service -a &quot;name=crond state=stopped&quot;</span><br><span class="line"># ansible webservers -m service -a &quot;name=crond state=restarted&quot;</span><br><span class="line"># ansible webservers -m service -a &quot;name=crond state=reloaded&quot;</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>user服务模块<br>远程主机系统用户管理</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">添加用户:</span><br><span class="line"># ansible webservers -m user -a &quot;name=johnd comment=&apos;John Doe&apos;&quot;</span><br><span class="line">删除用户:</span><br><span class="line"># ansible webservers -m user -a &quot;name=johnd state=absent remove=yes&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="playbook介绍"><a href="#playbook介绍" class="headerlink" title="playbook介绍"></a>playbook介绍</h2><p>playbook是一个不同于使用Ansible命令行执行方式的模式, 其功能是将大量命令行配置集成到一起形成一个可定制的多主机配置管理部署工具.<br>它通过YAML格式定义, 可以实现向多台主机的分发应用部署.<br>以下给大家详细介绍一个针对nginx嵌套复用结构的<br>playbook部署实例:</p>
+<ol>
+<li>构建目录结构</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># cd /etc/ansible/</span><br><span class="line"># mkdir group_vars</span><br><span class="line"># mkdir roles</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>定义host</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/ansible/hosts</span><br><span class="line">[webservers]</span><br><span class="line">client01.example.com</span><br><span class="line">client02.example.com</span><br><span class="line">[nginx01]</span><br><span class="line">client01.example.com</span><br><span class="line">[nginx02]</span><br><span class="line">client02.example.com</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>定义变量</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/ansible/group_vars/nginx01</span><br><span class="line">worker_processes: 4</span><br><span class="line">num_cpus: 4</span><br><span class="line">max_open_file: 65506</span><br><span class="line">root: /data</span><br><span class="line">remote_user: root</span><br><span class="line"># vi /etc/ansible/group_vars/nginx02</span><br><span class="line">worker_processes: 2</span><br><span class="line">num_cpus: 2</span><br><span class="line">max_open_file: 35506</span><br><span class="line">root: /www</span><br><span class="line">remote_user: root</span><br></pre></td></tr></table></figure>
+<p>Tips:这里在group_vars下定义的文件名必须对应hosts文件下的group标签, 通过这里定义的不同参数从而部署不同类型的主机配置.</p>
+<ol start="4">
+<li>创建roles入口文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/ansible/site.yml</span><br><span class="line">- hosts: webservers</span><br><span class="line">  roles:</span><br><span class="line">  - base_env</span><br><span class="line">- hosts: nginx01</span><br><span class="line">  roles:</span><br><span class="line">  - nginx01</span><br><span class="line">- hosts: nginx02</span><br><span class="line">  roles:</span><br><span class="line">  - nginx02</span><br></pre></td></tr></table></figure>
+<p>Tips: 这里的roles:下的字符串需对应roles目录下的目录名.</p>
+<ol start="5">
+<li>定义全局role base_env<br>创建目录结构</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /etc/ansible/roles/base_env/tasks </span><br><span class="line"># vi /etc/ansible/roles/base_env/tasks/main.yml</span><br><span class="line"># 将EPEL的yum源配置文件传送到客户端</span><br><span class="line">- name: Create the contains common plays that will run on all nodes </span><br><span class="line">  copy: src=epel.repo dest=/etc/yum.repos.d/epel.repo</span><br><span class="line">- name: Create the GPG key for EPEL</span><br><span class="line">  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg</span><br><span class="line">  </span><br><span class="line"># 关闭SELINUX</span><br><span class="line">- name: test to see if selling is running</span><br><span class="line">  command: getenforce</span><br><span class="line">  register: sestatus</span><br><span class="line">  changed_when: false</span><br><span class="line"></span><br><span class="line"># 删除iptables默认规则并保存</span><br><span class="line">- name: remove the default iptables rules</span><br><span class="line">  command: iptables -F</span><br><span class="line">- name: save iptables rules</span><br><span class="line">  command: service iptables save</span><br><span class="line">将对应需要拷贝到远程的文件复制到base_env/files目录下</span><br><span class="line"># mkdir -p  /etc/ansible/roles/base_env/files</span><br><span class="line"># cp /etc/yum.repos.d/epel.repo /etc/ansible/roles/base_env/files</span><br><span class="line"># cp /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6 /etc/ansible/roles/base_env/files</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>定义nginx01和ngnix02 role<br>创建目录结构</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /etc/ansible/roles/nginx&#123;01,02&#125;</span><br><span class="line"># mkdir -p /etc/ansible/roles/nginx01/tasks</span><br><span class="line"># mkdir -p /etc/ansible/roles/nginx02/tasks</span><br><span class="line"># vi /etc/ansible/roles/nginx01/tasks/main.yml</span><br><span class="line"> # 安装nginx最新版本</span><br><span class="line">- name: ensure nginx is at the latest version</span><br><span class="line">  yum: pkg=nginx state=latest</span><br><span class="line"></span><br><span class="line"># 将nginx配置文件传送到远程目录</span><br><span class="line">- name: write the nginx config file</span><br><span class="line">  template: src=nginx.conf dest=/etc/nginx/nginx.conf</span><br><span class="line">  notify: restart nginx # 重启nginx</span><br><span class="line"></span><br><span class="line"># 创建nginx根目录</span><br><span class="line">- name: Create Web Root</span><br><span class="line">  file: dest=&#123;&#123; root &#125;&#125; mode=775 state=directory owner=nginx group=nginx</span><br><span class="line">  notify: reload nginx</span><br><span class="line">- name: ensure nginx is running</span><br><span class="line">  service: name=nginx state=restarted</span><br><span class="line"># cp /home/ansible/roles/nginx01/tasks/main.yml /home/ansible/roles/nginx02/tasks/main.yml</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>定义files</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /etc/ansible/roles/nginx01/templates</span><br><span class="line"># mkdir -p /etc/ansible/roles/nginx02/templates</span><br><span class="line"># vi /etc/ansible/roles/nginx01/templates/nginx.conf</span><br><span class="line"># For more information on configuration, see: </span><br><span class="line"></span><br><span class="line">user              nginx;  </span><br><span class="line">worker_processes  &#123;&#123; worker_processes &#125;&#125;;  </span><br><span class="line">&#123;% if num_cpus == 2 %&#125;  </span><br><span class="line">worker_cpu_affinity 01 10;  </span><br><span class="line">&#123;% elif num_cpus == 4 %&#125;  </span><br><span class="line">worker_cpu_affinity 1000 0100 0010 0001;  </span><br><span class="line">&#123;% elif num_cpus &gt;= 8 %&#125;  </span><br><span class="line">worker_cpu_affinity 00000001 00000010 00000100 00001000 00010000 00100000 01000000 10000000;  </span><br><span class="line">&#123;% else %&#125;  </span><br><span class="line">worker_cpu_affinity 1000 0100 0010 0001;  </span><br><span class="line">&#123;% endif %&#125;  </span><br><span class="line">worker_rlimit_nofile &#123;&#123; max_open_file &#125;&#125;;  </span><br><span class="line">  </span><br><span class="line">error_log  /var/log/nginx/error.log;  </span><br><span class="line">#error_log  /var/log/nginx/error.log  notice;  </span><br><span class="line">#error_log  /var/log/nginx/error.log  info;  </span><br><span class="line">  </span><br><span class="line">pid        /var/run/nginx.pid;  </span><br><span class="line">  </span><br><span class="line">events &#123;  </span><br><span class="line">    worker_connections  &#123;&#123; max_open_file &#125;&#125;;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">http &#123;  </span><br><span class="line">    include       /etc/nginx/mime.types;  </span><br><span class="line">    default_type  application/octet-stream;  </span><br><span class="line">  </span><br><span class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;  </span><br><span class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;  </span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;  </span><br><span class="line">  </span><br><span class="line">    access_log  /var/log/nginx/access.log  main;  </span><br><span class="line">  </span><br><span class="line">    sendfile        on;  </span><br><span class="line">    #tcp_nopush     on;  </span><br><span class="line">  </span><br><span class="line">    #keepalive_timeout  0;  </span><br><span class="line">    keepalive_timeout  65;  </span><br><span class="line">  </span><br><span class="line">    #gzip  on;  </span><br><span class="line">      </span><br><span class="line">    # Load config files from the /etc/nginx/conf.d directory  </span><br><span class="line">    # The default server is in conf.d/default.conf  </span><br><span class="line">    #include /etc/nginx/conf.d/*.conf;  </span><br><span class="line">    server &#123;  </span><br><span class="line">        listen       80 default_server;  </span><br><span class="line">        server_name  _;  </span><br><span class="line">  </span><br><span class="line">        #charset koi8-r;  </span><br><span class="line">  </span><br><span class="line">        #access_log  logs/host.access.log  main;  </span><br><span class="line">  </span><br><span class="line">        location / &#123;  </span><br><span class="line">            root   &#123;&#123; root &#125;&#125;;  </span><br><span class="line">            index  index.html index.htm;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        error_page  404              /404.html;  </span><br><span class="line">        location = /404.html &#123;  </span><br><span class="line">            root   /usr/share/nginx/html;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        # redirect server error pages to the static page /50x.html  </span><br><span class="line">        #  </span><br><span class="line">        error_page   500 502 503 504  /50x.html;  </span><br><span class="line">        location = /50x.html &#123;  </span><br><span class="line">            root   /usr/share/nginx/html;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Tip: worker_processes, num_cpus, max_open_file, root等参数会调用group_vars目录下配置文件中相应的变量值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cp /etc/ansible/roles/nginx01/templates/nginx.conf  /etc/ansible/roles/nginx02/templates/nginx.conf</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>执行playbook</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ansible-playbook -i /etc/ansible/hosts /etc/ansible/site.yml -f 10</span><br></pre></td></tr></table></figure>
+<p>Tips: -f 为启动10个并行进程执行playbook, -i 定义inventory host文件, site.yml 为入口文件 </p>
+<p>最终部署目录结构如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># tree /etc/ansible/</span><br><span class="line">/etc/ansible/</span><br><span class="line">├── ansible.cfg</span><br><span class="line">├── group_vars</span><br><span class="line">│   ├── nginx01</span><br><span class="line">│   └── nginx02</span><br><span class="line">├── hosts</span><br><span class="line">├── hosts.bak</span><br><span class="line">├── roles</span><br><span class="line">│   ├── base_env</span><br><span class="line">│   │   ├── files</span><br><span class="line">│   │   │   ├── epel.repo</span><br><span class="line">│   │   │   └── RPM-GPG-KEY-EPEL-6</span><br><span class="line">│   │   └── tasks</span><br><span class="line">│   │       └── main.yml</span><br><span class="line">│   ├── nginx01</span><br><span class="line">│   │   ├── tasks</span><br><span class="line">│   │   │   └── main.yml</span><br><span class="line">│   │   └── templates</span><br><span class="line">│   │       └── nginx.conf</span><br><span class="line">│   └── nginx02</span><br><span class="line">│       ├── tasks</span><br><span class="line">│       │   └── main.yml</span><br><span class="line">│       └── templates</span><br><span class="line">│           └── nginx.conf</span><br><span class="line">└── site.yml</span><br><span class="line"></span><br><span class="line">11 directories, 13 files</span><br></pre></td></tr></table></figure></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ansible/">Ansible</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Jenkins安装部署" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/15/Jenkins安装部署/" class="article-date">
+      <time datetime="2016-03-15T07:43:04.000Z" itemprop="datePublished">2016-03-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/15/Jenkins安装部署/">Jenkins安装部署</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Jenkins安装部署</p>
+<p>下载 jenkins war包<br>下载tomcat<br>下载jdk</p>
+<p>###配置jenkins安装环境<br>建立/usr/local/下的jdk软连接方便以后版本升级 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/jdk1.8.0_151 /usr/local/jdk</span><br><span class="line">ln -s /usr/local/apache-tomcat-8.5.23 /usr/local/tomcat</span><br></pre></td></tr></table></figure>
+<p>mkdir /data/webapps -p</p>
+<p>/usr/local/tomcat/conf</p>
+<h3 id="启动tomcat"><a href="#启动tomcat" class="headerlink" title="启动tomcat"></a>启动tomcat</h3><p><code>./startup.sh</code><br>server.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Connector port=&quot;80&quot; </span><br><span class="line"></span><br><span class="line">&lt;Host name=&quot;jenkins.ovwane.com&quot;  appBase=&quot;/data/webapps&quot;</span><br><span class="line">149             unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
     </div>
 
       

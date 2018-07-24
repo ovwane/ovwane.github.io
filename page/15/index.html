@@ -206,75 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Caddy" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-金融" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/24/Caddy/" class="article-date">
-      <time datetime="2018-07-24T02:53:25.813Z" itemprop="datePublished">2018-07-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://github.com/Unknwon/wuwen.org/issues/11" target="_blank" rel="noopener">Caddy 部署实践</a></p>
-<p><a href="https://github.com/mholt/caddy/releases/" target="_blank" rel="noopener">Caddy</a></p>
-<p><a href="https://www.wolfcstech.com/2017/01/09/Caddy%20Web%E6%9C%8D%E5%8A%A1%E5%99%A8QUIC%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Caddy Web服务器QUIC部署</a></p>
-<p><a href="http://www.infoq.com/cn/news/2018/03/weibo-quic" target="_blank" rel="noopener">QUIC在微博中的落地思考</a></p>
-<p><a href="https://github.com/caddyserver/examples" target="_blank" rel="noopener">Examples for using Caddy Web Server</a></p>
-<p><a href="https://liudanking.com/beautiful-life/%E6%9C%AC%E7%AB%99%E5%BC%80%E5%90%AF%E6%94%AF%E6%8C%81-quic-%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%8E%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">本站开启支持 QUIC 的方法与配置</a></p>
-<p><a href="https://blog.sharpbai.com/2018/02/%E4%BD%BF%E7%94%A8caddy%E9%85%8D%E5%90%88nginx%E6%94%AF%E6%8C%81quic/" target="_blank" rel="noopener">使用caddy配合nginx支持QUIC
-</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/mholt/caddy/releases/download/v0.10.12/caddy_v0.10.12_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf caddy_v0.10.12_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">mv caddy /usr/local/bin/</span><br></pre></td></tr></table></figure>
-<p>/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp –port=32457</p>
-<p>mkdir -p /data/caddy/log/</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /data/caddy/Caddyfile</span><br><span class="line"></span><br><span class="line">ovwane.com:444 &#123;</span><br><span class="line">        tls /data/ssl/ovwane.com/ovwane.com_rsa_fullchain.cer /data/ssl/ovwane.com/ovwane.com_rsa.key</span><br><span class="line">        root /data/www/ovwane.com/public</span><br><span class="line">        gzip</span><br><span class="line">        log /data/caddy/log/ovwane.com.log</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/caddy.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Caddy HTTP/2 web server</span><br><span class="line">Documentation=https://caddyserver.com/docs</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target systemd-networkd-wait-online.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Restart=on-abnormal</span><br><span class="line"></span><br><span class="line">; User and group the process will run as.</span><br><span class="line">;User=caddy</span><br><span class="line">;Group=caddy</span><br><span class="line"></span><br><span class="line">; Letsencrypt-issued certificates will be written to this directory.</span><br><span class="line">Environment=CADDYPATH=/data/caddy</span><br><span class="line"></span><br><span class="line">; Always set "-root" to something safe in case it gets forgotten in the Caddyfile.</span><br><span class="line">ExecStart=/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp</span><br><span class="line">ExecReload=/bin/kill -USR1 $MAINPID</span><br><span class="line"></span><br><span class="line">; Use graceful shutdown with a reasonable timeout</span><br><span class="line">KillMode=mixed</span><br><span class="line">KillSignal=SIGQUIT</span><br><span class="line">TimeoutStopSec=5s</span><br><span class="line"></span><br><span class="line">; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.</span><br><span class="line">LimitNOFILE=1048576</span><br><span class="line">; Unmodified caddy is not expected to use more than that.</span><br><span class="line">LimitNPROC=512</span><br><span class="line"></span><br><span class="line">; Use private /tmp and /var/tmp, which are discarded after caddy stops.</span><br><span class="line">PrivateTmp=true</span><br><span class="line">; Use a minimal /dev (May bring additional security if switched to 'true', but it may not work on Raspberry Pi's or other devices, so it has been disabled in this dist.)</span><br><span class="line">PrivateDevices=false</span><br><span class="line">; Hide /home, /root, and /run/user. Nobody will steal your SSH-keys.</span><br><span class="line">ProtectHome=true</span><br><span class="line">; Make /usr, /boot, /etc and possibly some more folders read-only.</span><br><span class="line">ProtectSystem=full</span><br><span class="line">; … except /etc/ssl/caddy, because we want Letsencrypt-certificates there.</span><br><span class="line">;   This merely retains r/w access rights, it does not add any new. Must still be writable on the host!</span><br><span class="line">ReadWriteDirectories=/data/caddy</span><br><span class="line"></span><br><span class="line">; The following additional security directives only work with systemd v229 or later.</span><br><span class="line">; They further restrict privileges that can be gained by caddy. Uncomment if you like.</span><br><span class="line">; Note that you may have to add capabilities required by any plugins in use.</span><br><span class="line">;CapabilityBoundingSet=CAP_NET_BIND_SERVICE</span><br><span class="line">;AmbientCapabilities=CAP_NET_BIND_SERVICE</span><br><span class="line">;NoNewPrivileges=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable caddy.service</span><br><span class="line">systemctl start caddy.service</span><br><span class="line">systemctl stop caddy.service</span><br><span class="line">systemctl status caddy.service</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp --inet6 | grep -F caddy</span><br></pre></td></tr></table></figure>
-<p>日志自动切分</p>
-<p>vim /etc/logrotate.d/caddy</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/caddy/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/caddy.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/caddy.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>手动执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/caddy</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-CentOS7-开启BBR" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/23/CentOS7-开启BBR/" class="article-date">
-      <time datetime="2018-07-23T08:30:43.000Z" itemprop="datePublished">2018-07-23</time>
+      <a href="/2018/07/12/金融/" class="article-date">
+      <time datetime="2018-07-12T10:45:03.000Z" itemprop="datePublished">2018-07-12</time>
 </a>
     </div>
   
@@ -287,7 +223,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/23/CentOS7-开启BBR/">CentOS7 开启BBR</a>
+      <a class="article-title" href="/2018/07/12/金融/">财经商业和投资理财微信公众号</a>
     </h1>
   
 
@@ -297,272 +233,28 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="CentOS7-开启BBR"><a href="#CentOS7-开启BBR" class="headerlink" title="CentOS7 开启BBR"></a>CentOS7 开启BBR</h1><p>安装kernel</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">yum remove -y kernel-headers kernel-tools kernel-tools-libs</span><br><span class="line"></span><br><span class="line">rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br><span class="line"></span><br><span class="line">rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm</span><br><span class="line"></span><br><span class="line">yum -y install grub2</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">kernel-ml-4.17.9-1.el7.elrepo.x86_64</span></span><br><span class="line">yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-headers kernel-ml-devel </span><br><span class="line">yum --enablerepo=elrepo-kernel install -y kernel-ml-doc  kernel-ml-tools  kernel-ml-tools-libs perf python-perf</span><br><span class="line"></span><br><span class="line">ls -l /boot/vmlinuz*</span><br><span class="line"> </span><br><span class="line">mkdir /boot/grub</span><br><span class="line"></span><br><span class="line">grub2-mkconfig -o /boot/grub/grub.cfg</span><br><span class="line"></span><br><span class="line">rpm -qa | grep kernel</span><br><span class="line"></span><br><span class="line">awk -F\' '$1=="menuentry " &#123;print $2&#125;' /etc/grub2.cfg</span><br><span class="line"><span class="meta">#</span><span class="bash">egrep ^menuentry /etc/grub2.cfg | cut -f 2 -d \<span class="string">'</span></span></span><br><span class="line"></span><br><span class="line">shutdown -r now</span><br><span class="line"></span><br><span class="line">yum remove -y kernel</span><br><span class="line"></span><br><span class="line">shutdown -r now</span><br></pre></td></tr></table></figure>
-<p>开启BBR</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;&gt;/etc/sysctl.conf &lt;&lt; EOF</span><br><span class="line">net.core.default_qdisc=fq</span><br><span class="line">net.ipv4.tcp_congestion_control=bbr</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br><span class="line"></span><br><span class="line">sysctl net.ipv4.tcp_available_congestion_control</span><br><span class="line"></span><br><span class="line">sysctl net.core.default_qdisc</span><br><span class="line"></span><br><span class="line">lsmod | grep bbr</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.linuxeye.cn/452.html" target="_blank" rel="noopener">Linode CentOS7开启Google TCP-BBR优化算法</a></p>
-<p><a href="https://teddysun.com/489.html" target="_blank" rel="noopener">一键安装最新内核并开启 BBR 脚本</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-老男孩Python自动化开发s16-笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/老男孩Python自动化开发s16-笔记/" class="article-date">
-      <time datetime="2018-07-12T10:51:02.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/老男孩Python自动化开发s16-笔记/">老男孩Python自动化开发s16</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>没有的课程<br>L016<br>L019<br>L020<br>L023<br>L024<br>L025<br>L034</p>
-<p>35周 8个月左右</p>
-<p>学习笔记<br><a href="http://www.cnblogs.com/52forjie/" target="_blank" rel="noopener">forjie</a><br><a href="http://blog.51cto.com/zoucuo/1883734" target="_blank" rel="noopener">python学习笔记（开课介绍1）</a></p>
-<p><a href="http://blog.51cto.com/zoucuo/1883734" target="_blank" rel="noopener">python学习笔记（开课介绍1）</a></p>
-<p><a href="https://www.bbsmax.com/A/kjdwA0n6JN/" target="_blank" rel="noopener">老男孩python自动化运维作业1</a></p>
-<p><a href="http://qkxue.net/info/45155/python" target="_blank" rel="noopener">老男孩python自动化运维作业(二)</a></p>
-<p><a href="http://www.cnblogs.com/cyalu/" target="_blank" rel="noopener">陆雅亮</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-老男孩教育Python课程老师们的博客" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/老男孩教育Python课程老师们的博客/" class="article-date">
-      <time datetime="2018-07-12T10:50:00.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/老男孩教育Python课程老师们的博客/">老男孩教育Python课程老师们的博客</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="老男孩教育Python课程老师们的博客"><a href="#老男孩教育Python课程老师们的博客" class="headerlink" title="老男孩教育Python课程老师们的博客"></a>老男孩教育Python课程老师们的博客</h1><p>Alex</p>
-<p>武沛齐<br><a href="http://www.cnblogs.com/wupeiqi/" target="_blank" rel="noopener">Mr.Seven</a></p>
-<p><a href="http://www.cnblogs.com/wupeiqi/p/7295372.html" target="_blank" rel="noopener">老铁，这年头不会点Git真不行！！！</a></p>
-<p><a href="https://www.youtube.com/watch?v=4XpnKHJAok8" target="_blank" rel="noopener">Tech Talk: Linus Torvalds on git</a> 4:36 git发音 给特 </p>
-<p><a href="https://english.stackexchange.com/questions/47622/how-do-you-pronounce-git?newreg=e31e4c18b6564225aecf3b0cfe260ebf" target="_blank" rel="noopener">How do you pronounce “Git”?</a></p>
-<p><a href="http://www.cnblogs.com/wupeiqi/p/4493506.html" target="_blank" rel="noopener">Python 面向对象（初级篇）</a><br><a href="http://www.cnblogs.com/wupeiqi/p/4766801.html" target="_blank" rel="noopener">python 面向对象（进阶篇）</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#配置全局用户和邮箱</span><br><span class="line">git config --global user.name &quot;&quot;</span><br><span class="line">git config --global user.email &quot;&quot;</span><br><span class="line">#初始化</span><br><span class="line">git init</span><br><span class="line">#查看git状态</span><br><span class="line">git status</span><br><span class="line">#添加当前目录所有文件到版本库</span><br><span class="line">git add .</span><br><span class="line">#提交到版本库，并填写版本说明。</span><br><span class="line">git commit -m &quot;提交说明&quot;</span><br><span class="line">#查看提交记录</span><br><span class="line">git log</span><br><span class="line">#现在b版本，恢复到a版本本，“4ba728de5e2136e03124732fc3e6c779ee74a222”这串字符是git log查看的commit后面的字符串。</span><br><span class="line">git reset --hard 4ba728de5e2136e03124732fc3e6c779ee74a222</span><br><span class="line"></span><br><span class="line">#恢复到b版本，”4ba728d“这个是查看reflog</span><br><span class="line">git reflog</span><br><span class="line">git reset --hard 4ba728d</span><br></pre></td></tr></table></figure>
-<p>stash</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#将当前工作区所有修改过的内容存储到“某个地方”，将工作区还原到当前版本未修改过的状态</span><br><span class="line">git stash</span><br><span class="line">#查看“某个地方”存储的所有记录</span><br><span class="line">git stash list</span><br><span class="line">#清空“某个地方”     </span><br><span class="line">git stash clear</span><br><span class="line">#将第一个记录从“某个地方”重新拿到工作区（可能有冲突）</span><br><span class="line">git stash pop </span><br><span class="line">#编号, 将指定编号记录从“某个地方”重新拿到工作区（可能有冲突）</span><br><span class="line">git stash apply</span><br><span class="line">#编号，删除指定编号的记录 </span><br><span class="line">git stash drop</span><br></pre></td></tr></table></figure>
-<p>branch</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#创建分支</span><br><span class="line">git branch dev</span><br><span class="line">#切换到dev分支</span><br><span class="line">git checkout dev</span><br><span class="line">#创建并切换到指定分支</span><br><span class="line">git branch -m dev</span><br><span class="line">#查看所有文章</span><br><span class="line">git branch</span><br><span class="line">#删除分支</span><br><span class="line">git branch -d dev</span><br><span class="line">#将指定分支合并到当前分支</span><br><span class="line">git merge dev</span><br></pre></td></tr></table></figure>
-<p>远程</p>
-<p>git pull = git fetch + git merge</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#添加远程git</span><br><span class="line">git remote add origin</span><br><span class="line">#把代码推送到远程git</span><br><span class="line">git push origin dev</span><br><span class="line">#拉取代码,并合并到本地</span><br><span class="line">git pull origin dev</span><br><span class="line">#获取分支最新内容到版本库的分支</span><br><span class="line">git fetch origin dev</span><br><span class="line">#将版本库的分支内容合并到工作去</span><br><span class="line">git merge origin/dev</span><br><span class="line">#初始化git代码到本地</span><br><span class="line">git clone </span><br><span class="line">#创建分支且和远程分支同步</span><br><span class="line">git branch dev origin/dev</span><br></pre></td></tr></table></figure>
-<p>协同合作</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-胡阳" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/胡阳/" class="article-date">
-      <time datetime="2018-07-12T10:49:00.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/胡阳/">胡阳</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="胡阳"><a href="#胡阳" class="headerlink" title="胡阳"></a>胡阳</h1><p><a href="https://www.the5fire.com/" target="_blank" rel="noopener">the5fire的技术博客</a></p>
-<p><a href="http://blog.csdn.net/the_fire" target="_blank" rel="noopener">the_fire的技术博客-csdn</a></p>
-<p><a href="https://www.zhihu.com/people/the5fire/" target="_blank" rel="noopener">知乎</a></p>
-<p><a href="https://github.com/the5fire" target="_blank" rel="noopener">Github</a></p>
-<blockquote>
-<p>热爱开源，但没拿的出手的项目。怎么来证明你的能力？</p>
-</blockquote>
-<p>git、需求分析、redis、流程、自动部署</p>
-<p>运维开发</p>
-<p><strong>课程目标</strong><br><strong>企业开发</strong></p>
-<p>Git、Django、Redis、Python、软件工程、沟通协调、需求的理解、开发的理解</p>
-<p>定义model，admin，1.1，cms系统</p>
-<p>教练/同事/搭档</p>
-<p><strong><em>课程大纲</em></strong><br><strong>第零讲 课程介绍**</strong></p>
-<blockquote>
-<p>Life is short. I use Python.<br>Talk is cheap,Show me the Code.</p>
-</blockquote>
-<p><em>完全搞懂</em></p>
-<p>Zen of Python<br>Python之禅</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-运维相关的书签" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/运维相关的书签/" class="article-date">
-      <time datetime="2018-07-12T10:47:24.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/运维相关的书签/">运维相关的书签</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>姜学栋<br><a href="http://zmister.com/archives/217.html" target="_blank" rel="noopener">Vtrois’s Blog</a></p>
-<p>笑遍世界<br><a href="http://smilejay.com/" target="_blank" rel="noopener">笑遍世界</a></p>
+        <h1 id="财经商业和投资理财微信公众号"><a href="#财经商业和投资理财微信公众号" class="headerlink" title="财经商业和投资理财微信公众号"></a>财经商业和投资理财微信公众号</h1><p><strong>1、吴晓波频道（ID：wuxiaobopd）</strong></p>
+<p>这是著名财经作家吴晓波老师在2014年5月开设的自媒体平台，两年以来吴晓波频道的影响力扶摇直上，一飞冲天。目前累计粉丝数量将近200万人，是现阶段最大的财经商业类自媒体平台。两年以来，无数10万+的文章被纷纷刷屏，从《去日本买只马桶盖》到《别慌》，再到《疯了》。我相信，对财经商业感兴趣的朋友们应该已经早早的关注了吴晓波频道。我就不再废话了。</p>
+<p><strong>2、秦朔朋友圈（ID：qspyq2015）</strong></p>
+<p>吴晓波的朋友秦朔，前《第一财经日报》的总编辑，这个被吴晓波称为“最后一个看门狗”的河南蛮牛，毅然决然地离开了传统媒体行业，“下海”开设了秦朔朋友圈这个自媒体平台。在这里，秦朔先生不定期分享关于对经济发展、金融潮流、商业领域等方面的观点。</p>
+<p><strong>3、力哥说理财（ID：lglicai）</strong></p>
+<p>这是我最近每天上班路上必听的一档理财脱口秀节目《力哥说理财》，喜欢的朋友也可以在喜马拉雅FM上订阅“力哥说理财”。力哥说理财的口号是：简单，好玩，有干货。力哥每期节目中都会用非常风趣幽默的方式跟大家分享投资理财相关的心得，并且有很多内容都能很好的帮助大家养成理性的投资价值观。音频节目的文字版本也会定期发布在这个微信公众号上。</p>
+<p><strong>4、金融八卦女（ID：jinrongbaguanv）</strong></p>
+<p>这位金融八卦女是一位基金行业的从业人员，她开设的金融八卦女微信公众号是金融业内最有名气的自媒体平台之一，据说绝大多数的金融从业者都关注了这个微信公众号。我自己就是一名金融从业者，在我微信不足400人的朋友列表里，竟然有超过80人都关注了金融八卦女，可想而知她的受欢迎程度。</p>
+<p><strong>5、越女读财（ID：ynducai）</strong></p>
+<p>“一个小小的理财抽屉，一枚玩心很重的财女”。这是“越女读财”这个微信公众号的个人介绍。越女读财是我最近一段时间每天必读的公众号，越女每天都会分享一些理财、投资方面的心得，并获得了广泛的好评。更重要的是，我很喜欢越女的文字，简单，清新，不脱俗。</p>
+<p><strong>6、三公子的人生记录仪（ID：sangongzi0906）</strong></p>
+<p>豆瓣红人三公子的个人微信公众号，我第一次知道三公子其实是在简书这个平台上看到的。是个很励志的小女孩，她是一位理财达人，作为一名普通的公务员，通过自己的理财规划，用5年的时间就积累了100万的个人资产。在微信公众号中，她分享了很多理财相关的话题，比如基金定投、小白理财、资产配置和自我成长以及健身相关的文章。</p>
+<p><strong>7、定投十年赚十倍（ID：auto10bagger）</strong></p>
+<p>雪球大V银行螺丝钉开设的个人微信公众号，银行螺丝钉是专注在指数基金的投资，是畅销书《指数基金投资指南》的作者。在这里，她会经常分享关于指数基金投资方面的一些心得，她的很多文章我都有阅读，受益很大。更加难得的是，她还通过科学的方法，编制了市场主要指数的估值表，并每天在公众号上发布。想系统性学习指数基金投资的朋友不妨关注。</p>
+<p><strong>8、大玩家张磊（ID：seniorplayer）</strong></p>
+<p>与其说帮你赚钱，倒不如说帮你省钱，也就是教你如何薅羊毛。大玩家张磊在这里会经常发布一些很实用、高逼格的薅羊毛的攻略，包括信用卡、航空里程、酒店等各个方面。他和我一样，都是周杰伦的铁杆粉丝，据说他把公司的每个会议室都用周杰伦的歌名来命名，很酷。他还是懒投资的CEO，在懒投资推出了很多收益稳健的理财产品，有兴趣的朋友也可以去看下。</p>
+<p><strong>9、长投学堂（ID：ichangtou）</strong></p>
+<p>长投学堂是一家专注量化投资和价值投资学习的网站，是由豆瓣红人水湄物语和他先生小熊创办的在线投资学习平台。在长投学堂，有系统性的价值投资的课程（入门课、初级课、进阶课和高级课），还会不定期邀请在投资领域有所建树的大牛们分享其他低风险的投资方法。所以如果你想成为巴菲特，想实现财务自由，想通过量化的价值投资来获得稳健低风险的投资回报，推荐你加入长投学堂，当然，里面有些课程是付费的。</p>
+<p><strong>10、零基础学投资理财（ID：xuetouzilicai）</strong></p>
+<p>同样来自长投学堂的衍生平台，这个微信公众号的定位主要是针对小白人群，所以分享的文章更多是关于零基础的人士如何去学习投资理财的，经常会有很多超级实用、简单的干货分享出来。再次连同长投学堂一并推荐给大家。</p>
+<p><strong>工薪金融街（ID：richgx）</strong></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/e9ab1654c5a8" target="_blank" rel="noopener">10个最值得关注的财经商业和投资理财类微信公众号</a></p>
 
       
       
@@ -622,82 +314,6 @@
 <h3 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h3><p>华为</p>
 <h3 id="POE交换机"><a href="#POE交换机" class="headerlink" title="POE交换机"></a>POE交换机</h3><p>华为</p>
 <h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h3 id="NAS"><a href="#NAS" class="headerlink" title="NAS"></a>NAS</h3><p>synology</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-金融" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/金融/" class="article-date">
-      <time datetime="2018-07-12T10:45:03.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/金融/">财经商业和投资理财微信公众号</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="财经商业和投资理财微信公众号"><a href="#财经商业和投资理财微信公众号" class="headerlink" title="财经商业和投资理财微信公众号"></a>财经商业和投资理财微信公众号</h1><p><strong>1、吴晓波频道（ID：wuxiaobopd）</strong></p>
-<p>这是著名财经作家吴晓波老师在2014年5月开设的自媒体平台，两年以来吴晓波频道的影响力扶摇直上，一飞冲天。目前累计粉丝数量将近200万人，是现阶段最大的财经商业类自媒体平台。两年以来，无数10万+的文章被纷纷刷屏，从《去日本买只马桶盖》到《别慌》，再到《疯了》。我相信，对财经商业感兴趣的朋友们应该已经早早的关注了吴晓波频道。我就不再废话了。</p>
-<p><strong>2、秦朔朋友圈（ID：qspyq2015）</strong></p>
-<p>吴晓波的朋友秦朔，前《第一财经日报》的总编辑，这个被吴晓波称为“最后一个看门狗”的河南蛮牛，毅然决然地离开了传统媒体行业，“下海”开设了秦朔朋友圈这个自媒体平台。在这里，秦朔先生不定期分享关于对经济发展、金融潮流、商业领域等方面的观点。</p>
-<p><strong>3、力哥说理财（ID：lglicai）</strong></p>
-<p>这是我最近每天上班路上必听的一档理财脱口秀节目《力哥说理财》，喜欢的朋友也可以在喜马拉雅FM上订阅“力哥说理财”。力哥说理财的口号是：简单，好玩，有干货。力哥每期节目中都会用非常风趣幽默的方式跟大家分享投资理财相关的心得，并且有很多内容都能很好的帮助大家养成理性的投资价值观。音频节目的文字版本也会定期发布在这个微信公众号上。</p>
-<p><strong>4、金融八卦女（ID：jinrongbaguanv）</strong></p>
-<p>这位金融八卦女是一位基金行业的从业人员，她开设的金融八卦女微信公众号是金融业内最有名气的自媒体平台之一，据说绝大多数的金融从业者都关注了这个微信公众号。我自己就是一名金融从业者，在我微信不足400人的朋友列表里，竟然有超过80人都关注了金融八卦女，可想而知她的受欢迎程度。</p>
-<p><strong>5、越女读财（ID：ynducai）</strong></p>
-<p>“一个小小的理财抽屉，一枚玩心很重的财女”。这是“越女读财”这个微信公众号的个人介绍。越女读财是我最近一段时间每天必读的公众号，越女每天都会分享一些理财、投资方面的心得，并获得了广泛的好评。更重要的是，我很喜欢越女的文字，简单，清新，不脱俗。</p>
-<p><strong>6、三公子的人生记录仪（ID：sangongzi0906）</strong></p>
-<p>豆瓣红人三公子的个人微信公众号，我第一次知道三公子其实是在简书这个平台上看到的。是个很励志的小女孩，她是一位理财达人，作为一名普通的公务员，通过自己的理财规划，用5年的时间就积累了100万的个人资产。在微信公众号中，她分享了很多理财相关的话题，比如基金定投、小白理财、资产配置和自我成长以及健身相关的文章。</p>
-<p><strong>7、定投十年赚十倍（ID：auto10bagger）</strong></p>
-<p>雪球大V银行螺丝钉开设的个人微信公众号，银行螺丝钉是专注在指数基金的投资，是畅销书《指数基金投资指南》的作者。在这里，她会经常分享关于指数基金投资方面的一些心得，她的很多文章我都有阅读，受益很大。更加难得的是，她还通过科学的方法，编制了市场主要指数的估值表，并每天在公众号上发布。想系统性学习指数基金投资的朋友不妨关注。</p>
-<p><strong>8、大玩家张磊（ID：seniorplayer）</strong></p>
-<p>与其说帮你赚钱，倒不如说帮你省钱，也就是教你如何薅羊毛。大玩家张磊在这里会经常发布一些很实用、高逼格的薅羊毛的攻略，包括信用卡、航空里程、酒店等各个方面。他和我一样，都是周杰伦的铁杆粉丝，据说他把公司的每个会议室都用周杰伦的歌名来命名，很酷。他还是懒投资的CEO，在懒投资推出了很多收益稳健的理财产品，有兴趣的朋友也可以去看下。</p>
-<p><strong>9、长投学堂（ID：ichangtou）</strong></p>
-<p>长投学堂是一家专注量化投资和价值投资学习的网站，是由豆瓣红人水湄物语和他先生小熊创办的在线投资学习平台。在长投学堂，有系统性的价值投资的课程（入门课、初级课、进阶课和高级课），还会不定期邀请在投资领域有所建树的大牛们分享其他低风险的投资方法。所以如果你想成为巴菲特，想实现财务自由，想通过量化的价值投资来获得稳健低风险的投资回报，推荐你加入长投学堂，当然，里面有些课程是付费的。</p>
-<p><strong>10、零基础学投资理财（ID：xuetouzilicai）</strong></p>
-<p>同样来自长投学堂的衍生平台，这个微信公众号的定位主要是针对小白人群，所以分享的文章更多是关于零基础的人士如何去学习投资理财的，经常会有很多超级实用、简单的干货分享出来。再次连同长投学堂一并推荐给大家。</p>
-<p><strong>工薪金融街（ID：richgx）</strong></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/e9ab1654c5a8" target="_blank" rel="noopener">10个最值得关注的财经商业和投资理财类微信公众号</a></p>
 
       
       
@@ -818,6 +434,338 @@
 <p>成功返回:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Alfred 3.app/Contents/Frameworks/Alfred Framework.framework/Versions/A/Alfred Framework: replacing existing signature</span><br></pre></td></tr></table></figure>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/cc206abae6e5" target="_blank" rel="noopener">【玩转MAC】解决Alfred每次开机后，都会提示“是否允许访问通讯录”</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2018-05-06" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/06/2018-05-06/" class="article-date">
+      <time datetime="2018-05-06T00:01:00.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>2018-05-06 00:01</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-4-20今天要发工资了" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/20/4-20今天要发工资了/" class="article-date">
+      <time datetime="2018-04-20T09:22:28.000Z" itemprop="datePublished">2018-04-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/20/4-20今天要发工资了/">4.20今天要发工资了</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 10.13.3 配置pipenv" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/26/macOS 10.13.3 配置pipenv/" class="article-date">
+      <time datetime="2018-03-26T20:39:00.000Z" itemprop="datePublished">2018-03-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/26/macOS 10.13.3 配置pipenv/">macOS 10.13.3 配置pipenv</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://docs.pipenv.org/" target="_blank" rel="noopener">Python Development Workflow for Humans</a><br><a href="https://github.com/pypa/pipenv" target="_blank" rel="noopener">pipenv</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line">#start pipenv</span><br><span class="line">eval &quot;$(pipenv --completion)&quot;</span><br><span class="line">#end</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.4/bin/python</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#显示安装全部过程</span><br><span class="line">pipenv install -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv graph</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv shell</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-重做MacBook-Pro的系统macOS-10-13-3" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/" class="article-date">
+      <time datetime="2018-03-18T08:02:03.000Z" itemprop="datePublished">2018-03-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/">重做MacBook Pro的系统macOS 10.13.3</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-云服务服务商" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/02/云服务服务商/" class="article-date">
+      <time datetime="2018-01-02T07:39:00.000Z" itemprop="datePublished">2018-01-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/02/云服务服务商/">云服务</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>VPS</p>
+<p><a href="https://www.aliyun.com/" target="_blank" rel="noopener">阿里云</a><br><a href="https://www.qingcloud.com/" target="_blank" rel="noopener">青云QingCloud</a><br><a href="https://www.linode.com/" target="_blank" rel="noopener">Linode</a><br><a href="https://www.digitalocean.com/" target="_blank" rel="noopener">DigitalOcean</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-阿里云账号注册日期" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/02/阿里云账号注册日期/" class="article-date">
+      <time datetime="2018-01-02T07:24:00.000Z" itemprop="datePublished">2018-01-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/02/阿里云账号注册日期/">阿里云账号注册日期</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="阿里云账号注册日期"><a href="#阿里云账号注册日期" class="headerlink" title="阿里云账号注册日期"></a>阿里云账号注册日期</h1><p>登录账号 ： <a href="mailto:ov****@aliyun.com" target="_blank" rel="noopener">ov****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 1547536365086440<br>注册时间 ： 05-07-2012 12:31:00</p>
+<p>登录账号 ： <a href="mailto:ov****@163.com" target="_blank" rel="noopener">ov****@163.com</a> 修改 (您已通过实名认证)<br>账号ID ： 28013902<br>注册时间 ： 08-08-2012 09:58:00</p>
+<p>登录账号 ： <a href="mailto:hi2900****@aliyun.com" target="_blank" rel="noopener">hi2900****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 29000343</p>
+<p>注册时间 ： 08-08-2012 09:52:00</p>
+<p>登录账号 ： <a href="mailto:hi2985****@aliyun.com" target="_blank" rel="noopener">hi2985****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 29852806</p>
+<p>注册时间 ： 08-07-2012 16:14:00</p>
+<p>登录账号 ： <a href="mailto:hi3497****@aliyun.com" target="_blank" rel="noopener">hi3497****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 34973157</p>
+<p>注册时间 ： 05-28-2012 16:36:00</p>
+<p>登录账号 ： <a href="mailto:hi5011****@aliyun.com" target="_blank" rel="noopener">hi5011****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 50116514</p>
+<p>注册时间 ： 11-28-2012 19:09:00</p>
 
       
       
