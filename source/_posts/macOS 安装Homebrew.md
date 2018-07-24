@@ -1,15 +1,14 @@
+---
 title: macOS 安装Homebrew
 date: 2017-10-10 19:52:00
-categories:
-- 技术
-- macOS
-tags:
-- macOS
-- Homebrew
+tags: macOS
 ---
-macOS 安装[Homebrew](https://brew.sh)
-macOS 10.12.6
-macOS 10.13
+
+# macOS 安装[Homebrew](https://brew.sh)
+
+> macOS 10.12.6
+>
+> macOS 10.13
 
 ## 安装Homebrew
 1. 安装 Command Line Tools for Xcode
@@ -62,8 +61,8 @@ rm -f ~/.zcompdump; compinit
 nmap
 
 ## Homebrew Cask 安装软件列表
-```
-brew cask install istat-menus keepassxc google-chrome firefox firefoxdeveloperedition opera xmind mplayerx vlc macdown atom sublime-text iterm2 zoc qq charles alfred pycharm thunder wireshark youdaodict youdaonote
+```shell
+brew cask install istat-menus keepassxc google-chrome firefox firefoxdeveloperedition opera xmind mplayerx vlc macdown atom sublime-text iterm2 zoc qq charles alfred pycharm thunder wireshark youdaodict youdaonote zoomus keka archiver
 ```
 
 密码管理工具
@@ -135,6 +134,10 @@ neteasemusic
 虚拟机
 vmware-fusion
 parallels
+
+视频会议
+
+zoom.us
 
 ### 工作用的软件
 邮箱客户端
