@@ -206,6 +206,90 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Django企业开发实战-the5fire-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/17/Django企业开发实战-the5fire-笔记/" class="article-date">
+      <time datetime="2017-10-17T22:54:00.000Z" itemprop="datePublished">2017-10-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://python3wos.appspot.com/" target="_blank" rel="noopener">PYTHON 3 WALL OF SUPERPOWERS</a></p>
+<blockquote>
+<p>是否有人能够掌控开始使用框架之后遇到的所有问题。<br>你必须要做那个能解决所有问题的人。</p>
+</blockquote>
+<blockquote>
+<p>Too Choices Means No Choices</p>
+</blockquote>
+<blockquote>
+<p>不要担心，就是因为不会。才要学习。</p>
+</blockquote>
+<p>两种提供Web服务的方式，分别是<br>一：直接通过socket来处理http请求;<br>二：通过实现WSGI Application部分的协议。</p>
+<p>WSGI，全称是Web Server Gateway Interface（Web服务网关接口）。</p>
+<p>gunicorn<br>Gunicorn可以通过gevent/greenlet/gthread等来实现协程或者异步IO</p>
+<p>Werkzeug</p>
+<p>我们要做的还是带着需求去找框架，找技术栈，而不是拿着框架来做需求。</p>
+<p>所以拿着需求去找框架，选择合适的框架，而不是功能最全的框架或者最先进的框架。</p>
+<h1 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h1><ol>
+<li>需求分析</li>
+<li>技术选型</li>
+<li>开发</li>
+</ol>
+<blockquote>
+<p>一起读一下文档</p>
+</blockquote>
+<p>无论是MVC模式还是MTV模式，甚至是其他的什么模式，都是为了解耦。把一个软件系统划分为一层一层的结构，让每一层的逻辑更加纯粹，便于开发人员维护。</p>
+<p>Django</p>
+<p>Model在整个项目结构中是直接同数据库打交道的层，所以数据处理的部分都在这一层。在业务开发中，关于纯数据操作的部分，建议都放到这一层来做。</p>
+<p>在View中，我们通过操作Model拿到数据，做一些业务上调整，然后把数据传递到模板中，最终渲染出来页面。</p>
+<p>Template 这是Django声称对设计师友好的部分，因为它提供的语法很简单，任何人都可以很快上手，即便是不同编程的人，也可以很容易学习和使用。</p>
+<p>Forms 对于传统的，需要通过form来提交数据的页面，Form还是挺好用的。Form是对html中Form表单的抽象。</p>
+<blockquote>
+<p>无论是Django文档，还是其他问题，甚至是这本书，都是仅供参考。正确的答案始终是在你电脑上的代码里。无论是因为，框架版本的原因，还是文档上的书写错误，或者是本书的书写错误，你电脑上的代码始终不会骗你。</p>
+</blockquote>
+<p>创建项目</p>
+<p>配置python环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir student_house &amp;&amp; cd student_house</span><br><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python</span><br><span class="line"></span><br><span class="line">pipenv shell</span><br><span class="line">pip install django==1.11.2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">#创建项目</span><br><span class="line">django-admin startproject student_sys</span><br><span class="line"></span><br><span class="line">cd student_sys #所有操作都基于这个目录</span><br><span class="line"></span><br><span class="line">#创建APP</span><br><span class="line">python manage.py startapp student</span><br><span class="line"></span><br><span class="line"># 1.Model</span><br><span class="line">vim student/models.py</span><br><span class="line"></span><br><span class="line"># 2.Admin</span><br><span class="line">vim student/admin.py</span><br><span class="line"></span><br><span class="line"># 3.student app放到settings.py中</span><br><span class="line">vim student_sys/settings.py</span><br><span class="line"></span><br><span class="line">INSTALLED_APPS = [</span><br><span class="line">    &apos;student&apos;,</span><br><span class="line"></span><br><span class="line"># 4. 迁移</span><br><span class="line">python manage.py makemigrations 创建迁移文件</span><br><span class="line">python manage.py migrate 创建表</span><br><span class="line">python manage.py createsuperuser 根据提示，输出用户名，邮箱，密码</span><br><span class="line"></span><br><span class="line"># 5.基础配置</span><br><span class="line"></span><br><span class="line">#开发首页</span><br><span class="line"># 6.</span><br><span class="line">vim student/views.py </span><br><span class="line"></span><br><span class="line"># 7.</span><br><span class="line">mkdir student/templates</span><br><span class="line">vim student/templates/index.html</span><br><span class="line"></span><br><span class="line"># 8.</span><br><span class="line">vim student_sys/urls.py</span><br><span class="line"></span><br><span class="line"># 9.</span><br><span class="line">vim student/forms.py</span><br></pre></td></tr></table></figure>
+<p>启动项目: python manage.py runserver</p>
+<p>基础配置<br>vim student_sys/student_sys/settings.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LANGUAGE_CODE = &apos;zh-hans&apos;  # 语言</span><br><span class="line"></span><br><span class="line">TIME_ZONE = &apos;Asia/Shanghai&apos;  # 时区</span><br><span class="line"></span><br><span class="line">USE_I18N = True  # 语言</span><br><span class="line"></span><br><span class="line">USE_L10N = True  # 数据和时间格式</span><br><span class="line"></span><br><span class="line">USE_TZ = True  # 启用时区</span><br></pre></td></tr></table></figure>
+<p>在admin中，展示带有choices属性的字段时，Django会自动帮我们调用get_status_display方法，所以我们不用配置。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-博客-回忆-悔？" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -628,6 +712,69 @@
 
 
   
+    <article id="post-macOS 安装配置Sublime Text" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/09/macOS 安装配置Sublime Text/" class="article-date">
+      <time datetime="2017-10-09T20:42:00.000Z" itemprop="datePublished">2017-10-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/09/macOS 安装配置Sublime Text/">macOS 安装配置Sublime Text</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="macOS-安装配置Sublime-Text"><a href="#macOS-安装配置Sublime-Text" class="headerlink" title="macOS 安装配置Sublime Text"></a>macOS 安装配置Sublime Text</h1><blockquote>
+<p>macOS 10.12.6<br>macOS 10.13</p>
+</blockquote>
+<h4 id="安装Package-Control"><a href="#安装Package-Control" class="headerlink" title="安装Package Control"></a>安装<a href="https://packagecontrol.io/" target="_blank" rel="noopener">Package Control</a></h4><p>The console is accessed via the ctrl+` shortcut or the View &gt; Show Console menu.</p>
+<h4 id="查看安装命令Package-Control-Installtion"><a href="#查看安装命令Package-Control-Installtion" class="headerlink" title="查看安装命令Package Control Installtion"></a>查看安装命令<a href="https://packagecontrol.io/installation" target="_blank" rel="noopener">Package Control Installtion</a></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request,os,hashlib; h = <span class="string">'6f4c264a24d933ce70df5dedcf1dcaee'</span> + <span class="string">'ebe013ee18cced0ef93d5f746d80ef60'</span>; pf = <span class="string">'Package Control.sublime-package'</span>; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( <span class="string">'http://packagecontrol.io/'</span> + pf.replace(<span class="string">' '</span>, <span class="string">'%20'</span>)).read(); dh = hashlib.sha256(by).hexdigest(); print(<span class="string">'Error validating download (got %s instead of %s), please try manual install'</span> % (dh, h)) <span class="keyword">if</span> dh != h <span class="keyword">else</span> open(os.path.join( ipp, pf), <span class="string">'wb'</span> ).write(by)</span><br></pre></td></tr></table></figure>
+<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>via cmd + shift +p</p>
+<p>input “install package”</p>
+<h5 id="Emmet"><a href="#Emmet" class="headerlink" title="Emmet"></a><a href="https://emmet.io/" target="_blank" rel="noopener">Emmet</a></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="Pretty-JSON"><a href="#Pretty-JSON" class="headerlink" title="Pretty JSON"></a><a href="http://blog.csdn.net/billfeller/article/details/39899435" target="_blank" rel="noopener">Pretty JSON</a></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">常用快捷键说明</span><br><span class="line">ctrl+alt+j 格式化json字符串</span><br><span class="line">ctrl+alt+m 压缩json字符串</span><br></pre></td></tr></table></figure>
+<h5 id="HTML-CSS-JS-Prettify"><a href="#HTML-CSS-JS-Prettify" class="headerlink" title="HTML-CSS-JS Prettify"></a><a href="https://github.com/victorporof/Sublime-HTMLPrettify" target="_blank" rel="noopener">HTML-CSS-JS Prettify</a></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#格式化html、css、js</span><br><span class="line">command+shift+h 格式化快捷键</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-macOS 安装配置Hexo" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -939,156 +1086,9 @@
 
 
   
-    <article id="post-macOS 安装Oh My Zsh" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/08/macOS 安装Oh My Zsh/" class="article-date">
-      <time datetime="2017-10-08T10:36:00.000Z" itemprop="datePublished">2017-10-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/08/macOS 安装Oh My Zsh/">macOS 安装Oh My Zsh</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>macOS 安装<a href="http://ohmyz.sh/" target="_blank" rel="noopener">Oh My Zsh</a><br>macOS 10.12.6<br>macOS 10.13</p>
-<h2 id="macOS-安装-Oh-My-Zsh"><a href="#macOS-安装-Oh-My-Zsh" class="headerlink" title="macOS 安装 Oh My Zsh"></a>macOS 安装 <a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">Oh My Zsh</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</span><br></pre></td></tr></table></figure>
-<p>网站<br><a href="http://ohmyz.sh/" target="_blank" rel="noopener">http://ohmyz.sh/</a></p>
-<p><a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">https://github.com/robbyrussell/oh-my-zsh</a></p>
-<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><h3 id="安装zsh-syntax-highlighting"><a href="#安装zsh-syntax-highlighting" class="headerlink" title="安装zsh-syntax-highlighting"></a>安装<a href="https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md" target="_blank" rel="noopener">zsh-syntax-highlighting</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
-<h3 id="安装autojump"><a href="#安装autojump" class="headerlink" title="安装autojump"></a>安装<a href="https://github.com/wting/autojump" target="_blank" rel="noopener">autojump</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install autojump</span><br></pre></td></tr></table></figure>
-<h3 id="安装powerline-status"><a href="#安装powerline-status" class="headerlink" title="安装powerline-status"></a>安装<a href="https://github.com/powerline/powerline" target="_blank" rel="noopener">powerline-status</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install powerline-status</span><br><span class="line">pip show powerline-status</span><br></pre></td></tr></table></figure>
-<h3 id="安装powerline-fonts"><a href="#安装powerline-fonts" class="headerlink" title="安装powerline-fonts"></a>安装<a href="https://github.com/powerline/fonts" target="_blank" rel="noopener">powerline-fonts</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/powerline/fonts.git</span><br><span class="line">./fonts/install.sh</span><br><span class="line">rm -rf fonts</span><br></pre></td></tr></table></figure>
-<h2 id="参数配置"><a href="#参数配置" class="headerlink" title="参数配置"></a>参数配置</h2><h3 id="zshrc文件"><a href="#zshrc文件" class="headerlink" title="~/.zshrc文件"></a>~/.zshrc文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 插件</span><br><span class="line">~/.zshrc</span><br><span class="line">plugins=(git autojump osx colored-man-pages brew zsh-syntax-highlighting)</span><br><span class="line"></span><br><span class="line"># powerline</span><br><span class="line">. /usr/local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh</span><br></pre></td></tr></table></figure>
-<h3 id="powerline-vim配置-vimrc"><a href="#powerline-vim配置-vimrc" class="headerlink" title="powerline vim配置 .vimrc"></a>powerline vim配置 .vimrc</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set rtp+=/usr/local/lib/python3.6/dist-packages/powerline/bindings/vim</span><br><span class="line">set laststatus=2</span><br><span class="line">set t_Co=256</span><br></pre></td></tr></table></figure>
-<p><a href="http://blog.topspeedsnail.com/archives/2652" target="_blank" rel="noopener">powerline安装参考</a></p>
-<h4 id="安装-autojump"><a href="#安装-autojump" class="headerlink" title="安装 autojump"></a>安装 autojump</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install autojump</span><br></pre></td></tr></table></figure>
-<p>网站<br><a href="https://github.com/wting/autojump" target="_blank" rel="noopener">https://github.com/wting/autojump</a></p>
-<h3 id="iTerm2-配色方案"><a href="#iTerm2-配色方案" class="headerlink" title="iTerm2 配色方案"></a>iTerm2 配色方案</h3><p>下载<a href="http://ethanschoonover.com/solarized" target="_blank" rel="noopener">Solarized</a>配色</p>
-<hr>
-<p>打开Preferenced-&gt;Profiles<br>新建profile为 ovwane。</p>
-<p>打开iTerm2的偏好设定<br>Profiles-&gt;Colors<br>点开右下角的Color Presets 选择Import… 直接加载iterm2-colors-solarized/Solarized Dark.itermcolors配色方案就可以了，重启iTerm2就可以看到效果。</p>
-<hr>
-<h4 id="powerline-status"><a href="#powerline-status" class="headerlink" title="powerline-status"></a>powerline-status</h4><p>pip3 install powerline-status</p>
-<p>pip3 show powerline-status</p>
-<p>安装字体<br>git clone <a href="https://github.com/powerline/fonts.git" target="_blank" rel="noopener">https://github.com/powerline/fonts.git</a><br>./fonts/install.sh<br>rm -rf fonts</p>
-<p>应用配置</p>
-<p>.zshrc</p>
-<p>. /usr/local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh</p>
-<p>.vimrc</p>
-<p>set rtp+=/usr/local/lib/python3.6/dist-packages/powerline/bindings/vim<br>set laststatus=2<br>set t_Co=256</p>
-<p>Bash配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /.bash_profile</span><br><span class="line">. /usr/local/lib/python3.6/dist-packages/site-packages/powerline/bindings/bash/powerline.sh</span><br><span class="line"></span><br><span class="line">立即生效</span><br><span class="line">source ~/.bash_profile</span><br></pre></td></tr></table></figure>
-<p>网站|<a href="http://blog.topspeedsnail.com/archives/2652" target="_blank" rel="noopener">参考</a></p>
-<p><a href="https://github.com/powerline/powerline" target="_blank" rel="noopener">https://github.com/powerline/powerline</a><br><a href="https://github.com/powerline/fonts" target="_blank" rel="noopener">https://github.com/powerline/fonts</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/macOS/">macOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oh-My-Zsh/">Oh My Zsh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-购买的收费软件清单" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/07/购买的收费软件清单/" class="article-date">
-      <time datetime="2017-10-07T20:15:44.000Z" itemprop="datePublished">2017-10-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/07/购买的收费软件清单/">购买的收费软件清单</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="购买的收费软件清单"><a href="#购买的收费软件清单" class="headerlink" title="购买的收费软件清单"></a>购买的收费软件清单</h1><p>iStat Menus</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/18/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/20/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/18/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="extend next" rel="next" href="/page/20/">Next &raquo;</a>
     </nav>
   
 </div>

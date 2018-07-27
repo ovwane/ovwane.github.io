@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-CentOS安装配置Redis" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Go" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/24/CentOS安装配置Redis/" class="article-date">
-      <time datetime="2018-07-24T05:29:24.299Z" itemprop="datePublished">2018-07-24</time>
+      <a href="/2018/07/27/Go/" class="article-date">
+      <time datetime="2018-07-27T06:32:08.342Z" itemprop="datePublished">2018-07-27</time>
 </a>
     </div>
   
@@ -222,33 +222,15 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="https://redis.io" target="_blank" rel="noopener">Redis</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-4.0.9.tar.gz</span><br><span class="line">tar xzf redis-4.0.9.tar.gz</span><br><span class="line">cd redis-4.0.9</span><br><span class="line">make</span><br><span class="line">make test</span><br><span class="line"></span><br><span class="line">cd utils</span><br><span class="line">./install_server.sh</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/redis/6379</span><br><span class="line">mkdir -p /data/redis/log</span><br><span class="line">mkdir /etc/redis</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//增加redis用户组</span><br><span class="line">groupadd redis</span><br><span class="line">useradd -c Redis Server -s /sbin/nologin -d /var/lib/redis -g redis -G root 123</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>reids参数解释：<br>-c 用户描述信息<br>-s 用户执行脚本，此处为安全考虑，redis用户是不允许远程登录，故使用/sbin/nologin<br>-d 用户home目录，此处无需在/home目录下创建redis子目录，故将其定位于/var/lib/redis空目录中<br>-G 扩展用户组，即表示此用户同时属于root用户组</p>
-</blockquote>
-<p>配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/redis/6379.conf</span><br><span class="line"></span><br><span class="line">bind 127.0.0.1</span><br><span class="line">protected-mode yes</span><br><span class="line">port 6379</span><br><span class="line">tcp-backlog 511</span><br><span class="line">timeout 0</span><br><span class="line">tcp-keepalive 300</span><br><span class="line">daemonize yes</span><br><span class="line">supervised systemd</span><br><span class="line">pidfile /data/redis/redis_6379.pid</span><br><span class="line">loglevel notice</span><br><span class="line">logfile /data/redis/log/redis_6379.log</span><br><span class="line">databases 16</span><br><span class="line">always-show-logo yes</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line">rdbcompression yes</span><br><span class="line">rdbchecksum yes</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line">dir /data/redis/6379</span><br><span class="line">slave-serve-stale-data yes</span><br><span class="line">slave-read-only yes</span><br><span class="line">repl-diskless-sync no</span><br><span class="line">repl-diskless-sync-delay 5</span><br><span class="line">repl-disable-tcp-nodelay no</span><br><span class="line">slave-priority 100</span><br><span class="line">lazyfree-lazy-eviction no</span><br><span class="line">lazyfree-lazy-expire no</span><br><span class="line">lazyfree-lazy-server-del no</span><br><span class="line">slave-lazy-flush no</span><br><span class="line">appendonly no</span><br><span class="line">appendfilename &quot;appendonly.aof&quot;</span><br><span class="line">appendfsync everysec</span><br><span class="line">no-appendfsync-on-rewrite no</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br><span class="line">aof-load-truncated yes</span><br><span class="line">aof-use-rdb-preamble no</span><br><span class="line">lua-time-limit 5000</span><br><span class="line">slowlog-log-slower-than 10000</span><br><span class="line">slowlog-max-len 128</span><br><span class="line">latency-monitor-threshold 0</span><br><span class="line">notify-keyspace-events &quot;&quot;</span><br><span class="line">hash-max-ziplist-entries 512</span><br><span class="line">hash-max-ziplist-value 64</span><br><span class="line">list-max-ziplist-size -2</span><br><span class="line">list-compress-depth 0</span><br><span class="line">set-max-intset-entries 512</span><br><span class="line">zset-max-ziplist-entries 128</span><br><span class="line">zset-max-ziplist-value 64</span><br><span class="line">hll-sparse-max-bytes 3000</span><br><span class="line">activerehashing yes</span><br><span class="line">client-output-buffer-limit normal 0 0 0</span><br><span class="line">client-output-buffer-limit slave 256mb 64mb 60</span><br><span class="line">client-output-buffer-limit pubsub 32mb 8mb 60</span><br><span class="line">hz 10</span><br><span class="line">aof-rewrite-incremental-fsync yes</span><br></pre></td></tr></table></figure>
-<p>Systemd</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/redis.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Redis In-Memory Data Store</span><br><span class="line">After=network.target</span><br><span class="line">[Service]</span><br><span class="line">User=root</span><br><span class="line">Group=root</span><br><span class="line">PIDFile=/data/redis/redis_6379.pid</span><br><span class="line">ExecStart=/usr/local/bin/redis-server /etc/redis/6379.conf</span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line">ExecStop=/usr/local/bin/redis-cli -h 127.0.0.1 -p 6379 -a 密码 shutdown</span><br><span class="line">#ExecStop=/bin/kill -s QUIT $MAINPID</span><br><span class="line">PrivateTmp=true</span><br><span class="line">Restart=always</span><br><span class="line">Type=forking</span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">systemctl enable redis.service</span><br><span class="line">systemctl start redis.service</span><br><span class="line">systemctl restart redis.service</span><br><span class="line">systemctl stop redis.service</span><br><span class="line">systemctl status redis.service</span><br></pre></td></tr></table></figure>
-<h4 id="设置redis密码"><a href="#设置redis密码" class="headerlink" title="设置redis密码"></a>设置redis密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/redis.conf</span><br><span class="line"></span><br><span class="line">requirepass 密码</span><br></pre></td></tr></table></figure>
-<p>登陆有密码的Redis：</p>
-<p>在登录的时候的时候输入密码：</p>
-   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -p 6379 -a test123</span><br></pre></td></tr></table></figure>
-<p>   先登陆后验证：</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -p 6379</span><br><span class="line"></span><br><span class="line">redis 127.0.0.1:6379&gt; auth test123</span><br></pre></td></tr></table></figure>
-<p>查看密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config get requirepass</span><br></pre></td></tr></table></figure>
-<p>参考</p>
-<p><a href="https://www.hugeserver.com/kb/install-redis-4-centos-ubuntu-debian/" target="_blank" rel="noopener">How to install Redis 4 on Centos 6 / 7, Ubuntu 16 and Debian 8 (Updated)</a></p>
-<p><a href="https://www.tecmint.com/install-redis-server-in-centos-ubuntu-debian/" target="_blank" rel="noopener">How to Install Redis Server in CentOS and Debian Based Systems</a></p>
-<p><a href="https://www.cnblogs.com/sybblogs/p/5665123.html" target="_blank" rel="noopener"><a href="http://www.cnblogs.com/sybblogs/p/5665123.html" target="_blank" rel="noopener">Redis配置成系统服务（CentOS7）</a></a></p>
-<p><a href="https://blog.csdn.net/javacspring/article/details/53618570" target="_blank" rel="noopener">CentOS7源码安装Redis及配置系统服务</a></p>
-<p><a href="http://blog.51yip.com/nosql/1724.html" target="_blank" rel="noopener">redis 配置 参数 详解</a></p>
+        <p>#<a href="https://golang.org/" target="_blank" rel="noopener">Go</a><br>安装Go</p>
+<p><code>brew install go</code></p>
+<p>安装分布式管理工具hg</p>
+<p> <code>brew install hg</code></p>
+<p>建立go的环境变量文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd $HOME</span><br><span class="line"></span><br><span class="line">mkdir go</span><br></pre></td></tr></table></figure>
+<p>~/.zshrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">export GOPATH=$HOME/go</span><br><span class="line">export PATH=$HOME/bin:$GOPATH/bin:$PATH</span><br></pre></td></tr></table></figure>
+<p><code>brew cask install goland</code></p>
 
       
       
@@ -276,11 +258,11 @@
 
 
   
-    <article id="post-CentOS Go环境配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Go 项目列表" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/24/CentOS Go环境配置/" class="article-date">
-      <time datetime="2018-07-24T05:29:24.299Z" itemprop="datePublished">2018-07-24</time>
+      <a href="/2018/07/27/Go 项目列表/" class="article-date">
+      <time datetime="2018-07-27T06:32:08.342Z" itemprop="datePublished">2018-07-27</time>
 </a>
     </div>
   
@@ -292,27 +274,81 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date: 2018-05-08 17:01</p>
-<blockquote>
-<p>CentOS Linux release 7.5.1804 (Core)</p>
-<p>Linux 3.10.0-862.3.3.el7.x86_64</p>
-</blockquote>
-<p><strong>安装依赖</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y mercurial gcc bison</span><br></pre></td></tr></table></figure>
-<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span><br></pre></td></tr></table></figure>
-<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -B 表示只安装二进制包</span><br><span class="line"><span class="meta">$</span> gvm install go1.4.3 -B</span><br><span class="line"><span class="meta">$</span> gvm use go1.4.3</span><br><span class="line"><span class="meta">$</span> export GOROOT_BOOTSTRAP=$GOROOT</span><br><span class="line"><span class="meta">$</span> gvm install go1.10.2</span><br></pre></td></tr></table></figure>
-<p><strong>离线安装</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> git clone 官方源go1.10.2</span><br><span class="line">git clone -b go1.10.2 https://go.googlesource.com/go go1.10.2</span><br><span class="line"><span class="meta">#</span>可以放到别的电脑上</span><br><span class="line">tar cvfz go1.10.2.tar.bz2 go1.10.2</span><br><span class="line"><span class="meta">#</span>指定本地go1.10.2 git源</span><br><span class="line">gvm install go1.10.2 --source=/root/go1.10.2</span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
-<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> gvm use go1.10.2 --default</span><br></pre></td></tr></table></figure>
-<p><strong>使用</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看可以安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm listall</span><br><span class="line"><span class="meta">#</span> 查看本地安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm list</span><br><span class="line"><span class="meta">#</span> go环境变量</span><br><span class="line"><span class="meta">$</span> go env</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
-<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
-<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
+        <p>date:2018-05-11 12:58</p>
+<p><a href="https://github.com/avelino/awesome-go" target="_blank" rel="noopener">awesome-go</a></p>
+<p><a href="https://github.com/enocom/gopher-reading-list" target="_blank" rel="noopener">gopher-reading-list</a></p>
+<p><a href="https://github.com/docker/docker-ce" target="_blank" rel="noopener">docker-ce</a></p>
+<p><a href="https://github.com/kubernetes/kubernetes" target="_blank" rel="noopener">Kubernetes</a></p>
+<p>[Caddy]</p>
+<p><a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">Gin</a></p>
+<p><a href="https://github.com/astaxie/beego/" target="_blank" rel="noopener">Beego</a></p>
+<p>[CockroachDB]</p>
+<p><a href="https://github.com/ego008/goyoubbs" target="_blank" rel="noopener">youBBS</a></p>
+<p><a href="https://github.com/qor" target="_blank" rel="noopener">QOR</a></p>
+<p><a href="https://github.com/EOSIO/eos" target="_blank" rel="noopener">eos</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Gitlab教程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/24/Gitlab教程/" class="article-date">
+      <time datetime="2018-07-24T14:19:32.000Z" itemprop="datePublished">2018-07-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/24/Gitlab教程/">Gitlab教程</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="拉取gitlib镜像"><a href="#拉取gitlib镜像" class="headerlink" title="拉取gitlib镜像"></a>拉取gitlib镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull gitlab/gitlab-ce:11.1.0-ce.0</span><br></pre></td></tr></table></figure>
+<h4 id="数据持久化保存"><a href="#数据持久化保存" class="headerlink" title="数据持久化保存"></a>数据持久化保存</h4><p>因为容器的数据是不能持久化保存的。所以我们需要用 docker volume 的方式将存储的数据映射到操作系统的目录中来。这样就算运行的容器崩溃，我们重新启动一个新的容器，原来容器中的数据还是不会丢失</p>
+<p>我们建立了目录 /data/gitlab 来保存 gitlab 容器中的数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p  /data/gitlab</span><br></pre></td></tr></table></figure>
+<h4 id="运行-gitlab"><a href="#运行-gitlab" class="headerlink" title="运行 gitlab"></a>运行 gitlab</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --detach \</span><br><span class="line">    --hostname gitlib.example.com \</span><br><span class="line">    --publish IP:443:443 --publish IP:80:80 --publish IP:22:22 \</span><br><span class="line">    --name gitlab \</span><br><span class="line">    --restart always \</span><br><span class="line">    --volume /data/gitlab/config:/etc/gitlab \</span><br><span class="line">    --volume /data/gitlab/logs:/var/log/gitlab \</span><br><span class="line">    --volume /data/gitlab/data:/var/opt/gitlab \</span><br><span class="line">    gitlab/gitlab-ce:11.1.0-ce.0</span><br></pre></td></tr></table></figure>
+<p> 这里把主机的 443、80、22 端口直接转发到容器，同时利用 –volume /data/gitlab/config:/etc/gitlab 、  –volume /data/gitlab/logs:/var/log/gitlab 、 –volume /data/gitlab/data:/var/opt/gitlab 这三个参数将 gitlab 的配置、数据和日志持久化到主机文件系统上来。需要绑定IP，不然由ipv6的只绑定ipv6地址。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://about.gitlab.com/installation/" target="_blank" rel="noopener">GitLab Installation</a></p>
+<p><a href="https://www.jianshu.com/p/8d8e6b45a514" target="_blank" rel="noopener">通过 docker 搭建自用的 gitlab 服务</a></p>
+<p><a href="https://docs.gitlab.com/omnibus/docker/" target="_blank" rel="noopener">GitLab Docker images</a></p>
 
       
       
@@ -772,74 +808,9 @@
 
 
   
-    <article id="post-随记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/随记/" class="article-date">
-      <time datetime="2018-07-12T11:04:00.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/随记/">随记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>12 自动摘要及正文抽取.flv</p>
-<p>汽车之家 爬取方法</p>
-<p>java爬虫webmagic</p>
-<p>查询信用报表<br>3.20<br>6.20<br>9.20<br>12.20</p>
-<p>已经知道端口，怎么查找占用的服务</p>
-<ol>
-<li>lsof -i tcp:22</li>
-<li>netstat -lntup<br>p显示进程名</li>
-</ol>
-<p>监控<br>Open-Falcon、Cacti、Zabbix、Prometheus、Smokeping</p>
-<p>brew install you-get</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">If you need to have this software first in your PATH run:</span><br><span class="line">  echo &apos;export PATH=&quot;/usr/local/opt/openssl/bin:$PATH&quot;&apos; &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">For compilers to find this software you may need to set:</span><br><span class="line">    LDFLAGS:  -L/usr/local/opt/openssl/lib</span><br><span class="line">    CPPFLAGS: -I/usr/local/opt/openssl/include</span><br><span class="line">For pkg-config to find this software you may need to set:</span><br><span class="line">    PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig</span><br><span class="line">    </span><br><span class="line"> To use post-processing options, `brew install ffmpeg` or `brew install libav`</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/13/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/15/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/13/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="extend next" rel="next" href="/page/15/">Next &raquo;</a>
     </nav>
   
 </div>
