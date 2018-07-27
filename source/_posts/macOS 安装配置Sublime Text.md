@@ -1,4 +1,7 @@
+---
+title: macOS 安装配置Sublime Text
 date: 2017-10-09 20:42
+---
 
 # macOS 安装配置Sublime Text
 
@@ -28,4 +31,10 @@ input "install package"
 常用快捷键说明
 ctrl+alt+j 格式化json字符串
 ctrl+alt+m 压缩json字符串
+```
+##### [HTML-CSS-JS Prettify](https://github.com/victorporof/Sublime-HTMLPrettify)
+
+```
+#格式化html、css、js
+command+shift+h 格式化快捷键
 ```

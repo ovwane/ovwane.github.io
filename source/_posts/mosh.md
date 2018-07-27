@@ -1,5 +1,8 @@
+---
+title: Mosh 使用教程
+date: 2017-05-14 13:54
+---
 [Mosh](https://mosh.org/)(mobile shell)
-
 ### 什么是Mosh
 
 Mosh表示移动Shell(Mobile Shell)，是一个用于从客户端跨互联网连接远程服务器的命令行工具。它能用于SSH连接，但是比Secure Shell功能更多。它是一个类似于SSH而带有更多功能的应用。程序最初由Keith Winstein 编写，用于类Unix的操作系统中，发布于GNU GPL V3协议下。
@@ -25,7 +28,7 @@ Mosh最大的特点是基于UDP方式传输，支持在服务端创建一个临�
 - 像SSH那样支持一些旧的方式登录
 - 包丢失处理机制
 
-### Mosh安装配置
+## Mosh安装配置
 
 #### CentOS中安装Mosh
 
@@ -42,10 +45,18 @@ $ mosh --version
 mosh 1.3.0 [build mosh 1.3.0]
 ```
 
-firewall-cmd --permanent --zone=public --add-port=60000-60010/udp
+开启防火墙端口
 
 ```shell
-mosh-server -p 22
+firewall-cmd --permanent --zone=public --query-port=60000-60010/udp
+firewall-cmd --permanent --zone=public --add-port=60000-60010/udp
+firewall-cmd --permanent --zone=public --remove-port=60000-60010/udp
+```
+
+```shell
+mosh-server new -i 你的IP -p 60000:60010 
+
+mosh-server new -c 256 -s -l LANG=zh_CN.UTF-8 -l LC_CTYPE=zh_CN.UTF-8
 ```
 
 #### macOS中安装
@@ -68,9 +79,18 @@ Mosh是一款在大多数linux发行版的仓库中可以下载的一款小工�
 - 不支持X11转发。
 - 不支持ssh-agent转发。
 
-### 参考文档
+```shell
+mosh --ssh="ssh -i ~/keys/linode_vps_web01_ed" IP
 
-[http://www.google.com](http://www.google.com/)
+MOSH_KEY=L08BKzyxNvJDm0P4X8nUWQ mosh-client IP 60001
+
+mosh -ssh='ssh -vvv -i ~/keys/linode_vps_web01_ed' user@IP
+
+ssh -i ~/keys/linode_vps_web01_ed user@IP -p 2345
+```
+
+## 参考
+
 <https://mosh.mit.edu/>
 <http://heylinux.com/archives/2955.html>
 <http://blog.szrf215.com/p/4b16d7c218db>
