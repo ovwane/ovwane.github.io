@@ -1,3 +1,4 @@
+---
 title: CentOS 6 新装服务器部署流程
 date: 2017-11-12 19:31:45
 categories:
@@ -6,6 +7,7 @@ categories:
 tags:
 - CentOS
 ---
+
 [CentOS（5.8/6.4）linux生产环境若干优化实战](http://oldboy.blog.51cto.com/2561410/1336488)[CentOS 6 新装服务器部署流程](http://wzlinux.blog.51cto.com/8021085/1704772)[实践生产服务器环境最小化安装后 Centos 6.5 优化](http://maocong.blog.51cto.com/4706737/1682372)
 
 特别说明：本文来自老男孩linux培训VIP学生学习笔记。特和所有博友分享。更多优化，请关注老男孩培训后续课程内容以及分享。
@@ -281,7 +283,7 @@ netstat -lnt
  
 或者反查端口是那个进程
 lsof -i tcp:52113
- ```
+```
 
 ### 配置LDAP客户端(可选)
 ```

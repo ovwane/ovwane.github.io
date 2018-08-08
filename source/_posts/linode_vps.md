@@ -1,3 +1,7 @@
+---
+date: 2018-08-08 20:34:45
+---
+
 ```Shell
 timedatectl set-timezone America/Los_Angeles
 hostnamectl set-hostname ovwane.com
@@ -58,14 +62,14 @@ X11Forwarding no
    ```
 
 2. 最大进程数和最大文件打开数
-  修改/etc/security/limits.conf文件
+    修改/etc/security/limits.conf文件
 
 3. 
-  删除默认用户
-  centos
+    删除默认用户
+    centos
 
 4. 更换yum源
-  [CentOS mirrors List](https://www.centos.org/download/mirrors/)
+    [CentOS mirrors List](https://www.centos.org/download/mirrors/)
 
 ```
 curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo

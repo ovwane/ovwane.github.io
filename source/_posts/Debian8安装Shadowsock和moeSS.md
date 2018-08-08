@@ -1,3 +1,7 @@
+---
+date: 2018-08-08 20:37:00
+---
+
 ### 安装git
 ```
 apt-get install -y git

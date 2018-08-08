@@ -1,3 +1,7 @@
+---
+date: 2018-08-08 20:35:00
+---
+
 # Kubernetes安装配置
 [Kubernetes Handbook](https://jimmysong.io/kubernetes-handbook/)
 
@@ -40,7 +44,7 @@ Node：10.8.8.8、10.8.8.10、10.8.8.11
 ### 安装前的准备
 - 1.关闭所有节点的SELinux
  修改/etc/selinux/config文件中设置SELINUX=disabled ，然后重启服务器。
-  使用命令setenforce 0
+    使用命令setenforce 0
 
 - 2.在node节点上安装docker `yum -y install docker`
 
@@ -97,7 +101,7 @@ mv etcd-*-linux-amd64/etcd* /usr/local/bin
 #flanneld
 tar -xzvf flannel-*-linux-amd64.tar.gz
 mv flanneld mk-docker-opts.sh /usr/local/bin
-``` 
+```
 
 ## 3.创建 kubeconfig 文件
 
@@ -566,7 +570,7 @@ etcdctl --endpoints=${ETCD_ENDPOINTS} \
   --cert-file=/etc/kubernetes/ssl/kubernetes.pem \
   --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \
   ls /kube-centos/network/subnets
-```  
+```
 
 启动flannel
 

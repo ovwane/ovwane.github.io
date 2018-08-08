@@ -1,3 +1,4 @@
+---
 title: Kubernetes安装配置
 date: 2017-08-23 08:51:00
 categories:
@@ -9,6 +10,7 @@ tags:
 - k8s
 - Docker
 ---
+
 >Kubernetes 1.7.3
 Kubernetes安装配置
 
@@ -319,7 +321,7 @@ etcdctl --endpoints=https://192.168.3.221:2379 \
         --ca-file=/etc/kubernetes/ssl/ca.pem \
         --key-file=/etc/kubernetes/ssl/etcd-key.pem \
         cluster-health
-```      
+```
 
 #### 查看etcd集群成员
 ```
@@ -328,7 +330,7 @@ etcdctl --endpoints=https://192.168.3.221:2379 \
         --ca-file=/etc/kubernetes/ssl/ca.pem \
         --key-file=/etc/kubernetes/ssl/etcd-key.pem \
         member list
-```     
+```
 
 ## 安装 kubectl 工具
 ### Master 端

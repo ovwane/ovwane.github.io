@@ -1,3 +1,4 @@
+---
 title: KVM安装配置
 date: 2017-08-31 11:08:00
 categories:
@@ -7,11 +8,12 @@ tags:
 - CentOS
 - KVM
 ---
+
 [KVM虚拟化学习笔记](http://koumm.blog.51cto.com/703525/1288795)[Centos 6.8安装配置KVM](http://www.cnblogs.com/rhjeans/p/5822190.html)[KVM 与 CentOS-6](https://wiki.centos.org/zh/HowTos/KVM)[KVM安装配置笔记](http://www.showerlee.com/archives/309)
 # 简介
 KVM 虚拟机的管理工具
 准确来说，KVM 仅仅是 Linux 内核的一个模块。管理和创建完整的 KVM 虚拟机，需要更多的辅助工具。QEMU-KVM：在 Linux 系统中，首先我们可以用 modprobe 命令加载 KVM 模块，如果用 RPM 安装 KVM 软件包，系统会在启动时自动加载模块。加载了模块后，才能进一步通过其他工具创建虚拟机。但仅有 KVM 模块是远远不够的，因为用户无法直接控制内核模块去做事情，还必须有一个用户空间的工具。关于用户空间的工具，KVM 的开发者选择了已经成型的开源虚拟化软件 QEMU。QEMU 是一个强大的虚拟化软件，它可以虚拟不同的 CPU 构架。比如说在 x86 的 CPU 上虚拟一个 Power 的 CPU，并利用它编译出可运行在 Power 上的程序。KVM 使用了 QEMU 的基于 x86 的部分，并稍加改造，形成可控制 KVM 内核模块的用户空间工具 QEMU-KVM。所以 Linux 发行版中分为 内核部分的 KVM 内核模块和 QEMU-KVM 工具。这就是 KVM 和 QEMU 的关系。 Libvirt、virsh、virt-manager：尽管 QEMU-KVM 工具可以创建和管理 KVM 虚拟机，RedHat 为 KVM 开发了更多的辅助工具，比如 libvirt、libguestfs 等。原因是 QEMU 工具效率不高，不易于使用。Libvirt 是一套提供了多种语言接口的 API，为各种虚拟化工具提供一套方便、可靠的编程接口，不仅支持 KVM，而且支持 Xen 等其他虚拟机。使用 libvirt，你只需要通过 libvirt 提供的函数连接到 KVM 或 Xen 宿主机，便可以用同样的命令控制不同的虚拟机了。Libvirt 不仅提供了 API，还自带一套基于文本的管理虚拟机的命令 virsh，你可以通过使用 virsh 命令来使用 libvirt 的全部功能。但最终用户更渴望的是图形用户界面，这就是 virt-manager。他是一套用 python 编写的虚拟机管理图形界面，用户可以通过它直观地操作不同的虚拟机。Virt-manager 就是利用 libvirt 的 API 实现的。
- 
+
 # 配置
 安装配置KVM 相关软件 
 1. 系统要求：
@@ -118,7 +120,7 @@ ifconfig
 #### 查看网桥
 ```
 brctl show
-``` 
+```
 
 ## linux kvm虚拟机安装
 ### 
@@ -222,18 +224,18 @@ virsh suspend debian-1
 virsh  resume debian-1
 
 三、KVM默认网络配置
- 
+
 1、kvm上网有两种配置，
 一种是default，它支持主机与虚拟机的互访，同时也支持虚拟机访问互联网，但不支持外界访问虚拟机。
 另外一种方式是bridge方式，可以使用虚拟机成为网络中具有独立IP的主机。
- 
+
 默认的网络连接是virbr0，它的配置文件在/var/lib/libvirt/network目录下，默认配置为：
 
 另外一种是网络桥接方式，配置如下：
 配置eth0:
 
  配置:br0:
- 
+
 ```
 vi /etc/sysconfig/network-scripts/ifcfg-br0
 --------------------
@@ -248,11 +250,11 @@ ONBOOT=yes
 ```
 注:网桥模式需要在真机eth0配置文件中添加 BRIDGE="br0",否则真机与虚拟机无法互通.
    配置完毕后eth0口则不会显示地址信息,新配置的br0口会代替eth0口成为真机网口,装好的虚拟机eth0口将于真机br0口互通.
- 
+
 配置桥接网络之后，我们开始安装虚拟机
- 
+
 ## 使用virt-manager建立一个KVM虚拟机
- 
+
 virt-manager 是基于 libvirt 的图像化虚拟机管理软件，请注意不同的发行版上 virt-manager 的版本可能不同，图形界面和操作方法也可能不同。本文使用了红帽6企业版的 virt-manager-0.8.4-8。创建KVM虚拟机最简单的方法是通过virt-manager接口。从控制台窗口启动这个工具，从root身份输入virt-manager命令，点击file菜单的"新建"选项virt-manager接口界面
 
 接下来，出现的画面，大家都已经很熟悉了。

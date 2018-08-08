@@ -1,3 +1,4 @@
+---
 title: 强力Django+杀手级Xadmin笔记
 date: 2017-10-20 07:22:00
 categories:
@@ -8,6 +9,7 @@ tags:
 - Django
 - Xadmin
 ---
+
 [强力Django+杀手级Xadmin](http://coding.imooc.com/class/chapter/78.html)
 Windows(Python 2.7.12)
 >一盏灯， 一片昏黄； 一简书， 一杯淡茶。 守着那一份淡定， 品读属于自己的寂寞。 保持淡定， 才能欣赏到最美丽的风景！ 保持淡定， 人生从此不再寂寞。

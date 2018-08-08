@@ -1,3 +1,7 @@
+---
+date: 2017-11-05 20:31:30
+---
+
 # Cisco 路由器配置命令
 
 ### 改变命令状态 
@@ -133,5 +137,5 @@ Cisco3725124-25.T14-(config)#hostname riga
 ```
 route2(config)#enable secret 密码
 ```
- 
+
 设置访问用户及密码
