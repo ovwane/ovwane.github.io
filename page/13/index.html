@@ -206,524 +206,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-macOS 10.13.3 配置pipenv" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/26/macOS 10.13.3 配置pipenv/" class="article-date">
-      <time datetime="2018-03-26T20:39:00.000Z" itemprop="datePublished">2018-03-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/26/macOS 10.13.3 配置pipenv/">macOS 10.13.3 配置pipenv</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://docs.pipenv.org/" target="_blank" rel="noopener">Python Development Workflow for Humans</a><br><a href="https://github.com/pypa/pipenv" target="_blank" rel="noopener">pipenv</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line">#start pipenv</span><br><span class="line">eval &quot;$(pipenv --completion)&quot;</span><br><span class="line">#end</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.4/bin/python</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#显示安装全部过程</span><br><span class="line">pipenv install -v</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv graph</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv shell</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Python分布式爬虫打造搜索引擎笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/19/Python分布式爬虫打造搜索引擎笔记/" class="article-date">
-      <time datetime="2018-03-19T20:01:11.000Z" itemprop="datePublished">2018-03-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>作者博客<br><a href="http://projectsedu.com" target="_blank" rel="noopener">http://projectsedu.com</a><br>github.com/liyaopinner</p>
-<p>IDE pycharm<br>数据库 mysql redis </p>
-<p>Python 2.7.13<br>Python 3.5.3</p>
-<p>第三章 基础知识</p>
-<p>技术选型:<br>scrapy<br>requests<br>scrapy selector</p>
-<p>网页分类：<br>静态网页<br>动态网页<br>微博service(rest api)</p>
-<p>爬虫能做什么<br>1、搜索引擎-百度<br>2、推荐引擎-今日头条<br>3、机器学习的数据样本<br>4、数据分析、舆情分析</p>
-<p>正则表达式<br>非贪婪模式 ？<br>至少出现一次 +<br>限定前面的字符出现的次数 {}<br>满足任意一个 []<br>\s 代表空格<br>\S 只要不是空格就行一个字符<br>\w 代表a-zA-Z0-9_ 代表字符<br>\W 不代表a-Z0-9_<br>\d 代表数字</p>
-<p>深度优先和广度优先算法</p>
-<p>深度优先 递归实现<br>广度优先 队列实现</p>
-<p>数据结构里很重要的算法</p>
-<p>深度优先过程</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">depth_tree</span><span class="params">(tree_node)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> tree_node <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">		print(tree_node._data)</span><br><span class="line">		<span class="keyword">if</span> tree_node._left <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			<span class="keyword">return</span> depth_tree(tree_node._left):</span><br><span class="line">		<span class="keyword">if</span> tree_node._right <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			<span class="keyword">return</span> depth_tree(tree_node._right)</span><br></pre></td></tr></table></figure>
-<p>广度优先过程</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">level_queue</span><span class="params">(root)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> root <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	my_queue = []</span><br><span class="line">	node = root</span><br><span class="line">	my_queue.append(node)</span><br><span class="line">	<span class="keyword">while</span> my_queue:</span><br><span class="line">		node = my_queue.pop(<span class="number">0</span>)</span><br><span class="line">		print(node.elem)</span><br><span class="line">		<span class="keyword">if</span> node.lchild <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			my_queue.append(node.lchild)</span><br><span class="line">		<span class="keyword">if</span> node.rchild <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			my_queue.append(node.rchild)</span><br></pre></td></tr></table></figure>
-<p>url去重策略</p>
-<p>1、将访问过的url保存到数据库<br>2、将访问过的url保存到set中<br>3、url经过md5等方法哈希后保存到set中 scrapy使用的是这个方法<br>4、用bitmap方法，<br>5、bloomfilter方法对bitmap进行改进，多重hash函数降低冲突</p>
-<p>unicode和utf8编码<br>内存中的数据都是unicode编码<br>python3中文件中存的数据是utf-8编码<br>所有编码解码 decode为unicode<br>uncode编码 encode为utf-8</p>
-<p>获取系统默认的编码<br>sys.getdefaultencoding()</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-*- coding: utf<span class="number">-8</span> -*-</span><br></pre></td></tr></table></figure>
-<p>scrapy爬取jobbole</p>
-<p>pycharm 中调试scrapy</p>
-<p>main.py main.py放在和scrapy.cfg同一目录</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找main.py的执行位置</span></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line"><span class="comment"># 执行爬虫</span></span><br><span class="line">execute([<span class="string">'scrapy'</span>, <span class="string">'crawl'</span>, <span class="string">'jobbole'</span>])</span><br></pre></td></tr></table></figure>
-<p>xpath语法<br>div[@class=”goods-add fn-clear J-DAddToBag”]<br>//span[contains(@class, ‘J-DAddToBag’)]</p>
-<p>/article/div[1] 选取属于article子元素的第一个div元素<br>/article/div[last()] 选取属于article子元素的最后一个div元素<br>/article/div[last()-1] 选取属于article子元素的倒数第二个div元素<br>//div/<em> 选取属于div元素的所有子节点<br>//div[@</em>] 选取所有带属性的title元素<br>/div/a|//div/p 选取所有div元素的a和p元素<br>//span|//ul 选取文档中的span和ul元素<br>article/div/p| //span 选取所有属于span元素的div元素的p元素以及文档中的所有的span元素</p>
-<p>css selector语法<br>li a 选取所有li下的所有a元素<br>ul + p 选择ul后面的第一个p元素<br>div#container &gt; ul 选取id为container的div的第一个ul子元素<br>ul ~ p 选取与ul相邻的所有p元素<br>a[title] 选取所有有title属性的a元素<br>a[href=”<a href="http://jobbole.com&quot;]" target="_blank" rel="noopener">http://jobbole.com&quot;]</a> 选取所有href属性为jobbole.com值的a元素<br>a[href*=”jobbole”] 选取所有href属性包含jobbole.com的a元素<br>a[href^=”http”] 选取所有href属性以http开头的a元素<br>a[href$=”.jpg”] 选取所有href属性以.jpg结尾的a元素<br>input[type=radio]:checked 选择选中的radio的元素<br>div:not(#container) 选取所有id非container属性的div元素<br>li:nth-child(3) 选取第三个li元素<br>tr:nth-child(2n) 第偶数个tr</p>
-<p>伪类选择器<br>h1::text<br>div h1::attr(href) </p>
-<p>列表生成式<br>tag_list = [‘职场’, ‘1 评论’, ‘fuck两点水’]</p>
-<p>[ element for element in tag_list if not element.strip().endswith(“评论”)]</p>
-<p>正则表达式<br>fav_nums = “sssd123werwe”<br>match_re = re.match(“.<em>(\d+).</em>“, fav_nums)<br>if match_re:<br>    fav_nums = int(match_re.group(1))<br>else:<br>    fav_nums = 0</p>
-<p>字符串方法<br>tags = “,”.join(‘12345’)        结果 ‘1,2,3,4,5’</p>
-<p>response.xpath().extract() 需要异常处理<br>response.xpath().extract_first()</p>
-<p>from scrapy.http import Request<br>Request(url=,callback=)</p>
-<p>from urllib import parse<br>parse.urljoin()</p>
-<p>meta<br>scrapy.Request(url=,meta={‘goodsid’:goodsid},callback=)<br>goodsid = response.meta.get(“goodsid”, “”)</p>
-<p>scrapy 图片管道 imagespipeline <code>pip install pillow</code><br>settings.py<br>scrapy.pipelines.images.ImagesPipeLine<br>IMAGES_URLS_FIELD = “items.py 中的item,url需要是list类型”<br>project_dir = os.path.abspath(os.path.dirname(<strong>file</strong>))<br>IMAGES_STORE = os.path.join(project_dir, ‘images’)</p>
-<p><a href="https://coding.imooc.com/lesson/92.html#mid=2878" target="_blank" rel="noopener">DIY pipeline</a><br>图片管道自定义<br>4-12 items设计-3 视频的02:12</p>
-<p>ImagesPipeline<br>item_completed()</p>
-<p>utils/<br><strong>init</strong>.py<br>common.py</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_md5</span><span class="params">(url)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> isinstance(url, str):</span><br><span class="line">		url = url.encode(<span class="string">"utf-8"</span>)</span><br><span class="line">	m = hashlib.md5()</span><br><span class="line">	m.update(url)</span><br><span class="line">	<span class="keyword">return</span> m.hexdigest()</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">	print(get_md5(<span class="string">"http://www.baidu.com"</span>)</span><br></pre></td></tr></table></figure>
-<p>数据保存<br>pipeline</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.file = codecs.open(<span class="string">'article.json'</span>, <span class="string">'w'</span>, encoding=<span class="string">"utf-8"</span>)</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">	lines = json.dumps(dict(item), ensure_ascii=<span class="keyword">False</span>) + <span class="string">"\n"</span></span><br><span class="line">	self.write(lines)</span><br><span class="line">	<span class="keyword">return</span> item</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">            self.file.close()</span><br></pre></td></tr></table></figure>
-<p>JsonItemExporter</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.exporters <span class="keyword">import</span> JsonItemExporter</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonExporterPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.file = open(<span class="string">'articleexporter.json'</span>, <span class="string">'wb'</span>)</span><br><span class="line">		self.exporter = JsonItemExporter(self.file, encoding=<span class="string">"utf-8"</span>, ensure_ascii=<span class="keyword">False</span>)</span><br><span class="line">		self.exporter.start_exporting()</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self. item, spider)</span>:</span></span><br><span class="line">		self.exporter.export_item(item)</span><br><span class="line">		<span class="keyword">return</span> item</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">		self.exporter.finish_exporting()</span><br><span class="line">		self.file.close()</span><br></pre></td></tr></table></figure>
-<p>数据库</p>
-<p>新建数据库<br>新建数据表</p>
-<p><img src="./jobbole_article_mysql.png" alt="jobbole_article_mysql"></p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create_date = <span class="string">'时间字符串'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	datetime.datetime.strptime(create_date, <span class="string">"%Y/%m/%d"</span>).date()</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">	create_date = datetime.datetime.now().date()</span><br></pre></td></tr></table></figure>
-<p>pip install mysqlclient pymysql</p>
-<p>同步插入mysql</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MysqlPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.conn = pymysql.connect(<span class="string">'host'</span>, <span class="string">'user'</span>, <span class="string">'password'</span>, <span class="string">'port'</span>, <span class="string">'dbname'</span>, charset=<span class="string">"utf-8"</span>, use_unicode=Ture)</span><br><span class="line">		self.cursor = self.conn.cursor()</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">		insert_sql = <span class="string">"""</span></span><br><span class="line"><span class="string">			insert into jobbole_article(title, url)</span></span><br><span class="line"><span class="string">			VALUES (%s,%s)"""</span></span><br><span class="line">		self.cursor.execute(insert_sql, (item[<span class="string">"title"</span>], item[<span class="string">"url"</span>])</span><br><span class="line">		self.conn.commit()</span><br></pre></td></tr></table></figure>
-<p>异步插入mysql</p>
-<p>连接池</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> twisted.enterprise <span class="keyword">import</span> adbapi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MysqlTwistedPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.dbpool = dbpool</span><br><span class="line">	</span><br><span class="line"><span class="meta">	@classmethod</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">from_settings</span><span class="params">(cls, settings)</span>:</span></span><br><span class="line">		dbparms = dict(</span><br><span class="line">			host = settings[<span class="string">"MYSQL_HOST"</span>],</span><br><span class="line">			db = settings[<span class="string">"MYSQL_DBNAME"</span>],</span><br><span class="line">			user = settings[<span class="string">"MYSQL_USER"</span>],</span><br><span class="line">			password = settings[<span class="string">"MYSQL_PASSWORD"</span>],</span><br><span class="line">			charset = <span class="string">'utf-8'</span>,</span><br><span class="line">			cursorclass = pymysql.cursors.DictCursor,</span><br><span class="line">			use_unicode = <span class="keyword">True</span>,</span><br><span class="line">		)</span><br><span class="line">		dbpool = adbapi.ConnectionPool(<span class="string">"pymysql"</span>, **dbparms)</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> cls(dbpool)</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">		query = self.dbpool.runInteraction(do_insert, item)</span><br><span class="line">		query.addErrback(self.handle_error)</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">handle_error</span><span class="params">(self, failure)</span>:</span></span><br><span class="line">		print(failure)</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">do_insert</span><span class="params">(self, cursor, item)</span>:</span></span><br><span class="line">		insert_sql = <span class="string">"""</span></span><br><span class="line"><span class="string">			insert into jobbole_article(title, url)</span></span><br><span class="line"><span class="string">			VALUES (%s,%s)"""</span></span><br><span class="line">		cursor.execute(insert_sql, (item[<span class="string">"title"</span>], item[<span class="string">"url"</span>])</span><br></pre></td></tr></table></figure>
-<p>scrapy-djangoitem</p>
-<p>pip install scrapy-djangoitem</p>
-<p>scrapy item loader 机制</p>
-<p>itemloader会将所有提取的值变为list类型</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">item_loader = ItemLoader(item=JobboleItem(),response=response)</span><br><span class="line"></span><br><span class="line">itemloader.add_xpath()</span><br><span class="line">itemloader.add_css()</span><br><span class="line">itemloader.value()</span><br><span class="line"></span><br><span class="line">item = itemloader.load_item()</span><br><span class="line"></span><br><span class="line"><span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
-<p>items.py</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.loader.processors <span class="keyword">import</span> MapCompose</span><br><span class="line"></span><br><span class="line"><span class="comment">#取第一个值</span></span><br><span class="line"><span class="keyword">from</span> scrapy.loader.processors <span class="keyword">import</span> TakeFirst，Join</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_jobbole</span><span class="params">(value)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> value + <span class="string">"-jobbole"</span></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">title = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(add_jobbole)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">name = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(<span class="keyword">lambda</span> x:x+<span class="string">"-jinlong"</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">urls = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(<span class="keyword">lambda</span> x:x+<span class="string">"-kjj"</span>, add_jobbole)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">create_date = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(add_jobbole)</span><br><span class="line">	output_processor = TakeFirst()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>自定义itemloader</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArticleItemLoader</span><span class="params">(ItemLoader)</span>:</span></span><br><span class="line">	default_output_processor = TakeFirst()</span><br></pre></td></tr></table></figure>
-<p>session和cookie自动登录机制<br>session服务器端<br>cookie客户端</p>
-<p>settings.py<br>AUTOTHROTTLE_ENABLED = True</p>
-<p>spider.py</p>
-<p>custom_settings = {<br>    “COOKIES_ENABLED”: True<br>}</p>
-<p>selenuim driver</p>
-<p>ChromeDriver - WebDriver for Chrome</p>
-<p><a href="https://sites.google.com/a/chromium.org/chromedriver/downloads" target="_blank" rel="noopener">https://sites.google.com/a/chromium.org/chromedriver/downloads</a></p>
-<p>brew install chromedriver</p>
-<p><a href="https://segmentfault.com/a/1190000013067705" target="_blank" rel="noopener">https://segmentfault.com/a/1190000013067705</a></p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.chrome.options <span class="keyword">import</span> Options</span><br><span class="line">chrome_options = Options()</span><br><span class="line">chrome_options.add_argument(<span class="string">'window-size=1920x3000'</span>) <span class="comment">#指定浏览器分辨率</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'--disable-gpu'</span>) <span class="comment">#谷歌文档提到需要加上这个属性来规避bug</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'--hide-scrollbars'</span>) <span class="comment">#隐藏滚动条, 应对一些特殊页面</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'blink-settings=imagesEnabled=false'</span>) <span class="comment">#不加载图片, 提升速度</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'--headless'</span>) <span class="comment">#浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败</span></span><br><span class="line">chrome_options.binary_location = <span class="string">r'/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'</span> <span class="comment">#手动指定使用的浏览器位置</span></span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-重做MacBook-Pro的系统macOS-10-13-3" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/" class="article-date">
-      <time datetime="2018-03-18T08:02:03.000Z" itemprop="datePublished">2018-03-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/">重做MacBook Pro的系统macOS 10.13.3</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PyCharm 配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/05/PyCharm 配置/" class="article-date">
-      <time datetime="2018-02-05T14:17:16.000Z" itemprop="datePublished">2018-02-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>PyCharm 2018.1.2</p>
-<p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
-<p>Theme Darcula</p>
-<p><strong>Keymap</strong></p>
-<p>Mac OS X 10.5+</p>
-<p><strong>Editor</strong></p>
-<p>Font: Menlo</p>
-<p>Size: 20</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PowerShell使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/09/PowerShell使用笔记/" class="article-date">
-      <time datetime="2018-01-09T18:16:08.000Z" itemprop="datePublished">2018-01-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#查看PowerShell版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#查看 PSVersion版本，就是PowerShell的版本。</span><br><span class="line">$PSVersionTable</span><br></pre></td></tr></table></figure></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-云服务服务商" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/02/云服务服务商/" class="article-date">
-      <time datetime="2018-01-02T07:39:00.000Z" itemprop="datePublished">2018-01-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/02/云服务服务商/">云服务</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>VPS</p>
-<p><a href="https://www.aliyun.com/" target="_blank" rel="noopener">阿里云</a><br><a href="https://www.qingcloud.com/" target="_blank" rel="noopener">青云QingCloud</a><br><a href="https://www.linode.com/" target="_blank" rel="noopener">Linode</a><br><a href="https://www.digitalocean.com/" target="_blank" rel="noopener">DigitalOcean</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-阿里云账号注册日期" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/02/阿里云账号注册日期/" class="article-date">
-      <time datetime="2018-01-02T07:24:00.000Z" itemprop="datePublished">2018-01-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/02/阿里云账号注册日期/">阿里云账号注册日期</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="阿里云账号注册日期"><a href="#阿里云账号注册日期" class="headerlink" title="阿里云账号注册日期"></a>阿里云账号注册日期</h1><p>登录账号 ： <a href="mailto:ov****@aliyun.com" target="_blank" rel="noopener">ov****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 1547536365086440<br>注册时间 ： 05-07-2012 12:31:00</p>
-<p>登录账号 ： <a href="mailto:ov****@163.com" target="_blank" rel="noopener">ov****@163.com</a> 修改 (您已通过实名认证)<br>账号ID ： 28013902<br>注册时间 ： 08-08-2012 09:58:00</p>
-<p>登录账号 ： <a href="mailto:hi2900****@aliyun.com" target="_blank" rel="noopener">hi2900****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 29000343</p>
-<p>注册时间 ： 08-08-2012 09:52:00</p>
-<p>登录账号 ： <a href="mailto:hi2985****@aliyun.com" target="_blank" rel="noopener">hi2985****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 29852806</p>
-<p>注册时间 ： 08-07-2012 16:14:00</p>
-<p>登录账号 ： <a href="mailto:hi3497****@aliyun.com" target="_blank" rel="noopener">hi3497****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 34973157</p>
-<p>注册时间 ： 05-28-2012 16:36:00</p>
-<p>登录账号 ： <a href="mailto:hi5011****@aliyun.com" target="_blank" rel="noopener">hi5011****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 50116514</p>
-<p>注册时间 ： 11-28-2012 19:09:00</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Jenkins-持续集成企业实战系列" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/31/Jenkins-持续集成企业实战系列/" class="article-date">
-      <time datetime="2017-12-31T14:05:43.000Z" itemprop="datePublished">2017-12-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/31/Jenkins-持续集成企业实战系列/">Jenkins 持续集成企业实战系列</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>1、传统网站部署流程.wmv 16:17<br>2、主流网站部署流程及方法.wmv 12:05<br>3、Jenkins持续平台安装.wmv 16:42<br>4、Jenkins持续集成MAVEN讲解.wmv 16:09<br>5、Jenkins持续集成JOB工程设置.wmv 18:27<br>6、Jenkins持续集成网站构建实战.wmv 17:06<br>7、Jenkins持续集成自动化部署一.wmv<br>8、Jenkins持续集成自动化部署二.wmv<br>9、Jenkins持续集成插件设置篇.wmv<br>10、Jenkins持续集成邮件设置篇.wmv<br>11、Jenkins持续集成多实例配置.mp4<br>12、Jenkins持续集成Ansible批量部署.mp4</p>
-<p>显示日期 2016-10-09<br>51cto博客 吴光科</p>
-<p>我们学这个软件做什么用？为什么用它？</p>
-<p>持续集成 Continuous Integration</p>
-<p>Jenkins 安装部署</p>
-<p>Jenkins是用java开发的软件，需要jdk和tomcat环境。</p>
-<p>jenkins.war</p>
-<p>解压缩jenkins <code>jar -xvf jenkins.war</code></p>
-<p>tomcat<br>应用存放路径 webapps/ROOT/<br>修改配置 conf/server.xml<br>启动 bin/startup.sh<br>日志 logs/catalina.out</p>
-<p>查看8080端口哪个软件在用<br><code>netstat -tnpl|grep 8080</code></p>
-<p>Make工具<br>Ant工具<br>Maven工具，maven是对ant工具的进一步改进。maven是一个构建工具。maven plugin(maven插件）<br>makefile文件<br>Eclipse工具</p>
-<p>下载maven<br>apache-maven-3.3.9-bin.tar.gz<br>添加maven命令到环境变量</p>
-<p>Jenkins后台配置</p>
-<p>系统管理-&gt;系统全局设置-&gt;<br>Maven Configuration<br>JDK路径<br>Maven</p>
-<p>保存</p>
-<p>IP:121.42.183.93哪个服务商的？</p>
-<p>新建任务<br>构建一个maven项目<br>源码管理<br>pom.xml maven的描述文件类似于makefile</p>
-<p>Build 指定pom.xml文件</p>
-<p>跳过测试 <code>clean install -Dmaven.test.skip=true</code></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-Python3操作Excel" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -810,6 +292,583 @@
       
           
         
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CS50-2017" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/29/CS50-2017/" class="article-date">
+      <time datetime="2017-12-29T13:55:24.000Z" itemprop="datePublished">2017-12-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/29/CS50-2017/">CS50 2017</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://www.youtube.com/watch?v=y62zj9ozPOM" target="_blank" rel="noopener">CS50 2017 - Lecture 0 - Scratch</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2017年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/29/2017年终总结之思考/" class="article-date">
+      <time datetime="2017-12-29T08:32:31.000Z" itemprop="datePublished">2017-12-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/29/2017年终总结之思考/">2017年终总结之思考</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>暂无</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
+    </div>
+
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2017年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/29/2017年终总结之败家/" class="article-date">
+      <time datetime="2017-12-29T08:31:31.000Z" itemprop="datePublished">2017-12-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/29/2017年终总结之败家/">2017年终总结之败家</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Apple MacBook Pro 15<br>Sony Xperia XZ1</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2017年总结与2018年计划" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/29/2017年总结与2018年计划/" class="article-date">
+      <time datetime="2017-12-29T08:25:00.000Z" itemprop="datePublished">2017-12-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/29/2017年总结与2018年计划/">2017年总结与2018年计划</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="当前背景"><a href="#当前背景" class="headerlink" title="当前背景"></a>当前背景</h2><p>今天星期五，明天就开始休息和放假啦！</p>
+<h2 id="工作总结与计划的重要性"><a href="#工作总结与计划的重要性" class="headerlink" title="工作总结与计划的重要性"></a>工作总结与计划的重要性</h2><h3 id="计划的时间"><a href="#计划的时间" class="headerlink" title="计划的时间"></a>计划的时间</h3><ol>
+<li>每年度结束时，新的一年即将开始时。</li>
+</ol>
+<h3 id="计划的目的"><a href="#计划的目的" class="headerlink" title="计划的目的"></a>计划的目的</h3><ol>
+<li>对新的一年的整体计划，从家庭、工作、学习、健康、生活、旅行等方面出发，规划自己新的一年的整体目标</li>
+<li>通过整体的规划，可以定期的对自己进行监督，从而使自己能够完整规划的目标。</li>
+</ol>
+<h3 id="总结的价值"><a href="#总结的价值" class="headerlink" title="总结的价值"></a>总结的价值</h3><ol>
+<li>有助于更好的规划自己的时间，不断的进行提升。</li>
+<li>作为监督自己的一种方式</li>
+<li>可以帮助自己做好自己的职业规划</li>
+</ol>
+<h1 id="2017年度总结"><a href="#2017年度总结" class="headerlink" title="2017年度总结"></a>2017年度总结</h1><h2 id="生活上"><a href="#生活上" class="headerlink" title="生活上"></a>生活上</h2><p>生了一场大病，人生第一次去了急诊，住院。<br>买了一台苹果本</p>
+<h2 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h2><p>经历了第一次被人fire</p>
+<h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><p>学习Python</p>
+<h2 id="业余"><a href="#业余" class="headerlink" title="业余"></a>业余</h2><p>摄影，</p>
+<h1 id="2018年计划"><a href="#2018年计划" class="headerlink" title="2018年计划"></a>2018年计划</h1><h2 id="生活上-1"><a href="#生活上-1" class="headerlink" title="生活上"></a>生活上</h2><ol>
+<li>在北京周边买一套房子，进行投资</li>
+<li>进行2次长线旅游、4次以上短途旅游</li>
+</ol>
+<h2 id="工作-1"><a href="#工作-1" class="headerlink" title="工作"></a>工作</h2><ol>
+<li>换工作，找一个做互联网相关的公司</li>
+<li>薪水能够有所提高，尤其是公积金的缴纳基数</li>
+<li>能够设计和上线一款互联网相关的产品</li>
+</ol>
+<h2 id="学习-1"><a href="#学习-1" class="headerlink" title="学习"></a>学习</h2><ol>
+<li>读一本产品经理相关的图书</li>
+<li>学习一套产品设计相关的视频课程</li>
+<li>参加一次产品经理相关的培训课程</li>
+<li>每天坚持看两遍关于产品和运营相关的文章，早上、晚上各一篇</li>
+</ol>
+<h2 id="业余-1"><a href="#业余-1" class="headerlink" title="业余"></a>业余</h2><p>学习如何与人交流，沟通，相处。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ubuntu-新装服务器部署流程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/18/Ubuntu-新装服务器部署流程/" class="article-date">
+      <time datetime="2017-12-18T15:02:01.000Z" itemprop="datePublished">2017-12-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/18/Ubuntu-新装服务器部署流程/">Ubuntu 新装服务器部署流程</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Ubuntu-新装服务器部署流程"><a href="#Ubuntu-新装服务器部署流程" class="headerlink" title="Ubuntu 新装服务器部署流程"></a>Ubuntu 新装服务器部署流程</h1><blockquote>
+<p>Ubuntu 16.04.3</p>
+</blockquote>
+<p><a href="http://wzlinux.blog.51cto.com/8021085/1964616" target="_blank" rel="noopener">Ubuntu 新装服务器部署流程</a><br><a href="http://blog.51cto.com/wzlinux/2043586" target="_blank" rel="noopener">Ubuntu 新装服务器部署流程</a></p>
+<h3 id="配置IP"><a href="#配置IP" class="headerlink" title="配置IP"></a>配置IP</h3><p>修改文件/etc/network/interfaces</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">auto ens33</span><br><span class="line">iface ens33 inet static</span><br><span class="line">address 192.168.8.100</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.8.1</span><br><span class="line">dns-nameserver 8.8.8.8</span><br></pre></td></tr></table></figure>
+<p>重启网络</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart netwoking.service</span><br><span class="line">/etc/init.d/networking restart</span><br></pre></td></tr></table></figure>
+<h3 id="设定时区"><a href="#设定时区" class="headerlink" title="设定时区"></a>设定时区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -f /etc/localtime</span><br><span class="line">cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line">date -R</span><br></pre></td></tr></table></figure>
+<h3 id="配置apt-get源"><a href="#配置apt-get源" class="headerlink" title="配置apt-get源"></a>配置apt-get源</h3><p>ubuntu 14.04</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -f /etc/apt/sources.list</span><br><span class="line">wget -P /etc/apt/ http://mirrors.163.com/.help/sources.list.trusty</span><br><span class="line">mv /etc/apt/sources.list.trusty /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+<p>ubuntu 16.04<br><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apt</span><br><span class="line">cp source.list source.list.bak</span><br><span class="line"></span><br><span class="line">vi source.list</span><br><span class="line"></span><br><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<h3 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
+<h3 id="安装软件包"><a href="#安装软件包" class="headerlink" title="安装软件包"></a>安装软件包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y openssh-server vim lrzsz git tree bash-completion sysstat</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">### 开启root登录</span></span><br></pre></td></tr></table></figure>
+<p>vi /etc/ssh/sshd_config<br>PermitRootLogin yes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">service ssh restart</span><br><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure></p>
+<h3 id="踢出终端tty用户"><a href="#踢出终端tty用户" class="headerlink" title="踢出终端tty用户"></a>踢出终端tty用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkill -kill -t tty</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-分布式爬虫实战第二期-杨真-小象学院-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-笔记/" class="article-date">
+      <time datetime="2017-12-08T16:27:00.000Z" itemprop="datePublished">2017-12-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-笔记/">手把手带你构建一个分布式爬虫系统实战-小象学院-笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>01 静态网页爬虫：爬虫的基础技术.flv 2:40:54<br>02 登录及动态网页的抓取.flv 2:19:24<br>03 微博的抓取.flv 2:42:00<br>04 多线程与多进程的爬虫.flv 2:02:20<br>05 微博数据的存储：分布式数据库及应用.flv 2:15:07<br>06 多机并行的微博抓取：分布式系统设计.flv 2:12:20<br>07 应对反爬虫的策略.flv 2:25:33<br>08 分布式系统的高可用与高并发处理.flv 2:13:47<br>09 日志系统、以及基于Page Rank的顺序调整.flv 2:13:54<br>10 日志、守护线程以及验证码处理.flv 2:07:54<br>11 分布式数据库架构分析、优化及要点.flv 2:23:10<br>12 自动摘要及正文抽取.flv 1:57:54<br>13 网页分类与针对文本的机器学习应用.flv 2:17:14<br>14 信息检索、搜索引擎原理及应用.flv 2:31:18<br>15 Scrapy录播视频.flv 2:21:02<br>16 Scrapy进阶录播视频.flv 2:10:09<br>17 网页排重.flv 2:19:19</p>
+<h1 id="01"><a href="#01" class="headerlink" title="01"></a>01</h1><p>新建PyCharm项目 chinahadoop_crawl_spider<br>新建PyCharm项目 chinahadoop_crawl_spider_py2.7</p>
+<p>cd chinahadoop_crawl_spider</p>
+<p>macOS下安装pipenv</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install pipenv</span><br></pre></td></tr></table></figure>
+<p>添加pipenv自动补全</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(pipenv --completion)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>初始化pipenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</span><br></pre></td></tr></table></figure>
+<p>修改pypi源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#linux</span></span><br><span class="line">sed -i <span class="string">"s#python.org#douban.com#g"</span> Pipfile</span><br><span class="line"></span><br><span class="line"><span class="comment">#macOS 和linux不同，需要加“”</span></span><br><span class="line">sed -i <span class="string">""</span> <span class="string">"s#python.org#douban.com#g"</span> Pipfile</span><br></pre></td></tr></table></figure>
+<p>BITMAP 方式记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install murmurhash3 bitarray</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2.7.14 安装murmurhash3失败</span><br></pre></td></tr></table></figure>
+<p>Bloom Filter<br>pybloomfilter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pybloomfilter</span><br></pre></td></tr></table></figure>
+<h1 id="02"><a href="#02" class="headerlink" title="02"></a>02</h1><p>lxml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install lxml</span><br></pre></td></tr></table></figure>
+<p>Selenium</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install selenium</span><br></pre></td></tr></table></figure>
+<p>PhantomJS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install phantomjs</span><br></pre></td></tr></table></figure>
+<h1 id="03"><a href="#03" class="headerlink" title="03"></a>03</h1><h1 id="04"><a href="#04" class="headerlink" title="04"></a>04</h1><p>Python Mysql Connector</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymysql</span><br></pre></td></tr></table></figure>
+<p>Python Mysql Connector<br>py2.7</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mysqlclient</span><br></pre></td></tr></table></figure>
+<h1 id="05"><a href="#05" class="headerlink" title="05"></a>05</h1><p>Python hdfs module</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install hdfs</span><br></pre></td></tr></table></figure>
+<p>MongoDB<br>pymongo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymongo</span><br></pre></td></tr></table></figure>
+<p>Python Redis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install redis</span><br></pre></td></tr></table></figure>
+<h1 id="06"><a href="#06" class="headerlink" title="06"></a>06</h1><h1 id="07"><a href="#07" class="headerlink" title="07"></a>07</h1><h1 id="08"><a href="#08" class="headerlink" title="08"></a>08</h1><p>Scrapy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
+<h1 id="09"><a href="#09" class="headerlink" title="09"></a>09</h1><p>Python 的 PageRank - NetworkX</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install networkx</span><br></pre></td></tr></table></figure>
+<p>查重算法<br>SimHash – 海明距离</p>
+<p>依赖 sh库</p>
+<p><a href="https://www.the5fire.com/analyze-python-lib-sh.html" target="_blank" rel="noopener">[Python库]分析一个python库–sh（系统调用）</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install simhash</span><br></pre></td></tr></table></figure>
+<h1 id="10"><a href="#10" class="headerlink" title="10"></a>10</h1><p>Daemontool</p>
+<p>Pillow</p>
+<p>Pillow 是一个图像工具包，包含了一个 Image 类用来做图像的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pillow</span><br></pre></td></tr></table></figure>
+<p>Tesseract-Ocr</p>
+<p>Tesseract-Ocr 是一个 Google 主导的开源 OCR (Optical Character Recongnition) 引擎。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pytesseract</span><br></pre></td></tr></table></figure>
+<h1 id="12"><a href="#12" class="headerlink" title="12"></a>12</h1><p>Goose<br>PyGoose</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install goose3</span><br></pre></td></tr></table></figure>
+<p>py2.7</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pygoose</span><br></pre></td></tr></table></figure>
+<h1 id="13"><a href="#13" class="headerlink" title="13"></a>13</h1><p>结巴分词</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install jieba</span><br></pre></td></tr></table></figure>
+<p>Python TF-IDF</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install sklearn scipy numpy</span><br></pre></td></tr></table></figure>
+<h1 id="14"><a href="#14" class="headerlink" title="14"></a>14</h1><p>Elastic Search</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-分布式爬虫实战第二期-杨真-小象学院-目录" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-目录/" class="article-date">
+      <time datetime="2017-12-08T16:27:00.000Z" itemprop="datePublished">2017-12-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-目录/">手把手带你构建一个分布式爬虫系统实战-小象学院-目录</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>01 静态网页爬虫：爬虫的基础技术.flv 2:40:54<br>02 登录及动态网页的抓取.flv 2:19:24<br>03 微博的抓取.flv 2:42:00<br>04 多线程与多进程的爬虫.flv 2:02:20<br>05 微博数据的存储：分布式数据库及应用.flv 2:15:07<br>06 多机并行的微博抓取：分布式系统设计.flv 2:12:20<br>07 应对反爬虫的策略.flv 2:25:33<br>08 分布式系统的高可用与高并发处理.flv 2:13:47<br>09 日志系统、以及基于Page Rank的顺序调整.flv 2:13:54<br>10 日志、守护线程以及验证码处理.flv 2:07:54<br>11 分布式数据库架构分析、优化及要点.flv 2:23:10<br>12 自动摘要及正文抽取.flv 1:57:54<br>13 网页分类与针对文本的机器学习应用.flv 2:17:14<br>14 信息检索、搜索引擎原理及应用.flv 2:31:18<br>15 Scrapy录播视频.flv 2:21:02<br>16 Scrapy进阶录播视频.flv 2:10:09<br>17 网页排重.flv 2:19:19</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Jira安装配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/11/30/Jira安装配置/" class="article-date">
+      <time datetime="2017-11-30T08:45:00.000Z" itemprop="datePublished">2017-11-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/30/Jira安装配置/">Jira安装配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Jira安装配置"><a href="#Jira安装配置" class="headerlink" title="Jira安装配置"></a>Jira安装配置</h1><p>JIRA Core server<br><a href="https://www.ilanni.com/?p=12119" target="_blank" rel="noopener">烂泥：jira7.3/7.2安装、中文及破解(20170829更新)</a><br><a href="http://www.yfshare.vip/2017/05/09/%E9%83%A8%E7%BD%B2JIRA-7-2-2-for-Linux/" target="_blank" rel="noopener">部署JIRA 7.2.2 for Linux</a><a href="http://blog.wangruirui.cn/2017/04/26/jara-install/" target="_blank" rel="noopener">CentOS 7 安装jara7.3.3 破解+汉化 一篇就够了(By-Ruicky)</a><br><a href="https://confluence.atlassian.com/doc/server-hardware-requirements-guide-30736403.html" target="_blank" rel="noopener">硬件要求</a></p>
+<h3 id="下载jira7-2-2"><a href="#下载jira7-2-2" class="headerlink" title="下载jira7.2.2"></a>下载jira7.2.2</h3><p><a href="https://www.atlassian.com/software/jira/download" target="_blank" rel="noopener">https://www.atlassian.com/software/jira/download</a></p>
+<p><code>wget https://downloads.atlassian.com/software/jira/downloads/atlassian-jira-software-7.2.2-x64.bin</code></p>
+<h3 id="安装jira"><a href="#安装jira" class="headerlink" title="安装jira"></a>安装jira</h3><p>现在开始安装jira7.2.2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod 755 atlassian-jira-software-7.2.2-x64.bin</span><br><span class="line"></span><br><span class="line">./atlassian-jira-software-7.2.2-x64.bin</span><br></pre></td></tr></table></figure>
+<p>通过上图，我们可以很明显的看出jira安装到了/opt/atlassian/jira和/var/atlassian/application-data/jira目录下，并且jira监听的端口是8080。</p>
+<p>jira的主要配置文件，存放在/opt/atlassian/jira/conf/server.xml文件中，如下：</p>
+<p>vim /opt/atlassian/jira/conf/server.xml</p>
+<p>现在我们先关闭jira，然后把破解包里面的atlassian-extras-3.1.2.jar和mysql-connector-java-5.1.39-bin.jar两个文件复制到/opt/atlassian/jira/atlassian-jira/WEB-INF/lib/目录下。</p>
+<p>其中atlassian-extras-3.1.2.jar是用来替换原来的atlassian-extras-3.1.2.jar文件，用作破解jira系统的。</p>
+<p>而mysql-connector-java-5.1.39-bin.jar是用来连接mysql数据库的驱动软件包。</p>
+<p>现在再次启动jira，然后我们现在来访问如下地址：</p>
+<p>jira.ilanni.com:8080</p>
+<p>而连接数据库的配置是/var/atlassian/application-data/jira/dbconfig.xml，如下：</p>
+<p>cat /var/atlassian/application-data/jira/dbconfig.xml</p>
+
       
       
     </div>

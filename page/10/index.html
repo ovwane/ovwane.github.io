@@ -206,11 +206,469 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-老男孩Python自动化开发s16-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 删除应用软件" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/老男孩Python自动化开发s16-笔记/" class="article-date">
-      <time datetime="2018-07-12T10:51:02.000Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/05/05/macOS 10.13 删除应用软件/" class="article-date">
+      <time datetime="2018-05-05T20:22:27.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p>Mac和Windows操作系统有一个很大的不同，大部分App是没有安装程序的，一般下载下来就是一个dmg文件，解开之后直接将App拖到<code>应用程序</code>目录下就可以了，所以给人感觉卸载也就是将App拖到<code>废纸篓</code>然后清空。如果真这样做就大错特错，即使一个最简单的App都会在下面几个目录中或多或少留下纪念，这些目录一般有：</p>
+<ul>
+<li>~/Library</li>
+<li>~/Library/Application Support</li>
+<li>~/Library/Application Support/CrashReporter</li>
+<li>~/Library/Caches</li>
+<li>~/Library/Containers</li>
+<li>~/Library/LaunchAgents</li>
+<li>~/Library/Preferences</li>
+<li>~/Library/PreferencePanes</li>
+</ul>
+<p>如果一个程序是通过<code>pkg</code>方式安装，或者是在第一次运行时请求管理员权限，那一般还会在如下几个目录中留点纪念：</p>
+<ul>
+<li>/Library</li>
+<li>/Library/Application Support</li>
+<li>/Library/Extensions</li>
+<li>/Library/LaunchAgents</li>
+<li>/Library/LaunchDaemons</li>
+<li>/Library/PreferencePanes</li>
+<li>/Library/Preferences</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://segmentfault.com/a/1190000005035742" target="_blank" rel="noopener">如何彻底删除不需要的App</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Vim 配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Vim 配置/" class="article-date">
+      <time datetime="2018-05-05T17:00:21.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://github.com/VundleVim/Vundle.vim" target="_blank" rel="noopener">Vundle</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.vimrc</span><br><span class="line"></span><br><span class="line">set nocompatible              &quot; be iMproved, required</span><br><span class="line">filetype off                  &quot; required</span><br><span class="line"></span><br><span class="line">&quot; set the runtime path to include Vundle and initialize</span><br><span class="line">set rtp+=~/.vim/bundle/Vundle.vim</span><br><span class="line">call vundle#begin()</span><br><span class="line">&quot; alternatively, pass a path where Vundle should install plugins</span><br><span class="line">&quot;call vundle#begin(&apos;~/some/path/here&apos;)</span><br><span class="line"></span><br><span class="line">&quot; let Vundle manage Vundle, required</span><br><span class="line">Plugin &apos;VundleVim/Vundle.vim&apos;</span><br><span class="line"></span><br><span class="line">&quot; The following are examples of different formats supported.</span><br><span class="line">&quot; Keep Plugin commands between vundle#begin/end.</span><br><span class="line">&quot; plugin on GitHub repo</span><br><span class="line">Plugin &apos;tpope/vim-fugitive&apos;</span><br><span class="line">&quot; plugin from http://vim-scripts.org/vim/scripts.html</span><br><span class="line">&quot; Plugin &apos;L9&apos;</span><br><span class="line">&quot; Git plugin not hosted on GitHub</span><br><span class="line">Plugin &apos;git://git.wincent.com/command-t.git&apos;</span><br><span class="line">&quot; git repos on your local machine (i.e. when working on your own plugin)</span><br><span class="line">Plugin &apos;file:///home/gmarik/path/to/plugin&apos;</span><br><span class="line">&quot; The sparkup vim script is in a subdirectory of this repo called vim.</span><br><span class="line">&quot; Pass the path to set the runtimepath properly.</span><br><span class="line">Plugin &apos;rstacruz/sparkup&apos;, &#123;&apos;rtp&apos;: &apos;vim/&apos;&#125;</span><br><span class="line">&quot; Install L9 and avoid a Naming conflict if you&apos;ve already installed a</span><br><span class="line">&quot; different version somewhere else.</span><br><span class="line">&quot; Plugin &apos;ascenator/L9&apos;, &#123;&apos;name&apos;: &apos;newL9&apos;&#125;</span><br><span class="line"></span><br><span class="line">&quot; All of your Plugins must be added before the following line</span><br><span class="line">call vundle#end()            &quot; required</span><br><span class="line">filetype plugin indent on    &quot; required</span><br><span class="line">&quot; To ignore plugin indent changes, instead use:</span><br><span class="line">&quot;filetype plugin on</span><br><span class="line">&quot;</span><br><span class="line">&quot; Brief help</span><br><span class="line">&quot; :PluginList       - lists configured plugins</span><br><span class="line">&quot; :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate</span><br><span class="line">&quot; :PluginSearch foo - searches for foo; append `!` to refresh local cache</span><br><span class="line">&quot; :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal</span><br><span class="line">&quot;</span><br><span class="line">&quot; see :h vundle for more details or wiki for FAQ</span><br><span class="line">&quot; Put your non-Plugin stuff after this line</span><br></pre></td></tr></table></figure>
+<p>Install Plugins:</p>
+<p>Launch <code>vim</code> and run <code>:PluginInstall</code></p>
+<p>To install from command line: <code>vim +PluginInstall +qall</code></p>
+<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">“显示行号</span><br><span class="line">　　set nummber</span><br><span class="line">　　“语法高亮度显示</span><br><span class="line">　　 syntax on </span><br><span class="line">　　“下面两行在进行编写代码时，在格式对起上很有用；</span><br><span class="line">　　“第一行，vim使用自动对起，也就是把当前行的对起格式应用到下一行；</span><br><span class="line">　　“第二行，依据上面的对起格式，智能的选择对起方式，对于类似C语言编</span><br><span class="line">　　“写上很有用</span><br><span class="line">　　set autoindent</span><br><span class="line">　　set smartindent</span><br><span class="line">　　“第一行设置tab键为4个空格，第二行设置当行之间交错时使用4个空格</span><br><span class="line">　　set tabstop=4</span><br><span class="line">　　set shiftwidth=4</span><br><span class="line">　　“设置匹配模式，类似当输入一个左括号时会匹配相应的那个右括号</span><br><span class="line">　　set showmatch</span><br></pre></td></tr></table></figure>
+<h3 id="主题配色"><a href="#主题配色" class="headerlink" title="主题配色"></a>主题配色</h3><p>[vim-colors-solarized</p>
+<h3 id="Vim插件"><a href="#Vim插件" class="headerlink" title="Vim插件"></a>Vim插件</h3><p><a href="https://github.com/vim-airline/vim-airline" target="_blank" rel="noopener">vim-airline</a></p>
+<p><a href="https://github.com/scrooloose/nerdtree" target="_blank" rel="noopener"><strong>nerdtree</strong></a></p>
+<p><a href="https://github.com/Xuyuanp/nerdtree-git-plugin" target="_blank" rel="noopener">nerdtree-git-plugin</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/3066b3191cb1" target="_blank" rel="noopener">上古神器vim插件：你真的学会用NERDTree了吗？</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iTerm2 配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/iTerm2 配置/" class="article-date">
+      <time datetime="2018-05-05T12:15:39.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://iterm2colorschemes.com/" target="_blank" rel="noopener">iTerm2主题</a></p>
+<p><strong>Solarized Dark Higher Contrast</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Solarized%20Dark%20Higher%20Contrast.itermcolors</span></span><br></pre></td></tr></table></figure>
+<p>导入主题</p>
+<p>iTerm2-&gt;Preferences-&gt;Profiles-&gt;Color</p>
+<p>Color Presets-&gt;import</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-KeePassXC 配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/KeePassXC 配置/" class="article-date">
+      <time datetime="2018-05-05T09:12:37.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="浏览器配合"><a href="#浏览器配合" class="headerlink" title="浏览器配合"></a>浏览器配合</h3><p>✅启用KeepassXC浏览器集成</p>
+<p>Google Chrome</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 10.13 购买的应用清单" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/macOS 10.13 购买的应用清单/" class="article-date">
+      <time datetime="2018-05-05T08:00:16.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>购买的应用</p>
+<p>iStat Menus 6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">电子邮件地址：ovwane@gmail.com</span><br><span class="line">序列号：GAWAE-FD8HG-HMQTF-ZC4QY-4SARF-EVGLZ-4ENDW-R58QC-CRD7W-76W7E-CM5BD-5HDDW-SPGLE-UFSUL-LPFU</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 10.13 配置Zsh" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/macOS 10.13 配置Zsh/" class="article-date">
+      <time datetime="2018-05-05T07:52:28.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p><a href="http://ohmyz.sh/" target="_blank" rel="noopener">Oh My Zsh</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"</span><br></pre></td></tr></table></figure>
+<p><strong>主题</strong></p>
+<p><strong>目前使用的是</strong> ys </p>
+<p>期望使用 agnoster</p>
+<h3 id="Zsh插件"><a href="#Zsh插件" class="headerlink" title="Zsh插件"></a>Zsh插件</h3><p><strong>Clone this repository in oh-my-zsh’s plugins directory:</strong></p>
+<p><strong><a href="https://github.com/zsh-users/zsh-syntax-highlighting" target="_blank" rel="noopener">zsh-syntax-highlighting</a></strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/zsh-users/zsh-autosuggestions" target="_blank" rel="noopener">zsh-autosuggestions</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-autosuggestions</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/zsh-users/zsh-completions" target="_blank" rel="noopener">zsh-completions</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-completions <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-completions</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/zsh-users/zsh-history-substring-search" target="_blank" rel="noopener">zsh-history-substring-search</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-history-substring-search <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-history-substring-search</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/zsh-users/zsh-apple-touchbar" target="_blank" rel="noopener">zsh-apple-touchbar</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-apple-touchbar <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-apple-touchbar</span></span><br></pre></td></tr></table></figure>
+<p><strong>Add the plugin to the list of plugins for Oh My Zsh to load:</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br><span class="line"></span><br><span class="line">plugins=(</span><br><span class="line">	zsh-syntax-highlighting</span><br><span class="line">	zsh-autosuggestions</span><br><span class="line">	zsh-completions</span><br><span class="line">	zsh-history-substring-search</span><br><span class="line">	</span><br><span class="line">	zsh-apple-touchbar</span><br><span class="line">	)</span><br></pre></td></tr></table></figure>
+<p><strong>Source <code>~/.zshrc</code> to take changes into account:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/33deff6b8a63" target="_blank" rel="noopener">ITerm2配色方案</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 10.13 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/macOS 10.13 安装软件/" class="article-date">
+      <time datetime="2018-05-05T06:51:28.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1.安装<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases" target="_blank" rel="noopener"><strong>ShadowsocksX-NG</strong></a></p>
+<p>2.安装<a href="https://brew.sh" target="_blank" rel="noopener">Homebrew</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span><br></pre></td></tr></table></figure>
+<p>3.安装<a href="http://caskroom.io" target="_blank" rel="noopener">Homebrew Cask</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/cask</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/versions</span></span><br></pre></td></tr></table></figure>
+<p>4.安装<a href="https://github.com/mas-cli/mas" target="_blank" rel="noopener">mas</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install mas</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><h3 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install vim wget git</span></span><br></pre></td></tr></table></figure>
+<h3 id="Homebrew-Cask"><a href="#Homebrew-Cask" class="headerlink" title="Homebrew Cask"></a>Homebrew Cask</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install typora google-chrome firefox sublime-text keepassxc qq youdaodict youdaonote iina istat-menus baidunetdisk</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install firefox-developer-edition iterm2 zoc wireshark charles pycharm goland</span></span><br></pre></td></tr></table></figure>
+<h3 id="mas"><a href="#mas" class="headerlink" title="mas"></a>mas</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mas install 409201541 409203825 409183694 410628904 836500024</span></span><br></pre></td></tr></table></figure>
+<p>409201541 Pages</p>
+<p>409203825 Numbers</p>
+<p>409183694 Keynote</p>
+<p>410628904 Wunderlist </p>
+<p>836500024 WeChat </p>
+<h2 id="手动安装软件"><a href="#手动安装软件" class="headerlink" title="手动安装软件"></a>手动安装软件</h2><p><a href="https://www.jianguoyun.com/s/downloads" target="_blank" rel="noopener">坚果云</a>|<a href="https://creative.adobe.com/products/download/creative-cloud" target="_blank" rel="noopener">Adobe Creative Cloud</a></p>
+<h4 id="激活软件"><a href="#激活软件" class="headerlink" title="激活软件"></a>激活软件</h4><p><a href="https://www.52pojie.cn/thread-725112-1-1.html" target="_blank" rel="noopener">Charles 4.2.5 Mac and Win通用破解文件</a></p>
+<p>/Applications/Charles.app/Contents/Java/charles.jar</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 10.13 偏好设置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/macOS 10.13 偏好设置/" class="article-date">
+      <time datetime="2018-05-05T06:36:27.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="系统偏好设置-日期与时间"><a href="#系统偏好设置-日期与时间" class="headerlink" title="系统偏好设置-日期与时间"></a>系统偏好设置-日期与时间</h3><p><strong>时钟</strong></p>
+<p>✅闪动时间分割符</p>
+<p>✅使用 24 小时格式时钟</p>
+<p>✅显示日期</p>
+<h3 id="系统偏好设置-用户与群组"><a href="#系统偏好设置-用户与群组" class="headerlink" title="系统偏好设置-用户与群组"></a>系统偏好设置-用户与群组</h3><p><strong>客人用户</strong></p>
+<p>🈳️✅允许客人登陆到这台电脑</p>
+<h3 id="系统偏好设置-程序坞"><a href="#系统偏好设置-程序坞" class="headerlink" title="系统偏好设置-程序坞"></a>系统偏好设置-程序坞</h3><p>置于屏幕上的位置</p>
+<p>左边</p>
+<h3 id="系统偏好设置-触摸板"><a href="#系统偏好设置-触摸板" class="headerlink" title="系统偏好设置-触摸板"></a>系统偏好设置-触摸板</h3><p><strong>光标与点按</strong></p>
+<p>✅轻点来点按</p>
+<p><strong>更多手势</strong></p>
+<p>✅应用Expose</p>
+<h3 id="系统偏好设置-辅助功能"><a href="#系统偏好设置-辅助功能" class="headerlink" title="系统偏好设置-辅助功能"></a>系统偏好设置-辅助功能</h3><p>鼠标与触控板-触控板选项-启用拖拽-三指拖移</p>
+<h3 id="系统偏好设置-声音"><a href="#系统偏好设置-声音" class="headerlink" title="系统偏好设置-声音"></a>系统偏好设置-声音</h3><p>✅当更改音量时播放反馈</p>
+<p>✅在菜单栏中显示音量</p>
+<h3 id="系统偏好设置-键盘"><a href="#系统偏好设置-键盘" class="headerlink" title="系统偏好设置-键盘"></a>系统偏好设置-键盘</h3><p><strong>键盘</strong></p>
+<p>✅闲置<strong><em>1分钟</em></strong>后关闭键盘背光灯</p>
+<p><strong>输入法</strong></p>
+<p>添加 英语-美国</p>
+<p>删除 ABC</p>
+<h3 id="访达"><a href="#访达" class="headerlink" title="访达"></a>访达</h3><p><strong>边栏</strong></p>
+<p>✅影片</p>
+<p>✅音乐</p>
+<p>✅图片</p>
+<p>✅jinlong</p>
+<p><strong>高级</strong></p>
+<p>执行搜索时：<strong><em>搜索当前文件夹</em></strong></p>
+<p><strong>通用</strong></p>
+<p>开启新“访达”窗口时打开：<strong>文稿</strong></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-4-20今天要发工资了" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/20/4-20今天要发工资了/" class="article-date">
+      <time datetime="2018-04-20T09:22:28.000Z" itemprop="datePublished">2018-04-20</time>
 </a>
     </div>
   
@@ -223,446 +681,12 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/老男孩Python自动化开发s16-笔记/">老男孩Python自动化开发s16</a>
+      <a class="article-title" href="/2018/04/20/4-20今天要发工资了/">4.20今天要发工资了</a>
     </h1>
   
 
       </header>
       
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>没有的课程<br>L016<br>L019<br>L020<br>L023<br>L024<br>L025<br>L034</p>
-<p>35周 8个月左右</p>
-<p>学习笔记<br><a href="http://www.cnblogs.com/52forjie/" target="_blank" rel="noopener">forjie</a><br><a href="http://blog.51cto.com/zoucuo/1883734" target="_blank" rel="noopener">python学习笔记（开课介绍1）</a></p>
-<p><a href="http://blog.51cto.com/zoucuo/1883734" target="_blank" rel="noopener">python学习笔记（开课介绍1）</a></p>
-<p><a href="https://www.bbsmax.com/A/kjdwA0n6JN/" target="_blank" rel="noopener">老男孩python自动化运维作业1</a></p>
-<p><a href="http://qkxue.net/info/45155/python" target="_blank" rel="noopener">老男孩python自动化运维作业(二)</a></p>
-<p><a href="http://www.cnblogs.com/cyalu/" target="_blank" rel="noopener">陆雅亮</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-老男孩教育Python课程老师们的博客" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/老男孩教育Python课程老师们的博客/" class="article-date">
-      <time datetime="2018-07-12T10:50:00.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/老男孩教育Python课程老师们的博客/">老男孩教育Python课程老师们的博客</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="老男孩教育Python课程老师们的博客"><a href="#老男孩教育Python课程老师们的博客" class="headerlink" title="老男孩教育Python课程老师们的博客"></a>老男孩教育Python课程老师们的博客</h1><p>Alex</p>
-<p>武沛齐<br><a href="http://www.cnblogs.com/wupeiqi/" target="_blank" rel="noopener">Mr.Seven</a></p>
-<p><a href="http://www.cnblogs.com/wupeiqi/p/7295372.html" target="_blank" rel="noopener">老铁，这年头不会点Git真不行！！！</a></p>
-<p><a href="https://www.youtube.com/watch?v=4XpnKHJAok8" target="_blank" rel="noopener">Tech Talk: Linus Torvalds on git</a> 4:36 git发音 给特 </p>
-<p><a href="https://english.stackexchange.com/questions/47622/how-do-you-pronounce-git?newreg=e31e4c18b6564225aecf3b0cfe260ebf" target="_blank" rel="noopener">How do you pronounce “Git”?</a></p>
-<p><a href="http://www.cnblogs.com/wupeiqi/p/4493506.html" target="_blank" rel="noopener">Python 面向对象（初级篇）</a><br><a href="http://www.cnblogs.com/wupeiqi/p/4766801.html" target="_blank" rel="noopener">python 面向对象（进阶篇）</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#配置全局用户和邮箱</span><br><span class="line">git config --global user.name &quot;&quot;</span><br><span class="line">git config --global user.email &quot;&quot;</span><br><span class="line">#初始化</span><br><span class="line">git init</span><br><span class="line">#查看git状态</span><br><span class="line">git status</span><br><span class="line">#添加当前目录所有文件到版本库</span><br><span class="line">git add .</span><br><span class="line">#提交到版本库，并填写版本说明。</span><br><span class="line">git commit -m &quot;提交说明&quot;</span><br><span class="line">#查看提交记录</span><br><span class="line">git log</span><br><span class="line">#现在b版本，恢复到a版本本，“4ba728de5e2136e03124732fc3e6c779ee74a222”这串字符是git log查看的commit后面的字符串。</span><br><span class="line">git reset --hard 4ba728de5e2136e03124732fc3e6c779ee74a222</span><br><span class="line"></span><br><span class="line">#恢复到b版本，”4ba728d“这个是查看reflog</span><br><span class="line">git reflog</span><br><span class="line">git reset --hard 4ba728d</span><br></pre></td></tr></table></figure>
-<p>stash</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#将当前工作区所有修改过的内容存储到“某个地方”，将工作区还原到当前版本未修改过的状态</span><br><span class="line">git stash</span><br><span class="line">#查看“某个地方”存储的所有记录</span><br><span class="line">git stash list</span><br><span class="line">#清空“某个地方”     </span><br><span class="line">git stash clear</span><br><span class="line">#将第一个记录从“某个地方”重新拿到工作区（可能有冲突）</span><br><span class="line">git stash pop </span><br><span class="line">#编号, 将指定编号记录从“某个地方”重新拿到工作区（可能有冲突）</span><br><span class="line">git stash apply</span><br><span class="line">#编号，删除指定编号的记录 </span><br><span class="line">git stash drop</span><br></pre></td></tr></table></figure>
-<p>branch</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#创建分支</span><br><span class="line">git branch dev</span><br><span class="line">#切换到dev分支</span><br><span class="line">git checkout dev</span><br><span class="line">#创建并切换到指定分支</span><br><span class="line">git branch -m dev</span><br><span class="line">#查看所有文章</span><br><span class="line">git branch</span><br><span class="line">#删除分支</span><br><span class="line">git branch -d dev</span><br><span class="line">#将指定分支合并到当前分支</span><br><span class="line">git merge dev</span><br></pre></td></tr></table></figure>
-<p>远程</p>
-<p>git pull = git fetch + git merge</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#添加远程git</span><br><span class="line">git remote add origin</span><br><span class="line">#把代码推送到远程git</span><br><span class="line">git push origin dev</span><br><span class="line">#拉取代码,并合并到本地</span><br><span class="line">git pull origin dev</span><br><span class="line">#获取分支最新内容到版本库的分支</span><br><span class="line">git fetch origin dev</span><br><span class="line">#将版本库的分支内容合并到工作去</span><br><span class="line">git merge origin/dev</span><br><span class="line">#初始化git代码到本地</span><br><span class="line">git clone </span><br><span class="line">#创建分支且和远程分支同步</span><br><span class="line">git branch dev origin/dev</span><br></pre></td></tr></table></figure>
-<p>协同合作</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-胡阳" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/胡阳/" class="article-date">
-      <time datetime="2018-07-12T10:49:00.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/胡阳/">胡阳</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="胡阳"><a href="#胡阳" class="headerlink" title="胡阳"></a>胡阳</h1><p><a href="https://www.the5fire.com/" target="_blank" rel="noopener">the5fire的技术博客</a></p>
-<p><a href="http://blog.csdn.net/the_fire" target="_blank" rel="noopener">the_fire的技术博客-csdn</a></p>
-<p><a href="https://www.zhihu.com/people/the5fire/" target="_blank" rel="noopener">知乎</a></p>
-<p><a href="https://github.com/the5fire" target="_blank" rel="noopener">Github</a></p>
-<blockquote>
-<p>热爱开源，但没拿的出手的项目。怎么来证明你的能力？</p>
-</blockquote>
-<p>git、需求分析、redis、流程、自动部署</p>
-<p>运维开发</p>
-<p><strong>课程目标</strong><br><strong>企业开发</strong></p>
-<p>Git、Django、Redis、Python、软件工程、沟通协调、需求的理解、开发的理解</p>
-<p>定义model，admin，1.1，cms系统</p>
-<p>教练/同事/搭档</p>
-<p><strong><em>课程大纲</em></strong><br><strong>第零讲 课程介绍**</strong></p>
-<blockquote>
-<p>Life is short. I use Python.<br>Talk is cheap,Show me the Code.</p>
-</blockquote>
-<p><em>完全搞懂</em></p>
-<p>Zen of Python<br>Python之禅</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-运维相关的书签" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/运维相关的书签/" class="article-date">
-      <time datetime="2018-07-12T10:47:24.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/运维相关的书签/">运维相关的书签</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>姜学栋<br><a href="http://zmister.com/archives/217.html" target="_blank" rel="noopener">Vtrois’s Blog</a></p>
-<p>笑遍世界<br><a href="http://smilejay.com/" target="_blank" rel="noopener">笑遍世界</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-金融" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/金融/" class="article-date">
-      <time datetime="2018-07-12T10:45:03.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/金融/">财经商业和投资理财微信公众号</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="财经商业和投资理财微信公众号"><a href="#财经商业和投资理财微信公众号" class="headerlink" title="财经商业和投资理财微信公众号"></a>财经商业和投资理财微信公众号</h1><p><strong>1、吴晓波频道（ID：wuxiaobopd）</strong></p>
-<p>这是著名财经作家吴晓波老师在2014年5月开设的自媒体平台，两年以来吴晓波频道的影响力扶摇直上，一飞冲天。目前累计粉丝数量将近200万人，是现阶段最大的财经商业类自媒体平台。两年以来，无数10万+的文章被纷纷刷屏，从《去日本买只马桶盖》到《别慌》，再到《疯了》。我相信，对财经商业感兴趣的朋友们应该已经早早的关注了吴晓波频道。我就不再废话了。</p>
-<p><strong>2、秦朔朋友圈（ID：qspyq2015）</strong></p>
-<p>吴晓波的朋友秦朔，前《第一财经日报》的总编辑，这个被吴晓波称为“最后一个看门狗”的河南蛮牛，毅然决然地离开了传统媒体行业，“下海”开设了秦朔朋友圈这个自媒体平台。在这里，秦朔先生不定期分享关于对经济发展、金融潮流、商业领域等方面的观点。</p>
-<p><strong>3、力哥说理财（ID：lglicai）</strong></p>
-<p>这是我最近每天上班路上必听的一档理财脱口秀节目《力哥说理财》，喜欢的朋友也可以在喜马拉雅FM上订阅“力哥说理财”。力哥说理财的口号是：简单，好玩，有干货。力哥每期节目中都会用非常风趣幽默的方式跟大家分享投资理财相关的心得，并且有很多内容都能很好的帮助大家养成理性的投资价值观。音频节目的文字版本也会定期发布在这个微信公众号上。</p>
-<p><strong>4、金融八卦女（ID：jinrongbaguanv）</strong></p>
-<p>这位金融八卦女是一位基金行业的从业人员，她开设的金融八卦女微信公众号是金融业内最有名气的自媒体平台之一，据说绝大多数的金融从业者都关注了这个微信公众号。我自己就是一名金融从业者，在我微信不足400人的朋友列表里，竟然有超过80人都关注了金融八卦女，可想而知她的受欢迎程度。</p>
-<p><strong>5、越女读财（ID：ynducai）</strong></p>
-<p>“一个小小的理财抽屉，一枚玩心很重的财女”。这是“越女读财”这个微信公众号的个人介绍。越女读财是我最近一段时间每天必读的公众号，越女每天都会分享一些理财、投资方面的心得，并获得了广泛的好评。更重要的是，我很喜欢越女的文字，简单，清新，不脱俗。</p>
-<p><strong>6、三公子的人生记录仪（ID：sangongzi0906）</strong></p>
-<p>豆瓣红人三公子的个人微信公众号，我第一次知道三公子其实是在简书这个平台上看到的。是个很励志的小女孩，她是一位理财达人，作为一名普通的公务员，通过自己的理财规划，用5年的时间就积累了100万的个人资产。在微信公众号中，她分享了很多理财相关的话题，比如基金定投、小白理财、资产配置和自我成长以及健身相关的文章。</p>
-<p><strong>7、定投十年赚十倍（ID：auto10bagger）</strong></p>
-<p>雪球大V银行螺丝钉开设的个人微信公众号，银行螺丝钉是专注在指数基金的投资，是畅销书《指数基金投资指南》的作者。在这里，她会经常分享关于指数基金投资方面的一些心得，她的很多文章我都有阅读，受益很大。更加难得的是，她还通过科学的方法，编制了市场主要指数的估值表，并每天在公众号上发布。想系统性学习指数基金投资的朋友不妨关注。</p>
-<p><strong>8、大玩家张磊（ID：seniorplayer）</strong></p>
-<p>与其说帮你赚钱，倒不如说帮你省钱，也就是教你如何薅羊毛。大玩家张磊在这里会经常发布一些很实用、高逼格的薅羊毛的攻略，包括信用卡、航空里程、酒店等各个方面。他和我一样，都是周杰伦的铁杆粉丝，据说他把公司的每个会议室都用周杰伦的歌名来命名，很酷。他还是懒投资的CEO，在懒投资推出了很多收益稳健的理财产品，有兴趣的朋友也可以去看下。</p>
-<p><strong>9、长投学堂（ID：ichangtou）</strong></p>
-<p>长投学堂是一家专注量化投资和价值投资学习的网站，是由豆瓣红人水湄物语和他先生小熊创办的在线投资学习平台。在长投学堂，有系统性的价值投资的课程（入门课、初级课、进阶课和高级课），还会不定期邀请在投资领域有所建树的大牛们分享其他低风险的投资方法。所以如果你想成为巴菲特，想实现财务自由，想通过量化的价值投资来获得稳健低风险的投资回报，推荐你加入长投学堂，当然，里面有些课程是付费的。</p>
-<p><strong>10、零基础学投资理财（ID：xuetouzilicai）</strong></p>
-<p>同样来自长投学堂的衍生平台，这个微信公众号的定位主要是针对小白人群，所以分享的文章更多是关于零基础的人士如何去学习投资理财的，经常会有很多超级实用、简单的干货分享出来。再次连同长投学堂一并推荐给大家。</p>
-<p><strong>工薪金融街（ID：richgx）</strong></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/e9ab1654c5a8" target="_blank" rel="noopener">10个最值得关注的财经商业和投资理财类微信公众号</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-计算机设备" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/计算机设备/" class="article-date">
-      <time datetime="2018-07-12T10:45:03.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/计算机设备/">计算机设备</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="网络设备"><a href="#网络设备" class="headerlink" title="网络设备"></a>网络设备</h2><h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>锐捷</p>
-<h3 id="AC控制器"><a href="#AC控制器" class="headerlink" title="AC控制器"></a>AC控制器</h3><p>华为</p>
-<h3 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h3><p>华为</p>
-<h3 id="POE交换机"><a href="#POE交换机" class="headerlink" title="POE交换机"></a>POE交换机</h3><p>华为</p>
-<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h3 id="NAS"><a href="#NAS" class="headerlink" title="NAS"></a>NAS</h3><p>synology</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 安装配置Hugo" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/04/macOS 安装配置Hugo/" class="article-date">
-      <time datetime="2018-07-04T16:24:10.000Z" itemprop="datePublished">2018-07-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a><br><a href="https://gohugo.io/getting-started/installing/" target="_blank" rel="noopener">Install Hugo</a><a href="https://jimmysong.io/posts/building-github-pages-with-hugo/" target="_blank" rel="noopener">零基础使用Hugo和GitHub Pages创建自己的博客</a></p>
-<p><code>brew install hugo</code></p>
-<p>下载主题</p>
-<p><a href="https://github.com/halogenica/beautifulhugo" target="_blank" rel="noopener">Beautiful Hugo github</a>|<a href="https://themes.gohugo.io/beautifulhugo/" target="_blank" rel="noopener">Beautiful Hugo</a></p>
-<p><code>git clone https://github.com/halogenica/beautifulhugo.git themes/beautifulhugo</code></p>
-<p><code>hugo server -t beautifulhugo --buildDrafts</code></p>
-<p>-t参数的意思是使用beautifulhugo主题渲染我们的页面，注意到about.md目前是作为草稿，即draft参数设置为true，运行Hugo时要加上–buildDrafts参数才会生成被标记为草稿的页面。 在浏览器输入localhost:1313，就可以看到我们刚刚创建的页面。</p>
-<p>注意观察当前目录下多了一个文件夹public/，这里面是Hugo生成的整个静态网站，如果使用Github pages来作为博客的Host，你只需要将public/里的文件上传就可以，这相当于是Hugo的输出。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS gitbook" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/08/macOS gitbook/" class="article-date">
-      <time datetime="2018-06-08T08:13:00.000Z" itemprop="datePublished">2018-06-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
     <div class="article-entry" itemprop="articleBody">
       
@@ -694,83 +718,11 @@
 
 
   
-    <article id="post-商业保险" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-acme.sh" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/15/商业保险/" class="article-date">
-      <time datetime="2018-05-15T20:50:01.000Z" itemprop="datePublished">2018-05-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/15/商业保险/">商业保险</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="我："><a href="#我：" class="headerlink" title="我："></a>我：</h2><p><strong>重疾险</strong></p>
-<p>百年康惠保</p>
-<p><strong>定期寿险</strong></p>
-<p>30年比20年贵一半</p>
-<p>不要终身寿险</p>
-<p><a href="https://mp.weixin.qq.com/s?__biz=MzIwNzY5MjA2Nw==&amp;mid=2247483813&amp;idx=1&amp;sn=38611df460a894d60e056100dee3afb7&amp;chksm=970fc9e9a07840ffc405b54c7ed5dc7fd97fed907bb37444d0b56bb21377e48baa8d1e7080f9&amp;mpshare=1&amp;scene=1&amp;srcid=0514itQjYc3TKjzhhFZxoKQM%23rd" target="_blank" rel="noopener">这三个爆款定期寿险</a></p>
-<p>大白定期寿险</p>
-<p><strong>瑞和定期寿险</strong> *</p>
-<p><strong>擎天柱定期寿险</strong></p>
-<p><strong>意外险</strong></p>
-<h2 id="妈："><a href="#妈：" class="headerlink" title="妈："></a>妈：</h2><p><strong>重疾险</strong></p>
-<p>考虑终生</p>
-<p><strong>意外险</strong></p>
-<p><strong>医疗险</strong></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生活/">生活</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Windows 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/06/Windows 安装软件/" class="article-date">
-      <time datetime="2018-05-06T15:41:19.000Z" itemprop="datePublished">2018-05-06</time>
+      <a href="/2018/04/10/acme.sh/" class="article-date">
+      <time datetime="2018-04-10T16:54:43.000Z" itemprop="datePublished">2018-04-10</time>
 </a>
     </div>
   
@@ -782,9 +734,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://www.edrawsoft.cn/download-edrawmax.php" target="_blank" rel="noopener">亿图图示</a></p>
-<p><a href="http://www.yipojie.cn/684.html" target="_blank" rel="noopener">[亿图图示 Edraw Max v9.1 中文破解版及破解授权补丁]</a></p>
-
+        <p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acme.sh</a><br><a href="https://github.com/Neilpang/acme.sh/wiki/dns-manual-mode" target="_blank" rel="noopener">DNS manual mode</a></p>
+<p> yum -y install openssl </p>
+<p> curl <a href="https://get.acme.sh" target="_blank" rel="noopener">https://get.acme.sh</a> | sh</p>
+<p> ./acme.sh –issue -d quanjinlong.cn –dns \<br> –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
+<p>./acme.sh –renew -d quanjinlong.cn \<br>  –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
+<p>copy/安装 证书<br>mkdir -p /data/www/ssl</p>
+<p>./acme.sh –install-cert -d quanjinlong.cn \<br>–key-file       /data/www/ssl/quanjinlong.cn.key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn.cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
+<p>“/root/.acme.sh”/acme.sh –issue –dns dns_cx -d quanjinlong.cn -k ec-256</p>
+<p>./acme.sh –install-cert -d quanjinlong.cn_ecc \<br>–key-file       /data/www/ssl/quanjinlong.cn/ecc_key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn/ecc_cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
+<h2 id="log"><a href="#log" class="headerlink" title="log"></a>log</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">  [root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --issue -d quanjinlong.cn --dns \</span></span><br><span class="line">&gt;  --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:29:42 CST 2018] Registering account</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Registered</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] ACCOUNT_THUMBPRINT=<span class="string">'kiwEXzVZgNIaJAK8Nhfc82QAu8MUgz5hkXiSc-1dNIw'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Creating domain key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] The domain key is here: /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting webroot <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting new-authz <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] The new-authz request is ok.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Add the following TXT record:</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Domain: <span class="string">'_acme-challenge.quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] TXT value: <span class="string">'n1_OFICy66s8pQT9_Y_B6_CPtVggPaBQgILNOMx_Nfw'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please be aware that you prepend _acme-challenge. before your domain</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] so the resulting subdomain will be: _acme-challenge.quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add the TXT records to the domains, and re-run with --renew.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add <span class="string">'--debug'</span> or <span class="string">'--log'</span> to check more details.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] See: https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh</span><br><span class="line">[root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --renew -d quanjinlong.cn \</span></span><br><span class="line">&gt;   --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:35:45 CST 2018] Renew: <span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Verifying:quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:35:55 CST 2018] Pending</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Success</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Verify finished, start to sign.</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Cert success.</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIGBzCCBO+gAwIBAgISAyvAMFcP9Xllga0gd+ZYlZpdMA0GCSqGSIb3DQEBCwUA</span><br><span class="line">MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD</span><br><span class="line">ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xODA0MDUwMDM2MDFaFw0x</span><br><span class="line">ODA3MDQwMDM2MDFaMBkxFzAVBgNVBAMTDnF1YW5qaW5sb25nLmNuMIIBIjANBgkq</span><br><span class="line">hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo91hTopV6JCu8tdfgPka43fkDYIIYu1r</span><br><span class="line">gFVbQcvU01sAVd7XkXUknzpnZCKnCEAfQCrAKyJvqHh/fqtpxkFd6K4XuGH9xJXf</span><br><span class="line">PBd1PZ02NhrCVPpiKTDLsaBqn/IYBS0YzvwUSYNl5bbUjgozCRrAZDFsTzFe0lnM</span><br><span class="line">CM55PyYkBPePWFiWEXXWyUvbjsBerMOa4gQrQl7HNHHLBZ7w0AJwTafz3iDEgrRg</span><br><span class="line">u04NzVehre3FWwfOLcOe396NpH300N6EuGl2bo2cRldgek81CyM0A1JDl5hmFlAh</span><br><span class="line">MlBgt/87PNGtv7ZpTq+/i+t/BfslVgavWbJ+fy7B4a3cBEBYWGbQEwIDAQABo4ID</span><br><span class="line">FjCCAxIwDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEF</span><br><span class="line">BQcDAjAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSiboptH4fpTKM/ozBKc91kBDxB</span><br><span class="line">oDAfBgNVHSMEGDAWgBSoSmpjBH3duubRObemRWXv86jsoTBvBggrBgEFBQcBAQRj</span><br><span class="line">MGEwLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwLmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcwLwYIKwYBBQUHMAKGI2h0dHA6Ly9jZXJ0LmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcvMBkGA1UdEQQSMBCCDnF1YW5qaW5sb25nLmNuMIH+BgNVHSAEgfYwgfMwCAYG</span><br><span class="line">Z4EMAQIBMIHmBgsrBgEEAYLfEwEBATCB1jAmBggrBgEFBQcCARYaaHR0cDovL2Nw</span><br><span class="line">cy5sZXRzZW5jcnlwdC5vcmcwgasGCCsGAQUFBwICMIGeDIGbVGhpcyBDZXJ0aWZp</span><br><span class="line">Y2F0ZSBtYXkgb25seSBiZSByZWxpZWQgdXBvbiBieSBSZWx5aW5nIFBhcnRpZXMg</span><br><span class="line">YW5kIG9ubHkgaW4gYWNjb3JkYW5jZSB3aXRoIHRoZSBDZXJ0aWZpY2F0ZSBQb2xp</span><br><span class="line">Y3kgZm91bmQgYXQgaHR0cHM6Ly9sZXRzZW5jcnlwdC5vcmcvcmVwb3NpdG9yeS8w</span><br><span class="line">ggEEBgorBgEEAdZ5AgQCBIH1BIHyAPAAdgApPFGWVMg5ZbqqUPxYB9S3b79Yeily</span><br><span class="line">3KTDDPTlRUf0eAAAAWKTckIrAAAEAwBHMEUCIQDAxllHOVE/fIfd/1q61yIQb7K3</span><br><span class="line">h+KvMJQm4ob+UjPqVgIgW3OtuN2FVCppgJhV1lKoQHSjgI9neRBGfwbpWyKmNAYA</span><br><span class="line">dgBVgdTCFpA2AUrqC5tXPFPwwOQ4eHAlCBcvo6odBxPTDAAAAWKTckNSAAAEAwBH</span><br><span class="line">MEUCIQDDhoKDEShosj+OYHWp04ZRGb2GBeknEvvQ6RpW/fB9LQIgI8bdN5X17KoH</span><br><span class="line">HEsNhBGAVwPrP3TqcAQ7rYKsz38WWsUwDQYJKoZIhvcNAQELBQADggEBAJCm+iuD</span><br><span class="line">g6CHchyNEPXfooa0zntBgzNKlwjTwSLzMJxKmFD1GBXkZGLZwRtRtu14SRw67dQG</span><br><span class="line">dBUwoxsSRae/F9eHiQLJrqY7p4s79zU/0aHD8NAnGm9nERXPL2ehjnKPx0lgAQc5</span><br><span class="line">8qORHJaRXPaOUGu+XpWBbXnOihq12Uhq4Bx5fIoR+4Kd4+oIET7nv00eeBPMJmiX</span><br><span class="line">83xOxIKRvEAJqWj0W6DOymvkc1NaGp2LCMRRfHNbd2p+l2xLtbewjnhzf/V3XXGv</span><br><span class="line">l9ZdDtEUPH4meQQY4xrAEgu9rTTLOpMmLSSPdNQFN8wJqJqPVHfcxMbPOqusQgGo</span><br><span class="line">I4qVG2BqLb9t3FQ=</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.cer</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert key is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] The intermediate CA cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/ca.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] And the full chain certs is there:  /root/.acme.sh/quanjinlong.cn/fullchain.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] It seems that you are using dns manual mode. please take care: The dns manual mode can not renew automatically, you must issue it again manually. You<span class="string">'d better use the other modes instead.</span></span><br><span class="line"><span class="string">[Thu Apr  5 09:36:03 CST 2018] Call hook error.</span></span><br></pre></td></tr></table></figure>
       
       
     </div>

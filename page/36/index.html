@@ -206,277 +206,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Tomcat安装配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/Tomcat安装配置/" class="article-date">
-      <time datetime="2016-03-07T20:15:00.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/Tomcat安装配置/">Tomcat安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://www.zyops.com/java-tomcat" target="_blank" rel="noopener">Tomcat安装配置</a></p>
-<h2 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h2><ul>
-<li><p><a href="JDK安装配置.md">JDK安装配置</a></p>
-</li>
-<li><p>下载 <a href="http://tomcat.apache.org/" target="_blank" rel="noopener">Apache tomcat</a></p>
-</li>
-<li><p>安装Tomcat</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#解压缩tomcat</span></span><br><span class="line">tar xf apache-tomcat-8.5.23.tar.gz -C /usr/<span class="built_in">local</span>/</span><br><span class="line"><span class="comment">#软链接</span></span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/apache-tomcat-8.5.23 /usr/<span class="built_in">local</span>/tomcat</span><br><span class="line"><span class="comment">#添加系统变量</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export TOMCAT_HOME=/usr/local/tomcat'</span>&gt;&gt;/etc/profile</span><br><span class="line"><span class="comment">#立即生效系统变量</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="comment">#更改tomcat的权限</span></span><br><span class="line">chown -R root:root /usr/<span class="built_in">local</span>/apache-tomcat-8.5.23</span><br></pre></td></tr></table></figure>
-<h2 id="启动Tomcat"><a href="#启动Tomcat" class="headerlink" title="启动Tomcat"></a>启动Tomcat</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#启动程序</span></span><br><span class="line">tomcat/bin/startup.sh</span><br><span class="line"><span class="comment">#关闭程序</span></span><br><span class="line">tomcat/bin/shutdown.sh</span><br><span class="line"><span class="comment">#查看网络</span></span><br><span class="line">netstat -tunlp|grep java</span><br><span class="line"><span class="comment">#查看进程</span></span><br><span class="line">ps -ef|grep [j]ava</span><br></pre></td></tr></table></figure>
-<p>访问网站<br>网址：<a href="http://IP:8080/" target="_blank" rel="noopener">http://IP:8080/</a></p>
-<p>Tomcat日志</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#进入日志目录</span></span><br><span class="line"><span class="built_in">cd</span> tomcat/logs/</span><br><span class="line"><span class="comment">#tomcat实时运行日志</span></span><br><span class="line">tail -f catalina.out</span><br><span class="line"><span class="comment">#访问日志</span></span><br><span class="line">tail -f 域名_access_log.日期.txt</span><br></pre></td></tr></table></figure>
-<p>Tomcat配置文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> tomcat/conf</span><br><span class="line"></span><br><span class="line"><span class="comment">#主配置文件</span></span><br><span class="line">server.xml</span><br><span class="line"><span class="comment">#Tomcat管理用户配置文件</span></span><br><span class="line">tomcat-users.xml</span><br></pre></td></tr></table></figure>
-<p>站点目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> tomcat/webapps/ROOT</span><br></pre></td></tr></table></figure>
-<h2 id="Tomcat简介"><a href="#Tomcat简介" class="headerlink" title="Tomcat简介"></a>Tomcat简介</h2><p>Tomcat是Apache软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun和其他一些公司及个人共同开发而成。</p>
-<p>Tomcat服务器是一个免费的开放源代码的Web应用服务器，属于轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试JSP程序的首选。</p>
-<p>Tomcat和Nginx、Apache(httpd)、lighttpd等Web服务器一样，具有处理HTML页面的功能，另外它还是一个Servlet和JSP容器，独立的Servlet容器是Tomcat的默认模式。不过，Tomcat处理静态HTML的能力不如Nginx/Apache服务器。</p>
-<blockquote>
-<p>目前Tomcat最新版本为9.0。Java容器应用还有resin、weblogic等。</p>
-</blockquote>
-<h2 id="Tomcat目录介绍"><a href="#Tomcat目录介绍" class="headerlink" title="Tomcat目录介绍"></a>Tomcat目录介绍</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">cd /application/tomcat/</span><br><span class="line"></span><br><span class="line">tree -L 1</span><br><span class="line">.</span><br><span class="line">├── bin         #→用以启动、关闭Tomcat或者其它功能的脚本（.bat文件和.sh文件）</span><br><span class="line">├── conf        #→用以配置Tomcat的XML及DTD文件</span><br><span class="line">├── lib         #→存放web应用能访问的JAR包</span><br><span class="line">├── LICENSE</span><br><span class="line">├── logs        #→Catalina和其它Web应用程序的日志文件</span><br><span class="line">├── NOTICE</span><br><span class="line">├── RELEASE-NOTES</span><br><span class="line">├── RUNNING.txt</span><br><span class="line">├── temp        #→临时文件</span><br><span class="line">├── webapps     #→Web应用程序根目录</span><br><span class="line">└── work        #→用以产生有JSP编译出的Servlet的.java和.class文件</span><br><span class="line">7 directories, 4 files</span><br><span class="line"></span><br><span class="line">cd webapps/</span><br><span class="line"></span><br><span class="line">ll</span><br><span class="line"></span><br><span class="line">total 20</span><br><span class="line">drwxr-xr-x 14 root root 4096 Oct  5 12:09 docs     #→tomcat帮助文档</span><br><span class="line">drwxr-xr-x  6 root root 4096 Oct  5 12:09 examples #→web应用实例</span><br><span class="line">drwxr-xr-x  5 root root 4096 Oct  5 12:09 host-manager #→管理</span><br><span class="line">drwxr-xr-x  5 root root 4096 Oct  5 12:09 manager  #→管理</span><br><span class="line">drwxr-xr-x  3 root root 4096 Oct  5 12:09 ROOT     #→默认网站根目录</span><br></pre></td></tr></table></figure>
-<h2 id="Tomcat管理"><a href="#Tomcat管理" class="headerlink" title="Tomcat管理"></a>Tomcat管理</h2><p>测试功能，生产环境不要用。</p>
-<p>Tomcat管理功能用于对Tomcat自身以及部署在Tomcat上的应用进行管理的web应用。在默认情况下是处于禁用状态的。如果需要开启这个功能，就需要配置管理用户，即配置前面说过的tomcat-users.xml。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# vim /application/tomcat/conf/tomcat-users.xml</span><br><span class="line">…………</span><br><span class="line">&lt;role rolename=&quot;manager-gui&quot;/&gt;</span><br><span class="line">&lt;role rolename=&quot;admin-gui&quot;/&gt;</span><br><span class="line">&lt;user username=&quot;tomcat&quot; password=&quot;tomcat&quot; roles=&quot;manager-gui,admin-gui&quot;/&gt;</span><br><span class="line">&lt;/tomcat-users&gt;  #→在此行前加入上面三行</span><br><span class="line">[root@tomcat ~]# /application/tomcat/bin/shutdown.sh</span><br><span class="line">[root@tomcat ~]# /application/tomcat/bin/startup.sh</span><br></pre></td></tr></table></figure>
-<h2 id="Tomcat主配置文件server-xml详解"><a href="#Tomcat主配置文件server-xml详解" class="headerlink" title="Tomcat主配置文件server.xml详解"></a>Tomcat主配置文件server.xml详解</h2><ul>
-<li>顶级组件：位于整个配置的顶层，如server。</li>
-<li>容器类组件：可以包含其它组件的组件，如service、engine、host、context。</li>
-<li>连接器组件：连接用户请求至tomcat，如connector。</li>
-<li>被嵌套类组件：位于一个容器当中，不能包含其他组件，如Valve、logger。</li>
-</ul>
-<p>组件详解</p>
-<hr>
-<p>engine：核心容器组件，catalina引擎，负责通过connector接收用户请求，并处理请求，将请求转至对应的虚拟主机host。<br>host：类似于httpd中的虚拟主机，一般而言支持基于FQDN的虚拟主机。<br>context：定义一个应用程序，是一个最内层的容器类组件（不能再嵌套）。配置context的主要目的指定对应对的webapp的根目录，类似于httpd的alias，其还能为webapp指定额外的属性，如部署方式等。<br>connector：接收用户请求，类似于httpd的listen配置监听端口的。<br>service（服务）：将connector关联至engine，因此一个service内部可以有多个connector，但只能有一个引擎engine。service内部有两个connector，一个engine。因此，一般情况下一个server内部只有一个service，一个service内部只有一个engine，但一个service内部可以有多个connector。<br>server：表示一个运行于JVM中的tomcat实例。<br>Valve：阀门，拦截请求并在将其转至对应的webapp前进行某种处理操作，可以用于任何容器中，比如记录日志(access log valve)、基于IP做访问控制(remote address filter valve)。<br>logger：日志记录器，用于记录组件内部的状态信息，可以用于除context外的任何容器中。<br>realm：可以用于任意容器类的组件中，关联一个用户认证库，实现认证和授权。可以关联的认证库有两种：UserDatabaseRealm、MemoryRealm和JDBCRealm。<br>UserDatabaseRealm：使用JNDI自定义的用户认证库。<br>MemoryRealm：认证信息定义在tomcat-users.xml中。<br>JDBCRealm：认证信息定义在数据库中，并通过JDBC连接至数据库中查找认证用户。</p>
-<hr>
-<p>配置文件注释</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version='1.0' encoding='utf-8'?&gt;</span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">&lt;Server&gt;元素代表整个容器,是Tomcat实例的顶层元素.由org.apache.catalina.Server接口来定义.它包含一个&lt;Service&gt;元素.并且它不能做为任何元素的子元素.</span></span><br><span class="line"><span class="comment">    port指定Tomcat监听shutdown命令端口.终止服务器运行时,必须在Tomcat服务器所在的机器上发出shutdown命令.该属性是必须的.</span></span><br><span class="line"><span class="comment">    shutdown指定终止Tomcat服务器运行时,发给Tomcat服务器的shutdown监听端口的字符串.该属性必须设置</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Server</span> <span class="attr">port</span>=<span class="string">"8005"</span> <span class="attr">shutdown</span>=<span class="string">"SHUTDOWN"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.startup.VersionLoggerListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.AprLifecycleListener"</span> <span class="attr">SSLEngine</span>=<span class="string">"on"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.JreMemoryLeakPreventionListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.core.ThreadLocalLeakPreventionListener"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">GlobalNamingResources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Resource</span> <span class="attr">name</span>=<span class="string">"UserDatabase"</span> <span class="attr">auth</span>=<span class="string">"Container"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">type</span>=<span class="string">"org.apache.catalina.UserDatabase"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">description</span>=<span class="string">"User database that can be updated and saved"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">factory</span>=<span class="string">"org.apache.catalina.users.MemoryUserDatabaseFactory"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">pathname</span>=<span class="string">"conf/tomcat-users.xml"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">GlobalNamingResources</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--service服务组件--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Service</span> <span class="attr">name</span>=<span class="string">"Catalina"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    connector：接收用户请求，类似于httpd的listen配置监听端口.</span></span><br><span class="line"><span class="comment">        port指定服务器端要创建的端口号，并在这个端口监听来自客户端的请求。</span></span><br><span class="line"><span class="comment">        address：指定连接器监听的地址，默认为所有地址（即0.0.0.0）</span></span><br><span class="line"><span class="comment">        protocol连接器使用的协议，支持HTTP和AJP。AJP（Apache Jserv Protocol）专用于tomcat与apache建立通信的， 在httpd反向代理用户请求至tomcat时使用（可见Nginx反向代理时不可用AJP协议）。</span></span><br><span class="line"><span class="comment">        minProcessors服务器启动时创建的处理请求的线程数</span></span><br><span class="line"><span class="comment">        maxProcessors最大可以创建的处理请求的线程数</span></span><br><span class="line"><span class="comment">        enableLookups如果为true，则可以通过调用request.getRemoteHost()进行DNS查询来得到远程客户端的实际主机名，若为false则不进行DNS查询，而是返回其ip地址</span></span><br><span class="line"><span class="comment">        redirectPort指定服务器正在处理http请求时收到了一个SSL传输请求后重定向的端口号</span></span><br><span class="line"><span class="comment">        acceptCount指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理</span></span><br><span class="line"><span class="comment">        connectionTimeout指定超时的时间数(以毫秒为单位)</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8009"</span> <span class="attr">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--engine,核心容器组件,catalina引擎,负责通过connector接收用户请求,并处理请求,将请求转至对应的虚拟主机host</span></span><br><span class="line"><span class="comment">        defaultHost指定缺省的处理请求的主机名，它至少与其中的一个host元素的name属性值是一样的</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Engine</span> <span class="attr">name</span>=<span class="string">"Catalina"</span> <span class="attr">defaultHost</span>=<span class="string">"localhost"</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--Realm表示存放用户名，密码及role的数据库--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.LockOutRealm"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Realm</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.realm.UserDatabaseRealm"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">resourceName</span>=<span class="string">"UserDatabase"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">Realm</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">      host表示一个虚拟主机</span></span><br><span class="line"><span class="comment">        name指定主机名</span></span><br><span class="line"><span class="comment">        appBase应用程序基本目录，即存放应用程序的目录.一般为appBase="webapps" ，相对于CATALINA_HOME而言的，也可以写绝对路径。</span></span><br><span class="line"><span class="comment">        unpackWARs如果为true，则tomcat会自动将WAR文件解压，否则不解压，直接从WAR文件中运行应用程序</span></span><br><span class="line"><span class="comment">        autoDeploy：在tomcat启动时，是否自动部署。</span></span><br><span class="line"><span class="comment">        xmlValidation：是否启动xml的校验功能，一般xmlValidation="false"。</span></span><br><span class="line"><span class="comment">        xmlNamespaceAware：检测名称空间，一般xmlNamespaceAware="false"。</span></span><br><span class="line"><span class="comment">      --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        Context表示一个web应用程序，通常为WAR文件</span></span><br><span class="line"><span class="comment">            docBase应用程序的路径或者是WAR文件存放的路径,也可以使用相对路径，起始路径为此Context所属Host中appBase定义的路径。</span></span><br><span class="line"><span class="comment">            path表示此web应用程序的url的前缀，这样请求的url为http://localhost:8080/path/****</span></span><br><span class="line"><span class="comment">            reloadable这个属性非常重要，如果为true，则tomcat会自动检测应用程序的/WEB-INF/lib 和/WEB-INF/classes目录的变化，自动装载新的应用程序，可以在不重启tomcat的情况下改变应用程序</span></span><br><span class="line"><span class="comment">        --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">""</span> <span class="attr">docBase</span>=<span class="string">""</span> <span class="attr">debug</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attr">directory</span>=<span class="string">"logs"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">prefix</span>=<span class="string">"localhost_access_log"</span> <span class="attr">suffix</span>=<span class="string">".txt"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">pattern</span>=<span class="string">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">Host</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Engine</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">Service</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Server</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h1 id="WEB站点部署"><a href="#WEB站点部署" class="headerlink" title="#WEB站点部署"></a>#WEB站点部署</h1><p>上线的代码有两种方式，第一种方式是直接将程序目录放在webapps目录下面，这种方式大家已经明白了，就不多说了。第二种方式是使用开发工具将程序打包成war包，然后上传到webapps目录下面。下面让我们见识一下这种方式。</p>
-<ul>
-<li>使用war包部署web站点</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat webapps]# pwd</span><br><span class="line">/application/tomcat/webapps</span><br><span class="line">[root@tomcat webapps]# rz  #→上传memtest.war，此文件也在上面的百度网盘里</span><br><span class="line">[root@tomcat webapps]# ls</span><br><span class="line">docs  examples  host-manager  manager  memtest  memtest.war  ROOT</span><br></pre></td></tr></table></figure>
-<p>浏览器访问：<a href="http://10.0.0.3:8080/memtest/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8080/memtest/meminfo.jsp</a></p>
-<ul>
-<li>自定义默认网站目录<br>上面访问的网址为<a href="http://10.0.0.3:8080/memtest/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8080/memtest/meminfo.jsp</a><br>现在我想访问格式为<a href="http://10.0.0.3:8080/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8080/meminfo.jsp</a><br>怎么破？</li>
-</ul>
-<p>方法一</p>
-<p>将meminfo.jsp或其他程序放在tomcat/webapps/ROOT目录下即可。因为默认网站根目录为tomcat/webapps/ROOT</p>
-<p>方法二</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# vim /application/tomcat/conf/server.xml</span><br><span class="line">      &lt;Host name=&quot;localhost&quot;  appBase=&quot;webapps&quot;</span><br><span class="line">            unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;</span><br><span class="line">         &lt;Context path=&quot;&quot; docBase=&quot;/application/tomcat/webapps/memtest&quot; debug=&quot;0&quot; reloadable=&quot;false&quot; crossContext=&quot;true&quot;/&gt;</span><br><span class="line">[root@tomcat ~]# /application/tomcat/bin/shutdown.sh</span><br><span class="line">[root@tomcat ~]# /application/tomcat/bin/startup.sh</span><br></pre></td></tr></table></figure>
-<h2 id="Tomcat多实例及集群架构"><a href="#Tomcat多实例及集群架构" class="headerlink" title="Tomcat多实例及集群架构"></a>Tomcat多实例及集群架构</h2><ul>
-<li>Tomcat多实例</li>
-</ul>
-<ol>
-<li><p>复制Tomcat目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# cd /application/</span><br><span class="line">[root@tomcat application]# cp -a apache-tomcat-8.0.27 tomcat8_1</span><br><span class="line">[root@tomcat application]# cp -a apache-tomcat-8.0.27 tomcat8_2</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改配置文件</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat application]# mkdir -p /data/www/www/ROOT</span><br><span class="line">[root@tomcat application]# cp /application/tomcat/webapps/memtest/meminfo.jsp /data/www/www/ROOT/</span><br><span class="line">[root@tomcat ~]# sed -i &apos;22s#8005#8011#;69s#8080#8081#;123s#appBase=&quot;.*&quot;# appBase=&quot;/data/www/www&quot;#&apos; /application/tomcat8_1/conf/server.xml</span><br><span class="line">[root@tomcat ~]# sed -i &apos;22s#8005#8012#;69s#8080#8082#;123s#appBase=&quot;.*&quot;# appBase=&quot;/data/www/www&quot;#&apos; /application/tomcat8_2/conf/server.xml</span><br><span class="line">[root@tomcat ~]# diff /application/tomcat/conf/server.xml  /application/tomcat8_1/conf/server.xml   </span><br><span class="line">22c22</span><br><span class="line">&lt; &lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">---</span><br><span class="line">&gt; &lt;Server port=&quot;8011&quot; shutdown=&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">69c69</span><br><span class="line">&lt;     &lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">---</span><br><span class="line">&gt;     &lt;Connector port=&quot;8081&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">123c123</span><br><span class="line">&lt;       &lt;Host name=&quot;localhost&quot;  appBase=&quot;/application/tomcat/webapps/memtest&quot;</span><br><span class="line">---</span><br><span class="line">&gt;       &lt;Host name=&quot;localhost&quot;   appBase=&quot;/data/www/www&quot;</span><br><span class="line">[root@tomcat ~]# diff /application/tomcat/conf/server.xml  /application/tomcat8_2/conf/server.xml</span><br><span class="line">22c22</span><br><span class="line">&lt; &lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">---</span><br><span class="line">&gt; &lt;Server port=&quot;8012&quot; shutdown=&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">69c69</span><br><span class="line">&lt;     &lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">---</span><br><span class="line">&gt;     &lt;Connector port=&quot;8082&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">123c123</span><br><span class="line">&lt;       &lt;Host name=&quot;localhost&quot;  appBase=&quot;/application/tomcat/webapps/memtest&quot;</span><br><span class="line">---</span><br><span class="line">&gt;       &lt;Host name=&quot;localhost&quot;    appBase=&quot;/data/www/www&quot;</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>启动多实例</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for i in &#123;1..2&#125;;do /application/tomcat8_$i/bin/startup.sh;done</span><br><span class="line">netstat -tunlp|grep java</span><br></pre></td></tr></table></figure>
-<p>浏览器可以分别访问<a href="http://10.0.0.3:8081/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8081/meminfo.jsp</a> 和 <a href="http://10.0.0.3:8082/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8082/meminfo.jsp</a></p>
-<h2 id="Tomcat集群"><a href="#Tomcat集群" class="headerlink" title="Tomcat集群"></a>Tomcat集群</h2><h3 id="使用nginx-Tomcat反向代理集群"><a href="#使用nginx-Tomcat反向代理集群" class="headerlink" title="使用nginx+Tomcat反向代理集群"></a>使用nginx+Tomcat反向代理集群</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat ~]# vim /application/nginx/conf/nginx.conf</span><br><span class="line">    upstream web_pools &#123;</span><br><span class="line">        server 127.0.0.1:8081;</span><br><span class="line">        server 127.0.0.1:8082;</span><br><span class="line">        &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.jsp index.html index.htm;</span><br><span class="line">            proxy_pass http://web_pools;</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">[root@tomcat ~]# /application/nginx/sbin/nginx -t</span><br><span class="line">[root@tomcat ~]# /application/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
-<p>浏览器可以访问<a href="http://10.0.0.3/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3/meminfo.jsp</a></p>
-<h1 id="Tomcat监控"><a href="#Tomcat监控" class="headerlink" title="Tomcat监控"></a>Tomcat监控</h1><h1 id="Tomcat安全优化和性能优化"><a href="#Tomcat安全优化和性能优化" class="headerlink" title="Tomcat安全优化和性能优化"></a>Tomcat安全优化和性能优化</h1><h2 id="安全优化"><a href="#安全优化" class="headerlink" title="安全优化"></a>安全优化</h2><p>降权启动<br>telnet管理端口保护<br>ajp连接端口保护<br>禁用管理端</p>
-<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><h3 id="屏蔽dns查询enableLookups-”false”"><a href="#屏蔽dns查询enableLookups-”false”" class="headerlink" title="屏蔽dns查询enableLookups=”false”"></a>屏蔽dns查询enableLookups=”false”</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector  port=&quot;8081&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">           connectionTimeout=&quot;6000&quot; enableLookups=&quot;false&quot; acceptCount=&quot;800&quot;</span><br><span class="line">           redirectPort=&quot;8443&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="jvm调优"><a href="#jvm调优" class="headerlink" title="jvm调优"></a>jvm调优</h2><p>Tomcat最吃内存，只要内存足够，这只猫就跑的很快。<br>如果系统资源有限，那就需要进行调优，提高资源使用率。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">优化catalina.sh配置文件。在catalina.sh配置文件中添加以下代码：</span><br><span class="line">JAVA_OPTS=&quot;-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xms1024m -Xmx1024m -XX:NewSize=512m -XX:MaxNewSize=512m -XX:PermSize=512m -XX:MaxPermSize=512m&quot;</span><br><span class="line">server:一定要作为第一个参数，在多个CPU时性能佳</span><br><span class="line">-Xms：初始堆内存Heap大小，使用的最小内存,cpu性能高时此值应设的大一些</span><br><span class="line">-Xmx：初始堆内存heap最大值，使用的最大内存</span><br><span class="line">上面两个值是分配JVM的最小和最大内存，取决于硬件物理内存的大小，建议均设为物理内存的一半。</span><br><span class="line">-XX:PermSize:设定内存的永久保存区域</span><br><span class="line">-XX:MaxPermSize:设定最大内存的永久保存区域</span><br><span class="line">-XX:MaxNewSize:</span><br><span class="line">-Xss 15120 这使得JBoss每增加一个线程（thread)就会立即消耗15M内存，而最佳值应该是128K,默认值好像是512k.</span><br><span class="line">+XX:AggressiveHeap 会使得 Xms没有意义。这个参数让jvm忽略Xmx参数,疯狂地吃完一个G物理内存,再吃尽一个G的swap。</span><br><span class="line">-Xss：每个线程的Stack大小</span><br><span class="line">-verbose:gc 现实垃圾收集信息</span><br><span class="line">-Xloggc:gc.log 指定垃圾收集日志文件</span><br><span class="line">-Xmn：young generation的heap大小，一般设置为Xmx的3、4分之一</span><br><span class="line">-XX:+UseParNewGC ：缩短minor收集的时间</span><br><span class="line">-XX:+UseConcMarkSweepGC ：缩短major收集的时间</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web/">Web</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JDK安装配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/JDK安装配置/" class="article-date">
-      <time datetime="2016-03-07T20:10:00.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/JDK安装配置/">JDK安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
-<p>CentOS 6.7<br>CentOS 7.4.1708</p>
-</blockquote>
-<ul>
-<li>下载 <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">JDK</a></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#解压缩jdk</span></span><br><span class="line">tar xf jdk-8u151-linux-x64.tar.gz -C /usr/<span class="built_in">local</span>/</span><br><span class="line"><span class="comment">#软连接</span></span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/jdk1.8.0_151 /usr/<span class="built_in">local</span>/jdk</span><br><span class="line"><span class="comment">#更改jdk的权限</span></span><br><span class="line">chown -R root:root /usr/<span class="built_in">local</span>/jdk1.8.0_151/</span><br></pre></td></tr></table></figure>
-<ul>
-<li>添加系统变量</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#添加java home系统变量</span></span><br><span class="line">sed -i.ori <span class="string">'$a export JAVA_HOME=/usr/local/jdk\nexport PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH\nexport CLASSPATH=.$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar'</span> /etc/profile</span><br><span class="line"><span class="comment">#立即生效系统变量</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="comment">#查看java版本</span></span><br><span class="line">java -version</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2015年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/12/31/2015年终总结之败家/" class="article-date">
-      <time datetime="2015-12-31T08:20:13.000Z" itemprop="datePublished">2015-12-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/31/2015年终总结之败家/">2015年终总结之败家</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-2015年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1127,6 +856,193 @@
       
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/httpd/">httpd</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-去广州" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/04/14/去广州/" class="article-date">
+      <time datetime="2015-04-14T09:17:00.000Z" itemprop="datePublished">2015-04-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/14/去广州/">去广州</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <pre><code>上海发向广州的火车。没有买到有座位的票，一路站到广州。
+</code></pre>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2014年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/12/31/2014年终总结之败家/" class="article-date">
+      <time datetime="2014-12-31T08:01:09.000Z" itemprop="datePublished">2014-12-31</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/31/2014年终总结之败家/">2014年终总结之败家</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2014年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/12/31/2014年终总结之思考/" class="article-date">
+      <time datetime="2014-12-31T08:00:24.000Z" itemprop="datePublished">2014-12-31</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/31/2014年终总结之思考/">2014年终总结之思考</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
     </div>
 
       
