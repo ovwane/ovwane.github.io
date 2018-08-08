@@ -1,3 +1,4 @@
+---
 title: Cacti安装配置
 date: 2017-01-10 17:50:18
 categories:
@@ -8,6 +9,7 @@ tags:
 - 监控
 - Cacti
 ---
+
 Nagios安装配置
 
 [下载Cacti](http://www.cacti.net/downloads)
@@ -104,13 +106,13 @@ syslocation 192.168.1.118
 access  notConfigGroup ""      any       noauth    exact  all none none
  
 view all    included  .1                               80    去掉注释符“#”
-```
+ ```
 
 启动 snmpd
 
 ```
  /etc/init.d/snmpd start
- ```
+```
 
 ## 使用
 - 依次点击console -> Devices -> add,添加主机

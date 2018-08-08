@@ -1,3 +1,4 @@
+---
 title: COBBLER无人值守安装
 date: 2015-12-26 11:22:15
 categories:
@@ -7,6 +8,7 @@ tags:
 - CentOS
 - Cobbler
 ---
+
 [COBBLER无人值守安装](http://www.zyops.com/autoinstall-cobbler)
 
 ## Cobbler介绍

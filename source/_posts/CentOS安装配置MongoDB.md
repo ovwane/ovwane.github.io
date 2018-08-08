@@ -1,3 +1,7 @@
+---
+date: 2018-08-08 16:47:48
+---
+
 ```shell
 rpm --import https://www.mongodb.org/static/pgp/server-3.6.asc
 ```

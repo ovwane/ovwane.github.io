@@ -1,3 +1,4 @@
+---
 title: Ansible安装部署
 date: 2016-03-15 08:24:13
 categories:
@@ -7,6 +8,7 @@ tags:
 - CentOS
 - Ansible
 ---
+
 [Ansible安装部署](http://www.showerlee.com/archives/1649)
 
 # 简介
@@ -153,63 +155,63 @@ script: 远程执行MASTER本地SHELL脚本.(类似scp+shell)
 ````
 # echo "df -h" > ~/test.sh
 # ansible webservers -m script -a "~/test.sh"
-```
+​```
 
 2. copy模块
 实现主控端向目标主机拷贝文件, 类似scp功能.
 该实例实现~/test.sh文件至webservers组目标主机/tmp下, 并更新文件owner和group
 
-```
+​```
 # ansible webservers -m copy -a "src=~/test.sh dest=/tmp/ owner=root group=root mode=0755"
 # ansible webservers -m copy -a "src=~/test.sh dest=/tmp/ owner=root group=root mode=0755"
-```
+​```
 
 3. stat模块
 获取远程文件状态信息, 包括atime, ctime, mtime, md5, uid, gid等信息.
 
-```
+​```
 # ansible webservers -m stat -a "path=/etc/sysctl.conf"
-```
+​```
 
 4. get_url模块
 实现在远程主机下载指定URL到本地.
 
-```
+​```
 # ansible webservers -m get_url -a "url=http://www.showerlee.com dest=/tmp/index.html mode=0400 force=yes"
-```
+​```
 
 5. yum模块
 Linux包管理平台操作,  常见都会有yum和apt, 此处会调用yum管理模式
 
-```
+​```
 # ansible servers -m yum -a "name=curl state=latest"
-```
+​```
 
 6. cron模块
 远程主机crontab配置
 
-```
+​```
 # ansible webservers -m cron -a "name='check dir' hour='5,2' job='ls -alh > /dev/null'"
-```
+​```
 
 7. service模块
 远程主机系统服务管理
 
-```
+​```
 # ansible webservers -m service -a "name=crond state=stopped"
 # ansible webservers -m service -a "name=crond state=restarted"
 # ansible webservers -m service -a "name=crond state=reloaded"
-```
+​```
 
 8. user服务模块
 远程主机系统用户管理
 
-```
+​```
 添加用户:
 # ansible webservers -m user -a "name=johnd comment='John Doe'"
 删除用户:
 # ansible webservers -m user -a "name=johnd state=absent remove=yes"
-```
+​```
 
 ## playbook介绍
 playbook是一个不同于使用Ansible命令行执行方式的模式, 其功能是将大量命令行配置集成到一起形成一个可定制的多主机配置管理部署工具.
@@ -219,15 +221,15 @@ playbook部署实例:
 
 1. 构建目录结构
 
-```
+​```
 # cd /etc/ansible/
 # mkdir group_vars
 # mkdir roles
-```
+​```
 
 2. 定义host
 
-```
+​```
 # vi /etc/ansible/hosts
 [webservers]
 client01.example.com
@@ -236,11 +238,11 @@ client02.example.com
 client01.example.com
 [nginx02]
 client02.example.com
-```
+​```
 
 3. 定义变量
 
-```
+​```
 # vi /etc/ansible/group_vars/nginx01
 worker_processes: 4
 num_cpus: 4
@@ -253,12 +255,12 @@ num_cpus: 2
 max_open_file: 35506
 root: /www
 remote_user: root
-```
+​```
 Tips:这里在group_vars下定义的文件名必须对应hosts文件下的group标签, 通过这里定义的不同参数从而部署不同类型的主机配置.
 
 4. 创建roles入口文件
 
-```
+​```
 # vi /etc/ansible/site.yml
 - hosts: webservers
   roles:
@@ -269,13 +271,13 @@ Tips:这里在group_vars下定义的文件名必须对应hosts文件下的group�
 - hosts: nginx02
   roles:
   - nginx02
-```
+​```
 Tips: 这里的roles:下的字符串需对应roles目录下的目录名.
 
 5. 定义全局role base_env
 创建目录结构
 
-```
+​```
 # mkdir -p /etc/ansible/roles/base_env/tasks 
 # vi /etc/ansible/roles/base_env/tasks/main.yml
 # 将EPEL的yum源配置文件传送到客户端
@@ -299,12 +301,12 @@ Tips: 这里的roles:下的字符串需对应roles目录下的目录名.
 # mkdir -p  /etc/ansible/roles/base_env/files
 # cp /etc/yum.repos.d/epel.repo /etc/ansible/roles/base_env/files
 # cp /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6 /etc/ansible/roles/base_env/files
-```
+​```
 
 6. 定义nginx01和ngnix02 role
 创建目录结构
 
-```
+​```
 # mkdir -p /etc/ansible/roles/nginx{01,02}
 # mkdir -p /etc/ansible/roles/nginx01/tasks
 # mkdir -p /etc/ansible/roles/nginx02/tasks
@@ -325,11 +327,11 @@ Tips: 这里的roles:下的字符串需对应roles目录下的目录名.
 - name: ensure nginx is running
   service: name=nginx state=restarted
 # cp /home/ansible/roles/nginx01/tasks/main.yml /home/ansible/roles/nginx02/tasks/main.yml
-```
+​```
 
 7. 定义files
 
-```
+​```
 # mkdir -p /etc/ansible/roles/nginx01/templates
 # mkdir -p /etc/ansible/roles/nginx02/templates
 # vi /etc/ansible/roles/nginx01/templates/nginx.conf
@@ -408,22 +410,22 @@ http {
     }  
   
 } 
-```
+​```
 Tip: worker_processes, num_cpus, max_open_file, root等参数会调用group_vars目录下配置文件中相应的变量值
 
-```
+​```
 # cp /etc/ansible/roles/nginx01/templates/nginx.conf  /etc/ansible/roles/nginx02/templates/nginx.conf
-```
+​```
 
 8. 执行playbook
 
-```
+​```
 # ansible-playbook -i /etc/ansible/hosts /etc/ansible/site.yml -f 10
-```
+​```
 Tips: -f 为启动10个并行进程执行playbook, -i 定义inventory host文件, site.yml 为入口文件 
 
 最终部署目录结构如下
-```
+​```
 # tree /etc/ansible/
 /etc/ansible/
 ├── ansible.cfg
@@ -452,4 +454,5 @@ Tips: -f 为启动10个并行进程执行playbook, -i 定义inventory host文件
 └── site.yml
 
 11 directories, 13 files
-```
+​```
+````

@@ -1,3 +1,7 @@
+---
+date: 2018-08-08 16:52:01
+---
+
 mkdir aws 
 cd aws
 pipenv --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python

@@ -1,3 +1,4 @@
+---
 title: JDK安装配置
 date: 2016-03-07 20:10:00
 categories:
@@ -7,6 +8,7 @@ tags:
 - CentOS
 - Java
 ---
+
 >CentOS 6.7
 >CentOS 7.4.1708
 

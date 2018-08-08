@@ -1,3 +1,7 @@
+---
+date: 2018-07-04 16:40:08
+---
+
 [Hugo](https://github.com/gohugoio/hugo)
 
 [Hugo静态网站生成器中文教程](http://nanshu.wang/post/2015-01-31/)

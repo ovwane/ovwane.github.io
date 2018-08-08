@@ -1,17 +1,21 @@
+---
+date: 2018-04-10 16:54:43
+---
+
 [acme.sh](https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E)
 [DNS manual mode](https://github.com/Neilpang/acme.sh/wiki/dns-manual-mode)
- 
- 
+
+
  yum -y install openssl 
- 
+
  curl https://get.acme.sh | sh
- 
+
  ./acme.sh --issue -d quanjinlong.cn --dns \
  --yes-I-know-dns-manual-mode-enough-go-ahead-please
- 
+
 ./acme.sh --renew -d quanjinlong.cn \
   --yes-I-know-dns-manual-mode-enough-go-ahead-please
-  
+
 copy/安装 证书
 mkdir -p /data/www/ssl
 
@@ -28,9 +32,9 @@ mkdir -p /data/www/ssl
 --fullchain-file /data/www/ssl/quanjinlong.cn/ecc_cert.pem \
 --reloadcmd     "service nginx force-reload"
 
-  
+
 ## log
-  
+
 ```bash
   [root@VM_8_12_centos .acme.sh]# ./acme.sh --issue -d quanjinlong.cn --dns \
 >  --yes-I-know-dns-manual-mode-enough-go-ahead-please

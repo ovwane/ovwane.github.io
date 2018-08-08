@@ -1,3 +1,7 @@
+---
+date: 2018-08-08 16:48:52
+---
+
 ```
 rpm --import http://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 ```

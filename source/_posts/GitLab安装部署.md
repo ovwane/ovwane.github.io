@@ -1,3 +1,4 @@
+---
 title: GitLab安装部署
 date: 2016-03-15 08:28:29
 categories:
@@ -8,6 +9,7 @@ tags:
 - Nginx
 - Gitlab
 ---
+
 [GitLab安装部署](http://www.showerlee.com/archives/1285)
 
 # 简介
@@ -50,7 +52,7 @@ SELINUX=disabled
 3. [安装LNMP](http://www.showerlee.com/archives/73)
 
 4. 安装GitLab的所需依赖包和工具
- 
+
 ```
 # su -
 # rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-5-4.noarch.rpm
@@ -89,7 +91,7 @@ b.安装bundle组件：
 
 ### 安装GITLab shell
 1. 创建用户git
- 
+
 ```
 # su -
 # adduser --system --shell /bin/bash --comment 'GitLab' --create-home --home-dir /home/git/ git

@@ -1,6 +1,8 @@
+---
 titlie: Django企业开发实战
 date: 2017-10-17 22:54:00
 ---
+
 [PYTHON 3 WALL OF SUPERPOWERS](https://python3wos.appspot.com/)
 > 是否有人能够掌控开始使用框架之后遇到的所有问题。
 > 你必须要做那个能解决所有问题的人。
@@ -56,9 +58,9 @@ pipenv --python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python
 
 pipenv shell
 pip install django==1.11.2
-```
+​```
 
-````bash
+​````bash
 #创建项目
 django-admin startproject student_sys
 
@@ -99,14 +101,14 @@ vim student_sys/urls.py
 
 # 9.
 vim student/forms.py 
-```
+​```
  
 启动项目: python manage.py runserver
 
 基础配置
 vim student_sys/student_sys/settings.py
 
-```
+​```
 LANGUAGE_CODE = 'zh-hans'  # 语言
 
 TIME_ZONE = 'Asia/Shanghai'  # 时区
@@ -116,7 +118,7 @@ USE_I18N = True  # 语言
 USE_L10N = True  # 数据和时间格式
 
 USE_TZ = True  # 启用时区
-```
+​```
 
 在admin中，展示带有choices属性的字段时，Django会自动帮我们调用get_status_display方法，所以我们不用配置。
 
@@ -125,3 +127,5 @@ USE_TZ = True  # 启用时区
 
 
 
+
+````

@@ -1,4 +1,6 @@
-date: 2018-05-08 08:58
+---
+date: 2018-05-08 08:58:44
+---
 
 ```shell
 $ go get github.com/gin-gonic/gin

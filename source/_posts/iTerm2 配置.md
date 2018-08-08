@@ -1,4 +1,6 @@
-date: 2018-05-05 12:15 
+---
+date: 2018-05-05 12:15:39
+---
 
 [iTerm2主题](http://iterm2colorschemes.com/)
 

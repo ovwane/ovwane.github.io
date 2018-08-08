@@ -1,3 +1,4 @@
+---
 title: Jenkins+Ansible+Gitlab自动化部署
 date: 2016-03-15 15:21:20
 categories:
@@ -9,6 +10,7 @@ tags:
 - Ansible
 - Gitlab
 ---
+
 [Jenkins+Ansible+Gitlab自动化部署](http://www.showerlee.com/archives/1880)
 
 # 简介

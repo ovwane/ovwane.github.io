@@ -1,3 +1,7 @@
+---
+date: 2018-08-08 16:41:01
+---
+
 ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f ~/.ssh/github_rsa 
 
 ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f ~/.ssh/coding_net_rsa 

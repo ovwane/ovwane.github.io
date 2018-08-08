@@ -1,5 +1,6 @@
+---
 title: Ansible安装配置
-date: 2017-04-17 15:53
+date: 2017-04-17 15:53:54
 categories:
 - Linux
 - Ansible

@@ -1,3 +1,7 @@
+---
+date: 2018-08-08 16:48:04
+---
+
 ```shell
 yum -y install zsh
 ```

@@ -1,3 +1,7 @@
+---
+date: 2018-08-08 16:42:08
+---
+
 [Go Hack 2017](http://gohack2017.golangfoundation.org/)
 
 [](https://gocn.io/)

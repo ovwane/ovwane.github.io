@@ -1,3 +1,7 @@
+---
+date: 2013-05-08 14:23:45
+---
+
 [王达 51cto](http://blog.51cto.com/winda)
 [王达 csdn](http://blog.csdn.net/lycb_gz)
 [王达 chinaunix](http://blog.chinaunix.net/uid/10659021.html)
