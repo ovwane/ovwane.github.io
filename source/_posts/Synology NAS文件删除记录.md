@@ -1,3 +1,7 @@
+---
+date: 2017-01-23 10:24:03
+---
+
 Synology NAS文件删除记录
 
 Seagate硬盘是复制NAS上的文件。现在进行筛选处理。
@@ -20,5 +24,5 @@ Seagate硬盘是复制NAS上的文件。现在进行筛选处理。
  56G	python全栈开发
  20G	老男孩-python运维8期
  48G	零基础入门学习Python
- 
+
  

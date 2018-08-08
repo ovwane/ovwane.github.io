@@ -1,3 +1,7 @@
+---
+date: 2017-07-21 10:25:00
+---
+
 老男孩教育Python自动化2.0课程课件目录
 
 [Python之路,Day1 - Python基础1](http://www.cnblogs.com/alex3714/articles/5465198.html)

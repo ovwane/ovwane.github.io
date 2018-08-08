@@ -1,6 +1,6 @@
 ---
 title: Vagrant Ubuntu 配置
-date: 2018-07-30 10:02
+date: 2018-07-30 10:02:23
 ---
 
 # Vagrant Ubuntu 配置

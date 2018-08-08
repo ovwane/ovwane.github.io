@@ -1,3 +1,4 @@
+---
 title: Rsync安装配置
 date: 2016-12-27 15:55:02
 categories:
@@ -7,6 +8,7 @@ tags:
 - CentOS
 - rsync
 ---
+
 [Rsync安装配置](http://www.showerlee.com/archives/419)
 
 # 简介
@@ -23,7 +25,7 @@ SELINUX=disabled
 ---------
 # setenforce 0
 # service iptables stop
-``` 
+```
 配置分为2个部分
 
 ## server端：

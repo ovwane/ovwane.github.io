@@ -1,3 +1,4 @@
+---
 title: Zabbix安装配置
 date: 2016-12-18 21:07:00
 categories:
@@ -361,6 +362,7 @@ Installing:
 ```
 
 ```
+
 ```
 /etc/zabbix/zabbix_agentd.conf
 Server=127.0.0.1

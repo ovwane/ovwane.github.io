@@ -1,3 +1,7 @@
+---
+date: 2017-05-08 13:20
+---
+
 /Library/Preferences/VMware\ Fusion/networking
 
 answer VNET_1_HOSTONLY_NETMASK 255.255.255.0

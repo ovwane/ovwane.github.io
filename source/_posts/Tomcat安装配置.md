@@ -1,3 +1,4 @@
+---
 title: Tomcat安装配置
 date: 2016-03-07 20:15:00
 categories:
@@ -278,7 +279,7 @@ docs  examples  host-manager  manager  memtest  memtest.war  ROOT
 [root@tomcat ~]# cd /application/
 [root@tomcat application]# cp -a apache-tomcat-8.0.27 tomcat8_1
 [root@tomcat application]# cp -a apache-tomcat-8.0.27 tomcat8_2
-```
+ ```
 
 1. 修改配置文件
 
@@ -361,7 +362,7 @@ ajp连接端口保护
     <Connector  port="8081" protocol="HTTP/1.1"
                connectionTimeout="6000" enableLookups="false" acceptCount="800"
                redirectPort="8443" />
-```          
+```
 
 ## jvm调优
 Tomcat最吃内存，只要内存足够，这只猫就跑的很快。

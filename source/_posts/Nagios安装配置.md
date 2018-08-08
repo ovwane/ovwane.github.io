@@ -1,3 +1,4 @@
+---
 title: Nagios安装配置
 date: 2017-03-22 12:13:00
 categories:
@@ -18,22 +19,22 @@ Nagios安装前，首先安装相关软件包，对于RHEL / CentOS系统: (依�
 检看一下是否安装相关软件包：
 # rpm -qa |grep *****（略）
 # yum install -y wget httpd php gcc glibc glibc-common gd gd-devel make net-snmp openssl openssl-devel
- 
+
 Nagios源代码程序和插件
 监控主机下载：
 # wget http://nchc.dl.sourceforge.net/project/nagios/nagios-3.x/nagios-3.4.4/nagios-3.4.4.tar.gz
 # wget http://nchc.dl.sourceforge.net/project/nagiosplug/nagiosplug/1.4.16/nagios-plugins-1.4.16.tar.gz
 # wget http://sourceforge.net/projects/nagios/files/nrpe-2.x/nrpe-2.14/nrpe-2.14.tar.gz
- 
+
 被监控Linux 主机下载：
 # wget http://nchc.dl.sourceforge.net/project/nagiosplug/nagiosplug/1.4.16/nagios-plugins-1.4.16.tar.gz
 # wget http://sourceforge.net/projects/nagios/files/nrpe-2.x/nrpe-2.14/nrpe-2.14.tar.gz
- 
+
 被监控Windows 主机下载：
 http://nsclient.org/nscp/downloads
 http://files.nsclient.org/0.3.x/NSClient%2B%2B-0.3.9-Win32.zip
 http://files.nsclient.org/0.3.x/NSClient%2B%2B-0.3.9-x64.zip
- 
+
 2、添加Nagios用户和组　　
 # useradd nagios
 # passwd nagios
@@ -50,10 +51,10 @@ http://files.nsclient.org/0.3.x/NSClient%2B%2B-0.3.9-x64.zip
 #make install-config
 #make install-commandmode
 #make install-webconf
- 
+
 复制nagios/contrib/eventhandlers目录下所有文件到/usr/local/nagios/libexec下：
 #cp -R contrib/eventhandlers/ /usr/local/nagios/libexec/
- 
+
 修改用户和主权限
 #chown -R nagios:nagios /usr/local/nagios/libexec/eventhandlers
 验证Nagios配置文件，验证配置是否有误
@@ -61,7 +62,7 @@ http://files.nsclient.org/0.3.x/NSClient%2B%2B-0.3.9-x64.zip
 重启httpd
 # /etc/init.d/httpd start
 # chkconfig httpd on
- 
+
 修改配置文件
 # vim /usr/local/nagios/etc/objects/contacts.cfg
 修改nagiosadmin（这里修改为你自己创建的帐号） 注：nagiosadmin是配置文件默认，可以不用修改。
@@ -87,7 +88,7 @@ var/archives
 Empty directory for the archived logs
 var/rw
 Empty directory for the external command file
- 
+
 4、编译并安装Nagios 插件
 # tar zxvf nagios-plugins-1.4.16.tar.gz
 # cd nagios-plugins-1.4.16

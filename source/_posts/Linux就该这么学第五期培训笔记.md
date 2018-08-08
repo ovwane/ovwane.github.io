@@ -1,3 +1,4 @@
+---
 title: Linux就该这么学第五期培训笔记
 date: 2016-07-04 19:03:50
 categories:
@@ -24,6 +25,7 @@ tags:
 - OpenStack
 - OpenLDAP
 ---
+
 [Linux就该这么学](http://www.linuxprobe.com/chapter-00.html)[软件资源库](http://www.linuxprobe.com/tools)
 >技术是用来为人服务，而不人限制于这个技术必须要学会它，要学就要学有用的东西。
 
@@ -1937,8 +1939,8 @@ chmod -Rf 755 /home/linuxprobe
 
 ```bash
  getsebool -a | grep http
- ```
- 
+```
+
 对于如此多的SELinux域功能策略，实在没有必要逐个去理解它们，只要能通过名字大致猜测出相关的策略作用就足够了。比如想开启httpd服务的个人用户主页功能，那么用到的SELinux策略应该是httpd_enable_homedirs吧？大致确定后就可以用setsebool命令来修改SELinux策略中各项规则的布尔值了，同学们一定要记得加上-P参数让修改过后的SELinux布尔值策略项目永久生效这样操作后也会是立即生效的，随后刷新下网页看看效果吧。
 
 ```bash
@@ -2555,6 +2557,7 @@ cat /etc/samba/smb.conf
 ```
 
 ```
+
 ```
 [global]		#全局参数。
 workgroup = MYGROUP	#工作组名称。
@@ -2646,7 +2649,7 @@ vim /etc/samba/smb.conf
  
 第5步：把上述步骤完成后也就基本完成了Samba服务程序的配置工作了，Samba服务程序叫做smb，因此重启一下smb服务，清空下iptables防火墙就可以来检验配置效果了：
 
-```
+ ```
 systemctl restart smb
 systemctl enable smb
 ```
@@ -2871,6 +2874,7 @@ cp -a named.localhost linuxprobe.com.zone
 vim linuxprobe.com.zone
 systemctl restart named
 ```
+
 ```
 $TTL 1D	#生存周期为1天				
 @	IN SOA	linuxprobe.com.	root.linuxprobe.com.	(	
@@ -2914,6 +2918,7 @@ cp -a named.loopback 192.168.10.arpa
 vim 192.168.10.arpa
 systemctl restart named
 ```
+
 ```
 $TTL 1D				
 @	IN SOA	linuxprobe.com.	root.linuxprobe.com.	(
@@ -2999,6 +3004,7 @@ DNS域名解析服务是互联网的基础建设设施，几乎所有的网络�
 ```
 dnssec-keygen -a HMAC-MD5 -b 128 -n HOST master-slave
 ```
+
 ```
 cat Kmaster-slave.+157+46845.private
 
@@ -3041,7 +3047,7 @@ options {
  memstatistics-file "/var/named/data/named_mem_stats.txt";
  allow-query { any; };
  allow-transfer { key master-slave; };
- 
+
  systemctl restart named
 ```
 
@@ -3374,6 +3380,7 @@ cat /etc/named.conf
  16 memstatistics-file "/var/named/data/named_mem_stats.txt";
  17 allow-query { any; };
 ```
+
 ```
 cat /etc/named.rfc1912.zones
 zone "linuxprobe.com" IN {
@@ -3382,6 +3389,7 @@ file "linuxprobe.com.zone";
 allow-update {none;};
 };
 ```
+
 ```
 cat /var/named/linuxprobe.com.zone
 $TTL 1D				
@@ -3618,9 +3626,9 @@ vim /etc/squid/squid.conf
  23 acl Safe_ports port 591 # filemaker
  24 acl Safe_ports port 777 # multiling http
  25 acl CONNECT method CONNECT
- 
+
  acl deny_keyword url_regex -i linux
- 
+
  31 http_access deny deny_keyword
  33 http_access deny !Safe_ports
  ```
@@ -3646,7 +3654,7 @@ vim /etc/squid/squid.conf
  23 acl Safe_ports port 591 # filemaker
  24 acl Safe_ports port 777 # multiling http
  25 acl CONNECT method CONNECT
- 
+
 acl deny_url url_regex http://www.linuxcool.com
 
  31 http_access deny deny_url
@@ -3655,7 +3663,7 @@ acl deny_url url_regex http://www.linuxcool.com
 
 第4个实验：禁止企业内部下载某些后缀的文件，这其实是一件长期让运维人员头疼的事情，因为在企业内网中总是会有些人会偷偷下载东西，要么就是游戏，要么就是回家看的电影，导致其他同事网速特别慢，还有可能影响生产环境的正常运转。这样的话咱们可以禁止所有用户访问rar或mp3等后缀文件的请求，这样能防住不少电脑小白，让他们知难而退，但如果对方是在用迅雷等P2P下载软件的话就只能用专业级WAF应用防护防火墙系统才能禁止了。
 
-```
+ ```
 vim /etc/squid/squid.conf
 8 acl localnet src 10.0.0.0/8 # RFC1918 possible internal network
  9 acl localnet src 172.16.0.0/12 # RFC1918 possible internal network
@@ -3675,7 +3683,7 @@ vim /etc/squid/squid.conf
  23 acl Safe_ports port 591 # filemaker
  24 acl Safe_ports port 777 # multiling http
  25 acl CONNECT method CONNECT
- 
+
 acl badfile urlpath_regex -i \.mp3$ \.rar$
 
  31 http_access deny badfile
@@ -3689,7 +3697,7 @@ acl badfile urlpath_regex -i \.mp3$ \.rar$
 
 既然要让用户不去配置代理服务器的信息就能使用代理服务，那咱们作为技术的运营商也就必须提前把网络及数据转发功能配置好，需要使用第8章8.3.2小节学习的SNAT源地址转换协议来完成数据的转发，让客户端主机可以把数据交给Squid代理服务器并转发至外网中。简单来说，就是让Squid服务器作为一个中间人，实现内网客户端主机与外部互联网之间数据转发交换，是一个功能丰富的“传话者”，由于还未部署实现SNAT源地址转换协议功能，因此当前内网客户端主机是肯定不能访问外网的。
 
-```
+ ```
 iptables -t nat -A POSTROUTING -p udp --dport 53 -o eth0 -j MASQUERADE
 
 echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
@@ -3703,6 +3711,7 @@ vim /etc/squid/squid.conf
 http_port 3128 transparent
 cache_dir ufs /var/spool/squid 100 16 256
 ```
+
 ```
 squid -k parse
 squid -z
@@ -3777,7 +3786,7 @@ LDAP客户端	红帽RHEL7操作系统	192.168.10.20
 ##### 配置LDAP服务端
 安装openldap与相关的软件包
 
-```bash
+​```bash
 yum install -y openldap openldap-clients openldap-servers migrationtools
 ```
 
@@ -4477,7 +4486,7 @@ service tftp
         cps                     = 100 2
         flags                   = IPv4
 ```
-        
+
 ```
 systemctl restart xinetd
 systemctl enable xinetd
@@ -4582,8 +4591,8 @@ vim pxelinux.cfg/default
  62 menu label ^Install Red Hat Enterprise Linux 7.0
  63 kernel vmlinuz
  64 append initrd=initrd.img inst.stage2=ftp://192.168.10.10 ks=ftp://192.168.10.10/pub/ks.cfg quiet
- ```
- 
+```
+
 ##### 配置VSFtpd服务程序
 咱们这套无人值守安装系统服务的光盘镜像通过FTP协议进行传输，因此肯定少不了要用到vsftpd服务程序，当然只要能够把光盘镜像顺利的传送给客户端主机就达到目的啦，因此如果愿意的话也可以用httpd服务程序来提供HTTP网站访问方式，但是如果真的要用HTTP网站服务来提供光盘镜像，同学们可一定要记得把刚刚配置文件中的光盘镜像获取网址和ks应答文件获取网址修改一下哦～
 
@@ -4673,8 +4682,8 @@ vim /var/ftp/pub/ks.cfg
  44 @x11
  45 
  46 %end
- ```
- 
+```
+
 如果认为系统默认自带的应答文件参数较少，或者不能够满足生产环境的需求，可以通过yum仓库来安装system-config-kickstart软件包，这是一款图形化的Kickstart应答文件生成工具，可以根据自己的需求定制出应答文件来，然后存放到/var/ftp/pub目录中并改成ks.cfg就可以啦。
 
 ##### 自动部署客户机
@@ -5472,14 +5481,14 @@ reboot
 
 ```
  yum install openstack-packstack
- ```
- 
+```
+
  安装openstack服务程序
- 
+
  ```
 packstack --allinone --provision-demo=n --nagios-install=n
-```
- 
+ ```
+
 创建云平台的网卡配置文件
 
 ```

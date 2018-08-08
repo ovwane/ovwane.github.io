@@ -1,4 +1,6 @@
-2018.03.19 20:01
+---
+date: 2018-03-19 20:01:11
+---
 
 作者博客
 http://projectsedu.com
@@ -76,7 +78,7 @@ def level_queue(root):
 		if node.rchild is not None:
 			my_queue.append(node.rchild)
 ```
- 
+
 url去重策略
 
 1、将访问过的url保存到数据库

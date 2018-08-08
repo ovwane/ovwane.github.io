@@ -12,7 +12,9 @@ tags:
 Boost
 
 ```shell
-apt install libboost-dev
+apt install -y scons
+#libboost-all-dev
+apt install -y libboost-dev libboost-thread-dev libboost-system-dev libboost-python-dev
 ```
 
 安装v8
@@ -30,3 +32,5 @@ pip install pyv8
 ## 参考
 
 [Ubuntu下安装boost库](https://blog.csdn.net/zhangxiao93/article/details/51077933)
+
+[记录Ubuntu & Windows下安装PyV8](http://shomy.top/2016/03/11/ubuntu-python-pyv8/)

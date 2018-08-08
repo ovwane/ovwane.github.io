@@ -1,3 +1,7 @@
+---
+date: 2017-07-23 13:21:31
+---
+
 [老男孩Python自动化开发](http://www.oldboyedu.com/course/weekend/pythonzdh/)
 
 [Python自动化开发基础](http://edu.csdn.net/lecturer/491?type=1&page=5#content)

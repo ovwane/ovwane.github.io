@@ -1,4 +1,6 @@
-date: 2017-07-23 09:55
+---
+date: 2017-07-23 09:55:30
+---
 
 #### [Mac 的启动组合键](https://support.apple.com/zh-cn/HT201255)
 

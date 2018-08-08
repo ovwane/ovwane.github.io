@@ -1,3 +1,4 @@
+---
 title: uWSGI搭配Nginx配置Django部署环境
 date: 2017-11-11 14:09
 categories:

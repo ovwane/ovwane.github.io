@@ -1,3 +1,4 @@
+---
 title: macOS 安装配置Hexo
 date: 2017-10-08 13:27:00
 categories:
@@ -7,6 +8,7 @@ tags:
 - macOS
 - Hexo
 ---
+
 macOS 安装配置[Hexo](https://hexo.io)
 macOS 10.12.6
 macOS 10.13

@@ -1,3 +1,4 @@
+---
 title: macOS 配置Python环境
 date: 2017-10-20 21:55:00
 categories:
@@ -7,6 +8,7 @@ tags:
 - Python
 - macOS
 ---
+
 macOS 配置Python环境
 
 10.12.6

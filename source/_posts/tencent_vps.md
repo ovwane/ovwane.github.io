@@ -1,3 +1,7 @@
+---
+date: 2018-04-10 13:24:21
+---
+
 ```
 hostnamectl set-hostname quanjinlong.cn
 ```

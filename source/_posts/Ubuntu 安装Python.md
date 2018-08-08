@@ -1,6 +1,6 @@
 ---
 title: Ubuntu 安装 Python
-date: 2018-07-30 09:37
+date: 2018-07-30 09:37:22
 ---
 
 # 安装Python

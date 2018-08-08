@@ -1,3 +1,4 @@
+---
 title: Nginx安装配置
 date: 2014-09-01 18:10:02
 categories:
@@ -12,14 +13,14 @@ tags:
 Nginx是一个自由、开源、高性能及轻量级的HTTP服务器及反转代理服务器，
 其性能与IMAP/POP3代理服务器相当。Nginx以其高性能、稳定、功能丰富、配置简单及占用系统资源少而著称。
 Nginx 超越 Apache 的高性能和稳定性，使得国内使用 Nginx 作为 Web 服务器的网站也越来越多.
- 
+
 ## 基础功能
 处理静态文件，索引文件以及自动索引； 
 反向代理加速(无缓存)，简单的负载均衡和容错；
 FastCGI，简单的负载均衡和容错；
 模块化的结构。过滤器包括gzipping, byte ranges, chunked responses, 以及 SSI-filter 。在SSI过滤器中，到同一个 proxy 或者 FastCGI 的多个子请求并发处理；
 SSL 和 TLS SNI 支持；
- 
+
 ## 优势
 Nginx专为性能优化而开发，性能是其最重要的考量, 实现上非常注重效率 。它支持内核Poll模型，能经受高负载的考验, 有报告表明能支持高达 50,000 个并发连接数。 
 Nginx作为负载均衡服务器: Nginx 既可以在内部直接支持 Rails 和 PHP 程序对外进行服务, 也可以支持作为 HTTP代理服务器对外进行服务。
@@ -288,8 +289,8 @@ log_format  combined  '$remote_addr - $remote_user  [$time_local]  '
 log_format  combined  '$remote_addr - $remote_user  [$time_local]  '
                                    ' "$request"  $status  $body_bytes_sent  '
                                    ' "$http_referer"  "$http_user_agent" ';
- ```
-                                   
+```
+
 如果nginx位于负载均衡器，squid，nginx反向代理之后，web服务器无法直接获取到客户端真实的IP地址了。 
 
 ```
@@ -302,7 +303,7 @@ log_format  porxy  '$http_x_forwarded_for - $remote_user  [$time_local]  '
                              ' "$request"  $status $body_bytes_sent '
                              ' "$http_referer"  "$http_user_agent" ';
 ```
-                             
+
 日志格式允许包含的变量注释如下：
 
 ```
@@ -890,7 +891,7 @@ access_log /data/logs/access.log access;
 ```
 wget http://www.keepalived.org/software/keepalived-1.1.19.tar.gz
 ```
- 
+
 #### 安装
 ```
 tar zxvf keepalived-1.1.19.tar.gz

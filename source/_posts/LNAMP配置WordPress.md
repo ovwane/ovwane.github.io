@@ -1,3 +1,4 @@
+---
 title: LNAMP配置运行WordPress
 date: 2015-05-17 15:21:20
 categories:
@@ -10,6 +11,7 @@ tags:
 - MySQL
 - PHP
 ---
+
 LNAMP配置运行WordPress
 
 ## [nginx 301重定向配置](http://www.ttlsa.com/nginx/nginx-301-redirect/)

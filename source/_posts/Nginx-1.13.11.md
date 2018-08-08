@@ -1,3 +1,7 @@
+---
+date: 2017-08-08 16:19:08
+---
+
 vim /etc/yum.repos.d/nginx.repo
 
 ```

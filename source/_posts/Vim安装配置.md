@@ -1,3 +1,7 @@
+---
+date: 2016-08-08 13:20
+---
+
 # Vim安装配置
 [Vim配置、插件和使用技巧](http://www.jianshu.com/p/a0b452f8f720)
 
@@ -89,7 +93,8 @@ let g:airline_right_sep = '◀'
 let g:airline_symbols.crypt = '🔒'
 let g:airline_symbols.linenr = '☰'
 let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '
+'
 let g:airline_symbols.linenr = '¶'
 let g:airline_symbols.maxlinenr = ''
 let g:airline_symbols.maxlinenr = '㏑'

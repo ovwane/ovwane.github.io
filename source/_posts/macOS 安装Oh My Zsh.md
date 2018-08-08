@@ -1,3 +1,4 @@
+---
 title: macOS 安装Oh My Zsh
 date: 2017-10-08 10:36:00
 categories:
@@ -7,6 +8,7 @@ tags:
 - macOS
 - Oh My Zsh
 ---
+
 macOS 安装[Oh My Zsh](http://ohmyz.sh/)
 macOS 10.12.6
 macOS 10.13

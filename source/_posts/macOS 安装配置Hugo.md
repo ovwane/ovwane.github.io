@@ -1,3 +1,7 @@
+---
+date: 2018-07-04 16:24:10
+---
+
 [Hugo](https://github.com/gohugoio/hugo)
 [Install Hugo](https://gohugo.io/getting-started/installing/)[零基础使用Hugo和GitHub Pages创建自己的博客](https://jimmysong.io/posts/building-github-pages-with-hugo/)
 

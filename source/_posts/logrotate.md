@@ -1,3 +1,7 @@
+---
+date: 2017-10-08 16:31:08
+---
+
 日志自动切分
 
 vim /etc/logrotate.d/nginx
