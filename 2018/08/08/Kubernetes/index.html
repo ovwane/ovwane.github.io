@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>幻舞梦境</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Kubernetes安装配置Kubernetes Handbook Kubernetes 最佳实践 手动档搭建 Kubernetes HA 集群 集群详情 OS：CentOS Linux release 7.4.1708 (Core) 3.10.0-693.21.1.el7.x86_64 Kubernetes 1.10.0 Docker 1.13.1（使用yum安装） Etcd 3.2.18 Fl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="幻舞梦境">
+<meta property="og:url" content="http://ovwane.me/2018/08/08/Kubernetes/index.html">
+<meta property="og:site_name" content="幻舞梦境">
+<meta property="og:description" content="Kubernetes安装配置Kubernetes Handbook Kubernetes 最佳实践 手动档搭建 Kubernetes HA 集群 集群详情 OS：CentOS Linux release 7.4.1708 (Core) 3.10.0-693.21.1.el7.x86_64 Kubernetes 1.10.0 Docker 1.13.1（使用yum安装） Etcd 3.2.18 Fl">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-08T08:34:54.361Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="幻舞梦境">
+<meta name="twitter:description" content="Kubernetes安装配置Kubernetes Handbook Kubernetes 最佳实践 手动档搭建 Kubernetes HA 集群 集群详情 OS：CentOS Linux release 7.4.1708 (Core) 3.10.0-693.21.1.el7.x86_64 Kubernetes 1.10.0 Docker 1.13.1（使用yum安装） Etcd 3.2.18 Fl">
+  
+    <link rel="alternative" href="/atom.xml" title="幻舞梦境" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">幻舞梦境</a></h1>
+        </hgroup>
+
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">首页</a></li>
+                        
+                            <li><a href="/WebGuide">导航</a></li>
+                        
+                            <li><a href="/ovwane_love">Love</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/ovwane" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Ansible/" style="font-size: 11.67px;">Ansible</a> <a href="/tags/Bind/" style="font-size: 10px;">Bind</a> <a href="/tags/Cacti/" style="font-size: 10px;">Cacti</a> <a href="/tags/CentOS/" style="font-size: 20px;">CentOS</a> <a href="/tags/Cobbler/" style="font-size: 10px;">Cobbler</a> <a href="/tags/DHCP/" style="font-size: 10px;">DHCP</a> <a href="/tags/Django/" style="font-size: 13.33px;">Django</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;">Elasticsearch</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Gitlab/" style="font-size: 11.67px;">Gitlab</a> <a href="/tags/HAProxy/" style="font-size: 10px;">HAProxy</a> <a href="/tags/Hexo/" style="font-size: 11.67px;">Hexo</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Jenkins/" style="font-size: 11.67px;">Jenkins</a> <a href="/tags/KVM/" style="font-size: 10px;">KVM</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MariaDB/" style="font-size: 10px;">MariaDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NFS/" style="font-size: 10px;">NFS</a> <a href="/tags/Nagios/" style="font-size: 10px;">Nagios</a> <a href="/tags/Nginx/" style="font-size: 16.67px;">Nginx</a> <a href="/tags/Oh-My-Zsh/" style="font-size: 10px;">Oh My Zsh</a> <a href="/tags/OpenLDAP/" style="font-size: 10px;">OpenLDAP</a> <a href="/tags/OpenStack/" style="font-size: 10px;">OpenStack</a> <a href="/tags/PHP/" style="font-size: 11.67px;">PHP</a> <a href="/tags/PXE/" style="font-size: 10px;">PXE</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/RHEL7/" style="font-size: 10px;">RHEL7</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Requests/" style="font-size: 10px;">Requests</a> <a href="/tags/Resin/" style="font-size: 10px;">Resin</a> <a href="/tags/Samba/" style="font-size: 10px;">Samba</a> <a href="/tags/Scrapy/" style="font-size: 11.67px;">Scrapy</a> <a href="/tags/Scrapyd/" style="font-size: 10px;">Scrapyd</a> <a href="/tags/SpiderKeeper/" style="font-size: 10px;">SpiderKeeper</a> <a href="/tags/Squid/" style="font-size: 10px;">Squid</a> <a href="/tags/Subversion/" style="font-size: 10px;">Subversion</a> <a href="/tags/Supervisor/" style="font-size: 10px;">Supervisor</a> <a href="/tags/Tomcat/" style="font-size: 13.33px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/Web/" style="font-size: 10px;">Web</a> <a href="/tags/Xadmin/" style="font-size: 10px;">Xadmin</a> <a href="/tags/Zabbix/" style="font-size: 10px;">Zabbix</a> <a href="/tags/cacti/" style="font-size: 10px;">cacti</a> <a href="/tags/dovecot/" style="font-size: 10px;">dovecot</a> <a href="/tags/httpd/" style="font-size: 11.67px;">httpd</a> <a href="/tags/iSCSI/" style="font-size: 10px;">iSCSI</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kickstart/" style="font-size: 10px;">kickstart</a> <a href="/tags/macOS/" style="font-size: 15px;">macOS</a> <a href="/tags/nagios/" style="font-size: 10px;">nagios</a> <a href="/tags/postfix/" style="font-size: 10px;">postfix</a> <a href="/tags/rsync/" style="font-size: 10px;">rsync</a> <a href="/tags/sshd/" style="font-size: 10px;">sshd</a> <a href="/tags/uWSGI/" style="font-size: 10px;">uWSGI</a> <a href="/tags/vsftpd/" style="font-size: 10px;">vsftpd</a> <a href="/tags/zabbix/" style="font-size: 10px;">zabbix</a> <a href="/tags/历史/" style="font-size: 18.33px;">历史</a> <a href="/tags/情感/" style="font-size: 10px;">情感</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/监控/" style="font-size: 13.33px;">监控</a> <a href="/tags/自己/" style="font-size: 10px;">自己</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://luuman.github.io/">name</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">幻舞梦境</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">幻舞梦境</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">首页</a></li>
+                
+                    <li><a href="/WebGuide">导航</a></li>
+                
+                    <li><a href="/ovwane_love">Love</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/ovwane" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Kubernetes" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Kubernetes/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Kubernetes安装配置"><a href="#Kubernetes安装配置" class="headerlink" title="Kubernetes安装配置"></a>Kubernetes安装配置</h1><p><a href="https://jimmysong.io/kubernetes-handbook/" target="_blank" rel="noopener">Kubernetes Handbook</a></p>
+<p><a href="https://jimmysong.io/kubernetes-handbook/practice/" target="_blank" rel="noopener">Kubernetes 最佳实践</a></p>
+<p><a href="https://mritd.me/2017/07/21/set-up-kubernetes-ha-cluster-by-binary/" target="_blank" rel="noopener">手动档搭建 Kubernetes HA 集群</a></p>
+<h2 id="集群详情"><a href="#集群详情" class="headerlink" title="集群详情"></a>集群详情</h2><ul>
+<li>OS：CentOS Linux release 7.4.1708 (Core) 3.10.0-693.21.1.el7.x86_64</li>
+<li>Kubernetes 1.10.0</li>
+<li>Docker 1.13.1（使用yum安装）</li>
+<li>Etcd 3.2.18</li>
+<li>Flannel 0.10.0 vxlan或者host-gw 网络</li>
+<li>TLS 认证通信 (所有组件，如 etcd、kubernetes master 和 node)</li>
+<li>RBAC 授权</li>
+<li>kubelet TLS BootStrapping</li>
+<li>kubedns、dashboard、heapster(influxdb、grafana)、EFK(elasticsearch、fluentd、kibana) 集群插件</li>
+<li>VMware Harbor 1.4.0 (私有docker镜像仓库，harbor提供离线安装包，直接使用docker-compose启动即可）</li>
+</ul>
+<p><a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.10.md#v1100" target="_blank" rel="noopener">Kubernetes v1.10.0</a></p>
+<p><a href="https://github.com/coreos/flannel/releases" target="_blank" rel="noopener">flannel v0.10.0</a></p>
+<p><a href="https://github.com/coreos/etcd/releases" target="_blank" rel="noopener">etcd v3.2.18</a></p>
+<p><a href="https://github.com/vmware/harbor/releases" target="_blank" rel="noopener">VMware Harbor v1.4.0</a></p>
+<h2 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h2><p>在下面的步骤中，我们将在三台CentOS系统的物理机上部署具有三个节点的kubernetes1.6.0集群。</p>
+<p>角色分配如下：</p>
+<p>Master：10.8.8.8</p>
+<p>Node：10.8.8.8、10.8.8.10、10.8.8.11</p>
+<p>注意：10.8.8.8这台主机master和node复用。所有生成证书、执行kubectl命令的操作都在这台节点上执行。一旦node加入到kubernetes集群之后就不需要再登陆node节点了。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="安装前的准备"><a href="#安装前的准备" class="headerlink" title="安装前的准备"></a>安装前的准备</h3><ul>
+<li><p>1.关闭所有节点的SELinux<br>修改/etc/selinux/config文件中设置SELINUX=disabled ，然后重启服务器。<br>使用命令setenforce 0</p>
+</li>
+<li><p>2.在node节点上安装docker <code>yum -y install docker</code></p>
+</li>
+<li><p>3.准备harbor私有镜像仓库</p>
+</li>
+</ul>
+<p>参考：<a href="https://github.com/vmware/harbor" target="_blank" rel="noopener">https://github.com/vmware/harbor</a></p>
+<p><a href="./docker.md">docker</a></p>
+<h2 id="1-生成证书"><a href="#1-生成证书" class="headerlink" title="1.生成证书"></a>1.<a href="./生成证书.md">生成证书</a></h2><h2 id="2-下载安装文件"><a href="#2-下载安装文件" class="headerlink" title="2.下载安装文件"></a>2.下载安装文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/k8s</span><br><span class="line">cd /root/k8s</span><br><span class="line"></span><br><span class="line">wget https://dl.k8s.io/v1.10.0/kubernetes-server-linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line">wget https://github.com/coreos/flannel/releases/download/v0.10.0/flannel-v0.10.0-linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line">wget https://github.com/coreos/etcd/releases/download/v3.2.18/etcd-v3.2.18-linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="master-10-8-8-8"><a href="#master-10-8-8-8" class="headerlink" title="master 10.8.8.8"></a>master 10.8.8.8</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line">export PATH=/usr/local/bin:$PATH</span><br><span class="line"></span><br><span class="line">#kubernetes</span><br><span class="line">tar -xzvf kubernetes-server-linux-amd64.tar.gz</span><br><span class="line">cp -r kubernetes/server/bin/&#123;kube-apiserver,kube-controller-manager,kube-scheduler,kubectl&#125; /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzf  kubernetes/kubernetes-src.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="node-10-8-8-10-10-8-8-11"><a href="#node-10-8-8-10-10-8-8-11" class="headerlink" title="node 10.8.8.10 10.8.8.11"></a>node 10.8.8.10 10.8.8.11</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line">export PATH=/usr/local/bin:$PATH</span><br><span class="line"></span><br><span class="line"># 不确定 node 需要kubectl不，暂时不复制到node节点</span><br><span class="line">cp -r kubernetes/server/bin/&#123;kube-proxy,kubelet&#125; /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<h3 id="master和node"><a href="#master和node" class="headerlink" title="master和node"></a>master和node</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#etcd</span><br><span class="line">tar -xzvf etcd-*-linux-amd64.tar.gz</span><br><span class="line">mv etcd-*-linux-amd64/etcd* /usr/local/bin</span><br><span class="line"></span><br><span class="line">#flanneld</span><br><span class="line">tar -xzvf flannel-*-linux-amd64.tar.gz</span><br><span class="line">mv flanneld mk-docker-opts.sh /usr/local/bin</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">## 3.创建 kubeconfig 文件</span><br><span class="line"></span><br><span class="line">### 1.创建 TLS Bootstrapping Token</span><br><span class="line">Token auth file</span><br></pre></td></tr></table></figure>
+<p>cd /etc/kubernetes/</p>
+<p>export BOOTSTRAP_TOKEN=$(head -c 16 /dev/urandom | od -An -t x | tr -d ‘ ‘)</p>
+<p>cat &gt; token.csv &lt;&lt;EOF<br>${BOOTSTRAP_TOKEN},kubelet-bootstrap,10001,”system:kubelet-bootstrap”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 2.创建 kubelet bootstrapping kubeconfig 文件</span><br></pre></td></tr></table></figure></p>
+<p>export KUBE_APISERVER=”<a href="https://10.8.8.8:6443&quot;" target="_blank" rel="noopener">https://10.8.8.8:6443&quot;</a></p>
+<h1 id="设置集群参数"><a href="#设置集群参数" class="headerlink" title="设置集群参数"></a>设置集群参数</h1><p>kubectl config set-cluster kubernetes \<br>  –certificate-authority=/etc/kubernetes/ssl/ca.pem \<br>  –embed-certs=true \<br>  –server=${KUBE_APISERVER} \<br>  –kubeconfig=bootstrap.kubeconfig</p>
+<h1 id="设置客户端认证参数"><a href="#设置客户端认证参数" class="headerlink" title="设置客户端认证参数"></a>设置客户端认证参数</h1><p>kubectl config set-credentials kubelet-bootstrap \<br>  –token=${BOOTSTRAP_TOKEN} \<br>  –kubeconfig=bootstrap.kubeconfig</p>
+<h1 id="设置上下文参数"><a href="#设置上下文参数" class="headerlink" title="设置上下文参数"></a>设置上下文参数</h1><p>kubectl config set-context default \<br>  –cluster=kubernetes \<br>  –user=kubelet-bootstrap \<br>  –kubeconfig=bootstrap.kubeconfig</p>
+<h1 id="设置默认上下文"><a href="#设置默认上下文" class="headerlink" title="设置默认上下文"></a>设置默认上下文</h1><p>kubectl config use-context default –kubeconfig=bootstrap.kubeconfig<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 3.创建 kube-proxy kubeconfig 文件</span><br></pre></td></tr></table></figure></p>
+<p>export KUBE_APISERVER=”<a href="https://10.8.8.8:6443&quot;" target="_blank" rel="noopener">https://10.8.8.8:6443&quot;</a></p>
+<h1 id="设置集群参数-1"><a href="#设置集群参数-1" class="headerlink" title="设置集群参数"></a>设置集群参数</h1><p>kubectl config set-cluster kubernetes \<br>  –certificate-authority=/etc/kubernetes/ssl/ca.pem \<br>  –embed-certs=true \<br>  –server=${KUBE_APISERVER} \<br>  –kubeconfig=kube-proxy.kubeconfig</p>
+<h1 id="设置客户端认证参数-1"><a href="#设置客户端认证参数-1" class="headerlink" title="设置客户端认证参数"></a>设置客户端认证参数</h1><p>kubectl config set-credentials kube-proxy \<br>  –client-certificate=/etc/kubernetes/ssl/kube-proxy.pem \<br>  –client-key=/etc/kubernetes/ssl/kube-proxy-key.pem \<br>  –embed-certs=true \<br>  –kubeconfig=kube-proxy.kubeconfig</p>
+<h1 id="设置上下文参数-1"><a href="#设置上下文参数-1" class="headerlink" title="设置上下文参数"></a>设置上下文参数</h1><p>kubectl config set-context default \<br>  –cluster=kubernetes \<br>  –user=kube-proxy \<br>  –kubeconfig=kube-proxy.kubeconfig</p>
+<h1 id="设置默认上下文-1"><a href="#设置默认上下文-1" class="headerlink" title="设置默认上下文"></a>设置默认上下文</h1><p>kubectl config use-context default –kubeconfig=kube-proxy.kubeconfig<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 4.分发 kubeconfig 文件</span><br><span class="line">将两个 kubeconfig 文件分发到所有 Node 机器的 /etc/kubernetes/ 目录</span><br></pre></td></tr></table></figure></p>
+<p>cp bootstrap.kubeconfig kube-proxy.kubeconfig /etc/kubernetes/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 5.创建 kubectl kubeconfig 文件</span><br></pre></td></tr></table></figure></p>
+<p>export KUBE_APISERVER=”<a href="https://10.8.8.8:6443&quot;" target="_blank" rel="noopener">https://10.8.8.8:6443&quot;</a></p>
+<h1 id="设置集群参数-2"><a href="#设置集群参数-2" class="headerlink" title="设置集群参数"></a>设置集群参数</h1><p>kubectl config set-cluster kubernetes \<br>  –certificate-authority=/etc/kubernetes/ssl/ca.pem \<br>  –embed-certs=true \<br>  –server=${KUBE_APISERVER}</p>
+<h1 id="设置客户端认证参数-2"><a href="#设置客户端认证参数-2" class="headerlink" title="设置客户端认证参数"></a>设置客户端认证参数</h1><p>kubectl config set-credentials admin \<br>  –client-certificate=/etc/kubernetes/ssl/admin.pem \<br>  –embed-certs=true \<br>  –client-key=/etc/kubernetes/ssl/admin-key.pem</p>
+<h1 id="设置上下文参数-2"><a href="#设置上下文参数-2" class="headerlink" title="设置上下文参数"></a>设置上下文参数</h1><p>kubectl config set-context kubernetes \<br>  –cluster=kubernetes \<br>  –user=admin</p>
+<h1 id="设置默认上下文-2"><a href="#设置默认上下文-2" class="headerlink" title="设置默认上下文"></a>设置默认上下文</h1><p>kubectl config use-context kubernetes</p>
+<p>注意：生成的 kubeconfig 被保存到 ~/.kube/config 文件；~/.kube/config文件拥有对该集群的最高权限，请妥善保管。<br>admin.pem 证书 OU 字段值为 system:masters，kube-apiserver 预定义的 RoleBinding cluster-admin 将 Group system:masters 与 Role cluster-admin 绑定，该 Role 授予了调用kube-apiserver 相关 API 的权限；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">## 4.创建高可用 etcd 集群</span><br></pre></td></tr></table></figure>
+<p>mkdir /etc/etcd&amp;&amp;mkdir -p /var/lib/etcd<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 1.环境变量配置文件/etc/etcd/etcd.conf</span><br><span class="line">这是10.8.8.8节点的配置，其他两个etcd节点只要将上面的IP地址改成相应节点的IP地址即可。ETCD_NAME换成对应节点的infra1/2/3</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/etcd/etcd.conf&lt;&lt;EOF</p>
+<h1 id="member"><a href="#member" class="headerlink" title="[member]"></a>[member]</h1><p>ETCD_NAME=infra1<br>ETCD_DATA_DIR=”/var/lib/etcd”<br>ETCD_LISTEN_PEER_URLS=”<a href="https://10.8.8.8:2380&quot;" target="_blank" rel="noopener">https://10.8.8.8:2380&quot;</a><br>ETCD_LISTEN_CLIENT_URLS=”<a href="https://10.8.8.8:2379&quot;" target="_blank" rel="noopener">https://10.8.8.8:2379&quot;</a></p>
+<p>#[cluster]<br>ETCD_INITIAL_ADVERTISE_PEER_URLS=”<a href="https://10.8.8.8:2380&quot;" target="_blank" rel="noopener">https://10.8.8.8:2380&quot;</a><br>ETCD_INITIAL_CLUSTER_TOKEN=”etcd-cluster”<br>ETCD_ADVERTISE_CLIENT_URLS=”<a href="https://10.8.8.8:2379&quot;" target="_blank" rel="noopener">https://10.8.8.8:2379&quot;</a></p>
+<h1 id="security"><a href="#security" class="headerlink" title="[security]"></a>[security]</h1><p>ETCD_CERT_FILE=”/etc/kubernetes/ssl/kubernetes.pem”<br>ETCD_KEY_FILE=”/etc/kubernetes/ssl/kubernetes-key.pem”<br>ETCD_CLIENT_CERT_AUTH=”true”<br>ETCD_TRUSTED_CA_FILE=”/etc/kubernetes/ssl/ca.pem”<br>ETCD_AUTO_TLS=”true”<br>ETCD_PEER_CERT_FILE=”/etc/kubernetes/ssl/kubernetes.pem”<br>ETCD_PEER_KEY_FILE=”/etc/kubernetes/ssl/kubernetes-key.pem”<br>ETCD_PEER_CLIENT_CERT_AUTH=”true”<br>ETCD_PEER_TRUSTED_CA_FILE=”/etc/kubernetes/ssl/ca.pem”<br>ETCD_PEER_AUTO_TLS=”true”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 2.创建 etcd 的 systemd unit 文件 etcd.service</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/etcd.service</p>
+<p>[Unit]<br>Description=Etcd Server<br>After=network.target<br>After=network-online.target<br>Wants=network-online.target<br>Documentation=<a href="https://github.com/coreos" target="_blank" rel="noopener">https://github.com/coreos</a></p>
+<p>[Service]<br>Type=notify<br>WorkingDirectory=/var/lib/etcd/<br>EnvironmentFile=-/etc/etcd/etcd.conf<br>ExecStart=/usr/local/bin/etcd \<br>  –name ${ETCD_NAME} \<br>  –cert-file=/etc/kubernetes/ssl/kubernetes.pem \<br>  –key-file=/etc/kubernetes/ssl/kubernetes-key.pem \<br>  –peer-cert-file=/etc/kubernetes/ssl/kubernetes.pem \<br>  –peer-key-file=/etc/kubernetes/ssl/kubernetes-key.pem \<br>  –trusted-ca-file=/etc/kubernetes/ssl/ca.pem \<br>  –peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \<br>  –initial-advertise-peer-urls ${ETCD_INITIAL_ADVERTISE_PEER_URLS} \<br>  –listen-peer-urls ${ETCD_LISTEN_PEER_URLS} \<br>  –listen-client-urls ${ETCD_LISTEN_CLIENT_URLS},<a href="http://127.0.0.1:2379" target="_blank" rel="noopener">http://127.0.0.1:2379</a> \<br>  –advertise-client-urls ${ETCD_ADVERTISE_CLIENT_URLS} \<br>  –initial-cluster-token ${ETCD_INITIAL_CLUSTER_TOKEN} \<br>  –initial-cluster infra1=<a href="https://10.8.8.8:2380,infra2=https://10.8.8.10:2380,infra3=https://10.8.8.11:2380" target="_blank" rel="noopener">https://10.8.8.8:2380,infra2=https://10.8.8.10:2380,infra3=https://10.8.8.11:2380</a> \<br>  –initial-cluster-state new \<br>  –data-dir=${ETCD_DATA_DIR}<br>Restart=on-failure<br>RestartSec=5<br>LimitNOFILE=65536</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 3.启动 etcd 服务</span><br></pre></td></tr></table></figure></p>
+<p>systemctl daemon-reload.service<br>systemctl enable etcd.service<br>systemctl start etcd.service<br>systemctl status etcd.service<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 4.验证服务</span><br></pre></td></tr></table></figure></p>
+<p>etcdctl \<br>  –ca-file=/etc/kubernetes/ssl/ca.pem \<br>  –cert-file=/etc/kubernetes/ssl/kubernetes.pem \<br>  –key-file=/etc/kubernetes/ssl/kubernetes-key.pem \<br>  cluster-health<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 5.部署master节点</span><br><span class="line"></span><br><span class="line">### config</span><br><span class="line"></span><br><span class="line">/etc/kubernetes/config</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/config&lt;&lt;EOF</p>
+<h1 id="kubernetes-system-config"><a href="#kubernetes-system-config" class="headerlink" title="kubernetes system config"></a>kubernetes system config</h1><p>#</p>
+<h1 id="The-following-values-are-used-to-configure-various-aspects-of-all"><a href="#The-following-values-are-used-to-configure-various-aspects-of-all" class="headerlink" title="The following values are used to configure various aspects of all"></a>The following values are used to configure various aspects of all</h1><h1 id="kubernetes-services-including"><a href="#kubernetes-services-including" class="headerlink" title="kubernetes services, including"></a>kubernetes services, including</h1><p>#</p>
+<h1 id="kube-apiserver-service"><a href="#kube-apiserver-service" class="headerlink" title="kube-apiserver.service"></a>kube-apiserver.service</h1><h1 id="kube-controller-manager-service"><a href="#kube-controller-manager-service" class="headerlink" title="kube-controller-manager.service"></a>kube-controller-manager.service</h1><h1 id="kube-scheduler-service"><a href="#kube-scheduler-service" class="headerlink" title="kube-scheduler.service"></a>kube-scheduler.service</h1><h1 id="kubelet-service"><a href="#kubelet-service" class="headerlink" title="kubelet.service"></a>kubelet.service</h1><h1 id="kube-proxy-service"><a href="#kube-proxy-service" class="headerlink" title="kube-proxy.service"></a>kube-proxy.service</h1><h1 id="logging-to-stderr-means-we-get-it-in-the-systemd-journal"><a href="#logging-to-stderr-means-we-get-it-in-the-systemd-journal" class="headerlink" title="logging to stderr means we get it in the systemd journal"></a>logging to stderr means we get it in the systemd journal</h1><p>KUBE_LOGTOSTDERR=”–logtostderr=true”</p>
+<h1 id="journal-message-level-0-is-debug"><a href="#journal-message-level-0-is-debug" class="headerlink" title="journal message level, 0 is debug"></a>journal message level, 0 is debug</h1><p>KUBE_LOG_LEVEL=”–v=0”</p>
+<h1 id="Should-this-cluster-be-allowed-to-run-privileged-docker-containers"><a href="#Should-this-cluster-be-allowed-to-run-privileged-docker-containers" class="headerlink" title="Should this cluster be allowed to run privileged docker containers"></a>Should this cluster be allowed to run privileged docker containers</h1><p>KUBE_ALLOW_PRIV=”–allow-privileged=true”</p>
+<h1 id="How-the-controller-manager-scheduler-and-proxy-find-the-apiserver"><a href="#How-the-controller-manager-scheduler-and-proxy-find-the-apiserver" class="headerlink" title="How the controller-manager, scheduler, and proxy find the apiserver"></a>How the controller-manager, scheduler, and proxy find the apiserver</h1><p>#KUBE_MASTER=”–master=<a href="http://sz-pg-oam-docker-test-001.tendcloud.com:8080&quot;" target="_blank" rel="noopener">http://sz-pg-oam-docker-test-001.tendcloud.com:8080&quot;</a><br>KUBE_MASTER=”–master=<a href="http://10.8.8.8:8080&quot;" target="_blank" rel="noopener">http://10.8.8.8:8080&quot;</a><br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/etc/kubernetes/apiserver</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/apiserver&lt;&lt;EOF</p>
+<h2 id="kubernetes-system-config-1"><a href="#kubernetes-system-config-1" class="headerlink" title="kubernetes system config"></a>kubernetes system config</h2><p>##</p>
+<h2 id="The-following-values-are-used-to-configure-the-kube-apiserver"><a href="#The-following-values-are-used-to-configure-the-kube-apiserver" class="headerlink" title="The following values are used to configure the kube-apiserver"></a>The following values are used to configure the kube-apiserver</h2><p>##<br>#</p>
+<h2 id="The-address-on-the-local-server-to-listen-to"><a href="#The-address-on-the-local-server-to-listen-to" class="headerlink" title="The address on the local server to listen to."></a>The address on the local server to listen to.</h2><p>KUBE_API_ADDRESS=”–advertise-address=10.8.8.8 –bind-address=10.8.8.8 –insecure-bind-address=10.8.8.8”<br>#</p>
+<h2 id="The-port-on-the-local-server-to-listen-on"><a href="#The-port-on-the-local-server-to-listen-on" class="headerlink" title="The port on the local server to listen on."></a>The port on the local server to listen on.</h2><p>#KUBE_API_PORT=”–port=8080”<br>#</p>
+<h2 id="Port-minions-listen-on"><a href="#Port-minions-listen-on" class="headerlink" title="Port minions listen on"></a>Port minions listen on</h2><p>#KUBELET_PORT=”–kubelet-port=10250”<br>#</p>
+<h2 id="Comma-separated-list-of-nodes-in-the-etcd-cluster"><a href="#Comma-separated-list-of-nodes-in-the-etcd-cluster" class="headerlink" title="Comma separated list of nodes in the etcd cluster"></a>Comma separated list of nodes in the etcd cluster</h2><p>KUBE_ETCD_SERVERS=”–etcd-servers=<a href="https://10.8.8.8:2379&quot;" target="_blank" rel="noopener">https://10.8.8.8:2379&quot;</a><br>#</p>
+<h2 id="Address-range-to-use-for-services"><a href="#Address-range-to-use-for-services" class="headerlink" title="Address range to use for services"></a>Address range to use for services</h2><p>KUBE_SERVICE_ADDRESSES=”–service-cluster-ip-range=10.254.0.0/16”<br>#</p>
+<h2 id="default-admission-control-policies"><a href="#default-admission-control-policies" class="headerlink" title="default admission control policies"></a>default admission control policies</h2><p>KUBE_ADMISSION_CONTROL=”–admission-control=ServiceAccount,NamespaceLifecycle,NamespaceExists,LimitRanger,ResourceQuota”<br>#</p>
+<h2 id="Add-your-own"><a href="#Add-your-own" class="headerlink" title="Add your own!"></a>Add your own!</h2><p>KUBE_API_ARGS=”–authorization-mode=RBAC –runtime-config=rbac.authorization.k8s.io/v1beta1 –kubelet-https=true –enable-bootstrap-token-auth –token-auth-file=/etc/kubernetes/token.csv –service-node-port-range=30000-32767 –tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem –tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem –client-ca-file=/etc/kubernetes/ssl/ca.pem –service-account-key-file=/etc/kubernetes/ssl/ca-key.pem –etcd-cafile=/etc/kubernetes/ssl/ca.pem –etcd-certfile=/etc/kubernetes/ssl/kubernetes.pem –etcd-keyfile=/etc/kubernetes/ssl/kubernetes-key.pem –enable-swagger-ui=true –apiserver-count=3 –audit-log-maxage=30 –audit-log-maxbackup=3 –audit-log-maxsize=100 –audit-log-path=/var/lib/audit.log –event-ttl=1h”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/etc/kubernetes/controller-manager</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/controller-manager&lt;&lt;EOF</p>
+<h1 id="The-following-values-are-used-to-configure-the-kubernetes-controller-manager"><a href="#The-following-values-are-used-to-configure-the-kubernetes-controller-manager" class="headerlink" title="The following values are used to configure the kubernetes controller-manager"></a>The following values are used to configure the kubernetes controller-manager</h1><h1 id="defaults-from-config-and-apiserver-should-be-adequate"><a href="#defaults-from-config-and-apiserver-should-be-adequate" class="headerlink" title="defaults from config and apiserver should be adequate"></a>defaults from config and apiserver should be adequate</h1><h1 id="Add-your-own-1"><a href="#Add-your-own-1" class="headerlink" title="Add your own!"></a>Add your own!</h1><p>KUBE_CONTROLLER_MANAGER_ARGS=”–address=127.0.0.1 –service-cluster-ip-range=10.254.0.0/16 –cluster-name=kubernetes –cluster-signing-cert-file=/etc/kubernetes/ssl/ca.pem –cluster-signing-key-file=/etc/kubernetes/ssl/ca-key.pem  –service-account-private-key-file=/etc/kubernetes/ssl/ca-key.pem –root-ca-file=/etc/kubernetes/ssl/ca.pem –leader-elect=true”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/etc/kubernetes/scheduler</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/scheduler&lt;&lt;EOF</p>
+<h1 id="kubernetes-scheduler-config"><a href="#kubernetes-scheduler-config" class="headerlink" title="kubernetes scheduler config"></a>kubernetes scheduler config</h1><h1 id="default-config-should-be-adequate"><a href="#default-config-should-be-adequate" class="headerlink" title="default config should be adequate"></a>default config should be adequate</h1><h1 id="Add-your-own-2"><a href="#Add-your-own-2" class="headerlink" title="Add your own!"></a>Add your own!</h1><p>KUBE_SCHEDULER_ARGS=”–leader-elect=true –address=127.0.0.1”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### serivce配置文件</span><br><span class="line"></span><br><span class="line">创建 kube-apiserver的service配置文件</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/kube-apiserver.service</p>
+<p>[Unit]<br>Description=Kubernetes API Service<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a><br>After=network.target<br>After=etcd.service</p>
+<p>[Service]<br>EnvironmentFile=-/etc/kubernetes/config<br>EnvironmentFile=-/etc/kubernetes/apiserver<br>ExecStart=/usr/local/bin/kube-apiserver \<br>        $KUBE_LOGTOSTDERR \<br>        $KUBE_LOG_LEVEL \<br>        $KUBE_ETCD_SERVERS \<br>        $KUBE_API_ADDRESS \<br>        $KUBE_API_PORT \<br>        $KUBELET_PORT \<br>        $KUBE_ALLOW_PRIV \<br>        $KUBE_SERVICE_ADDRESSES \<br>        $KUBE_ADMISSION_CONTROL \<br>        $KUBE_API_ARGS<br>Restart=on-failure<br>Type=notify<br>LimitNOFILE=65536</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">创建 kube-controller-manager的serivce配置文件</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/kube-controller-manager.service</p>
+<p>[Unit]<br>Description=Kubernetes Controller Manager<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a></p>
+<p>[Service]<br>EnvironmentFile=-/etc/kubernetes/config<br>EnvironmentFile=-/etc/kubernetes/controller-manager<br>ExecStart=/usr/local/bin/kube-controller-manager \<br>        $KUBE_LOGTOSTDERR \<br>        $KUBE_LOG_LEVEL \<br>        $KUBE_MASTER \<br>        $KUBE_CONTROLLER_MANAGER_ARGS<br>Restart=on-failure<br>LimitNOFILE=65536</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">创建 kube-scheduler的serivce配置文件</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/kube-scheduler.service</p>
+<p>[Unit]<br>Description=Kubernetes Scheduler Plugin<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a></p>
+<p>[Service]<br>EnvironmentFile=-/etc/kubernetes/config<br>EnvironmentFile=-/etc/kubernetes/scheduler<br>ExecStart=/usr/local/bin/kube-scheduler \<br>            $KUBE_LOGTOSTDERR \<br>            $KUBE_LOG_LEVEL \<br>            $KUBE_MASTER \<br>            $KUBE_SCHEDULER_ARGS<br>Restart=on-failure<br>LimitNOFILE=65536</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 启动</span><br><span class="line"></span><br><span class="line">`systemctl daemon-reload`</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">for service in kube-apiserver kube-controller-manager kube-scheduler; do</span><br><span class="line">	systemctl enable $service</span><br><span class="line">	systemctl start $service</span><br><span class="line">	systemctl status $service</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+<h3 id="验证-master-节点功能"><a href="#验证-master-节点功能" class="headerlink" title="验证 master 节点功能"></a>验证 master 节点功能</h3><p>我们启动每个组件后可以通过执行命令kubectl get componentstatuses，来查看各个组件的状态;</p>
+<p><code>kubectl get componentstatuses</code></p>
+<h2 id="6-安装flannel网络插件"><a href="#6-安装flannel网络插件" class="headerlink" title="6.安装flannel网络插件"></a>6.安装flannel网络插件</h2><p>/etc/sysconfig/flanneld配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/sysconfig/flanneld&lt;&lt;EOF</span><br><span class="line"># Flanneld configuration options  </span><br><span class="line"></span><br><span class="line"># etcd url location.  Point this to the server where etcd runs</span><br><span class="line">FLANNEL_ETCD_ENDPOINTS=&quot;https://10.8.8.8:2379&quot;</span><br><span class="line"></span><br><span class="line"># etcd config key.  This is the configuration key that flannel queries</span><br><span class="line"># For address range assignment</span><br><span class="line">FLANNEL_ETCD_PREFIX=&quot;/kube-centos/network&quot;</span><br><span class="line"></span><br><span class="line"># Any additional options that you want to pass</span><br><span class="line">FLANNEL_OPTIONS=&quot;-etcd-cafile=/etc/kubernetes/ssl/ca.pem -etcd-certfile=/etc/kubernetes/ssl/kubernetes.pem -etcd-keyfile=/etc/kubernetes/ssl/kubernetes-key.pem&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>service配置文件/usr/lib/systemd/system/flanneld.service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/flanneld.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Flanneld overlay address etcd agent</span><br><span class="line">After=network.target</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line">After=etcd.service</span><br><span class="line">Before=docker.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">EnvironmentFile=/etc/sysconfig/flanneld</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-network</span><br><span class="line">ExecStart=/usr/local/bin/flanneld \</span><br><span class="line">  -etcd-endpoints=$&#123;FLANNEL_ETCD_ENDPOINTS&#125; \</span><br><span class="line">  -etcd-prefix=$&#123;FLANNEL_ETCD_PREFIX&#125; \</span><br><span class="line">  $FLANNEL_OPTIONS</span><br><span class="line">ExecStartPost=/usr/local/bin/mk-docker-opts.sh -k DOCKER_NETWORK_OPTIONS -d /run/flannel/docker</span><br><span class="line">Restart=on-failure</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">RequiredBy=docker.service</span><br></pre></td></tr></table></figure>
+<h3 id="3-在etcd中创建网络配置"><a href="#3-在etcd中创建网络配置" class="headerlink" title="3.在etcd中创建网络配置"></a>3.在etcd中创建网络配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#新建目录 /kube-centos/network</span><br><span class="line">etcdctl --endpoints=https://10.8.8.8:2379 \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  mkdir /kube-centos/network</span><br><span class="line">  </span><br><span class="line">#指定IP段</span><br><span class="line">etcdctl --endpoints=https://10.8.8.8:2379 \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  mk /kube-centos/network/config &apos;&#123;&quot;Network&quot;:&quot;172.30.0.0/16&quot;,&quot;SubnetLen&quot;:24,&quot;Backend&quot;:&#123;&quot;Type&quot;:&quot;vxlan&quot;&#125;&#125;&apos;</span><br><span class="line">  </span><br><span class="line">#查看数据</span><br><span class="line">etcdctl --endpoints=https://10.8.8.8:2379 \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  get /kube-centos/network/config </span><br><span class="line"></span><br><span class="line">#查看目录  </span><br><span class="line">etcdctl --endpoints=$&#123;ETCD_ENDPOINTS&#125; \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  ls /kube-centos/network/subnets</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">启动flannel</span><br></pre></td></tr></table></figure>
+<p>systemctl daemon-reload<br>systemctl enable flanneld.service<br>systemctl start flanneld.service<br>systemctl status flanneld.service<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">使用systemctl命令启动flanneld后，会自动执行./mk-docker-opts.sh -i生成如下两个文件环境变量文件：</span><br><span class="line"></span><br><span class="line">/run/flannel/subnet.env</span><br><span class="line">/run/docker_opts.env</span><br><span class="line"></span><br><span class="line">配置docker</span><br><span class="line"></span><br><span class="line">二进制方式安装的flannel</span><br><span class="line"></span><br><span class="line">修改docker的配置文件/usr/lib/systemd/system/docker.service，增加如下几条环境变量配置：</span><br></pre></td></tr></table></figure></p>
+<p>EnvironmentFile=-/run/docker_opts.env<br>EnvironmentFile=-/run/flannel/subnet.env<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 7.部署Node节点</span><br></pre></td></tr></table></figure></p>
+<p>mkdir /var/lib/kubelet<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 1.--kubeconfig=/etc/kubernetes/kubelet.kubeconfig中指定的kubelet.kubeconfig文件在第一次启动kubelet之前并不存在，请看下文，当通过CSR请求后会自动生成kubelet.kubeconfig文件，如果你的节点上已经生成了~/.kube/config文件，你可以将该文件拷贝到该路径下，并重命名为kubelet.kubeconfig，所有node节点可以共用同一个kubelet.kubeconfig文件，这样新添加的节点就不需要再创建CSR请求就能自动添加到kubernetes集群中。同样，在任意能够访问到kubernetes集群的主机上使用kubectl --kubeconfig命令操作集群时，只要使用~/.kube/config文件就可以通过权限认证，因为这里面已经有认证信息并认为你是admin用户，对集群拥有所有权限。</span><br></pre></td></tr></table></figure></p>
+<p>cp ~/.kube/config /etc/kubernetes/kubelet.kubeconfig<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 1.修改/etc/fstab将，swap系统注释掉。</span><br><span class="line">- 2.kubelet 启动时向 kube-apiserver 发送 TLS bootstrapping 请求，需要先将 bootstrap token 文件中的 kubelet-bootstrap 用户赋予 system:node-bootstrapper cluster 角色(role)， 然后 kubelet 才能有权限创建认证请求(certificate signing requests)：</span><br></pre></td></tr></table></figure></p>
+<p>cd /etc/kubernetes</p>
+<p>kubectl create clusterrolebinding kubelet-bootstrap \<br>  –clusterrole=system:node-bootstrapper \<br>  –user=kubelet-bootstrap<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/etc/kubernetes/kubelet</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/kubelet&lt;&lt;EOF</p>
+<p>###</p>
+<h2 id="kubernetes-kubelet-minion-config"><a href="#kubernetes-kubelet-minion-config" class="headerlink" title="kubernetes kubelet (minion) config"></a>kubernetes kubelet (minion) config</h2><p>#</p>
+<h2 id="The-address-for-the-info-server-to-serve-on-set-to-0-0-0-0-or-“”-for-all-interfaces"><a href="#The-address-for-the-info-server-to-serve-on-set-to-0-0-0-0-or-“”-for-all-interfaces" class="headerlink" title="The address for the info server to serve on (set to 0.0.0.0 or “” for all interfaces)"></a>The address for the info server to serve on (set to 0.0.0.0 or “” for all interfaces)</h2><p>KUBELET_ADDRESS=”–address=10.8.8.8”<br>#</p>
+<h2 id="The-port-for-the-info-server-to-serve-on"><a href="#The-port-for-the-info-server-to-serve-on" class="headerlink" title="The port for the info server to serve on"></a>The port for the info server to serve on</h2><p>#KUBELET_PORT=”–port=10250”<br>#</p>
+<h2 id="You-may-leave-this-blank-to-use-the-actual-hostname"><a href="#You-may-leave-this-blank-to-use-the-actual-hostname" class="headerlink" title="You may leave this blank to use the actual hostname"></a>You may leave this blank to use the actual hostname</h2><p>KUBELET_HOSTNAME=”–hostname-override=10.8.8.8”<br>#</p>
+<h2 id="location-of-the-api-server"><a href="#location-of-the-api-server" class="headerlink" title="location of the api-server"></a>location of the api-server</h2><h2 id="COMMENT-THIS-ON-KUBERNETES-1-8"><a href="#COMMENT-THIS-ON-KUBERNETES-1-8" class="headerlink" title="COMMENT THIS ON KUBERNETES 1.8+"></a>COMMENT THIS ON KUBERNETES 1.8+</h2><p>#KUBELET_API_SERVER=”–api-servers=<a href="http://10.8.8.8:8080&quot;" target="_blank" rel="noopener">http://10.8.8.8:8080&quot;</a><br>#</p>
+<h2 id="pod-infrastructure-container"><a href="#pod-infrastructure-container" class="headerlink" title="pod infrastructure container"></a>pod infrastructure container</h2><p>KUBELET_POD_INFRA_CONTAINER=”–pod-infra-container-image=index.tenxcloud.com/jimmy/pod-infrastructure:rhel7”<br>#</p>
+<h2 id="Add-your-own-3"><a href="#Add-your-own-3" class="headerlink" title="Add your own!"></a>Add your own!</h2><p>KUBELET_ARGS=”–runtime-cgroups=/systemd/system.slice –kubelet-cgroups=/systemd/system.slice –cgroup-driver=systemd –cluster-dns=10.254.0.2 –bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig –kubeconfig=/etc/kubernetes/kubelet.kubeconfig –cert-dir=/etc/kubernetes/ssl –cluster-domain=cluster.local –hairpin-mode promiscuous-bridge –serialize-image-pulls=false”</p>
+<h1 id="–require-kubeconfig"><a href="#–require-kubeconfig" class="headerlink" title="–require-kubeconfig"></a>–require-kubeconfig</h1><p>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[Remove --require-kubeconfig and the default kubeconfig path in v1.10](https://github.com/kubernetes/kubernetes/issues/41161)</span><br><span class="line"></span><br><span class="line">[kubelet Error: unknown flag: --api-servers](https://github.com/kubernetes/contrib/issues/2830)</span><br><span class="line"></span><br><span class="line">创建kubelet的service配置文件</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/kubelet.service</p>
+<p>[Unit]<br>Description=Kubernetes Kubelet Server<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a><br>After=docker.service<br>Requires=docker.service</p>
+<p>[Service]<br>WorkingDirectory=/var/lib/kubelet<br>EnvironmentFile=-/etc/kubernetes/config<br>EnvironmentFile=-/etc/kubernetes/kubelet<br>ExecStart=/usr/local/bin/kubelet \<br>            $KUBE_LOGTOSTDERR \<br>            $KUBE_LOG_LEVEL \<br>            $KUBELET_API_SERVER \<br>            $KUBELET_ADDRESS \<br>            $KUBELET_PORT \<br>            $KUBELET_HOSTNAME \<br>            $KUBE_ALLOW_PRIV \<br>            $KUBELET_POD_INFRA_CONTAINER \<br>            $KUBELET_ARGS<br>Restart=on-failure</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">启动kublet</span><br></pre></td></tr></table></figure></p>
+<p>systemctl daemon-reload<br>systemctl enable kubelet.service<br>systemctl start kubelet.service<br>systemctl status kubelet.service<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 2.配置 kube-proxy</span><br><span class="line">/etc/kubernetes/proxy</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/proxy&lt;&lt;EOF</p>
+<p>###</p>
+<h1 id="kubernetes-proxy-config"><a href="#kubernetes-proxy-config" class="headerlink" title="kubernetes proxy config"></a>kubernetes proxy config</h1><h1 id="default-config-should-be-adequate-1"><a href="#default-config-should-be-adequate-1" class="headerlink" title="default config should be adequate"></a>default config should be adequate</h1><h1 id="Add-your-own-4"><a href="#Add-your-own-4" class="headerlink" title="Add your own!"></a>Add your own!</h1><p>KUBE_PROXY_ARGS=”–bind-address=10.8.8.8 –hostname-override=10.8.8.8 –kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig –cluster-cidr=10.254.0.0/16”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/usr/lib/systemd/system/kube-proxy.service</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/kube-proxy.service</p>
+<p>[Unit]<br>Description=Kubernetes Kube-Proxy Server<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a><br>After=network.target</p>
+<p>[Service]<br>EnvironmentFile=-/etc/kubernetes/config<br>EnvironmentFile=-/etc/kubernetes/proxy<br>ExecStart=/usr/local/bin/kube-proxy \<br>        $KUBE_LOGTOSTDERR \<br>        $KUBE_LOG_LEVEL \<br>        $KUBE_MASTER \<br>        $KUBE_PROXY_ARGS<br>Restart=on-failure<br>LimitNOFILE=65536</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">启动 kube-proxy</span><br></pre></td></tr></table></figure></p>
+<p>systemctl daemon-reload<br>systemctl enable kube-proxy<br>systemctl start kube-proxy<br>systemctl status kube-proxy<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">由于采用了 TLS Bootstrapping，所以 kubelet 启动后不会立即加入集群，而是进行证书申请，此时只需要在 master 允许其证书申请即可。</span><br></pre></td></tr></table></figure></p>
+<h1 id="查看-csr"><a href="#查看-csr" class="headerlink" title="查看 csr"></a>查看 csr</h1><p>➜  kubectl get csr<br>NAME        AGE       REQUESTOR           CONDITION<br>csr-l9d25   2m        kubelet-bootstrap   Pending</p>
+<h1 id="签发证书"><a href="#签发证书" class="headerlink" title="签发证书"></a>签发证书</h1><p>➜  kubectl certificate approve csr-l9d25<br>certificatesigningrequest “csr-l9d25” approved</p>
+<h1 id="查看-node"><a href="#查看-node" class="headerlink" title="查看 node"></a>查看 node</h1><p>kubectl get node<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">docker pull jimmysong/pause-amd64:3.0</span><br><span class="line"></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/sunyuki/pod-infrastructure:latest</span><br><span class="line"></span><br><span class="line">docker pull nginx:1.13.11</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-验证测试"><a href="#4-验证测试" class="headerlink" title="4.验证测试"></a>4.验证测试</h3><p>我们创建一个nginx的service试一下集群是否可用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl run nginx --replicas=2 --labels=&quot;run=nginx-load-balancer&quot; --image=nginx:1.13.11  --port=80</span><br><span class="line"></span><br><span class="line">kubectl expose deployment nginx --type=NodePort --name=nginx-service</span><br><span class="line"></span><br><span class="line">kubectl describe svc nginx-service</span><br></pre></td></tr></table></figure>
+<p>删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete svc nginx</span><br><span class="line">kubectl delete deploy nginx</span><br></pre></td></tr></table></figure>
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/08/08/Kubernetes/"></a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 幻舞梦境 的个人博客">幻舞梦境</a></p>
+        <p><span>发布时间:</span>2018年08月08日 - 08时34分</p>
+        <p><span>最后更新:</span>2018年08月08日 - 08时34分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/08/08/Kubernetes/" title="">http://ovwane.me/2018/08/08/Kubernetes/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://ovwane.me/2018/08/08/Kubernetes/　　作者: 幻舞梦境" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2018/08/08/IntelliJ IDEA 配置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/08/KeePass使用问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kubernetes安装配置"><span class="toc-number">1.</span> <span class="toc-text">Kubernetes安装配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#集群详情"><span class="toc-number">1.1.</span> <span class="toc-text">集群详情</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境说明"><span class="toc-number">1.2.</span> <span class="toc-text">环境说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.3.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装前的准备"><span class="toc-number">1.3.1.</span> <span class="toc-text">安装前的准备</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-生成证书"><span class="toc-number">1.4.</span> <span class="toc-text">1.生成证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-下载安装文件"><span class="toc-number">1.5.</span> <span class="toc-text">2.下载安装文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#master-10-8-8-8"><span class="toc-number">1.5.1.</span> <span class="toc-text">master 10.8.8.8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-10-8-8-10-10-8-8-11"><span class="toc-number">1.5.2.</span> <span class="toc-text">node 10.8.8.10 10.8.8.11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#master和node"><span class="toc-number">1.5.3.</span> <span class="toc-text">master和node</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置集群参数"><span class="toc-number">2.</span> <span class="toc-text">设置集群参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置客户端认证参数"><span class="toc-number">3.</span> <span class="toc-text">设置客户端认证参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置上下文参数"><span class="toc-number">4.</span> <span class="toc-text">设置上下文参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置默认上下文"><span class="toc-number">5.</span> <span class="toc-text">设置默认上下文</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置集群参数-1"><span class="toc-number">6.</span> <span class="toc-text">设置集群参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置客户端认证参数-1"><span class="toc-number">7.</span> <span class="toc-text">设置客户端认证参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置上下文参数-1"><span class="toc-number">8.</span> <span class="toc-text">设置上下文参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置默认上下文-1"><span class="toc-number">9.</span> <span class="toc-text">设置默认上下文</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置集群参数-2"><span class="toc-number">10.</span> <span class="toc-text">设置集群参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置客户端认证参数-2"><span class="toc-number">11.</span> <span class="toc-text">设置客户端认证参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置上下文参数-2"><span class="toc-number">12.</span> <span class="toc-text">设置上下文参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置默认上下文-2"><span class="toc-number">13.</span> <span class="toc-text">设置默认上下文</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#member"><span class="toc-number">14.</span> <span class="toc-text">[member]</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#security"><span class="toc-number">15.</span> <span class="toc-text">[security]</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kubernetes-system-config"><span class="toc-number">16.</span> <span class="toc-text">kubernetes system config</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#The-following-values-are-used-to-configure-various-aspects-of-all"><span class="toc-number">17.</span> <span class="toc-text">The following values are used to configure various aspects of all</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kubernetes-services-including"><span class="toc-number">18.</span> <span class="toc-text">kubernetes services, including</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kube-apiserver-service"><span class="toc-number">19.</span> <span class="toc-text">kube-apiserver.service</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kube-controller-manager-service"><span class="toc-number">20.</span> <span class="toc-text">kube-controller-manager.service</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kube-scheduler-service"><span class="toc-number">21.</span> <span class="toc-text">kube-scheduler.service</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kubelet-service"><span class="toc-number">22.</span> <span class="toc-text">kubelet.service</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kube-proxy-service"><span class="toc-number">23.</span> <span class="toc-text">kube-proxy.service</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#logging-to-stderr-means-we-get-it-in-the-systemd-journal"><span class="toc-number">24.</span> <span class="toc-text">logging to stderr means we get it in the systemd journal</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#journal-message-level-0-is-debug"><span class="toc-number">25.</span> <span class="toc-text">journal message level, 0 is debug</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Should-this-cluster-be-allowed-to-run-privileged-docker-containers"><span class="toc-number">26.</span> <span class="toc-text">Should this cluster be allowed to run privileged docker containers</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-the-controller-manager-scheduler-and-proxy-find-the-apiserver"><span class="toc-number">27.</span> <span class="toc-text">How the controller-manager, scheduler, and proxy find the apiserver</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#kubernetes-system-config-1"><span class="toc-number">27.1.</span> <span class="toc-text">kubernetes system config</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-following-values-are-used-to-configure-the-kube-apiserver"><span class="toc-number">27.2.</span> <span class="toc-text">The following values are used to configure the kube-apiserver</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-address-on-the-local-server-to-listen-to"><span class="toc-number">27.3.</span> <span class="toc-text">The address on the local server to listen to.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-port-on-the-local-server-to-listen-on"><span class="toc-number">27.4.</span> <span class="toc-text">The port on the local server to listen on.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Port-minions-listen-on"><span class="toc-number">27.5.</span> <span class="toc-text">Port minions listen on</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Comma-separated-list-of-nodes-in-the-etcd-cluster"><span class="toc-number">27.6.</span> <span class="toc-text">Comma separated list of nodes in the etcd cluster</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Address-range-to-use-for-services"><span class="toc-number">27.7.</span> <span class="toc-text">Address range to use for services</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#default-admission-control-policies"><span class="toc-number">27.8.</span> <span class="toc-text">default admission control policies</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Add-your-own"><span class="toc-number">27.9.</span> <span class="toc-text">Add your own!</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#The-following-values-are-used-to-configure-the-kubernetes-controller-manager"><span class="toc-number">28.</span> <span class="toc-text">The following values are used to configure the kubernetes controller-manager</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#defaults-from-config-and-apiserver-should-be-adequate"><span class="toc-number">29.</span> <span class="toc-text">defaults from config and apiserver should be adequate</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Add-your-own-1"><span class="toc-number">30.</span> <span class="toc-text">Add your own!</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kubernetes-scheduler-config"><span class="toc-number">31.</span> <span class="toc-text">kubernetes scheduler config</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#default-config-should-be-adequate"><span class="toc-number">32.</span> <span class="toc-text">default config should be adequate</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Add-your-own-2"><span class="toc-number">33.</span> <span class="toc-text">Add your own!</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#验证-master-节点功能"><span class="toc-number">33.0.1.</span> <span class="toc-text">验证 master 节点功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-安装flannel网络插件"><span class="toc-number">33.1.</span> <span class="toc-text">6.安装flannel网络插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-在etcd中创建网络配置"><span class="toc-number">33.1.1.</span> <span class="toc-text">3.在etcd中创建网络配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kubernetes-kubelet-minion-config"><span class="toc-number">33.2.</span> <span class="toc-text">kubernetes kubelet (minion) config</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-address-for-the-info-server-to-serve-on-set-to-0-0-0-0-or-“”-for-all-interfaces"><span class="toc-number">33.3.</span> <span class="toc-text">The address for the info server to serve on (set to 0.0.0.0 or “” for all interfaces)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-port-for-the-info-server-to-serve-on"><span class="toc-number">33.4.</span> <span class="toc-text">The port for the info server to serve on</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#You-may-leave-this-blank-to-use-the-actual-hostname"><span class="toc-number">33.5.</span> <span class="toc-text">You may leave this blank to use the actual hostname</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#location-of-the-api-server"><span class="toc-number">33.6.</span> <span class="toc-text">location of the api-server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#COMMENT-THIS-ON-KUBERNETES-1-8"><span class="toc-number">33.7.</span> <span class="toc-text">COMMENT THIS ON KUBERNETES 1.8+</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pod-infrastructure-container"><span class="toc-number">33.8.</span> <span class="toc-text">pod infrastructure container</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Add-your-own-3"><span class="toc-number">33.9.</span> <span class="toc-text">Add your own!</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#–require-kubeconfig"><span class="toc-number">34.</span> <span class="toc-text">–require-kubeconfig</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kubernetes-proxy-config"><span class="toc-number">35.</span> <span class="toc-text">kubernetes proxy config</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#default-config-should-be-adequate-1"><span class="toc-number">36.</span> <span class="toc-text">default config should be adequate</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Add-your-own-4"><span class="toc-number">37.</span> <span class="toc-text">Add your own!</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看-csr"><span class="toc-number">38.</span> <span class="toc-text">查看 csr</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#签发证书"><span class="toc-number">39.</span> <span class="toc-text">签发证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看-node"><span class="toc-number">40.</span> <span class="toc-text">查看 node</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-验证测试"><span class="toc-number">40.0.1.</span> <span class="toc-text">4.验证测试</span></a></li></ol></li></ol></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <div id="gitments"></div>
+<script src="/js/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'ovwane',
+      repo: 'ovwane.github.io',
+      oauth: {
+        client_id: '',
+        client_secret: '',
+      },
+    })
+    gitment.render('gitments')
+</script>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/08/08/IntelliJ IDEA 配置/" title="上一篇: ">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/08/08/KeePass使用问题/" title="下一篇: ">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Linux下服务器性能测试/">Linux下服务器性能测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Python+Web开发实战-董伟明-笔记/">Python+Web开发实战-董伟明-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Tomcat问题/">Tomcat问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/文档排版/">文档排版</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/本博客 Nginx 配置之完整篇/">本博客 Nginx 配置之完整篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/暂存书签/">暂存书签</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/清华大学开源软件镜像站-CentOS7/">清华大学开源软件镜像站-CentOS7</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/正则表达式/">正则表达式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/工作职场相关书签/">工作职场相关书签</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/学习/">学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/学习-记忆-规律-笔记/">学习-记忆-规律-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/如何使用restgo-admin/">如何使用restgo-admin</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/新世纪五笔/">新世纪五笔</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/博客/">博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/关注的Github项目/">关注的Github项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/关于编程学习/">关于编程学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/关于她-绝笔/">关于她-绝笔</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/使用Vagrant和Virtualbox搭建Kubernetes集群/">使用Vagrant和Virtualbox搭建Kubernetes集群</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/使用Travis CI自动部署Hexo博客发布到Github和Coding.net/">使用Travis CI自动部署Hexo博客发布到Github和Coding.net</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/京峰教育Linux运维-笔记/">京峰教育Linux运维-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/书签/">书签</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/个人履历/">个人履历</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/代码质量/">代码质量</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/macOS 安装数据库服务/">macOS 安装数据库服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/macOS 10.12.6 开启第三方SSD的trim功能/">macOS 10.12.6 开启第三方SSD的trim功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/macOS 10.13 制作U盘安装盘/">macOS 10.13 制作U盘安装盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/linode-Nginx-1.13.11/">linode-Nginx-1.13.11</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/linode_vps/">linode_vps</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/macOS 10.12.6 Mariadb配置/">macOS 10.12.6 Mariadb配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/linode_vps安装Python/">linode_vps安装Python</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/jollychic/">jollychic</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/crawl_spider 环境配置/">crawl_spider 环境配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/distribute_crawler项目实战/">distribute_crawler项目实战</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/hexo/">hexo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/grep命令总结/">grep命令总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/iTerm2 配置/">iTerm2 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/firewalld/">firewalld</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/acme.sh/">acme.sh</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/ai_ml/">ai_ml</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/article_jobbole/">article_jobbole</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/awk命令总结/">awk命令总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/brew install make/">brew install make</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/docker/">docker</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/brew 错误提示汇总/">brew 错误提示汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/homebrew install list/">homebrew install list</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/IntelliJ IDEA 配置/">IntelliJ IDEA 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Kubernetes/">Kubernetes</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/KeePass使用问题/">KeePass使用问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Hugo/">Hugo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/KeePassXC 配置/">KeePassXC 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Go编码规范指南/">Go编码规范指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Go相关的书签/">Go相关的书签</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Caddy/">Caddy</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/CentOS Go环境配置/">CentOS Go环境配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Google资深工程师深度讲解Go语言-笔记/">Google资深工程师深度讲解Go语言-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/GoLand 配置/">GoLand 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Go/">Go</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Go-Gin/">Go-Gin</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/CentOS7 安装Python/">CentOS7 安装Python</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/CentOS7 安装SScrapy和SpiderKeeper/">CentOS7 安装SScrapy和SpiderKeeper</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Go 项目列表/">Go 项目列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/CentOS7 配置shadowsocks/">CentOS7 配置shadowsocks</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Git 教程/">Git 教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Ele-A面-笔记/">Ele-A面-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/CentOS7安装配置Mariadb/">CentOS7安装配置Mariadb</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/CentOS7安装配置zsh/">CentOS7安装配置zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/CentOS安装配置MongoDB/">CentOS安装配置MongoDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Django生产环境搭建/">Django生产环境搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Cisco 路由器配置命令/">Cisco 路由器配置命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Cisco:H3C交换机配置与管理完全手册/">Cisco:H3C交换机配置与管理完全手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/C语言学习-笔记/">C语言学习-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Debian8安装Shadowsock和moeSS/">Debian8安装Shadowsock和moeSS</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/CentOS安装配置Redis/">CentOS安装配置Redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/AWS/">AWS</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/08/Bash快捷键/">Bash快捷键</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/31/课时15：分析Ajax请求并抓取今日头条街拍美图/">课时15：分析Ajax请求并抓取今日头条街拍美图</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/30/Ubuntu 安装配置PyV8/">Ubuntu 安装配置PyV8</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/30/Vagrant Ubuntu 配置/">Vagrant Ubuntu 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/30/Ubuntu 安装Python/">Ubuntu 安装 Python</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/27/WebStorm-配置/">WebStorm 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/27/macOS-安装配置PyV8/">macOS 安装配置PyV8</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/24/Gitlab教程/">Gitlab教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/CentOS7-配置Shadowsocks-go/">CentOS7 配置Shadowsocks-go</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/CentOS7 Shadowsocks-go/">CentOS7 Shadowsocks-go</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/CentOS7-开启BBR/">CentOS7 开启BBR</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/21/ovwane的技术栈/">ovwane的技术栈</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/20/工程师/">工程师title</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/百度网盘/">百度网盘</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/通过CrawlSpider对招聘网站进行整站爬取/">通过爬虫对招聘网站进行整站爬取</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/随记/">随记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/老男孩Python自动化开发s16-笔记/">老男孩Python自动化开发s16</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/老男孩教育Python课程老师们的博客/">老男孩教育Python课程老师们的博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/胡阳/">胡阳</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/运维相关的书签/">运维相关的书签</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/金融/">财经商业和投资理财微信公众号</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/计算机设备/">计算机设备</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/04/macOS 安装配置Hugo/">macOS 安装配置Hugo</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/08/macOS gitbook/">macOS gitbook</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/15/商业保险/">商业保险</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/Windows 安装软件/">Windows 安装软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/macOS 10.13 Go/">macOS 10.13 Go</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/Alfred 配置/">Alfred 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/2018-05-06/">2018-05-06</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/macOS 10.13 删除应用软件/">macOS 10.13 删除应用软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/Vim 配置/">Vim 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/macOS 10.13 购买的应用清单/">macOS 10.13 购买的应用清单</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/macOS 10.13 配置Zsh/">macOS 10.13 配置Zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/macOS 10.13 安装软件/">macOS 10.13 安装软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/05/macOS 10.13 偏好设置/">macOS 10.13 偏好设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/4-20今天要发工资了/">4.20今天要发工资了</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/10/Typora使用技巧/">Typora使用技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/10/tencent_vps/">tencent_vps</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/05/python全栈3期day104/">python全栈3期day104</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/02/python全栈3期day004/">python全栈3期day004</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/02/python全栈3期day005/">python全栈3期day005</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/02/Python爬虫面试题/">Python爬虫面试题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/02/python全栈3期day002/">python全栈3期day002</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/python全栈3期day001/">python全栈3期day001</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/python全栈3期day003/">python全栈3期day003</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Python开发者/">Python开发者</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/26/macOS 10.13.3 配置pipenv/">macOS 10.13.3 配置pipenv</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/19/Python分布式爬虫打造搜索引擎笔记/">Python分布式爬虫打造搜索引擎笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/">重做MacBook Pro的系统macOS 10.13.3</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/PyCharm 配置/">PyCharm 配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/09/PowerShell使用笔记/">PowerShell使用笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/02/云服务服务商/">云服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/02/阿里云账号注册日期/">阿里云账号注册日期</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/31/Jenkins-持续集成企业实战系列/">Jenkins 持续集成企业实战系列</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/Python3操作Excel/">Python3操作Excel</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/2007年700-2017年7000/">2007年700-2017年7000</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/CS50-2017/">CS50 2017</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/2017年终总结之思考/">2017年终总结之思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/2017年终总结之败家/">2017年终总结之败家</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/2017年总结与2018年计划/">2017年总结与2018年计划</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/18/Ubuntu-新装服务器部署流程/">Ubuntu 新装服务器部署流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-目录/">手把手带你构建一个分布式爬虫系统实战-小象学院-目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-笔记/">手把手带你构建一个分布式爬虫系统实战-小象学院-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Jira安装配置/">Jira安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/23/Python爬虫学习实践笔记/">Python爬虫学习实践笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/17/CentOS7 新装服务器初始化配置/">CentOS7 新装服务器初始化配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Linux之路/">Linux之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/13/五笔输入法/">五笔输入法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/13/学习计划书/">学习计划书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/12/CentOS6 新装服务器初始化配置/">CentOS 6 新装服务器部署流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/12/HAProxy安装配置/">HAProxy安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/11/生病的这段日子/">生病的这段日子</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/">uWSGI搭配Nginx配置Django部署环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/20/macOS 配置Python环境/">macOS 配置Python环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/20/2016-12-12-2017-10-20/">2016.12.12~2017.10.20</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/20/使用Supervisor管理SpiderKeeper和Scrapyd/">使用Supervisor管理SpiderKeeper和Scrapyd</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/20/强力Django+杀手级Xadmin/">强力Django+杀手级Xadmin笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/Python分布式爬虫打造搜索引擎/">Python分布式爬虫打造搜索引擎笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/17/Django企业开发实战-the5fire-笔记/">Django企业开发实战-the5fire-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/17/macOS 安装配置Nginx/">macOS 安装配置Nginx</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/15/博客-回忆-悔？/">博客 回忆 悔？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/macOS 允许运行未知来源的应用/">macOS 允许运行未知来源的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/macOS 安装Homebrew/">macOS 安装Homebrew</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/潭州课堂退学费/">潭州课堂退学费</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/09/macOS 安装配置gitbook/">macOS 安装配置gitbook</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/09/macOS 安装配置Sublime Text/">macOS 安装配置Sublime Text</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/logrotate/">logrotate</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/macOS 安装配置Hexo/">macOS 安装配置Hexo</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/2017-10-08-从明天要好好工作了，要去赚钱了。/">2017.10.08 从明天要好好工作了，要去赚钱了。</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/2017-10-07-收到新买的-Apple-MacBook-Pro-15/">2017.10.07 收到新买的 Apple MacBook Pro 15</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/2017-10-06-回到北京了/">2017.10.06 回到北京了</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/2017-09-23-买了一台-Apple-MacBook-Pro-15/">2017.09.23 买了一台 Apple MacBook Pro 15</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/macOS 安装Oh My Zsh/">macOS 安装Oh My Zsh</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/07/购买的收费软件清单/">购买的收费软件清单</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/01/十年青春,十年网文！/">十年青春，十年网文！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/04/浦发银行2万/">浦发银行2万</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/02/看到她穿的New-Balance，2015年的时候在广州也看看到过别的人穿过。/">看到她穿的New Balance，2015年的时候在广州也看看到过别的人穿过。</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/02/New-Balance（NB）ML1550RP/">New Balance（NB）ML1550RP</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/01/和莹姐聊天感想/">和莹姐聊天感想</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/31/KVM安装配置/">KVM安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/30/树莓派家庭局域网透明代理/">树莓派家庭局域网透明代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/早上4点多，痛醒了。唉，自己都照顾不好。怎么去照顾喜欢的人呢？该怎么办？/">早上4点多，痛醒了。唉，自己都照顾不好。怎么去照顾喜欢的人呢？该怎么办？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/24/身体很差，胃痛啊！吃东西不注意。痛起来堪比自虐！/">身体很差，胃痛啊！吃东西不注意。痛起来堪比自虐！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/24/心情不好，3月以来都没开心了。/">心情不好，3月以来都没开心了。</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/23/Kubernetes安装配置/">Kubernetes安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/17/kx教的知识/">kx教的知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/16/5个月了，2017-03-16～2017-08-16/">5个月了，2017.03.16～2017.08.16</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/09/她的小粉鞋/">她的小粉鞋</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/mac OS 10.13 配置微信小助手/">mac OS 10.13 配置微信小助手</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/Nginx-1.13.11/">Nginx-1.13.11</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/macOS 10.12.6 安装redis/">macOS 10.12.6 安装redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/macOS 10.12.6 安装 Python Pillow/">macOS 10.12.6 安装 Python Pillow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/03/更改KeePass储存文件方式OneDrive改为坚果云/">更改KeePass储存文件方式OneDrive改为坚果云</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/02/代码编写风格约定/">代码编写风格约定</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/01/Pyhont学习网站/">Pyhont学习网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/01/8月-你好吗？/">8月,你好吗？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/31/232天的第一次加薪/">232天的第一次加薪</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/26/Markdown学习/">Markdown学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/26/macOS 10.12.6 制作U盘安装盘命令/">macOS 10.12.6 制作U盘安装盘命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/25/CentOS7 PhantomJS安装配置/">CentOS7 PhantomJS安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/23/添加Hexo备份到github和coding-net/">添加Hexo备份到github和coding.net</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/23/Python学习-老男孩系的学生们的博客/">Python学习-老男孩系的学生们的博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/23/Python自动化开发/">Python自动化开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/23/重做Mac-mini的系统macOS-10-12-6/">重做Mac mini的系统macOS 10.12.6</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/23/Mac 键盘快捷键/">Mac 键盘快捷键</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/21/Python自动化开发之路-Alex/">Python自动化开发之路-Alex</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/18/杭州3日游/">杭州3日游</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/13/快乐、追求/">快乐、追求</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/12/强力Django+杀手级Xadmin-bobby-慕课网-目录/">强力Django+杀手级Xadmin-bobby-慕课网-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/12/强力Django+杀手级Xadmin-bobby-慕课网-笔记/">强力Django+杀手级Xadmin-bobby-慕课网-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/29/我似乎已经开始了，忘记她！/">我似乎已经开始了，忘记她！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/29/我真的要把她给忘记吗？/">我真的要把她给忘记吗？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/29/好苦呐！/">好苦呐！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/29/好难啊、MySQL主从复制/">好难啊、MySQL主从复制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/24/MariaDB使用笔记/">MariaDB使用笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/23/Scrapy操作步骤/">Scrapy操作步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/20/太原游记/">太原游记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/20/2017-06-20/">2017.06.20</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/20/舍、得/">舍、得</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/20/买锅、买铲/">买锅、买铲</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/08/macOS 10.13.3 配置Nginx/">macOS 10.13.3 配置Nginx</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/06/不同社会阶层的教育/">不同社会阶层的教育</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/06/自己吓唬自己是最可怕的事情/">自己吓唬自己是最可怕的事情</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/06/不想再为她难过了。/">不想再为她难过了。</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/06/怎么保持好心情/">怎么保持好心情</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/06/6-6/">6.6</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/06/2017-06-06/">2017.06.06</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/jl/">jl</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/六一快乐！/">六一快乐！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/27/迷惘-想要和她说话-却也不知道怎么开口了。/">迷惘,想要和她说话,却也不知道怎么开口了。</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/生成证书/">k8s 生成证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/19/我的第一个爬虫、猫眼电影榜单/">我的第一个爬虫、猫眼电影榜单</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/生日快乐/">生日快乐</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/mosh/">Mosh 使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/理解php-fpm的两种执行方式/">理解php-fpm的两种执行方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/09/迷茫了，运维该如何进行下去？/">迷茫了，运维该如何进行下去？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/听涛一席话，胜读十年书。/">听涛一席话，胜读十年书。</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/VMWare Fusion 8 设置固定IP/">VMWare Fusion 8 设置固定IP</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/08/PyCharm新建项目并使用Github管理代码/">PyCharm新建项目并使用Github管理代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/03/Python相关的书签/">Python相关的书签</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/难难难/">难难难</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/难难难，Kubernetes/">难难难，Kubernetes</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/Resin+Nginx动静分离和负载均衡/">Resin+Nginx动静分离和负载均衡</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-目录/">Python分布式爬虫打造搜索引擎-bobby-慕课网-目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-运行环境/">Python分布式爬虫打造搜索引擎-bobby-慕课网-运行环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Python+Web开发实战-董伟明-目录/">Python+Web开发实战-董伟明-目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-笔记/">Python分布式爬虫打造搜索引擎-bobby-慕课网-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Python分布式爬虫打造搜索引擎 学习笔记/">Python分布式爬虫打造搜索引擎 学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/生活总结/">生活总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/工作总结/">工作总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/2016-12-12-2017-05-01/">2016.12.12-2017.05.01</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/半年过去了/">半年过去了</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/新的开始/">新的开始</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/五一/">五一</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/17/Ansible安装配置/">Ansible安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/26/Shell高级编程实战-笔记/">Shell高级编程实战-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/26/Shell高级编程实战-目录/">Shell高级编程实战-目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/26/北京/">北京</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/深圳/">深圳</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/24/今日见闻/">今日见闻</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/24/广州/">广州</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/23/上海/">上海</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/22/Nagios安装配置/">Nagios安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/22/郑州/">郑州</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/21/苏州/">苏州</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/20/东莞/">东莞</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/19/First-Love/">First Love</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/19/初恋のきみ/">初恋のきみ</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/19/初恋/">初恋</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/19/中山/">中山</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/19/初告白结束/">初告白结束</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/河南/">河南</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/陕西/">陕西</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/西安/">西安</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/山西/">山西</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/梦之太原/">梦之太原</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/Eva/">Eva</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/太原啊太原/">太原啊太原</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/吾生遥远的太原/">吾生遥远的太原</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/太原的你/">太原的你</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/单恋一枝花/">单恋一枝花</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/2017-02-14-2017-03-16/">2017.02.14~2017.03.16</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/佛山/">佛山</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/17/汕头/">汕头</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/16/新野/">新野</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/淅川/">淅川</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/macOS 制作U盘安装盘的命令/">macOS 制作U盘安装盘的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/14/南阳/">南阳</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/邓县/">邓县</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/邓州/">邓州</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/生产环境部署/">Python生产环境部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/小杨营/">小杨营</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/11/姜胡营/">姜胡营</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/10/黄太寺/">黄太寺</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/10/24岁本命年/">24岁本命年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/10/24岁/">24岁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/10/1993-03-10〜2017-03-10/">1993.03.10～2017.03.10</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/09/我的信仰/">我的信仰</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/08/我的现状/">我的现状</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/我的爱好/">我的爱好</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/06/我的旅程/">我的旅程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/05/我的足迹/">我的足迹</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/04/我的梦想/">我的梦想</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/03/我的世界/">我的世界</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/我的生活/">我的生活</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/我的工作/">我的工作</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/我的恋爱史/">我的恋爱史</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/我的暗恋史/">我的暗恋史</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/26/我的成长史/">我的成长史</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/26/sed命令总结/">sed命令总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/25/这些年追过的/">这些年追过的</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/这些年暗恋的/">这些年暗恋的</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/这些年遗忘的/">这些年遗忘的</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/喜欢的/">喜欢的</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/这些年/">这些年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/本命年/">本命年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/19/人生感悟/">人生感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/这5年/">这5年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/2012-02-18-2017-02-18/">2012.02.18~2017.02.18</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/第二轮本命年/">第二轮本命年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/所见所闻/">所见所闻</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/2017/">2017</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/2016/">2016</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/2015-2017/">2015~2017</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/2013/">2013</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/2012-2015/">2012~2015</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/2011/">2011</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/2007-2017/">2007~2017</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/2007/">2007</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/1993-2017/">1993~2017</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/1993-2007/">1993~2007</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/1993/">1993</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/人生轨迹/">人生轨迹</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/这10年/">这10年</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/23/Synology NAS文件删除记录/">Synology NAS文件删除记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/17/Subversion安装配置/">Subversion安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/Cacti安装配置/">Cacti安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/31/2016年终总结之败家/">2016年终总结之败家</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/31/2016年终总结之思考/">2016年终总结之思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/29/CentOS7 Shadowsocks配置文档/">CentOS7 Shadowsocks配置文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/Rsync安装配置/">Rsync安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/24/Redis安装配置/">Redis安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/Systemd使用技巧/">Systemd使用技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/Tomcat+Nginx动静分离和负载均衡/">Tomcat+Nginx动静分离和负载均衡</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Zabbix安装配置/">Zabbix安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Thinking-书签/">Thinking-书签</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/监控cacti、nagios、zabbix/">监控cacti、nagios、zabbix</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/03/macOS 安装配置NVM/">macOS 安装配置NVM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/08/Vim安装配置/">Vim安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/网络端口详解/">网络端口详细</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/macOS 下的 tree 命令/">macOS 下的 tree 命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/04/Linux就该这么学第五期培训笔记/">Linux就该这么学第五期培训笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/Jenkins+Ansible+Gitlab自动化部署/">Jenkins+Ansible+Gitlab自动化部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/GitLab安装部署/">GitLab安装部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/Ansible安装部署/">Ansible安装部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/Jenkins安装部署/">Jenkins安装部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Tomcat安装配置/">Tomcat安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/JDK安装配置/">JDK安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/31/2015年终总结之败家/">2015年终总结之败家</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/31/2015年终总结之思考/">2015年终总结之思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/COBBLER无人值守安装/">COBBLER无人值守安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/29/Github上的Python Crawler收集列表/">Github上的Python Crawler收集列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/20/炼数成金-笔记/">炼数成金-爬虫-笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/20/炼数成金-目录/">炼数成金-爬虫-目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/15/去北京/">去北京</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/05/17/LNAMP配置WordPress/">LNAMP配置运行WordPress</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/04/14/去广州/">去广州</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/31/2014年终总结之败家/">2014年终总结之败家</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/31/2014年终总结之思考/">2014年终总结之思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/11/10/阿铭Linux培训第5期笔记/">阿铭Linux培训第5期笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/09/01/Nginx安装配置/">Nginx安装配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/03/20/运维工程师的职责和前景/">运维工程师的职责和前景</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/31/2013年终总结之思考/">2013年终总结之思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/12/31/2013年终总结之败家/">2013年终总结之败家</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/04/20/Nginx配置/">Nginx配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2012/12/31/2012年终总结之败家/">2012年终总结之败家</a></li><li class="post-list-item"><a class="post-list-link" href="/2012/12/31/2012年终总结之思考/">2012年终总结之思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2012/06/19/去上海/">去上海</a></li><li class="post-list-item"><a class="post-list-link" href="/2012/06/05/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2012/06/01/1993-03-10〜2012-06-01/">1993.03.10～2017.03.10</a></li><li class="post-list-item"><a class="post-list-link" href="/2012/02/18/ovwane/">ovwane</a></li><li class="post-list-item"><a class="post-list-link" href="/0206/12/20/Python 3.x模块/">Python 3.x模块</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 幻舞梦境
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >海贼到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39498261-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?1bb44bf25fea8f000a1397f9b5438de7";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

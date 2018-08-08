@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Cisco:H3C交换机配置与管理完全手册" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Typora使用技巧" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/Cisco:H3C交换机配置与管理完全手册/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.939Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/04/10/Typora使用技巧/" class="article-date">
+      <time datetime="2018-04-10T14:27:13.000Z" itemprop="datePublished">2018-04-10</time>
 </a>
     </div>
   
@@ -222,9 +222,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://blog.51cto.com/winda" target="_blank" rel="noopener">王达 51cto</a><br><a href="http://blog.csdn.net/lycb_gz" target="_blank" rel="noopener">王达 csdn</a><br><a href="http://blog.chinaunix.net/uid/10659021.html" target="_blank" rel="noopener">王达 chinaunix</a></p>
-<p>思科交换机操作系统IOS和CatOS<br>看三遍<br>第一遍粗看，不进行实际操练。第二遍细看，要求跟着书在实际设备或者模拟器上练习。第三遍粗看，主要是看那些前两遍中没有理解或者没有掌握的内容，以及重点理论、重要功能配置与管理方法。</p>
-<p>Catalyst 6500 4900系列</p>
+        <p><a href="https://typora.io/" target="_blank" rel="noopener">Typora</a></p>
 
       
       
@@ -252,11 +250,11 @@
 
 
   
-    <article id="post-C语言学习-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-tencent_vps" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/C语言学习-笔记/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.939Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/04/10/tencent_vps/" class="article-date">
+      <time datetime="2018-04-10T13:24:21.000Z" itemprop="datePublished">2018-04-10</time>
 </a>
     </div>
   
@@ -268,7 +266,101 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://blog.csdn.net/zhaoxz1985/article/details/72473045" target="_blank" rel="noopener">C语言基础及进阶教程(视频教程地址)</a></p>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname quanjinlong.cn</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd jinlong</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">visudo</span><br><span class="line">jinlong ALL=(ALL)       ALL</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f tencent_vps_rsa</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.ssh</span><br><span class="line">vim ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br><span class="line">chmod 700 ~/.ssh</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/handongyu/p/6386789.html" target="_blank" rel="noopener">设置 SSH，打开密钥登录功能</a><br>编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Port 22</span><br><span class="line">Protocol 2</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">#禁止root用户通过SSH登录</span><br><span class="line">PermitRootLogin no</span><br><span class="line">#禁用密码登录</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">ChallengeResponseAuthentication no</span><br><span class="line">UsePAM yes</span><br><span class="line">UseDNS no</span><br><span class="line">X11Forwarding no</span><br></pre></td></tr></table></figure>
+<p>最后，重启 SSH 服务：<br>systemctl restart sshd.service</p>
+<p>#优化</p>
+<ol>
+<li>关闭SELinux</li>
+<li>关闭firewalld</li>
+<li>最大进程数和最大文件打开数<br> 修改/etc/security/limits.conf文件</li>
+<li><p>删除默认用户<br>centos</p>
+</li>
+<li><p>更换yum源<br><a href="https://www.centos.org/download/mirrors/" target="_blank" rel="noopener">CentOS mirrors List</a></p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"></span><br><span class="line">删除缓存</span><br><span class="line">yum clean all</span><br><span class="line">rm -rf /var/cache/yum</span><br><span class="line"></span><br><span class="line">生成缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.jianshu.com/p/4df7692bdc2b" target="_blank" rel="noopener">yum upgrade</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y upgrade</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel  </span><br><span class="line"></span><br><span class="line">yum -y autoremove kernel-3.10.0-693.el7</span><br><span class="line">yum -y autoremove kernel-devel-3.10.0-693.el7</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>时间<br><a href="https://blog.csdn.net/maxsky/article/details/53866475" target="_blank" rel="noopener">ntp</a></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ntpd.service</span><br><span class="line"></span><br><span class="line">yum list installed|grep ntp</span><br><span class="line">ntp.x86_64                              4.2.6p5-25.el7.centos.2        @anaconda</span><br><span class="line">ntpdate.x86_64 </span><br><span class="line"></span><br><span class="line">time5.aliyun.com</span><br><span class="line">cn.pool.ntp.org</span><br></pre></td></tr></table></figure>
+<p><a href="https://chrony.tuxfamily.org/documentation.html" target="_blank" rel="noopener">chrony</a></p>
+<p><a href="https://www.cnblogs.com/clsn/archive/2017/11/16/7844857.html" target="_blank" rel="noopener">chrony软件使用说明</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum -y install chrony</span><br><span class="line"></span><br><span class="line">systemctl start chronyd.service</span><br><span class="line">systemctl enable chronyd.service</span><br><span class="line">systemctl status chronyd.service</span><br><span class="line"></span><br><span class="line">查看同步状态</span><br><span class="line">chronyc sourcestats</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.mamicode.com/info-detail-1553924.html" target="_blank" rel="noopener">删除软件包并删除孤立的依赖包</a><br><a href="https://segmentfault.com/q/1010000000626683" target="_blank" rel="noopener">https://segmentfault.com/q/1010000000626683</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">需要在 /etc/yum.conf 里面添加一个配置：</span><br><span class="line">clean_requirements_on_remove=1</span><br><span class="line"></span><br><span class="line">yum autoremove</span><br></pre></td></tr></table></figure>
+<p>删除ntp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum list installed |grep ntp</span><br><span class="line"></span><br><span class="line">yum -y autoremove ntp</span><br><span class="line"></span><br><span class="line">rm -rf /etc/ntp.conf.rpmsave</span><br><span class="line"></span><br><span class="line">yum autoremove ntpdate</span><br></pre></td></tr></table></figure></p>
+<p>删除postfix</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove postfix</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch /var/lock/subsys/local</span><br><span class="line">/usr/local/qcloud/rps/set_rps.sh &gt;/tmp/setRps.log 2&gt;&amp;1</span><br><span class="line">/usr/local/qcloud/irq/net_smp_affinity.sh &gt;/tmp/net_affinity.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>删除 firewalld</p>
+<p>删除 wpa_supplicant<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove wpa_supplicant</span><br></pre></td></tr></table></figure></p>
+<p>删除用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd</span><br><span class="line">/etc/shadow</span><br><span class="line">/etc/group</span><br><span class="line">/etc/gshadow</span><br><span class="line"></span><br><span class="line">postfix</span><br><span class="line">ntp</span><br><span class="line">games</span><br><span class="line">ftp</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/duzhaoqi/p/7582404.html" target="_blank" rel="noopener">centOS7服务管理与启动流程</a></p>
+<p>下载必要软件包<br>再安装操作系统的时候使用的最小化安装，有很多包没有安装，使用时发现好多命令没有如{vim、wget、tree…等}，下面就安装命令，可以根据需求自行调整。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget net-tools screen lsof tcpdump nc mtr openssl-devel vim bash-completion lrzsz nmap telnet tree ntpdate</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-python全栈3期day104" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/05/python全栈3期day104/" class="article-date">
+      <time datetime="2018-04-05T05:50:32.000Z" itemprop="datePublished">2018-04-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>01.就业指导-简历制作.mp4 16：35<br>02.就业指导-简历制作2.mp4 1：05：29<br>03.就业指导-简历制作3.mp4 35：42<br>04.就业指导-简历制作4.mp4 16：59<br>06.就业指导-如何面试2.mp4 55：59<br>07.就业指导-如何面试3.mp4 30：53<br>08.就业指导-最后的鸡汤.mp4 36：59<br>09.天帅分享：Nginx+uWSGI+Django部署.mp4 9：52</p>
+<p>开始日期 2017.10.20 0：15</p>
+<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><p>结束时间 2017.10.20 07：49</p>
+<p>自我介绍</p>
+<p>天帅 运维开发</p>
+<p>1、我们开发项目是为了什么<br>    给其他人使用<br>2、怎么给其他人使用<br>    runserver<br>3、我想给其他人使用怎么办？<br>    1、买台服务器<br>    2、Python环境<br>    3、把代码上传到服务器上<br>    4、runserver<br>    这一套流程，我们称之为”部署”</p>
+<p>Django 内部有socket server 但是性能比较差</p>
+<p>使用uWSGI</p>
+<p>uWSGI + Django<br>安装 uwsgi<br>pip install uwsgi</p>
+<p>使用命令启动<br>uwsgi –http –file django/wsgi.py –static-map=/static=static</p>
+<p>视频不完整 </p>
 
       
       
@@ -296,11 +388,11 @@
 
 
   
-    <article id="post-AWS" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-python全栈3期day004" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/AWS/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.939Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/04/02/python全栈3期day004/" class="article-date">
+      <time datetime="2018-04-02T19:35:50.000Z" itemprop="datePublished">2018-04-02</time>
 </a>
     </div>
   
@@ -312,15 +404,43 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>mkdir aws<br>cd aws<br>pipenv –python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python<br>pipenv –python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python<br>sed -i “” “s/python.org/douban.com/g” Pipfile</p>
-<h2 id="AWS-Cli"><a href="#AWS-Cli" class="headerlink" title="AWS-Cli"></a>AWS-Cli</h2><p><a href="https://github.com/aws/aws-cli" target="_blank" rel="noopener">AWS-Cli</a><br>AWS-Cli 不支持Python3(2017.12.11)<br>pipenv install awscli</p>
-<p>aws configure</p>
-<p>输入<a href="https://console.aws.amazon.com/iam/home#/home" target="_blank" rel="noopener">Identity and Access Management</a></p>
-<p>AWSAccessKeyId<br>AWSSecretKey</p>
-<p>~/.aws/credentials<br>[default]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
-<p>[testing]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
-<h2 id="Boto-3"><a href="#Boto-3" class="headerlink" title="Boto 3"></a>Boto 3</h2><p><a href="https://boto3.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">Boto 3</a></p>
-<p>pipenv install boto3</p>
+        <p>01.上节课复习.mp4 17：25<br>02.创建用户相关的文件.mp4 55：10<br>03.用户增删该查及组相关操作.mp4 26：05<br>04.对文件的权限管理.mp4 1：08：24<br>05.对目录的权限管理.mp4 26：08<br>06.权限管理补充..mp4 04:10<br>07.属主属组及基于数字的权限管理.mp4 15：33</p>
+<p>开始日期 2016.11.10 09：40<br>2016.11.10 16:30</p>
+<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>怎么安装系统</p>
+<p>系统提示符$和#的区别</p>
+<p><a href="http://www.cnblogs.com/linhaifeng/articles/6045600.html" target="_blank" rel="noopener">Linux基础</a></p>
+<p>相对路径和绝对路径</p>
+<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>linux核心一切皆文件</p>
+<p>useradd<br>/etc/passwd</p>
+<p>用户:密码:uid:gid:描述信息:用户家目录:sh类型<br>root:x:0:0:root:/root:/bin/bash</p>
+<p>/etc/shadow</p>
+<p>/etc/group</p>
+<p>组名:密码:gid<br>root:x:0</p>
+<p>/etc/gshadow</p>
+<p>/home<br>home下的文件模板 /etc/skel目录下</p>
+<p>/var/spool/mail/</p>
+<p>id</p>
+<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>useradd<br>-u 指定用户的UID<br>-g 指定用户所属的群组<br>-d 指定用户目录<br>-c 指定备注信息<br>-s 指定shell</p>
+<p>userdel</p>
+<p>usermod<br>-d 更改用户家目录<br>-aG 添加附加组</p>
+<p>groupadd</p>
+<h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>文件权限信息 硬链接 属主 属组 文件大小 文件创建日期 文件名<br>-rwxrwxrwx@ 1 jinlong  staff   66347968  3 21 13:54 01.上节课复习.mp4</p>
+<p>SELinux</p>
+<ul>
+<li>文件<br>d 目录<br>l 软连接<br>b 设备<br>p 管道文件</li>
+</ul>
+<p>rwx rwx rwx<br>属主 属组 其它</p>
+<p>chmod<br>u=user<br>g=group<br>o=other<br>a=all</p>
+<p>执行sh文件<br>sh 文件名<br>bash 文件名<br>. 文件名<br>./文件名</p>
+<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>目录可读可写</p>
+<p>rwx r可以ls目录下的文件名 w可以新建删除重命名目录内的文件 x可以cd进入目录</p>
+<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>vim 强制保存退出<br>wq!</p>
+<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p>r 读 4,w 写 2,x 执行 1</p>
+<p>chown</p>
+<p>chown root.root<br>chown root:root</p>
+<p>chown root<br>chown .root </p>
+<p>touch {1..9}.txt</p>
+<p>chmod 664 a.txt</p>
 
       
       
@@ -348,11 +468,11 @@
 
 
   
-    <article id="post-Bash快捷键" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-python全栈3期day005" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/Bash快捷键/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.939Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/04/02/python全栈3期day005/" class="article-date">
+      <time datetime="2018-04-02T12:44:56.000Z" itemprop="datePublished">2018-04-02</time>
 </a>
     </div>
   
@@ -364,25 +484,137 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <blockquote>
-<p>macOS 10.13.2<br>iTerm2 3.1.2<br>zsh 5.3 (x86_64-apple-darwin17.0)</p>
-</blockquote>
+        <p>01.上节课复习.mp4 26:42<br>02.文件合并与文件归档.mp4 23:26<br>03.文件归档与两种压缩方式.mp4 21：05<br>04.vim编辑器.mp4<br>05.系统启动流程.mp4<br>06.grub加密.mp4<br>07.bios加密.mp4<br>08.top命令.mp4<br>09.free命令.mp4<br>10.进程管理.mp4</p>
+<p>开始日期 2016.11.14 09:35</p>
+<p><a href="http://www.cnblogs.com/nulige/p/6052941.html" target="_blank" rel="noopener">努力哥-运维自动化</a></p>
+<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>/etc/passwd 文件列含义<br>/etc/shadow</p>
+<p>/etc/group<br>/etc/gshadow</p>
+<p>/var/spool/mail<br>/home</p>
+<p>groupadd<br>groupmod<br>groupdel</p>
+<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>重定向&gt;,&gt;&gt;,&lt;,&lt;&lt;</p>
+<p>wc -l</p>
+<p>归档<br>tar</p>
+<p>打包文件<br>tar<br>c 创建一个新的tar文件<br>t 列出tar文件中目录的内容<br>x 抽取文件<br>f 指定归档文件<br>v 显示详细<br>z gzip<br>j bzip2<br>C 解压到指定目录</p>
+<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>压缩的定义，将一个大的文件通过一些压缩算法变成一个小文件<br>gzip<br>bzip2</p>
+<p>tar czvf gzip压缩<br>tar cjvf bzip2压缩</p>
+<h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>该看这章了</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Python爬虫面试题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/02/Python爬虫面试题/" class="article-date">
+      <time datetime="2018-04-02T12:35:51.000Z" itemprop="datePublished">2018-04-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Python面试题</p>
+<p><a href="http://blog.csdn.net/u014745194/article/details/78835270" target="_blank" rel="noopener">python面试题系列之一</a></p>
+<p><a href="http://www.jianshu.com/p/be60981eed2b" target="_blank" rel="noopener">python爬虫(一)_爬虫原理和数据抓取</a></p>
+<p><a href="http://blog.csdn.net/u014745194/article/details/75258491" target="_blank" rel="noopener">Python爬虫简述系列之一</a></p>
+<p><a href="http://blog.csdn.net/qq_36143300/article/details/54928389" target="_blank" rel="noopener">数据科学工程师面试宝典系列之一–Python爬虫实战</a></p>
+<p>数据分析简历<br><a href="https://erlemar.github.io/" target="_blank" rel="noopener">Data science portfolio by Andrey Lukyanenko</a></p>
+<p><a href="https://github.com/rushter/data-science-blogs" target="_blank" rel="noopener">rushter/data-science-blogs</a></p>
+<p><a href="http://www.jianshu.com/p/97e10182c38a" target="_blank" rel="noopener">数据科学家的成长之路[译]</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-python全栈3期day002" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/02/python全栈3期day002/" class="article-date">
+      <time datetime="2018-04-02T10:28:53.000Z" itemprop="datePublished">2018-04-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>01.上节课复习.mp4 37:45<br>02.arp协议复习.mp4 25:30<br>03.字符编码.mp4 30:56</p>
+<p>开始日期 2016.11.08 09:32</p>
+<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>计算机的组成<br>硬件系统<br>软件系统</p>
+<p>硬件系统<br>运算器<br>控制器<br>储存器<br>输入设备<br>输出设备</p>
+<p>cpu 运算器和控制器<br>内存 储存器 速度快，断电不储存<br>硬盘 储存器 速度慢，断电储存</p>
+<p>软件系统<br>系统软件<br>应用软件</p>
+<p>系统启动流程<br>bios<br>找到启动介质<br>把系统加载到内存<br>cpu执行</p>
+<p>进制<br>二进制<br>八进制<br>十进制<br>十六进制</p>
+<p>位权 二进一 八进一 十进一 十六进一</p>
+<p>机器数与真值</p>
+<p>原码反码补码</p>
+<p>OSI七层网络协议</p>
+<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>ARP协议</p>
 <blockquote>
-<p>生活在 Bash shell 中，熟记以下快捷键，将极大的提高你的命令行操作效率。</p>
+<p>懂了不行，要记住。</p>
 </blockquote>
-<p font-color="red">macOS下 Alt 被替换为 Esc</p>
-
-<h3 id="编辑命令"><a href="#编辑命令" class="headerlink" title="编辑命令"></a>编辑命令</h3><h3 id="命令补全"><a href="#命令补全" class="headerlink" title="命令补全"></a>命令补全</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tab　　　  用于命令补全</span><br><span class="line"></span><br><span class="line">^I 　　　　 可用于命令补全</span><br><span class="line"></span><br><span class="line">^[ 　　　　 相当于Esc，也可补全</span><br></pre></td></tr></table></figure>
-<h3 id="删除命令"><a href="#删除命令" class="headerlink" title="删除命令"></a>删除命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + u ：从光标处删除至命令行首</span><br><span class="line">Ctrl + k ：从光标处删除至命令行尾</span><br><span class="line">Ctrl + w ：从光标处删除至字首</span><br><span class="line">Alt + d ：从光标处删除至字尾</span><br><span class="line">Ctrl + d ：删除光标处的字符</span><br><span class="line">Ctrl + h ：删除光标前的字符</span><br><span class="line">^B 　　　　删除光标所在字母</span><br><span class="line">^Y 　　　　粘贴或恢复上次的删除</span><br></pre></td></tr></table></figure>
-<h3 id="移动命令"><a href="#移动命令" class="headerlink" title="移动命令"></a>移动命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">^P 、^N、 ^B、 ^F    　　方向键 上 下 左 右</span><br><span class="line">Ctrl + a ：移到命令行首</span><br><span class="line">Ctrl + e ：移到命令行尾</span><br><span class="line">Ctrl + f ：按字符前移（右向）</span><br><span class="line">Ctrl + b ：按字符后移（左向）</span><br><span class="line">Alt + f ：按单词前移（右向）</span><br><span class="line">Alt + b ：按单词后移（左向）</span><br><span class="line">Ctrl + xx：在命令行首和光标之间移动</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + y ：粘贴至光标后</span><br><span class="line">Alt + c ：从光标处更改为首字母大写的单词</span><br><span class="line">Alt + u ：从光标处更改为全部大写的单词</span><br><span class="line">Alt + l ：从光标处更改为全部小写的单词</span><br><span class="line">Ctrl + t ：交换光标处和之前的字符</span><br><span class="line">Alt + t ：交换光标处和之前的单词</span><br><span class="line">Alt + Backspace：与 Ctrl + w ~~相同~~类似，分隔符有些差别 [感谢 rezilla 指正]</span><br><span class="line">Ctrl+Alt+E 　扩展命令行</span><br><span class="line">Esc+T 　　 置换前两个单词</span><br></pre></td></tr></table></figure>
-<h3 id="重新执行命令"><a href="#重新执行命令" class="headerlink" title="重新执行命令"></a>重新执行命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + r：逆向搜索命令历史</span><br><span class="line">Ctrl + g：从历史搜索模式退出</span><br><span class="line">Ctrl + p：历史中的上一条命令</span><br><span class="line">Ctrl + n：历史中的下一条命令</span><br><span class="line">Alt + .：使用上一条命令的最后一个参数</span><br><span class="line">Alt+P 　　   非增量方式反向搜索历史</span><br><span class="line"></span><br><span class="line">Alt+&gt; 　　   历史列表中的最后一行命令开始向前</span><br></pre></td></tr></table></figure>
-<h3 id="控制命令"><a href="#控制命令" class="headerlink" title="控制命令"></a>控制命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + l：清屏</span><br><span class="line">Ctrl + o：执行当前命令，并选择上一条命令</span><br><span class="line">Ctrl + s：阻止屏幕输出</span><br><span class="line">Ctrl + q：允许屏幕输出</span><br><span class="line">Ctrl + c：终止命令</span><br><span class="line">Ctrl + z：挂起命令</span><br><span class="line">Bang (!) 命令</span><br><span class="line">^S　　　　锁住屏幕</span><br><span class="line"></span><br><span class="line">^Q　　　　恢复屏幕</span><br><span class="line"></span><br><span class="line">^C　　　　杀死当前进程 </span><br><span class="line"></span><br><span class="line"> ^\　　　　停止当前进程</span><br><span class="line"></span><br><span class="line">^D　　　　退出当前shell</span><br><span class="line"></span><br><span class="line">&amp; 　　　　 后台执行，（nohup以忽略挂起信号方式运行程序）</span><br><span class="line"></span><br><span class="line">^Z　　　　把当前进程转后台运行</span><br><span class="line"></span><br><span class="line">jobs　　　 查看当前后台作业状态</span><br><span class="line"></span><br><span class="line">fg 　　　　将后台作业拿到前台处理</span><br><span class="line"></span><br><span class="line">bg　　　　作业在后台运行</span><br><span class="line">^L　　　　清屏</span><br><span class="line"></span><br><span class="line">^M或^J　  回车</span><br></pre></td></tr></table></figure>
-<h3 id="：执行上一条命令"><a href="#：执行上一条命令" class="headerlink" title="!!：执行上一条命令"></a>!!：执行上一条命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">!blah：执行最近的以 blah 开头的命令，如 !ls</span><br><span class="line">!blah:p：仅打印输出，而不执行</span><br><span class="line">!$：上一条命令的最后一个参数，与 Alt + . 相同</span><br><span class="line">!$:p：打印输出 !$ 的内容</span><br><span class="line">!*：上一条命令的所有参数</span><br><span class="line">!*:p：打印输出 !* 的内容</span><br><span class="line">^blah：删除上一条命令中的 blah</span><br><span class="line">^blah^foo：将上一条命令中的 blah 替换为 foo</span><br><span class="line">^blah^foo^：将上一条命令中所有的 blah 都替换为 foo</span><br></pre></td></tr></table></figure>
-<p>8.一些bash文档</p>
-<p>1.GNU文档：<a href="http://www.gnu.org/software/bash/manual/" target="_blank" rel="noopener">http://www.gnu.org/software/bash/manual/</a></p>
-<p>2.鸟哥的私房菜：<a href="http://linux.vbird.org/linux_basic/0320bash.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_basic/0320bash.php</a></p>
-<p>3.IBM的一些bash教程：<a href="http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?sort_by=&amp;show_abstract=true&amp;show_all=&amp;search_flag=&amp;contentarea_by=Linux&amp;search_by=bash&amp;topic_by=-1&amp;type_by=%E6%89%80%E6%9C%89%E7%B1%BB%E5%88%AB&amp;ibm-search=%E6%90%9C%E7%B4%A2" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?sort_by=&amp;show_abstract=true&amp;show_all=&amp;search_flag=&amp;contentarea_by=Linux&amp;search_by=bash&amp;topic_by=-1&amp;type_by=%E6%89%80%E6%9C%89%E7%B1%BB%E5%88%AB&amp;ibm-search=%E6%90%9C%E7%B4%A2</a></p>
+<p>1.计算是否在一个广播域<br>who has ip x.x.x.x？ arp协议<br>2.广播一个包<br>src mac，dsc mac FF:FF:FF:FF:FF:FF</p>
+<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>字符编码<br>ASCII<br>ASCII最多表示256个字符</p>
+<p>GB2312</p>
+<p>Shitf_JIS<br>Euc-kr</p>
+<p>unicode</p>
+<p>utf-8</p>
+<p>2016.11.08 11:37结束</p>
 
       
       
@@ -410,11 +642,11 @@
 
 
   
-    <article id="post-Caddy" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-python全栈3期day001" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/Caddy/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.939Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/04/01/python全栈3期day001/" class="article-date">
+      <time datetime="2018-04-01T19:48:50.000Z" itemprop="datePublished">2018-04-01</time>
 </a>
     </div>
   
@@ -426,27 +658,76 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="https://github.com/Unknwon/wuwen.org/issues/11" target="_blank" rel="noopener">Caddy 部署实践</a></p>
-<p><a href="https://github.com/mholt/caddy/releases/" target="_blank" rel="noopener">Caddy</a></p>
-<p><a href="https://www.wolfcstech.com/2017/01/09/Caddy%20Web%E6%9C%8D%E5%8A%A1%E5%99%A8QUIC%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Caddy Web服务器QUIC部署</a></p>
-<p><a href="http://www.infoq.com/cn/news/2018/03/weibo-quic" target="_blank" rel="noopener">QUIC在微博中的落地思考</a></p>
-<p><a href="https://github.com/caddyserver/examples" target="_blank" rel="noopener">Examples for using Caddy Web Server</a></p>
-<p><a href="https://liudanking.com/beautiful-life/%E6%9C%AC%E7%AB%99%E5%BC%80%E5%90%AF%E6%94%AF%E6%8C%81-quic-%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%8E%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">本站开启支持 QUIC 的方法与配置</a></p>
-<p><a href="https://blog.sharpbai.com/2018/02/%E4%BD%BF%E7%94%A8caddy%E9%85%8D%E5%90%88nginx%E6%94%AF%E6%8C%81quic/" target="_blank" rel="noopener">使用caddy配合nginx支持QUIC
-</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/mholt/caddy/releases/download/v0.10.12/caddy_v0.10.12_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf caddy_v0.10.12_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">mv caddy /usr/local/bin/</span><br></pre></td></tr></table></figure>
-<p>/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp –port=32457</p>
-<p>mkdir -p /data/caddy/log/</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /data/caddy/Caddyfile</span><br><span class="line"></span><br><span class="line">ovwane.com:444 &#123;</span><br><span class="line">        tls /data/ssl/ovwane.com/ovwane.com_rsa_fullchain.cer /data/ssl/ovwane.com/ovwane.com_rsa.key</span><br><span class="line">        root /data/www/ovwane.com/public</span><br><span class="line">        gzip</span><br><span class="line">        log /data/caddy/log/ovwane.com.log</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/caddy.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Caddy HTTP/2 web server</span><br><span class="line">Documentation=https://caddyserver.com/docs</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target systemd-networkd-wait-online.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Restart=on-abnormal</span><br><span class="line"></span><br><span class="line">; User and group the process will run as.</span><br><span class="line">;User=caddy</span><br><span class="line">;Group=caddy</span><br><span class="line"></span><br><span class="line">; Letsencrypt-issued certificates will be written to this directory.</span><br><span class="line">Environment=CADDYPATH=/data/caddy</span><br><span class="line"></span><br><span class="line">; Always set "-root" to something safe in case it gets forgotten in the Caddyfile.</span><br><span class="line">ExecStart=/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp</span><br><span class="line">ExecReload=/bin/kill -USR1 $MAINPID</span><br><span class="line"></span><br><span class="line">; Use graceful shutdown with a reasonable timeout</span><br><span class="line">KillMode=mixed</span><br><span class="line">KillSignal=SIGQUIT</span><br><span class="line">TimeoutStopSec=5s</span><br><span class="line"></span><br><span class="line">; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.</span><br><span class="line">LimitNOFILE=1048576</span><br><span class="line">; Unmodified caddy is not expected to use more than that.</span><br><span class="line">LimitNPROC=512</span><br><span class="line"></span><br><span class="line">; Use private /tmp and /var/tmp, which are discarded after caddy stops.</span><br><span class="line">PrivateTmp=true</span><br><span class="line">; Use a minimal /dev (May bring additional security if switched to 'true', but it may not work on Raspberry Pi's or other devices, so it has been disabled in this dist.)</span><br><span class="line">PrivateDevices=false</span><br><span class="line">; Hide /home, /root, and /run/user. Nobody will steal your SSH-keys.</span><br><span class="line">ProtectHome=true</span><br><span class="line">; Make /usr, /boot, /etc and possibly some more folders read-only.</span><br><span class="line">ProtectSystem=full</span><br><span class="line">; … except /etc/ssl/caddy, because we want Letsencrypt-certificates there.</span><br><span class="line">;   This merely retains r/w access rights, it does not add any new. Must still be writable on the host!</span><br><span class="line">ReadWriteDirectories=/data/caddy</span><br><span class="line"></span><br><span class="line">; The following additional security directives only work with systemd v229 or later.</span><br><span class="line">; They further restrict privileges that can be gained by caddy. Uncomment if you like.</span><br><span class="line">; Note that you may have to add capabilities required by any plugins in use.</span><br><span class="line">;CapabilityBoundingSet=CAP_NET_BIND_SERVICE</span><br><span class="line">;AmbientCapabilities=CAP_NET_BIND_SERVICE</span><br><span class="line">;NoNewPrivileges=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable caddy.service</span><br><span class="line">systemctl start caddy.service</span><br><span class="line">systemctl stop caddy.service</span><br><span class="line">systemctl status caddy.service</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp --inet6 | grep -F caddy</span><br></pre></td></tr></table></figure>
-<p>日志自动切分</p>
-<p>vim /etc/logrotate.d/caddy</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/caddy/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/caddy.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/caddy.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>手动执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/caddy</span><br></pre></td></tr></table></figure>
+        <p>01.计算机发展史.mp4 1:08:21<br>02.计算机系统.mp4 45:12<br>03.小结.mp4 03:45<br>04.数据的概念.mp4 18:26<br>05.进制转换.mp4 19:53<br>06.原码补码反码.mp4 21:16<br>07.物理层和数据链路层.mp4 49:08<br>08.网络层和arp协议.mp4 17:41<br>09.传输层和应用层.mp4 13:17</p>
+<p>注释：<br>更改文件名<br>ls |grep ev4|sed ‘s/(.<em>).ev4(.</em>)/mv &amp; “\1.mp4”/g’|sh</p>
+<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>开班日期 2016.11.07 14:04<br>学习日期 2018.04.01 19:48</p>
+<p>讲师：林海峰<br>qq:378533872<br>phone:18611453110</p>
+<p>1、计算机组成原理<br>2、Linux基础</p>
+<p>编程语言</p>
+<p>什么是计算机？<br>数值计算<br>逻辑计算<br>储存</p>
+<p>八卦</p>
+<p>bug的来历<br>继电器里有个飞蛾</p>
+<p>二进制</p>
+<p>冯诺依曼体系结构</p>
+<p>计算机的构成<br>运算器<br>控制器<br>储存器<br>输入设备<br>输出设备</p>
+<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>计算机系统包括硬件系统和软件系统</p>
+<p>软件系统包含：<br>系统软件<br>应用软件</p>
+<p>CPU<br>内存 速度快，不能永久保存数据<br>硬盘 速度慢，可以永久保存内存</p>
+<p>计算机的工作过程<br>取消指令<br>分析指令<br>执行指令<br>为执行下一条指令做好准备，即去除下一条指令地址</p>
+<p>总结</p>
+<p>思维导图</p>
+<p>计算机体系<br>硬件系统<br>软件系统</p>
+<p>课后作业</p>
+<p>课程结构<br>1、<br>2、<br>3、<br>4、<br>5、课后作业</p>
+<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>数据概述<br>数据（data）<br>大数据</p>
+<p>计算机系统中，数据以二进制信息单元0，1的形式表示<br>计算机系统中，各种数据经过加工就成为信息。数据本身没有意义。</p>
+<p>什么是进制<br>二进制 0 1<br>十进制 0 1 2 3 4 5 6 7 8 9</p>
+<p>位权<br>5000 = 5*10 3次方<br>5是位权</p>
+<p>二进制转换为十进制<br>按位权求和</p>
+<p>1010 1001<br>128 64 32 16 8 4 2 1</p>
+<p>10101001=128+32+8+1</p>
+<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>十进制转二进制<br>除二取余</p>
+<p>13</p>
+<p>13 2 1<br>6 2 0<br>3 1 1<br>1 1 1<br>0</p>
+<p>13 = 1101</p>
+<p>八进制数<br>0 1 2 3 4 5 6 7</p>
+<p>10</p>
+<p><code>1*8（2-1）+0**(1-1)</code></p>
+<p>十六进制数<br>0 1 2 3 4 5 6 7 8 9 a b c d e f</p>
+<p>表示十六进制<br>0x<br>H</p>
+<p>十六进制转换为二进制</p>
+<p>四位一分</p>
+<p>4 A C 8<br>0100 1010 1111 1000 1011</p>
+<p>4AC8<br>4(16(4-1)+A<em>16(3-1)+C</em>16(2-1)+8*16(1-1)</p>
+<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>机器数与真值</p>
+<p>机器数<br>正数 0<br>负数 1</p>
+<p>+3 正3<br>-3 负3</p>
+<p>00000011<br>10000011</p>
+<p>00000011和10000011 就是机器数</p>
+<p>真值<br>将带符号位的机器数对应的真正数值成为机器数的真值<br>00000001的真值+0000001=+1 +1为真值<br>10000011的真值-0000001=-1 -1为真值</p>
+<p>原码、反码、补码<br>原码：原码是符号位加上真值的绝对值，即用第一位表示符号，其余位表示值<br>+1 0000 0001<br>-1 1000 0001</p>
+<p>反码：正数的反码是其本身，负数的反码是在其源码的基础上，符号位不变，其余个各位取反。</p>
+<p>+1 0000 0001=0000 0001<br>-1 1000 0001=1111 1110</p>
+<p>补码：正数的补码就是其本身，负数的补码是在起原码的基础上，符号位不变，其余个各位取反，最后+1</p>
+<p>+1 0000 0001=0000 0001<br>-1 1000 0001=1111 1111</p>
+<p>在计算机系统中，数值一律用补码来表示（储存）</p>
+<p>使用补码，减法可以按照加法来处理。</p>
+<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p><a href="http://www.cnblogs.com/linhaifeng/articles/5937962.html" target="_blank" rel="noopener">网络基础之网络协议篇</a></p>
+<p>网络基础<br>网络通信原理<br>网络协议</p>
+<p>OSI七层协议<br>TCP/IP四层协议</p>
+<h4 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h4><p>光缆、电缆、双绞线、无线电波</p>
+<p>小学玩的水杯和一根线的电话</p>
+<h4 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h4><p>以太网协议<br>head data<br>18个字节 最短4字节，最长1500字节<br>src dsc type</p>
+<p>mac地址<br>48位2进制数</p>
+<p>广播<br>一台主机通过arp协议获取另外一台主机的mac地址</p>
+<h4 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h4><h2 id="08"><a href="#08" class="headerlink" title="08"></a>08</h2><p>IP协议<br>IP地址分成两部分<br>网络部分：标识子网<br>主机部分：标识主机</p>
+<p>子网掩码</p>
+<p>ip数据包<br>head data</p>
+<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><h4 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h4><p>tcp协议<br>udp协议</p>
+<p>端口范围 0~65535<br>0~1023 为系统占用端口</p>
+<p>Socket抽象层</p>
+<h4 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h4><p>总结<br>进程通讯PID</p>
+<p>网络通信Socket</p>
 
       
       
@@ -474,11 +755,11 @@
 
 
   
-    <article id="post-CentOS Go环境配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-python全栈3期day003" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/CentOS Go环境配置/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.939Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/04/01/python全栈3期day003/" class="article-date">
+      <time datetime="2018-04-01T19:48:50.000Z" itemprop="datePublished">2018-04-01</time>
 </a>
     </div>
   
@@ -490,27 +771,52 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date: 2018-05-08 17:01</p>
-<blockquote>
-<p>CentOS Linux release 7.5.1804 (Core)</p>
-<p>Linux 3.10.0-862.3.3.el7.x86_64</p>
-</blockquote>
-<p><strong>安装依赖</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y mercurial gcc bison</span><br></pre></td></tr></table></figure>
-<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span><br></pre></td></tr></table></figure>
-<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -B 表示只安装二进制包</span><br><span class="line"><span class="meta">$</span> gvm install go1.4.3 -B</span><br><span class="line"><span class="meta">$</span> gvm use go1.4.3</span><br><span class="line"><span class="meta">$</span> export GOROOT_BOOTSTRAP=$GOROOT</span><br><span class="line"><span class="meta">$</span> gvm install go1.10.2</span><br></pre></td></tr></table></figure>
-<p><strong>离线安装</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> git clone 官方源go1.10.2</span><br><span class="line">git clone -b go1.10.2 https://go.googlesource.com/go go1.10.2</span><br><span class="line"><span class="meta">#</span>可以放到别的电脑上</span><br><span class="line">tar cvfz go1.10.2.tar.bz2 go1.10.2</span><br><span class="line"><span class="meta">#</span>指定本地go1.10.2 git源</span><br><span class="line">gvm install go1.10.2 --source=/root/go1.10.2</span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
-<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> gvm use go1.10.2 --default</span><br></pre></td></tr></table></figure>
-<p><strong>使用</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看可以安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm listall</span><br><span class="line"><span class="meta">#</span> 查看本地安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm list</span><br><span class="line"><span class="meta">#</span> go环境变量</span><br><span class="line"><span class="meta">$</span> go env</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
-<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
-<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
+        <p>01.网络基础和dos命令.mp4 56:43<br>02.为何学习linux.mp4 08:59<br>03.课程内容介绍.mp4 03:12<br>04.操作系统内核与系统调用.mp4 22:18<br>05.操作系统安装原理.mp4 09：02<br>06.linux操作系统安装part1.mp4 28：12<br>07.linux操作系统安装part2.mp4 14:33<br>08.初识linux命令.mp4 34:49<br>09.linux操作系统目录结构.mp4 42:19<br>10.目录及文件操作.mp4 44:05</p>
+<p>2016.11.09 09:39</p>
+<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>局域网<br>城域网<br>广域网</p>
+<p>传输介质<br>有线<br>光纤<br>无线</p>
+<p>568A<br>568B</p>
+<p>交叉线<br>568A-&gt;568B</p>
+<p>同种设备之间连接用交叉线</p>
+<p>非同种设备之间连接用直通线</p>
+<p>IP地址<br>五类</p>
+<p>A<br>B<br>C<br>D<br>E</p>
+<p>ipconfig<br>ping</p>
+<p>cd<br>d:</p>
+<p>rd 删除目录</p>
+<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>Linux学习</p>
+<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>操作系统核心 内核:内核是一个管理和控制程序,负责管理计算机的所有物理资源,文件系统、内存管理，设备管理，进程管理。<br>系统调用接口 api</p>
+<p>内核态:<br>用户态:</p>
+<p>RHEL、CentOS、Fedora、Ubuntu、SuSE</p>
+<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>Linux系统笔刷安装<br>硬件配置<br>1核心<br>内存2GB<br>硬盘20GB</p>
+<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>系统镜像盘 iso</p>
+<p>CentOS 6.8</p>
+<p>/boot 500MB<br>swap 虚拟内存,一般内存的1.5或者2倍.大于16GB就16GB了<br>/ 剩余所有</p>
+<p>Minimal 安装</p>
+<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p>Kdump</p>
+<h2 id="08"><a href="#08" class="headerlink" title="08"></a>08</h2><p>初识linux命令</p>
+<p>UNIX是什么<br>MINIX<br>多任务多用户</p>
+<p>GNU 和 GPL</p>
+<p>Linux是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统</p>
+<p>常用桌面KDE和GNOME</p>
+<p>关闭Linux系统的命令 init 0</p>
+<p>登录后的提示符 $<br>root用户的提示符 #</p>
+<p>退出命令 exit</p>
+<p>Linux命令的格式</p>
+<p>命令 选项 参数</p>
+<p>ls -a /</p>
+<p>ls</p>
+<p>whoami<br>who<br>date<br>hwclock -s<br>cal<br>clear ctrl+l</p>
+<p>useradd<br>su<br>passwd</p>
+<p>终止命令运行 ctrl + c</p>
+<p>man<br>help<br>–help</p>
+<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><p>目录</p>
+<p>/ 根目录<br>. 本目录<br>.. 上一级目录</p>
+<p>pwd</p>
+<p>/bin 二进制可以执行文件<br>/sbin 系统管理的二进制可执行文件<br>/root root用户的家目录<br>/home 普通用户的默认家目录<br>/dev 设备文件目录<br>/etc 配置文件目录</p>
+<p>绝对路径和相对路径</p>
+<p>绝对路径 必须以一个正斜线”/“开始<br>相对路径 相对于某个目录</p>
+<h2 id="10"><a href="#10" class="headerlink" title="10"></a>10</h2><p>cp<br>mv<br>mkdir<br>touch<br>rm<br>alias<br>tr<br>cat<br>head<br>tail<br>more<br>less</p>
 
       
       
@@ -538,11 +844,11 @@
 
 
   
-    <article id="post-CentOS7 安装Python" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Python开发者" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/CentOS7 安装Python/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.939Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/04/01/Python开发者/" class="article-date">
+      <time datetime="2018-04-01T17:00:43.000Z" itemprop="datePublished">2018-04-01</time>
 </a>
     </div>
   
@@ -554,163 +860,23 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="安装Python"><a href="#安装Python" class="headerlink" title="安装Python"></a>安装Python</h2><h3 id="安装Python依赖"><a href="#安装Python依赖" class="headerlink" title="安装Python依赖"></a>安装Python依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># CentOS7</span><br><span class="line">yum install -y  gcc gcc-c++ make git patch openssl-devel zlib-devel readline-devel sqlite sqlite-devel bzip2-devel curl wget ncurses-devel sqlite-devel gdbm-devel xz-devel tk-devel</span><br></pre></td></tr></table></figure>
-<h3 id="安装pyenv"><a href="#安装pyenv" class="headerlink" title="安装pyenv"></a>安装<a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener">pyenv</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br></pre></td></tr></table></figure>
-<h4 id="配置bash-profile"><a href="#配置bash-profile" class="headerlink" title="配置bash_profile"></a>配置bash_profile</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">echo -e &apos;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">exec &quot;$SHELL&quot;</span><br></pre></td></tr></table></figure>
-<h4 id="安装Python-1"><a href="#安装Python-1" class="headerlink" title="安装Python"></a>安装Python</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.5 -v</span><br><span class="line"></span><br><span class="line">pyenv global 3.6.5</span><br><span class="line"></span><br><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure>
-<p>/root/.pyenv/versions/3.6.5/bin/python</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install virtualenvwrapper pipenv</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">start virtualwrapper</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/root/.pyenv/versions/3.6.5/bin/python</span><br><span class="line">export WORKON_HOME='~/.virtualenv'</span><br><span class="line">source /root/.pyenv/versions/3.6.5/bin/virtualenvwrapper.sh</span><br><span class="line"><span class="meta">#</span><span class="bash">end</span></span><br></pre></td></tr></table></figure>
-<p>pipenv –python=/root/.pyenv/versions/3.6.5/bin/python</p>
-<p>因Supervisor现在不支持python3的版本需要安装Python 2.7.13</p>
-<p>pyenv install 2.7.14 -v<br>pyenv global 2.7.14<br>pyenv rehash</p>
-<h3 id="更改pypi源"><a href="#更改pypi源" class="headerlink" title="更改pypi源"></a>更改pypi源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
+        <p>优秀Python开发者</p>
+<p>Flask和Requests的作者<br>Celery作者Ask Solem<br>Django<br>kombu</p>
+<p>爬虫<br>刚开始写爬虫用的是urllib2，后来知道了requests，惊为天人。刚开始解析网页用的是re，后来知道了BeautifulSoup，解析页面不能再轻松。再后来看别人的爬虫，知道了scrapy，被这个框架惊艳到了。之后遇到了一些有验证码的网站，于是知道了PIL。但后来知道了opencv，pybrain。当在爬虫中用上人工神经网络识别出验证码，兴奋得守在爬虫旁边看他爬完全站。再后来知道了threading，知道了celery。不断的学习，不断的接触和知道更多的东西，爬虫与反爬虫的对抗会一直进行下去。</p>
+<p>作者：bsdr<br>链接：<a href="https://www.zhihu.com/question/38192299/answer/75884957" target="_blank" rel="noopener">https://www.zhihu.com/question/38192299/answer/75884957</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<p>requests<br>BeautifulSoup<br>opencv<br>pybrain<br>threading<br>celery</p>
+<p>scrapy<br>selenium<br>phantomjs</p>
+<p>python学习手册 第四版</p>
+<p>python核心编程 第二版</p>
+<p>开始不用学，进阶学习<br>ORM<br>ElasticSearch</p>
+<p>不用存储，爬去数据发送邮件</p>
+<p>抓去顺序</p>
+<p>开放的API<br>手机APP的API<br>Android的API实现抓取知乎的数据<br>HTML</p>
+<p>抓包工具<br>Charles</p>
+<p>lxml<br>xpath</p>
+<p>前端知识</p>
+<p>运维-&gt;运维开发-&gt;Web开发-&gt;数据分析-&gt;需要数据写爬虫</p>
 
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-KeePassXC 配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/KeePassXC 配置/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.939Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date: 2018-0505 09:12</p>
-<h3 id="浏览器配合"><a href="#浏览器配合" class="headerlink" title="浏览器配合"></a>浏览器配合</h3><p>✅启用KeepassXC浏览器集成</p>
-<p>Google Chrome</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-KeePass使用问题" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/KeePass使用问题/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.939Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>KeePass使用问题</p>
-<p>有些网站不能自动输入密码</p>
-<p>例如 aliyun.com<br>它的密码输入框引用的是”<a href="https://passport.alibaba.com/&quot;阿里巴巴的登录" target="_blank" rel="noopener">https://passport.alibaba.com/&quot;阿里巴巴的登录</a></p>
-<p>KeePassXC<br>设置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KeePassHttp Settings</span><br><span class="line"></span><br><span class="line">&#123;&quot;Allow&quot;:[&quot;passport.alibaba.com&quot;],&quot;Deny&quot;:[],&quot;Realm&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
-<p>允许多个域名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KeePassHttp Settings</span><br><span class="line"></span><br><span class="line">&#123;&quot;Allow&quot;:[&quot;mailsso.mxhichina.com&quot;,&quot;passport.alibaba.com&quot;],&quot;Deny&quot;:[],&quot;Realm&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Debian8安装Shadowsock和moeSS" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/Debian8安装Shadowsock和moeSS/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.939Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y git</span><br></pre></td></tr></table></figure>
-<h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone -b manyuser https://github.com/mengskysama/shadowsocks.git</span><br><span class="line">git clone https://github.com/wzxjohn/moeSS.git</span><br></pre></td></tr></table></figure>
-<h3 id="配置LAMP环境"><a href="#配置LAMP环境" class="headerlink" title="配置LAMP环境"></a>配置LAMP环境</h3><p>http2.4<br>php5.4+<br>mysql5.6</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#安装apache httpd web服务</span><br><span class="line">apt-get install -y apache2</span><br><span class="line"></span><br><span class="line">#设置开机自启动</span><br><span class="line">systemctl enable apache2</span><br><span class="line">#启动应用</span><br><span class="line">systemctl start apache2</span><br><span class="line"></span><br><span class="line">#开启rewrite功能</span><br><span class="line">a2enmod rewrite</span><br><span class="line">systemctl restart apache2</span><br></pre></td></tr></table></figure>
-<p>修改配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/apache2/apache2.conf</span><br><span class="line">/var/www/html/ #此路径为web服务器存放网页的地方。</span><br><span class="line">AllowOverride All #开启rewrite所有</span><br></pre></td></tr></table></figure>
-<h3 id="安装mysql数据库"><a href="#安装mysql数据库" class="headerlink" title="安装mysql数据库"></a>安装mysql数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y mysql-server</span><br><span class="line"></span><br><span class="line">#开机自启动</span><br><span class="line">systemctl enable mysql</span><br><span class="line">systemctl start mysql</span><br><span class="line"></span><br><span class="line">#新建数据库 shaodowsocks</span><br><span class="line">create database shadowsocks;</span><br><span class="line">#导入数据库结构表。</span><br><span class="line">mysql -uroot -p shadowsocks &lt;shadowsocks.sql</span><br></pre></td></tr></table></figure>
-<h3 id="安装php和php插件"><a href="#安装php和php插件" class="headerlink" title="安装php和php插件"></a>安装php和php插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get -y install php5 libapache2-mod-php5 php5-mysql php5-mysqlnd php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl</span><br><span class="line"></span><br><span class="line">#重启web服务</span><br><span class="line">systemctl restart apache2</span><br></pre></td></tr></table></figure>
-<h3 id="安装shadowsocks-插件"><a href="#安装shadowsocks-插件" class="headerlink" title="安装shadowsocks 插件"></a>安装shadowsocks 插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#安装pip工具，</span><br><span class="line">apt-get install -y python-pip python-m2crypto</span><br><span class="line"></span><br><span class="line">#安装python数据库支持</span><br><span class="line">pip install cymysql</span><br><span class="line"></span><br><span class="line">#运行shadowsocks</span><br><span class="line">cd shadowsocks </span><br><span class="line">nohup python server.py &amp;</span><br></pre></td></tr></table></figure>
       
       
     </div>

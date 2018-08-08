@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-KVM安装配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-杭州3日游" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/08/31/KVM安装配置/" class="article-date">
-      <time datetime="2017-08-31T11:08:00.000Z" itemprop="datePublished">2017-08-31</time>
+      <a href="/2017/07/18/杭州3日游/" class="article-date">
+      <time datetime="2017-07-18T18:11:54.000Z" itemprop="datePublished">2017-07-18</time>
 </a>
     </div>
   
@@ -223,132 +223,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/31/KVM安装配置/">KVM安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://koumm.blog.51cto.com/703525/1288795" target="_blank" rel="noopener">KVM虚拟化学习笔记</a><a href="http://www.cnblogs.com/rhjeans/p/5822190.html" target="_blank" rel="noopener">Centos 6.8安装配置KVM</a><a href="https://wiki.centos.org/zh/HowTos/KVM" target="_blank" rel="noopener">KVM 与 CentOS-6</a><a href="http://www.showerlee.com/archives/309" target="_blank" rel="noopener">KVM安装配置笔记</a></p>
-<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>KVM 虚拟机的管理工具<br>准确来说，KVM 仅仅是 Linux 内核的一个模块。管理和创建完整的 KVM 虚拟机，需要更多的辅助工具。QEMU-KVM：在 Linux 系统中，首先我们可以用 modprobe 命令加载 KVM 模块，如果用 RPM 安装 KVM 软件包，系统会在启动时自动加载模块。加载了模块后，才能进一步通过其他工具创建虚拟机。但仅有 KVM 模块是远远不够的，因为用户无法直接控制内核模块去做事情，还必须有一个用户空间的工具。关于用户空间的工具，KVM 的开发者选择了已经成型的开源虚拟化软件 QEMU。QEMU 是一个强大的虚拟化软件，它可以虚拟不同的 CPU 构架。比如说在 x86 的 CPU 上虚拟一个 Power 的 CPU，并利用它编译出可运行在 Power 上的程序。KVM 使用了 QEMU 的基于 x86 的部分，并稍加改造，形成可控制 KVM 内核模块的用户空间工具 QEMU-KVM。所以 Linux 发行版中分为 内核部分的 KVM 内核模块和 QEMU-KVM 工具。这就是 KVM 和 QEMU 的关系。 Libvirt、virsh、virt-manager：尽管 QEMU-KVM 工具可以创建和管理 KVM 虚拟机，RedHat 为 KVM 开发了更多的辅助工具，比如 libvirt、libguestfs 等。原因是 QEMU 工具效率不高，不易于使用。Libvirt 是一套提供了多种语言接口的 API，为各种虚拟化工具提供一套方便、可靠的编程接口，不仅支持 KVM，而且支持 Xen 等其他虚拟机。使用 libvirt，你只需要通过 libvirt 提供的函数连接到 KVM 或 Xen 宿主机，便可以用同样的命令控制不同的虚拟机了。Libvirt 不仅提供了 API，还自带一套基于文本的管理虚拟机的命令 virsh，你可以通过使用 virsh 命令来使用 libvirt 的全部功能。但最终用户更渴望的是图形用户界面，这就是 virt-manager。他是一套用 python 编写的虚拟机管理图形界面，用户可以通过它直观地操作不同的虚拟机。Virt-manager 就是利用 libvirt 的 API 实现的。</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>安装配置KVM 相关软件 </p>
-<ol>
-<li>系统要求：</li>
-</ol>
-<hr>
-<p>半虚拟化是不能运行与安装KVM虚拟机的</p>
-<hr>
-<p>处理器需求:需要一台可以运行最新linux内核的Intel处理器(含VT虚拟化技术)或AMD处理器(含SVM安全虚拟机技术的AMD处理器, 也叫AMD-V)。可以使用如下命令检查：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">egrep &apos;(vmx|svm)&apos; --color=always /proc/cpuinfo</span><br></pre></td></tr></table></figure>
-<p>如果输出的结果包含 vmx，它是 Intel处理器虚拟机技术标志;如果包含 svm，它是 AMD处理器虚拟机技术标志;。如果你甚么都得不到，那应你的系统并没有支持虚拟化的处理 ，不能使用kvm。另外Linux 发行版本必须在64bit环境中才能使用KVM。</p>
-<h2 id="关闭selinux"><a href="#关闭selinux" class="headerlink" title="关闭selinux"></a>关闭selinux</h2><h2 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h2><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="安装KVM模块管理工具"><a href="#安装KVM模块管理工具" class="headerlink" title="安装KVM模块管理工具"></a>安装KVM模块管理工具</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@hostname ~]#yum install -y libvirt-client #libvirt客户端，最主要的的功能之一就是在宿主机关机时通知虚拟机也关机。</span><br><span class="line">[root@hostname ~]#yum install -y gpxe-roms-qemu #虚拟机iPXE启动固件，支持虚拟机网络启动。</span><br><span class="line">[root@hostname ~]#yum install -y libvirt-python #libvirt为python提供的api。</span><br><span class="line">[root@hostname ~]#yum install -y python-virtinst #一套python的虚拟机安装工具。</span><br><span class="line">[root@hostname ~]#yum install -y qemu-kvm #kvm在用户控件运行的程序。</span><br><span class="line">[root@hostname ~]#yum install -y virt-manager #基于libvirt的图像化虚拟机管理软件。</span><br><span class="line">[root@hostname ~]#yum install -y libvirt #用于管理虚拟机，它提供了一套虚拟机操作api。</span><br><span class="line">[root@hostname ~]#yum install -y virt-viewer #显示虚拟机控制台console</span><br><span class="line">[root@hostname ~]#yum install -y virt-top #类似于top命令，查看虚拟机资源使用情况。</span><br><span class="line">[root@hostname ~]#yum install -y virt-what #在虚拟机内部执行，查看虚拟机运行的虚拟化平台。</span><br><span class="line">[root@hostname ~]#yum install -y qemu-img #用于操作虚拟机硬盘镜像的创建、查看和格式转换。</span><br></pre></td></tr></table></figure>
-<h2 id="安装kvm软件包"><a href="#安装kvm软件包" class="headerlink" title="安装kvm软件包"></a>安装kvm软件包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install kvm libvirt libvirt-python libvirt-client tunctl bridge-utils qemu-kvm-tools virt-manager virt-viewer virt-v2v virt-manager virt-top virt-what virt-install qemu-kvm qemu-img gpxe-roms-qemu python-virtinstall bridge-utils</span><br></pre></td></tr></table></figure>
-<h2 id="安装kvm虚拟化一些管理工具包"><a href="#安装kvm虚拟化一些管理工具包" class="headerlink" title="安装kvm虚拟化一些管理工具包"></a>安装kvm虚拟化一些管理工具包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install libguestfs-tools</span><br></pre></td></tr></table></figure>
-<h2 id="确定正确加载kvm模块"><a href="#确定正确加载kvm模块" class="headerlink" title="确定正确加载kvm模块"></a>确定正确加载kvm模块</h2><p>运行命令 lsmod | grep kvm 检查 KVM 模块是否成功安装。如果结果类似于以下输出，那么 KVM 模块已成功安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep kvm</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl start libvirtd</span><br><span class="line">systemctl status libvirtd</span><br><span class="line">systemctl enable libvirtd</span><br></pre></td></tr></table></figure>
-<h2 id="检查KVM是否成功安装"><a href="#检查KVM是否成功安装" class="headerlink" title="检查KVM是否成功安装"></a>检查KVM是否成功安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virsh -c qemu:///system list</span><br></pre></td></tr></table></figure>
-<h4 id="查看虚拟工具版本"><a href="#查看虚拟工具版本" class="headerlink" title="查看虚拟工具版本"></a>查看虚拟工具版本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">virsh --version</span><br><span class="line">0.10.2</span><br></pre></td></tr></table></figure>
-<h3 id="手动配置虚拟网桥"><a href="#手动配置虚拟网桥" class="headerlink" title="手动配置虚拟网桥"></a>手动配置虚拟网桥</h3><h4 id="关闭networkmanager服务"><a href="#关闭networkmanager服务" class="headerlink" title="关闭networkmanager服务"></a>关闭networkmanager服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig NetworkManager off</span><br></pre></td></tr></table></figure>
-<h4 id="创建br0网桥"><a href="#创建br0网桥" class="headerlink" title="创建br0网桥"></a>创建br0网桥</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd  /etc/sysconfig/network-scripts/</span><br><span class="line">cp ifcfg-eth0 ifcfg-br0</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vi ifcfg-eth0</span><br><span class="line"></span><br><span class="line">DEVICE=&quot;br0&quot;</span><br><span class="line">NM_CONTROLLED=&quot;no&quot;</span><br><span class="line">ONBOOT=&quot;yes&quot;</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">TYPE=Bridge</span><br><span class="line">IPADDR=192.168.3.164</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.3.1</span><br></pre></td></tr></table></figure>
-<h4 id="关闭了networkmanager服务之后，才能通过servicenetworkrestart管理网络"><a href="#关闭了networkmanager服务之后，才能通过servicenetworkrestart管理网络" class="headerlink" title="关闭了networkmanager服务之后，才能通过servicenetworkrestart管理网络"></a>关闭了networkmanager服务之后，才能通过servicenetworkrestart管理网络</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service network restart</span><br><span class="line">service network status</span><br></pre></td></tr></table></figure>
-<h4 id="查看网桥br0"><a href="#查看网桥br0" class="headerlink" title="查看网桥br0"></a>查看网桥br0</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
-<h4 id="查看网桥"><a href="#查看网桥" class="headerlink" title="查看网桥"></a>查看网桥</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">brctl show</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">## linux kvm虚拟机安装</span><br><span class="line">### </span><br><span class="line"></span><br><span class="line">#### 查看支持的操作系统</span><br></pre></td></tr></table></figure>
-<p>virt-install –os-variant=list | more<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### raw格式磁盘</span><br></pre></td></tr></table></figure></p>
-<p>qemu-img create -f raw debian-1.img 10G<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">virt-install --name=oeltest01 --ram 512 --vcpus=1 --disk path=/home/kvm/test02.img,size=7,bus=virtio --accelerate --cdrom /home/iso/debian-9.1.0-amd64-DVD-1.iso --vnc --vncport=5910 --vnclisten=0.0.0.0 --network bridge=br0,model=virtio --noautoconsole</span><br></pre></td></tr></table></figure></p>
-<h4 id="qcow2格式-空间动态增长"><a href="#qcow2格式-空间动态增长" class="headerlink" title="qcow2格式(空间动态增长)"></a>qcow2格式(空间动态增长)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@it001 iso]# qemu-img create -f qcow2 /home/kvm/debian-1.img 10G</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Formatting &apos;/home/kvm/debian-1.img&apos;, fmt=qcow2 size=10737418240 encryption=off cluster_size=65536</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@it001 iso]# virt-install --name=debian-1 --os-variant=debianwheezy --ram 1024 --vcpus=2 --disk path=/home/kvm/debian-1.img,format=qcow2,size=7,bus=virtio --accelerate --cdrom /home/iso/debian-9.1.0-amd64-DVD-1.iso--vnc --vncport=5910 --vnclisten=0.0.0.0 --network bridge=br0,model=virtio --noautoconsole</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">开始安装......</span><br><span class="line">创建域......                                                                        |    0 B     00:00</span><br><span class="line">域安装仍在进行。您可以重新连接</span><br><span class="line">到控制台以便完成安装进程。</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-img create -f qcow2 /kvm/centos6.7.img 10G</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virt-install --name=centos6.7 --os-variant=debianwheezy --ram 1024 --vcpus=2 --disk path=/kvm/centos6.7.img,format=qcow2,size=7,bus=virtio --accelerate --cdrom /kvm/iso/centos6.7.iso --vnc --vncport=5910 --vnclisten=0.0.0.0 --noautoconsole</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">virsh -c qemu:///system list</span><br><span class="line">virsh --connect qemu:///system start centos6.7</span><br></pre></td></tr></table></figure>
-<h2 id="kvm虚拟机日常管理与配置"><a href="#kvm虚拟机日常管理与配置" class="headerlink" title="kvm虚拟机日常管理与配置"></a>kvm虚拟机日常管理与配置</h2><h3 id="查看KVM虚拟机配置文件及运行状态"><a href="#查看KVM虚拟机配置文件及运行状态" class="headerlink" title="查看KVM虚拟机配置文件及运行状态"></a>查看KVM虚拟机配置文件及运行状态</h3><h4 id="KVM虚拟机默认配置文件位置"><a href="#KVM虚拟机默认配置文件位置" class="headerlink" title="KVM虚拟机默认配置文件位置"></a>KVM虚拟机默认配置文件位置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> /etc/libvirt/qemu/</span><br><span class="line">autostart目录是配置kvm虚拟机开机自启动目录</span><br></pre></td></tr></table></figure>
-<h4 id="virsh命令帮助"><a href="#virsh命令帮助" class="headerlink" title="virsh命令帮助"></a>virsh命令帮助</h4><p>virsh help</p>
-<h4 id="查看kvm虚拟机状态"><a href="#查看kvm虚拟机状态" class="headerlink" title="查看kvm虚拟机状态"></a>查看kvm虚拟机状态</h4><p>virsh list –all</p>
-<h4 id="KVM虚拟机开机"><a href="#KVM虚拟机开机" class="headerlink" title="KVM虚拟机开机"></a>KVM虚拟机开机</h4><p>virsh start debian-1</p>
-<h4 id="KVM虚拟机关机或断电"><a href="#KVM虚拟机关机或断电" class="headerlink" title="KVM虚拟机关机或断电"></a>KVM虚拟机关机或断电</h4><h5 id="virsh关机"><a href="#virsh关机" class="headerlink" title="virsh关机"></a>virsh关机</h5><p>virsh shutdown debian-1</p>
-<h5 id="强制关闭电源"><a href="#强制关闭电源" class="headerlink" title="强制关闭电源"></a>强制关闭电源</h5><p>virsh destroy debian-1</p>
-<h4 id="通过配置文件启动虚拟机"><a href="#通过配置文件启动虚拟机" class="headerlink" title="通过配置文件启动虚拟机"></a>通过配置文件启动虚拟机</h4><p>virsh create /etc/libvirt/qemu/debian-1.xml</p>
-<h4 id="配置开机自启动虚拟机"><a href="#配置开机自启动虚拟机" class="headerlink" title="配置开机自启动虚拟机"></a>配置开机自启动虚拟机</h4><p>virsh autostart debian-1</p>
-<h4 id="导出KVM虚拟机配置文件"><a href="#导出KVM虚拟机配置文件" class="headerlink" title="导出KVM虚拟机配置文件"></a>导出KVM虚拟机配置文件</h4><p>virsh dumpxml debian-1 &gt; /etc/libvirt/qemu/debian-2.xml</p>
-<h3 id="添加与删除KVM虚拟机"><a href="#添加与删除KVM虚拟机" class="headerlink" title="添加与删除KVM虚拟机"></a>添加与删除KVM虚拟机</h3><h4 id="删除kvm虚拟机"><a href="#删除kvm虚拟机" class="headerlink" title="删除kvm虚拟机"></a>删除kvm虚拟机</h4><p>virsh undefine debian-1</p>
-<hr>
-<p>该命令只是删除wintest01的配置文件，并不删除虚拟磁盘文件。如下图所示</p>
-<hr>
-<h4 id="重新定义虚拟机配置文件"><a href="#重新定义虚拟机配置文件" class="headerlink" title="重新定义虚拟机配置文件"></a>重新定义虚拟机配置文件</h4><p>virsh define /etc/libvirt/qemu/debian-1.xml </p>
-<h4 id="编辑KVM虚拟机配置文件"><a href="#编辑KVM虚拟机配置文件" class="headerlink" title="编辑KVM虚拟机配置文件"></a>编辑KVM虚拟机配置文件</h4><p>virsh edit debian-1</p>
-<h3 id="其它virsh命令"><a href="#其它virsh命令" class="headerlink" title="其它virsh命令"></a>其它virsh命令</h3><h4 id="virsh-console-控制台管理linux虚拟机"><a href="#virsh-console-控制台管理linux虚拟机" class="headerlink" title="virsh console 控制台管理linux虚拟机"></a>virsh console 控制台管理linux虚拟机</h4><p>virsh console debian-1</p>
-<h4 id="挂起服务器"><a href="#挂起服务器" class="headerlink" title="挂起服务器"></a>挂起服务器</h4><p>virsh suspend debian-1</p>
-<h4 id="恢复服务器"><a href="#恢复服务器" class="headerlink" title="恢复服务器"></a>恢复服务器</h4><p>virsh  resume debian-1</p>
-<p>三、KVM默认网络配置</p>
-<p>1、kvm上网有两种配置，<br>一种是default，它支持主机与虚拟机的互访，同时也支持虚拟机访问互联网，但不支持外界访问虚拟机。<br>另外一种方式是bridge方式，可以使用虚拟机成为网络中具有独立IP的主机。</p>
-<p>默认的网络连接是virbr0，它的配置文件在/var/lib/libvirt/network目录下，默认配置为：</p>
-<p>另外一种是网络桥接方式，配置如下：<br>配置eth0:</p>
-<p> 配置:br0:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/network-scripts/ifcfg-br0</span><br><span class="line">--------------------</span><br><span class="line">DEVICE=&quot;br0&quot;</span><br><span class="line">TYPE=Bridge</span><br><span class="line">BOOTRPOTO=static</span><br><span class="line">IPADDR=172.16.40.248</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=172.16.40.254</span><br><span class="line">ONBOOT=yes</span><br><span class="line">----------------------</span><br></pre></td></tr></table></figure>
-<p>注:网桥模式需要在真机eth0配置文件中添加 BRIDGE=”br0”,否则真机与虚拟机无法互通.<br>   配置完毕后eth0口则不会显示地址信息,新配置的br0口会代替eth0口成为真机网口,装好的虚拟机eth0口将于真机br0口互通.</p>
-<p>配置桥接网络之后，我们开始安装虚拟机</p>
-<h2 id="使用virt-manager建立一个KVM虚拟机"><a href="#使用virt-manager建立一个KVM虚拟机" class="headerlink" title="使用virt-manager建立一个KVM虚拟机"></a>使用virt-manager建立一个KVM虚拟机</h2><p>virt-manager 是基于 libvirt 的图像化虚拟机管理软件，请注意不同的发行版上 virt-manager 的版本可能不同，图形界面和操作方法也可能不同。本文使用了红帽6企业版的 virt-manager-0.8.4-8。创建KVM虚拟机最简单的方法是通过virt-manager接口。从控制台窗口启动这个工具，从root身份输入virt-manager命令，点击file菜单的”新建”选项virt-manager接口界面</p>
-<p>接下来，出现的画面，大家都已经很熟悉了。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KVM/">KVM</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-树莓派家庭局域网透明代理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/08/30/树莓派家庭局域网透明代理/" class="article-date">
-      <time datetime="2017-08-30T18:37:13.000Z" itemprop="datePublished">2017-08-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/30/树莓派家庭局域网透明代理/">树莓派家庭局域网透明代理</a>
+      <a class="article-title" href="/2017/07/18/杭州3日游/">杭州3日游</a>
     </h1>
   
 
@@ -385,11 +260,11 @@
 
 
   
-    <article id="post-早上4点多，痛醒了。唉，自己都照顾不好。怎么去照顾喜欢的人呢？该怎么办？" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-快乐、追求" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/08/25/早上4点多，痛醒了。唉，自己都照顾不好。怎么去照顾喜欢的人呢？该怎么办？/" class="article-date">
-      <time datetime="2017-08-25T10:34:54.000Z" itemprop="datePublished">2017-08-25</time>
+      <a href="/2017/07/13/快乐、追求/" class="article-date">
+      <time datetime="2017-07-13T17:09:32.000Z" itemprop="datePublished">2017-07-13</time>
 </a>
     </div>
   
@@ -402,7 +277,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/25/早上4点多，痛醒了。唉，自己都照顾不好。怎么去照顾喜欢的人呢？该怎么办？/">早上4点多，痛醒了。唉，自己都照顾不好。怎么去照顾喜欢的人呢？该怎么办？</a>
+      <a class="article-title" href="/2017/07/13/快乐、追求/">快乐、追求</a>
     </h1>
   
 
@@ -439,11 +314,11 @@
 
 
   
-    <article id="post-身体很差，胃痛啊！吃东西不注意。痛起来堪比自虐！" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-强力Django+杀手级Xadmin-bobby-慕课网-目录" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/08/24/身体很差，胃痛啊！吃东西不注意。痛起来堪比自虐！/" class="article-date">
-      <time datetime="2017-08-24T14:31:42.000Z" itemprop="datePublished">2017-08-24</time>
+      <a href="/2017/07/12/强力Django+杀手级Xadmin-bobby-慕课网-目录/" class="article-date">
+      <time datetime="2017-07-12T10:55:12.000Z" itemprop="datePublished">2017-07-12</time>
 </a>
     </div>
   
@@ -456,7 +331,144 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/24/身体很差，胃痛啊！吃东西不注意。痛起来堪比自虐！/">身体很差，胃痛啊！吃东西不注意。痛起来堪比自虐！</a>
+      <a class="article-title" href="/2017/07/12/强力Django+杀手级Xadmin-bobby-慕课网-目录/">强力Django+杀手级Xadmin-bobby-慕课网-笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>第1章 课程介绍<br>第2章 Windows下搭建开发环境<br>第3章 通过留言版功能回顾Django基础知识<br>第4章 需求分析和model设计<br>第5章 通过Xadmin快速搭建后台管理系统<br>第6章 用户注册功能实现<br>第7章 课程机构功能实现<br>第8章 课程功能实现<br>第9章 课程讲师功能实现<br>第10章 个人中心和全局搜索功能实现<br>第11章 首页、全局功能细节和404以及500页面配置<br>第12章 常见web攻击及防范<br>第13章 Xadmin的进阶开发<br>第14章 把项目部署上线<br>第15章 课程总结<br>第16章 快速升级到python3.6+django1.11</p>
+<h1 id="第1章-课程介绍"><a href="#第1章-课程介绍" class="headerlink" title="第1章 课程介绍"></a>第1章 课程介绍</h1><p>1-1 项目演示和课程介绍.mp4 09:30</p>
+<h1 id="第2章-Windows下搭建开发环境"><a href="#第2章-Windows下搭建开发环境" class="headerlink" title="第2章 Windows下搭建开发环境"></a>第2章 Windows下搭建开发环境</h1><p>2-1 pycharm、mysql、navicat安装.mp4 04:13<br>2-2 windows下virtualenv虚拟环境的搭建.mp4 07:51<br>2-3 pycharm和navicat的简单使用.mp4 14:49</p>
+<h1 id="第3章-通过留言版功能回顾Django基础知识"><a href="#第3章-通过留言版功能回顾Django基础知识" class="headerlink" title="第3章 通过留言版功能回顾Django基础知识"></a>第3章 通过留言版功能回顾Django基础知识</h1><p>3-1 django目录介绍.mp4 09:31<br>3-2.mp4 24:40<br>3-3.mp4 20:57<br>3-4.mp4 23:53<br>3-5.mp4 17:46</p>
+<h1 id="第4章-需求分析和model设计"><a href="#第4章-需求分析和model设计" class="headerlink" title="第4章 需求分析和model设计"></a>第4章 需求分析和model设计</h1><p>4-1~7.mp4 1:37:40<br>4-8.mp4 09:34</p>
+<h1 id="第5章-通过Xadmin快速搭建后台管理系统"><a href="#第5章-通过Xadmin快速搭建后台管理系统" class="headerlink" title="第5章 通过Xadmin快速搭建后台管理系统"></a>第5章 通过Xadmin快速搭建后台管理系统</h1><p>5-1.mp4 19:35<br>5-2.mp4 14:54<br>5-3.mp4 28:00<br>5-4.mp4 23:53<br>5-5.mp4 15:56</p>
+<h1 id="第6章-用户注册功能实现"><a href="#第6章-用户注册功能实现" class="headerlink" title="第6章 用户注册功能实现"></a>第6章 用户注册功能实现</h1><p>6-1.mp4 13:35<br>6-2.mp4 20:38<br>6-3.mp4 20:43<br>6-4.mp4 14:06<br>6-5.mp4 11:02<br>6-6.mp4 21:53<br>6-7.mp4 15:45<br>6-8.mp4 17:32<br>6-9.mp4 16:49<br>6-10.mp4 19:33<br>6-11.mp4 22:30<br>6-12.mp4 20:49</p>
+<h1 id="第7章-课程机构功能实现"><a href="#第7章-课程机构功能实现" class="headerlink" title="第7章 课程机构功能实现"></a>第7章 课程机构功能实现</h1><p>7-1.mp4 15:57<br>7-2.mp4 12:58<br>7-3.mp4 12:26<br>7-4.mp4 13:54<br>7-5.mp4 22:23<br>7-6.mp4 21:39<br>7-7.mp4 21:25<br>7-8.mp4 19:41<br>7-9.mp4 20:38<br>7-10.mp4 18:49<br>7-11.mp4 15:02<br>7-12.mp4 28:03</p>
+<h1 id="第8章-课程功能实现"><a href="#第8章-课程功能实现" class="headerlink" title="第8章 课程功能实现"></a>第8章 课程功能实现</h1><p>8-1.mp4 29:50<br>8-2.mp4 20:56<br>8-3.mp4 18:26<br>8-4.mp4 14:35<br>8-5.mp4 15:46<br>8-6.mp4 21:39<br>8-7.mp4 18:15<br>8-8.mp4 22:19</p>
+<h1 id="第9章-课程讲师功能实现"><a href="#第9章-课程讲师功能实现" class="headerlink" title="第9章 课程讲师功能实现"></a>第9章 课程讲师功能实现</h1><p>9-1.mp4 20:17<br>9-2.mp4 11:39<br>9-3.mp4 16:14</p>
+<h1 id="第10章-个人中心和全局搜索功能实现"><a href="#第10章-个人中心和全局搜索功能实现" class="headerlink" title="第10章 个人中心和全局搜索功能实现"></a>第10章 个人中心和全局搜索功能实现</h1><p>10-1.mp4 25:11<br>10-2.mp4 17:27<br>10-3.mp4 19:17<br>10-4.mp4 13:10<br>10-5.mp4 18:58<br>10-6.mp4 15:12<br>10-7.mp4 18:08<br>10-8.mp4 08:49<br>10-9.mp4 11:58<br>10-10.mp4 16:33<br>10-11.mp4 14:12</p>
+<h1 id="第11章-首页、全局功能细节和404以及500页面配置"><a href="#第11章-首页、全局功能细节和404以及500页面配置" class="headerlink" title="第11章 首页、全局功能细节和404以及500页面配置"></a>第11章 首页、全局功能细节和404以及500页面配置</h1><p>11-1.mp4 21:15<br>11-2.mp4 12:18<br>11-3.mp4 10:46<br>11-4.mp4 09:40</p>
+<h1 id="第12章-常见web攻击及防范"><a href="#第12章-常见web攻击及防范" class="headerlink" title="第12章 常见web攻击及防范"></a>第12章 常见web攻击及防范</h1><p>12-1.mp4 14:57<br>12-2.mp4 07:52<br>12-3.mp4 06:38</p>
+<h1 id="第13章-Xadmin的进阶开发"><a href="#第13章-Xadmin的进阶开发" class="headerlink" title="第13章 Xadmin的进阶开发"></a>第13章 Xadmin的进阶开发</h1><p>13-1~2.mp4 40:19<br>13-3~8第14-1.mp4 1:32:12</p>
+<h1 id="第14章-把项目部署上线"><a href="#第14章-把项目部署上线" class="headerlink" title="第14章 把项目部署上线"></a>第14章 把项目部署上线</h1><h1 id="第15章-课程总结"><a href="#第15章-课程总结" class="headerlink" title="第15章 课程总结"></a>第15章 课程总结</h1><h1 id="第16章-快速升级到python3-6-django1-11"><a href="#第16章-快速升级到python3-6-django1-11" class="headerlink" title="第16章 快速升级到python3.6+django1.11"></a>第16章 快速升级到python3.6+django1.11</h1>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-强力Django+杀手级Xadmin-bobby-慕课网-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/07/12/强力Django+杀手级Xadmin-bobby-慕课网-笔记/" class="article-date">
+      <time datetime="2017-07-12T10:55:12.000Z" itemprop="datePublished">2017-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/12/强力Django+杀手级Xadmin-bobby-慕课网-笔记/">强力Django+杀手级Xadmin-bobby-慕课网-笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>第1章 课程介绍<br>第2章 Windows下搭建开发环境<br>第3章 通过留言版功能回顾Django基础知识<br>第4章 需求分析和model设计<br>第5章 通过Xadmin快速搭建后台管理系统<br>第6章 用户注册功能实现<br>第7章 课程机构功能实现<br>第8章 课程功能实现<br>第9章 课程讲师功能实现<br>第10章 个人中心和全局搜索功能实现<br>第11章 首页、全局功能细节和404以及500页面配置<br>第12章 常见web攻击及防范<br>第13章 Xadmin的进阶开发<br>第14章 把项目部署上线<br>第15章 课程总结<br>第16章 快速升级到python3.6+django1.11</p>
+<h1 id="第1章-课程介绍"><a href="#第1章-课程介绍" class="headerlink" title="第1章 课程介绍"></a>第1章 课程介绍</h1><p>1-1 项目演示和课程介绍.mp4 09:30</p>
+<h1 id="第2章-Windows下搭建开发环境"><a href="#第2章-Windows下搭建开发环境" class="headerlink" title="第2章 Windows下搭建开发环境"></a>第2章 Windows下搭建开发环境</h1><p>2-1 pycharm、mysql、navicat安装.mp4 04:13<br>2-2 windows下virtualenv虚拟环境的搭建.mp4 07:51<br>2-3 pycharm和navicat的简单使用.mp4 14:49</p>
+<h1 id="第3章-通过留言版功能回顾Django基础知识"><a href="#第3章-通过留言版功能回顾Django基础知识" class="headerlink" title="第3章 通过留言版功能回顾Django基础知识"></a>第3章 通过留言版功能回顾Django基础知识</h1><p>3-1 django目录介绍.mp4 09:31<br>3-2.mp4 24:40<br>3-3.mp4 20:57<br>3-4.mp4 23:53<br>3-5.mp4 17:46</p>
+<h1 id="第4章-需求分析和model设计"><a href="#第4章-需求分析和model设计" class="headerlink" title="第4章 需求分析和model设计"></a>第4章 需求分析和model设计</h1><p>4-1~7.mp4 1:37:40<br>4-8.mp4 09:34</p>
+<h1 id="第5章-通过Xadmin快速搭建后台管理系统"><a href="#第5章-通过Xadmin快速搭建后台管理系统" class="headerlink" title="第5章 通过Xadmin快速搭建后台管理系统"></a>第5章 通过Xadmin快速搭建后台管理系统</h1><p>5-1.mp4 19:35<br>5-2.mp4 14:54<br>5-3.mp4 28:00<br>5-4.mp4 23:53<br>5-5.mp4 15:56</p>
+<h1 id="第6章-用户注册功能实现"><a href="#第6章-用户注册功能实现" class="headerlink" title="第6章 用户注册功能实现"></a>第6章 用户注册功能实现</h1><p>6-1.mp4 13:35<br>6-2.mp4 20:38<br>6-3.mp4 20:43<br>6-4.mp4 14:06<br>6-5.mp4 11:02<br>6-6.mp4 21:53<br>6-7.mp4 15:45<br>6-8.mp4 17:32<br>6-9.mp4 16:49<br>6-10.mp4 19:33<br>6-11.mp4 22:30<br>6-12.mp4 20:49</p>
+<h1 id="第7章-课程机构功能实现"><a href="#第7章-课程机构功能实现" class="headerlink" title="第7章 课程机构功能实现"></a>第7章 课程机构功能实现</h1><p>7-1.mp4 15:57<br>7-2.mp4 12:58<br>7-3.mp4 12:26<br>7-4.mp4 13:54<br>7-5.mp4 22:23<br>7-6.mp4 21:39<br>7-7.mp4 21:25<br>7-8.mp4 19:41<br>7-9.mp4 20:38<br>7-10.mp4 18:49<br>7-11.mp4 15:02<br>7-12.mp4 28:03</p>
+<h1 id="第8章-课程功能实现"><a href="#第8章-课程功能实现" class="headerlink" title="第8章 课程功能实现"></a>第8章 课程功能实现</h1><p>8-1.mp4 29:50<br>8-2.mp4 20:56<br>8-3.mp4 18:26<br>8-4.mp4 14:35<br>8-5.mp4 15:46<br>8-6.mp4 21:39<br>8-7.mp4 18:15<br>8-8.mp4 22:19</p>
+<h1 id="第9章-课程讲师功能实现"><a href="#第9章-课程讲师功能实现" class="headerlink" title="第9章 课程讲师功能实现"></a>第9章 课程讲师功能实现</h1><p>9-1.mp4 20:17<br>9-2.mp4 11:39<br>9-3.mp4 16:14</p>
+<h1 id="第10章-个人中心和全局搜索功能实现"><a href="#第10章-个人中心和全局搜索功能实现" class="headerlink" title="第10章 个人中心和全局搜索功能实现"></a>第10章 个人中心和全局搜索功能实现</h1><p>10-1.mp4 25:11<br>10-2.mp4 17:27<br>10-3.mp4 19:17<br>10-4.mp4 13:10<br>10-5.mp4 18:58<br>10-6.mp4 15:12<br>10-7.mp4 18:08<br>10-8.mp4 08:49<br>10-9.mp4 11:58<br>10-10.mp4 16:33<br>10-11.mp4 14:12</p>
+<h1 id="第11章-首页、全局功能细节和404以及500页面配置"><a href="#第11章-首页、全局功能细节和404以及500页面配置" class="headerlink" title="第11章 首页、全局功能细节和404以及500页面配置"></a>第11章 首页、全局功能细节和404以及500页面配置</h1><p>11-1.mp4 21:15<br>11-2.mp4 12:18<br>11-3.mp4 10:46<br>11-4.mp4 09:40</p>
+<h1 id="第12章-常见web攻击及防范"><a href="#第12章-常见web攻击及防范" class="headerlink" title="第12章 常见web攻击及防范"></a>第12章 常见web攻击及防范</h1><p>12-1.mp4 14:57</p>
+<h3 id="SQL注入攻击"><a href="#SQL注入攻击" class="headerlink" title="SQL注入攻击"></a>SQL注入攻击</h3><p>12-2.mp4 07:52<br>12-3.mp4 06:38</p>
+<h1 id="第13章-Xadmin的进阶开发"><a href="#第13章-Xadmin的进阶开发" class="headerlink" title="第13章 Xadmin的进阶开发"></a>第13章 Xadmin的进阶开发</h1><p>13-1~2.mp4 40:19<br>13-3~8第14-1.mp4 1:32:12</p>
+<h1 id="第14章-把项目部署上线"><a href="#第14章-把项目部署上线" class="headerlink" title="第14章 把项目部署上线"></a>第14章 把项目部署上线</h1><h1 id="第15章-课程总结"><a href="#第15章-课程总结" class="headerlink" title="第15章 课程总结"></a>第15章 课程总结</h1><h1 id="第16章-快速升级到python3-6-django1-11"><a href="#第16章-快速升级到python3-6-django1-11" class="headerlink" title="第16章 快速升级到python3.6+django1.11"></a>第16章 快速升级到python3.6+django1.11</h1>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-我似乎已经开始了，忘记她！" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/29/我似乎已经开始了，忘记她！/" class="article-date">
+      <time datetime="2017-06-29T17:11:56.000Z" itemprop="datePublished">2017-06-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/29/我似乎已经开始了，忘记她！/">我似乎已经开始了，忘记她！</a>
     </h1>
   
 
@@ -493,11 +505,11 @@
 
 
   
-    <article id="post-心情不好，3月以来都没开心了。" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-我真的要把她给忘记吗？" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/08/24/心情不好，3月以来都没开心了。/" class="article-date">
-      <time datetime="2017-08-24T10:53:34.000Z" itemprop="datePublished">2017-08-24</time>
+      <a href="/2017/06/29/我真的要把她给忘记吗？/" class="article-date">
+      <time datetime="2017-06-29T17:11:35.000Z" itemprop="datePublished">2017-06-29</time>
 </a>
     </div>
   
@@ -510,7 +522,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/24/心情不好，3月以来都没开心了。/">心情不好，3月以来都没开心了。</a>
+      <a class="article-title" href="/2017/06/29/我真的要把她给忘记吗？/">我真的要把她给忘记吗？</a>
     </h1>
   
 
@@ -547,11 +559,11 @@
 
 
   
-    <article id="post-Kubernetes安装配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-好苦呐！" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/08/23/Kubernetes安装配置/" class="article-date">
-      <time datetime="2017-08-23T08:51:00.000Z" itemprop="datePublished">2017-08-23</time>
+      <a href="/2017/06/29/好苦呐！/" class="article-date">
+      <time datetime="2017-06-29T17:10:25.000Z" itemprop="datePublished">2017-06-29</time>
 </a>
     </div>
   
@@ -564,210 +576,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/23/Kubernetes安装配置/">Kubernetes安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
-<p>Kubernetes 1.7.3<br>Kubernetes安装配置</p>
-</blockquote>
-<h2 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">k8s-master-1: 10.6.0.140</span><br><span class="line">k8s-master-2: 10.6.0.187</span><br><span class="line">k8s-master-3: 10.6.0.188</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node1.ovwane.com 192.168.3.221</span><br><span class="line">node2.ovwane.com 192.168.3.222</span><br><span class="line">node3.ovwane.com 192.168.3.223</span><br></pre></td></tr></table></figure>
-<h4 id="软件版本"><a href="#软件版本" class="headerlink" title="软件版本"></a>软件版本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">etcd-3.1.9</span><br><span class="line">Docker version 1.12.6</span><br></pre></td></tr></table></figure>
-<h2 id="创建-验证"><a href="#创建-验证" class="headerlink" title="创建 验证"></a>创建 验证</h2><h3 id="安装-cfssl"><a href="#安装-cfssl" class="headerlink" title="安装 cfssl"></a>安装 cfssl</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget -O /usr/local/bin/cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64</span><br><span class="line"></span><br><span class="line">wget -O /usr/local/bin/cfssljson https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64</span><br><span class="line"></span><br><span class="line">wget -O /usr/local/bin/cfssl-certinfo https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64</span><br><span class="line"></span><br><span class="line"># 添加执行的权限</span><br><span class="line">chmod +x /usr/local/bin/&#123;cfssl,cfssljson,cfssl-certinfo&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="创建-CA-证书配置"><a href="#创建-CA-证书配置" class="headerlink" title="创建 CA 证书配置"></a>创建 CA 证书配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/ssl</span><br><span class="line">cd /root/ssl</span><br><span class="line">cfssl print-defaults config &gt; config.json</span><br><span class="line">cfssl print-defaults csr &gt; csr.json</span><br></pre></td></tr></table></figure>
-<h4 id="config-json"><a href="#config-json" class="headerlink" title="config.json"></a>config.json</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;config.json&lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  &quot;signing&quot;: &#123;</span><br><span class="line">    &quot;default&quot;: &#123;</span><br><span class="line">      &quot;expiry&quot;: &quot;87600h&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;profiles&quot;: &#123;</span><br><span class="line">      &quot;kubernetes&quot;: &#123;</span><br><span class="line">        &quot;usages&quot;: [</span><br><span class="line">            &quot;signing&quot;,</span><br><span class="line">            &quot;key encipherment&quot;,</span><br><span class="line">            &quot;server auth&quot;,</span><br><span class="line">            &quot;client auth&quot;</span><br><span class="line">        ],</span><br><span class="line">        &quot;expiry&quot;: &quot;87600h&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<h4 id="csr-json"><a href="#csr-json" class="headerlink" title="csr.json"></a>csr.json</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;csr.json&lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  &quot;CN&quot;: &quot;kubernetes&quot;,</span><br><span class="line">  &quot;key&quot;: &#123;</span><br><span class="line">    &quot;algo&quot;: &quot;rsa&quot;,</span><br><span class="line">    &quot;size&quot;: 2048</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;names&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;C&quot;: &quot;CN&quot;,</span><br><span class="line">      &quot;ST&quot;: &quot;ShenZhen&quot;,</span><br><span class="line">      &quot;L&quot;: &quot;ShenZhen&quot;,</span><br><span class="line">      &quot;O&quot;: &quot;k8s&quot;,</span><br><span class="line">      &quot;OU&quot;: &quot;System&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<h3 id="生成-CA-证书和私钥"><a href="#生成-CA-证书和私钥" class="headerlink" title="生成 CA 证书和私钥"></a>生成 CA 证书和私钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cfssl gencert -initca csr.json | cfssljson -bare ca</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node01 ssl]# ls</span><br><span class="line">ca.csr  ca-key.pem  ca.pem  config.json  csr.json</span><br></pre></td></tr></table></figure>
-<h2 id="分发证书"><a href="#分发证书" class="headerlink" title="分发证书"></a>分发证书</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 创建证书目录</span><br><span class="line">mkdir -p /etc/kubernetes/ssl</span><br><span class="line"></span><br><span class="line"># 拷贝所有文件到目录下</span><br><span class="line">cp * /etc/kubernetes/ssl</span><br><span class="line"></span><br><span class="line"># 这里要将文件拷贝到所有的k8s 机器上</span><br><span class="line"></span><br><span class="line">scp * 192.168.3.222:/etc/kubernetes/ssl/</span><br><span class="line"></span><br><span class="line">scp * 192.168.3.223:/etc/kubernetes/ssl/</span><br></pre></td></tr></table></figure>
-<h2 id="etcd-集群"><a href="#etcd-集群" class="headerlink" title="etcd 集群"></a>etcd 集群</h2><h3 id="安装-etcd"><a href="#安装-etcd" class="headerlink" title="安装 etcd"></a>安装 etcd</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install etcd</span><br></pre></td></tr></table></figure>
-<h3 id="创建-etcd-证书"><a href="#创建-etcd-证书" class="headerlink" title="创建 etcd 证书"></a>创建 etcd 证书</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;etcd-csr.json&lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  &quot;CN&quot;: &quot;etcd&quot;,</span><br><span class="line">  &quot;hosts&quot;: [</span><br><span class="line">    &quot;127.0.0.1&quot;,</span><br><span class="line">    &quot;192.168.3.221&quot;,</span><br><span class="line">    &quot;192.168.3.222&quot;,</span><br><span class="line">    &quot;192.168.3.223&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;key&quot;: &#123;</span><br><span class="line">    &quot;algo&quot;: &quot;rsa&quot;,</span><br><span class="line">    &quot;size&quot;: 2048</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;names&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;C&quot;: &quot;CN&quot;,</span><br><span class="line">      &quot;ST&quot;: &quot;ShenZhen&quot;,</span><br><span class="line">      &quot;L&quot;: &quot;ShenZhen&quot;,</span><br><span class="line">      &quot;O&quot;: &quot;k8s&quot;,</span><br><span class="line">      &quot;OU&quot;: &quot;System&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<h3 id="生成-etcd-密钥"><a href="#生成-etcd-密钥" class="headerlink" title="生成 etcd   密钥"></a>生成 etcd   密钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cfssl gencert -ca=/root/ssl/ca.pem \</span><br><span class="line">  -ca-key=/root/ssl/ca-key.pem \</span><br><span class="line">  -config=/root/ssl/config.json \</span><br><span class="line">  -profile=kubernetes etcd-csr.json|cfssljson -bare etcd</span><br></pre></td></tr></table></figure>
-<h4 id="查看生成"><a href="#查看生成" class="headerlink" title="查看生成"></a>查看生成</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node01 ssl]# ls etcd*</span><br><span class="line">etcd.csr  etcd-csr.json  etcd-key.pem  etcd.pem</span><br></pre></td></tr></table></figure>
-<h3 id="拷贝到etcd服务器"><a href="#拷贝到etcd服务器" class="headerlink" title="拷贝到etcd服务器"></a>拷贝到etcd服务器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># etcd-1 </span><br><span class="line">cp etcd*.pem /etc/kubernetes/ssl/</span><br><span class="line"></span><br><span class="line"># etcd-2</span><br><span class="line">scp etcd* 192.168.3.222:/etc/kubernetes/ssl/</span><br><span class="line"></span><br><span class="line"># etcd-3</span><br><span class="line">scp etcd* 192.168.3.223:/etc/kubernetes/ssl/</span><br><span class="line"></span><br><span class="line"># 如果 etcd 非 root 用户，读取证书会提示没权限</span><br><span class="line"></span><br><span class="line">chmod 644 /etc/kubernetes/ssl/etcd-key.pem</span><br></pre></td></tr></table></figure>
-<h3 id="修改-etcd-配置"><a href="#修改-etcd-配置" class="headerlink" title="修改 etcd 配置"></a>修改 etcd 配置</h3><p>修改 etcd 启动文件 /usr/lib/systemd/system/etcd.service</p>
-<h4 id="etcd-1"><a href="#etcd-1" class="headerlink" title="etcd-1"></a>etcd-1</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/usr/lib/systemd/system/etcd.service&lt;&lt;EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=Etcd Server</span><br><span class="line">After=network.target</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">WorkingDirectory=/var/lib/etcd/</span><br><span class="line">User=etcd</span><br><span class="line"># set GOMAXPROCS to number of processors</span><br><span class="line">ExecStart=/usr/bin/etcd \</span><br><span class="line">  --name=etcd1 \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/etcd.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/etcd-key.pem \</span><br><span class="line">  --peer-cert-file=/etc/kubernetes/ssl/etcd.pem \</span><br><span class="line">  --peer-key-file=/etc/kubernetes/ssl/etcd-key.pem \</span><br><span class="line">  --trusted-ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --initial-advertise-peer-urls=https://192.168.3.221:2380 \</span><br><span class="line">  --listen-peer-urls=https://192.168.3.221:2380 \</span><br><span class="line">  --listen-client-urls=https://192.168.3.221:2379,http://127.0.0.1:2379 \</span><br><span class="line">  --advertise-client-urls=https://192.168.3.221:2379 \</span><br><span class="line">  --initial-cluster-token=k8s-etcd-cluster \</span><br><span class="line">  --initial-cluster=etcd1=https://192.168.3.221:2380,etcd2=https://192.168.3.222:2380,etcd3=https://192.168.3.223:2380 \</span><br><span class="line">  --initial-cluster-state=new \</span><br><span class="line">  --data-dir=/var/lib/etcd</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<h4 id="etcd-2"><a href="#etcd-2" class="headerlink" title="etcd-2"></a>etcd-2</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/usr/lib/systemd/system/etcd.service&lt;&lt;EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=Etcd Server</span><br><span class="line">After=network.target</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">WorkingDirectory=/var/lib/etcd/</span><br><span class="line">User=etcd</span><br><span class="line"># set GOMAXPROCS to number of processors</span><br><span class="line">ExecStart=/usr/bin/etcd \</span><br><span class="line">  --name=etcd2 \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/etcd.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/etcd-key.pem \</span><br><span class="line">  --peer-cert-file=/etc/kubernetes/ssl/etcd.pem \</span><br><span class="line">  --peer-key-file=/etc/kubernetes/ssl/etcd-key.pem \</span><br><span class="line">  --trusted-ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --initial-advertise-peer-urls=https://192.168.3.222:2380 \</span><br><span class="line">  --listen-peer-urls=https://192.168.3.222:2380 \</span><br><span class="line">  --listen-client-urls=https://192.168.3.222:2379,http://127.0.0.1:2379 \</span><br><span class="line">  --advertise-client-urls=https://192.168.3.222:2379 \</span><br><span class="line">  --initial-cluster-token=k8s-etcd-cluster \</span><br><span class="line">  --initial-cluster=etcd1=https://192.168.3.221:2380,etcd2=https://192.168.3.222:2380,etcd3=https://192.168.3.223:2380 \</span><br><span class="line">  --initial-cluster-state=new \</span><br><span class="line">  --data-dir=/var/lib/etcd</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<h4 id="etcd-3"><a href="#etcd-3" class="headerlink" title="etcd-3"></a>etcd-3</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/usr/lib/systemd/system/etcd.service&lt;&lt;EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=Etcd Server</span><br><span class="line">After=network.target</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">WorkingDirectory=/var/lib/etcd/</span><br><span class="line">User=etcd</span><br><span class="line"># set GOMAXPROCS to number of processors</span><br><span class="line">ExecStart=/usr/bin/etcd \</span><br><span class="line">  --name=etcd3 \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/etcd.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/etcd-key.pem \</span><br><span class="line">  --peer-cert-file=/etc/kubernetes/ssl/etcd.pem \</span><br><span class="line">  --peer-key-file=/etc/kubernetes/ssl/etcd-key.pem \</span><br><span class="line">  --trusted-ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --initial-advertise-peer-urls=https://192.168.3.223:2380 \</span><br><span class="line">  --listen-peer-urls=https://192.168.3.223:2380 \</span><br><span class="line">  --listen-client-urls=https://192.168.3.223:2379,http://127.0.0.1:2379 \</span><br><span class="line">  --advertise-client-urls=https://192.168.3.223:2379 \</span><br><span class="line">  --initial-cluster-token=k8s-etcd-cluster \</span><br><span class="line">  --initial-cluster=etcd1=https://192.168.3.221:2380,etcd2=https://192.168.3.222:2380,etcd3=https://192.168.3.223:2380 \</span><br><span class="line">  --initial-cluster-state=new \</span><br><span class="line">  --data-dir=/var/lib/etcd</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<h3 id="启动-etcd"><a href="#启动-etcd" class="headerlink" title="启动 etcd"></a>启动 etcd</h3><p>systemctl enable etcd&amp;&amp;systemctl start etcd</p>
-<p>systemctl status etcd</p>
-<h3 id="验证-etcd-集群状态"><a href="#验证-etcd-集群状态" class="headerlink" title="验证 etcd 集群状态"></a>验证 etcd 集群状态</h3><h4 id="查看-etcd-集群状态"><a href="#查看-etcd-集群状态" class="headerlink" title="查看 etcd 集群状态"></a>查看 etcd 集群状态</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">etcdctl --endpoints=https://192.168.3.221:2379 \</span><br><span class="line">        --cert-file=/etc/kubernetes/ssl/etcd.pem \</span><br><span class="line">        --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">        --key-file=/etc/kubernetes/ssl/etcd-key.pem \</span><br><span class="line">        cluster-health</span><br><span class="line">```      </span><br><span class="line"></span><br><span class="line">#### 查看etcd集群成员</span><br></pre></td></tr></table></figure>
-<p>etcdctl –endpoints=<a href="https://192.168.3.221:2379" target="_blank" rel="noopener">https://192.168.3.221:2379</a> \<br>        –cert-file=/etc/kubernetes/ssl/etcd.pem \<br>        –ca-file=/etc/kubernetes/ssl/ca.pem \<br>        –key-file=/etc/kubernetes/ssl/etcd-key.pem \<br>        member list<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 安装 kubectl 工具</span><br><span class="line">### Master 端</span><br><span class="line">#### 安装 kubectl</span><br></pre></td></tr></table></figure></p>
-<p>wget <a href="https://dl.k8s.io/v1.7.3/kubernetes-client-linux-amd64.tar.gz" target="_blank" rel="noopener">https://dl.k8s.io/v1.7.3/kubernetes-client-linux-amd64.tar.gz</a></p>
-<p>tar -xzvf kubernetes-server-v1.7.3-linux-amd64.tar.gz</p>
-<p>cp kubernetes/server/bin/* /usr/local/bin/</p>
-<p>chmod a+x /usr/local/bin/kube*<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 验证安装</span><br></pre></td></tr></table></figure></p>
-<p>kubectl version</p>
-<p>[root@node01 ~]# kubectl version<br>Client Version: version.Info{Major:”1”, Minor:”7”, GitVersion:”v1.7.3”, GitCommit:”2c2fe6e8278a5db2d15a013987b53968c743f2a1”, GitTreeState:”clean”, BuildDate:”2017-08-03T07:00:21Z”, GoVersion:”go1.8.3”, Compiler:”gc”, Platform:”linux/amd64”}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 创建 admin 证书</span><br><span class="line">cd /root/ssl</span><br><span class="line"></span><br><span class="line">#### admin-csr.json</span><br></pre></td></tr></table></figure></p>
-<p>cat &gt;admin-csr.json&lt;&lt;EOF<br>{<br>  “CN”: “admin”,<br>  “hosts”: [],<br>  “key”: {<br>    “algo”: “rsa”,<br>    “size”: 2048<br>  },<br>  “names”: [<br>    {<br>      “C”: “CN”,<br>      “ST”: “ShenZhen”,<br>      “L”: “ShenZhen”,<br>      “O”: “system:masters”,<br>      “OU”: “System”<br>    }<br>  ]<br>}<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 生成 admin 证书和私钥</span><br></pre></td></tr></table></figure></p>
-<p>cfssl gencert -ca=/etc/kubernetes/ssl/ca.pem \<br>  -ca-key=/etc/kubernetes/ssl/ca-key.pem \<br>  -config=/etc/kubernetes/ssl/config.json \<br>  -profile=kubernetes admin-csr.json |cfssljson -bare admin<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 查看生成</span><br></pre></td></tr></table></figure></p>
-<p>[root@node01 ssl]# ls admin*<br>admin.csr  admin-csr.json  admin-key.pem  admin.pem<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 分发</span><br></pre></td></tr></table></figure></p>
-<p>cp admin*.pem /etc/kubernetes/ssl/</p>
-<p>scp admin*.pem 192.168.3.222:/etc/kubernetes/ssl/</p>
-<p>scp admin*.pem 192.168.3.223:/etc/kubernetes/ssl/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 配置 kubectl kubeconfig 文件</span><br></pre></td></tr></table></figure></p>
-<h1 id="配置-kubernetes-集群"><a href="#配置-kubernetes-集群" class="headerlink" title="配置 kubernetes 集群"></a>配置 kubernetes 集群</h1><p>kubectl config set-cluster kubernetes \<br>  –certificate-authority=/etc/kubernetes/ssl/ca.pem \<br>  –embed-certs=true \<br>  –server=<a href="https://192.168.3.221:6443" target="_blank" rel="noopener">https://192.168.3.221:6443</a></p>
-<h1 id="配置-客户端认证"><a href="#配置-客户端认证" class="headerlink" title="配置 客户端认证"></a>配置 客户端认证</h1><p>kubectl config set-credentials admin \<br>  –client-certificate=/etc/kubernetes/ssl/admin.pem \<br>  –embed-certs=true \<br>  –client-key=/etc/kubernetes/ssl/admin-key.pem</p>
-<p>kubectl config set-context kubernetes \<br>  –cluster=kubernetes \<br>  –user=admin</p>
-<p>kubectl config use-context kubernetes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### kubectl config 文件</span><br></pre></td></tr></table></figure></p>
-<h1 id="kubeconfig-文件在-如下"><a href="#kubeconfig-文件在-如下" class="headerlink" title="kubeconfig 文件在 如下:"></a>kubeconfig 文件在 如下:</h1><p>/root/.kube<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 部署 Kubernetes Master 节点</span><br><span class="line">Master 需要部署 kube-apiserver , kube-scheduler , kube-controller-manager 这三个组件。</span><br><span class="line"></span><br><span class="line">#### 创建 kubernetes 证书</span><br></pre></td></tr></table></figure></p>
-<p>cat &gt;kubernetes-csr.json&lt;&lt;EOF<br>{<br>  “CN”: “kubernetes”,<br>  “hosts”: [<br>    “127.0.0.1”,<br>    “192.168.3.221”,<br>    “192.168.3.222”,<br>    “192.168.3.223”,<br>    “10.254.0.1”,<br>    “kubernetes”,<br>    “kubernetes.default”,<br>    “kubernetes.default.svc”,<br>    “kubernetes.default.svc.cluster”,<br>    “kubernetes.default.svc.cluster.local”<br>  ],<br>  “key”: {<br>    “algo”: “rsa”,<br>    “size”: 2048<br>  },<br>  “names”: [<br>    {<br>      “C”: “CN”,<br>      “ST”: “ShenZhen”,<br>      “L”: “ShenZhen”,<br>      “O”: “k8s”,<br>      “OU”: “System”<br>    }<br>  ]<br>}<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 生成 kubernetes 证书和私钥</span><br></pre></td></tr></table></figure></p>
-<p>cfssl gencert -ca=/etc/kubernetes/ssl/ca.pem \<br>  -ca-key=/etc/kubernetes/ssl/ca-key.pem \<br>  -config=/etc/kubernetes/ssl/config.json \<br>  -profile=kubernetes kubernetes-csr.json |cfssljson -bare kubernetes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 查看生成</span><br></pre></td></tr></table></figure></p>
-<p>[root@node01 ssl]# ls kubernetes*<br>kubernetes.csr       kubernetes-key.pem<br>kubernetes-csr.json  kubernetes.pem<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 分发</span><br></pre></td></tr></table></figure></p>
-<p>cp -r kubernetes* /etc/kubernetes/ssl/</p>
-<p>scp -r kubernetes* 192.168.3.222:/etc/kubernetes/ssl/</p>
-<p>scp -r kubernetes* 192.168.3.223:/etc/kubernetes/ssl/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 配置 kube-apiserver</span><br><span class="line">kubelet 首次启动时向 kube-apiserver 发送 TLS Bootstrapping 请求，kube-apiserver 验证 kubelet 请求中的 token 是否与它配置的 token 一致，如果一致则自动为 kubelet生成证书和秘钥。</span><br><span class="line"></span><br><span class="line">#### 生成 token</span><br></pre></td></tr></table></figure></p>
-<h1 id="生成-token"><a href="#生成-token" class="headerlink" title="生成 token"></a>生成 token</h1><p>[root@node01 ssl]# head -c 16 /dev/urandom | od -An -t x | tr -d ‘ ‘<br>3f11d8b3c0bd83c61794652230c6df9a</p>
-<h1 id="创建-token-csv-文件"><a href="#创建-token-csv-文件" class="headerlink" title="创建 token.csv 文件"></a>创建 token.csv 文件</h1><p>cd /root/ssl</p>
-<p>vi token.csv</p>
-<p>3f11d8b3c0bd83c61794652230c6df9a,kubelet-bootstrap,10001,”system:kubelet-bootstrap”</p>
-<h1 id="分发"><a href="#分发" class="headerlink" title="分发"></a>分发</h1><p>cp token.csv /etc/kubernetes/</p>
-<p>scp token.csv 192.168.3.222:/etc/kubernetes/</p>
-<p>scp token.csv 192.168.3.223:/etc/kubernetes/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 创建 kube-apiserver.service 文件</span><br></pre></td></tr></table></figure></p>
-<p>cat &gt;/etc/systemd/system/kube-apiserver.service&lt;&lt;EOF<br>[Unit]<br>Description=Kubernetes API Server<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a><br>After=network.target</p>
-<p>[Service]<br>User=root<br>ExecStart=/usr/local/bin/kube-apiserver \<br>  –admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \<br>  –advertise-address=192.168.3.221 \<br>  –allow-privileged=true \<br>  –apiserver-count=3 \<br>  –audit-log-maxage=30 \<br>  –audit-log-maxbackup=3 \<br>  –audit-log-maxsize=100 \<br>  –audit-log-path=/var/lib/audit.log \<br>  –authorization-mode=RBAC \<br>  –bind-address=192.168.3.221 \<br>  –client-ca-file=/etc/kubernetes/ssl/ca.pem \<br>  –enable-swagger-ui=true \<br>  –etcd-cafile=/etc/kubernetes/ssl/ca.pem \<br>  –etcd-certfile=/etc/kubernetes/ssl/etcd.pem \<br>  –etcd-keyfile=/etc/kubernetes/ssl/etcd-key.pem \<br>  –etcd-servers=<a href="https://192.168.3.221:2379,https://192.168.3.222:2379,https://192.168.3.223:2379" target="_blank" rel="noopener">https://192.168.3.221:2379,https://192.168.3.222:2379,https://192.168.3.223:2379</a> \<br>  –event-ttl=1h \<br>  –kubelet-https=true \<br>  –insecure-bind-address=192.168.3.221 \<br>  –runtime-config=rbac.authorization.k8s.io/v1alpha1 \<br>  –service-account-key-file=/etc/kubernetes/ssl/ca-key.pem \<br>  –service-cluster-ip-range=10.254.0.0/16 \<br>  –service-node-port-range=30000-32000 \<br>  –tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem \<br>  –tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem \<br>  –experimental-bootstrap-token-auth \<br>  –token-auth-file=/etc/kubernetes/token.csv \<br>  –v=2<br>Restart=on-failure<br>RestartSec=5<br>Type=notify<br>LimitNOFILE=65536</p>
-<p>[Install]<br>WantedBy=multi-user.target<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 启动 kube-apiserver</span><br></pre></td></tr></table></figure></p>
-<p>systemctl daemon-reload<br>systemctl enable kube-apiserver&amp;&amp;systemctl start kube-apiserver<br>systemctl status kube-apiserver<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 配置 kube-controller-manager</span><br></pre></td></tr></table></figure></p>
-<p>cat &gt;/etc/systemd/system/kube-controller-manager.service&lt;&lt;EOF<br>[Unit]<br>Description=Kubernetes Controller Manager<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a></p>
-<p>[Service]<br>ExecStart=/usr/local/bin/kube-controller-manager \<br>  –address=127.0.0.1 \<br>  –master=<a href="http://192.168.3.221:8080" target="_blank" rel="noopener">http://192.168.3.221:8080</a> \<br>  –allocate-node-cidrs=true \<br>  –service-cluster-ip-range=10.254.0.0/16 \<br>  –cluster-cidr=10.233.0.0/16 \<br>  –cluster-name=kubernetes \<br>  –cluster-signing-cert-file=/etc/kubernetes/ssl/ca.pem \<br>  –cluster-signing-key-file=/etc/kubernetes/ssl/ca-key.pem \<br>  –service-account-private-key-file=/etc/kubernetes/ssl/ca-key.pem \<br>  –root-ca-file=/etc/kubernetes/ssl/ca.pem \<br>  –leader-elect=true \<br>  –v=2<br>Restart=on-failure<br>RestartSec=5</p>
-<p>[Install]<br>WantedBy=multi-user.target<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 启动 kube-controller-manager</span><br></pre></td></tr></table></figure></p>
-<p>systemctl daemon-reload<br>systemctl enable kube-controller-manager&amp;&amp;systemctl start kube-controller-manager<br>systemctl status kube-controller-manager<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 配置 kube-scheduler</span><br></pre></td></tr></table></figure></p>
-<p>cat &gt;/etc/systemd/system/kube-scheduler.service&lt;&lt;EOF<br>[Unit]<br>Description=Kubernetes Scheduler<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a></p>
-<p>[Service]<br>ExecStart=/usr/local/bin/kube-scheduler \<br>  –address=127.0.0.1 \<br>  –master=<a href="http://192.168.3.221:8080" target="_blank" rel="noopener">http://192.168.3.221:8080</a> \<br>  –leader-elect=true \<br>  –v=2<br>Restart=on-failure<br>RestartSec=5</p>
-<p>[Install]<br>WantedBy=multi-user.target<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 启动 kube-scheduler</span><br></pre></td></tr></table></figure></p>
-<p>systemctl daemon-reload<br>systemctl enable kube-scheduler&amp;&amp;systemctl start kube-scheduler<br>systemctl status kube-scheduler<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 验证 Master 节点</span><br></pre></td></tr></table></figure></p>
-<p>kubectl get componentstatuses<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">[root@node01 ssl]# kubectl get componentstatuses</span><br><span class="line">NAME                 STATUS    MESSAGE              ERROR</span><br><span class="line">scheduler            Healthy   ok</span><br><span class="line">controller-manager   Healthy   ok</span><br><span class="line">etcd-1               Healthy   &#123;&quot;health&quot;: &quot;true&quot;&#125;</span><br><span class="line">etcd-2               Healthy   &#123;&quot;health&quot;: &quot;true&quot;&#125;</span><br><span class="line">etcd-0               Healthy   &#123;&quot;health&quot;: &quot;true&quot;&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="部署-Master-Node-部分"><a href="#部署-Master-Node-部分" class="headerlink" title="部署 Master Node 部分"></a>部署 Master Node 部分</h2><p>Node 部分 需要部署的组件有 docker calico kubectl kubelet kube-proxy 这几个组件。</p>
-<h3 id="配置-kubelet"><a href="#配置-kubelet" class="headerlink" title="配置 kubelet"></a>配置 kubelet</h3><p>kubelet 启动时向 kube-apiserver 发送 TLS bootstrapping 请求，需要先将 bootstrap token 文件中的 kubelet-bootstrap 用户赋予 system:node-bootstrapper 角色，然后 kubelet 才有权限创建认证请求(certificatesigningrequests)。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 先创建认证请求</span><br><span class="line"># user 为 master 中 token.csv 文件里配置的用户</span><br><span class="line"># 只需创建一次就可以</span><br><span class="line"></span><br><span class="line">kubectl create clusterrolebinding kubelet-bootstrap --clusterrole=system:node-bootstrapper --user=kubelet-bootstrap</span><br></pre></td></tr></table></figure>
-<h3 id="创建-kubelet-kubeconfig-文件"><a href="#创建-kubelet-kubeconfig-文件" class="headerlink" title="创建 kubelet kubeconfig 文件"></a>创建 kubelet kubeconfig 文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/kubernetes/</span><br><span class="line"></span><br><span class="line"># 配置集群</span><br><span class="line"></span><br><span class="line">kubectl config set-cluster kubernetes \</span><br><span class="line">  --certificate-authority=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --embed-certs=true \</span><br><span class="line">  --server=https://192.168.3.221:6443 \</span><br><span class="line">  --kubeconfig=bootstrap.kubeconfig</span><br><span class="line"></span><br><span class="line"># 配置客户端认证</span><br><span class="line"></span><br><span class="line">kubectl config set-credentials kubelet-bootstrap \</span><br><span class="line">  --token=3f11d8b3c0bd83c61794652230c6df9a \</span><br><span class="line">  --kubeconfig=bootstrap.kubeconfig</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 配置关联</span><br><span class="line"></span><br><span class="line">kubectl config set-context default \</span><br><span class="line">  --cluster=kubernetes \</span><br><span class="line">  --user=kubelet-bootstrap \</span><br><span class="line">  --kubeconfig=bootstrap.kubeconfig</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"># 配置默认关联</span><br><span class="line">kubectl config use-context default --kubeconfig=bootstrap.kubeconfig</span><br></pre></td></tr></table></figure>
-<h3 id="创建-kubelet-service-文件"><a href="#创建-kubelet-service-文件" class="headerlink" title="创建 kubelet.service 文件"></a>创建 kubelet.service 文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 创建 kubelet 目录</span><br><span class="line">&gt; 配置为 node 本机 IP</span><br><span class="line"></span><br><span class="line">mkdir /var/lib/kubelet</span><br><span class="line">/etc/systemd/system/kubelet.service</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/usr/lib/systemd/system/kubelet.service&lt;&lt;EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=Kubernetes Kubelet</span><br><span class="line">Documentation=https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line">After=docker.service</span><br><span class="line">Requires=docker.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">WorkingDirectory=/var/lib/kubelet</span><br><span class="line">ExecStart=/usr/local/bin/kubelet \</span><br><span class="line">  --address=192.168.3.221 \</span><br><span class="line">  --hostname-override=192.168.3.221 \</span><br><span class="line">  --pod-infra-container-image=jicki/pause-amd64:3.0 \</span><br><span class="line">  --experimental-bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \</span><br><span class="line">  --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \</span><br><span class="line">  --require-kubeconfig \</span><br><span class="line">  --cert-dir=/etc/kubernetes/ssl \</span><br><span class="line">  --cluster_dns=10.254.0.2 \</span><br><span class="line">  --cluster_domain=cluster.local. \</span><br><span class="line">  --hairpin-mode promiscuous-bridge \</span><br><span class="line">  --allow-privileged=true \</span><br><span class="line">  --serialize-image-pulls=false \</span><br><span class="line">  --logtostderr=true \</span><br><span class="line">  --v=2</span><br><span class="line">ExecStopPost=/sbin/iptables -A INPUT -s 10.0.0.0/8 -p tcp --dport 4194 -j ACCEPT</span><br><span class="line">ExecStopPost=/sbin/iptables -A INPUT -s 172.16.0.0/12 -p tcp --dport 4194 -j ACCEPT</span><br><span class="line">ExecStopPost=/sbin/iptables -A INPUT -s 192.168.0.0/16 -p tcp --dport 4194 -j ACCEPT</span><br><span class="line">ExecStopPost=/sbin/iptables -A INPUT -p tcp --dport 4194 -j DROP</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<h3 id="启动-kubelet"><a href="#启动-kubelet" class="headerlink" title="启动 kubelet"></a>启动 kubelet</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable kubelet&amp;&amp;systemctl start kubelet</span><br><span class="line">systemctl status kubelet</span><br></pre></td></tr></table></figure>
-<h2 id="配置-TLS-认证"><a href="#配置-TLS-认证" class="headerlink" title="配置 TLS 认证"></a>配置 TLS 认证</h2><h4 id="查看-csr-的名称"><a href="#查看-csr-的名称" class="headerlink" title="查看 csr 的名称"></a>查看 csr 的名称</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get csr</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@node01 ~]# kubectl get csr</span><br><span class="line">NAME                                                   AGE       REQUESTOR           CONDITION</span><br><span class="line">node-csr-8yn8D11LnIZF3PPKtj9s2fFuojUUJeNlk12Ik5ZYSJ4   14h       kubelet-bootstrap   Pending</span><br></pre></td></tr></table></figure>
-<h4 id="增加-认证"><a href="#增加-认证" class="headerlink" title="增加 认证"></a>增加 认证</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl certificate approve node-csr-8yn8D11LnIZF3PPKtj9s2fFuojUUJeNlk12Ik5ZYSJ4</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node01 ~]# kubectl certificate approve node-csr-8yn8D11LnIZF3PPKtj9s2fFuojUUJeNlk12Ik5ZYSJ4</span><br><span class="line">certificatesigningrequest &quot;node-csr-8yn8D11LnIZF3PPKtj9s2fFuojUUJeNlk12Ik5ZYSJ4&quot; approved</span><br></pre></td></tr></table></figure>
-<h2 id="验证-nodes"><a href="#验证-nodes" class="headerlink" title="验证 nodes"></a>验证 nodes</h2>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/">Kubernetes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/">k8s</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-kx教的知识" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/08/17/kx教的知识/" class="article-date">
-      <time datetime="2017-08-17T09:38:00.000Z" itemprop="datePublished">2017-08-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/17/kx教的知识/">kx教的知识</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>知识积累</p>
-<p>和人沟通</p>
-<p>观察</p>
-<p>玩游戏，是有目的的，游戏的设计。游戏的各种功能。获取灵感。和借鉴</p>
-<p>减少自己观察的知识面。会使自己的知识面越走越窄。</p>
-<p>目标管理四象限</p>
-<p>没有必要和别人搞得不愉快。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-5个月了，2017-03-16～2017-08-16" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/08/16/5个月了，2017-03-16～2017-08-16/" class="article-date">
-      <time datetime="2017-08-16T11:13:13.000Z" itemprop="datePublished">2017-08-16</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/16/5个月了，2017-03-16～2017-08-16/">5个月了，2017.03.16～2017.08.16</a>
+      <a class="article-title" href="/2017/06/29/好苦呐！/">好苦呐！</a>
     </h1>
   
 
@@ -804,11 +613,11 @@
 
 
   
-    <article id="post-她的小粉鞋" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-好难啊、MySQL主从复制" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/08/09/她的小粉鞋/" class="article-date">
-      <time datetime="2017-08-09T11:02:45.000Z" itemprop="datePublished">2017-08-09</time>
+      <a href="/2017/06/29/好难啊、MySQL主从复制/" class="article-date">
+      <time datetime="2017-06-29T17:10:10.000Z" itemprop="datePublished">2017-06-29</time>
 </a>
     </div>
   
@@ -821,7 +630,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/09/她的小粉鞋/">她的小粉鞋</a>
+      <a class="article-title" href="/2017/06/29/好难啊、MySQL主从复制/">好难啊、MySQL主从复制</a>
     </h1>
   
 
@@ -858,11 +667,11 @@
 
 
   
-    <article id="post-更改KeePass储存文件方式OneDrive改为坚果云" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-MariaDB使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/08/03/更改KeePass储存文件方式OneDrive改为坚果云/" class="article-date">
-      <time datetime="2017-08-03T16:47:34.000Z" itemprop="datePublished">2017-08-03</time>
+      <a href="/2017/06/24/MariaDB使用笔记/" class="article-date">
+      <time datetime="2017-06-24T08:23:05.000Z" itemprop="datePublished">2017-06-24</time>
 </a>
     </div>
   
@@ -875,7 +684,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/03/更改KeePass储存文件方式OneDrive改为坚果云/">更改KeePass储存文件方式OneDrive改为坚果云</a>
+      <a class="article-title" href="/2017/06/24/MariaDB使用笔记/">MariaDB使用笔记</a>
     </h1>
   
 
@@ -885,7 +694,88 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        
+        <p>MariaDB 10.2.13</p>
+<h3 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a><a href="https://www.cnblogs.com/liufei88866/p/5619215.html" target="_blank" rel="noopener">修改密码</a></h3><h4 id="方法1：-用SET-PASSWORD命令"><a href="#方法1：-用SET-PASSWORD命令" class="headerlink" title="方法1： 用SET PASSWORD命令"></a>方法1： 用SET PASSWORD命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">mysql&gt; SET PASSWORD FOR &apos;root&apos;@&apos;localhost&apos; = PASSWORD(&apos;newpass&apos;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">方法2：用mysqladmin</span><br><span class="line"></span><br><span class="line">　　mysqladmin -u root password &quot;newpass&quot;</span><br><span class="line"></span><br><span class="line">　　如果root已经设置过密码，采用如下方法</span><br><span class="line"></span><br><span class="line">　　mysqladmin -u root password oldpass &quot;newpass&quot;</span><br><span class="line"></span><br><span class="line">方法3： 用UPDATE直接编辑user表</span><br><span class="line"></span><br><span class="line">　　mysql -u root</span><br><span class="line"></span><br><span class="line">　　mysql&gt; use mysql;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; UPDATE user SET Password = PASSWORD(&apos;newpass&apos;) WHERE user = &apos;root&apos;;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line"></span><br><span class="line">在丢失root密码的时候，可以这样</span><br><span class="line"></span><br><span class="line">　　mysqld_safe --skip-grant-tables&amp;</span><br><span class="line"></span><br><span class="line">　　mysql -u root mysql</span><br><span class="line"></span><br><span class="line">　　mysql&gt; UPDATE user SET password=PASSWORD(&quot;new password&quot;) WHERE user=&apos;root&apos;;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<h5 id="列出数据库"><a href="#列出数据库" class="headerlink" title="列出数据库"></a>列出数据库</h5><p>show databases;</p>
+<h5 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database proxy_ip;</span><br></pre></td></tr></table></figure>
+<h5 id="新建数据表"><a href="#新建数据表" class="headerlink" title="新建数据表"></a>新建数据表</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table xici_proxy(ip varchar(20) COMMENT &apos;地址&apos;,</span><br><span class="line">port varchar(5) COMMENT &apos;端口&apos;, </span><br><span class="line">proxy_type varchar(5) COMMENT &apos;类型&apos;, </span><br><span class="line">speed varchar(10) NULL COMMENT &apos;速度&apos;,</span><br><span class="line">PRIMARY KEY(ip)</span><br><span class="line">)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&apos;西刺代理IP池&apos;;</span><br></pre></td></tr></table></figure>
+<h5 id="查看表结构"><a href="#查看表结构" class="headerlink" title="查看表结构"></a>查看表结构</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc xici_proxy;</span><br></pre></td></tr></table></figure>
+<h5 id="查看表生成的DDL"><a href="#查看表生成的DDL" class="headerlink" title="查看表生成的DDL"></a>查看表生成的DDL</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table xici_proxy;</span><br></pre></td></tr></table></figure>
+<h5 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop database xici_proxy;</span><br></pre></td></tr></table></figure>
+<h5 id="查看字符集"><a href="#查看字符集" class="headerlink" title="查看字符集"></a>查看字符集</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like 'collation_%';</span><br></pre></td></tr></table></figure>
+<h5 id="查看字符集-1"><a href="#查看字符集-1" class="headerlink" title="查看字符集"></a>查看字符集</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like 'character_set_%';</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/" target="_blank" rel="noopener">configuring-mariadb-for-remote-client-access</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Scrapy操作步骤" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/23/Scrapy操作步骤/" class="article-date">
+      <time datetime="2017-06-23T11:22:02.000Z" itemprop="datePublished">2017-06-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scrapy startproject crawl_spider</span><br><span class="line">cd crawl_spider</span><br><span class="line"></span><br><span class="line">scrapy genspider jobbole &quot;blog.jobbole.com&quot;</span><br><span class="line">scrapy genspider zhihu &quot;www.zhihu.com&quot;</span><br><span class="line">scrapy genspider lagou &quot;www.lagou.com&quot;</span><br></pre></td></tr></table></figure>
+<p>pycharm调试scrapy</p>
+<p>main.py 和 scrapy.cfg 在同一级目录下</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line">execute([<span class="string">"scrapy"</span>,<span class="string">"crawl"</span>,<span class="string">"jobbole"</span>])</span><br></pre></td></tr></table></figure>
+<p>settings.py</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ROBOTSTXT_OBEY = <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<p>伯乐在线提取文章<br>标题，日期，评论，点赞，</p>
+<p>xpath</p>
+<p>xpath语法<br>/div/<em> 选取属于div元素的所有子节点<br>//</em> 选取所有元素<br>//div[@*] 选取所有带属性的div元素<br>/div/a|//div/p 选取所有div元素的a和p元素<br>//span|//ul 选取文档中的span和ul元素<br>article/div/p|//span 选取所有属于artile的div的p元素和所有的span元素</p>
+<p>scrapy shell 调试 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell http://blog.jobbole.com/110287/</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">title = response.xpath(<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line">title = response.xpath(<span class="string">"//div[@class="</span>entry-heade<span class="string">r"]/h1"</span>)</span><br><span class="line"></span><br><span class="line">title = response.xpath(<span class="string">"//div[@class="</span>entry-heade<span class="string">r"]/h1/text()"</span>)</span><br><span class="line"></span><br><span class="line">title = response.xpath(<span class="string">"//div[@class="</span>entry-heade<span class="string">r"]/h1/text()"</span>).extract()[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">response.xpath(<span class="string">'//div[@id="archive"]//a[@class="archive-title"]/@href'</span>).extract()</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[element <span class="keyword">for</span> element <span class="keyword">in</span> tag_list <span class="keyword">if</span> <span class="keyword">not</span> element.strip().endswith(<span class="string">"评论"</span>)]</span><br></pre></td></tr></table></figure>
+<p>css selector</p>
+<p>css选择器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">* 选择所有节点</span><br><span class="line">#con 选择id为con的节点</span><br><span class="line">.con 选择所有class包含con的节点</span><br><span class="line">li a 选取所有li下的所有a节点</span><br><span class="line">ul + p 选择ul后面的第一个p元素</span><br><span class="line">div#con &gt; ul 选取id为con的div的第一个ul子元素</span><br><span class="line">ul ~ p 选择与ul相邻的所有p元素</span><br><span class="line">a[title] 选取所有有tilte属性的a元素</span><br><span class="line">input[type=radio]:checked 选择选中的radio的元素</span><br><span class="line">div:not(#con) 选取所有id非con的div属性</span><br><span class="line">li:nth-child(3)选取第三个li元素</span><br><span class="line">tr:nth-child(2n)第偶数个tr</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title = response.css(<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line">title = response.css(<span class="string">".entry-header h1"</span>)</span><br><span class="line"></span><br><span class="line">title = response.css(<span class="string">".entry-header h1::text"</span>)</span><br><span class="line"></span><br><span class="line">title = response.css(<span class="string">".entry-header h1:text"</span>).extract()</span><br></pre></td></tr></table></figure>
+<p>1.获取文章列表页的文章url并交给scrapy下载后并进行解析<br>2.获取下一页的url并交给scrapy进行下载，下载完成后交给parse</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_urls = response.css(<span class="string">".con a::attr(href)"</span>).extract()</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.http <span class="keyword">import</span> Request</span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载所有文章的url</span></span><br><span class="line"><span class="keyword">yield</span> Request(url=parse.urljoin(response.url, post_url),callback=self.parse_detail)</span><br><span class="line"></span><br><span class="line"><span class="comment">#提取下一页的url</span></span><br><span class="line">next_urls = response.css(<span class="string">".next.page-number::attr(href)"</span>).extract()</span><br><span class="line"><span class="keyword">if</span> next_url:</span><br><span class="line">	<span class="keyword">yield</span> Request(url=parse.urljoin(response.url, post_url),callback=self.parse)</span><br></pre></td></tr></table></figure>
+<p>items.py</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JobboleItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">	title = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<p>scrapy自带的下载中间件<br>图片中间件</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(__file__))</span><br><span class="line">IMAGES_URLS_FIELD = <span class="string">""</span></span><br><span class="line">IMAGES_STORE = os.path.join(BASE_DIR, <span class="string">'images'</span>)</span><br></pre></td></tr></table></figure>
+<p>1.先定义items<br>scrapy items<br>2.在jobbole.py爬虫写处理逻辑<br>yield 爬去的数据<br>3.在pipelines中定义怎么储存yield过来的数据<br>3.1 设置setttings.py中的downloader中间件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;   &apos;crawl_spider.middlewares.MyCustomDownloaderMiddleware&apos;: 543,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>item loader机制</p>
+
       
       
     </div>

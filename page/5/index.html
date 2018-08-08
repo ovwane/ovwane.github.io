@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-macOS 10.13 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-awk命令总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/macOS 10.13 安装软件/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.959Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/awk命令总结/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.369Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -222,26 +222,58 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date: 2018-05-05 06:51</p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1.安装<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases" target="_blank" rel="noopener"><strong>ShadowsocksX-NG</strong></a></p>
-<p>2.安装<a href="https://brew.sh" target="_blank" rel="noopener">Homebrew</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span><br></pre></td></tr></table></figure>
-<p>3.安装<a href="http://caskroom.io" target="_blank" rel="noopener">Homebrew Cask</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/cask</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/versions</span></span><br></pre></td></tr></table></figure>
-<p>4.安装<a href="https://github.com/mas-cli/mas" target="_blank" rel="noopener">mas</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install mas</span></span><br></pre></td></tr></table></figure>
-<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><h3 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install vim wget git</span></span><br></pre></td></tr></table></figure>
-<h3 id="Homebrew-Cask"><a href="#Homebrew-Cask" class="headerlink" title="Homebrew Cask"></a>Homebrew Cask</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install typora google-chrome firefox sublime-text keepassxc qq youdaodict youdaonote iina istat-menus baidunetdisk</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install firefox-developer-edition iterm2 zoc wireshark charles pycharm goland</span></span><br></pre></td></tr></table></figure>
-<h3 id="mas"><a href="#mas" class="headerlink" title="mas"></a>mas</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mas install 409201541 409203825 409183694 410628904 836500024</span></span><br></pre></td></tr></table></figure>
-<p>409201541 Pages</p>
-<p>409203825 Numbers</p>
-<p>409183694 Keynote</p>
-<p>410628904 Wunderlist </p>
-<p>836500024 WeChat </p>
-<h2 id="手动安装软件"><a href="#手动安装软件" class="headerlink" title="手动安装软件"></a>手动安装软件</h2><p><a href="https://www.jianguoyun.com/s/downloads" target="_blank" rel="noopener">坚果云</a>|<a href="https://creative.adobe.com/products/download/creative-cloud" target="_blank" rel="noopener">Adobe Creative Cloud</a></p>
-<h4 id="激活软件"><a href="#激活软件" class="headerlink" title="激活软件"></a>激活软件</h4><p><a href="https://www.52pojie.cn/thread-725112-1-1.html" target="_blank" rel="noopener">Charles 4.2.5 Mac and Win通用破解文件</a></p>
-<p>/Applications/Charles.app/Contents/Java/charles.jar</p>
+        <p>-F 字段分隔符<br><code>awk -F&quot;:&quot; &#39;{print $0}&#39; /etc/passwd</code></p>
+<p>$0 整行<br>$1 以“：”冒号分割的第一列<br>$2 以“：”冒号分割的第二列</p>
+<p>NF==7 字段数量<br>NR==2 纪录数量</p>
+<p>用 awk 中查看服务器连接状态并汇总</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -an|awk <span class="string">'/^tcp/&#123;++s[$NF]&#125;END&#123;for(a in s)print a,s[a]&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>统计 web 日志访问流量，要求输出访问次数，请求页面或图片，每个请求的总大小， 总访问流量的大小汇总</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;a[$7]+=$10;++b[$7];total+=$10&#125;END&#123;for(x in a)print b[x],x,a[x]|"sort -rn -k1";print "total size is :"total&#125;'</span> /app/<span class="built_in">log</span>/access_log</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-brew install make" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/brew install make/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.369Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>date: 2017-10-20 14:19</p>
+<p>brew install make</p>
+<p>npm install -g node-gyp</p>
 
       
       
@@ -269,11 +301,11 @@
 
 
   
-    <article id="post-macOS 10.13 制作U盘安装盘" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-docker" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/macOS 10.13 制作U盘安装盘/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.959Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/docker/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.369Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -285,11 +317,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date:2018-05-05 05:58 </p>
-<p>macOS 10.13 制作U盘安装盘</p>
-<p>命令格式</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo createinstallmedia --volume /Volumes/Install --</span></span><br><span class="line">applicationpath -- nointeraction</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/</span></span><br><span class="line">Resources/createinstallmedia --volume /Volumes/Install --</span><br><span class="line">applicationpath /Applications/Install\ macOS\ High\ Sierra.app --</span><br><span class="line"> nointeraction</span><br></pre></td></tr></table></figure>
+        <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p><a href="https://yq.aliyun.com/articles/110806" target="_blank" rel="noopener">Docker CE 镜像源站-阿里云</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># step 1: 安装必要的一些系统工具</span></span><br><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2 firewalld</span><br><span class="line"><span class="comment"># Step 2: 添加软件源信息</span></span><br><span class="line">sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"><span class="comment"># Step 3: 更新并安装 Docker-CE</span></span><br><span class="line">sudo yum makecache fast</span><br><span class="line">sudo yum -y install docker-ce</span><br><span class="line"><span class="comment"># Step 4: 开启Docker服务</span></span><br><span class="line">sudo service docker start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意：</span></span><br><span class="line"><span class="comment"># Step 1: 查找Docker-CE的版本:</span></span><br><span class="line"><span class="comment"># yum list docker-ce.x86_64 --showduplicates | sort -r</span></span><br><span class="line"><span class="comment">#   Loading mirror speeds from cached hostfile</span></span><br><span class="line"><span class="comment">#   Loaded plugins: branch, fastestmirror, langpacks</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.1.ce-1.el7.centos            docker-ce-stable</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.1.ce-1.el7.centos            @docker-ce-stable</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.0.ce-1.el7.centos            docker-ce-stable</span></span><br><span class="line"><span class="comment">#   Available Packages</span></span><br><span class="line"><span class="comment"># Step2 : 安装指定版本的Docker-CE: (VERSION 例如上面的 17.03.0.ce.1-1.el7.centos)</span></span><br><span class="line"><span class="comment"># sudo yum -y install docker-ce-[VERSION]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable docker.service</span><br><span class="line">systemctl start docker.service</span><br><span class="line">systemctl status docker.service</span><br></pre></td></tr></table></figure>
+<p>/usr/lib/systemd/system/docker.service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Docker Application Container Engine</span><br><span class="line">Documentation=https://docs.docker.com</span><br><span class="line">After=network-online.target firewalld.service</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">NotifyAccess=all</span><br><span class="line"># the default is not to use systemd for cgroups because the delegate issues still</span><br><span class="line"># exists and systemd currently does not support the cgroup feature set required</span><br><span class="line"># for containers run by docker</span><br><span class="line">EnvironmentFile=-/run/flannel/docker</span><br><span class="line">EnvironmentFile=-/run/docker_opts.env</span><br><span class="line">EnvironmentFile=-/run/flannel/subnet.env</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-storage</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-network</span><br><span class="line">EnvironmentFile=-/run/docker_opts.env</span><br><span class="line">Environment=GOTRACEBACK=crash</span><br><span class="line">Environment=DOCKER_HTTP_HOST_COMPAT=1</span><br><span class="line">Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin</span><br><span class="line">ExecStart=/usr/bin/dockerd \</span><br><span class="line">          --exec-opt native.cgroupdriver=systemd \</span><br><span class="line">          $DOCKER_OPT_BIP \</span><br><span class="line">          $DOCKER_OPT_IPMASQ \</span><br><span class="line">          $DOCKER_OPT_MTU \</span><br><span class="line">          -s=overlay \</span><br><span class="line">          --log-driver=json-file \</span><br><span class="line">          --insecure-registry=registry.cn-hangzhou.aliyuncs.com</span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line"># Having non-zero Limit*s causes performance problems due to accounting overhead</span><br><span class="line"># in the kernel. We recommend using cgroups to do container-local accounting.</span><br><span class="line"># Uncomment TasksMax if your systemd version supports it.</span><br><span class="line"># Only systemd 226 and above support this version.</span><br><span class="line">LimitNOFILE=1048576</span><br><span class="line">LimitNPROC=1048576</span><br><span class="line">LimitCORE=infinity</span><br><span class="line">TimeoutStartSec=0</span><br><span class="line">Restart=on-abnormal</span><br><span class="line">MountFlags=slave</span><br><span class="line">#TasksMax=infinity</span><br><span class="line"># set delegate yes so that systemd does not reset the cgroups of docker containers</span><br><span class="line">Delegate=yes</span><br><span class="line"># kill only the docker process, not all processes in the cgroup</span><br><span class="line">KillMode=process</span><br><span class="line"># restart the docker process if it exits prematurely</span><br><span class="line">Restart=on-failure</span><br><span class="line">StartLimitBurst=3</span><br><span class="line">StartLimitInterval=60s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<h2 id="Dokcer-常用操作"><a href="#Dokcer-常用操作" class="headerlink" title="Dokcer 常用操作"></a>Dokcer 常用操作</h2><p>registry.cn-hangzhou.aliyuncs.com/google-containers/pause-amd64:3.0</p>
 
       
       
@@ -317,11 +350,11 @@
 
 
   
-    <article id="post-macOS 10.13 删除应用软件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-brew 错误提示汇总" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/macOS 10.13 删除应用软件/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.959Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/brew 错误提示汇总/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.369Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -333,29 +366,410 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date: 2018-05-05 20:22</p>
-<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p>Mac和Windows操作系统有一个很大的不同，大部分App是没有安装程序的，一般下载下来就是一个dmg文件，解开之后直接将App拖到<code>应用程序</code>目录下就可以了，所以给人感觉卸载也就是将App拖到<code>废纸篓</code>然后清空。如果真这样做就大错特错，即使一个最简单的App都会在下面几个目录中或多或少留下纪念，这些目录一般有：</p>
-<ul>
-<li>~/Library</li>
-<li>~/Library/Application Support</li>
-<li>~/Library/Application Support/CrashReporter</li>
-<li>~/Library/Caches</li>
-<li>~/Library/Containers</li>
-<li>~/Library/LaunchAgents</li>
-<li>~/Library/Preferences</li>
-<li>~/Library/PreferencePanes</li>
+        <p>date: 2017-11-10 15:18</p>
+<h3 id="openssl"><a href="#openssl" class="headerlink" title="openssl"></a>openssl</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">A CA file has been bootstrapped using certificates from the SystemRoots</span><br><span class="line">keychain. To add additional certificates (e.g. the certificates added in</span><br><span class="line">the System keychain), place .pem files in</span><br><span class="line">  /usr/local/etc/openssl/certs</span><br><span class="line"></span><br><span class="line">and run</span><br><span class="line">  /usr/local/opt/openssl/bin/c_rehash</span><br><span class="line"></span><br><span class="line">This formula is keg-only, which means it was not symlinked into /usr/local,</span><br><span class="line">because Apple has deprecated use of OpenSSL in favor of its own TLS and crypto libraries.</span><br><span class="line"></span><br><span class="line">If you need to have this software first in your PATH run:</span><br><span class="line">  echo &apos;export PATH=&quot;/usr/local/opt/openssl/bin:$PATH&quot;&apos; &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">For compilers to find this software you may need to set:</span><br><span class="line">    LDFLAGS:  -L/usr/local/opt/openssl/lib</span><br><span class="line">    CPPFLAGS: -I/usr/local/opt/openssl/include</span><br><span class="line">For pkg-config to find this software you may need to set:</span><br><span class="line">    PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig</span><br></pre></td></tr></table></figure>
+<h3 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Python modules have been installed and Homebrew&apos;s site-packages is not</span><br><span class="line">in your Python sys.path, so you will not be able to import the modules</span><br><span class="line">this formula installed. If you plan to develop with these modules,</span><br><span class="line">please run:</span><br><span class="line">  mkdir -p /Users/jinlong/Library/Python/2.7/lib/python/site-packages</span><br><span class="line">  echo &apos;import site; site.addsitedir(&quot;/usr/local/lib/python2.7/site-packages&quot;)&apos; &gt;&gt; /Users/jinlong/Library/Python/2.7/lib/python/site-packages/homebrew.pth</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-homebrew install list" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/homebrew install list/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.369Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>java8 goland clion eclipse-cpp</p>
+<p>postman</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-IntelliJ IDEA 配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/IntelliJ IDEA 配置/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>date: 2018-05-11 12:00</p>
+<p>IntelliJ IDEA 2018.1.2</p>
+<p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
+<p>Theme Darcula</p>
+<p><strong>Keymap</strong></p>
+<p>Mac OS X 10.5+</p>
+<p><strong>Editor</strong></p>
+<p>Font: Menlo</p>
+<p>Size: 20</p>
+<p><strong>Plugins</strong></p>
+<p>Go</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Kubernetes" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Kubernetes/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Kubernetes安装配置"><a href="#Kubernetes安装配置" class="headerlink" title="Kubernetes安装配置"></a>Kubernetes安装配置</h1><p><a href="https://jimmysong.io/kubernetes-handbook/" target="_blank" rel="noopener">Kubernetes Handbook</a></p>
+<p><a href="https://jimmysong.io/kubernetes-handbook/practice/" target="_blank" rel="noopener">Kubernetes 最佳实践</a></p>
+<p><a href="https://mritd.me/2017/07/21/set-up-kubernetes-ha-cluster-by-binary/" target="_blank" rel="noopener">手动档搭建 Kubernetes HA 集群</a></p>
+<h2 id="集群详情"><a href="#集群详情" class="headerlink" title="集群详情"></a>集群详情</h2><ul>
+<li>OS：CentOS Linux release 7.4.1708 (Core) 3.10.0-693.21.1.el7.x86_64</li>
+<li>Kubernetes 1.10.0</li>
+<li>Docker 1.13.1（使用yum安装）</li>
+<li>Etcd 3.2.18</li>
+<li>Flannel 0.10.0 vxlan或者host-gw 网络</li>
+<li>TLS 认证通信 (所有组件，如 etcd、kubernetes master 和 node)</li>
+<li>RBAC 授权</li>
+<li>kubelet TLS BootStrapping</li>
+<li>kubedns、dashboard、heapster(influxdb、grafana)、EFK(elasticsearch、fluentd、kibana) 集群插件</li>
+<li>VMware Harbor 1.4.0 (私有docker镜像仓库，harbor提供离线安装包，直接使用docker-compose启动即可）</li>
 </ul>
-<p>如果一个程序是通过<code>pkg</code>方式安装，或者是在第一次运行时请求管理员权限，那一般还会在如下几个目录中留点纪念：</p>
-<ul>
-<li>/Library</li>
-<li>/Library/Application Support</li>
-<li>/Library/Extensions</li>
-<li>/Library/LaunchAgents</li>
-<li>/Library/LaunchDaemons</li>
-<li>/Library/PreferencePanes</li>
-<li>/Library/Preferences</li>
+<p><a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.10.md#v1100" target="_blank" rel="noopener">Kubernetes v1.10.0</a></p>
+<p><a href="https://github.com/coreos/flannel/releases" target="_blank" rel="noopener">flannel v0.10.0</a></p>
+<p><a href="https://github.com/coreos/etcd/releases" target="_blank" rel="noopener">etcd v3.2.18</a></p>
+<p><a href="https://github.com/vmware/harbor/releases" target="_blank" rel="noopener">VMware Harbor v1.4.0</a></p>
+<h2 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h2><p>在下面的步骤中，我们将在三台CentOS系统的物理机上部署具有三个节点的kubernetes1.6.0集群。</p>
+<p>角色分配如下：</p>
+<p>Master：10.8.8.8</p>
+<p>Node：10.8.8.8、10.8.8.10、10.8.8.11</p>
+<p>注意：10.8.8.8这台主机master和node复用。所有生成证书、执行kubectl命令的操作都在这台节点上执行。一旦node加入到kubernetes集群之后就不需要再登陆node节点了。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="安装前的准备"><a href="#安装前的准备" class="headerlink" title="安装前的准备"></a>安装前的准备</h3><ul>
+<li><p>1.关闭所有节点的SELinux<br>修改/etc/selinux/config文件中设置SELINUX=disabled ，然后重启服务器。<br>使用命令setenforce 0</p>
+</li>
+<li><p>2.在node节点上安装docker <code>yum -y install docker</code></p>
+</li>
+<li><p>3.准备harbor私有镜像仓库</p>
+</li>
 </ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://segmentfault.com/a/1190000005035742" target="_blank" rel="noopener">如何彻底删除不需要的App</a></p>
+<p>参考：<a href="https://github.com/vmware/harbor" target="_blank" rel="noopener">https://github.com/vmware/harbor</a></p>
+<p><a href="./docker.md">docker</a></p>
+<h2 id="1-生成证书"><a href="#1-生成证书" class="headerlink" title="1.生成证书"></a>1.<a href="./生成证书.md">生成证书</a></h2><h2 id="2-下载安装文件"><a href="#2-下载安装文件" class="headerlink" title="2.下载安装文件"></a>2.下载安装文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/k8s</span><br><span class="line">cd /root/k8s</span><br><span class="line"></span><br><span class="line">wget https://dl.k8s.io/v1.10.0/kubernetes-server-linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line">wget https://github.com/coreos/flannel/releases/download/v0.10.0/flannel-v0.10.0-linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line">wget https://github.com/coreos/etcd/releases/download/v3.2.18/etcd-v3.2.18-linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="master-10-8-8-8"><a href="#master-10-8-8-8" class="headerlink" title="master 10.8.8.8"></a>master 10.8.8.8</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line">export PATH=/usr/local/bin:$PATH</span><br><span class="line"></span><br><span class="line">#kubernetes</span><br><span class="line">tar -xzvf kubernetes-server-linux-amd64.tar.gz</span><br><span class="line">cp -r kubernetes/server/bin/&#123;kube-apiserver,kube-controller-manager,kube-scheduler,kubectl&#125; /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzf  kubernetes/kubernetes-src.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="node-10-8-8-10-10-8-8-11"><a href="#node-10-8-8-10-10-8-8-11" class="headerlink" title="node 10.8.8.10 10.8.8.11"></a>node 10.8.8.10 10.8.8.11</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line">export PATH=/usr/local/bin:$PATH</span><br><span class="line"></span><br><span class="line"># 不确定 node 需要kubectl不，暂时不复制到node节点</span><br><span class="line">cp -r kubernetes/server/bin/&#123;kube-proxy,kubelet&#125; /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<h3 id="master和node"><a href="#master和node" class="headerlink" title="master和node"></a>master和node</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#etcd</span><br><span class="line">tar -xzvf etcd-*-linux-amd64.tar.gz</span><br><span class="line">mv etcd-*-linux-amd64/etcd* /usr/local/bin</span><br><span class="line"></span><br><span class="line">#flanneld</span><br><span class="line">tar -xzvf flannel-*-linux-amd64.tar.gz</span><br><span class="line">mv flanneld mk-docker-opts.sh /usr/local/bin</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">## 3.创建 kubeconfig 文件</span><br><span class="line"></span><br><span class="line">### 1.创建 TLS Bootstrapping Token</span><br><span class="line">Token auth file</span><br></pre></td></tr></table></figure>
+<p>cd /etc/kubernetes/</p>
+<p>export BOOTSTRAP_TOKEN=$(head -c 16 /dev/urandom | od -An -t x | tr -d ‘ ‘)</p>
+<p>cat &gt; token.csv &lt;&lt;EOF<br>${BOOTSTRAP_TOKEN},kubelet-bootstrap,10001,”system:kubelet-bootstrap”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 2.创建 kubelet bootstrapping kubeconfig 文件</span><br></pre></td></tr></table></figure></p>
+<p>export KUBE_APISERVER=”<a href="https://10.8.8.8:6443&quot;" target="_blank" rel="noopener">https://10.8.8.8:6443&quot;</a></p>
+<h1 id="设置集群参数"><a href="#设置集群参数" class="headerlink" title="设置集群参数"></a>设置集群参数</h1><p>kubectl config set-cluster kubernetes \<br>  –certificate-authority=/etc/kubernetes/ssl/ca.pem \<br>  –embed-certs=true \<br>  –server=${KUBE_APISERVER} \<br>  –kubeconfig=bootstrap.kubeconfig</p>
+<h1 id="设置客户端认证参数"><a href="#设置客户端认证参数" class="headerlink" title="设置客户端认证参数"></a>设置客户端认证参数</h1><p>kubectl config set-credentials kubelet-bootstrap \<br>  –token=${BOOTSTRAP_TOKEN} \<br>  –kubeconfig=bootstrap.kubeconfig</p>
+<h1 id="设置上下文参数"><a href="#设置上下文参数" class="headerlink" title="设置上下文参数"></a>设置上下文参数</h1><p>kubectl config set-context default \<br>  –cluster=kubernetes \<br>  –user=kubelet-bootstrap \<br>  –kubeconfig=bootstrap.kubeconfig</p>
+<h1 id="设置默认上下文"><a href="#设置默认上下文" class="headerlink" title="设置默认上下文"></a>设置默认上下文</h1><p>kubectl config use-context default –kubeconfig=bootstrap.kubeconfig<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 3.创建 kube-proxy kubeconfig 文件</span><br></pre></td></tr></table></figure></p>
+<p>export KUBE_APISERVER=”<a href="https://10.8.8.8:6443&quot;" target="_blank" rel="noopener">https://10.8.8.8:6443&quot;</a></p>
+<h1 id="设置集群参数-1"><a href="#设置集群参数-1" class="headerlink" title="设置集群参数"></a>设置集群参数</h1><p>kubectl config set-cluster kubernetes \<br>  –certificate-authority=/etc/kubernetes/ssl/ca.pem \<br>  –embed-certs=true \<br>  –server=${KUBE_APISERVER} \<br>  –kubeconfig=kube-proxy.kubeconfig</p>
+<h1 id="设置客户端认证参数-1"><a href="#设置客户端认证参数-1" class="headerlink" title="设置客户端认证参数"></a>设置客户端认证参数</h1><p>kubectl config set-credentials kube-proxy \<br>  –client-certificate=/etc/kubernetes/ssl/kube-proxy.pem \<br>  –client-key=/etc/kubernetes/ssl/kube-proxy-key.pem \<br>  –embed-certs=true \<br>  –kubeconfig=kube-proxy.kubeconfig</p>
+<h1 id="设置上下文参数-1"><a href="#设置上下文参数-1" class="headerlink" title="设置上下文参数"></a>设置上下文参数</h1><p>kubectl config set-context default \<br>  –cluster=kubernetes \<br>  –user=kube-proxy \<br>  –kubeconfig=kube-proxy.kubeconfig</p>
+<h1 id="设置默认上下文-1"><a href="#设置默认上下文-1" class="headerlink" title="设置默认上下文"></a>设置默认上下文</h1><p>kubectl config use-context default –kubeconfig=kube-proxy.kubeconfig<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 4.分发 kubeconfig 文件</span><br><span class="line">将两个 kubeconfig 文件分发到所有 Node 机器的 /etc/kubernetes/ 目录</span><br></pre></td></tr></table></figure></p>
+<p>cp bootstrap.kubeconfig kube-proxy.kubeconfig /etc/kubernetes/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 5.创建 kubectl kubeconfig 文件</span><br></pre></td></tr></table></figure></p>
+<p>export KUBE_APISERVER=”<a href="https://10.8.8.8:6443&quot;" target="_blank" rel="noopener">https://10.8.8.8:6443&quot;</a></p>
+<h1 id="设置集群参数-2"><a href="#设置集群参数-2" class="headerlink" title="设置集群参数"></a>设置集群参数</h1><p>kubectl config set-cluster kubernetes \<br>  –certificate-authority=/etc/kubernetes/ssl/ca.pem \<br>  –embed-certs=true \<br>  –server=${KUBE_APISERVER}</p>
+<h1 id="设置客户端认证参数-2"><a href="#设置客户端认证参数-2" class="headerlink" title="设置客户端认证参数"></a>设置客户端认证参数</h1><p>kubectl config set-credentials admin \<br>  –client-certificate=/etc/kubernetes/ssl/admin.pem \<br>  –embed-certs=true \<br>  –client-key=/etc/kubernetes/ssl/admin-key.pem</p>
+<h1 id="设置上下文参数-2"><a href="#设置上下文参数-2" class="headerlink" title="设置上下文参数"></a>设置上下文参数</h1><p>kubectl config set-context kubernetes \<br>  –cluster=kubernetes \<br>  –user=admin</p>
+<h1 id="设置默认上下文-2"><a href="#设置默认上下文-2" class="headerlink" title="设置默认上下文"></a>设置默认上下文</h1><p>kubectl config use-context kubernetes</p>
+<p>注意：生成的 kubeconfig 被保存到 ~/.kube/config 文件；~/.kube/config文件拥有对该集群的最高权限，请妥善保管。<br>admin.pem 证书 OU 字段值为 system:masters，kube-apiserver 预定义的 RoleBinding cluster-admin 将 Group system:masters 与 Role cluster-admin 绑定，该 Role 授予了调用kube-apiserver 相关 API 的权限；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">## 4.创建高可用 etcd 集群</span><br></pre></td></tr></table></figure>
+<p>mkdir /etc/etcd&amp;&amp;mkdir -p /var/lib/etcd<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 1.环境变量配置文件/etc/etcd/etcd.conf</span><br><span class="line">这是10.8.8.8节点的配置，其他两个etcd节点只要将上面的IP地址改成相应节点的IP地址即可。ETCD_NAME换成对应节点的infra1/2/3</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/etcd/etcd.conf&lt;&lt;EOF</p>
+<h1 id="member"><a href="#member" class="headerlink" title="[member]"></a>[member]</h1><p>ETCD_NAME=infra1<br>ETCD_DATA_DIR=”/var/lib/etcd”<br>ETCD_LISTEN_PEER_URLS=”<a href="https://10.8.8.8:2380&quot;" target="_blank" rel="noopener">https://10.8.8.8:2380&quot;</a><br>ETCD_LISTEN_CLIENT_URLS=”<a href="https://10.8.8.8:2379&quot;" target="_blank" rel="noopener">https://10.8.8.8:2379&quot;</a></p>
+<p>#[cluster]<br>ETCD_INITIAL_ADVERTISE_PEER_URLS=”<a href="https://10.8.8.8:2380&quot;" target="_blank" rel="noopener">https://10.8.8.8:2380&quot;</a><br>ETCD_INITIAL_CLUSTER_TOKEN=”etcd-cluster”<br>ETCD_ADVERTISE_CLIENT_URLS=”<a href="https://10.8.8.8:2379&quot;" target="_blank" rel="noopener">https://10.8.8.8:2379&quot;</a></p>
+<h1 id="security"><a href="#security" class="headerlink" title="[security]"></a>[security]</h1><p>ETCD_CERT_FILE=”/etc/kubernetes/ssl/kubernetes.pem”<br>ETCD_KEY_FILE=”/etc/kubernetes/ssl/kubernetes-key.pem”<br>ETCD_CLIENT_CERT_AUTH=”true”<br>ETCD_TRUSTED_CA_FILE=”/etc/kubernetes/ssl/ca.pem”<br>ETCD_AUTO_TLS=”true”<br>ETCD_PEER_CERT_FILE=”/etc/kubernetes/ssl/kubernetes.pem”<br>ETCD_PEER_KEY_FILE=”/etc/kubernetes/ssl/kubernetes-key.pem”<br>ETCD_PEER_CLIENT_CERT_AUTH=”true”<br>ETCD_PEER_TRUSTED_CA_FILE=”/etc/kubernetes/ssl/ca.pem”<br>ETCD_PEER_AUTO_TLS=”true”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 2.创建 etcd 的 systemd unit 文件 etcd.service</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/etcd.service</p>
+<p>[Unit]<br>Description=Etcd Server<br>After=network.target<br>After=network-online.target<br>Wants=network-online.target<br>Documentation=<a href="https://github.com/coreos" target="_blank" rel="noopener">https://github.com/coreos</a></p>
+<p>[Service]<br>Type=notify<br>WorkingDirectory=/var/lib/etcd/<br>EnvironmentFile=-/etc/etcd/etcd.conf<br>ExecStart=/usr/local/bin/etcd \<br>  –name ${ETCD_NAME} \<br>  –cert-file=/etc/kubernetes/ssl/kubernetes.pem \<br>  –key-file=/etc/kubernetes/ssl/kubernetes-key.pem \<br>  –peer-cert-file=/etc/kubernetes/ssl/kubernetes.pem \<br>  –peer-key-file=/etc/kubernetes/ssl/kubernetes-key.pem \<br>  –trusted-ca-file=/etc/kubernetes/ssl/ca.pem \<br>  –peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \<br>  –initial-advertise-peer-urls ${ETCD_INITIAL_ADVERTISE_PEER_URLS} \<br>  –listen-peer-urls ${ETCD_LISTEN_PEER_URLS} \<br>  –listen-client-urls ${ETCD_LISTEN_CLIENT_URLS},<a href="http://127.0.0.1:2379" target="_blank" rel="noopener">http://127.0.0.1:2379</a> \<br>  –advertise-client-urls ${ETCD_ADVERTISE_CLIENT_URLS} \<br>  –initial-cluster-token ${ETCD_INITIAL_CLUSTER_TOKEN} \<br>  –initial-cluster infra1=<a href="https://10.8.8.8:2380,infra2=https://10.8.8.10:2380,infra3=https://10.8.8.11:2380" target="_blank" rel="noopener">https://10.8.8.8:2380,infra2=https://10.8.8.10:2380,infra3=https://10.8.8.11:2380</a> \<br>  –initial-cluster-state new \<br>  –data-dir=${ETCD_DATA_DIR}<br>Restart=on-failure<br>RestartSec=5<br>LimitNOFILE=65536</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 3.启动 etcd 服务</span><br></pre></td></tr></table></figure></p>
+<p>systemctl daemon-reload.service<br>systemctl enable etcd.service<br>systemctl start etcd.service<br>systemctl status etcd.service<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 4.验证服务</span><br></pre></td></tr></table></figure></p>
+<p>etcdctl \<br>  –ca-file=/etc/kubernetes/ssl/ca.pem \<br>  –cert-file=/etc/kubernetes/ssl/kubernetes.pem \<br>  –key-file=/etc/kubernetes/ssl/kubernetes-key.pem \<br>  cluster-health<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 5.部署master节点</span><br><span class="line"></span><br><span class="line">### config</span><br><span class="line"></span><br><span class="line">/etc/kubernetes/config</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/config&lt;&lt;EOF</p>
+<h1 id="kubernetes-system-config"><a href="#kubernetes-system-config" class="headerlink" title="kubernetes system config"></a>kubernetes system config</h1><p>#</p>
+<h1 id="The-following-values-are-used-to-configure-various-aspects-of-all"><a href="#The-following-values-are-used-to-configure-various-aspects-of-all" class="headerlink" title="The following values are used to configure various aspects of all"></a>The following values are used to configure various aspects of all</h1><h1 id="kubernetes-services-including"><a href="#kubernetes-services-including" class="headerlink" title="kubernetes services, including"></a>kubernetes services, including</h1><p>#</p>
+<h1 id="kube-apiserver-service"><a href="#kube-apiserver-service" class="headerlink" title="kube-apiserver.service"></a>kube-apiserver.service</h1><h1 id="kube-controller-manager-service"><a href="#kube-controller-manager-service" class="headerlink" title="kube-controller-manager.service"></a>kube-controller-manager.service</h1><h1 id="kube-scheduler-service"><a href="#kube-scheduler-service" class="headerlink" title="kube-scheduler.service"></a>kube-scheduler.service</h1><h1 id="kubelet-service"><a href="#kubelet-service" class="headerlink" title="kubelet.service"></a>kubelet.service</h1><h1 id="kube-proxy-service"><a href="#kube-proxy-service" class="headerlink" title="kube-proxy.service"></a>kube-proxy.service</h1><h1 id="logging-to-stderr-means-we-get-it-in-the-systemd-journal"><a href="#logging-to-stderr-means-we-get-it-in-the-systemd-journal" class="headerlink" title="logging to stderr means we get it in the systemd journal"></a>logging to stderr means we get it in the systemd journal</h1><p>KUBE_LOGTOSTDERR=”–logtostderr=true”</p>
+<h1 id="journal-message-level-0-is-debug"><a href="#journal-message-level-0-is-debug" class="headerlink" title="journal message level, 0 is debug"></a>journal message level, 0 is debug</h1><p>KUBE_LOG_LEVEL=”–v=0”</p>
+<h1 id="Should-this-cluster-be-allowed-to-run-privileged-docker-containers"><a href="#Should-this-cluster-be-allowed-to-run-privileged-docker-containers" class="headerlink" title="Should this cluster be allowed to run privileged docker containers"></a>Should this cluster be allowed to run privileged docker containers</h1><p>KUBE_ALLOW_PRIV=”–allow-privileged=true”</p>
+<h1 id="How-the-controller-manager-scheduler-and-proxy-find-the-apiserver"><a href="#How-the-controller-manager-scheduler-and-proxy-find-the-apiserver" class="headerlink" title="How the controller-manager, scheduler, and proxy find the apiserver"></a>How the controller-manager, scheduler, and proxy find the apiserver</h1><p>#KUBE_MASTER=”–master=<a href="http://sz-pg-oam-docker-test-001.tendcloud.com:8080&quot;" target="_blank" rel="noopener">http://sz-pg-oam-docker-test-001.tendcloud.com:8080&quot;</a><br>KUBE_MASTER=”–master=<a href="http://10.8.8.8:8080&quot;" target="_blank" rel="noopener">http://10.8.8.8:8080&quot;</a><br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/etc/kubernetes/apiserver</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/apiserver&lt;&lt;EOF</p>
+<h2 id="kubernetes-system-config-1"><a href="#kubernetes-system-config-1" class="headerlink" title="kubernetes system config"></a>kubernetes system config</h2><p>##</p>
+<h2 id="The-following-values-are-used-to-configure-the-kube-apiserver"><a href="#The-following-values-are-used-to-configure-the-kube-apiserver" class="headerlink" title="The following values are used to configure the kube-apiserver"></a>The following values are used to configure the kube-apiserver</h2><p>##<br>#</p>
+<h2 id="The-address-on-the-local-server-to-listen-to"><a href="#The-address-on-the-local-server-to-listen-to" class="headerlink" title="The address on the local server to listen to."></a>The address on the local server to listen to.</h2><p>KUBE_API_ADDRESS=”–advertise-address=10.8.8.8 –bind-address=10.8.8.8 –insecure-bind-address=10.8.8.8”<br>#</p>
+<h2 id="The-port-on-the-local-server-to-listen-on"><a href="#The-port-on-the-local-server-to-listen-on" class="headerlink" title="The port on the local server to listen on."></a>The port on the local server to listen on.</h2><p>#KUBE_API_PORT=”–port=8080”<br>#</p>
+<h2 id="Port-minions-listen-on"><a href="#Port-minions-listen-on" class="headerlink" title="Port minions listen on"></a>Port minions listen on</h2><p>#KUBELET_PORT=”–kubelet-port=10250”<br>#</p>
+<h2 id="Comma-separated-list-of-nodes-in-the-etcd-cluster"><a href="#Comma-separated-list-of-nodes-in-the-etcd-cluster" class="headerlink" title="Comma separated list of nodes in the etcd cluster"></a>Comma separated list of nodes in the etcd cluster</h2><p>KUBE_ETCD_SERVERS=”–etcd-servers=<a href="https://10.8.8.8:2379&quot;" target="_blank" rel="noopener">https://10.8.8.8:2379&quot;</a><br>#</p>
+<h2 id="Address-range-to-use-for-services"><a href="#Address-range-to-use-for-services" class="headerlink" title="Address range to use for services"></a>Address range to use for services</h2><p>KUBE_SERVICE_ADDRESSES=”–service-cluster-ip-range=10.254.0.0/16”<br>#</p>
+<h2 id="default-admission-control-policies"><a href="#default-admission-control-policies" class="headerlink" title="default admission control policies"></a>default admission control policies</h2><p>KUBE_ADMISSION_CONTROL=”–admission-control=ServiceAccount,NamespaceLifecycle,NamespaceExists,LimitRanger,ResourceQuota”<br>#</p>
+<h2 id="Add-your-own"><a href="#Add-your-own" class="headerlink" title="Add your own!"></a>Add your own!</h2><p>KUBE_API_ARGS=”–authorization-mode=RBAC –runtime-config=rbac.authorization.k8s.io/v1beta1 –kubelet-https=true –enable-bootstrap-token-auth –token-auth-file=/etc/kubernetes/token.csv –service-node-port-range=30000-32767 –tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem –tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem –client-ca-file=/etc/kubernetes/ssl/ca.pem –service-account-key-file=/etc/kubernetes/ssl/ca-key.pem –etcd-cafile=/etc/kubernetes/ssl/ca.pem –etcd-certfile=/etc/kubernetes/ssl/kubernetes.pem –etcd-keyfile=/etc/kubernetes/ssl/kubernetes-key.pem –enable-swagger-ui=true –apiserver-count=3 –audit-log-maxage=30 –audit-log-maxbackup=3 –audit-log-maxsize=100 –audit-log-path=/var/lib/audit.log –event-ttl=1h”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/etc/kubernetes/controller-manager</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/controller-manager&lt;&lt;EOF</p>
+<h1 id="The-following-values-are-used-to-configure-the-kubernetes-controller-manager"><a href="#The-following-values-are-used-to-configure-the-kubernetes-controller-manager" class="headerlink" title="The following values are used to configure the kubernetes controller-manager"></a>The following values are used to configure the kubernetes controller-manager</h1><h1 id="defaults-from-config-and-apiserver-should-be-adequate"><a href="#defaults-from-config-and-apiserver-should-be-adequate" class="headerlink" title="defaults from config and apiserver should be adequate"></a>defaults from config and apiserver should be adequate</h1><h1 id="Add-your-own-1"><a href="#Add-your-own-1" class="headerlink" title="Add your own!"></a>Add your own!</h1><p>KUBE_CONTROLLER_MANAGER_ARGS=”–address=127.0.0.1 –service-cluster-ip-range=10.254.0.0/16 –cluster-name=kubernetes –cluster-signing-cert-file=/etc/kubernetes/ssl/ca.pem –cluster-signing-key-file=/etc/kubernetes/ssl/ca-key.pem  –service-account-private-key-file=/etc/kubernetes/ssl/ca-key.pem –root-ca-file=/etc/kubernetes/ssl/ca.pem –leader-elect=true”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/etc/kubernetes/scheduler</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/scheduler&lt;&lt;EOF</p>
+<h1 id="kubernetes-scheduler-config"><a href="#kubernetes-scheduler-config" class="headerlink" title="kubernetes scheduler config"></a>kubernetes scheduler config</h1><h1 id="default-config-should-be-adequate"><a href="#default-config-should-be-adequate" class="headerlink" title="default config should be adequate"></a>default config should be adequate</h1><h1 id="Add-your-own-2"><a href="#Add-your-own-2" class="headerlink" title="Add your own!"></a>Add your own!</h1><p>KUBE_SCHEDULER_ARGS=”–leader-elect=true –address=127.0.0.1”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### serivce配置文件</span><br><span class="line"></span><br><span class="line">创建 kube-apiserver的service配置文件</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/kube-apiserver.service</p>
+<p>[Unit]<br>Description=Kubernetes API Service<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a><br>After=network.target<br>After=etcd.service</p>
+<p>[Service]<br>EnvironmentFile=-/etc/kubernetes/config<br>EnvironmentFile=-/etc/kubernetes/apiserver<br>ExecStart=/usr/local/bin/kube-apiserver \<br>        $KUBE_LOGTOSTDERR \<br>        $KUBE_LOG_LEVEL \<br>        $KUBE_ETCD_SERVERS \<br>        $KUBE_API_ADDRESS \<br>        $KUBE_API_PORT \<br>        $KUBELET_PORT \<br>        $KUBE_ALLOW_PRIV \<br>        $KUBE_SERVICE_ADDRESSES \<br>        $KUBE_ADMISSION_CONTROL \<br>        $KUBE_API_ARGS<br>Restart=on-failure<br>Type=notify<br>LimitNOFILE=65536</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">创建 kube-controller-manager的serivce配置文件</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/kube-controller-manager.service</p>
+<p>[Unit]<br>Description=Kubernetes Controller Manager<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a></p>
+<p>[Service]<br>EnvironmentFile=-/etc/kubernetes/config<br>EnvironmentFile=-/etc/kubernetes/controller-manager<br>ExecStart=/usr/local/bin/kube-controller-manager \<br>        $KUBE_LOGTOSTDERR \<br>        $KUBE_LOG_LEVEL \<br>        $KUBE_MASTER \<br>        $KUBE_CONTROLLER_MANAGER_ARGS<br>Restart=on-failure<br>LimitNOFILE=65536</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">创建 kube-scheduler的serivce配置文件</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/kube-scheduler.service</p>
+<p>[Unit]<br>Description=Kubernetes Scheduler Plugin<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a></p>
+<p>[Service]<br>EnvironmentFile=-/etc/kubernetes/config<br>EnvironmentFile=-/etc/kubernetes/scheduler<br>ExecStart=/usr/local/bin/kube-scheduler \<br>            $KUBE_LOGTOSTDERR \<br>            $KUBE_LOG_LEVEL \<br>            $KUBE_MASTER \<br>            $KUBE_SCHEDULER_ARGS<br>Restart=on-failure<br>LimitNOFILE=65536</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 启动</span><br><span class="line"></span><br><span class="line">`systemctl daemon-reload`</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">for service in kube-apiserver kube-controller-manager kube-scheduler; do</span><br><span class="line">	systemctl enable $service</span><br><span class="line">	systemctl start $service</span><br><span class="line">	systemctl status $service</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+<h3 id="验证-master-节点功能"><a href="#验证-master-节点功能" class="headerlink" title="验证 master 节点功能"></a>验证 master 节点功能</h3><p>我们启动每个组件后可以通过执行命令kubectl get componentstatuses，来查看各个组件的状态;</p>
+<p><code>kubectl get componentstatuses</code></p>
+<h2 id="6-安装flannel网络插件"><a href="#6-安装flannel网络插件" class="headerlink" title="6.安装flannel网络插件"></a>6.安装flannel网络插件</h2><p>/etc/sysconfig/flanneld配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/sysconfig/flanneld&lt;&lt;EOF</span><br><span class="line"># Flanneld configuration options  </span><br><span class="line"></span><br><span class="line"># etcd url location.  Point this to the server where etcd runs</span><br><span class="line">FLANNEL_ETCD_ENDPOINTS=&quot;https://10.8.8.8:2379&quot;</span><br><span class="line"></span><br><span class="line"># etcd config key.  This is the configuration key that flannel queries</span><br><span class="line"># For address range assignment</span><br><span class="line">FLANNEL_ETCD_PREFIX=&quot;/kube-centos/network&quot;</span><br><span class="line"></span><br><span class="line"># Any additional options that you want to pass</span><br><span class="line">FLANNEL_OPTIONS=&quot;-etcd-cafile=/etc/kubernetes/ssl/ca.pem -etcd-certfile=/etc/kubernetes/ssl/kubernetes.pem -etcd-keyfile=/etc/kubernetes/ssl/kubernetes-key.pem&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>service配置文件/usr/lib/systemd/system/flanneld.service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/flanneld.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Flanneld overlay address etcd agent</span><br><span class="line">After=network.target</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line">After=etcd.service</span><br><span class="line">Before=docker.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">EnvironmentFile=/etc/sysconfig/flanneld</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-network</span><br><span class="line">ExecStart=/usr/local/bin/flanneld \</span><br><span class="line">  -etcd-endpoints=$&#123;FLANNEL_ETCD_ENDPOINTS&#125; \</span><br><span class="line">  -etcd-prefix=$&#123;FLANNEL_ETCD_PREFIX&#125; \</span><br><span class="line">  $FLANNEL_OPTIONS</span><br><span class="line">ExecStartPost=/usr/local/bin/mk-docker-opts.sh -k DOCKER_NETWORK_OPTIONS -d /run/flannel/docker</span><br><span class="line">Restart=on-failure</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">RequiredBy=docker.service</span><br></pre></td></tr></table></figure>
+<h3 id="3-在etcd中创建网络配置"><a href="#3-在etcd中创建网络配置" class="headerlink" title="3.在etcd中创建网络配置"></a>3.在etcd中创建网络配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#新建目录 /kube-centos/network</span><br><span class="line">etcdctl --endpoints=https://10.8.8.8:2379 \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  mkdir /kube-centos/network</span><br><span class="line">  </span><br><span class="line">#指定IP段</span><br><span class="line">etcdctl --endpoints=https://10.8.8.8:2379 \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  mk /kube-centos/network/config &apos;&#123;&quot;Network&quot;:&quot;172.30.0.0/16&quot;,&quot;SubnetLen&quot;:24,&quot;Backend&quot;:&#123;&quot;Type&quot;:&quot;vxlan&quot;&#125;&#125;&apos;</span><br><span class="line">  </span><br><span class="line">#查看数据</span><br><span class="line">etcdctl --endpoints=https://10.8.8.8:2379 \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  get /kube-centos/network/config </span><br><span class="line"></span><br><span class="line">#查看目录  </span><br><span class="line">etcdctl --endpoints=$&#123;ETCD_ENDPOINTS&#125; \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  ls /kube-centos/network/subnets</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">启动flannel</span><br></pre></td></tr></table></figure>
+<p>systemctl daemon-reload<br>systemctl enable flanneld.service<br>systemctl start flanneld.service<br>systemctl status flanneld.service<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">使用systemctl命令启动flanneld后，会自动执行./mk-docker-opts.sh -i生成如下两个文件环境变量文件：</span><br><span class="line"></span><br><span class="line">/run/flannel/subnet.env</span><br><span class="line">/run/docker_opts.env</span><br><span class="line"></span><br><span class="line">配置docker</span><br><span class="line"></span><br><span class="line">二进制方式安装的flannel</span><br><span class="line"></span><br><span class="line">修改docker的配置文件/usr/lib/systemd/system/docker.service，增加如下几条环境变量配置：</span><br></pre></td></tr></table></figure></p>
+<p>EnvironmentFile=-/run/docker_opts.env<br>EnvironmentFile=-/run/flannel/subnet.env<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 7.部署Node节点</span><br></pre></td></tr></table></figure></p>
+<p>mkdir /var/lib/kubelet<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 1.--kubeconfig=/etc/kubernetes/kubelet.kubeconfig中指定的kubelet.kubeconfig文件在第一次启动kubelet之前并不存在，请看下文，当通过CSR请求后会自动生成kubelet.kubeconfig文件，如果你的节点上已经生成了~/.kube/config文件，你可以将该文件拷贝到该路径下，并重命名为kubelet.kubeconfig，所有node节点可以共用同一个kubelet.kubeconfig文件，这样新添加的节点就不需要再创建CSR请求就能自动添加到kubernetes集群中。同样，在任意能够访问到kubernetes集群的主机上使用kubectl --kubeconfig命令操作集群时，只要使用~/.kube/config文件就可以通过权限认证，因为这里面已经有认证信息并认为你是admin用户，对集群拥有所有权限。</span><br></pre></td></tr></table></figure></p>
+<p>cp ~/.kube/config /etc/kubernetes/kubelet.kubeconfig<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 1.修改/etc/fstab将，swap系统注释掉。</span><br><span class="line">- 2.kubelet 启动时向 kube-apiserver 发送 TLS bootstrapping 请求，需要先将 bootstrap token 文件中的 kubelet-bootstrap 用户赋予 system:node-bootstrapper cluster 角色(role)， 然后 kubelet 才能有权限创建认证请求(certificate signing requests)：</span><br></pre></td></tr></table></figure></p>
+<p>cd /etc/kubernetes</p>
+<p>kubectl create clusterrolebinding kubelet-bootstrap \<br>  –clusterrole=system:node-bootstrapper \<br>  –user=kubelet-bootstrap<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/etc/kubernetes/kubelet</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/kubelet&lt;&lt;EOF</p>
+<p>###</p>
+<h2 id="kubernetes-kubelet-minion-config"><a href="#kubernetes-kubelet-minion-config" class="headerlink" title="kubernetes kubelet (minion) config"></a>kubernetes kubelet (minion) config</h2><p>#</p>
+<h2 id="The-address-for-the-info-server-to-serve-on-set-to-0-0-0-0-or-“”-for-all-interfaces"><a href="#The-address-for-the-info-server-to-serve-on-set-to-0-0-0-0-or-“”-for-all-interfaces" class="headerlink" title="The address for the info server to serve on (set to 0.0.0.0 or “” for all interfaces)"></a>The address for the info server to serve on (set to 0.0.0.0 or “” for all interfaces)</h2><p>KUBELET_ADDRESS=”–address=10.8.8.8”<br>#</p>
+<h2 id="The-port-for-the-info-server-to-serve-on"><a href="#The-port-for-the-info-server-to-serve-on" class="headerlink" title="The port for the info server to serve on"></a>The port for the info server to serve on</h2><p>#KUBELET_PORT=”–port=10250”<br>#</p>
+<h2 id="You-may-leave-this-blank-to-use-the-actual-hostname"><a href="#You-may-leave-this-blank-to-use-the-actual-hostname" class="headerlink" title="You may leave this blank to use the actual hostname"></a>You may leave this blank to use the actual hostname</h2><p>KUBELET_HOSTNAME=”–hostname-override=10.8.8.8”<br>#</p>
+<h2 id="location-of-the-api-server"><a href="#location-of-the-api-server" class="headerlink" title="location of the api-server"></a>location of the api-server</h2><h2 id="COMMENT-THIS-ON-KUBERNETES-1-8"><a href="#COMMENT-THIS-ON-KUBERNETES-1-8" class="headerlink" title="COMMENT THIS ON KUBERNETES 1.8+"></a>COMMENT THIS ON KUBERNETES 1.8+</h2><p>#KUBELET_API_SERVER=”–api-servers=<a href="http://10.8.8.8:8080&quot;" target="_blank" rel="noopener">http://10.8.8.8:8080&quot;</a><br>#</p>
+<h2 id="pod-infrastructure-container"><a href="#pod-infrastructure-container" class="headerlink" title="pod infrastructure container"></a>pod infrastructure container</h2><p>KUBELET_POD_INFRA_CONTAINER=”–pod-infra-container-image=index.tenxcloud.com/jimmy/pod-infrastructure:rhel7”<br>#</p>
+<h2 id="Add-your-own-3"><a href="#Add-your-own-3" class="headerlink" title="Add your own!"></a>Add your own!</h2><p>KUBELET_ARGS=”–runtime-cgroups=/systemd/system.slice –kubelet-cgroups=/systemd/system.slice –cgroup-driver=systemd –cluster-dns=10.254.0.2 –bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig –kubeconfig=/etc/kubernetes/kubelet.kubeconfig –cert-dir=/etc/kubernetes/ssl –cluster-domain=cluster.local –hairpin-mode promiscuous-bridge –serialize-image-pulls=false”</p>
+<h1 id="–require-kubeconfig"><a href="#–require-kubeconfig" class="headerlink" title="–require-kubeconfig"></a>–require-kubeconfig</h1><p>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[Remove --require-kubeconfig and the default kubeconfig path in v1.10](https://github.com/kubernetes/kubernetes/issues/41161)</span><br><span class="line"></span><br><span class="line">[kubelet Error: unknown flag: --api-servers](https://github.com/kubernetes/contrib/issues/2830)</span><br><span class="line"></span><br><span class="line">创建kubelet的service配置文件</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/kubelet.service</p>
+<p>[Unit]<br>Description=Kubernetes Kubelet Server<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a><br>After=docker.service<br>Requires=docker.service</p>
+<p>[Service]<br>WorkingDirectory=/var/lib/kubelet<br>EnvironmentFile=-/etc/kubernetes/config<br>EnvironmentFile=-/etc/kubernetes/kubelet<br>ExecStart=/usr/local/bin/kubelet \<br>            $KUBE_LOGTOSTDERR \<br>            $KUBE_LOG_LEVEL \<br>            $KUBELET_API_SERVER \<br>            $KUBELET_ADDRESS \<br>            $KUBELET_PORT \<br>            $KUBELET_HOSTNAME \<br>            $KUBE_ALLOW_PRIV \<br>            $KUBELET_POD_INFRA_CONTAINER \<br>            $KUBELET_ARGS<br>Restart=on-failure</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">启动kublet</span><br></pre></td></tr></table></figure></p>
+<p>systemctl daemon-reload<br>systemctl enable kubelet.service<br>systemctl start kubelet.service<br>systemctl status kubelet.service<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 2.配置 kube-proxy</span><br><span class="line">/etc/kubernetes/proxy</span><br></pre></td></tr></table></figure></p>
+<p>cat &gt;/etc/kubernetes/proxy&lt;&lt;EOF</p>
+<p>###</p>
+<h1 id="kubernetes-proxy-config"><a href="#kubernetes-proxy-config" class="headerlink" title="kubernetes proxy config"></a>kubernetes proxy config</h1><h1 id="default-config-should-be-adequate-1"><a href="#default-config-should-be-adequate-1" class="headerlink" title="default config should be adequate"></a>default config should be adequate</h1><h1 id="Add-your-own-4"><a href="#Add-your-own-4" class="headerlink" title="Add your own!"></a>Add your own!</h1><p>KUBE_PROXY_ARGS=”–bind-address=10.8.8.8 –hostname-override=10.8.8.8 –kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig –cluster-cidr=10.254.0.0/16”<br>EOF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/usr/lib/systemd/system/kube-proxy.service</span><br></pre></td></tr></table></figure></p>
+<p>vim /usr/lib/systemd/system/kube-proxy.service</p>
+<p>[Unit]<br>Description=Kubernetes Kube-Proxy Server<br>Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes" target="_blank" rel="noopener">https://github.com/GoogleCloudPlatform/kubernetes</a><br>After=network.target</p>
+<p>[Service]<br>EnvironmentFile=-/etc/kubernetes/config<br>EnvironmentFile=-/etc/kubernetes/proxy<br>ExecStart=/usr/local/bin/kube-proxy \<br>        $KUBE_LOGTOSTDERR \<br>        $KUBE_LOG_LEVEL \<br>        $KUBE_MASTER \<br>        $KUBE_PROXY_ARGS<br>Restart=on-failure<br>LimitNOFILE=65536</p>
+<p>[Install]<br>WantedBy=multi-user.target<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">启动 kube-proxy</span><br></pre></td></tr></table></figure></p>
+<p>systemctl daemon-reload<br>systemctl enable kube-proxy<br>systemctl start kube-proxy<br>systemctl status kube-proxy<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">由于采用了 TLS Bootstrapping，所以 kubelet 启动后不会立即加入集群，而是进行证书申请，此时只需要在 master 允许其证书申请即可。</span><br></pre></td></tr></table></figure></p>
+<h1 id="查看-csr"><a href="#查看-csr" class="headerlink" title="查看 csr"></a>查看 csr</h1><p>➜  kubectl get csr<br>NAME        AGE       REQUESTOR           CONDITION<br>csr-l9d25   2m        kubelet-bootstrap   Pending</p>
+<h1 id="签发证书"><a href="#签发证书" class="headerlink" title="签发证书"></a>签发证书</h1><p>➜  kubectl certificate approve csr-l9d25<br>certificatesigningrequest “csr-l9d25” approved</p>
+<h1 id="查看-node"><a href="#查看-node" class="headerlink" title="查看 node"></a>查看 node</h1><p>kubectl get node<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">docker pull jimmysong/pause-amd64:3.0</span><br><span class="line"></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/sunyuki/pod-infrastructure:latest</span><br><span class="line"></span><br><span class="line">docker pull nginx:1.13.11</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-验证测试"><a href="#4-验证测试" class="headerlink" title="4.验证测试"></a>4.验证测试</h3><p>我们创建一个nginx的service试一下集群是否可用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl run nginx --replicas=2 --labels=&quot;run=nginx-load-balancer&quot; --image=nginx:1.13.11  --port=80</span><br><span class="line"></span><br><span class="line">kubectl expose deployment nginx --type=NodePort --name=nginx-service</span><br><span class="line"></span><br><span class="line">kubectl describe svc nginx-service</span><br></pre></td></tr></table></figure>
+<p>删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete svc nginx</span><br><span class="line">kubectl delete deploy nginx</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-KeePass使用问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/KeePass使用问题/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>KeePass使用问题</p>
+<p>有些网站不能自动输入密码</p>
+<p>例如 aliyun.com<br>它的密码输入框引用的是”<a href="https://passport.alibaba.com/&quot;阿里巴巴的登录" target="_blank" rel="noopener">https://passport.alibaba.com/&quot;阿里巴巴的登录</a></p>
+<p>KeePassXC<br>设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KeePassHttp Settings</span><br><span class="line"></span><br><span class="line">&#123;&quot;Allow&quot;:[&quot;passport.alibaba.com&quot;],&quot;Deny&quot;:[],&quot;Realm&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>允许多个域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KeePassHttp Settings</span><br><span class="line"></span><br><span class="line">&#123;&quot;Allow&quot;:[&quot;mailsso.mxhichina.com&quot;,&quot;passport.alibaba.com&quot;],&quot;Deny&quot;:[],&quot;Realm&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Hugo" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Hugo/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a></p>
+<p><a href="http://nanshu.wang/post/2015-01-31/" target="_blank" rel="noopener">Hugo静态网站生成器中文教程</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/magefile/mage</span><br><span class="line">go get -d github.com/gohugoio/hugo</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;GOPATH:-$HOME/go&#125;</span>/src/github.com/gohugoio/hugo</span><br><span class="line">mage vendor</span><br><span class="line">mage install</span><br></pre></td></tr></table></figure>
+<p>新建hugo项目</p>
+<p><code>hugo new site hugo.ovwane.me</code></p>
+<p>初始化git</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd hugo.ovwane.me</span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>Install DocDock as git submodule</p>
+<p><code>git submodule add https://github.com/vjeantet/hugo-theme-docdock.git themes/hugo-theme-docdock</code></p>
+<p><code>git submodule add https://github.com/spf13/hugoThemes.git themes/spf13</code></p>
+<p>Next initialize submodule for parent git repo:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git submodule init</span><br><span class="line">git submodule update</span><br></pre></td></tr></table></figure>
+<p>Configure<br>Import sample config from sample site to Hugo root.</p>
+<p><code>cp themes/hugo-theme-docdock/exampleSite/config.toml .</code></p>
+<p>Preview site</p>
+<p><code>hugo server</code></p>
+<p><code>hugo new post/first-article.md</code></p>
+<p><code>git clone https://github.com/vjeantet/hugo-theme-docdock.git themes/docdock</code></p>
+<p>git checkout -b hugo</p>
+<p>git add .</p>
+<p>git commit -m “初始化分支，主题使用psf13的”</p>
+<p>git push –set-upstream origin hugo</p>
 
       
       
@@ -383,11 +797,11 @@
 
 
   
-    <article id="post-macOS 10.13 Go" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-KeePassXC 配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/macOS 10.13 Go/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.959Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/KeePassXC 配置/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -399,342 +813,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date: 2018-05-06 07:02</p>
-<p><strong>安装依赖</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install mercurial</span></span><br></pre></td></tr></table></figure>
-<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span></span><br></pre></td></tr></table></figure>
-<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
-<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -B 表示只安装二进制包</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm install go1.10.1 -B</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm use go1.10.1</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> GOROOT_BOOTSTRAP=<span class="variable">$GOROOT</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm install go1.10.2</span></span><br></pre></td></tr></table></figure>
-<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> gvm use go1.10.2 --default</span></span><br></pre></td></tr></table></figure>
-<p><strong>使用</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看可以安装的go版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm listall</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看本地安装的go版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm list</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> go环境变量</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go env</span></span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
-<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
-<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
+        <p>date: 2018-0505 09:12</p>
+<h3 id="浏览器配合"><a href="#浏览器配合" class="headerlink" title="浏览器配合"></a>浏览器配合</h3><p>✅启用KeepassXC浏览器集成</p>
+<p>Google Chrome</p>
 
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.12.6 开启第三方SSD的trim功能" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/macOS 10.12.6 开启第三方SSD的trim功能/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.959Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date:2017-07-23 10:10</p>
-<h4 id="macOS-10-12-6-开启第三方SSD的trim功能"><a href="#macOS-10-12-6-开启第三方SSD的trim功能" class="headerlink" title="macOS 10.12.6 开启第三方SSD的trim功能"></a>macOS 10.12.6 开启第三方SSD的trim功能</h4><p>在终端输入</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo trimforce enable</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.12.6 安装redis" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/macOS 10.12.6 安装redis/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.959Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date: 2017-08-08 15:52</p>
-<h4 id="macOS-10-12-6-安装redis"><a href="#macOS-10-12-6-安装redis" class="headerlink" title="macOS 10.12.6 安装redis"></a>macOS 10.12.6 安装redis</h4><p>brew install redis</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"> jinlong  ~  brew install redis</span><br><span class="line">Updating Homebrew...</span><br><span class="line">==&gt; Auto-updated Homebrew!</span><br><span class="line">Updated 3 taps (caskroom/cask, caskroom/versions, homebrew/core).</span><br><span class="line">==&gt; New Formulae</span><br><span class="line">netcdf                     payara                     snapcraft</span><br><span class="line">==&gt; Updated Formulae</span><br><span class="line">angular-cli                heroku                     pdf2htmlex</span><br><span class="line">ansifilter                 htmldoc                    percona-server</span><br><span class="line">apache-flink               hugo                       percona-server-mongodb</span><br><span class="line">argyll-cms                 idris                      percona-server@5.5</span><br><span class="line">autopano-sift-c            imagemagick                percona-server@5.6</span><br><span class="line">bash-snippets              imagemagick@6              percona-toolkit</span><br><span class="line">bazel                      imageworsener              percona-xtrabackup</span><br><span class="line">bitrise                    imlib2                     pike</span><br><span class="line">btfs                       influxdb                   plplot</span><br><span class="line">buku                       io                         podofo</span><br><span class="line">clojurescript              isync                      ponscripter-sekai</span><br><span class="line">cocoapods                  jasper                     ponyc</span><br><span class="line">dateutils                  jbig2enc                   poppler</span><br><span class="line">dcmtk                      jp2a                       povray</span><br><span class="line">dcraw                      jpeg                       pre-commit</span><br><span class="line">dep                        jpeginfo                   presto</span><br><span class="line">depqbf                     jpegoptim                  protobuf-c</span><br><span class="line">devil                      jsdoc3                     pyinvoke</span><br><span class="line">djvulibre                  knot-resolver              qemu</span><br><span class="line">double-conversion          leptonica                  qrupdate</span><br><span class="line">efl                        libagar                    re2c</span><br><span class="line">eg                         libav                      residualvm</span><br><span class="line">epeg                       libbpg                     rlvm</span><br><span class="line">etcd                       libgaiagraphics            rtv</span><br><span class="line">exploitdb                  libgeotiff                 sane-backends</span><br><span class="line">fbida                      libgphoto2                 scalapack</span><br><span class="line">fdroidserver               libgxps                    scour</span><br><span class="line">ffmpegthumbnailer          libmwaw                    scummvm</span><br><span class="line">firebase-cli               libpano                    sdl2_image</span><br><span class="line">fizmo                      librasterlite              sdl_image</span><br><span class="line">flactag                    libraw                     sfml</span><br><span class="line">fltk                       libsvg-cairo               sjk</span><br><span class="line">folly                      libtiff                    slackcat</span><br><span class="line">fontforge                  libwmf                     sonarqube</span><br><span class="line">fox                        libwps                     spandsp</span><br><span class="line">freeswitch                 libxkbcommon               sqlmap</span><br><span class="line">freetds                    little-cms                 svg2pdf</span><br><span class="line">gd                         little-cms2                svg2png</span><br><span class="line">gdal                       mame                       syntaxerl</span><br><span class="line">gdk-pixbuf                 mandoc                     tiff2png</span><br><span class="line">geeqie                     mapnik                     todolist</span><br><span class="line">gegl                       mapnik@2                   twoping</span><br><span class="line">ghostscript                mapserver                  ufoai</span><br><span class="line">git ✔                      minetest                   ufraw</span><br><span class="line">gitbucket                  minidlna                   veclibfort</span><br><span class="line">gmic                       minio                      vice</span><br><span class="line">gnuplot                    mjpegtools                 vips</span><br><span class="line">gnuplot@4                  mldonkey                   vncsnapshot</span><br><span class="line">gofabric8                  mongo-orchestration        volatility</span><br><span class="line">gphoto2                    mono-libgdiplus            weboob</span><br><span class="line">grace                      mpv                        webp</span><br><span class="line">grafana                    mscgen                     wxmac</span><br><span class="line">graphicsmagick             msgpack                    x11vnc</span><br><span class="line">grib-api                   nagios                     xmake</span><br><span class="line">gsmartcontrol              netpbm                     xmoto</span><br><span class="line">gst-plugins-bad            node@6                     xplanet</span><br><span class="line">gst-plugins-good           octave                     xsane</span><br><span class="line">gst-plugins-ugly           onscripter                 yaz</span><br><span class="line">hashcat                    open-scene-graph           yle-dl</span><br><span class="line">haskell-stack              openclonk                  youtube-dl</span><br><span class="line">hdf5                       openslide                  zbar</span><br><span class="line">==&gt; Deleted Formulae</span><br><span class="line">jpeg@9</span><br><span class="line"></span><br><span class="line">==&gt; Downloading https://homebrew.bintray.com/bottles/redis-4.0.1.sierra.bottle.t</span><br><span class="line">######################################################################## 100.0%</span><br><span class="line">==&gt; Pouring redis-4.0.1.sierra.bottle.tar.gz</span><br><span class="line">==&gt; Caveats</span><br><span class="line">To have launchd start redis now and restart at login:</span><br><span class="line">  brew services start redis</span><br><span class="line">Or, if you don&apos;t want/need a background service you can just run:</span><br><span class="line">  redis-server /usr/local/etc/redis.conf</span><br><span class="line">==&gt; Summary</span><br><span class="line">🍺  /usr/local/Cellar/redis/4.0.1: 13 files, 2.8MB</span><br></pre></td></tr></table></figure>
-<h4 id="启动redis"><a href="#启动redis" class="headerlink" title="启动redis"></a>启动redis</h4><p>brew services start redis</p>
-<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>ping</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.12.6 安装 Python Pillow" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/macOS 10.12.6 安装 Python Pillow/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.959Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date: 2017-08-08 11:39</p>
-<h4 id="macOS-10-12-6-安装-Pillow"><a href="#macOS-10-12-6-安装-Pillow" class="headerlink" title="macOS 10.12.6 安装 Pillow"></a>macOS 10.12.6 安装 Pillow</h4><h5 id="Pillow-是一个PIL的继承"><a href="#Pillow-是一个PIL的继承" class="headerlink" title="Pillow 是一个PIL的继承"></a>Pillow 是一个PIL的继承</h5><p><a href="http://pillow-cn.readthedocs.io/zh_CN/latest/installation.html#mac-os-x" target="_blank" rel="noopener">Pillow 安装教程</a></p>
-<h4 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h4><p>brew install libtiff libjpeg libpng webp little-cms2 freetype</p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>pip install Pillow</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.13 偏好设置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/macOS 10.13 偏好设置/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.959Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date: 2018-05-05 06:36</p>
-<h3 id="系统偏好设置-日期与时间"><a href="#系统偏好设置-日期与时间" class="headerlink" title="系统偏好设置-日期与时间"></a>系统偏好设置-日期与时间</h3><p><strong>时钟</strong></p>
-<p>✅闪动时间分割符</p>
-<p>✅使用 24 小时格式时钟</p>
-<p>✅显示日期</p>
-<h3 id="系统偏好设置-用户与群组"><a href="#系统偏好设置-用户与群组" class="headerlink" title="系统偏好设置-用户与群组"></a>系统偏好设置-用户与群组</h3><p><strong>客人用户</strong></p>
-<p>🈳️✅允许客人登陆到这台电脑</p>
-<h3 id="系统偏好设置-程序坞"><a href="#系统偏好设置-程序坞" class="headerlink" title="系统偏好设置-程序坞"></a>系统偏好设置-程序坞</h3><p>置于屏幕上的位置</p>
-<p>左边</p>
-<h3 id="系统偏好设置-触摸板"><a href="#系统偏好设置-触摸板" class="headerlink" title="系统偏好设置-触摸板"></a>系统偏好设置-触摸板</h3><p><strong>光标与点按</strong></p>
-<p>✅轻点来点按</p>
-<p><strong>更多手势</strong></p>
-<p>✅应用Expose</p>
-<h3 id="系统偏好设置-辅助功能"><a href="#系统偏好设置-辅助功能" class="headerlink" title="系统偏好设置-辅助功能"></a>系统偏好设置-辅助功能</h3><p>鼠标与触控板-触控板选项-启用拖拽-三指拖移</p>
-<h3 id="系统偏好设置-声音"><a href="#系统偏好设置-声音" class="headerlink" title="系统偏好设置-声音"></a>系统偏好设置-声音</h3><p>✅当更改音量时播放反馈</p>
-<p>✅在菜单栏中显示音量</p>
-<h3 id="系统偏好设置-键盘"><a href="#系统偏好设置-键盘" class="headerlink" title="系统偏好设置-键盘"></a>系统偏好设置-键盘</h3><p><strong>键盘</strong></p>
-<p>✅闲置<strong><em>1分钟</em></strong>后关闭键盘背光灯</p>
-<p><strong>输入法</strong></p>
-<p>添加 英语-美国</p>
-<p>删除 ABC</p>
-<h3 id="访达"><a href="#访达" class="headerlink" title="访达"></a>访达</h3><p><strong>边栏</strong></p>
-<p>✅影片</p>
-<p>✅音乐</p>
-<p>✅图片</p>
-<p>✅jinlong</p>
-<p><strong>高级</strong></p>
-<p>执行搜索时：<strong><em>搜索当前文件夹</em></strong></p>
-<p><strong>通用</strong></p>
-<p>开启新“访达”窗口时打开：<strong>文稿</strong></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-学习" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/学习/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.959Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>title: 学习</p>
-<p>date: 2018-01-01 01:10:00</p>
-<p>你学习Linux运维和Python的目的是什么？<br>赚钱，养活自己。</p>
-<p>记录笔记的目的是什么？<br>在自己忘记学习过的知识点后，快速找回记忆。</p>
-<p>总结是归纳知识。</p>
-<p>你之前写的东西，东一点西一点到处乱放。想用的时候又找不到。不就等于没写。</p>
-<p>现在（2018-01-01）的技术关注点</p>
-<ul>
-<li>English</li>
-<li>CentOS</li>
-<li>Python</li>
-</ul>
-<p>文档起名</p>
-<p>案例-命令取名：<br>方法1，按命令分类取名<br>    命令-查看文件及内容处理命令.docx<br>    命令-基础网络操作命令.docx<br>方法2，单命令取名<br>    命令-cd.docx<br>    命令-ls.docx</p>
-<p>案例-分类取名：<br>    项目-sudo 权限集中管理<br>    项目-LAMP 环境部署<br>    文档-用户管理<br>    文档-找回 root 密码</p>
-<p>就如一个技术点，不管是马哥的视频还是老男孩的视频。都总结到一个文件内。时间长了自然积累很多东西。而内容可以分为常用的命令总结或全部命令总结。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 安装配置gitbook" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/macOS 安装配置gitbook/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.959Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date:2017-10-9 20:46</p>
-<h1 id="macOS-安装配置gitbook"><a href="#macOS-安装配置gitbook" class="headerlink" title="macOS 安装配置gitbook"></a>macOS 安装配置gitbook</h1><blockquote>
-<p>macOS 10.12.6<br>macOS 10.13</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install gitbook-cli -g</span><br></pre></td></tr></table></figure>
       
       
     </div>

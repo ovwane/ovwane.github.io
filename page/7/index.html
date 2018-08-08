@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-docker" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Go 项目列表" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/docker/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/Go 项目列表/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -222,12 +222,18 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p><a href="https://yq.aliyun.com/articles/110806" target="_blank" rel="noopener">Docker CE 镜像源站-阿里云</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># step 1: 安装必要的一些系统工具</span></span><br><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2 firewalld</span><br><span class="line"><span class="comment"># Step 2: 添加软件源信息</span></span><br><span class="line">sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"><span class="comment"># Step 3: 更新并安装 Docker-CE</span></span><br><span class="line">sudo yum makecache fast</span><br><span class="line">sudo yum -y install docker-ce</span><br><span class="line"><span class="comment"># Step 4: 开启Docker服务</span></span><br><span class="line">sudo service docker start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意：</span></span><br><span class="line"><span class="comment"># Step 1: 查找Docker-CE的版本:</span></span><br><span class="line"><span class="comment"># yum list docker-ce.x86_64 --showduplicates | sort -r</span></span><br><span class="line"><span class="comment">#   Loading mirror speeds from cached hostfile</span></span><br><span class="line"><span class="comment">#   Loaded plugins: branch, fastestmirror, langpacks</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.1.ce-1.el7.centos            docker-ce-stable</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.1.ce-1.el7.centos            @docker-ce-stable</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.0.ce-1.el7.centos            docker-ce-stable</span></span><br><span class="line"><span class="comment">#   Available Packages</span></span><br><span class="line"><span class="comment"># Step2 : 安装指定版本的Docker-CE: (VERSION 例如上面的 17.03.0.ce.1-1.el7.centos)</span></span><br><span class="line"><span class="comment"># sudo yum -y install docker-ce-[VERSION]</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable docker.service</span><br><span class="line">systemctl start docker.service</span><br><span class="line">systemctl status docker.service</span><br></pre></td></tr></table></figure>
-<p>/usr/lib/systemd/system/docker.service</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Docker Application Container Engine</span><br><span class="line">Documentation=https://docs.docker.com</span><br><span class="line">After=network-online.target firewalld.service</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">NotifyAccess=all</span><br><span class="line"># the default is not to use systemd for cgroups because the delegate issues still</span><br><span class="line"># exists and systemd currently does not support the cgroup feature set required</span><br><span class="line"># for containers run by docker</span><br><span class="line">EnvironmentFile=-/run/flannel/docker</span><br><span class="line">EnvironmentFile=-/run/docker_opts.env</span><br><span class="line">EnvironmentFile=-/run/flannel/subnet.env</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-storage</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-network</span><br><span class="line">EnvironmentFile=-/run/docker_opts.env</span><br><span class="line">Environment=GOTRACEBACK=crash</span><br><span class="line">Environment=DOCKER_HTTP_HOST_COMPAT=1</span><br><span class="line">Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin</span><br><span class="line">ExecStart=/usr/bin/dockerd \</span><br><span class="line">          --exec-opt native.cgroupdriver=systemd \</span><br><span class="line">          $DOCKER_OPT_BIP \</span><br><span class="line">          $DOCKER_OPT_IPMASQ \</span><br><span class="line">          $DOCKER_OPT_MTU \</span><br><span class="line">          -s=overlay \</span><br><span class="line">          --log-driver=json-file \</span><br><span class="line">          --insecure-registry=registry.cn-hangzhou.aliyuncs.com</span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line"># Having non-zero Limit*s causes performance problems due to accounting overhead</span><br><span class="line"># in the kernel. We recommend using cgroups to do container-local accounting.</span><br><span class="line"># Uncomment TasksMax if your systemd version supports it.</span><br><span class="line"># Only systemd 226 and above support this version.</span><br><span class="line">LimitNOFILE=1048576</span><br><span class="line">LimitNPROC=1048576</span><br><span class="line">LimitCORE=infinity</span><br><span class="line">TimeoutStartSec=0</span><br><span class="line">Restart=on-abnormal</span><br><span class="line">MountFlags=slave</span><br><span class="line">#TasksMax=infinity</span><br><span class="line"># set delegate yes so that systemd does not reset the cgroups of docker containers</span><br><span class="line">Delegate=yes</span><br><span class="line"># kill only the docker process, not all processes in the cgroup</span><br><span class="line">KillMode=process</span><br><span class="line"># restart the docker process if it exits prematurely</span><br><span class="line">Restart=on-failure</span><br><span class="line">StartLimitBurst=3</span><br><span class="line">StartLimitInterval=60s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<h2 id="Dokcer-常用操作"><a href="#Dokcer-常用操作" class="headerlink" title="Dokcer 常用操作"></a>Dokcer 常用操作</h2><p>registry.cn-hangzhou.aliyuncs.com/google-containers/pause-amd64:3.0</p>
+        <p>date:2018-05-11 12:58</p>
+<p><a href="https://github.com/avelino/awesome-go" target="_blank" rel="noopener">awesome-go</a></p>
+<p><a href="https://github.com/enocom/gopher-reading-list" target="_blank" rel="noopener">gopher-reading-list</a></p>
+<p><a href="https://github.com/docker/docker-ce" target="_blank" rel="noopener">docker-ce</a></p>
+<p><a href="https://github.com/kubernetes/kubernetes" target="_blank" rel="noopener">Kubernetes</a></p>
+<p>[Caddy]</p>
+<p><a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">Gin</a></p>
+<p><a href="https://github.com/astaxie/beego/" target="_blank" rel="noopener">Beego</a></p>
+<p>[CockroachDB]</p>
+<p><a href="https://github.com/ego008/goyoubbs" target="_blank" rel="noopener">youBBS</a></p>
+<p><a href="https://github.com/qor" target="_blank" rel="noopener">QOR</a></p>
+<p><a href="https://github.com/EOSIO/eos" target="_blank" rel="noopener">eos</a></p>
 
       
       
@@ -255,11 +261,11 @@
 
 
   
-    <article id="post-distribute_crawler项目实战" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS7 配置shadowsocks" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/distribute_crawler项目实战/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/CentOS7 配置shadowsocks/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -271,62 +277,18 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://blog.csdn.net/u011008734/article/details/47259197" target="_blank" rel="noopener">distribute_crawler项目实战</a><br><a href="https://github.com/aware-why/distribute_crawler" target="_blank" rel="noopener">distribute_crawler</a></p>
-<p>Python编译依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y zlib1g-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev</span><br></pre></td></tr></table></figure>
-<p>配置 pyenv</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br><span class="line"></span><br><span class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line">echo -e &apos;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&apos; &gt;&gt; ~/.bash_profile</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.3</span><br><span class="line">pyenv global 3.6.3</span><br></pre></td></tr></table></figure>
-<p>更改pypi源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd project</span><br><span class="line">pipenv install </span><br><span class="line">pip install scrapy redis pymongo</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y redis-server</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6</span><br><span class="line"></span><br><span class="line">echo &quot;deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse&quot; | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list</span><br><span class="line"></span><br><span class="line">apt-get update</span><br><span class="line"></span><br><span class="line">apt-get install -y mongodb-org</span><br><span class="line"></span><br><span class="line">systemctl enable mongod</span><br><span class="line"></span><br><span class="line">systemctl start mongod</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y apache2 libapache2-mod-wsgi \</span><br><span class="line">python-twisted python-cairo python-django-tagging</span><br><span class="line"></span><br><span class="line">pip install Django==1.5.2 tagging carbon whisper graphite-web parse_lookup</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-crawl_spider 环境配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/crawl_spider 环境配置/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><code>mkvirtualenv crawl_spider --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</code></p>
+        <p>date: 2018-05-08 21:11</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade pip</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+<p>fast_open未启用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 3 &gt; /proc/sys/net/ipv4/tcp_fastopen</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/shadowsocks.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  "server":"",</span><br><span class="line">  "server_port":,</span><br><span class="line">  "local_address": "127.0.0.1",</span><br><span class="line">  "local_port":1027,</span><br><span class="line">  "password":"",</span><br><span class="line">  "timeout":300,</span><br><span class="line">  "method":"rc4-md5",</span><br><span class="line">  "workers": 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup sslocal -c /etc/shadowsocks.json /dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --socks5 127.0.0.1:1027 http://httpbin.org/ip</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y privoxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/privoxy/config</span><br><span class="line"></span><br><span class="line">listen-address 127.0.0.1:1087</span><br><span class="line">forward-socks5t / 127.0.0.1:1027 .</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable privoxy.service</span><br><span class="line">systemctl start privoxy.service</span><br><span class="line">systemctl status privoxy.service</span><br><span class="line">systemctl restart privoxy.service</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;</span><br><span class="line"></span><br><span class="line">curl http://httpbin.org/ip</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://brickyang.github.io/2017/01/14/CentOS-7-%E5%AE%89%E8%A3%85-Shadowsocks-%E5%AE%A2%E6%88%B7%E7%AB%AF/" target="_blank" rel="noopener">CentOS 7 安装 shadowsocks 客户端</a></p>
 
       
       
@@ -354,11 +316,11 @@
 
 
   
-    <article id="post-brew 错误提示汇总" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Git 教程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/brew 错误提示汇总/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/Git 教程/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -370,54 +332,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date: 2017-11-10 15:18</p>
-<h3 id="openssl"><a href="#openssl" class="headerlink" title="openssl"></a>openssl</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">A CA file has been bootstrapped using certificates from the SystemRoots</span><br><span class="line">keychain. To add additional certificates (e.g. the certificates added in</span><br><span class="line">the System keychain), place .pem files in</span><br><span class="line">  /usr/local/etc/openssl/certs</span><br><span class="line"></span><br><span class="line">and run</span><br><span class="line">  /usr/local/opt/openssl/bin/c_rehash</span><br><span class="line"></span><br><span class="line">This formula is keg-only, which means it was not symlinked into /usr/local,</span><br><span class="line">because Apple has deprecated use of OpenSSL in favor of its own TLS and crypto libraries.</span><br><span class="line"></span><br><span class="line">If you need to have this software first in your PATH run:</span><br><span class="line">  echo &apos;export PATH=&quot;/usr/local/opt/openssl/bin:$PATH&quot;&apos; &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">For compilers to find this software you may need to set:</span><br><span class="line">    LDFLAGS:  -L/usr/local/opt/openssl/lib</span><br><span class="line">    CPPFLAGS: -I/usr/local/opt/openssl/include</span><br><span class="line">For pkg-config to find this software you may need to set:</span><br><span class="line">    PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig</span><br></pre></td></tr></table></figure>
-<h3 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Python modules have been installed and Homebrew&apos;s site-packages is not</span><br><span class="line">in your Python sys.path, so you will not be able to import the modules</span><br><span class="line">this formula installed. If you plan to develop with these modules,</span><br><span class="line">please run:</span><br><span class="line">  mkdir -p /Users/jinlong/Library/Python/2.7/lib/python/site-packages</span><br><span class="line">  echo &apos;import site; site.addsitedir(&quot;/usr/local/lib/python2.7/site-packages&quot;)&apos; &gt;&gt; /Users/jinlong/Library/Python/2.7/lib/python/site-packages/homebrew.pth</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-brew install make" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/brew install make/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date: 2017-10-20 14:19</p>
-<p>brew install make</p>
-<p>npm install -g node-gyp</p>
+        <p>date: 2013-05-11 12:48</p>
+<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">克隆仓库</span></span><br><span class="line">git clone git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"><span class="meta">#</span><span class="bash">创建分支</span></span><br><span class="line">git checkout -b blog</span><br><span class="line"><span class="meta">#</span><span class="bash">切换分支</span></span><br><span class="line">git checout blog</span><br><span class="line"><span class="meta">#</span><span class="bash">查看分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="meta">#</span><span class="bash">查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"><span class="meta">#</span><span class="bash">删除分支</span></span><br><span class="line">git push origin blog</span><br><span class="line">git push origin -d blog</span><br><span class="line"><span class="meta">#</span><span class="bash">删除子模块</span></span><br><span class="line">git rm -r --cached themes/spfk</span><br></pre></td></tr></table></figure>
+<h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看之前提交的git commit的id </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">log</span> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成撤销,同时将代码恢复到前一commit_id 对应的版本 </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git reset --hard id</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改</span></span><br><span class="line">git reset id</span><br></pre></td></tr></table></figure>
 
       
       
@@ -445,11 +362,11 @@
 
 
   
-    <article id="post-awk命令总结" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Ele-A面-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/awk命令总结/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/Ele-A面-笔记/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -461,13 +378,46 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>-F 字段分隔符<br><code>awk -F&quot;:&quot; &#39;{print $0}&#39; /etc/passwd</code></p>
-<p>$0 整行<br>$1 以“：”冒号分割的第一列<br>$2 以“：”冒号分割的第二列</p>
-<p>NF==7 字段数量<br>NR==2 纪录数量</p>
-<p>用 awk 中查看服务器连接状态并汇总</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -an|awk <span class="string">'/^tcp/&#123;++s[$NF]&#125;END&#123;for(a in s)print a,s[a]&#125;'</span></span><br></pre></td></tr></table></figure>
-<p>统计 web 日志访问流量，要求输出访问次数，请求页面或图片，每个请求的总大小， 总访问流量的大小汇总</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;a[$7]+=$10;++b[$7];total+=$10&#125;END&#123;for(x in a)print b[x],x,a[x]|"sort -rn -k1";print "total size is :"total&#125;'</span> /app/<span class="built_in">log</span>/access_log</span><br></pre></td></tr></table></figure>
+        <blockquote>
+<p>当你做某件事的时候，一旦想要求快，就表示你再也不关心它，而想去做别的事。</p>
+</blockquote>
+<blockquote>
+<p>Fighting and Happy Coding O(∩_∩)O~<br><a href="http://ictar.github.io/" target="_blank" rel="noopener">Ele - A面</a></p>
+</blockquote>
+<p><a href="http://ictar.github.io/2016/03/01/2016%E5%B9%B4%E7%82%B9%E4%BA%AE%E6%8A%80%E8%83%BD%E6%A0%91%E7%9A%84%E6%9F%90%E4%B8%AA%E6%9E%9D%E6%A1%A0/" target="_blank" rel="noopener">2016年点亮技能树的某个枝桠</a></p>
+<p>nginx<br>uwsgi<br>couchbase<br>rbmq<br>redis</p>
+<p>pdb和traceback来做调试</p>
+<p>awk,sed 来快速搜索</p>
+<p>pd来做统计分析</p>
+<p><a href="http://ictar.github.io/2017/01/27/%E5%8E%BB%E5%90%A7%E5%8E%BB%E5%90%A7%EF%BC%8C2016/" target="_blank" rel="noopener">去吧去吧，2016</a></p>
+<p><a href="https://book.douban.com/subject/5372651/" target="_blank" rel="noopener">Pragmatic Thinking and Learning - Refactor Your Wetware</a></p>
+<p>Docker<br>Go<br>DjangoCon US 2016<br>PyCon 2016<br>个人wiki<br>StackOverflow<br>得到上面订了一年的硅谷来信<br>pssh<br>ansible</p>
+<p><a href="https://book.douban.com/subject/22793675/" target="_blank" rel="noopener">深入理解Nginx
+</a><br>涂先生写的数据之巅<br>吴军老师的智能时代<br>Docker源码分析<br><a href="https://book.douban.com/subject/11577300/" target="_blank" rel="noopener">Go语言编程</a><br><a href="https://book.douban.com/subject/26351257/" target="_blank" rel="noopener">算法的乐趣</a><br><a href="https://book.douban.com/subject/25942191/" target="_blank" rel="noopener">第一行代码</a></p>
+<blockquote>
+<p>这个月发生了一件令我有所触动的小事。工作上使用了python的一个库，但有些功能它并不具备，因此写了一些shell script来做辅助，算是外部对功能进行扩展吧。后来发现这样做要填补的坑是在太多了，而且坑中有坑，不知何处还有坑。搞得头发又掉了好几百根。再后来觉得不行，决定破釜沉舟，从内部解决。于是好好分析了下那个库的代码，做了类继承，重写了一些功能。幸好那个库是可以扩展的，也幸好代码逻辑简单，花的功夫竟然比纠结的时间还少。这件事告诉我，不要觉得重写很麻烦，也不要害怕替换，虽然本质上是对自己的及其不信任。但是做总比不做来得强，更何况很多时候，那些困难不过是自己想出来吓唬自己的，要有所增进，不就是要打败一只只挡在路上的大大小小的真/假纸老虎吗？</p>
+</blockquote>
+<blockquote>
+<p>上个月呀，信誓旦旦的要看uwsgi代码。于是某日，真的沐浴更衣，准备潜心阅读。但一看到它长长的一下子拉不到底的uwsgi_sever结构，嗯，我怂了。为了不误入歧途，索性准备换一下，潜心看uwsgi官方文档。</p>
+</blockquote>
+<blockquote>
+<p>六月份要把Eva的个人网站加上xadmin (这也是最近玩得最多的package呀！！！)，修整一下，差不多可以给它买个域名买个空间了。</p>
+</blockquote>
+<blockquote>
+<p>前段时间看到某个博客上有个menu叫做”exchange”，是博主用来挂他看过的书并且希望换书的。我觉得这种想法相当的好！可惜当时没收藏，已经找不到是哪位的了。但是，Ele计划借鉴一下，也在自己的博客新增一个menu，放自己看过的书并且希望有人可以跟我换书看。</p>
+</blockquote>
+<blockquote>
+<p>我几乎包办了产品在这个项目的需求分析、开发、测试、交付和问题处理，以及偶尔的人力预算分析。经过那些日子的洗礼，那个一无所知的小女孩也可以在别人需要帮助的时候出现在旁边，那些对从前的我来说晦涩难懂的东西也变得开明易懂起来，跟别人沟通也不再是一件艰难的事。而我的眼界也慢慢的放开。</p>
+</blockquote>
+<hr>
+<p>就这样被折腾了一段时间，在某天项目清闲的时候，我终于忍不住，想对这个过程进行自动化。当然，全自动化是理想，半自动化却相对比较容易实现不是。这个决定大大提高了版本管理的效率，减缓了我的焦躁，以及奠定了我对python的喜爱。</p>
+<p>先是用脚本统计N份文档中的代码量，然后将所有版本资料整理成规定形式，接着检查资料规范及完整性。随着对win32com这个python库进一步熟悉，还用它帮忙拷贝几十份文档的病毒扫描结果，提取相关信息以帮助输出版本度量表。从此，QA能挑出的毛病越来越少，我花在版本这件事上的时间也越来越少。而因为大大减少了文档的打开及复制粘贴，从此手也不酸了。直接跑个脚本，然后该干嘛干嘛。</p>
+<p>人生苦短，我用python.</p>
+<p>用脚本实现这些繁琐的工作，还有一个好处。中途因为出差，将版本这件事转交给另一个同事的时候，我只需要告诉他怎么使用这些脚本即可。</p>
+<hr>
+<p><a href="http://ictar.github.io/2015/12/16/%E9%82%A3%E4%BA%9B%E4%BB%A4%E4%BA%BAwow%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7%E9%9B%86%E9%94%A6/" target="_blank" rel="noopener">那些令人wow的小技巧集锦</a></p>
+<p>五月不定阴晴暴雨时时至，不如静坐写代码<br>六月艳日夏愈显，吹着风扇写代码<br>七月浑浑又噩噩，打着呵欠写代码<br>八月早睡早起身体好，对着砖书写代码<br>九月团团圆圆平平淡淡，啃着糕点写代码<br>十月秋风扫落叶，啃着文档写代码</p>
+
       
       
     </div>
@@ -494,11 +444,11 @@
 
 
   
-    <article id="post-article_jobbole" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS7安装配置Mariadb" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/article_jobbole/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/CentOS7安装配置Mariadb/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -510,52 +460,450 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>爬取策略的深度优先和广度优先</p>
-<p>爬虫网址去重策略</p>
-<p>基础环境</p>
-<blockquote>
-<p>Python 3.6.5  <br><br>PyCharm 2017.3.4 <br><br>MariaDB <br><br>Navicat <br></p>
-</blockquote>
-<p><code>pip install scrapy</code></p>
-<p>命令行创建scrapy项目</p>
-<p><code>scrapy startproject ArticleSpider</code></p>
-<p>scrapy目录结构</p>
-<blockquote>
-<p>scrapy.cfg</p>
-</blockquote>
-<p>配置文件</p>
-<blockquote>
-<p>setings.py<br>设置<br>SPIDER_MODULES = [‘ArticleSpider.spiders’] #存放spider的路径<br>NEWSPIDER_MODULE = ‘ArticleSpider.spiders’<br>pipelines.py:</p>
-</blockquote>
-<p>做跟数据存储相关的东西</p>
-<blockquote>
-<p>middilewares.py:</p>
-</blockquote>
-<p>自己定义的middlewares 定义方法，处理响应的IO操作</p>
-<blockquote>
-<p>init.py:</p>
-</blockquote>
-<p>项目的初始化文件。</p>
-<blockquote>
-<p>items.py：</p>
-</blockquote>
-<p>定义我们所要爬取的信息的相关属性。Item对象是种类似于表单，用来保存获取到的数据</p>
-<p>创建我们的spider</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ArticleSpider</span><br><span class="line">scrapy genspider jobbole blog.jobbole.com</span><br></pre></td></tr></table></figure>
-<p>scray在命令行启动Spyder的命令:</p>
-<p><code>scrapy crawl jobbole</code></p>
-<p>创建我们的调试工具类*</p>
-<p>在项目根目录里创建main.py<br>作为调试工具文件</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#将系统当前目录设置为项目根目录</span></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line">execute([<span class="string">"scrapy"</span>, <span class="string">"crawl"</span> , <span class="string">"jobbole"</span>])</span><br></pre></td></tr></table></figure>
-<p>开启控制台调试</p>
-<p><code>scrapy shell http://blog.jobbole.com/110287/</code></p>
-<p>twist异步机制</p>
-<p>Scrapy使用了Twisted作为框架，Twisted有些特殊的地方是它是事件驱动的，并且比较适合异步的代码。在任何情况下，都不要写阻塞的代码。阻塞的代码包括:</p>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import http://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/yum.repos.d/mariadb.repo&lt;&lt;EOF</span><br><span class="line"># MariaDB 10.2 CentOS repository list - created 2018-04-20 08:34 UTC</span><br><span class="line"># http://downloads.mariadb.org/mariadb/repositories/</span><br><span class="line">[mariadb]</span><br><span class="line">name = MariaDB</span><br><span class="line">baseurl = http://yum.mariadb.org/10.2/centos7-amd64</span><br><span class="line">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br><span class="line">gpgcheck=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum list --showduplicates MariaDB-server</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install MariaDB-server-10.2.13 MariaDB-client-10.2.13 MariaDB-common-10.2.13 MariaDB-compat-10.2.13 MariaDB-shared-10.2.13</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<h2 id="编码配置（重点呀）"><a href="#编码配置（重点呀）" class="headerlink" title="编码配置（重点呀）"></a>编码配置（重点呀）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 编辑/etc/my.cnf</span><br><span class="line">vim /etc/my.cnf</span><br><span class="line"></span><br><span class="line"># 在[mysqld]标签下添加下面内容</span><br><span class="line">default_storage_engine = innodb</span><br><span class="line">innodb_file_per_table</span><br><span class="line">max_connections = 4096</span><br><span class="line">collation-server = utf8_general_ci</span><br><span class="line">character-set-server = utf8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 编辑/etc/my.cnf.d/client.cnf</span><br><span class="line">vim /etc/my.cnf.d/client.cnf</span><br><span class="line"></span><br><span class="line"># 在[client]标签下添加下面内容</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 编辑/etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line">vim /etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line"></span><br><span class="line"># 在[mysql]标签下添加下面内容</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mariadb.service</span><br><span class="line">systemctl start mariadb.service</span><br><span class="line">systemctl status mariadb.service</span><br><span class="line">systemctl stop mariadb.service</span><br></pre></td></tr></table></figure>
+<p>设置密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>配置流程</th>
+<th>说明</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Enter current password for root (enter for none)</td>
+<td>输入 root 密码</td>
+<td>初次运行直接回车</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Set root password? [Y/n]</td>
+<td>是设置 root 密码</td>
+<td>可以 y 或者 回车</td>
+</tr>
+<tr>
+<td>3</td>
+<td>New password</td>
+<td>输入新密码</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Re-enter new password</td>
+<td>再次输入新密码</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Remove anonymous users? [Y/n]</td>
+<td>是否删除匿名用户</td>
+<td>可以 y 或者 回车</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Disallow root login remotely? [Y/n]</td>
+<td>是否禁止 root 远程登录</td>
+<td>可以 y 或者 回车</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Remove test database and access to it? [Y/n]</td>
+<td>是否删除 test 数据库</td>
+<td>y 或者 回车</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Reload privilege tables now? [Y/n]</td>
+<td>是否重新加载权限表</td>
+<td>y 或者 回车</td>
+</tr>
+</tbody>
+</table>
+<p>查看版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p version</span><br></pre></td></tr></table></figure>
+<p>查看字符集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show variables like &quot;%character%&quot;;show variables like &quot;%collation%&quot;;</span><br><span class="line"></span><br><span class="line">#默认的字符集</span><br><span class="line">show global variables like &apos;%char%&apos;;</span><br><span class="line"></span><br><span class="line">#当前数据库支持的字符集</span><br><span class="line">show character set;</span><br></pre></td></tr></table></figure>
+<p>添加用户，设置权限</p>
 <ul>
-<li>访问文件、数据库或者Web</li>
-<li>产生新的进程并需要处理新进程的输出，如运行shell命令</li>
-<li>执行系统层次操作的代码，如等待系统队列</li>
+<li>创建用户（本地无法远程登录）</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user &lt;username&gt;@localhost identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>直接创建用户并授权的命令（本地无法远程登录）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all on *.* to &lt;username&gt;@localhost identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>授予远程登陆权限</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &lt;username&gt;@&apos;%&apos; identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>授予权限并且可以授权（指定 hostname 操作）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &lt;username&gt;@&apos;&lt;hostname&gt;&apos; identified by &apos;&lt;password&gt;&apos; with grant option;</span><br></pre></td></tr></table></figure>
+<p>基础知识</p>
+<p>MariaDB 数据类型</p>
+<ul>
+<li>字符类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHAR</td>
+<td>固定长度的非 Unicode 字符数据</td>
+<td>0~255 长度</td>
+</tr>
+<tr>
+<td>VARCHAR</td>
+<td>可变长度的非 Unicode 数据</td>
+<td>0~65535 长度</td>
+</tr>
+<tr>
+<td>BINARY</td>
+<td>二进制字节字符串</td>
+<td></td>
+</tr>
+<tr>
+<td>VARBINARY</td>
+<td>可变长度的二进制字节字符串</td>
+<td></td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>blob 列</td>
+<td>0~65535 长度</td>
+</tr>
+<tr>
+<td>TINYBLOB</td>
+<td>blob 列</td>
+<td>0~255 长度</td>
+</tr>
+<tr>
+<td>MEDIUMBLOB</td>
+<td>blob 列</td>
+<td>0-2^24 字节，16,777,215 最大长度</td>
+</tr>
+<tr>
+<td>LONGBLOB</td>
+<td>blob 列</td>
+<td>0-2^32 字节，4,294,967,295 最大长度</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>字符的文本列</td>
+<td>0~65635 长度</td>
+</tr>
+<tr>
+<td>TINYTEXT</td>
+<td>字符的文本列</td>
+<td>0~255 长度</td>
+</tr>
+<tr>
+<td>MEDIUMTEXT</td>
+<td>字符的文本列</td>
+<td>0-2^24 字节，16,777,215 最大长度</td>
+</tr>
+<tr>
+<td>LONGTEXT</td>
+<td>字符的文本列</td>
+<td>0-2^32 字节，4,294,967,295 最大长度</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值，不适用于 text 类型</td>
+</tr>
+<tr>
+<td>character set</td>
+<td>修改字符集</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用通配符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>通配符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%</td>
+<td>匹配任意长度的任意字符</td>
+</tr>
+<tr>
+<td>_</td>
+<td>匹配任意单个字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INT</td>
+<td>整数</td>
+<td>0-2^32 字节，0~4,294,967,295</td>
+</tr>
+<tr>
+<td>TINYINT</td>
+<td>整数</td>
+<td>-128~127 的有符号范围，0~255 的无符号范围</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>整数</td>
+<td>-32768~32768 的有符号范围，0~65535 的无符号范围</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>整数</td>
+<td>-8388608~8388607 的有符号范围，0~16777215 的无符号范围</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>整数</td>
+<td>有符号范围 -9223372036854775808~9223372036854775807内整数，无符号范围 0 ~18446744073709551615 的整数</td>
+</tr>
+<tr>
+<td>BOOLEAN</td>
+<td>布尔值</td>
+<td>值 0 与 false 相关联，值 1 与 true 相关联</td>
+</tr>
+<tr>
+<td>DECIMAL(m,d)</td>
+<td>小数</td>
+<td>m 表示数字的总长度，小数点不占位，d 表示小数点后面的数字长度。</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>小数</td>
+<td>-3.402823466E+38~-1.175494351E-38，1.175494351E-38~3.402823466E+38</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>小数</td>
+<td>-1.7976931348623157E+308~-2.2250738585072014E-308，2.2250738585072014E-308~1.7976931348623157E+308</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNSIGNED</td>
+<td>无符号数值</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值</td>
+</tr>
+<tr>
+<td>AUTO_INCREMENT</td>
+<td>数值自动增长</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>日期时间类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATE</td>
+<td>日期</td>
+<td>1000-01-01 到 9999-12-31，并使用 yyyy-MM-dd 日期格式</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>时间</td>
+<td>-838：59：59.999999 到 838：59：59.999999 时间范围</td>
+</tr>
+<tr>
+<td>DATETIME</td>
+<td>日期时间</td>
+<td>1000-01-01 00：00：00.000000 至 9999-12-31 23：59：59.999999。使用 yyyy-MM-dd hh：mm：ss 格式</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>时间戳</td>
+<td>19700101080001-20380119111407</td>
+</tr>
+<tr>
+<td>YEAR</td>
+<td>年份</td>
+<td>1901 到 2155 和 0000 范围内的值</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>如何设置字段自动获取当前时间<ul>
+<li>将字段类型设为  <strong>TIMESTAMP</strong></li>
+<li>将默认值设为 <strong>CURRENT_TIMESTAMP</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="内建类型"><a href="#内建类型" class="headerlink" title="内建类型"></a>内建类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ENUM</td>
+<td>枚举类型</td>
+<td>仅能从给出的选项中选择其中一个，其它值无效</td>
+</tr>
+<tr>
+<td>SET</td>
+<td>集合类型</td>
+<td>使用给出的元素组合成字符串</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>原生 JSON 对象</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用修饰符</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+<td>可以为空值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>不能为空值</td>
+</tr>
+<tr>
+<td>DEFAULT #</td>
+<td>设置默认值</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>JSON 使用方法<ul>
+<li>JSON_EXTRACT(context,’$.<key>‘) 查询提取 JSON 对象的某个属性值。</key></li>
+<li>JSON_KEYS(context) 查询获取健对。</li>
+<li>JSON_INSERT(context,’$.<key>‘,”<value>“) 插入 JSON 属性与值。</value></key></li>
+<li>JSON_SET(context,’$.<key>‘,”<value>“) 更改 JSON 属性的值。</value></key></li>
+<li>JSON_REMOVE(context,’$.<key>‘) 删除 JSON 属性。</key></li>
+</ul>
+</li>
+</ul>
+<p>参考</p>
+<p><a href="https://downloads.mariadb.org/mariadb/repositories/#mirror=neusoft&amp;distro=CentOS&amp;distro_release=centos7-amd64--centos7&amp;version=10.2" target="_blank" rel="noopener">Setting up MariaDB Repositories</a></p>
+<p><a href="https://mariadb.com/kb/en/library/yum/" target="_blank" rel="noopener">Installing MariaDB with yum</a></p>
+<p><a href="https://www.jianshu.com/p/e67f1dbaa107" target="_blank" rel="noopener">Centos 7 下 mariadb 的安装与配置</a></p>
+<p><a href="https://mariadb.com/kb/zh-cn/setting-character-sets-and-collations/" target="_blank" rel="noopener">设置字符集和排序规则</a></p>
 
       
       
@@ -583,11 +931,11 @@
 
 
   
-    <article id="post-ai_ml" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS7安装配置zsh" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/ai_ml/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/CentOS7安装配置zsh/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -599,8 +947,23 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>AI，ML，</p>
-<p><a href="https://github.com/wizardforcel" target="_blank" rel="noopener">Wizard Zhang</a></p>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install zsh</span><br></pre></td></tr></table></figure>
+<p>查看shell列表</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/shells</span><br></pre></td></tr></table></figure>
+<p>切换shell为zsh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</span><br></pre></td></tr></table></figure>
+<p>插件</p>
+<p>插件管理工具</p>
+<p>antigen、zgen、prezto、zplug</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone --recursive https://github.com/sorin-ionescu/prezto.git "$&#123;ZDOTDIR:-$HOME&#125;/.zprezto"</span><br><span class="line"></span><br><span class="line">setopt EXTENDED_GLOB</span><br><span class="line">for rcfile in "$&#123;ZDOTDIR:-$HOME&#125;"/.zprezto/runcoms/^README.md(.N); do</span><br><span class="line">  ln -s "$rcfile" "$&#123;ZDOTDIR:-$HOME&#125;/.$&#123;rcfile:t&#125;"</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h1 id="zsh-syntax-highlighting"><a href="#zsh-syntax-highlighting" class="headerlink" title="zsh-syntax-highlighting"></a><strong>zsh-syntax-highlighting</strong></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim .zshrc</span><br><span class="line"></span><br><span class="line">plugins=( [plugins...] zsh-syntax-highlighting)</span><br></pre></td></tr></table></figure>
+<h1 id="zsh-completions"><a href="#zsh-completions" class="headerlink" title="zsh-completions"></a><strong>zsh-completions</strong></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim .zshrc</span><br><span class="line"></span><br><span class="line">plugins=(… zsh-completions)</span><br><span class="line">autoload -U compinit &amp;&amp; compinit</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.zshrc</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="https://www.jianshu.com/p/d194d29e488c" target="_blank" rel="noopener">oh-my-zsh,让你的终端从未这么爽过</a></p>
 
       
       
@@ -628,11 +991,11 @@
 
 
   
-    <article id="post-acme.sh" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS安装配置MongoDB" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/acme.sh/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/CentOS安装配置MongoDB/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -644,16 +1007,43 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acme.sh</a><br><a href="https://github.com/Neilpang/acme.sh/wiki/dns-manual-mode" target="_blank" rel="noopener">DNS manual mode</a></p>
-<p> yum -y install openssl </p>
-<p> curl <a href="https://get.acme.sh" target="_blank" rel="noopener">https://get.acme.sh</a> | sh</p>
-<p> ./acme.sh –issue -d quanjinlong.cn –dns \<br> –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
-<p>./acme.sh –renew -d quanjinlong.cn \<br>  –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
-<p>copy/安装 证书<br>mkdir -p /data/www/ssl</p>
-<p>./acme.sh –install-cert -d quanjinlong.cn \<br>–key-file       /data/www/ssl/quanjinlong.cn.key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn.cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
-<p>“/root/.acme.sh”/acme.sh –issue –dns dns_cx -d quanjinlong.cn -k ec-256</p>
-<p>./acme.sh –install-cert -d quanjinlong.cn_ecc \<br>–key-file       /data/www/ssl/quanjinlong.cn/ecc_key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn/ecc_cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
-<h2 id="log"><a href="#log" class="headerlink" title="log"></a>log</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">  [root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --issue -d quanjinlong.cn --dns \</span></span><br><span class="line">&gt;  --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:29:42 CST 2018] Registering account</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Registered</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] ACCOUNT_THUMBPRINT=<span class="string">'kiwEXzVZgNIaJAK8Nhfc82QAu8MUgz5hkXiSc-1dNIw'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Creating domain key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] The domain key is here: /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting webroot <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting new-authz <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] The new-authz request is ok.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Add the following TXT record:</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Domain: <span class="string">'_acme-challenge.quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] TXT value: <span class="string">'n1_OFICy66s8pQT9_Y_B6_CPtVggPaBQgILNOMx_Nfw'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please be aware that you prepend _acme-challenge. before your domain</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] so the resulting subdomain will be: _acme-challenge.quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add the TXT records to the domains, and re-run with --renew.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add <span class="string">'--debug'</span> or <span class="string">'--log'</span> to check more details.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] See: https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh</span><br><span class="line">[root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --renew -d quanjinlong.cn \</span></span><br><span class="line">&gt;   --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:35:45 CST 2018] Renew: <span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Verifying:quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:35:55 CST 2018] Pending</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Success</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Verify finished, start to sign.</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Cert success.</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIGBzCCBO+gAwIBAgISAyvAMFcP9Xllga0gd+ZYlZpdMA0GCSqGSIb3DQEBCwUA</span><br><span class="line">MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD</span><br><span class="line">ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xODA0MDUwMDM2MDFaFw0x</span><br><span class="line">ODA3MDQwMDM2MDFaMBkxFzAVBgNVBAMTDnF1YW5qaW5sb25nLmNuMIIBIjANBgkq</span><br><span class="line">hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo91hTopV6JCu8tdfgPka43fkDYIIYu1r</span><br><span class="line">gFVbQcvU01sAVd7XkXUknzpnZCKnCEAfQCrAKyJvqHh/fqtpxkFd6K4XuGH9xJXf</span><br><span class="line">PBd1PZ02NhrCVPpiKTDLsaBqn/IYBS0YzvwUSYNl5bbUjgozCRrAZDFsTzFe0lnM</span><br><span class="line">CM55PyYkBPePWFiWEXXWyUvbjsBerMOa4gQrQl7HNHHLBZ7w0AJwTafz3iDEgrRg</span><br><span class="line">u04NzVehre3FWwfOLcOe396NpH300N6EuGl2bo2cRldgek81CyM0A1JDl5hmFlAh</span><br><span class="line">MlBgt/87PNGtv7ZpTq+/i+t/BfslVgavWbJ+fy7B4a3cBEBYWGbQEwIDAQABo4ID</span><br><span class="line">FjCCAxIwDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEF</span><br><span class="line">BQcDAjAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSiboptH4fpTKM/ozBKc91kBDxB</span><br><span class="line">oDAfBgNVHSMEGDAWgBSoSmpjBH3duubRObemRWXv86jsoTBvBggrBgEFBQcBAQRj</span><br><span class="line">MGEwLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwLmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcwLwYIKwYBBQUHMAKGI2h0dHA6Ly9jZXJ0LmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcvMBkGA1UdEQQSMBCCDnF1YW5qaW5sb25nLmNuMIH+BgNVHSAEgfYwgfMwCAYG</span><br><span class="line">Z4EMAQIBMIHmBgsrBgEEAYLfEwEBATCB1jAmBggrBgEFBQcCARYaaHR0cDovL2Nw</span><br><span class="line">cy5sZXRzZW5jcnlwdC5vcmcwgasGCCsGAQUFBwICMIGeDIGbVGhpcyBDZXJ0aWZp</span><br><span class="line">Y2F0ZSBtYXkgb25seSBiZSByZWxpZWQgdXBvbiBieSBSZWx5aW5nIFBhcnRpZXMg</span><br><span class="line">YW5kIG9ubHkgaW4gYWNjb3JkYW5jZSB3aXRoIHRoZSBDZXJ0aWZpY2F0ZSBQb2xp</span><br><span class="line">Y3kgZm91bmQgYXQgaHR0cHM6Ly9sZXRzZW5jcnlwdC5vcmcvcmVwb3NpdG9yeS8w</span><br><span class="line">ggEEBgorBgEEAdZ5AgQCBIH1BIHyAPAAdgApPFGWVMg5ZbqqUPxYB9S3b79Yeily</span><br><span class="line">3KTDDPTlRUf0eAAAAWKTckIrAAAEAwBHMEUCIQDAxllHOVE/fIfd/1q61yIQb7K3</span><br><span class="line">h+KvMJQm4ob+UjPqVgIgW3OtuN2FVCppgJhV1lKoQHSjgI9neRBGfwbpWyKmNAYA</span><br><span class="line">dgBVgdTCFpA2AUrqC5tXPFPwwOQ4eHAlCBcvo6odBxPTDAAAAWKTckNSAAAEAwBH</span><br><span class="line">MEUCIQDDhoKDEShosj+OYHWp04ZRGb2GBeknEvvQ6RpW/fB9LQIgI8bdN5X17KoH</span><br><span class="line">HEsNhBGAVwPrP3TqcAQ7rYKsz38WWsUwDQYJKoZIhvcNAQELBQADggEBAJCm+iuD</span><br><span class="line">g6CHchyNEPXfooa0zntBgzNKlwjTwSLzMJxKmFD1GBXkZGLZwRtRtu14SRw67dQG</span><br><span class="line">dBUwoxsSRae/F9eHiQLJrqY7p4s79zU/0aHD8NAnGm9nERXPL2ehjnKPx0lgAQc5</span><br><span class="line">8qORHJaRXPaOUGu+XpWBbXnOihq12Uhq4Bx5fIoR+4Kd4+oIET7nv00eeBPMJmiX</span><br><span class="line">83xOxIKRvEAJqWj0W6DOymvkc1NaGp2LCMRRfHNbd2p+l2xLtbewjnhzf/V3XXGv</span><br><span class="line">l9ZdDtEUPH4meQQY4xrAEgu9rTTLOpMmLSSPdNQFN8wJqJqPVHfcxMbPOqusQgGo</span><br><span class="line">I4qVG2BqLb9t3FQ=</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.cer</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert key is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] The intermediate CA cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/ca.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] And the full chain certs is there:  /root/.acme.sh/quanjinlong.cn/fullchain.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] It seems that you are using dns manual mode. please take care: The dns manual mode can not renew automatically, you must issue it again manually. You<span class="string">'d better use the other modes instead.</span></span><br><span class="line"><span class="string">[Thu Apr  5 09:36:03 CST 2018] Call hook error.</span></span><br></pre></td></tr></table></figure>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.mongodb.org/static/pgp/server-3.6.asc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/yum.repos.d/mongodb-org-3.6.repo&lt;&lt;EOF</span><br><span class="line">[mongodb-org-3.6]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.6/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=https://www.mongodb.org/static/pgp/server-3.6.asc</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mongodb-org-3.6.4 mongodb-org-server-3.6.4 mongodb-org-shell-3.6.4 mongodb-org-tools-3.6.4 mongodb-org-mongos-3.6.4</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/mongodb/db</span><br><span class="line">chown mongod:mongod /data/mongodb/db</span><br></pre></td></tr></table></figure>
+<p>/etc/mongod.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">systemLog:</span><br><span class="line">  destination: file</span><br><span class="line">  logAppend: true</span><br><span class="line">  path: /data/mongodb/mongod.log</span><br><span class="line"></span><br><span class="line">storage:</span><br><span class="line">  dbPath: /data/mongodb/db</span><br><span class="line">  journal:</span><br><span class="line">    enabled: true</span><br><span class="line"></span><br><span class="line">processManagement:</span><br><span class="line">  fork: true  # fork and run in background</span><br><span class="line">  pidFilePath: /data/mongodb/mongod.pid  # location of pidfile</span><br><span class="line">  timeZoneInfo: /usr/share/zoneinfo</span><br><span class="line">  </span><br><span class="line">net:</span><br><span class="line">  port: 27017</span><br><span class="line">  bindIp: 127.0.0.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mongod.service</span><br><span class="line">systemctl start mongod.service</span><br><span class="line">systemctl restart mongod.service</span><br><span class="line">systemctl status mongod.service</span><br><span class="line">systemctl stop mongod.service</span><br></pre></td></tr></table></figure>
+<h3 id="开启权限验证"><a href="#开启权限验证" class="headerlink" title="开启权限验证"></a>开启权限验证</h3><p>下Mongodb中角色的定义：<br>角色说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">read：允许用户读取指定数据库 </span><br><span class="line">readWrite：允许用户读写指定数据库 </span><br><span class="line">dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile </span><br><span class="line">userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户 </span><br><span class="line">clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限。 </span><br><span class="line">readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限 </span><br><span class="line">readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限 </span><br><span class="line">userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限 </span><br><span class="line">dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。 </span><br><span class="line">root：只在admin数据库中可用。超级账号，超级权限</span><br></pre></td></tr></table></figure>
+<p>添加管理员账号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(    &#123;</span><br><span class="line">        user: &quot;root&quot;,</span><br><span class="line">        pwd: &quot;UbM43zUgecBnb8v8MLiu&quot;,</span><br><span class="line">        roles: [ &#123; role: &quot;root&quot;, db: &quot;admin&quot; &#125; ]</span><br><span class="line">   &#125;</span><br><span class="line">  ) </span><br><span class="line"></span><br><span class="line">#查看用户</span><br><span class="line">show users</span><br><span class="line">db.system.users.find()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: &quot;admin&quot;,</span><br><span class="line">     pwd: &quot;mongodb:passok&quot;,</span><br><span class="line">     roles: [ &#123; role: &quot;userAdminAnyDatabase&quot;, db: &quot;admin&quot; &#125; ]</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="添加普通用户"><a href="#添加普通用户" class="headerlink" title="添加普通用户"></a>添加普通用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: &quot;test&quot;,</span><br><span class="line">     pwd: &quot;123456&quot;,</span><br><span class="line">     roles: [ &#123; role: &quot;readWrite&quot;, db: &quot;test&quot; &#125;],</span><br><span class="line">   &#125;</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/mongod.conf</span><br><span class="line"></span><br><span class="line">security:</span><br><span class="line">  authorization: enabled</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">重启</span></span><br><span class="line">systemctl restart mongod.service</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">登陆</span></span><br><span class="line">mongo -u "admin" -p "密码" --authenticationDatabase "admin"</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#数据库中登陆</span><br><span class="line">use admin</span><br><span class="line">db.auth(&quot;admin&quot;, &quot;密码&quot;)</span><br></pre></td></tr></table></figure>
+<p>修改用户密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.changeUserPassword(&apos;root&apos;,&apos;密码&apos;)</span><br></pre></td></tr></table></figure>
+<p>操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; show dbs  #显示数据库列表 </span><br><span class="line">&gt; show collections  #显示当前数据库中的集合（类似关系数据库中的表）</span><br><span class="line">&gt; show users  #显示用户</span><br><span class="line">&gt; use &lt;db name&gt;  #切换当前数据库，如果数据库不存在则创建数据库。 </span><br><span class="line">&gt; db.help()  #显示数据库操作命令，里面有很多的命令 </span><br><span class="line">&gt; db.foo.help()  #显示集合操作命令，同样有很多的命令，foo指的是当前数据库下，一个叫foo的集合，并非真正意义上的命令 </span><br><span class="line">&gt; db.foo.find()  #对于当前数据库中的foo集合进行数据查找（由于没有条件，会列出所有数据） </span><br><span class="line">&gt; db.foo.find( &#123; a : 1 &#125; )  #对于当前数据库中的foo集合进行查找，条件是数据中有一个属性叫a，且a的值为1</span><br><span class="line">&gt; db.dropDatabase()  #删除当前使用数据库</span><br><span class="line">&gt; db.cloneDatabase(&quot;127.0.0.1&quot;)   #将指定机器上的数据库的数据克隆到当前数据库</span><br><span class="line">&gt; db.copyDatabase(&quot;mydb&quot;, &quot;temp&quot;, &quot;127.0.0.1&quot;)  #将本机的mydb的数据复制到temp数据库中</span><br><span class="line">&gt; db.repairDatabase()  #修复当前数据库</span><br><span class="line">&gt; db.getName()  #查看当前使用的数据库，也可以直接用db</span><br><span class="line">&gt; db.stats()  #显示当前db状态</span><br><span class="line">&gt; db.version()  #当前db版本</span><br><span class="line">&gt; db.getMongo()  ＃查看当前db的链接机器地址</span><br><span class="line">&gt; db.serverStatus()  #查看数据库服务器的状态</span><br></pre></td></tr></table></figure>
+<h3 id="那么如何正常关闭mongodb？"><a href="#那么如何正常关闭mongodb？" class="headerlink" title="那么如何正常关闭mongodb？"></a>那么如何正常关闭mongodb？</h3><p>可以去看官方文档：<br><a href="http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/" target="_blank" rel="noopener">http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/</a></p>
+<p>先通过shell连上服务器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mongo</span><br><span class="line"></span><br><span class="line">use admin</span><br><span class="line"></span><br><span class="line">db.shutdownServer()</span><br></pre></td></tr></table></figure>
+<p>错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WARNING: /sys/kernel/mm/transparent_hugepage/enabled is &apos;always&apos;.</span><br><span class="line"></span><br><span class="line">We suggest setting it to &apos;never&apos;</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/" target="_blank" rel="noopener">Install MongoDB Community Edition on Red Hat Enterprise or CentOS Linux[¶]</a></p>
+<p><a href="https://docs.mongodb.com/manual/reference/configuration-options/" target="_blank" rel="noopener">MongoDB Configuration File Options</a></p>
+<p><a href="http://www.mongoing.com/archives/631" target="_blank" rel="noopener">安全部署MongoDB最佳实践</a></p>
+<p><a href="http://blog.51cto.com/hld1992/2074619" target="_blank" rel="noopener">Mongodb之权限认证管理</a></p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/enable-authentication/" target="_blank" rel="noopener">Enable Auth</a></p>
+<p><a href="https://www.jianshu.com/p/a4e94bb8a052" target="_blank" rel="noopener">如何对MongoDB 3.2.7进行用户权限管理配置</a></p>
+<p>[<a href="http://www.itttl.com/blog/mongodb_user_roles.html" target="_blank" rel="noopener">MongoDB 用户的创建、删除、密码修改，角色分配</a>]</p>
+<p><a href="http://blog.51yip.com/nosql/1576.html" target="_blank" rel="noopener">mongodb 修改用户密码 2种方法</a></p>
+<p><a href="https://blog.csdn.net/sinat_30397435/article/details/50774175" target="_blank" rel="noopener">mongodb启动不了：child process failed, exited with error number 100</a></p>
+
       
       
     </div>
@@ -680,11 +1070,11 @@
 
 
   
-    <article id="post-Windows 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Django生产环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/Windows 安装软件/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/Django生产环境搭建/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -696,9 +1086,140 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>date:2018-05-06 15:41</p>
-<p><a href="http://www.edrawsoft.cn/download-edrawmax.php" target="_blank" rel="noopener">亿图图示</a></p>
-<p><a href="http://www.yipojie.cn/684.html" target="_blank" rel="noopener">[亿图图示 Edraw Max v9.1 中文破解版及破解授权补丁]</a></p>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pipenv install</span><br><span class="line"></span><br><span class="line">pipenv install uwsgi</span><br><span class="line"></span><br><span class="line">pipenv install django</span><br><span class="line"></span><br><span class="line">pipenv install gunicorn</span><br></pre></td></tr></table></figure>
+<p>django 2.0.4</p>
+<p>pip show django</p>
+<p>uwsgi 2.0.17</p>
+<p>pip show uwsgi</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django-admin startproject teacher</span><br></pre></td></tr></table></figure>
+<p>使用的</p>
+<p>mkdir -p /data/uwsgi/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">vim /data/uwsgi/teacher.ini</span><br><span class="line"></span><br><span class="line">[uwsgi]</span><br><span class="line"># 项目目录</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line"># 指定项目的application</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line"># 进程个数</span><br><span class="line">workers=2</span><br><span class="line">pidfile = /data/uwsgi/uwsgi_teacher.pid</span><br><span class="line"># 指定IP端口</span><br><span class="line">http=127.0.0.1:8001</span><br><span class="line"># 指定静态文件</span><br><span class="line"># static-map=/root/py3/teacher/static</span><br><span class="line"># 启动uwsgi的用户名和用户组</span><br><span class="line">uid=root</span><br><span class="line">gid=root</span><br><span class="line"># 启用主进程</span><br><span class="line">master=true</span><br><span class="line"># 自动移除unix Socket和pid文件当服务停止的时候</span><br><span class="line">vacuum=true</span><br><span class="line"># 序列化接受的内容，如果可能的话</span><br><span class="line">thunder-lock=true</span><br><span class="line"># 启用线程</span><br><span class="line">enable-threads=true</span><br><span class="line"># 设置自中断时间</span><br><span class="line">harakiri=30</span><br><span class="line"># 设置缓冲</span><br><span class="line">post-buffering=4096</span><br><span class="line"># 设置日志目录</span><br><span class="line">daemonize=/data/uwsgi/teacher.log</span><br><span class="line"># 指定sock的文件路径</span><br><span class="line">socket=/data/uwsgi/teacher.sock</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unix:/data/uwsgi.sock;</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 启动uwsgi配置</span><br><span class="line">uwsgi --ini /data/uwsgi/teacher.ini   </span><br><span class="line"></span><br><span class="line"># 关闭uwsgi</span><br><span class="line">uwsgi --stop uwsgi.pid  </span><br><span class="line">killall -s INT /root/.virtualenv/py3-xzcW3AwM/bin/uwsgi</span><br><span class="line"></span><br><span class="line">#重新加载配置</span><br><span class="line">uwsgi --reload uwsgi.pid</span><br></pre></td></tr></table></figure>
+<p>nginx配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 指定项目路径uwsgi</span><br><span class="line">       location /django/ &#123;        # 这个location就和咱们Django的url(r&apos;^admin/&apos;, admin.site.urls),</span><br><span class="line">           include uwsgi_params;  # 导入一个Nginx模块他是用来和uWSGI进行通讯的</span><br><span class="line">           uwsgi_connect_timeout 30;  # 设置连接uWSGI超时时间</span><br><span class="line">           # 指定uwsgi的sock文件所有动态请求就会直接丢给他</span><br><span class="line">           uwsgi_pass unix:/opt/project_teacher/script/uwsgi.sock;  </span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       # 指定静态文件路径</span><br><span class="line">       location /static/ &#123;</span><br><span class="line">           alias  /opt/project_teacher/teacher/static/;</span><br><span class="line">           index  index.html index.htm;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">[uwsgi]</span><br><span class="line">socket = 127.0.0.1:9090</span><br><span class="line">master = true         //主进程</span><br><span class="line">vhost = true          //多站模式</span><br><span class="line">no-site = true        //多站模式时不设置入口模块和文件</span><br><span class="line">workers = 2           //子进程数</span><br><span class="line">reload-mercy = 10     </span><br><span class="line">vacuum = true         //退出、重启时清理文件</span><br><span class="line">max-requests = 1000   </span><br><span class="line">limit-as = 512</span><br><span class="line">buffer-size = 30000</span><br><span class="line">pidfile = /var/run/uwsgi9090.pid    //pid文件，用于下面的脚本启动、停止该进程</span><br><span class="line">daemonize = /data/log/uwsgi9090.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line">master=True</span><br><span class="line">pidfile=/var/run/uwsgi9090.pid</span><br><span class="line">vacuum=True</span><br><span class="line">max-requests=5000</span><br><span class="line">daemonize=/data/log/uwsgi9090.logi</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line">uid=nobody</span><br><span class="line">gid=nobody</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line">socket=/data/uwsgi.sock</span><br><span class="line">master=true</span><br><span class="line">workers=5</span><br><span class="line">pidfile=/data/uwsgi.pid</span><br><span class="line">vacuum=true</span><br><span class="line">thunder-lock=true</span><br><span class="line">enable-threads=true</span><br><span class="line">harakiri=30</span><br><span class="line">post-buffering=4096</span><br><span class="line">daemonize=/data/uwsgi.log</span><br></pre></td></tr></table></figure>
+<h3 id="django静态文件收集"><a href="#django静态文件收集" class="headerlink" title="django静态文件收集"></a><strong>django静态文件收集</strong></h3><p>​    1.setting.py设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DEBUG = False</span><br><span class="line">STATIC_ROOT = os.path.join(BASE_DIR, &apos;statics&apos;)</span><br></pre></td></tr></table></figure>
+<p>​    2. 执行collectstatic命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py collectstatic</span><br></pre></td></tr></table></figure>
+<p>好处：django把静态文件拷贝到你设置的statics目录下（这样可以更方便的和nignx集成，权限管理也更方便）</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.chenxm.cc/post/275.html" target="_blank" rel="noopener">Liunx之Ubuntu下Django+uWSGI+nginx部署</a></p>
+<p><a href="https://www.cnblogs.com/chenice/p/6921727.html" target="_blank" rel="noopener"><a href="http://www.cnblogs.com/chenice/p/6921727.html" target="_blank" rel="noopener">Django + Uwsgi + Nginx 的生产环境部署</a></a></p>
+<p><a href="https://www.zhihu.com/question/27295854" target="_blank" rel="noopener">如何配置nginx+uwsgi+django?</a>˜</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Cisco 路由器配置命令" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Cisco 路由器配置命令/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Cisco-路由器配置命令"><a href="#Cisco-路由器配置命令" class="headerlink" title="Cisco 路由器配置命令"></a>Cisco 路由器配置命令</h1><h3 id="改变命令状态"><a href="#改变命令状态" class="headerlink" title="改变命令状态"></a>改变命令状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">任务  命令 </span><br><span class="line">进入特权命令状态 enable </span><br><span class="line">退出特权命令状态 disable </span><br><span class="line">进入设置对话状态 setup  </span><br><span class="line">进入全局设置状态 config terminal </span><br><span class="line">退出全局设置状态 end  </span><br><span class="line">进入端口设置状态 interface type slot/number </span><br><span class="line">进入子端口设置状态 interface type number.subinterface [point-to-point | multipoint] </span><br><span class="line">进入线路设置状态 line type slot/number </span><br><span class="line">进入路由设置状态 router protocol </span><br><span class="line">退出局部设置状态  exit</span><br></pre></td></tr></table></figure>
+<p>路由器的状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">命令状态</span><br><span class="line">route1&gt;</span><br><span class="line">特权命令状态(进入特权enable，退出特权disable)</span><br><span class="line">route1&gt;enable</span><br><span class="line">route1#</span><br><span class="line">特权状态下的命令</span><br><span class="line">进入设置对话状态 setup</span><br><span class="line">route1#setup</span><br><span class="line">         --- System Configuration Dialog ---</span><br><span class="line">Continue with configuration dialog? [yes/no]:</span><br><span class="line"></span><br><span class="line">进入全局设置状态 config terminal(conf t)</span><br><span class="line">route1#conf t</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">route1(config)#</span><br><span class="line"></span><br><span class="line">退出全局设置状态 end</span><br><span class="line">route1(config)#end</span><br><span class="line">route1#</span><br><span class="line">进入端口配置</span><br><span class="line">route2#show ip interface</span><br><span class="line">FastEthernet0/0 is administratively down, line protocol is down</span><br><span class="line">  Internet protocol processing disabled</span><br><span class="line"></span><br><span class="line">route2(config)#interface FastEthernet0/0</span><br><span class="line">route2(config-if)#</span><br></pre></td></tr></table></figure>
+<p>Cisco路由器初始化配置<br>设置路由器内部时钟</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">全局配置模式下 clock timezone GMT +8</span><br><span class="line">exit</span><br><span class="line">特权模式下</span><br><span class="line">clock set 11:54:00 october 22 2017</span><br></pre></td></tr></table></figure>
+<p>1.路由器名<br>2.特权状态密码<br>3.Console密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">line console 0</span><br><span class="line">password 密码</span><br><span class="line">login</span><br></pre></td></tr></table></figure></p>
+<p>4.AUX密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">line aux 0</span><br><span class="line">password 密码</span><br><span class="line">login</span><br></pre></td></tr></table></figure>
+<p>5.VTY密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">使用远程登录，需要先配置特权密码</span><br><span class="line">line vty 0 4</span><br><span class="line">pass 密码</span><br><span class="line">login</span><br><span class="line"></span><br><span class="line">限制IP远程登录</span><br><span class="line">access-list 1 permit 12.1.1.1</span><br><span class="line">line vty 0 4</span><br><span class="line">access-class 1 in</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p>5.配置接口IP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">interface </span><br><span class="line">ip address 10.0.0.1 255.255.255.0</span><br><span class="line">description &quot;描述信息&quot;</span><br><span class="line">ip address 10.1.1.1 255.255.255.0 secondary</span><br><span class="line">no shutdown</span><br></pre></td></tr></table></figure>
+<p>模式转换<br>用户模式–&gt;特权模式 enable<br>特权模式–&gt;全局配置模式 config t<br>全剧配置模式–&gt;接口模式 interface<br>全局配置模式–&gt;线控模式 line</p>
+<p>默认进入的是命令状态，<br>config 之后 状态上有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Cisco3725124-25.T14-1#configure terminal</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Cisco3725124-25.T14-(config)#</span><br></pre></td></tr></table></figure>
+<p>% Unrecognized command<br>％无法识别的命令</p>
+<p>设置路由器主机名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">默认模式转换到全局配置模式 confit t</span><br><span class="line"></span><br><span class="line">Cisco3725124-25.T14-1#configure terminal</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Cisco3725124-25.T14-(config)#hostname riga</span><br></pre></td></tr></table></figure>
+<p>设置特权密码<br>全局配置模式下执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route2(config)#enable secret 密码</span><br></pre></td></tr></table></figure>
+<p>设置访问用户及密码</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Cisco:H3C交换机配置与管理完全手册" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Cisco:H3C交换机配置与管理完全手册/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://blog.51cto.com/winda" target="_blank" rel="noopener">王达 51cto</a><br><a href="http://blog.csdn.net/lycb_gz" target="_blank" rel="noopener">王达 csdn</a><br><a href="http://blog.chinaunix.net/uid/10659021.html" target="_blank" rel="noopener">王达 chinaunix</a></p>
+<p>思科交换机操作系统IOS和CatOS<br>看三遍<br>第一遍粗看，不进行实际操练。第二遍细看，要求跟着书在实际设备或者模拟器上练习。第三遍粗看，主要是看那些前两遍中没有理解或者没有掌握的内容，以及重点理论、重要功能配置与管理方法。</p>
+<p>Catalyst 6500 4900系列</p>
 
       
       

@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-mac OS 10.13 配置微信小助手" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Go编码规范指南" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/mac OS 10.13 配置微信小助手/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.955Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/Go编码规范指南/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -222,11 +222,68 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>mac OS 10.13 微信小助手</p>
-<p><a href="https://github.com/TKkk-iOSer/WeChatPlugin-MacOS" target="_blank" rel="noopener">WeChatPlugin-MacOS</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/Downloads &amp;&amp; rm -rf WeChatPlugin-MacOS</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/TKkk-iOSer/WeChatPlugin-MacOS.git --depth=1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./WeChatPlugin-MacOS/Other/Install.sh</span></span><br></pre></td></tr></table></figure>
-<p>没有使用的</p>
-<p><a href="https://github.com/Sunnyyoung/WeChatTweak-macOS" target="_blank" rel="noopener"><strong>WeChatTweak-macOS</strong></a></p>
+        <p>date: 2018-05-11 13:59</p>
+<h1 id="Go编码规范指南"><a href="#Go编码规范指南" class="headerlink" title="Go编码规范指南"></a>Go编码规范指南</h1><h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>看过很多方面的编码规范，可能每一家公司都有不同的规范，这份编码规范是写给我自己的，同时希望我们公司内部同事也能遵循这个规范来写Go代码。</p>
+<p>如果你的代码没有办法找到下面的规范，那么就遵循标准库的规范，多阅读标准库的源码，标准库的代码可以说是我们写代码参考的标杆。</p>
+<h2 id="格式化规范"><a href="#格式化规范" class="headerlink" title="格式化规范"></a>格式化规范</h2><p>go默认已经有了gofmt工具，但是我们强烈建议使用goimport工具，这个在gofmt的基础上增加了自动删除和引入包.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get golang.org/x/tools/cmd/goimports</span></span><br></pre></td></tr></table></figure>
+<p>不同的编辑器有不同的配置, sublime的配置教程：<a href="http://michaelwhatcott.com/gosublime-goimports/" target="_blank" rel="noopener">http://michaelwhatcott.com/gosublime-goimports/</a></p>
+<p>LiteIDE默认已经支持了goimports，如果你的不支持请点击属性配置-&gt;golangfmt-&gt;勾选goimports</p>
+<p>保存之前自动fmt你的代码。</p>
+<h2 id="行长约定"><a href="#行长约定" class="headerlink" title="行长约定"></a>行长约定</h2><p>一行最长不超过80个字符，超过的请使用换行展示，尽量保持格式优雅。</p>
+<h2 id="go-vet"><a href="#go-vet" class="headerlink" title="go vet"></a>go vet</h2><p>vet工具可以帮我们静态分析我们的源码存在的各种问题，例如多余的代码，提前return的逻辑，struct的tag是否符合标准等。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get golang.org/x/tools/cmd/vet</span></span><br></pre></td></tr></table></figure>
+<p>使用如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go vet .</span></span><br></pre></td></tr></table></figure>
+<h2 id="package名字"><a href="#package名字" class="headerlink" title="package名字"></a>package名字</h2><p>保持package的名字和目录保持一致，尽量采取有意义的包名，简短，有意义，尽量和标准库不要冲突。</p>
+<h2 id="import-规范"><a href="#import-规范" class="headerlink" title="import 规范"></a>import 规范</h2><p>import在多行的情况下，goimports会自动帮你格式化，但是我们这里还是规范一下import的一些规范，如果你在一个文件里面引入了一个package，还是建议采用如下格式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>如果你的包引入了三种类型的包，标准库包，程序内部包，第三方包，建议采用如下方式进行组织你的包：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"encoding/json"</span></span><br><span class="line">    <span class="string">"strings"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"myproject/models"</span></span><br><span class="line">    <span class="string">"myproject/controller"</span></span><br><span class="line">    <span class="string">"myproject/utils"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"github.com/astaxie/beego"</span></span><br><span class="line">    <span class="string">"github.com/go-sql-driver/mysql"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>有顺序的引入包，不同的类型采用空格分离，第一种实标准库，第二是项目包，第三是第三方包。</p>
+<p>在项目中不要使用相对路径引入包：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是不好的导入</span></span><br><span class="line"><span class="keyword">import</span> “../net”</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这是正确的做法</span></span><br><span class="line"><span class="keyword">import</span> “github.com/repo/proj/src/net”</span><br></pre></td></tr></table></figure>
+<h2 id="变量申明"><a href="#变量申明" class="headerlink" title="变量申明"></a>变量申明</h2><p>变量名采用驼峰标准，不要使用<code>_</code>来命名变量名，多个变量申明放在一起</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    Found <span class="keyword">bool</span></span><br><span class="line">    count <span class="keyword">int</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在函数外部申明必须使用var,不要采用<code>:=</code>，容易踩到变量的作用域的问题。</p>
+<h2 id="自定义类型的string循环问题"><a href="#自定义类型的string循环问题" class="headerlink" title="自定义类型的string循环问题"></a>自定义类型的string循环问题</h2><p>如果自定义的类型定义了String方法，那么在打印的时候会产生隐藏的一些bug</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyInt <span class="keyword">int</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MyInt)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123; </span><br><span class="line">    <span class="keyword">return</span> fmt.Sprint(m)   <span class="comment">//<span class="doctag">BUG:</span>死循环</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(m MyInt)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123; </span><br><span class="line">    <span class="keyword">return</span> fmt.Sprint(<span class="keyword">int</span>(m))   <span class="comment">//这是安全的,因为我们内部进行了类型转换</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="避免返回命名的参数"><a href="#避免返回命名的参数" class="headerlink" title="避免返回命名的参数"></a>避免返回命名的参数</h2><p>如果你的函数很短小，少于10行代码，那么可以使用，不然请直接使用类型，因为如果使用命名变量很<br>容易引起隐藏的bug</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Foo</span><span class="params">(a <span class="keyword">int</span>, b <span class="keyword">int</span>)</span> <span class="params">(<span class="keyword">string</span>, ok)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然如果是有多个相同类型的参数返回，那么命名参数可能更清晰：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *Foo)</span> <span class="title">Location</span><span class="params">()</span> <span class="params">(<span class="keyword">float64</span>, <span class="keyword">float64</span>, error)</span></span></span><br></pre></td></tr></table></figure>
+<p>下面的代码就更清晰了：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Location returns f's latitude and longitude.</span></span><br><span class="line"><span class="comment">// Negative values mean south and west, respectively.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *Foo)</span> <span class="title">Location</span><span class="params">()</span> <span class="params">(lat, long <span class="keyword">float64</span>, err error)</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>错误处理的原则就是不能丢弃任何有返回err的调用，不要采用<code>_</code>丢弃，必须全部处理。接收到错误，要么返回err，要么实在不行就panic，或者使用log记录下来</p>
+<h3 id="error-信息"><a href="#error-信息" class="headerlink" title="error 信息"></a>error 信息</h3><p>error的信息不要采用大写字母，尽量保持你的错误简短，但是要足够表达你的错误的意思。</p>
+<h2 id="长句子打印或者调用，使用参数进行格式化分行"><a href="#长句子打印或者调用，使用参数进行格式化分行" class="headerlink" title="长句子打印或者调用，使用参数进行格式化分行"></a>长句子打印或者调用，使用参数进行格式化分行</h2><p>我们在调用<code>fmt.Sprint</code>或者<code>log.Sprint</code>之类的函数时，有时候会遇到很长的句子，我们需要在参数调用处进行多行分割：</p>
+<p>下面是错误的方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log.Printf(“A long format <span class="keyword">string</span>: %s %d %d %s”, myStringParameter, <span class="built_in">len</span>(a),</span><br><span class="line">    expected.Size, defrobnicate(“Anotherlongstringparameter”,</span><br><span class="line">        expected.Growth.Nanoseconds() /<span class="number">1e6</span>))</span><br></pre></td></tr></table></figure>
+<p>应该是如下的方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">log.Printf( </span><br><span class="line">    “A long format <span class="keyword">string</span>: %s %d %d %s”, </span><br><span class="line">    myStringParameter,</span><br><span class="line">    <span class="built_in">len</span>(a),</span><br><span class="line">    expected.Size,</span><br><span class="line">    defrobnicate(</span><br><span class="line">        “Anotherlongstringparameter”,</span><br><span class="line">        expected.Growth.Nanoseconds()/<span class="number">1e6</span>, </span><br><span class="line">    ),</span><br><span class="line">）</span><br></pre></td></tr></table></figure>
+<h2 id="注意闭包的调用"><a href="#注意闭包的调用" class="headerlink" title="注意闭包的调用"></a>注意闭包的调用</h2><p>在循环中调用函数或者goroutine方法，一定要采用显示的变量调用，不要再闭包函数里面调用循环的参数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fori:=<span class="number">0</span>;i&lt;limit;i++&#123;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; DoSomething(i) &#125;() <span class="comment">//错误的做法</span></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>)</span></span>&#123; DoSomething(i) &#125;(i)<span class="comment">//正确的做法</span></span><br><span class="line">￼&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="http://golang.org/doc/articles/race_detector.html#Race_on_loop_counter" target="_blank" rel="noopener">http://golang.org/doc/articles/race_detector.html#Race_on_loop_counter</a></p>
+<h2 id="在逻辑处理中禁用panic"><a href="#在逻辑处理中禁用panic" class="headerlink" title="在逻辑处理中禁用panic"></a>在逻辑处理中禁用panic</h2><p>在main包中只有当实在不可运行的情况采用panic，例如文件无法打开，数据库无法连接导致程序无法<br>正常运行，但是对于其他的package对外的接口不能有panic，只能在包内采用。</p>
+<p>强烈建议在main包中使用log.Fatal来记录错误，这样就可以由log来结束程序。</p>
+<h2 id="注释规范"><a href="#注释规范" class="headerlink" title="注释规范"></a>注释规范</h2><p>注释可以帮我们很好的完成文档的工作，写得好的注释可以方便我们以后的维护。详细的如何写注释可以<br>参考：<a href="http://golang.org/doc/effective_go.html#commentary" target="_blank" rel="noopener">http://golang.org/doc/effective_go.html#commentary</a></p>
+<h3 id="bug注释"><a href="#bug注释" class="headerlink" title="bug注释"></a>bug注释</h3><p>针对代码中出现的bug，可以采用如下教程使用特殊的注释，在godocs可以做到注释高亮：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BUG(astaxie):This divides by zero. </span></span><br><span class="line"><span class="keyword">var</span> i float = <span class="number">1</span>/<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><a href="http://blog.golang.org/2011/03/godoc%C2%ADdocumenting%C2%ADgo%C2%ADcode.html" target="_blank" rel="noopener">http://blog.golang.org/2011/03/godoc­documenting­go­code.html</a></p>
+<h2 id="struct规范"><a href="#struct规范" class="headerlink" title="struct规范"></a>struct规范</h2><h3 id="struct申明和初始化格式采用多行："><a href="#struct申明和初始化格式采用多行：" class="headerlink" title="struct申明和初始化格式采用多行："></a>struct申明和初始化格式采用多行：</h3><p>定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span>&#123;</span><br><span class="line">    Username  <span class="keyword">string</span></span><br><span class="line">    Email     <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">u := User&#123;</span><br><span class="line">    Username: <span class="string">"astaxie"</span>,</span><br><span class="line">    Email:    <span class="string">"astaxie@gmail.com"</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="recieved是值类型还是指针类型"><a href="#recieved是值类型还是指针类型" class="headerlink" title="recieved是值类型还是指针类型"></a>recieved是值类型还是指针类型</h3><p>到底是采用值类型还是指针类型主要参考如下原则：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(w Win)</span> <span class="title">Tally</span><span class="params">(playerPlayer)</span><span class="title">int</span>    //<span class="title">w</span>不会有任何改变 </span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(w *Win)</span> <span class="title">Tally</span><span class="params">(playerPlayer)</span><span class="title">int</span>    //<span class="title">w</span>会改变数据</span></span><br></pre></td></tr></table></figure>
+<p>更多的请参考：<a href="https://code.google.com/p/go-wiki/wiki/CodeReviewComments#Receiver_Type" target="_blank" rel="noopener">https://code.google.com/p/go-wiki/wiki/CodeReviewComments#Receiver_Type</a></p>
+<h3 id="带mutex的struct必须是指针receivers"><a href="#带mutex的struct必须是指针receivers" class="headerlink" title="带mutex的struct必须是指针receivers"></a>带mutex的struct必须是指针receivers</h3><p>如果你定义的struct中带有mutex,那么你的receivers必须是指针</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="https://code.google.com/p/go-wiki/wiki/CodeReviewComments" target="_blank" rel="noopener">https://code.google.com/p/go-wiki/wiki/CodeReviewComments</a></li>
+<li><a href="http://golang.org/doc/effective_go.html" target="_blank" rel="noopener">http://golang.org/doc/effective_go.html</a></li>
+<li><a href="http://golanghome.com/post/550" target="_blank" rel="noopener">http://golanghome.com/post/550</a></li>
+<li><a href="https://talks.golang.org/2014/names.slide#1" target="_blank" rel="noopener">https://talks.golang.org/2014/names.slide#1</a></li>
+</ol>
 
       
       
@@ -254,11 +311,11 @@
 
 
   
-    <article id="post-logrotate" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Go相关的书签" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/logrotate/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.955Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/Go相关的书签/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -270,11 +327,74 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>日志自动切分</p>
-<p>vim /etc/logrotate.d/nginx</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/nginx/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/nginx.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/nginx.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p><a href="http://gohack2017.golangfoundation.org/" target="_blank" rel="noopener">Go Hack 2017</a></p>
+<p><a href="https://gocn.io/" target="_blank" rel="noopener"></a></p>
+<p><a href="https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md" target="_blank" rel="noopener">Unknwon/the-way-to-go_ZH_CN</a></p>
+<p><a href="https://keybase.io" target="_blank" rel="noopener">Keybase</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Caddy" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Caddy/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/Unknwon/wuwen.org/issues/11" target="_blank" rel="noopener">Caddy 部署实践</a></p>
+<p><a href="https://github.com/mholt/caddy/releases/" target="_blank" rel="noopener">Caddy</a></p>
+<p><a href="https://www.wolfcstech.com/2017/01/09/Caddy%20Web%E6%9C%8D%E5%8A%A1%E5%99%A8QUIC%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Caddy Web服务器QUIC部署</a></p>
+<p><a href="http://www.infoq.com/cn/news/2018/03/weibo-quic" target="_blank" rel="noopener">QUIC在微博中的落地思考</a></p>
+<p><a href="https://github.com/caddyserver/examples" target="_blank" rel="noopener">Examples for using Caddy Web Server</a></p>
+<p><a href="https://liudanking.com/beautiful-life/%E6%9C%AC%E7%AB%99%E5%BC%80%E5%90%AF%E6%94%AF%E6%8C%81-quic-%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%8E%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">本站开启支持 QUIC 的方法与配置</a></p>
+<p><a href="https://blog.sharpbai.com/2018/02/%E4%BD%BF%E7%94%A8caddy%E9%85%8D%E5%90%88nginx%E6%94%AF%E6%8C%81quic/" target="_blank" rel="noopener">使用caddy配合nginx支持QUIC
+</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/mholt/caddy/releases/download/v0.10.12/caddy_v0.10.12_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf caddy_v0.10.12_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">mv caddy /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<p>/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp –port=32457</p>
+<p>mkdir -p /data/caddy/log/</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /data/caddy/Caddyfile</span><br><span class="line"></span><br><span class="line">ovwane.com:444 &#123;</span><br><span class="line">        tls /data/ssl/ovwane.com/ovwane.com_rsa_fullchain.cer /data/ssl/ovwane.com/ovwane.com_rsa.key</span><br><span class="line">        root /data/www/ovwane.com/public</span><br><span class="line">        gzip</span><br><span class="line">        log /data/caddy/log/ovwane.com.log</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/caddy.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Caddy HTTP/2 web server</span><br><span class="line">Documentation=https://caddyserver.com/docs</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target systemd-networkd-wait-online.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Restart=on-abnormal</span><br><span class="line"></span><br><span class="line">; User and group the process will run as.</span><br><span class="line">;User=caddy</span><br><span class="line">;Group=caddy</span><br><span class="line"></span><br><span class="line">; Letsencrypt-issued certificates will be written to this directory.</span><br><span class="line">Environment=CADDYPATH=/data/caddy</span><br><span class="line"></span><br><span class="line">; Always set "-root" to something safe in case it gets forgotten in the Caddyfile.</span><br><span class="line">ExecStart=/usr/local/bin/caddy -quic -log stdout -agree=true -conf=/data/caddy/Caddyfile -root=/var/tmp</span><br><span class="line">ExecReload=/bin/kill -USR1 $MAINPID</span><br><span class="line"></span><br><span class="line">; Use graceful shutdown with a reasonable timeout</span><br><span class="line">KillMode=mixed</span><br><span class="line">KillSignal=SIGQUIT</span><br><span class="line">TimeoutStopSec=5s</span><br><span class="line"></span><br><span class="line">; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.</span><br><span class="line">LimitNOFILE=1048576</span><br><span class="line">; Unmodified caddy is not expected to use more than that.</span><br><span class="line">LimitNPROC=512</span><br><span class="line"></span><br><span class="line">; Use private /tmp and /var/tmp, which are discarded after caddy stops.</span><br><span class="line">PrivateTmp=true</span><br><span class="line">; Use a minimal /dev (May bring additional security if switched to 'true', but it may not work on Raspberry Pi's or other devices, so it has been disabled in this dist.)</span><br><span class="line">PrivateDevices=false</span><br><span class="line">; Hide /home, /root, and /run/user. Nobody will steal your SSH-keys.</span><br><span class="line">ProtectHome=true</span><br><span class="line">; Make /usr, /boot, /etc and possibly some more folders read-only.</span><br><span class="line">ProtectSystem=full</span><br><span class="line">; … except /etc/ssl/caddy, because we want Letsencrypt-certificates there.</span><br><span class="line">;   This merely retains r/w access rights, it does not add any new. Must still be writable on the host!</span><br><span class="line">ReadWriteDirectories=/data/caddy</span><br><span class="line"></span><br><span class="line">; The following additional security directives only work with systemd v229 or later.</span><br><span class="line">; They further restrict privileges that can be gained by caddy. Uncomment if you like.</span><br><span class="line">; Note that you may have to add capabilities required by any plugins in use.</span><br><span class="line">;CapabilityBoundingSet=CAP_NET_BIND_SERVICE</span><br><span class="line">;AmbientCapabilities=CAP_NET_BIND_SERVICE</span><br><span class="line">;NoNewPrivileges=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable caddy.service</span><br><span class="line">systemctl start caddy.service</span><br><span class="line">systemctl stop caddy.service</span><br><span class="line">systemctl status caddy.service</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp --inet6 | grep -F caddy</span><br></pre></td></tr></table></figure>
+<p>日志自动切分</p>
+<p>vim /etc/logrotate.d/caddy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/caddy/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/caddy.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/caddy.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>手动执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/nginx</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/caddy</span><br></pre></td></tr></table></figure>
 
       
       
@@ -302,11 +422,345 @@
 
 
   
-    <article id="post-linode_vps安装Python" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS Go环境配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/linode_vps安装Python/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.955Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/CentOS Go环境配置/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>date: 2018-05-08 17:01</p>
+<blockquote>
+<p>CentOS Linux release 7.5.1804 (Core)</p>
+<p>Linux 3.10.0-862.3.3.el7.x86_64</p>
+</blockquote>
+<p><strong>安装依赖</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y mercurial gcc bison</span><br></pre></td></tr></table></figure>
+<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span><br></pre></td></tr></table></figure>
+<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -B 表示只安装二进制包</span><br><span class="line"><span class="meta">$</span> gvm install go1.4.3 -B</span><br><span class="line"><span class="meta">$</span> gvm use go1.4.3</span><br><span class="line"><span class="meta">$</span> export GOROOT_BOOTSTRAP=$GOROOT</span><br><span class="line"><span class="meta">$</span> gvm install go1.10.2</span><br></pre></td></tr></table></figure>
+<p><strong>离线安装</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> git clone 官方源go1.10.2</span><br><span class="line">git clone -b go1.10.2 https://go.googlesource.com/go go1.10.2</span><br><span class="line"><span class="meta">#</span>可以放到别的电脑上</span><br><span class="line">tar cvfz go1.10.2.tar.bz2 go1.10.2</span><br><span class="line"><span class="meta">#</span>指定本地go1.10.2 git源</span><br><span class="line">gvm install go1.10.2 --source=/root/go1.10.2</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
+<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> gvm use go1.10.2 --default</span><br></pre></td></tr></table></figure>
+<p><strong>使用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看可以安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm listall</span><br><span class="line"><span class="meta">#</span> 查看本地安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm list</span><br><span class="line"><span class="meta">#</span> go环境变量</span><br><span class="line"><span class="meta">$</span> go env</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
+<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
+<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Google资深工程师深度讲解Go语言-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Google资深工程师深度讲解Go语言-笔记/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>date:2018-05-11 13:05</p>
+<h1 id="Google资深工程师深度讲解Go语言-笔记"><a href="#Google资深工程师深度讲解Go语言-笔记" class="headerlink" title="Google资深工程师深度讲解Go语言-笔记"></a>Google资深工程师深度讲解Go语言-笔记</h1><p><strong>课程结构</strong></p>
+<p>语法部分</p>
+<p>综合部分</p>
+<p>实战项目部分</p>
+<p><strong>课程目标</strong></p>
+<p>会一门编程语言</p>
+<p>最好有项目经验</p>
+<p><strong>基本语法</strong></p>
+<p>变量</p>
+<p>选择，循环</p>
+<p>指针，数组，容器</p>
+<p><strong>面向接口</strong></p>
+<p>结构体</p>
+<p>duck typing的概念</p>
+<p>组合的思想</p>
+<p><strong>函数式编程</strong></p>
+<p>闭包的概念</p>
+<p>多样的例题</p>
+<p><strong>工程化</strong></p>
+<p>资源管理，错误处理</p>
+<p>测试和文档</p>
+<p>性能调优</p>
+<p><strong>并发编程</strong></p>
+<p>goroutine和channel</p>
+<p>理解调度器</p>
+<p>多样的例题</p>
+<p><strong>Go语言的安装与开发环境</strong></p>
+<p><a href="http://studygolang.com/dl" target="_blank" rel="noopener">下载Go</a> go1.9.2</p>
+<p>IED: GoLand, IntelliJ IDEA + Go插件</p>
+<p><strong>变量</strong></p>
+<p>GOPATH</p>
+<p>GOROOT</p>
+<p><strong>变量定义</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用var关键字</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">var a, b, c bool</span></span><br><span class="line"><span class="comment">var s1, s2 string = "hello","world"</span></span><br><span class="line"><span class="comment">可放在函数内，或直接放在包内</span></span><br><span class="line"><span class="comment">使用var()集中定义变量</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//让编译器自动决定类型</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">var a, b, i, s1, s2 = true, false, 3, "hello", "world"</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用:=定义变量</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">a, b, i, s1, s2 := true, false, 3, "hello", "world"</span></span><br><span class="line"><span class="comment">只能在函数内使用</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<p><strong>内建变量类型</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span>, <span class="keyword">string</span></span><br><span class="line">(u)<span class="keyword">int</span>, (u)<span class="keyword">int8</span>, (u)<span class="keyword">int16</span>, (u)<span class="keyword">int32</span>, (u)<span class="keyword">int64</span>, <span class="keyword">uintptr</span></span><br><span class="line"><span class="keyword">byte</span>, <span class="keyword">rune</span></span><br><span class="line"><span class="keyword">float32</span>, <span class="keyword">float64</span>, <span class="keyword">complex64</span>, <span class="keyword">complex128</span></span><br></pre></td></tr></table></figure>
+<p><strong>复数</strong></p>
+<p>3 + 4i</p>
+<p>3实部，4i虚部</p>
+<p>欧拉公式(euler)</p>
+<p><strong>强制类型转换</strong></p>
+<p>类型转换是强制的</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a, b <span class="keyword">int</span> = <span class="number">3</span>, <span class="number">4</span></span><br><span class="line"><span class="keyword">var</span> c <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">c = <span class="keyword">int</span>(math.Sqrt(<span class="keyword">float64</span>(a * a + b * b)))</span><br><span class="line"><span class="comment">//浮点数精度问题？</span></span><br></pre></td></tr></table></figure>
+<p><strong>常量的定义</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> filename = <span class="string">"abc.txt"</span></span><br><span class="line"><span class="comment">//const 数值可作为各种类型使用</span></span><br><span class="line"><span class="keyword">const</span> a, b = <span class="number">3</span>, <span class="number">4</span></span><br><span class="line"><span class="keyword">var</span> c <span class="keyword">int</span> = <span class="keyword">int</span>(math.Sqrt(a * a + b * b))</span><br></pre></td></tr></table></figure>
+<p><strong>使用常量定义枚举类型</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">enums</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">//普通枚举类型</span></span><br><span class="line">	<span class="keyword">const</span>(</span><br><span class="line">		cpp = <span class="literal">iota</span></span><br><span class="line">		_</span><br><span class="line">		python</span><br><span class="line">		golang</span><br><span class="line">		javascript</span><br><span class="line">	)</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//自增值枚举类型</span></span><br><span class="line">	<span class="comment">// b, kb, mb, gb, tb, pb</span></span><br><span class="line">	<span class="keyword">const</span> (</span><br><span class="line">		b = <span class="number">1</span> &lt;&lt; (<span class="number">10</span> * <span class="literal">iota</span>)</span><br><span class="line">		kb</span><br><span class="line">		mb</span><br><span class="line">		gb</span><br><span class="line">		tb</span><br><span class="line">		pb</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">	fmt.Println(cpp, javascript, python, golang)</span><br><span class="line">	fmt.Println(b, kb, mb, gb, tb, pb)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>变量定义要点回顾</strong></p>
+<p>变量类型写在变量名之后</p>
+<p>编译器可推测变量类型</p>
+<p>没有char，只有rune</p>
+<p>原生支持复数类型</p>
+<p><strong>条件语句</strong></p>
+<p>if</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">if的条件里可以赋值</span></span><br><span class="line"><span class="comment">if的条件里赋值的变量作用域就在这个if语句里</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">if</span> contents, err := ioutil.ReadFile(filename); err != <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="keyword">string</span>(contents))</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">"cannot print file contents:"</span>, err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>switch</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//switch会自动break，除非使用fallthrough</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">grade</span><span class="params">(score <span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    g := <span class="string">""</span></span><br><span class="line">    <span class="keyword">switch</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">0</span> || score &gt; <span class="number">100</span>:</span><br><span class="line">        	<span class="built_in">panic</span>(fmt.Sprintf(<span class="string">"Wrong score: %d"</span>, score))</span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">60</span>:</span><br><span class="line">        	g = <span class="string">"F"</span></span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">80</span>:</span><br><span class="line">         	g = <span class="string">"C"</span></span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">90</span>:</span><br><span class="line">         	g = <span class="string">"B"</span></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">        	g = <span class="string">"A"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> g</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//switch后可以没有表达式</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">grade</span><span class="params">(score <span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">60</span>:</span><br><span class="line">        	<span class="keyword">return</span> <span class="string">"F"</span></span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">80</span>:</span><br><span class="line">        	<span class="keyword">return</span> <span class="string">"C"</span></span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">90</span>:</span><br><span class="line">        	<span class="keyword">return</span> <span class="string">"B"</span></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">        	<span class="keyword">return</span> <span class="string">"A"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>for</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//for的条件里不需要括号</span></span><br><span class="line"><span class="comment">//for的条件里可以省略初始条件，结束条件，递增表达式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//省略初始条件，相当于while</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">convertToBin</span><span class="params">(v <span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    result := <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> ; v &gt; <span class="number">0</span>; v /= <span class="number">2</span> &#123;</span><br><span class="line">        result = strconv.Itoa(v%<span class="number">2</span>) + result</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//省略初始条件，相当于while</span></span><br><span class="line"><span class="keyword">for</span> scanner.Scan() &#123;</span><br><span class="line">    fmt.Println(scanner.Text())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//无限循环</span></span><br><span class="line"><span class="keyword">for</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">"abc"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>基本语法要点回顾</strong></p>
+<p>for, if 后面的条件没有括号</p>
+<p>if 条件里也可定义变量</p>
+<p>没有while</p>
+<p>switch不需要break，也可以直接switch多个条件</p>
+<p><strong>函数</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//函数可返回多个值</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">div</span><span class="params">(a,b <span class="keyword">int</span>)</span> <span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a / b, a % b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//函数返回多个值时可以起名字</span></span><br><span class="line"><span class="comment">//仅用于非常简单的函数</span></span><br><span class="line"><span class="comment">//对于调用者而言没有区别</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">div</span><span class="params">(a, b <span class="keyword">int</span>)</span> <span class="params">(q, r <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    q = a / b</span><br><span class="line">    r = a % b</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//函数作为参数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">apply</span><span class="params">(op <span class="keyword">func</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)</span> <span class="title">int</span>, <span class="title">a</span>, <span class="title">b</span> <span class="title">int</span>) <span class="title">int</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">"Calling %s with %d, %d\n"</span>,</span><br><span class="line">        runtime.FuncForPC(reflect.ValueOf(op).Pointer()).Name(),</span><br><span class="line">        a, b)</span><br><span class="line">    <span class="keyword">return</span> op(a, b)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//可变参数列表</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sumArgs</span><span class="params">(values ...<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    sum := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> values &#123;</span><br><span class="line">        sum += values[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>函数语法要点回顾</strong></p>
+<p>返回值类型写在最后面</p>
+<p>可返回多个值</p>
+<p>函数作为参数</p>
+<p>没有默认参数，可选参数</p>
+<p><strong>指针</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指针并不能运算</span></span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-GoLand 配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/GoLand 配置/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>GoLand 2018.1.2</p>
+<p>/Users/jinlong/Library/Application Support/GoLand2018.1</p>
+<p>/Users/jinlong/Library/Preferences/GoLand2018.1</p>
+<p>/Users/jinlong//Library/Logs/GoLand2018.1</p>
+<p>/Users/jinlong/Library/Caches/GoLand2018.1</p>
+<p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
+<p><strong>Theme</strong> Darcula</p>
+<p><strong>Keymap</strong></p>
+<p>Default</p>
+<p><strong>Editor</strong></p>
+<p>Font: Menlo</p>
+<p>Size: 20</p>
+<p><a href="http://stozen.net/163.html" target="_blank" rel="noopener">Gogland更名为GoLand，并附加新功能</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Go" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Go/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#<a href="https://golang.org/" target="_blank" rel="noopener">Go</a><br>安装Go</p>
+<p><code>brew install go</code></p>
+<p>安装分布式管理工具hg</p>
+<p> <code>brew install hg</code></p>
+<p>建立go的环境变量文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd $HOME</span><br><span class="line"></span><br><span class="line">mkdir go</span><br></pre></td></tr></table></figure>
+<p>~/.zshrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">export GOPATH=$HOME/go</span><br><span class="line">export PATH=$HOME/bin:$GOPATH/bin:$PATH</span><br></pre></td></tr></table></figure>
+<p><code>brew cask install goland</code></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Go-Gin" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Go-Gin/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>date: 2018-05-08 08:58</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/gin-gonic/gin</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/winlion/restgo-admin.git</span></span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CentOS7 安装Python" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/CentOS7 安装Python/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -324,11 +778,10 @@
 <h4 id="安装Python-1"><a href="#安装Python-1" class="headerlink" title="安装Python"></a>安装Python</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.5 -v</span><br><span class="line"></span><br><span class="line">pyenv global 3.6.5</span><br><span class="line"></span><br><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure>
 <p>/root/.pyenv/versions/3.6.5/bin/python</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install virtualenvwrapper pipenv</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">start virtualwrapper</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/root/.pyenv/versions/3.6.5/bin/python</span><br><span class="line">export WORKON_HOME='~/.virtualenv'</span><br><span class="line">source /root/.pyenv/versions/3.6.5/bin/virtualenvwrapper.sh</span><br><span class="line"><span class="meta">#</span><span class="bash">end</span></span><br></pre></td></tr></table></figure>
 <p>pipenv –python=/root/.pyenv/versions/3.6.5/bin/python</p>
 <p>因Supervisor现在不支持python3的版本需要安装Python 2.7.13</p>
-<p>pyenv install 2.7.13 -v<br>pyenv global 2.7.13<br>pyenv rehash</p>
+<p>pyenv install 2.7.14 -v<br>pyenv global 2.7.14<br>pyenv rehash</p>
 <h3 id="更改pypi源"><a href="#更改pypi源" class="headerlink" title="更改pypi源"></a>更改pypi源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
       
       
@@ -356,11 +809,11 @@
 
 
   
-    <article id="post-linode_vps" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS7 安装SScrapy和SpiderKeeper" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/30/linode_vps/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.955Z" itemprop="datePublished">2018-07-30</time>
+      <a href="/2018/08/08/CentOS7 安装SScrapy和SpiderKeeper/" class="article-date">
+      <time datetime="2018-08-08T08:34:54.361Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -372,339 +825,42 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-timezone America/Los_Angeles</span><br><span class="line">hostnamectl set-hostname ovwane.com</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd jinlong</span><br><span class="line">passwd jinlong</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">visudo</span><br><span class="line">jinlong ALL=(ALL)       ALL</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f linode_vps_rsa</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.ssh</span><br><span class="line">vim ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br><span class="line">chmod 700 ~/.ssh</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/handongyu/p/6386789.html" target="_blank" rel="noopener">设置 SSH，打开密钥登录功能</a><br>编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line">Port 22</span><br><span class="line">Protocol 2</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">#禁止root用户通过SSH登录</span><br><span class="line">PermitRootLogin no</span><br><span class="line">#禁用密码登录</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">ChallengeResponseAuthentication no</span><br><span class="line">GSSAPIAuthentication no</span><br><span class="line">UsePAM yes</span><br><span class="line">UseDNS no</span><br><span class="line">X11Forwarding no</span><br></pre></td></tr></table></figure>
-<p>最后，重启 SSH 服务：<br><code>systemctl restart sshd.service</code></p>
-<p>#优化</p>
-<ol>
-<li><p>关闭SELinux</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>最大进程数和最大文件打开数<br>修改/etc/security/limits.conf文件</p>
-</li>
-<li><p>删除默认用户<br>centos</p>
-</li>
-<li><p>更换yum源<br><a href="https://www.centos.org/download/mirrors/" target="_blank" rel="noopener">CentOS mirrors List</a></p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"></span><br><span class="line">删除缓存</span><br><span class="line">yum clean all</span><br><span class="line">rm -rf /var/cache/yum</span><br><span class="line"></span><br><span class="line">生成缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
-<p><a href="https://admin.fedoraproject.org/mirrormanager/mirrors/EPEL/7/x86_64" target="_blank" rel="noopener">EPEL mirrors</a></p>
-<p>mirrors.cat.pdx.edu</p>
-<p>yum upgrade](<a href="https://www.jianshu.com/p/4df7692bdc2b" target="_blank" rel="noopener">https://www.jianshu.com/p/4df7692bdc2b</a>)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y upgrade</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel  </span><br><span class="line"></span><br><span class="line">yum -y autoremove kernel-3.10.0-693.el7</span><br><span class="line">yum -y autoremove kernel-3.10.0-693.2.2.el7.x86_64</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li><p>时间</p>
-<p><a href="https://chrony.tuxfamily.org/documentation.html" target="_blank" rel="noopener">chrony</a></p>
-</li>
-</ol>
-<p><a href="https://www.cnblogs.com/clsn/archive/2017/11/16/7844857.html" target="_blank" rel="noopener">chrony软件使用说明</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum -y install chrony</span><br><span class="line"></span><br><span class="line">systemctl start chronyd.service</span><br><span class="line">systemctl enable chronyd.service</span><br><span class="line">systemctl status chronyd.service</span><br><span class="line"></span><br><span class="line">查看同步状态</span><br><span class="line">chronyc sourcestats</span><br></pre></td></tr></table></figure>
-<p><a href="http://www.mamicode.com/info-detail-1553924.html" target="_blank" rel="noopener">删除软件包并删除孤立的依赖包</a><br><a href="https://segmentfault.com/q/1010000000626683" target="_blank" rel="noopener">https://segmentfault.com/q/1010000000626683</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">需要在 /etc/yum.conf 里面添加一个配置：</span><br><span class="line">clean_requirements_on_remove=1</span><br><span class="line"></span><br><span class="line">yum autoremove</span><br></pre></td></tr></table></figure>
-<p>删除postfix</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove postfix</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch /var/lock/subsys/local</span><br><span class="line">/usr/local/qcloud/rps/set_rps.sh &gt;/tmp/setRps.log 2&gt;&amp;1</span><br><span class="line">/usr/local/qcloud/irq/net_smp_affinity.sh &gt;/tmp/net_affinity.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-<p>删除 wpa_supplicant<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove wpa_supplicant</span><br></pre></td></tr></table></figure></p>
-<p>删除用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd</span><br><span class="line">/etc/shadow</span><br><span class="line">/etc/group</span><br><span class="line">/etc/gshadow</span><br><span class="line"></span><br><span class="line">postfix</span><br><span class="line">ntp</span><br><span class="line">games</span><br><span class="line">ftp</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/duzhaoqi/p/7582404.html" target="_blank" rel="noopener">centOS7服务管理与启动流程</a></p>
-<p>下载必要软件包<br>再安装操作系统的时候使用的最小化安装，有很多包没有安装，使用时发现好多命令没有如{vim、wget、tree…等}，下面就安装命令，可以根据需求自行调整。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget vim lrzsz screen lsof tree unzip git</span><br><span class="line"># tcpdump nc mtr openssl-devel  bash-completion  nmap telnet ntpdate net-tools</span><br></pre></td></tr></table></figure>
-<p>开启firewalld</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start firewalld.service</span><br><span class="line">systemctl status firewalld.service</span><br></pre></td></tr></table></figure>
+        <h2 id="安装Python"><a href="#安装Python" class="headerlink" title="安装Python"></a>安装Python</h2><h3 id="安装Python依赖"><a href="#安装Python依赖" class="headerlink" title="安装Python依赖"></a>安装Python依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># CentOS7</span><br><span class="line">yum install -y  gcc gcc-c++ make git patch openssl-devel zlib-devel readline-devel sqlite sqlite-devel bzip2-devel curl wget ncurses-devel sqlite-devel gdbm-devel xz-devel tk-devel</span><br></pre></td></tr></table></figure>
+<h3 id="安装pyenv"><a href="#安装pyenv" class="headerlink" title="安装pyenv"></a>安装<a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener">pyenv</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br></pre></td></tr></table></figure>
+<h4 id="配置bash-profile"><a href="#配置bash-profile" class="headerlink" title="配置bash_profile"></a>配置bash_profile</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">echo -e &apos;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">exec &quot;$SHELL&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="安装Python-1"><a href="#安装Python-1" class="headerlink" title="安装Python"></a>安装Python</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.5 -v</span><br><span class="line"></span><br><span class="line">pyenv global 3.6.5</span><br><span class="line"></span><br><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure>
+<p>/root/.pyenv/versions/3.6.5/bin/python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install virtualenvwrapper pipenv</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">start virtualwrapper</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/root/.pyenv/versions/3.6.5/bin/python</span><br><span class="line">export WORKON_HOME='~/.virtualenv'</span><br><span class="line">source /root/.pyenv/versions/3.6.5/bin/virtualenvwrapper.sh</span><br><span class="line"><span class="meta">#</span><span class="bash">end</span></span><br></pre></td></tr></table></figure>
+<p>pipenv –python=/root/.pyenv/versions/3.6.5/bin/python</p>
+<p>因Supervisor现在不支持python3的版本需要安装Python 2.7.14</p>
+<p>pyenv install 2.7.14 -v<br>pyenv global 2.7.14<br>pyenv rehash</p>
+<h3 id="更改pypi源"><a href="#更改pypi源" class="headerlink" title="更改pypi源"></a>更改pypi源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h2 id="安装Supervisor-Supervisor使用简介"><a href="#安装Supervisor-Supervisor使用简介" class="headerlink" title="安装Supervisor Supervisor使用简介"></a>安装Supervisor <a href="http://liuzxc.github.io/blog/supervisor/" target="_blank" rel="noopener">Supervisor使用简介</a></h2><h3 id="新建虚拟环境"><a href="#新建虚拟环境" class="headerlink" title="新建虚拟环境"></a>新建虚拟环境</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/</span><br><span class="line">mkdir py2 py3</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/py2</span><br><span class="line">pipenv --python=/root/.pyenv/versions/2.7.14/bin/python</span><br><span class="line"></span><br><span class="line">workon py2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv virtualenv 2.7.13 supervisor</span><br></pre></td></tr></table></figure>
+<h3 id="激活虚拟环境"><a href="#激活虚拟环境" class="headerlink" title="激活虚拟环境"></a>激活虚拟环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /root/.pyenv/versions/2.7.13/envs/supervisor/bin/activate</span><br></pre></td></tr></table></figure>
+<h3 id="安装supervisor"><a href="#安装supervisor" class="headerlink" title="安装supervisor"></a>安装supervisor</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install supervisor</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /etc/supervisor/</span><br><span class="line"></span><br><span class="line">echo_supervisord_conf &gt; /etc/supervisord.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo_supervisord_conf &gt; /etc/supervisor/supervisord.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/supervisord.conf</span><br><span class="line"></span><br><span class="line">[include]</span><br><span class="line">files = /etc/supervisor/conf.d/*.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/root/.virtualenv/py2-kYuLH55n/bin/supervisord -c /etc/supervisord.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/supervisord.service</span><br><span class="line"></span><br><span class="line">[Unit]                                                              </span><br><span class="line">Description=supervisord - Supervisor process control system for UNIX</span><br><span class="line">Documentation=http://supervisord.org                                </span><br><span class="line">After=network.target                                                </span><br><span class="line"></span><br><span class="line">[Service]                                                           </span><br><span class="line">Type=forking                                                        </span><br><span class="line">ExecStart=/root/.virtualenv/py2-kYuLH55n/bin/supervisord -c /etc/supervisord.conf             </span><br><span class="line">ExecReload=/root/.virtualenv/py2-kYuLH55n/bin/supervisorctl reload                            </span><br><span class="line">ExecStop=/root/.virtualenv/py2-kYuLH55n/bin/supervisorctl shutdown                            </span><br><span class="line"></span><br><span class="line">[Install]                                                           </span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<h3 id="启动supervisor"><a href="#启动supervisor" class="headerlink" title="启动supervisor"></a>启动supervisor</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 查看进程</span><br><span class="line">ps aux | grep supervisord</span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable supervisord</span><br><span class="line">systemctl start supervisord</span><br><span class="line">systemctl status supervisord -l</span><br><span class="line">systemctl stop supervisord</span><br><span class="line">systemctl reload supervisord</span><br></pre></td></tr></table></figure>
+<h2 id="Scrapyd"><a href="#Scrapyd" class="headerlink" title="Scrapyd"></a>Scrapyd</h2><h3 id="新建虚拟环境-1"><a href="#新建虚拟环境-1" class="headerlink" title="新建虚拟环境"></a>新建虚拟环境</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/py3</span><br><span class="line">pipenv --python=/root/.pyenv/versions/3.6.5/bin/python</span><br><span class="line"></span><br><span class="line">workon py3-hv-Nhry6</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pyenv virtualenv 3.6.2 scrapyd</span><br><span class="line"></span><br><span class="line">source /root/.pyenv/versions/3.6.2/envs/scrapyd/bin/activate</span><br><span class="line"></span><br><span class="line">pyenv activate scrapyd</span><br><span class="line"></span><br><span class="line">pyenv deactivate</span><br></pre></td></tr></table></figure>
+<h3 id="安装scrapyd"><a href="#安装scrapyd" class="headerlink" title="安装scrapyd"></a>安装scrapyd</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapyd</span><br></pre></td></tr></table></figure>
+<p>mkdir -p /data/scrapyd</p>
+<h3 id="配置scrapyd"><a href="#配置scrapyd" class="headerlink" title="配置scrapyd"></a>配置scrapyd</h3><p>/etc/supervisor/scrapyd.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/supervisor/scrapyd.conf&lt;&lt;EOF</span><br><span class="line">[program:scrapyd]</span><br><span class="line">command=workon py3-hv-Nhry6</span><br><span class="line">directory=/data/scrapyd</span><br><span class="line">command=/root/.virtualenv/py3-hv-Nhry6/bin/scrapyd</span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">redirect_stderr=true</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="重启supervisor"><a href="#重启supervisor" class="headerlink" title="重启supervisor"></a>重启supervisor</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/root/.virtualenv/py2-kYuLH55n/bin/supervisorctl</span><br><span class="line"></span><br><span class="line">status</span><br><span class="line"></span><br><span class="line">reread|reload</span><br></pre></td></tr></table></figure>
+<h2 id="安装SipderKeeper"><a href="#安装SipderKeeper" class="headerlink" title="安装SipderKeeper"></a>安装SipderKeeper</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source /root/.pyenv/versions/3.6.2/envs/scrapyd/bin/activate</span><br><span class="line"></span><br><span class="line">pip install spiderkeeper</span><br></pre></td></tr></table></figure>
+<p>mkdir -p /data/spiderkeeper</p>
+<h3 id="配置spiderkeeper"><a href="#配置spiderkeeper" class="headerlink" title="配置spiderkeeper"></a>配置spiderkeeper</h3><p>/etc/supervisor/spiderkeeper.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/supervisor/spiderkeeper.conf&lt;&lt;EOF</span><br><span class="line">[program:spiderkeeper]</span><br><span class="line">command=source /root/.pyenv/versions/3.6.2/envs/scrapyd/bin/activate</span><br><span class="line">directory=/data/spiderkeeper</span><br><span class="line">command=/root/.virtualenv/py3-hv-Nhry6/bin/spiderkeeper --port=8000 --server=http://localhost:6800 --username=admin --password=admin</span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">startretries=3</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="重启supervisor-1"><a href="#重启supervisor-1" class="headerlink" title="重启supervisor"></a>重启supervisor</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/root/.pyenv/versions/supervisor/bin/supervisorctl</span><br><span class="line"></span><br><span class="line">status</span><br><span class="line"></span><br><span class="line">reread|reload</span><br></pre></td></tr></table></figure>
+<p>### </p>
 
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-linode-Nginx-1.13.11" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/linode-Nginx-1.13.11/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.955Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>编译安装nginx</p>
-<p>安装依赖环境</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y make gcc git pcre-devel zlib-devel</span><br></pre></td></tr></table></figure>
-<p>添加nginx用户和组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -s /sbin/nologin -M nginx</span><br></pre></td></tr></table></figure>
-          
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-        <p class="article-more-link">
-          <a  href="/2018/07/30/linode-Nginx-1.13.11/#more">大航海 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.12.6 Mariadb配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/macOS 10.12.6 Mariadb配置/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.955Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date:2017-08-08 15:59</p>
-<p>brew tap homebrew/services</p>
-<h4 id="安装mariadb"><a href="#安装mariadb" class="headerlink" title="安装mariadb"></a>安装mariadb</h4><p>brew install mariadb</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">jinlong  ~  brew install mariadb</span><br><span class="line">==&gt; Downloading https://homebrew.bintray.com/bottles/mariadb-10.2.7_1.sierra.bot</span><br><span class="line">######################################################################## 100.0%</span><br><span class="line">==&gt; Pouring mariadb-10.2.7_1.sierra.bottle.tar.gz</span><br><span class="line">==&gt; Caveats</span><br><span class="line">A &quot;/etc/my.cnf&quot; from another install may interfere with a Homebrew-built</span><br><span class="line">server starting up correctly.</span><br><span class="line"></span><br><span class="line">MySQL is configured to only allow connections from localhost by default</span><br><span class="line"></span><br><span class="line">To connect:</span><br><span class="line">    mysql -uroot</span><br><span class="line"></span><br><span class="line">To have launchd start mariadb now and restart at login:</span><br><span class="line">  brew services start mariadb</span><br><span class="line">Or, if you don&apos;t want/need a background service you can just run:</span><br><span class="line">  mysql.server start</span><br><span class="line">==&gt; Summary</span><br><span class="line">🍺  /usr/local/Cellar/mariadb/10.2.7_1: 623 files, 162.2MB</span><br></pre></td></tr></table></figure>
-<h4 id="启动mariadb"><a href="#启动mariadb" class="headerlink" title="启动mariadb"></a>启动mariadb</h4><p>brew services start mariadb</p>
-<h4 id="查看服务列表"><a href="#查看服务列表" class="headerlink" title="查看服务列表"></a>查看服务列表</h4><p>brew services list</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.12.6 制作U盘安装盘命令" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/macOS 10.12.6 制作U盘安装盘命令/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.955Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>date: 2017-07-26 08:24</p>
-<h4 id="macOS-10-12-6-制作U盘安装盘命令"><a href="#macOS-10-12-6-制作U盘安装盘命令" class="headerlink" title="macOS 10.12.6 制作U盘安装盘命令"></a>macOS 10.12.6 制作U盘安装盘命令</h4><p>格式<br>createinstallmedia –volume –applicationpath –nointeraction</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /Volumes/Install\ macOS\ Sierra\ 10.12.6/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/Install --applicationpath /Volumes/Install\ macOS\ Sierra\ 10.12.6/Install\ macOS\ Sierra.app  --nointeraction</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-jollychic" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/jollychic/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.951Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>新建项目和crawlspider爬虫</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scrapy startproject shopping</span><br><span class="line">cd shopping</span><br><span class="line">scrapy genspider -t crawl jollychic www.jollychic.com</span><br></pre></td></tr></table></figure>
-<p>设置settings.py 项目的路径</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">project_dir = os.path.abspath(os.path.dirname(__file__))</span><br><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))</span><br><span class="line">sys.path.insert(<span class="number">0</span>, os.path.join(BASE_DIR, <span class="string">'shopping'</span>))</span><br></pre></td></tr></table></figure>
-<p>items.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> Item, Field</span><br><span class="line"><span class="keyword">from</span> scrapy.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JollychicItemLoader</span><span class="params">(ItemLoader)</span>:</span></span><br><span class="line">    default_output_processor = TakeFirst()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JollychicItem</span><span class="params">(Item)</span>:</span></span><br><span class="line">    title = Field()</span><br></pre></td></tr></table></figure>
-<p>spiders/jollychic.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> item <span class="keyword">import</span> JollychicItemLoader, JollychicItem</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">    item_loader = JollychicItemLoader(item=JollychicItem, response=reponse)</span><br><span class="line">    item_loader.add_css()</span><br><span class="line">    item = item_loader.load_item()</span><br><span class="line">    <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/hexo/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>ssh-keygen -t rsa -b 4096 -C “<a href="mailto:ovwane@gmail.com" target="_blank" rel="noopener">ovwane@gmail.com</a>“ -f ~/.ssh/github_rsa </p>
-<p>ssh-keygen -t rsa -b 4096 -C “<a href="mailto:ovwane@gmail.com" target="_blank" rel="noopener">ovwane@gmail.com</a>“ -f ~/.ssh/coding_net_rsa </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br><span class="line"></span><br><span class="line">Host github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/github_rsa</span><br><span class="line">  </span><br><span class="line">Host git.coding.net</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/coding_net_rsa</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> -b hexo git@github.com:ovwane/ovwane.github.io.git blog.ovwane.me</span></span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-firewalld" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/30/firewalld/" class="article-date">
-      <time datetime="2018-07-30T02:29:09.947Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#显示状态</span><br><span class="line">firewall-cmd --state</span><br><span class="line"></span><br><span class="line">#查看区域信息</span><br><span class="line">firewall-cmd --get-default-zone</span><br><span class="line"></span><br><span class="line">#将接口添加到区域，默认接口都在public</span><br><span class="line">firewall-cmd --zone=public --add-interface=eth0 --permanent</span><br><span class="line"></span><br><span class="line">#设置默认接口区域</span><br><span class="line">firewall-cmd --set-default-zone=public</span><br><span class="line"></span><br><span class="line">#查看指定接口所属区域</span><br><span class="line">firewall-cmd --get-zone-of-interface=eth0</span><br><span class="line"></span><br><span class="line">#要得到特定区域的所有配置</span><br><span class="line">firewall-cmd --zone=public --list-all</span><br><span class="line"></span><br><span class="line">#查看所有打开的端口</span><br><span class="line">firewall-cmd --zone=public --list-ports</span><br><span class="line"></span><br><span class="line">#查看所有打开的服务</span><br><span class="line">firewall-cmd --zone=public --list-services</span><br><span class="line"></span><br><span class="line">#开启服务</span><br><span class="line">firewall-cmd --zone=public --add-service=http</span><br><span class="line"></span><br><span class="line">#永久开启服务</span><br><span class="line">firewall-cmd --zone=public --add-service=http --permanent</span><br><span class="line"></span><br><span class="line">#移除服务</span><br><span class="line">firewall-cmd --zone=public --remove-service=dhcpv6-client --permanent</span><br><span class="line"></span><br><span class="line">#更新防火墙规则</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
       
       
     </div>

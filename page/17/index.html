@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-2007年700-2017年7000" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-logrotate" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/2007年700-2017年7000/" class="article-date">
-      <time datetime="2017-12-29T14:48:30.000Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2017/10/08/logrotate/" class="article-date">
+      <time datetime="2017-10-08T16:31:08.000Z" itemprop="datePublished">2017-10-08</time>
 </a>
     </div>
   
@@ -219,75 +219,14 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2007年700-2017年7000/">2007年700-2017年7000</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-CS50-2017" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/29/CS50-2017/" class="article-date">
-      <time datetime="2017-12-29T13:55:24.000Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/CS50-2017/">CS50 2017</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://www.youtube.com/watch?v=y62zj9ozPOM" target="_blank" rel="noopener">CS50 2017 - Lecture 0 - Scratch</a></p>
+        <p>日志自动切分</p>
+<p>vim /etc/logrotate.d/nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/data/nginx/log/*.log &#123;</span><br><span class="line">    su root root</span><br><span class="line">    daily</span><br><span class="line">    rotate 5</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    sharedscripts</span><br><span class="line">    dateext</span><br><span class="line">    postrotate</span><br><span class="line">        if [ -f /var/run/nginx.pid ]; then</span><br><span class="line">            kill -USR1 `cat /var/run/nginx.pid`</span><br><span class="line">        fi</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>手动执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/logrotate -f /etc/logrotate.d/nginx</span><br></pre></td></tr></table></figure>
 
       
       
@@ -315,11 +254,11 @@
 
 
   
-    <article id="post-2017年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 安装配置Hexo" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/2017年终总结之思考/" class="article-date">
-      <time datetime="2017-12-29T08:32:31.000Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2017/10/08/macOS 安装配置Hexo/" class="article-date">
+      <time datetime="2017-10-08T13:27:00.000Z" itemprop="datePublished">2017-10-08</time>
 </a>
     </div>
   
@@ -332,7 +271,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2017年终总结之思考/">2017年终总结之思考</a>
+      <a class="article-title" href="/2017/10/08/macOS 安装配置Hexo/">macOS 安装配置Hexo</a>
     </h1>
   
 
@@ -342,7 +281,39 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>暂无</p>
+        <p>macOS 安装配置<a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a><br>macOS 10.12.6<br>macOS 10.13</p>
+<h2 id="安装依赖环境"><a href="#安装依赖环境" class="headerlink" title="安装依赖环境"></a>安装依赖环境</h2><h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install git</span><br></pre></td></tr></table></figure>
+<h4 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">添加git用户姓名和邮箱地址</span></span><br><span class="line">git config --global user.name "Jinlong Quan"</span><br><span class="line">git config --global user.email "ovwane@gmail.com"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看配置信息</span></span><br><span class="line">git config --global --list</span><br></pre></td></tr></table></figure>
+<h3 id="配置SSH"><a href="#配置SSH" class="headerlink" title="配置SSH"></a>配置SSH</h3><p><a href="http://blog.csdn.net/system1024/article/details/52044900" target="_blank" rel="noopener">参考</a></p>
+<h4 id="生成SSH-key"><a href="#生成SSH-key" class="headerlink" title="生成SSH key"></a>生成SSH key</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f ~/.ssh/hexo_github_rsa</span><br><span class="line">ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f ~/.ssh/hexo_coding_net_rsa</span><br></pre></td></tr></table></figure>
+<h4 id="配置访问权限"><a href="#配置访问权限" class="headerlink" title="配置访问权限"></a>配置访问权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br><span class="line"><span class="meta">#</span><span class="bash"> github.com</span></span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_github_rsa</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> git.coding.net</span></span><br><span class="line">Host git.coding.net</span><br><span class="line">HostName git.coding.net</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_coding_net_rsa</span><br></pre></td></tr></table></figure>
+<h4 id="测试SSH"><a href="#测试SSH" class="headerlink" title="测试SSH"></a>测试SSH</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br><span class="line">ssh -T git@git.coding.net</span><br></pre></td></tr></table></figure>
+<h3 id="安装NVM-Node-Version-Manager"><a href="#安装NVM-Node-Version-Manager" class="headerlink" title="安装NVM(Node Version Manager)"></a>安装<a href="https://github.com/creationix/nvm" target="_blank" rel="noopener">NVM(Node Version Manager)</a></h3><hr>
+<p>需要访问<a href="https://github.com/creationix/nvm#install-script" target="_blank" rel="noopener">NVM</a>站点查看最新版的安装NVM shell脚本。</p>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#安装 NVM  # 此脚本不一定是最新的。请访问NVM站点查看最新版本的NVM。</span><br><span class="line">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash</span><br><span class="line"></span><br><span class="line">#检查 ~/.zshrc 文件内是否有下面的内容，没有的话添加。</span><br><span class="line"></span><br><span class="line">#NVM start</span><br><span class="line">export NVM_DIR=&quot;$HOME/.nvm&quot;</span><br><span class="line">[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot;  # This loads nvm</span><br><span class="line">[ -s &quot;$NVM_DIR/bash_completion&quot; ] &amp;&amp; \. &quot;$NVM_DIR/bash_completion&quot;  # This loads nvm bash_completion</span><br><span class="line">#NVM end</span><br></pre></td></tr></table></figure>
+<h3 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#查看可以安装的node版本</span><br><span class="line">nvm ls-remote</span><br><span class="line"></span><br><span class="line">#安装 node stable</span><br><span class="line">nvm install stable</span><br><span class="line"></span><br><span class="line">#安装 node v8.2.1</span><br><span class="line">nvm install 8.2.1 # 安装的npm版本是5.3.0</span><br><span class="line">#设置默认 node</span><br><span class="line">nvm alias default 8.2.1</span><br></pre></td></tr></table></figure>
+<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#安装Hexo</span><br><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line">#卸载Hexo</span><br><span class="line">npm uninstall hexo-cli -g</span><br><span class="line"></span><br><span class="line">#查看Hexo版本</span><br><span class="line">hexo -version</span><br></pre></td></tr></table></figure>
+<h2 id="使用Hexo"><a href="#使用Hexo" class="headerlink" title="使用Hexo"></a>使用Hexo</h2><h3 id="部署Hexo"><a href="#部署Hexo" class="headerlink" title="部署Hexo"></a>部署Hexo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects</span><br><span class="line">hexo init blog.ovwane.me</span><br><span class="line">cd blog.ovwane.me</span><br><span class="line">npm install</span><br><span class="line">安装Hexo git插件</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<h3 id="添加Hexo主题spfk"><a href="#添加Hexo主题spfk" class="headerlink" title="添加Hexo主题spfk"></a>添加Hexo主题<a href="https://github.com/luuman/hexo-theme-spfk" target="_blank" rel="noopener">spfk</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd blog.ovwane.me</span><br><span class="line"></span><br><span class="line">#下载spfk主题</span><br><span class="line">git clone https://github.com/luuman/hexo-theme-spfk.git themes/spfk</span><br><span class="line"></span><br><span class="line">#设置主题为spfk</span><br><span class="line">vim _config.yml</span><br><span class="line">theme: spfk</span><br></pre></td></tr></table></figure>
+<p><a href="https://luuman.github.io/2015/12/27/Hexo/HexoTheme/" target="_blank" rel="noopener">参考</a></p>
+<h3 id="使用Hexo-1"><a href="#使用Hexo-1" class="headerlink" title="使用Hexo"></a>使用Hexo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#进入博客目录下</span><br><span class="line">cd blog</span><br><span class="line"></span><br><span class="line">#新建一篇文章</span><br><span class="line">hexo new</span><br><span class="line"></span><br><span class="line">#清除缓存文件</span><br><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line">#生成静态文件</span><br><span class="line">hexo generate</span><br><span class="line"></span><br><span class="line">#本地测试</span><br><span class="line">hexo server</span><br><span class="line"></span><br><span class="line">#部署到网站</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+<h2 id="Hexo备份"><a href="#Hexo备份" class="headerlink" title="Hexo备份"></a>Hexo备份</h2><h3 id="Hexo备份初始化"><a href="#Hexo备份初始化" class="headerlink" title="Hexo备份初始化"></a>Hexo备份初始化</h3><p><strong><em>此步骤只有新建hexo项目的时候需要执行。</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">初始化git</span><br><span class="line">git init</span><br><span class="line">git checkout -b hexo</span><br><span class="line">git add .</span><br><span class="line">git commit -m “…”</span><br><span class="line"></span><br><span class="line">git remote add origin git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"></span><br><span class="line">git remote add origin git@git.coding.net:ovwane/ovwane.coding.me.git</span><br><span class="line"></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<h3 id="安装Hexo备份插件"><a href="#安装Hexo备份插件" class="headerlink" title="安装Hexo备份插件"></a>安装<a href="https://github.com/coneycode/hexo-git-backup" target="_blank" rel="noopener">Hexo备份插件</a></h3><h4 id="安装Hexo备份插件-1"><a href="#安装Hexo备份插件-1" class="headerlink" title="安装Hexo备份插件"></a>安装Hexo备份插件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-git-backup --save</span><br></pre></td></tr></table></figure>
+<h4 id="配置Hexo备份插件"><a href="#配置Hexo备份插件" class="headerlink" title="配置Hexo备份插件"></a>配置Hexo备份插件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim _config.yml</span><br><span class="line">backup:</span><br><span class="line">    type: git</span><br><span class="line">    theme: sfpk</span><br><span class="line">    message: update xxx</span><br><span class="line">    repository:</span><br><span class="line">       git@github.com:ovwane/ovwane.github.io.git,hexo</span><br><span class="line">       git@git.coding.net:ovwane/ovwane.coding.me.git,hexo</span><br></pre></td></tr></table></figure>
+<h4 id="使用Hexo备份插件"><a href="#使用Hexo备份插件" class="headerlink" title="使用Hexo备份插件"></a>使用Hexo备份插件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo backup</span><br><span class="line"></span><br><span class="line">hexo b -m &quot;添加注释&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="Hexo插件"><a href="#Hexo插件" class="headerlink" title="Hexo插件"></a>Hexo插件</h2><h3 id="hexo-filter-flowchart"><a href="#hexo-filter-flowchart" class="headerlink" title="hexo-filter-flowchart"></a><a href="https://github.com/bubkoo/hexo-filter-flowchart" target="_blank" rel="noopener">hexo-filter-flowchart</a></h3><blockquote>
+<p>Generate flowchart diagrams for Hexo.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-filter-flowchart</span><br><span class="line"></span><br><span class="line"># vim _config.yml</span><br><span class="line"># Extensions</span><br><span class="line">## flowchart diagrams</span><br><span class="line">flowchart:</span><br><span class="line">  # raphael:   # optional, the source url of raphael.js</span><br><span class="line">  # flowchart: # optional, the source url of flowchart.js</span><br><span class="line">  options: # options used for `drawSVG`</span><br></pre></td></tr></table></figure>
+<h3 id="hexo-filter-sequence"><a href="#hexo-filter-sequence" class="headerlink" title="hexo-filter-sequence"></a><a href="https://github.com/bubkoo/hexo-filter-sequence" target="_blank" rel="noopener">hexo-filter-sequence</a></h3><blockquote>
+<p>Generate UML sequence diagrams for Hexo.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-filter-sequence</span><br><span class="line"></span><br><span class="line"># vim _config.yml</span><br><span class="line"># Extensions</span><br><span class="line">## UML sequence</span><br><span class="line">sequence:</span><br><span class="line">  # webfont:     # optional, the source url of webfontloader.js</span><br><span class="line">  # snap:        # optional, the source url of snap.svg.js</span><br><span class="line">  # underscore:  # optional, the source url of underscore.js</span><br><span class="line">  # sequence:    # optional, the source url of sequence-diagram.js</span><br><span class="line">  # css: # optional, the url for css, such as hand drawn theme </span><br><span class="line">  options: </span><br><span class="line">    theme: </span><br><span class="line">    css_class:</span><br></pre></td></tr></table></figure>
+<h3 id="hexo-tag-mermaid"><a href="#hexo-tag-mermaid" class="headerlink" title="hexo-tag-mermaid"></a><a href="https://github.com/threeq/hexo-tag-mermaid" target="_blank" rel="noopener">hexo-tag-mermaid</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 这个命令无法使用</span><br><span class="line">npm install hexo-tag-mermaid --save</span><br><span class="line"></span><br><span class="line">npm install https://github.com/threeq/hexo-tag-mermaid.git --save</span><br></pre></td></tr></table></figure>
+<h3 id="hexo-tag-plantuml"><a href="#hexo-tag-plantuml" class="headerlink" title="hexo-tag-plantuml"></a><a href="https://github.com/threeq/hexo-tag-plantuml" target="_blank" rel="noopener">hexo-tag-plantuml</a></h3><h2 id="Hexo部署文章步骤"><a href="#Hexo部署文章步骤" class="headerlink" title="Hexo部署文章步骤"></a>Hexo部署文章步骤</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line">hexo generate</span><br><span class="line"></span><br><span class="line">hexo deploy</span><br><span class="line"></span><br><span class="line">hexo backup -m &quot;添加注释&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><h3 id="hexo不解析README-md文件"><a href="#hexo不解析README-md文件" class="headerlink" title="hexo不解析README.md文件"></a>hexo不解析README.md文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_config.yml</span><br><span class="line">skip_render:</span><br><span class="line">  - README.md</span><br><span class="line"></span><br><span class="line">source目录新建README文件</span><br></pre></td></tr></table></figure>
 
       
       
@@ -352,9 +323,67 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/macOS/">macOS</a>
     </div>
 
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2017-10-08-从明天要好好工作了，要去赚钱了。" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/08/2017-10-08-从明天要好好工作了，要去赚钱了。/" class="article-date">
+      <time datetime="2017-10-08T12:51:41.000Z" itemprop="datePublished">2017-10-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/08/2017-10-08-从明天要好好工作了，要去赚钱了。/">2017.10.08 从明天要好好工作了，要去赚钱了。</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
 
       
       
@@ -374,11 +403,11 @@
 
 
   
-    <article id="post-2017年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2017-10-07-收到新买的-Apple-MacBook-Pro-15" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/2017年终总结之败家/" class="article-date">
-      <time datetime="2017-12-29T08:31:31.000Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2017/10/08/2017-10-07-收到新买的-Apple-MacBook-Pro-15/" class="article-date">
+      <time datetime="2017-10-08T12:51:26.000Z" itemprop="datePublished">2017-10-08</time>
 </a>
     </div>
   
@@ -391,7 +420,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2017年终总结之败家/">2017年终总结之败家</a>
+      <a class="article-title" href="/2017/10/08/2017-10-07-收到新买的-Apple-MacBook-Pro-15/">2017.10.07 收到新买的 Apple MacBook Pro 15</a>
     </h1>
   
 
@@ -401,7 +430,316 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Apple MacBook Pro 15<br>Sony Xperia XZ1</p>
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2017-10-06-回到北京了" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/08/2017-10-06-回到北京了/" class="article-date">
+      <time datetime="2017-10-08T12:51:12.000Z" itemprop="datePublished">2017-10-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/08/2017-10-06-回到北京了/">2017.10.06 回到北京了</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2017-09-23-买了一台-Apple-MacBook-Pro-15" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/08/2017-09-23-买了一台-Apple-MacBook-Pro-15/" class="article-date">
+      <time datetime="2017-10-08T12:51:02.000Z" itemprop="datePublished">2017-10-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/08/2017-09-23-买了一台-Apple-MacBook-Pro-15/">2017.09.23 买了一台 Apple MacBook Pro 15</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 安装Oh My Zsh" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/08/macOS 安装Oh My Zsh/" class="article-date">
+      <time datetime="2017-10-08T10:36:00.000Z" itemprop="datePublished">2017-10-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/08/macOS 安装Oh My Zsh/">macOS 安装Oh My Zsh</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>macOS 安装<a href="http://ohmyz.sh/" target="_blank" rel="noopener">Oh My Zsh</a><br>macOS 10.12.6<br>macOS 10.13</p>
+<h2 id="macOS-安装-Oh-My-Zsh"><a href="#macOS-安装-Oh-My-Zsh" class="headerlink" title="macOS 安装 Oh My Zsh"></a>macOS 安装 <a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">Oh My Zsh</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</span><br></pre></td></tr></table></figure>
+<p>网站<br><a href="http://ohmyz.sh/" target="_blank" rel="noopener">http://ohmyz.sh/</a></p>
+<p><a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">https://github.com/robbyrussell/oh-my-zsh</a></p>
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><h3 id="安装zsh-syntax-highlighting"><a href="#安装zsh-syntax-highlighting" class="headerlink" title="安装zsh-syntax-highlighting"></a>安装<a href="https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md" target="_blank" rel="noopener">zsh-syntax-highlighting</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
+<h3 id="安装autojump"><a href="#安装autojump" class="headerlink" title="安装autojump"></a>安装<a href="https://github.com/wting/autojump" target="_blank" rel="noopener">autojump</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install autojump</span><br></pre></td></tr></table></figure>
+<h3 id="安装powerline-status"><a href="#安装powerline-status" class="headerlink" title="安装powerline-status"></a>安装<a href="https://github.com/powerline/powerline" target="_blank" rel="noopener">powerline-status</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install powerline-status</span><br><span class="line">pip show powerline-status</span><br></pre></td></tr></table></figure>
+<h3 id="安装powerline-fonts"><a href="#安装powerline-fonts" class="headerlink" title="安装powerline-fonts"></a>安装<a href="https://github.com/powerline/fonts" target="_blank" rel="noopener">powerline-fonts</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/powerline/fonts.git</span><br><span class="line">./fonts/install.sh</span><br><span class="line">rm -rf fonts</span><br></pre></td></tr></table></figure>
+<h2 id="参数配置"><a href="#参数配置" class="headerlink" title="参数配置"></a>参数配置</h2><h3 id="zshrc文件"><a href="#zshrc文件" class="headerlink" title="~/.zshrc文件"></a>~/.zshrc文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 插件</span><br><span class="line">~/.zshrc</span><br><span class="line">plugins=(git autojump osx colored-man-pages brew zsh-syntax-highlighting)</span><br><span class="line"></span><br><span class="line"># powerline</span><br><span class="line">. /usr/local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh</span><br></pre></td></tr></table></figure>
+<h3 id="powerline-vim配置-vimrc"><a href="#powerline-vim配置-vimrc" class="headerlink" title="powerline vim配置 .vimrc"></a>powerline vim配置 .vimrc</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set rtp+=/usr/local/lib/python3.6/dist-packages/powerline/bindings/vim</span><br><span class="line">set laststatus=2</span><br><span class="line">set t_Co=256</span><br></pre></td></tr></table></figure>
+<p><a href="http://blog.topspeedsnail.com/archives/2652" target="_blank" rel="noopener">powerline安装参考</a></p>
+<h4 id="安装-autojump"><a href="#安装-autojump" class="headerlink" title="安装 autojump"></a>安装 autojump</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install autojump</span><br></pre></td></tr></table></figure>
+<p>网站<br><a href="https://github.com/wting/autojump" target="_blank" rel="noopener">https://github.com/wting/autojump</a></p>
+<h3 id="iTerm2-配色方案"><a href="#iTerm2-配色方案" class="headerlink" title="iTerm2 配色方案"></a>iTerm2 配色方案</h3><p>下载<a href="http://ethanschoonover.com/solarized" target="_blank" rel="noopener">Solarized</a>配色</p>
+<hr>
+<p>打开Preferenced-&gt;Profiles<br>新建profile为 ovwane。</p>
+<p>打开iTerm2的偏好设定<br>Profiles-&gt;Colors<br>点开右下角的Color Presets 选择Import… 直接加载iterm2-colors-solarized/Solarized Dark.itermcolors配色方案就可以了，重启iTerm2就可以看到效果。</p>
+<hr>
+<h4 id="powerline-status"><a href="#powerline-status" class="headerlink" title="powerline-status"></a>powerline-status</h4><p>pip3 install powerline-status</p>
+<p>pip3 show powerline-status</p>
+<p>安装字体<br>git clone <a href="https://github.com/powerline/fonts.git" target="_blank" rel="noopener">https://github.com/powerline/fonts.git</a><br>./fonts/install.sh<br>rm -rf fonts</p>
+<p>应用配置</p>
+<p>.zshrc</p>
+<p>. /usr/local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh</p>
+<p>.vimrc</p>
+<p>set rtp+=/usr/local/lib/python3.6/dist-packages/powerline/bindings/vim<br>set laststatus=2<br>set t_Co=256</p>
+<p>Bash配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /.bash_profile</span><br><span class="line">. /usr/local/lib/python3.6/dist-packages/site-packages/powerline/bindings/bash/powerline.sh</span><br><span class="line"></span><br><span class="line">立即生效</span><br><span class="line">source ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<p>网站|<a href="http://blog.topspeedsnail.com/archives/2652" target="_blank" rel="noopener">参考</a></p>
+<p><a href="https://github.com/powerline/powerline" target="_blank" rel="noopener">https://github.com/powerline/powerline</a><br><a href="https://github.com/powerline/fonts" target="_blank" rel="noopener">https://github.com/powerline/fonts</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/macOS/">macOS</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oh-My-Zsh/">Oh My Zsh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-购买的收费软件清单" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/07/购买的收费软件清单/" class="article-date">
+      <time datetime="2017-10-07T20:15:44.000Z" itemprop="datePublished">2017-10-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/07/购买的收费软件清单/">购买的收费软件清单</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="购买的收费软件清单"><a href="#购买的收费软件清单" class="headerlink" title="购买的收费软件清单"></a>购买的收费软件清单</h1><p>iStat Menus</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-十年青春,十年网文！" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/01/十年青春,十年网文！/" class="article-date">
+      <time datetime="2017-10-01T18:20:00.000Z" itemprop="datePublished">2017-10-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/01/十年青春,十年网文！/">十年青春，十年网文！</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>挖坑 </p>
 
       
       
@@ -437,11 +775,11 @@
 
 
   
-    <article id="post-2017年总结与2018年计划" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-浦发银行2万" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/2017年总结与2018年计划/" class="article-date">
-      <time datetime="2017-12-29T08:25:00.000Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2017/09/04/浦发银行2万/" class="article-date">
+      <time datetime="2017-09-04T13:47:23.000Z" itemprop="datePublished">2017-09-04</time>
 </a>
     </div>
   
@@ -454,7 +792,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/2017年总结与2018年计划/">2017年总结与2018年计划</a>
+      <a class="article-title" href="/2017/09/04/浦发银行2万/">浦发银行2万</a>
     </h1>
   
 
@@ -464,417 +802,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="当前背景"><a href="#当前背景" class="headerlink" title="当前背景"></a>当前背景</h2><p>今天星期五，明天就开始休息和放假啦！</p>
-<h2 id="工作总结与计划的重要性"><a href="#工作总结与计划的重要性" class="headerlink" title="工作总结与计划的重要性"></a>工作总结与计划的重要性</h2><h3 id="计划的时间"><a href="#计划的时间" class="headerlink" title="计划的时间"></a>计划的时间</h3><ol>
-<li>每年度结束时，新的一年即将开始时。</li>
-</ol>
-<h3 id="计划的目的"><a href="#计划的目的" class="headerlink" title="计划的目的"></a>计划的目的</h3><ol>
-<li>对新的一年的整体计划，从家庭、工作、学习、健康、生活、旅行等方面出发，规划自己新的一年的整体目标</li>
-<li>通过整体的规划，可以定期的对自己进行监督，从而使自己能够完整规划的目标。</li>
-</ol>
-<h3 id="总结的价值"><a href="#总结的价值" class="headerlink" title="总结的价值"></a>总结的价值</h3><ol>
-<li>有助于更好的规划自己的时间，不断的进行提升。</li>
-<li>作为监督自己的一种方式</li>
-<li>可以帮助自己做好自己的职业规划</li>
-</ol>
-<h1 id="2017年度总结"><a href="#2017年度总结" class="headerlink" title="2017年度总结"></a>2017年度总结</h1><h2 id="生活上"><a href="#生活上" class="headerlink" title="生活上"></a>生活上</h2><p>生了一场大病，人生第一次去了急诊，住院。<br>买了一台苹果本</p>
-<h2 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h2><p>经历了第一次被人fire</p>
-<h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><p>学习Python</p>
-<h2 id="业余"><a href="#业余" class="headerlink" title="业余"></a>业余</h2><p>摄影，</p>
-<h1 id="2018年计划"><a href="#2018年计划" class="headerlink" title="2018年计划"></a>2018年计划</h1><h2 id="生活上-1"><a href="#生活上-1" class="headerlink" title="生活上"></a>生活上</h2><ol>
-<li>在北京周边买一套房子，进行投资</li>
-<li>进行2次长线旅游、4次以上短途旅游</li>
-</ol>
-<h2 id="工作-1"><a href="#工作-1" class="headerlink" title="工作"></a>工作</h2><ol>
-<li>换工作，找一个做互联网相关的公司</li>
-<li>薪水能够有所提高，尤其是公积金的缴纳基数</li>
-<li>能够设计和上线一款互联网相关的产品</li>
-</ol>
-<h2 id="学习-1"><a href="#学习-1" class="headerlink" title="学习"></a>学习</h2><ol>
-<li>读一本产品经理相关的图书</li>
-<li>学习一套产品设计相关的视频课程</li>
-<li>参加一次产品经理相关的培训课程</li>
-<li>每天坚持看两遍关于产品和运营相关的文章，早上、晚上各一篇</li>
-</ol>
-<h2 id="业余-1"><a href="#业余-1" class="headerlink" title="业余"></a>业余</h2><p>学习如何与人交流，沟通，相处。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Ubuntu-新装服务器部署流程" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/18/Ubuntu-新装服务器部署流程/" class="article-date">
-      <time datetime="2017-12-18T15:02:01.000Z" itemprop="datePublished">2017-12-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/18/Ubuntu-新装服务器部署流程/">Ubuntu 新装服务器部署流程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Ubuntu-新装服务器部署流程"><a href="#Ubuntu-新装服务器部署流程" class="headerlink" title="Ubuntu 新装服务器部署流程"></a>Ubuntu 新装服务器部署流程</h1><blockquote>
-<p>Ubuntu 16.04.3</p>
-</blockquote>
-<p><a href="http://wzlinux.blog.51cto.com/8021085/1964616" target="_blank" rel="noopener">Ubuntu 新装服务器部署流程</a><br><a href="http://blog.51cto.com/wzlinux/2043586" target="_blank" rel="noopener">Ubuntu 新装服务器部署流程</a></p>
-<h3 id="配置IP"><a href="#配置IP" class="headerlink" title="配置IP"></a>配置IP</h3><p>修改文件/etc/network/interfaces</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">auto ens33</span><br><span class="line">iface ens33 inet static</span><br><span class="line">address 192.168.8.100</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.8.1</span><br><span class="line">dns-nameserver 8.8.8.8</span><br></pre></td></tr></table></figure>
-<p>重启网络</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart netwoking.service</span><br><span class="line">/etc/init.d/networking restart</span><br></pre></td></tr></table></figure>
-<h3 id="设定时区"><a href="#设定时区" class="headerlink" title="设定时区"></a>设定时区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -f /etc/localtime</span><br><span class="line">cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line">date -R</span><br></pre></td></tr></table></figure>
-<h3 id="配置apt-get源"><a href="#配置apt-get源" class="headerlink" title="配置apt-get源"></a>配置apt-get源</h3><p>ubuntu 14.04</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -f /etc/apt/sources.list</span><br><span class="line">wget -P /etc/apt/ http://mirrors.163.com/.help/sources.list.trusty</span><br><span class="line">mv /etc/apt/sources.list.trusty /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
-<p>ubuntu 16.04<br><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apt</span><br><span class="line">cp source.list source.list.bak</span><br><span class="line"></span><br><span class="line">vi source.list</span><br><span class="line"></span><br><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
-<h3 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
-<h3 id="安装软件包"><a href="#安装软件包" class="headerlink" title="安装软件包"></a>安装软件包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y openssh-server vim lrzsz git tree bash-completion sysstat</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">### 开启root登录</span></span><br></pre></td></tr></table></figure>
-<p>vi /etc/ssh/sshd_config<br>PermitRootLogin yes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">service ssh restart</span><br><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure></p>
-<h3 id="踢出终端tty用户"><a href="#踢出终端tty用户" class="headerlink" title="踢出终端tty用户"></a>踢出终端tty用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkill -kill -t tty</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-分布式爬虫实战第二期-杨真-小象学院-笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-笔记/" class="article-date">
-      <time datetime="2017-12-08T16:27:00.000Z" itemprop="datePublished">2017-12-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-笔记/">手把手带你构建一个分布式爬虫系统实战-小象学院-笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>01 静态网页爬虫：爬虫的基础技术.flv 2:40:54<br>02 登录及动态网页的抓取.flv 2:19:24<br>03 微博的抓取.flv 2:42:00<br>04 多线程与多进程的爬虫.flv 2:02:20<br>05 微博数据的存储：分布式数据库及应用.flv 2:15:07<br>06 多机并行的微博抓取：分布式系统设计.flv 2:12:20<br>07 应对反爬虫的策略.flv 2:25:33<br>08 分布式系统的高可用与高并发处理.flv 2:13:47<br>09 日志系统、以及基于Page Rank的顺序调整.flv 2:13:54<br>10 日志、守护线程以及验证码处理.flv 2:07:54<br>11 分布式数据库架构分析、优化及要点.flv 2:23:10<br>12 自动摘要及正文抽取.flv 1:57:54<br>13 网页分类与针对文本的机器学习应用.flv 2:17:14<br>14 信息检索、搜索引擎原理及应用.flv 2:31:18<br>15 Scrapy录播视频.flv 2:21:02<br>16 Scrapy进阶录播视频.flv 2:10:09<br>17 网页排重.flv 2:19:19</p>
-<h1 id="01"><a href="#01" class="headerlink" title="01"></a>01</h1><p>新建PyCharm项目 chinahadoop_crawl_spider<br>新建PyCharm项目 chinahadoop_crawl_spider_py2.7</p>
-<p>cd chinahadoop_crawl_spider</p>
-<p>macOS下安装pipenv</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install pipenv</span><br></pre></td></tr></table></figure>
-<p>添加pipenv自动补全</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(pipenv --completion)</span>"</span></span><br></pre></td></tr></table></figure>
-<p>初始化pipenv</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</span><br></pre></td></tr></table></figure>
-<p>修改pypi源</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#linux</span></span><br><span class="line">sed -i <span class="string">"s#python.org#douban.com#g"</span> Pipfile</span><br><span class="line"></span><br><span class="line"><span class="comment">#macOS 和linux不同，需要加“”</span></span><br><span class="line">sed -i <span class="string">""</span> <span class="string">"s#python.org#douban.com#g"</span> Pipfile</span><br></pre></td></tr></table></figure>
-<p>BITMAP 方式记录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install murmurhash3 bitarray</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2.7.14 安装murmurhash3失败</span><br></pre></td></tr></table></figure>
-<p>Bloom Filter<br>pybloomfilter</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pybloomfilter</span><br></pre></td></tr></table></figure>
-<h1 id="02"><a href="#02" class="headerlink" title="02"></a>02</h1><p>lxml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install lxml</span><br></pre></td></tr></table></figure>
-<p>Selenium</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install selenium</span><br></pre></td></tr></table></figure>
-<p>PhantomJS</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install phantomjs</span><br></pre></td></tr></table></figure>
-<h1 id="03"><a href="#03" class="headerlink" title="03"></a>03</h1><h1 id="04"><a href="#04" class="headerlink" title="04"></a>04</h1><p>Python Mysql Connector</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymysql</span><br></pre></td></tr></table></figure>
-<p>Python Mysql Connector<br>py2.7</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mysqlclient</span><br></pre></td></tr></table></figure>
-<h1 id="05"><a href="#05" class="headerlink" title="05"></a>05</h1><p>Python hdfs module</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install hdfs</span><br></pre></td></tr></table></figure>
-<p>MongoDB<br>pymongo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymongo</span><br></pre></td></tr></table></figure>
-<p>Python Redis</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install redis</span><br></pre></td></tr></table></figure>
-<h1 id="06"><a href="#06" class="headerlink" title="06"></a>06</h1><h1 id="07"><a href="#07" class="headerlink" title="07"></a>07</h1><h1 id="08"><a href="#08" class="headerlink" title="08"></a>08</h1><p>Scrapy</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
-<h1 id="09"><a href="#09" class="headerlink" title="09"></a>09</h1><p>Python 的 PageRank - NetworkX</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install networkx</span><br></pre></td></tr></table></figure>
-<p>查重算法<br>SimHash – 海明距离</p>
-<p>依赖 sh库</p>
-<p><a href="https://www.the5fire.com/analyze-python-lib-sh.html" target="_blank" rel="noopener">[Python库]分析一个python库–sh（系统调用）</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install simhash</span><br></pre></td></tr></table></figure>
-<h1 id="10"><a href="#10" class="headerlink" title="10"></a>10</h1><p>Daemontool</p>
-<p>Pillow</p>
-<p>Pillow 是一个图像工具包，包含了一个 Image 类用来做图像的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pillow</span><br></pre></td></tr></table></figure>
-<p>Tesseract-Ocr</p>
-<p>Tesseract-Ocr 是一个 Google 主导的开源 OCR (Optical Character Recongnition) 引擎。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pytesseract</span><br></pre></td></tr></table></figure>
-<h1 id="12"><a href="#12" class="headerlink" title="12"></a>12</h1><p>Goose<br>PyGoose</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install goose3</span><br></pre></td></tr></table></figure>
-<p>py2.7</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pygoose</span><br></pre></td></tr></table></figure>
-<h1 id="13"><a href="#13" class="headerlink" title="13"></a>13</h1><p>结巴分词</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install jieba</span><br></pre></td></tr></table></figure>
-<p>Python TF-IDF</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install sklearn scipy numpy</span><br></pre></td></tr></table></figure>
-<h1 id="14"><a href="#14" class="headerlink" title="14"></a>14</h1><p>Elastic Search</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-分布式爬虫实战第二期-杨真-小象学院-目录" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-目录/" class="article-date">
-      <time datetime="2017-12-08T16:27:00.000Z" itemprop="datePublished">2017-12-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-目录/">手把手带你构建一个分布式爬虫系统实战-小象学院-目录</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>01 静态网页爬虫：爬虫的基础技术.flv 2:40:54<br>02 登录及动态网页的抓取.flv 2:19:24<br>03 微博的抓取.flv 2:42:00<br>04 多线程与多进程的爬虫.flv 2:02:20<br>05 微博数据的存储：分布式数据库及应用.flv 2:15:07<br>06 多机并行的微博抓取：分布式系统设计.flv 2:12:20<br>07 应对反爬虫的策略.flv 2:25:33<br>08 分布式系统的高可用与高并发处理.flv 2:13:47<br>09 日志系统、以及基于Page Rank的顺序调整.flv 2:13:54<br>10 日志、守护线程以及验证码处理.flv 2:07:54<br>11 分布式数据库架构分析、优化及要点.flv 2:23:10<br>12 自动摘要及正文抽取.flv 1:57:54<br>13 网页分类与针对文本的机器学习应用.flv 2:17:14<br>14 信息检索、搜索引擎原理及应用.flv 2:31:18<br>15 Scrapy录播视频.flv 2:21:02<br>16 Scrapy进阶录播视频.flv 2:10:09<br>17 网页排重.flv 2:19:19</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Jira安装配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/11/30/Jira安装配置/" class="article-date">
-      <time datetime="2017-11-30T08:45:00.000Z" itemprop="datePublished">2017-11-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/30/Jira安装配置/">Jira安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Jira安装配置"><a href="#Jira安装配置" class="headerlink" title="Jira安装配置"></a>Jira安装配置</h1><p>JIRA Core server<br><a href="https://www.ilanni.com/?p=12119" target="_blank" rel="noopener">烂泥：jira7.3/7.2安装、中文及破解(20170829更新)</a><br><a href="http://www.yfshare.vip/2017/05/09/%E9%83%A8%E7%BD%B2JIRA-7-2-2-for-Linux/" target="_blank" rel="noopener">部署JIRA 7.2.2 for Linux</a><a href="http://blog.wangruirui.cn/2017/04/26/jara-install/" target="_blank" rel="noopener">CentOS 7 安装jara7.3.3 破解+汉化 一篇就够了(By-Ruicky)</a><br><a href="https://confluence.atlassian.com/doc/server-hardware-requirements-guide-30736403.html" target="_blank" rel="noopener">硬件要求</a></p>
-<h3 id="下载jira7-2-2"><a href="#下载jira7-2-2" class="headerlink" title="下载jira7.2.2"></a>下载jira7.2.2</h3><p><a href="https://www.atlassian.com/software/jira/download" target="_blank" rel="noopener">https://www.atlassian.com/software/jira/download</a></p>
-<p><code>wget https://downloads.atlassian.com/software/jira/downloads/atlassian-jira-software-7.2.2-x64.bin</code></p>
-<h3 id="安装jira"><a href="#安装jira" class="headerlink" title="安装jira"></a>安装jira</h3><p>现在开始安装jira7.2.2</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod 755 atlassian-jira-software-7.2.2-x64.bin</span><br><span class="line"></span><br><span class="line">./atlassian-jira-software-7.2.2-x64.bin</span><br></pre></td></tr></table></figure>
-<p>通过上图，我们可以很明显的看出jira安装到了/opt/atlassian/jira和/var/atlassian/application-data/jira目录下，并且jira监听的端口是8080。</p>
-<p>jira的主要配置文件，存放在/opt/atlassian/jira/conf/server.xml文件中，如下：</p>
-<p>vim /opt/atlassian/jira/conf/server.xml</p>
-<p>现在我们先关闭jira，然后把破解包里面的atlassian-extras-3.1.2.jar和mysql-connector-java-5.1.39-bin.jar两个文件复制到/opt/atlassian/jira/atlassian-jira/WEB-INF/lib/目录下。</p>
-<p>其中atlassian-extras-3.1.2.jar是用来替换原来的atlassian-extras-3.1.2.jar文件，用作破解jira系统的。</p>
-<p>而mysql-connector-java-5.1.39-bin.jar是用来连接mysql数据库的驱动软件包。</p>
-<p>现在再次启动jira，然后我们现在来访问如下地址：</p>
-<p>jira.ilanni.com:8080</p>
-<p>而连接数据库的配置是/var/atlassian/application-data/jira/dbconfig.xml，如下：</p>
-<p>cat /var/atlassian/application-data/jira/dbconfig.xml</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Python爬虫学习实践笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/11/23/Python爬虫学习实践笔记/" class="article-date">
-      <time datetime="2017-11-23T22:09:39.000Z" itemprop="datePublished">2017-11-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/23/Python爬虫学习实践笔记/">Python爬虫学习实践笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
-<p>Python 3.6.3</p>
-</blockquote>
-<p>环境创建</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkvirtualenv crawl_spider --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</span><br></pre></td></tr></table></figure>
-<p>安装库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests==2.18.4 beautifulsoup4==4.6.0</span><br></pre></td></tr></table></figure>
-<p><a href="http://python-requests.org/" target="_blank" rel="noopener">Requests</a></p>
-<p><a href="https://www.crummy.com/software/BeautifulSoup/" target="_blank" rel="noopener">Beautiful Soup</a></p>
-<p>lxml和BeautifulSoup的区别</p>
-
       
       
     </div>
