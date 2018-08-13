@@ -565,15 +565,43 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h4 id="拉取gitlib镜像"><a href="#拉取gitlib镜像" class="headerlink" title="拉取gitlib镜像"></a>拉取gitlib镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull gitlab/gitlab-ce:11.1.0-ce.0</span><br></pre></td></tr></table></figure>
-<h4 id="数据持久化保存"><a href="#数据持久化保存" class="headerlink" title="数据持久化保存"></a>数据持久化保存</h4><p>因为容器的数据是不能持久化保存的。所以我们需要用 docker volume 的方式将存储的数据映射到操作系统的目录中来。这样就算运行的容器崩溃，我们重新启动一个新的容器，原来容器中的数据还是不会丢失</p>
-<p>我们建立了目录 /data/gitlab 来保存 gitlab 容器中的数据</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p  /data/gitlab</span><br></pre></td></tr></table></figure>
-<h4 id="运行-gitlab"><a href="#运行-gitlab" class="headerlink" title="运行 gitlab"></a>运行 gitlab</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --detach \</span><br><span class="line">    --hostname gitlib.example.com \</span><br><span class="line">    --publish IP:443:443 --publish IP:80:80 --publish IP:22:22 \</span><br><span class="line">    --name gitlab \</span><br><span class="line">    --restart always \</span><br><span class="line">    --volume /data/gitlab/config:/etc/gitlab \</span><br><span class="line">    --volume /data/gitlab/logs:/var/log/gitlab \</span><br><span class="line">    --volume /data/gitlab/data:/var/opt/gitlab \</span><br><span class="line">    gitlab/gitlab-ce:11.1.0-ce.0</span><br></pre></td></tr></table></figure>
-<p> 这里把主机的 443、80、22 端口直接转发到容器，同时利用 –volume /data/gitlab/config:/etc/gitlab 、  –volume /data/gitlab/logs:/var/log/gitlab 、 –volume /data/gitlab/data:/var/opt/gitlab 这三个参数将 gitlab 的配置、数据和日志持久化到主机文件系统上来。需要绑定IP，不然由ipv6的只绑定ipv6地址。</p>
+        <p><strong>部署 GitLab</strong></p>
+<p>获取 GitLab 镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull gitlab/gitlab-ce:8.0.5-ce.0</span><br></pre></td></tr></table></figure>
+<p>查看本地镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p>创建目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/gitlab/&#123;config,data,logs&#125;</span><br></pre></td></tr></table></figure>
+<p>创建并运行容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker run --detach \</span><br><span class="line">       --hostname git.quanjinlong.cn \</span><br><span class="line">       --publish 443:443 \</span><br><span class="line">       --publish 80:80 \</span><br><span class="line">       --publish 22:22 \</span><br><span class="line">       --name gitlab-8.0.5 \</span><br><span class="line">       --restart always \</span><br><span class="line">       --volume /data/gitlab/config:/etc/gitlab \</span><br><span class="line">       --volume /data/gitlab/logs:/var/log/gitlab \</span><br><span class="line">       --volume /data/gitlab/data:/var/opt/gitlab \</span><br><span class="line">       gitlab/gitlab-ce:8.0.5-ce.0</span><br></pre></td></tr></table></figure>
+<p>查看运行状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">netstat -ntulap | grep docker</span><br></pre></td></tr></table></figure>
+<p>访问 GitLab</p>
+<ul>
+<li><a href="http://git.ovwane.com/" target="_blank" rel="noopener">http://git.ovwane.com/</a><ul>
+<li>如果没有域名，直接使用 IP 访问即可。</li>
+</ul>
+</li>
+</ul>
+<p>初始账户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">用户: root</span><br><span class="line">密码: 5iveL!fe</span><br></pre></td></tr></table></figure>
+<p>首次登陆需要修改密码。</p>
+<p><strong>修改配置文件</strong></p>
+<p>添加https, 需要导入证书</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入挂载配置目录</span></span><br><span class="line">cd /data/gitlab/config</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建密钥文件夹, 并放入证书</span></span><br><span class="line">mkdir ssl;cd ssl</span><br><span class="line"><span class="meta">#</span><span class="bash"> 移动证书，使用的是Let’s Encrypt证书</span></span><br><span class="line">mv fullchain.cer  域名.key .</span><br></pre></td></tr></table></figure>
+<p>修改配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vi /data/gitlab/config/gitlab.rb</span><br><span class="line"></span><br><span class="line">###################################################</span><br><span class="line"># 添加外部请求的域名(如果不支持https, 可以改成http)</span><br><span class="line">external_url &apos;https://git.xxx.com&apos;</span><br><span class="line"># 修改gitlab对应的时区 </span><br><span class="line">gitlab_rails[&apos;time_zone&apos;] = &apos;Asia/Shanghai&apos;</span><br><span class="line"># 配置ssl参数</span><br><span class="line">nginx[&apos;enable&apos;] = true</span><br><span class="line">nginx[&apos;redirect_http_to_https&apos;] = false</span><br><span class="line">nginx[&apos;redirect_http_to_https_port&apos;] = 443</span><br><span class="line">nginx[&apos;ssl_certificate&apos;] = &quot;/etc/gitlab/ssl/fullchain.cer&quot;</span><br><span class="line">nginx[&apos;ssl_certificate_key&apos;] = &quot;/etc/gitlab/ssl/域名.key&quot;</span><br><span class="line">###################################################</span><br></pre></td></tr></table></figure>
+<p>重启服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 方法一: 重启容器(其中xxxxxx是容器id)</span></span><br><span class="line">docker restart xxxxxx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 方法二: 登陆容器, 重启配置</span></span><br><span class="line">docker exec -it  xxxxxx bash   </span><br><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://about.gitlab.com/installation/" target="_blank" rel="noopener">GitLab Installation</a></p>
+<p><a href="http://blog.daocloud.io/using-docker-deploy-gitlab/" target="_blank" rel="noopener">使用Docker来搭建gitlab</a></p>
 <p><a href="https://www.jianshu.com/p/8d8e6b45a514" target="_blank" rel="noopener">通过 docker 搭建自用的 gitlab 服务</a></p>
 <p><a href="https://docs.gitlab.com/omnibus/docker/" target="_blank" rel="noopener">GitLab Docker images</a></p>
+<p><a href="https://my.oschina.net/u/1432614/blog/658568" target="_blank" rel="noopener">在 CentOS 7 上使用 Docker 部署安装 GitLab</a></p>
+<p> <a href="https://medium.com/@CoderAFI/docker-gitlab-3fa06d6ec0b5" target="_blank" rel="noopener">Docker+Gitlab https</a></p>
+<p> <a href="http://blog.fatedier.com/2016/04/05/install-gitlab-supporting-ci-with-docker/#%E5%90%AF%E5%8A%A8-gitlab" target="_blank" rel="noopener">利用docker搭建gitlab及持续集成模块</a></p>
+<p> <a href="https://medium.com/@CoderAFI/docker-gitlab-3fa06d6ec0b5" target="_blank" rel="noopener">Docker+Gitlab 配置</a></p>
+<p><a href="https://www.centos.bz/2017/09/docker%e9%83%a8%e7%bd%b2gitlab/" target="_blank" rel="noopener">Docker部署GitLab</a></p>
 
       
       
