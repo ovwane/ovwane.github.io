@@ -206,6 +206,188 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Typora使用技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/10/Typora使用技巧/" class="article-date">
+      <time datetime="2018-04-10T14:27:13.000Z" itemprop="datePublished">2018-04-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://typora.io/" target="_blank" rel="noopener">Typora</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-tencent_vps" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/10/tencent_vps/" class="article-date">
+      <time datetime="2018-04-10T13:24:21.000Z" itemprop="datePublished">2018-04-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname quanjinlong.cn</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd jinlong</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">visudo</span><br><span class="line">jinlong ALL=(ALL)       ALL</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f tencent_vps_rsa</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.ssh</span><br><span class="line">vim ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br><span class="line">chmod 700 ~/.ssh</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/handongyu/p/6386789.html" target="_blank" rel="noopener">设置 SSH，打开密钥登录功能</a><br>编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Port 22</span><br><span class="line">Protocol 2</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">#禁止root用户通过SSH登录</span><br><span class="line">PermitRootLogin no</span><br><span class="line">#禁用密码登录</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">ChallengeResponseAuthentication no</span><br><span class="line">UsePAM yes</span><br><span class="line">UseDNS no</span><br><span class="line">X11Forwarding no</span><br></pre></td></tr></table></figure>
+<p>最后，重启 SSH 服务：<br>systemctl restart sshd.service</p>
+<p>#优化</p>
+<ol>
+<li>关闭SELinux</li>
+<li>关闭firewalld</li>
+<li>最大进程数和最大文件打开数<br> 修改/etc/security/limits.conf文件</li>
+<li><p>删除默认用户<br>centos</p>
+</li>
+<li><p>更换yum源<br><a href="https://www.centos.org/download/mirrors/" target="_blank" rel="noopener">CentOS mirrors List</a></p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"></span><br><span class="line">删除缓存</span><br><span class="line">yum clean all</span><br><span class="line">rm -rf /var/cache/yum</span><br><span class="line"></span><br><span class="line">生成缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.jianshu.com/p/4df7692bdc2b" target="_blank" rel="noopener">yum upgrade</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y upgrade</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel  </span><br><span class="line"></span><br><span class="line">yum -y autoremove kernel-3.10.0-693.el7</span><br><span class="line">yum -y autoremove kernel-devel-3.10.0-693.el7</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>时间<br><a href="https://blog.csdn.net/maxsky/article/details/53866475" target="_blank" rel="noopener">ntp</a></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ntpd.service</span><br><span class="line"></span><br><span class="line">yum list installed|grep ntp</span><br><span class="line">ntp.x86_64                              4.2.6p5-25.el7.centos.2        @anaconda</span><br><span class="line">ntpdate.x86_64 </span><br><span class="line"></span><br><span class="line">time5.aliyun.com</span><br><span class="line">cn.pool.ntp.org</span><br></pre></td></tr></table></figure>
+<p><a href="https://chrony.tuxfamily.org/documentation.html" target="_blank" rel="noopener">chrony</a></p>
+<p><a href="https://www.cnblogs.com/clsn/archive/2017/11/16/7844857.html" target="_blank" rel="noopener">chrony软件使用说明</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum -y install chrony</span><br><span class="line"></span><br><span class="line">systemctl start chronyd.service</span><br><span class="line">systemctl enable chronyd.service</span><br><span class="line">systemctl status chronyd.service</span><br><span class="line"></span><br><span class="line">查看同步状态</span><br><span class="line">chronyc sourcestats</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.mamicode.com/info-detail-1553924.html" target="_blank" rel="noopener">删除软件包并删除孤立的依赖包</a><br><a href="https://segmentfault.com/q/1010000000626683" target="_blank" rel="noopener">https://segmentfault.com/q/1010000000626683</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">需要在 /etc/yum.conf 里面添加一个配置：</span><br><span class="line">clean_requirements_on_remove=1</span><br><span class="line"></span><br><span class="line">yum autoremove</span><br></pre></td></tr></table></figure>
+<p>删除ntp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum list installed |grep ntp</span><br><span class="line"></span><br><span class="line">yum -y autoremove ntp</span><br><span class="line"></span><br><span class="line">rm -rf /etc/ntp.conf.rpmsave</span><br><span class="line"></span><br><span class="line">yum autoremove ntpdate</span><br></pre></td></tr></table></figure></p>
+<p>删除postfix</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove postfix</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch /var/lock/subsys/local</span><br><span class="line">/usr/local/qcloud/rps/set_rps.sh &gt;/tmp/setRps.log 2&gt;&amp;1</span><br><span class="line">/usr/local/qcloud/irq/net_smp_affinity.sh &gt;/tmp/net_affinity.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>删除 firewalld</p>
+<p>删除 wpa_supplicant<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove wpa_supplicant</span><br></pre></td></tr></table></figure></p>
+<p>删除用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd</span><br><span class="line">/etc/shadow</span><br><span class="line">/etc/group</span><br><span class="line">/etc/gshadow</span><br><span class="line"></span><br><span class="line">postfix</span><br><span class="line">ntp</span><br><span class="line">games</span><br><span class="line">ftp</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/duzhaoqi/p/7582404.html" target="_blank" rel="noopener">centOS7服务管理与启动流程</a></p>
+<p>下载必要软件包<br>再安装操作系统的时候使用的最小化安装，有很多包没有安装，使用时发现好多命令没有如{vim、wget、tree…等}，下面就安装命令，可以根据需求自行调整。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget net-tools screen lsof tcpdump nc mtr openssl-devel vim bash-completion lrzsz nmap telnet tree ntpdate</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-python全栈3期day104" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/05/python全栈3期day104/" class="article-date">
+      <time datetime="2018-04-05T05:50:32.000Z" itemprop="datePublished">2018-04-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>01.就业指导-简历制作.mp4 16：35<br>02.就业指导-简历制作2.mp4 1：05：29<br>03.就业指导-简历制作3.mp4 35：42<br>04.就业指导-简历制作4.mp4 16：59<br>06.就业指导-如何面试2.mp4 55：59<br>07.就业指导-如何面试3.mp4 30：53<br>08.就业指导-最后的鸡汤.mp4 36：59<br>09.天帅分享：Nginx+uWSGI+Django部署.mp4 9：52</p>
+<p>开始日期 2017.10.20 0：15</p>
+<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><p>结束时间 2017.10.20 07：49</p>
+<p>自我介绍</p>
+<p>天帅 运维开发</p>
+<p>1、我们开发项目是为了什么<br>    给其他人使用<br>2、怎么给其他人使用<br>    runserver<br>3、我想给其他人使用怎么办？<br>    1、买台服务器<br>    2、Python环境<br>    3、把代码上传到服务器上<br>    4、runserver<br>    这一套流程，我们称之为”部署”</p>
+<p>Django 内部有socket server 但是性能比较差</p>
+<p>使用uWSGI</p>
+<p>uWSGI + Django<br>安装 uwsgi<br>pip install uwsgi</p>
+<p>使用命令启动<br>uwsgi –http –file django/wsgi.py –static-map=/static=static</p>
+<p>视频不完整 </p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-python全栈3期day004" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -695,236 +877,6 @@
 <p>前端知识</p>
 <p>运维-&gt;运维开发-&gt;Web开发-&gt;数据分析-&gt;需要数据写爬虫</p>
 
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.13.3 配置pipenv" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/26/macOS 10.13.3 配置pipenv/" class="article-date">
-      <time datetime="2018-03-26T20:39:00.000Z" itemprop="datePublished">2018-03-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/26/macOS 10.13.3 配置pipenv/">macOS 10.13.3 配置pipenv</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://docs.pipenv.org/" target="_blank" rel="noopener">Python Development Workflow for Humans</a><br><a href="https://github.com/pypa/pipenv" target="_blank" rel="noopener">pipenv</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line">#start pipenv</span><br><span class="line">eval &quot;$(pipenv --completion)&quot;</span><br><span class="line">#end</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.4/bin/python</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#显示安装全部过程</span><br><span class="line">pipenv install -v</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv graph</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv shell</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Python分布式爬虫打造搜索引擎笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/19/Python分布式爬虫打造搜索引擎笔记/" class="article-date">
-      <time datetime="2018-03-19T20:01:11.000Z" itemprop="datePublished">2018-03-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>作者博客<br><a href="http://projectsedu.com" target="_blank" rel="noopener">http://projectsedu.com</a><br>github.com/liyaopinner</p>
-<p>IDE pycharm<br>数据库 mysql redis </p>
-<p>Python 2.7.13<br>Python 3.5.3</p>
-<p>第三章 基础知识</p>
-<p>技术选型:<br>scrapy<br>requests<br>scrapy selector</p>
-<p>网页分类：<br>静态网页<br>动态网页<br>微博service(rest api)</p>
-<p>爬虫能做什么<br>1、搜索引擎-百度<br>2、推荐引擎-今日头条<br>3、机器学习的数据样本<br>4、数据分析、舆情分析</p>
-<p>正则表达式<br>非贪婪模式 ？<br>至少出现一次 +<br>限定前面的字符出现的次数 {}<br>满足任意一个 []<br>\s 代表空格<br>\S 只要不是空格就行一个字符<br>\w 代表a-zA-Z0-9_ 代表字符<br>\W 不代表a-Z0-9_<br>\d 代表数字</p>
-<p>深度优先和广度优先算法</p>
-<p>深度优先 递归实现<br>广度优先 队列实现</p>
-<p>数据结构里很重要的算法</p>
-<p>深度优先过程</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">depth_tree</span><span class="params">(tree_node)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> tree_node <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">		print(tree_node._data)</span><br><span class="line">		<span class="keyword">if</span> tree_node._left <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			<span class="keyword">return</span> depth_tree(tree_node._left):</span><br><span class="line">		<span class="keyword">if</span> tree_node._right <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			<span class="keyword">return</span> depth_tree(tree_node._right)</span><br></pre></td></tr></table></figure>
-<p>广度优先过程</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">level_queue</span><span class="params">(root)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> root <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	my_queue = []</span><br><span class="line">	node = root</span><br><span class="line">	my_queue.append(node)</span><br><span class="line">	<span class="keyword">while</span> my_queue:</span><br><span class="line">		node = my_queue.pop(<span class="number">0</span>)</span><br><span class="line">		print(node.elem)</span><br><span class="line">		<span class="keyword">if</span> node.lchild <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			my_queue.append(node.lchild)</span><br><span class="line">		<span class="keyword">if</span> node.rchild <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">			my_queue.append(node.rchild)</span><br></pre></td></tr></table></figure>
-<p>url去重策略</p>
-<p>1、将访问过的url保存到数据库<br>2、将访问过的url保存到set中<br>3、url经过md5等方法哈希后保存到set中 scrapy使用的是这个方法<br>4、用bitmap方法，<br>5、bloomfilter方法对bitmap进行改进，多重hash函数降低冲突</p>
-<p>unicode和utf8编码<br>内存中的数据都是unicode编码<br>python3中文件中存的数据是utf-8编码<br>所有编码解码 decode为unicode<br>uncode编码 encode为utf-8</p>
-<p>获取系统默认的编码<br>sys.getdefaultencoding()</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-*- coding: utf<span class="number">-8</span> -*-</span><br></pre></td></tr></table></figure>
-<p>scrapy爬取jobbole</p>
-<p>pycharm 中调试scrapy</p>
-<p>main.py main.py放在和scrapy.cfg同一目录</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找main.py的执行位置</span></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line"><span class="comment"># 执行爬虫</span></span><br><span class="line">execute([<span class="string">'scrapy'</span>, <span class="string">'crawl'</span>, <span class="string">'jobbole'</span>])</span><br></pre></td></tr></table></figure>
-<p>xpath语法<br>div[@class=”goods-add fn-clear J-DAddToBag”]<br>//span[contains(@class, ‘J-DAddToBag’)]</p>
-<p>/article/div[1] 选取属于article子元素的第一个div元素<br>/article/div[last()] 选取属于article子元素的最后一个div元素<br>/article/div[last()-1] 选取属于article子元素的倒数第二个div元素<br>//div/<em> 选取属于div元素的所有子节点<br>//div[@</em>] 选取所有带属性的title元素<br>/div/a|//div/p 选取所有div元素的a和p元素<br>//span|//ul 选取文档中的span和ul元素<br>article/div/p| //span 选取所有属于span元素的div元素的p元素以及文档中的所有的span元素</p>
-<p>css selector语法<br>li a 选取所有li下的所有a元素<br>ul + p 选择ul后面的第一个p元素<br>div#container &gt; ul 选取id为container的div的第一个ul子元素<br>ul ~ p 选取与ul相邻的所有p元素<br>a[title] 选取所有有title属性的a元素<br>a[href=”<a href="http://jobbole.com&quot;]" target="_blank" rel="noopener">http://jobbole.com&quot;]</a> 选取所有href属性为jobbole.com值的a元素<br>a[href*=”jobbole”] 选取所有href属性包含jobbole.com的a元素<br>a[href^=”http”] 选取所有href属性以http开头的a元素<br>a[href$=”.jpg”] 选取所有href属性以.jpg结尾的a元素<br>input[type=radio]:checked 选择选中的radio的元素<br>div:not(#container) 选取所有id非container属性的div元素<br>li:nth-child(3) 选取第三个li元素<br>tr:nth-child(2n) 第偶数个tr</p>
-<p>伪类选择器<br>h1::text<br>div h1::attr(href) </p>
-<p>列表生成式<br>tag_list = [‘职场’, ‘1 评论’, ‘fuck两点水’]</p>
-<p>[ element for element in tag_list if not element.strip().endswith(“评论”)]</p>
-<p>正则表达式<br>fav_nums = “sssd123werwe”<br>match_re = re.match(“.<em>(\d+).</em>“, fav_nums)<br>if match_re:<br>    fav_nums = int(match_re.group(1))<br>else:<br>    fav_nums = 0</p>
-<p>字符串方法<br>tags = “,”.join(‘12345’)        结果 ‘1,2,3,4,5’</p>
-<p>response.xpath().extract() 需要异常处理<br>response.xpath().extract_first()</p>
-<p>from scrapy.http import Request<br>Request(url=,callback=)</p>
-<p>from urllib import parse<br>parse.urljoin()</p>
-<p>meta<br>scrapy.Request(url=,meta={‘goodsid’:goodsid},callback=)<br>goodsid = response.meta.get(“goodsid”, “”)</p>
-<p>scrapy 图片管道 imagespipeline <code>pip install pillow</code><br>settings.py<br>scrapy.pipelines.images.ImagesPipeLine<br>IMAGES_URLS_FIELD = “items.py 中的item,url需要是list类型”<br>project_dir = os.path.abspath(os.path.dirname(<strong>file</strong>))<br>IMAGES_STORE = os.path.join(project_dir, ‘images’)</p>
-<p><a href="https://coding.imooc.com/lesson/92.html#mid=2878" target="_blank" rel="noopener">DIY pipeline</a><br>图片管道自定义<br>4-12 items设计-3 视频的02:12</p>
-<p>ImagesPipeline<br>item_completed()</p>
-<p>utils/<br><strong>init</strong>.py<br>common.py</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_md5</span><span class="params">(url)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> isinstance(url, str):</span><br><span class="line">		url = url.encode(<span class="string">"utf-8"</span>)</span><br><span class="line">	m = hashlib.md5()</span><br><span class="line">	m.update(url)</span><br><span class="line">	<span class="keyword">return</span> m.hexdigest()</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">	print(get_md5(<span class="string">"http://www.baidu.com"</span>)</span><br></pre></td></tr></table></figure>
-<p>数据保存<br>pipeline</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.file = codecs.open(<span class="string">'article.json'</span>, <span class="string">'w'</span>, encoding=<span class="string">"utf-8"</span>)</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">	lines = json.dumps(dict(item), ensure_ascii=<span class="keyword">False</span>) + <span class="string">"\n"</span></span><br><span class="line">	self.write(lines)</span><br><span class="line">	<span class="keyword">return</span> item</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">            self.file.close()</span><br></pre></td></tr></table></figure>
-<p>JsonItemExporter</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.exporters <span class="keyword">import</span> JsonItemExporter</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonExporterPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.file = open(<span class="string">'articleexporter.json'</span>, <span class="string">'wb'</span>)</span><br><span class="line">		self.exporter = JsonItemExporter(self.file, encoding=<span class="string">"utf-8"</span>, ensure_ascii=<span class="keyword">False</span>)</span><br><span class="line">		self.exporter.start_exporting()</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self. item, spider)</span>:</span></span><br><span class="line">		self.exporter.export_item(item)</span><br><span class="line">		<span class="keyword">return</span> item</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">		self.exporter.finish_exporting()</span><br><span class="line">		self.file.close()</span><br></pre></td></tr></table></figure>
-<p>数据库</p>
-<p>新建数据库<br>新建数据表</p>
-<p><img src="./jobbole_article_mysql.png" alt="jobbole_article_mysql"></p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create_date = <span class="string">'时间字符串'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	datetime.datetime.strptime(create_date, <span class="string">"%Y/%m/%d"</span>).date()</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">	create_date = datetime.datetime.now().date()</span><br></pre></td></tr></table></figure>
-<p>pip install mysqlclient pymysql</p>
-<p>同步插入mysql</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MysqlPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.conn = pymysql.connect(<span class="string">'host'</span>, <span class="string">'user'</span>, <span class="string">'password'</span>, <span class="string">'port'</span>, <span class="string">'dbname'</span>, charset=<span class="string">"utf-8"</span>, use_unicode=Ture)</span><br><span class="line">		self.cursor = self.conn.cursor()</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">		insert_sql = <span class="string">"""</span></span><br><span class="line"><span class="string">			insert into jobbole_article(title, url)</span></span><br><span class="line"><span class="string">			VALUES (%s,%s)"""</span></span><br><span class="line">		self.cursor.execute(insert_sql, (item[<span class="string">"title"</span>], item[<span class="string">"url"</span>])</span><br><span class="line">		self.conn.commit()</span><br></pre></td></tr></table></figure>
-<p>异步插入mysql</p>
-<p>连接池</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> twisted.enterprise <span class="keyword">import</span> adbapi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MysqlTwistedPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">		self.dbpool = dbpool</span><br><span class="line">	</span><br><span class="line"><span class="meta">	@classmethod</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">from_settings</span><span class="params">(cls, settings)</span>:</span></span><br><span class="line">		dbparms = dict(</span><br><span class="line">			host = settings[<span class="string">"MYSQL_HOST"</span>],</span><br><span class="line">			db = settings[<span class="string">"MYSQL_DBNAME"</span>],</span><br><span class="line">			user = settings[<span class="string">"MYSQL_USER"</span>],</span><br><span class="line">			password = settings[<span class="string">"MYSQL_PASSWORD"</span>],</span><br><span class="line">			charset = <span class="string">'utf-8'</span>,</span><br><span class="line">			cursorclass = pymysql.cursors.DictCursor,</span><br><span class="line">			use_unicode = <span class="keyword">True</span>,</span><br><span class="line">		)</span><br><span class="line">		dbpool = adbapi.ConnectionPool(<span class="string">"pymysql"</span>, **dbparms)</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> cls(dbpool)</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">		query = self.dbpool.runInteraction(do_insert, item)</span><br><span class="line">		query.addErrback(self.handle_error)</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">handle_error</span><span class="params">(self, failure)</span>:</span></span><br><span class="line">		print(failure)</span><br><span class="line">		</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">do_insert</span><span class="params">(self, cursor, item)</span>:</span></span><br><span class="line">		insert_sql = <span class="string">"""</span></span><br><span class="line"><span class="string">			insert into jobbole_article(title, url)</span></span><br><span class="line"><span class="string">			VALUES (%s,%s)"""</span></span><br><span class="line">		cursor.execute(insert_sql, (item[<span class="string">"title"</span>], item[<span class="string">"url"</span>])</span><br></pre></td></tr></table></figure>
-<p>scrapy-djangoitem</p>
-<p>pip install scrapy-djangoitem</p>
-<p>scrapy item loader 机制</p>
-<p>itemloader会将所有提取的值变为list类型</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">item_loader = ItemLoader(item=JobboleItem(),response=response)</span><br><span class="line"></span><br><span class="line">itemloader.add_xpath()</span><br><span class="line">itemloader.add_css()</span><br><span class="line">itemloader.value()</span><br><span class="line"></span><br><span class="line">item = itemloader.load_item()</span><br><span class="line"></span><br><span class="line"><span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
-<p>items.py</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.loader.processors <span class="keyword">import</span> MapCompose</span><br><span class="line"></span><br><span class="line"><span class="comment">#取第一个值</span></span><br><span class="line"><span class="keyword">from</span> scrapy.loader.processors <span class="keyword">import</span> TakeFirst，Join</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_jobbole</span><span class="params">(value)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> value + <span class="string">"-jobbole"</span></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">title = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(add_jobbole)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">name = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(<span class="keyword">lambda</span> x:x+<span class="string">"-jinlong"</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">urls = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(<span class="keyword">lambda</span> x:x+<span class="string">"-kjj"</span>, add_jobbole)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">create_date = scrapy.Field(</span><br><span class="line">	input_processor = MapCompose(add_jobbole)</span><br><span class="line">	output_processor = TakeFirst()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>自定义itemloader</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArticleItemLoader</span><span class="params">(ItemLoader)</span>:</span></span><br><span class="line">	default_output_processor = TakeFirst()</span><br></pre></td></tr></table></figure>
-<p>session和cookie自动登录机制<br>session服务器端<br>cookie客户端</p>
-<p>settings.py<br>AUTOTHROTTLE_ENABLED = True</p>
-<p>spider.py</p>
-<p>custom_settings = {<br>    “COOKIES_ENABLED”: True<br>}</p>
-<p>selenuim driver</p>
-<p>ChromeDriver - WebDriver for Chrome</p>
-<p><a href="https://sites.google.com/a/chromium.org/chromedriver/downloads" target="_blank" rel="noopener">https://sites.google.com/a/chromium.org/chromedriver/downloads</a></p>
-<p>brew install chromedriver</p>
-<p><a href="https://segmentfault.com/a/1190000013067705" target="_blank" rel="noopener">https://segmentfault.com/a/1190000013067705</a></p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.chrome.options <span class="keyword">import</span> Options</span><br><span class="line">chrome_options = Options()</span><br><span class="line">chrome_options.add_argument(<span class="string">'window-size=1920x3000'</span>) <span class="comment">#指定浏览器分辨率</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'--disable-gpu'</span>) <span class="comment">#谷歌文档提到需要加上这个属性来规避bug</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'--hide-scrollbars'</span>) <span class="comment">#隐藏滚动条, 应对一些特殊页面</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'blink-settings=imagesEnabled=false'</span>) <span class="comment">#不加载图片, 提升速度</span></span><br><span class="line">chrome_options.add_argument(<span class="string">'--headless'</span>) <span class="comment">#浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败</span></span><br><span class="line">chrome_options.binary_location = <span class="string">r'/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'</span> <span class="comment">#手动指定使用的浏览器位置</span></span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-重做MacBook-Pro的系统macOS-10-13-3" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/" class="article-date">
-      <time datetime="2018-03-18T08:02:03.000Z" itemprop="datePublished">2018-03-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/">重做MacBook Pro的系统macOS 10.13.3</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
       
       
     </div>
