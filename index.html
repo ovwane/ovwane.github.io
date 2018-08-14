@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-CentOS7-配置frp内网穿透" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 制作U盘安装盘" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/08/14/CentOS7-配置frp内网穿透/" class="article-date">
-      <time datetime="2018-08-14T10:35:12.000Z" itemprop="datePublished">2018-08-14</time>
+      <a href="/2018/08/14/macOS 10.13 制作U盘安装盘/" class="article-date">
+      <time datetime="2018-08-14T12:00:36.452Z" itemprop="datePublished">2018-08-14</time>
 </a>
     </div>
   
@@ -219,55 +219,14 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/14/CentOS7-配置frp内网穿透/">CentOS7 配置frp内网穿透</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">下载frp</a></p>
-<h3 id="服务端-外网主机"><a href="#服务端-外网主机" class="headerlink" title="服务端 外网主机"></a>服务端 外网主机</h3><p>SSH连接上外网主机后，使用<code>wget</code>指令下载frp。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.21.0/frp_0.21.0_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
-<p>使用<code>tar</code>指令解压tar.gz文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf frp_*_linux_amd64.tar.gz -C /usr/local/</span><br></pre></td></tr></table></figure>
-<p>使用<code>cd</code>指令进入解压出来的文件夹</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/frp_*_linux_amd64/</span><br></pre></td></tr></table></figure>
-<p>外网主机作为服务端，可以删掉不必要的客户端文件，使用<code>rm</code>指令删除文件。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -f frpc frpc.ini</span><br></pre></td></tr></table></figure>
-<p>接下来要修改服务器配置文件，即<code>frps.ini</code>文件。使用<code>vi</code>指令对目标文件进行编辑。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi frps.ini</span><br></pre></td></tr></table></figure>
-<p>打开<code>frps.ini</code>后可以看到默认已经有很多详细的配置和示范样例，该文章仅以达到内网穿透为目的，所以这里选择<strong>删掉或注释掉里面的所有内容</strong>，然后根据群晖的情况，按照官方的中文文档添加以下配置。（这里的操作都使用<code>vi</code>命令，关于<code>vi</code>命令的使用方式这里不作详细介绍，可以自行搜索相关使用方法。）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line">vhost_http_port = 8080</span><br></pre></td></tr></table></figure>
-<p><code>[common]</code>部分是必须有的配置，其中<code>bind_port</code>是自己设定的frp服务端端口，<code>vhost_http_port</code>是自己设定的http访问端口。</p>
-<p>保存上面的配置后，使用以下指令启动frp服务端。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">新建会话</span></span><br><span class="line">screen -dmS frp</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">然后进入这个会话。</span></span><br><span class="line">screen -r frp</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">执行命令</span></span><br><span class="line">./frps -c ./frps.ini &amp;</span><br></pre></td></tr></table></figure>
-<p>服务端的工作就到此结束了。</p>
-<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>客户端前面的操作和服务端是一模一样的，这里不一一解释。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.21.0/frp_0.21.0_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf frp_*_linux_amd64.tar.gz -C /usr/local/</span><br><span class="line"></span><br><span class="line">cd /usr/local/frp_*_linux_amd64</span><br><span class="line"></span><br><span class="line">rm -f frps frps.ini</span><br></pre></td></tr></table></figure>
-<p>客户端的配置如下</p>
-<p>vi frpc.ini</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = x.x.x.x</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br><span class="line">remote_port = 6000</span><br><span class="line"></span><br><span class="line">[nas]</span><br><span class="line">type = http</span><br><span class="line">local_port = 5000</span><br><span class="line">custom_domains = no1.sunnyrx.com</span><br><span class="line"></span><br><span class="line">[web]</span><br><span class="line">type = http</span><br><span class="line">local_port = 80</span><br><span class="line">custom_domains = no2.sunnyrx.com</span><br></pre></td></tr></table></figure>
-<p>上面的配置和服务端是对应的。</p>
-<p><code>[common]</code>中的<code>server_addr</code>填frp服务端的ip（也就是外网主机的IP），<code>server_port</code>填frp服务端的<code>bind_prot</code>。</p>
-<p><code>[ssh]</code>中的<code>local_port</code>填群晖的ssh端口。</p>
-<p><code>[nas]</code>中的<code>type</code>对应服务端配置。<code>local_port</code>填群晖的DSM端口。<code>custom_domains</code>为要映射的域名，记得域名的A记录要解析到外网主机的IP。</p>
-<p><code>[web]</code>同上，<code>local_port</code>填群晖的web端口。这里创建了两个http反向代理是为了分别映射群晖两个重要的端口，<code>5000</code>和<code>80</code>，前者用于登录群晖管理，后者用于群晖的<code>Web Station</code>和<code>DS Photo</code>。</p>
-<p>保存配置，输入以下指令运行frp客户端。（同样如果需要在后台运行，请往下翻阅关于后台运行的部分。）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./frpc -c ./frpc.ini</span><br></pre></td></tr></table></figure>
-<p>此时在服务端会看到”start proxy sucess”字样，即连接成功。</p>
-<p>现在可以用SSH通过<code>外网主机IP:6000</code>和群晖建立SSH连接。通过浏览器访问<code>no1.sunnyrx.com:8080</code>打开群晖nas的管理页面，访问<code>no2.sunnyrx.com:8080</code>打开群晖<code>Web Station</code>的网站，<code>DS Photo app</code>可以连接<code>no2.sunnyrx.com:8080</code>进入<code>DS Photo</code>管理。</p>
-<h6 id="使用nohup指令"><a href="#使用nohup指令" class="headerlink" title="使用nohup指令"></a>使用nohup指令</h6><p>nohup指令的使用方法相对简单，只需要在<code>nohup</code>后面加上frp的运行指令即可。下面示范的指令是运行frp客户端。（同样，如果之前断开了SSH连接，记得用<code>cd</code>指令进入frp的目录先。）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./frpc -c ./frpc.ini &amp;</span><br></pre></td></tr></table></figure>
-<p>这样就成功让frp在后台运行了。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.sunnyrx.com/2016/10/21/simple-to-use-frp/" target="_blank" rel="noopener">使用frp实现内网穿透 群晖NAS+frp发挥更大作用</a></p>
+        <hr>
+<h2 id="date-2018-05-05-05-58-26"><a href="#date-2018-05-05-05-58-26" class="headerlink" title="date:2018-05-05 05:58:26"></a>date:2018-05-05 05:58:26</h2><p>macOS 10.13 制作U盘安装盘</p>
+<p>命令格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo createinstallmedia --volume /Volumes/Install --</span></span><br><span class="line">applicationpath -- nointeraction</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/</span></span><br><span class="line">Resources/createinstallmedia --volume /Volumes/Install --</span><br><span class="line">applicationpath /Applications/Install\ macOS\ High\ Sierra.app --</span><br><span class="line"> nointeraction</span><br></pre></td></tr></table></figure>
 
       
       
@@ -299,7 +258,7 @@
   
     <div class="article-meta">
       <a href="/2018/08/14/macOS 安装数据库服务/" class="article-date">
-      <time datetime="2018-08-14T07:40:47.880Z" itemprop="datePublished">2018-08-14</time>
+      <time datetime="2018-08-14T12:00:36.452Z" itemprop="datePublished">2018-08-14</time>
 </a>
     </div>
   
@@ -353,105 +312,11 @@
 
 
   
-    <article id="post-macOS 10.13 制作U盘安装盘" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/14/macOS 10.13 制作U盘安装盘/" class="article-date">
-      <time datetime="2018-08-14T07:40:47.880Z" itemprop="datePublished">2018-08-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <hr>
-<h2 id="date-2018-05-05-05-58-26"><a href="#date-2018-05-05-05-58-26" class="headerlink" title="date:2018-05-05 05:58:26"></a>date:2018-05-05 05:58:26</h2><p>macOS 10.13 制作U盘安装盘</p>
-<p>命令格式</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo createinstallmedia --volume /Volumes/Install --</span></span><br><span class="line">applicationpath -- nointeraction</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/</span></span><br><span class="line">Resources/createinstallmedia --volume /Volumes/Install --</span><br><span class="line">applicationpath /Applications/Install\ macOS\ High\ Sierra.app --</span><br><span class="line"> nointeraction</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.12.6 开启第三方SSD的trim功能" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/14/macOS 10.12.6 开启第三方SSD的trim功能/" class="article-date">
-      <time datetime="2018-08-14T07:40:47.880Z" itemprop="datePublished">2018-08-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <hr>
-<h2 id="date-2017-07-23-10-10-29"><a href="#date-2017-07-23-10-10-29" class="headerlink" title="date:2017-07-23 10:10:29"></a>date:2017-07-23 10:10:29</h2><h4 id="macOS-10-12-6-开启第三方SSD的trim功能"><a href="#macOS-10-12-6-开启第三方SSD的trim功能" class="headerlink" title="macOS 10.12.6 开启第三方SSD的trim功能"></a>macOS 10.12.6 开启第三方SSD的trim功能</h4><p>在终端输入</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo trimforce enable</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-macOS 10.12.6 Mariadb配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/08/14/macOS 10.12.6 Mariadb配置/" class="article-date">
-      <time datetime="2018-08-14T07:40:47.880Z" itemprop="datePublished">2018-08-14</time>
+      <time datetime="2018-08-14T12:00:36.448Z" itemprop="datePublished">2018-08-14</time>
 </a>
     </div>
   
@@ -496,11 +361,11 @@
 
 
   
-    <article id="post-Go 项目列表" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.12.6 开启第三方SSD的trim功能" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/08/14/Go 项目列表/" class="article-date">
-      <time datetime="2018-08-14T07:40:47.860Z" itemprop="datePublished">2018-08-14</time>
+      <a href="/2018/08/14/macOS 10.12.6 开启第三方SSD的trim功能/" class="article-date">
+      <time datetime="2018-08-14T12:00:36.448Z" itemprop="datePublished">2018-08-14</time>
 </a>
     </div>
   
@@ -513,17 +378,8 @@
       
           
         <hr>
-<h2 id="date-2018-05-11-12-58-45"><a href="#date-2018-05-11-12-58-45" class="headerlink" title="date:2018-05-11 12:58:45"></a>date:2018-05-11 12:58:45</h2><p><a href="https://github.com/avelino/awesome-go" target="_blank" rel="noopener">awesome-go</a></p>
-<p><a href="https://github.com/enocom/gopher-reading-list" target="_blank" rel="noopener">gopher-reading-list</a></p>
-<p><a href="https://github.com/docker/docker-ce" target="_blank" rel="noopener">docker-ce</a></p>
-<p><a href="https://github.com/kubernetes/kubernetes" target="_blank" rel="noopener">Kubernetes</a></p>
-<p>[Caddy]</p>
-<p><a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">Gin</a></p>
-<p><a href="https://github.com/astaxie/beego/" target="_blank" rel="noopener">Beego</a></p>
-<p>[CockroachDB]</p>
-<p><a href="https://github.com/ego008/goyoubbs" target="_blank" rel="noopener">youBBS</a></p>
-<p><a href="https://github.com/qor" target="_blank" rel="noopener">QOR</a></p>
-<p><a href="https://github.com/EOSIO/eos" target="_blank" rel="noopener">eos</a></p>
+<h2 id="date-2017-07-23-10-10-29"><a href="#date-2017-07-23-10-10-29" class="headerlink" title="date:2017-07-23 10:10:29"></a>date:2017-07-23 10:10:29</h2><h4 id="macOS-10-12-6-开启第三方SSD的trim功能"><a href="#macOS-10-12-6-开启第三方SSD的trim功能" class="headerlink" title="macOS 10.12.6 开启第三方SSD的trim功能"></a>macOS 10.12.6 开启第三方SSD的trim功能</h4><p>在终端输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo trimforce enable</span><br></pre></td></tr></table></figure>
 
       
       
@@ -555,7 +411,7 @@
   
     <div class="article-meta">
       <a href="/2018/08/14/Google资深工程师深度讲解Go语言-笔记/" class="article-date">
-      <time datetime="2018-08-14T07:40:47.860Z" itemprop="datePublished">2018-08-14</time>
+      <time datetime="2018-08-14T12:00:36.420Z" itemprop="datePublished">2018-08-14</time>
 </a>
     </div>
   
@@ -641,6 +497,150 @@
 <p>没有默认参数，可选参数</p>
 <p><strong>指针</strong></p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指针并不能运算</span></span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Go 项目列表" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/14/Go 项目列表/" class="article-date">
+      <time datetime="2018-08-14T12:00:36.420Z" itemprop="datePublished">2018-08-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <hr>
+<h2 id="date-2018-05-11-12-58-45"><a href="#date-2018-05-11-12-58-45" class="headerlink" title="date:2018-05-11 12:58:45"></a>date:2018-05-11 12:58:45</h2><p><a href="https://github.com/avelino/awesome-go" target="_blank" rel="noopener">awesome-go</a></p>
+<p><a href="https://github.com/enocom/gopher-reading-list" target="_blank" rel="noopener">gopher-reading-list</a></p>
+<p><a href="https://github.com/docker/docker-ce" target="_blank" rel="noopener">docker-ce</a></p>
+<p><a href="https://github.com/kubernetes/kubernetes" target="_blank" rel="noopener">Kubernetes</a></p>
+<p>[Caddy]</p>
+<p><a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">Gin</a></p>
+<p><a href="https://github.com/astaxie/beego/" target="_blank" rel="noopener">Beego</a></p>
+<p>[CockroachDB]</p>
+<p><a href="https://github.com/ego008/goyoubbs" target="_blank" rel="noopener">youBBS</a></p>
+<p><a href="https://github.com/qor" target="_blank" rel="noopener">QOR</a></p>
+<p><a href="https://github.com/EOSIO/eos" target="_blank" rel="noopener">eos</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CentOS7-配置frp内网穿透" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/14/CentOS7-配置frp内网穿透/" class="article-date">
+      <time datetime="2018-08-14T10:35:12.000Z" itemprop="datePublished">2018-08-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/14/CentOS7-配置frp内网穿透/">CentOS7 配置frp内网穿透</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">下载frp</a></p>
+<h3 id="服务端-外网主机"><a href="#服务端-外网主机" class="headerlink" title="服务端 外网主机"></a>服务端 外网主机</h3><p>SSH连接上外网主机后，使用<code>wget</code>指令下载frp。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.21.0/frp_0.21.0_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>使用<code>tar</code>指令解压tar.gz文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf frp_*_linux_amd64.tar.gz -C /usr/local/</span><br></pre></td></tr></table></figure>
+<p>使用<code>cd</code>指令进入解压出来的文件夹</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/frp_*_linux_amd64/</span><br></pre></td></tr></table></figure>
+<p>外网主机作为服务端，可以删掉不必要的客户端文件，使用<code>rm</code>指令删除文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -f frpc frpc.ini</span><br></pre></td></tr></table></figure>
+<p>接下来要修改服务器配置文件，即<code>frps.ini</code>文件。使用<code>vi</code>指令对目标文件进行编辑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi frps.ini</span><br></pre></td></tr></table></figure>
+<p>打开<code>frps.ini</code>后可以看到默认已经有很多详细的配置和示范样例，该文章仅以达到内网穿透为目的，所以这里选择<strong>删掉或注释掉里面的所有内容</strong>，然后根据群晖的情况，按照官方的中文文档添加以下配置。（这里的操作都使用<code>vi</code>命令，关于<code>vi</code>命令的使用方式这里不作详细介绍，可以自行搜索相关使用方法。）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line">vhost_http_port = 8080</span><br></pre></td></tr></table></figure>
+<p><code>[common]</code>部分是必须有的配置，其中<code>bind_port</code>是自己设定的frp服务端端口，<code>vhost_http_port</code>是自己设定的http访问端口。</p>
+<p>保存上面的配置后，使用以下指令启动frp服务端。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">新建会话</span></span><br><span class="line">screen -dmS frp</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">然后进入这个会话。</span></span><br><span class="line">screen -r frp</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">执行命令</span></span><br><span class="line">./frps -c ./frps.ini &amp;</span><br></pre></td></tr></table></figure>
+<p>服务端的工作就到此结束了。</p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>客户端前面的操作和服务端是一模一样的，这里不一一解释。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.21.0/frp_0.21.0_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf frp_*_linux_amd64.tar.gz -C /usr/local/</span><br><span class="line"></span><br><span class="line">cd /usr/local/frp_*_linux_amd64</span><br><span class="line"></span><br><span class="line">rm -f frps frps.ini</span><br></pre></td></tr></table></figure>
+<p>客户端的配置如下</p>
+<p>vi frpc.ini</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = x.x.x.x</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br><span class="line">remote_port = 6000</span><br><span class="line"></span><br><span class="line">[nas]</span><br><span class="line">type = http</span><br><span class="line">local_port = 5000</span><br><span class="line">custom_domains = no1.sunnyrx.com</span><br><span class="line"></span><br><span class="line">[web]</span><br><span class="line">type = http</span><br><span class="line">local_port = 80</span><br><span class="line">custom_domains = no2.sunnyrx.com</span><br></pre></td></tr></table></figure>
+<p>上面的配置和服务端是对应的。</p>
+<p><code>[common]</code>中的<code>server_addr</code>填frp服务端的ip（也就是外网主机的IP），<code>server_port</code>填frp服务端的<code>bind_prot</code>。</p>
+<p><code>[ssh]</code>中的<code>local_port</code>填群晖的ssh端口。</p>
+<p><code>[nas]</code>中的<code>type</code>对应服务端配置。<code>local_port</code>填群晖的DSM端口。<code>custom_domains</code>为要映射的域名，记得域名的A记录要解析到外网主机的IP。</p>
+<p><code>[web]</code>同上，<code>local_port</code>填群晖的web端口。这里创建了两个http反向代理是为了分别映射群晖两个重要的端口，<code>5000</code>和<code>80</code>，前者用于登录群晖管理，后者用于群晖的<code>Web Station</code>和<code>DS Photo</code>。</p>
+<p>保存配置，输入以下指令运行frp客户端。（同样如果需要在后台运行，请往下翻阅关于后台运行的部分。）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./frpc -c ./frpc.ini</span><br></pre></td></tr></table></figure>
+<p>此时在服务端会看到”start proxy sucess”字样，即连接成功。</p>
+<p>现在可以用SSH通过<code>外网主机IP:6000</code>和群晖建立SSH连接。通过浏览器访问<code>no1.sunnyrx.com:8080</code>打开群晖nas的管理页面，访问<code>no2.sunnyrx.com:8080</code>打开群晖<code>Web Station</code>的网站，<code>DS Photo app</code>可以连接<code>no2.sunnyrx.com:8080</code>进入<code>DS Photo</code>管理。</p>
+<h6 id="使用nohup指令"><a href="#使用nohup指令" class="headerlink" title="使用nohup指令"></a>使用nohup指令</h6><p>nohup指令的使用方法相对简单，只需要在<code>nohup</code>后面加上frp的运行指令即可。下面示范的指令是运行frp客户端。（同样，如果之前断开了SSH连接，记得用<code>cd</code>指令进入frp的目录先。）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./frpc -c ./frpc.ini &amp;</span><br></pre></td></tr></table></figure>
+<p>这样就成功让frp在后台运行了。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.sunnyrx.com/2016/10/21/simple-to-use-frp/" target="_blank" rel="noopener">使用frp实现内网穿透 群晖NAS+frp发挥更大作用</a></p>
 
       
       
