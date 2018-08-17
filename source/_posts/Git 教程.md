@@ -33,3 +33,21 @@ $ git reset --hard id
 git reset id
 ```
 
+[Git全局递归忽略.DS_Store](http://chen-tao.github.io/2017/09/24/Git%E5%85%A8%E5%B1%80%E9%80%92%E5%BD%92%E5%BF%BD%E7%95%A5-DS-Store/)
+
+全局配置
+
+如果没有`~/. gitignore_global`文件，`echo`也会为你生成一个，这里的主要目的是覆盖所有可能的`OS X`版本生成的`.DS_Store`，逐一执行一次就可以了，之后`cat`一下看是否正常写入了
+
+```shell
+echo ".DS_Store" >> ~/.gitignore_global
+echo "._.DS_Store" >> ~/.gitignore_global
+echo "**/.DS_Store" >> ~/.gitignore_global
+echo "**/._.DS_Store" >> ~/.gitignore_global
+```
+
+然后设置一下全局的配置
+
+```shell
+git config --global core.excludesfile ~/.gitignore_global
+```

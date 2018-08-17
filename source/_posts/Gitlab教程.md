@@ -45,20 +45,6 @@ docker ps
 netstat -ntulap | grep docker
 ```
 
-访问 GitLab
-
-- <http://git.ovwane.com/>
-  - 如果没有域名，直接使用 IP 访问即可。
-
-初始账户
-
-```
-用户: root
-密码: 5iveL!fe
-```
-
-首次登陆需要修改密码。
-
 **修改配置文件**
 
 添加https, 需要导入证书
@@ -94,13 +80,19 @@ nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/域名.key"
 重启服务
 
 ```shell
-# 方法一: 重启容器(其中xxxxxx是容器id)
-docker restart xxxxxx
-
-# 方法二: 登陆容器, 重启配置
+# 登陆容器, 重启配置
 docker exec -it  xxxxxx bash   
 gitlab-ctl reconfigure
 ```
+
+访问 GitLab
+
+- https://git.xxx.com
+  - 如果没有域名，直接使用 IP 访问即可。
+
+关闭注册功能
+
+Admin Area->Settings->Sign-up restrictions->Sign-up enabled 取消
 
 ### 安装gitlab-runner
 
