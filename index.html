@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-macOS 10.13 制作U盘安装盘" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Docker-运行SonarQube" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/08/17/macOS 10.13 制作U盘安装盘/" class="article-date">
-      <time datetime="2018-08-17T08:53:45.354Z" itemprop="datePublished">2018-08-17</time>
+      <a href="/2018/09/07/Docker-运行SonarQube/" class="article-date">
+      <time datetime="2018-09-07T09:03:05.000Z" itemprop="datePublished">2018-09-07</time>
 </a>
     </div>
   
@@ -219,14 +219,36 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/07/Docker-运行SonarQube/">Docker 运行SonarQube</a>
+    </h1>
+  
+
+      </header>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <hr>
-<h2 id="date-2018-05-05-05-58-26"><a href="#date-2018-05-05-05-58-26" class="headerlink" title="date:2018-05-05 05:58:26"></a>date:2018-05-05 05:58:26</h2><p>macOS 10.13 制作U盘安装盘</p>
-<p>命令格式</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo createinstallmedia --volume /Volumes/Install --</span></span><br><span class="line">applicationpath -- nointeraction</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/</span></span><br><span class="line">Resources/createinstallmedia --volume /Volumes/Install --</span><br><span class="line">applicationpath /Applications/Install\ macOS\ High\ Sierra.app --</span><br><span class="line"> nointeraction</span><br></pre></td></tr></table></figure>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull sonarqube:7.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name sonarqube-7.1 -p 9000:9000 -p 9092:9092 sonarqube:7.1</span><br></pre></td></tr></table></figure>
+<p>启动后访问<a href="http://localhost:9000/" target="_blank" rel="noopener">http://localhost:9000</a>就可以进入sonar了, 默认管理员用户和密码是admin/admin</p>
+<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>举个栗子，我们安装一个汉化插件：Chinese Pack</p>
+<p>进入Administration-&gt;Marketplace</p>
+<p>搜索<code>Chinese Pack</code>，点击install。</p>
+<h3 id="使用-Sonar-maven插件进行代码解析"><a href="#使用-Sonar-maven插件进行代码解析" class="headerlink" title="使用 Sonar maven插件进行代码解析"></a>使用 Sonar maven插件进行代码解析</h3><p>使用前提：</p>
+<ul>
+<li>需要maven版本3.0.2及以上。</li>
+<li>安装好SonarQube。</li>
+<li>使用了已安装的SonarQube支持的最低的JDK。</li>
+<li>已经安装好了你要分析的语言的插件。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/4e6fd254045c" target="_blank" rel="noopener">使用 Sonar 进行代码质量管理</a></p>
+<p><a href="https://my.oschina.net/zzuqiang/blog/843406" target="_blank" rel="noopener">SonarQube代码质量检查工具</a></p>
+<p><a href="https://blog.csdn.net/wangjunjun2008/article/details/9407221" target="_blank" rel="noopener">Sonar入门学习</a></p>
 
       
       
@@ -257,8 +279,8 @@
     <article id="post-macOS 10.12.6 Mariadb配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/08/17/macOS 10.12.6 Mariadb配置/" class="article-date">
-      <time datetime="2018-08-17T08:53:45.354Z" itemprop="datePublished">2018-08-17</time>
+      <a href="/2018/09/07/macOS 10.12.6 Mariadb配置/" class="article-date">
+      <time datetime="2018-09-07T07:25:02.509Z" itemprop="datePublished">2018-09-07</time>
 </a>
     </div>
   
@@ -303,57 +325,11 @@
 
 
   
-    <article id="post-macOS 10.12.6 开启第三方SSD的trim功能" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/17/macOS 10.12.6 开启第三方SSD的trim功能/" class="article-date">
-      <time datetime="2018-08-17T08:53:45.354Z" itemprop="datePublished">2018-08-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <hr>
-<h2 id="date-2017-07-23-10-10-29"><a href="#date-2017-07-23-10-10-29" class="headerlink" title="date:2017-07-23 10:10:29"></a>date:2017-07-23 10:10:29</h2><h4 id="macOS-10-12-6-开启第三方SSD的trim功能"><a href="#macOS-10-12-6-开启第三方SSD的trim功能" class="headerlink" title="macOS 10.12.6 开启第三方SSD的trim功能"></a>macOS 10.12.6 开启第三方SSD的trim功能</h4><p>在终端输入</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo trimforce enable</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-macOS 安装数据库服务" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/08/17/macOS 安装数据库服务/" class="article-date">
-      <time datetime="2018-08-17T08:53:45.354Z" itemprop="datePublished">2018-08-17</time>
+      <a href="/2018/09/07/macOS 安装数据库服务/" class="article-date">
+      <time datetime="2018-09-07T07:25:02.509Z" itemprop="datePublished">2018-09-07</time>
 </a>
     </div>
   
@@ -407,11 +383,105 @@
 
 
   
+    <article id="post-macOS 10.13 制作U盘安装盘" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/07/macOS 10.13 制作U盘安装盘/" class="article-date">
+      <time datetime="2018-09-07T07:25:02.509Z" itemprop="datePublished">2018-09-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <hr>
+<h2 id="date-2018-05-05-05-58-26"><a href="#date-2018-05-05-05-58-26" class="headerlink" title="date:2018-05-05 05:58:26"></a>date:2018-05-05 05:58:26</h2><p>macOS 10.13 制作U盘安装盘</p>
+<p>命令格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo createinstallmedia --volume /Volumes/Install --</span></span><br><span class="line">applicationpath -- nointeraction</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/</span></span><br><span class="line">Resources/createinstallmedia --volume /Volumes/Install --</span><br><span class="line">applicationpath /Applications/Install\ macOS\ High\ Sierra.app --</span><br><span class="line"> nointeraction</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 10.12.6 开启第三方SSD的trim功能" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/07/macOS 10.12.6 开启第三方SSD的trim功能/" class="article-date">
+      <time datetime="2018-09-07T07:25:02.509Z" itemprop="datePublished">2018-09-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <hr>
+<h2 id="date-2017-07-23-10-10-29"><a href="#date-2017-07-23-10-10-29" class="headerlink" title="date:2017-07-23 10:10:29"></a>date:2017-07-23 10:10:29</h2><h4 id="macOS-10-12-6-开启第三方SSD的trim功能"><a href="#macOS-10-12-6-开启第三方SSD的trim功能" class="headerlink" title="macOS 10.12.6 开启第三方SSD的trim功能"></a>macOS 10.12.6 开启第三方SSD的trim功能</h4><p>在终端输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo trimforce enable</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Go 项目列表" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/08/17/Go 项目列表/" class="article-date">
-      <time datetime="2018-08-17T08:53:45.338Z" itemprop="datePublished">2018-08-17</time>
+      <a href="/2018/09/07/Go 项目列表/" class="article-date">
+      <time datetime="2018-09-07T07:25:02.489Z" itemprop="datePublished">2018-09-07</time>
 </a>
     </div>
   
@@ -465,8 +535,8 @@
     <article id="post-Google资深工程师深度讲解Go语言-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/08/17/Google资深工程师深度讲解Go语言-笔记/" class="article-date">
-      <time datetime="2018-08-17T08:53:45.338Z" itemprop="datePublished">2018-08-17</time>
+      <a href="/2018/09/07/Google资深工程师深度讲解Go语言-笔记/" class="article-date">
+      <time datetime="2018-09-07T07:25:02.489Z" itemprop="datePublished">2018-09-07</time>
 </a>
     </div>
   
@@ -579,11 +649,11 @@
 
 
   
-    <article id="post-CentOS7-配置frp内网穿透" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Docker-运行Jira" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/08/14/CentOS7-配置frp内网穿透/" class="article-date">
-      <time datetime="2018-08-14T10:35:12.000Z" itemprop="datePublished">2018-08-14</time>
+      <a href="/2018/09/05/Docker-运行Jira/" class="article-date">
+      <time datetime="2018-09-05T20:29:49.000Z" itemprop="datePublished">2018-09-05</time>
 </a>
     </div>
   
@@ -596,7 +666,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/14/CentOS7-配置frp内网穿透/">CentOS7 配置frp内网穿透</a>
+      <a class="article-title" href="/2018/09/05/Docker-运行Jira/">Docker 运行Jira</a>
     </h1>
   
 
@@ -606,41 +676,26 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">下载frp</a></p>
-<h3 id="服务端-外网主机"><a href="#服务端-外网主机" class="headerlink" title="服务端 外网主机"></a>服务端 外网主机</h3><p>SSH连接上外网主机后，使用<code>wget</code>指令下载frp。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.21.0/frp_0.21.0_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
-<p>使用<code>tar</code>指令解压tar.gz文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf frp_*_linux_amd64.tar.gz -C /usr/local/</span><br></pre></td></tr></table></figure>
-<p>使用<code>cd</code>指令进入解压出来的文件夹</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/frp_*_linux_amd64/</span><br></pre></td></tr></table></figure>
-<p>外网主机作为服务端，可以删掉不必要的客户端文件，使用<code>rm</code>指令删除文件。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -f frpc frpc.ini</span><br></pre></td></tr></table></figure>
-<p>接下来要修改服务器配置文件，即<code>frps.ini</code>文件。使用<code>vi</code>指令对目标文件进行编辑。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi frps.ini</span><br></pre></td></tr></table></figure>
-<p>打开<code>frps.ini</code>后可以看到默认已经有很多详细的配置和示范样例，该文章仅以达到内网穿透为目的，所以这里选择<strong>删掉或注释掉里面的所有内容</strong>，然后根据群晖的情况，按照官方的中文文档添加以下配置。（这里的操作都使用<code>vi</code>命令，关于<code>vi</code>命令的使用方式这里不作详细介绍，可以自行搜索相关使用方法。）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line">vhost_http_port = 8080</span><br></pre></td></tr></table></figure>
-<p><code>[common]</code>部分是必须有的配置，其中<code>bind_port</code>是自己设定的frp服务端端口，<code>vhost_http_port</code>是自己设定的http访问端口。</p>
-<p>保存上面的配置后，使用以下指令启动frp服务端。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">新建会话</span></span><br><span class="line">screen -dmS frp</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">然后进入这个会话。</span></span><br><span class="line">screen -r frp</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">执行命令</span></span><br><span class="line">./frps -c ./frps.ini &amp;</span><br></pre></td></tr></table></figure>
-<p>服务端的工作就到此结束了。</p>
-<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>客户端前面的操作和服务端是一模一样的，这里不一一解释。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.21.0/frp_0.21.0_linux_amd64.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf frp_*_linux_amd64.tar.gz -C /usr/local/</span><br><span class="line"></span><br><span class="line">cd /usr/local/frp_*_linux_amd64</span><br><span class="line"></span><br><span class="line">rm -f frps frps.ini</span><br></pre></td></tr></table></figure>
-<p>客户端的配置如下</p>
-<p>vi frpc.ini</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = x.x.x.x</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br><span class="line">remote_port = 6000</span><br><span class="line"></span><br><span class="line">[nas]</span><br><span class="line">type = http</span><br><span class="line">local_port = 5000</span><br><span class="line">custom_domains = no1.sunnyrx.com</span><br><span class="line"></span><br><span class="line">[web]</span><br><span class="line">type = http</span><br><span class="line">local_port = 80</span><br><span class="line">custom_domains = no2.sunnyrx.com</span><br></pre></td></tr></table></figure>
-<p>上面的配置和服务端是对应的。</p>
-<p><code>[common]</code>中的<code>server_addr</code>填frp服务端的ip（也就是外网主机的IP），<code>server_port</code>填frp服务端的<code>bind_prot</code>。</p>
-<p><code>[ssh]</code>中的<code>local_port</code>填群晖的ssh端口。</p>
-<p><code>[nas]</code>中的<code>type</code>对应服务端配置。<code>local_port</code>填群晖的DSM端口。<code>custom_domains</code>为要映射的域名，记得域名的A记录要解析到外网主机的IP。</p>
-<p><code>[web]</code>同上，<code>local_port</code>填群晖的web端口。这里创建了两个http反向代理是为了分别映射群晖两个重要的端口，<code>5000</code>和<code>80</code>，前者用于登录群晖管理，后者用于群晖的<code>Web Station</code>和<code>DS Photo</code>。</p>
-<p>保存配置，输入以下指令运行frp客户端。（同样如果需要在后台运行，请往下翻阅关于后台运行的部分。）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./frpc -c ./frpc.ini</span><br></pre></td></tr></table></figure>
-<p>此时在服务端会看到”start proxy sucess”字样，即连接成功。</p>
-<p>现在可以用SSH通过<code>外网主机IP:6000</code>和群晖建立SSH连接。通过浏览器访问<code>no1.sunnyrx.com:8080</code>打开群晖nas的管理页面，访问<code>no2.sunnyrx.com:8080</code>打开群晖<code>Web Station</code>的网站，<code>DS Photo app</code>可以连接<code>no2.sunnyrx.com:8080</code>进入<code>DS Photo</code>管理。</p>
-<h6 id="使用nohup指令"><a href="#使用nohup指令" class="headerlink" title="使用nohup指令"></a>使用nohup指令</h6><p>nohup指令的使用方法相对简单，只需要在<code>nohup</code>后面加上frp的运行指令即可。下面示范的指令是运行frp客户端。（同样，如果之前断开了SSH连接，记得用<code>cd</code>指令进入frp的目录先。）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./frpc -c ./frpc.ini &amp;</span><br></pre></td></tr></table></figure>
-<p>这样就成功让frp在后台运行了。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.sunnyrx.com/2016/10/21/simple-to-use-frp/" target="_blank" rel="noopener">使用frp实现内网穿透 群晖NAS+frp发挥更大作用</a></p>
+        <p><strong>生产环境数据库</strong><br>不要着急，如果是正式部署在生产环境上的，如果使用内置数据库，总感觉有点不保险，JIRA也建议如果部署在生产环境上的话，直接使用外部数据库，因此我们只需要在docker容器上启动一个数据库即可：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 3306:3306 \</span><br><span class="line">-v /data/docker/mysql/logs:/logs -v /data/docker/mysql/data:/mysql_data \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=root \</span><br><span class="line">-e MYSQL_DATABASE=jira \</span><br><span class="line">-e MYSQL_USER=jira \</span><br><span class="line">-e MYSQL_PASSWORD=jira \</span><br><span class="line">--name jira-mysql \</span><br><span class="line">-d mysql:5.6 \</span><br><span class="line">--character-set-server=utf8mb4 \</span><br><span class="line">--collation-server=utf8mb4_bin</span><br></pre></td></tr></table></figure>
+<h4 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/cptactionhank/docker-atlassian-jira.git</span><br><span class="line"></span><br><span class="line">cd docker-atlassian-jira</span><br></pre></td></tr></table></figure>
+<p>Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Configuration variables.</span></span><br><span class="line"><span class="keyword">ENV</span> JIRA_HOME     /var/atlassian/jira</span><br><span class="line"><span class="keyword">ENV</span> JIRA_INSTALL  /opt/atlassian/jira</span><br><span class="line"><span class="keyword">ENV</span> JIRA_VERSION  <span class="number">7.12</span>.<span class="number">1</span></span><br><span class="line"><span class="comment"># 定义临时文件夹，用于存放上传的文件</span></span><br><span class="line"><span class="keyword">ENV</span> TEMP_PATH     /temp/jira</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备JIRA的安装工作</span></span><br><span class="line"><span class="comment"># 1. 创建/temp/jira临时目录</span></span><br><span class="line"><span class="comment"># 2. 将需要的文件上传到临时文件，有破解文件和JIRA的安装包等等</span></span><br><span class="line"><span class="comment"># 3. 将sources.list.163文件上传，用于替换成163源</span></span><br><span class="line"><span class="comment"># To Ready JIRA</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /temp &amp;&amp; mkdir /temp/jira</span></span><br><span class="line"><span class="bash">COPY mysql-connector-java-5.1.42-bin.jar         /temp/jira/mysql-connector-java-5.1.42-bin.jar</span></span><br><span class="line"><span class="bash">COPY postgresql-42.2.1.jar                    /temp/jira/postgresql-42.2.1.jar</span></span><br><span class="line"><span class="bash">COPY atlassian-extras-3.2.jar                    /temp/jira/atlassian-extras-3.2.jar</span></span><br><span class="line"><span class="bash">COPY atlassian-jira-software-<span class="variable">$&#123;JIRA_VERSION&#125;</span>.tar.gz        /temp/jira/atlassian-jira-software-<span class="variable">$&#123;JIRA_VERSION&#125;</span>.tar.gz</span></span><br><span class="line"><span class="bash">COPY 163.com.sources.list                           /temp/jira/163.com.sources.list</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># 安装JIRA的运行命令，主要做了以下工作：</span></span></span><br><span class="line"><span class="bash"><span class="comment"># 1. 将debain的原始源替换成国内的163源</span></span></span><br><span class="line"><span class="bash"><span class="comment"># 2. 将下载获取JIRA更换为上传JIRA的源码包，因为下载JIRA的速度实在有点感人</span></span></span><br><span class="line"><span class="bash"><span class="comment"># Install Atlassian JIRA and helper tools and setup initial home</span></span></span><br><span class="line"><span class="bash"><span class="comment"># directory structure.</span></span></span><br><span class="line"><span class="bash">RUN <span class="built_in">set</span> -x \</span></span><br><span class="line"><span class="bash">    &amp;&amp; mv                      /etc/apt/sources.list /etc/apt/sources.list.back \</span></span><br><span class="line"><span class="bash">    &amp;&amp; cp                      <span class="string">"<span class="variable">$&#123;TEMP_PATH&#125;</span>/163.com.sources.list"</span> /etc/apt/sources.list \</span></span><br><span class="line"><span class="bash">    <span class="comment"># &amp;&amp; echo "deb http://mirrors.163.com/debian jessie-backports main" &gt; /etc/apt/sources.list.d/jessie-backports.list \</span></span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get update --quiet \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get install --quiet --yes --no-install-recommends xmlstarlet \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get install --quiet --yes --no-install-recommends -t jessie-backports libtcnative-1 \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get clean \</span></span><br><span class="line"><span class="bash">    &amp;&amp; mkdir -p                <span class="string">"<span class="variable">$&#123;JIRA_HOME&#125;</span>"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; mkdir -p                <span class="string">"<span class="variable">$&#123;JIRA_HOME&#125;</span>/caches/indexes"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chmod -R 700            <span class="string">"<span class="variable">$&#123;JIRA_HOME&#125;</span>"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chown -R daemon:daemon  <span class="string">"<span class="variable">$&#123;JIRA_HOME&#125;</span>"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; mkdir -p                <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/conf/Catalina"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; cp                      <span class="string">"<span class="variable">$&#123;TEMP_PATH&#125;</span>/atlassian-jira-software-<span class="variable">$&#123;JIRA_VERSION&#125;</span>.tar.gz"</span> <span class="string">"./atlassian-jira-software-<span class="variable">$&#123;JIRA_VERSION&#125;</span>.tar.gz"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; tar -zxvf               <span class="string">"./atlassian-jira-software-<span class="variable">$&#123;JIRA_VERSION&#125;</span>.tar.gz"</span> --directory <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>"</span> --strip-components=1 --no-same-owner \</span></span><br><span class="line"><span class="bash">    &amp;&amp; cp                      <span class="string">"<span class="variable">$&#123;TEMP_PATH&#125;</span>/mysql-connector-java-5.1.42-bin.jar"</span> <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/lib/mysql-connector-java-5.1.42-bin.jar"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; rm -f                   <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/lib/postgresql-9.1-903.jdbc4-atlassian-hosted.jar"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; cp                      <span class="string">"<span class="variable">$&#123;TEMP_PATH&#125;</span>/postgresql-42.2.1.jar"</span> <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/lib/postgresql-42.2.1.jar"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chmod -R 700            <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/conf"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chmod -R 700            <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/logs"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chmod -R 700            <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/temp"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chmod -R 700            <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/work"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chown -R daemon:daemon  <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/conf"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chown -R daemon:daemon  <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/logs"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chown -R daemon:daemon  <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/temp"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chown -R daemon:daemon  <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/work"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; sed --<span class="keyword">in</span>-place          <span class="string">"s/java version/openjdk version/g"</span> <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/bin/check-java.sh"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; <span class="built_in">echo</span> -e                 <span class="string">"\njira.home=<span class="variable">$JIRA_HOME</span>"</span> &gt;&gt; <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/atlassian-jira/WEB-INF/classes/jira-application.properties"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; touch -d <span class="string">"@0"</span>           <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/conf/server.xml"</span></span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># 使用补丁包替换掉原来的JAR包</span></span></span><br><span class="line"><span class="bash"><span class="comment"># Hack</span></span></span><br><span class="line"><span class="bash">RUN <span class="built_in">set</span> -x \</span></span><br><span class="line"><span class="bash">    &amp;&amp; rm -rf                  <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/atlassian-jira/WEB-INF/lib/atlassian-extras-3.2.jar"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; cp                      <span class="string">"<span class="variable">$&#123;TEMP_PATH&#125;</span>/atlassian-extras-3.2.jar"</span> <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/atlassian-jira/WEB-INF/lib/atlassian-extras-3.2.jar"</span></span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># Use the default unprivileged account. This could be considered bad practice</span></span></span><br><span class="line"><span class="bash"><span class="comment"># on systems where multiple processes end up being executed by 'daemon' but</span></span></span><br><span class="line"><span class="bash"><span class="comment"># here we only ever run one process anyway.</span></span></span><br><span class="line"><span class="bash">USER daemon:daemon</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># Expose default HTTP connector port.</span></span></span><br><span class="line"><span class="bash">EXPOSE 8080</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># Set volume mount points for installation and home directory. Changes to the</span></span></span><br><span class="line"><span class="bash"><span class="comment"># home directory needs to be persisted as well as parts of the installation</span></span></span><br><span class="line"><span class="bash"><span class="comment"># directory due to eg. logs.</span></span></span><br><span class="line"><span class="bash">VOLUME [<span class="string">"/var/atlassian/jira"</span>, <span class="string">"/opt/atlassian/jira/logs"</span>]</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># Set the default working directory as the installation directory.</span></span></span><br><span class="line"><span class="bash">WORKDIR /var/atlassian/jira</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">COPY <span class="string">"docker-entrypoint.sh"</span> <span class="string">"/"</span></span></span><br><span class="line"><span class="bash">ENTRYPOINT [<span class="string">"/docker-entrypoint.sh"</span>]</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># Run Atlassian JIRA as a foreground process by default.</span></span></span><br><span class="line"><span class="bash">CMD [<span class="string">"/opt/atlassian/jira/bin/start-jira.sh"</span>, <span class="string">"-fg"</span>]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t atlassian/jira:7.12.1 .</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R 2:2 /data/docker/jira</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8088:8080 -v /data/docker/jira:/var/atlassian/jira -d --name jira-7.12.1 atlassian/jira:7.12.1</span><br></pre></td></tr></table></figure>
+<p><strong>破解jira</strong></p>
+<p>先关闭jira，然后把破解包里面的atlassian-extras-3.2.jar和mysql-connector-java- 5.1.42-bin.jar两个文件复制到/usr/local/atlassian/jira/atlassian-jira/WEB-INF/lib/目录下。</p>
+<p>其中atlassian-extras-3.2.jar是用来替换原来的atlassian-extras-3.1.2.jar文件，用作破解jira系统的。</p>
+<p>而mysql-connector-java- 5.1.42-bin.jar是用来连接mysql数据库的驱动软件包。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/atlassian/jira/atlassian-jira/WEB-INF/lib/</span><br></pre></td></tr></table></figure>
+<p>code key</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.ilanni.com/?p=12119" target="_blank" rel="noopener"><a href="https://www.ilanni.com/?p=12119" target="_blank" rel="noopener">烂泥：jira7.3/7.2安装、中文及破解(20170829更新)</a></a></p>
+<p><a href="http://www.llbee.com/?p=609" target="_blank" rel="noopener">CentOS_7_Jira7.4.1安装部署_及破解</a></p>
+<p><a href="https://xuqiang.me/Docker-JIRA-7-3-8-%E7%A0%B4%E8%A7%A3%E9%83%A8%E7%BD%B2.html" target="_blank" rel="noopener">Docker JIRA 7.3.8 破解部署</a></p>
+<p><a href="http://xumf.net/blog/docker+centos7+jira7.3/" target="_blank" rel="noopener">Docker+centos7+jira7.3.6+postgre Sql破解搭建</a></p>
+<p><a href="https://www.jianshu.com/p/b48eb3297dee" target="_blank" rel="noopener">docker入门到实战(5)安装mysql容器</a></p>
 
       
       
@@ -668,11 +723,11 @@
 
 
   
-    <article id="post-crawl_spider 环境配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Let-s-Encrypt-泛域名证书申请" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/08/08/crawl_spider 环境配置/" class="article-date">
-      <time datetime="2018-08-08T20:37:33.000Z" itemprop="datePublished">2018-08-08</time>
+      <a href="/2018/09/02/Let-s-Encrypt-泛域名证书申请/" class="article-date">
+      <time datetime="2018-09-02T00:37:47.000Z" itemprop="datePublished">2018-09-02</time>
 </a>
     </div>
   
@@ -681,10 +736,23 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/02/Let-s-Encrypt-泛域名证书申请/">Let&#39;s Encrypt 泛域名证书申请</a>
+    </h1>
+  
+
+      </header>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><code>mkvirtualenv crawl_spider --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</code></p>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --issue --dns dns_he --keylength 4096 -d *.xxx.com -d xxx.com</span><br></pre></td></tr></table></figure>
+<p>nginx配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssl_certificate     fullchain.cer;</span><br><span class="line">ssl_certificate_key xxx.com.key;</span><br></pre></td></tr></table></figure>
 
       
       
@@ -712,11 +780,11 @@
 
 
   
-    <article id="post-Debian8安装Shadowsock和moeSS" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Docker-运行Jenkins" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/08/08/Debian8安装Shadowsock和moeSS/" class="article-date">
-      <time datetime="2018-08-08T20:37:00.000Z" itemprop="datePublished">2018-08-08</time>
+      <a href="/2018/09/02/Docker-运行Jenkins/" class="article-date">
+      <time datetime="2018-09-02T00:01:28.000Z" itemprop="datePublished">2018-09-02</time>
 </a>
     </div>
   
@@ -725,73 +793,29 @@
       <input type="hidden" class="isFancy" />
     
     
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y git</span><br></pre></td></tr></table></figure>
-<h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone -b manyuser https://github.com/mengskysama/shadowsocks.git</span><br><span class="line">git clone https://github.com/wzxjohn/moeSS.git</span><br></pre></td></tr></table></figure>
-<h3 id="配置LAMP环境"><a href="#配置LAMP环境" class="headerlink" title="配置LAMP环境"></a>配置LAMP环境</h3><p>http2.4<br>php5.4+<br>mysql5.6</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#安装apache httpd web服务</span><br><span class="line">apt-get install -y apache2</span><br><span class="line"></span><br><span class="line">#设置开机自启动</span><br><span class="line">systemctl enable apache2</span><br><span class="line">#启动应用</span><br><span class="line">systemctl start apache2</span><br><span class="line"></span><br><span class="line">#开启rewrite功能</span><br><span class="line">a2enmod rewrite</span><br><span class="line">systemctl restart apache2</span><br></pre></td></tr></table></figure>
-<p>修改配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/apache2/apache2.conf</span><br><span class="line">/var/www/html/ #此路径为web服务器存放网页的地方。</span><br><span class="line">AllowOverride All #开启rewrite所有</span><br></pre></td></tr></table></figure>
-<h3 id="安装mysql数据库"><a href="#安装mysql数据库" class="headerlink" title="安装mysql数据库"></a>安装mysql数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y mysql-server</span><br><span class="line"></span><br><span class="line">#开机自启动</span><br><span class="line">systemctl enable mysql</span><br><span class="line">systemctl start mysql</span><br><span class="line"></span><br><span class="line">#新建数据库 shaodowsocks</span><br><span class="line">create database shadowsocks;</span><br><span class="line">#导入数据库结构表。</span><br><span class="line">mysql -uroot -p shadowsocks &lt;shadowsocks.sql</span><br></pre></td></tr></table></figure>
-<h3 id="安装php和php插件"><a href="#安装php和php插件" class="headerlink" title="安装php和php插件"></a>安装php和php插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get -y install php5 libapache2-mod-php5 php5-mysql php5-mysqlnd php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl</span><br><span class="line"></span><br><span class="line">#重启web服务</span><br><span class="line">systemctl restart apache2</span><br></pre></td></tr></table></figure>
-<h3 id="安装shadowsocks-插件"><a href="#安装shadowsocks-插件" class="headerlink" title="安装shadowsocks 插件"></a>安装shadowsocks 插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#安装pip工具，</span><br><span class="line">apt-get install -y python-pip python-m2crypto</span><br><span class="line"></span><br><span class="line">#安装python数据库支持</span><br><span class="line">pip install cymysql</span><br><span class="line"></span><br><span class="line">#运行shadowsocks</span><br><span class="line">cd shadowsocks </span><br><span class="line">nohup python server.py &amp;</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
+      <header class="article-header">
+        
   
-</article>
-
-
-
-
-
-
-
-
-
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/02/Docker-运行Jenkins/">Docker 运行Jenkins</a>
+    </h1>
   
-    <article id="post-distribute_crawler项目实战" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/08/distribute_crawler项目实战/" class="article-date">
-      <time datetime="2018-08-08T20:36:49.000Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
+
+      </header>
+      
     
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://blog.csdn.net/u011008734/article/details/47259197" target="_blank" rel="noopener">distribute_crawler项目实战</a><br><a href="https://github.com/aware-why/distribute_crawler" target="_blank" rel="noopener">distribute_crawler</a></p>
-<p>Python编译依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y zlib1g-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev</span><br></pre></td></tr></table></figure>
-<p>配置 pyenv</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br><span class="line"></span><br><span class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line">echo -e &apos;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&apos; &gt;&gt; ~/.bash_profile</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.3</span><br><span class="line">pyenv global 3.6.3</span><br></pre></td></tr></table></figure>
-<p>更改pypi源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd project</span><br><span class="line">pipenv install </span><br><span class="line">pip install scrapy redis pymongo</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y redis-server</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6</span><br><span class="line"></span><br><span class="line">echo &quot;deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse&quot; | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list</span><br><span class="line"></span><br><span class="line">apt-get update</span><br><span class="line"></span><br><span class="line">apt-get install -y mongodb-org</span><br><span class="line"></span><br><span class="line">systemctl enable mongod</span><br><span class="line"></span><br><span class="line">systemctl start mongod</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y apache2 libapache2-mod-wsgi \</span><br><span class="line">python-twisted python-cairo python-django-tagging</span><br><span class="line"></span><br><span class="line">pip install Django==1.5.2 tagging carbon whisper graphite-web parse_lookup</span><br></pre></td></tr></table></figure>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins/jenkins:2.121.3</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">jenkins启动用户id 1000</span></span><br><span class="line">chown -R 1000:1000 /data/jenkins</span><br><span class="line"></span><br><span class="line">docker run -p 8080:8080 -v /data/jenkins:/var/jenkins_home -d --name jenkins-2.121.3 jenkins/jenkins:2.121.3</span><br></pre></td></tr></table></figure>
+<p>nginx反向代理</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">listen</span>               <span class="number">443</span> ssl;</span><br><span class="line"></span><br><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto https;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_redirect</span> http:// https://;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">add_header</span> Pragma <span class="string">"no-cache"</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:8080;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>插件</strong></p>
+<p>Git</p>
+<p>Email Extension</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/3671eb8de971" target="_blank" rel="noopener">docker运行jenkins</a></p>
+<p><a href="https://gist.github.com/rdegges/913102" target="_blank" rel="noopener">Create a HTTP proxy for jenkins using NGINX.</a></p>
+
       
       
     </div>
@@ -820,7 +844,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>

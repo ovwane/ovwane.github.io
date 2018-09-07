@@ -206,6 +206,798 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-使用Vagrant和Virtualbox搭建Kubernetes集群" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/08/使用Vagrant和Virtualbox搭建Kubernetes集群/" class="article-date">
+      <time datetime="2018-07-08T17:00:16.000Z" itemprop="datePublished">2018-07-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="使用Vagrant和Virtualbox搭建Kubernetes集群"><a href="#使用Vagrant和Virtualbox搭建Kubernetes集群" class="headerlink" title="使用Vagrant和Virtualbox搭建Kubernetes集群"></a>使用Vagrant和Virtualbox搭建Kubernetes集群</h1><h2 id="安装Vagrant和VirtualBox"><a href="#安装Vagrant和VirtualBox" class="headerlink" title="安装Vagrant和VirtualBox"></a>安装Vagrant和VirtualBox</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew cask install vagrant</span><br><span class="line">brew cask install virtualbox</span><br></pre></td></tr></table></figure>
+<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><p>确保安装好以上的准备环境后，执行下列命令启动kubernetes集群：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ovwane/kubernetes-vagrant-centos-cluster.git</span><br><span class="line">cd kubernetes-vagrant-centos-cluster</span><br><span class="line">vagrant up</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：克隆完Git仓库后，需要提前下载kubernetes的压缩包到<code>kubenetes-vagrant-centos-cluster</code>目录下，包括如下两个文件：</p>
+<ul>
+<li>kubernetes-client-linux-amd64.tar.gz</li>
+<li>kubernetes-server-linux-amd64.tar.gz</li>
+</ul>
+<p>如果是首次部署，会自动下载<code>centos/7</code>的box，这需要花费一些时间，另外每个节点还需要下载安装一系列软件包，整个过程大概需要10几分钟。</p>
+<p>如果您在运行<code>vagrant up</code>的过程中发现无法下载<code>centos/7</code>的box，可以手动下载后将其添加到vagrant中。</p>
+<p><strong>手动添加centos/7 box</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1805_01.VirtualBox.box</span><br><span class="line">vagrant box add CentOS-7-x86_64-Vagrant-1805_01.VirtualBox.box --name centos/7</span><br></pre></td></tr></table></figure>
+<p>这样下次运行<code>vagrant up</code>的时候就会自动读取本地的<code>centos/7</code> box而不会再到网上下载。</p>
+<h3 id="访问kubernetes集群"><a href="#访问kubernetes集群" class="headerlink" title="访问kubernetes集群"></a>访问kubernetes集群</h3><p>访问Kubernetes集群的方式有三种：</p>
+<ul>
+<li>本地访问</li>
+<li>在VM内部访问</li>
+<li>kubernetes dashboard</li>
+</ul>
+<p><strong>通过本地访问</strong></p>
+<p>可以直接在你自己的本地环境中操作该kubernetes集群，而无需登录到虚拟机中，执行以下步骤：</p>
+<p>将<code>conf/admin.kubeconfig</code>文件放到<code>~/.kube/config</code>目录下即可在本地使用<code>kubectl</code>命令操作集群。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.kube</span><br><span class="line">cp conf/admin.kubeconfig ~/.kube/config</span><br></pre></td></tr></table></figure>
+<p>我们推荐您使用这种方式。</p>
+<p><strong>在虚拟机内部访问</strong></p>
+<p>如果有任何问题可以登录到虚拟机内部调试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vagrant ssh node1</span><br><span class="line">sudo -i</span><br><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+<p><strong>Kubernetes dashboard</strong></p>
+<p>还可以直接通过dashboard UI来访问：<a href="https://172.17.8.101:8443/" target="_blank" rel="noopener">https://172.17.8.101:8443</a></p>
+<p>可以在本地执行以下命令获取token的值（需要提前安装kubectl）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-system describe secret `kubectl -n kube-system get secret|grep admin-token|cut -d &quot; &quot; -f1`|grep &quot;token:&quot;|tr -s &quot; &quot;|cut -d &quot; &quot; -f2</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：token的值也可以在<code>vagrant up</code>的日志的最后看到。</p>
+<p><strong>Heapster监控</strong></p>
+<p>创建Heapster监控：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/heapster/</span><br></pre></td></tr></table></figure>
+<p>访问Grafana</p>
+<p>使用Ingress方式暴露的服务，在本地<code>/etc/hosts</code>中增加一条配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 grafana.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>访问Grafana：<a href="http://grafana.jimmysong.io/" target="_blank" rel="noopener">http://grafana.jimmysong.io</a></p>
+<p><strong>Traefik</strong></p>
+<p>部署Traefik ingress controller和增加ingress配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/traefik-ingress</span><br></pre></td></tr></table></figure>
+<p>在本地<code>/etc/hosts</code>中增加一条配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 traefik.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>访问Traefik UI：<a href="http://traefik.jimmysong.io/" target="_blank" rel="noopener">http://traefik.jimmysong.io</a></p>
+<p><strong>EFK</strong></p>
+<p>使用EFK做日志收集。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/efk/</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：运行EFK的每个节点需要消耗很大的CPU和内存，请保证每台虚拟机至少分配了4G内存。</p>
+<p><strong>Helm</strong></p>
+<p>用来部署helm。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack/deploy-helm.sh</span><br></pre></td></tr></table></figure>
+<h3 id="Service-Mesh"><a href="#Service-Mesh" class="headerlink" title="Service Mesh"></a>Service Mesh</h3><p>我们使用 <a href="https://istio.io/" target="_blank" rel="noopener">istio</a> 作为 service mesh。</p>
+<p><strong>安装</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/istio/</span><br></pre></td></tr></table></figure>
+<p><strong>运行示例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -n default -f &lt;(istioctl kube-inject -f yaml/istio-bookinfo/bookinfo.yaml)</span><br><span class="line">istioctl create -f yaml/istio-bookinfo/bookinfo-gateway.yaml</span><br></pre></td></tr></table></figure>
+<p>在您自己的本地主机的<code>/etc/hosts</code>文件中增加如下配置项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 grafana.istio.jimmysong.io</span><br><span class="line">172.17.8.102 servicegraph.istio.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>我们可以通过下面的URL地址访问以上的服务。</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>grafana</td>
+<td><a href="http://grafana.istio.jimmysong.io/" target="_blank" rel="noopener">http://grafana.istio.jimmysong.io</a></td>
+</tr>
+<tr>
+<td>servicegraph</td>
+<td><a href="http://servicegraph.istio.jimmysong.io/dotviz%3E" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/dotviz&gt;</a>, <a href="http://servicegraph.istio.jimmysong.io/graph" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/graph</a>,<a href="http://servicegraph.istio.jimmysong.io/force/forcegraph.html" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/force/forcegraph.html</a></td>
+</tr>
+<tr>
+<td>tracing</td>
+<td><a href="http://172.17.8.101:$JAEGER_PORT/" target="_blank" rel="noopener">http://172.17.8.101:$JAEGER_PORT</a></td>
+</tr>
+<tr>
+<td>productpage</td>
+<td><a href="http://172.17.8.101:$GATEWAY_PORT/productpage" target="_blank" rel="noopener">http://172.17.8.101:$GATEWAY_PORT/productpage</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意</strong>：<code>JAEGER_PORT</code>可以通过<code>kubectl -n istio-system get svc tracing -o jsonpath=&#39;{.spec.ports[0].nodePort}&#39;</code>获取，<code>GATEWAY_PORT</code>可以通过<code>kubectl -n istio-system get svc istio-ingressgateway -o jsonpath=&#39;{.spec.ports[0].nodePort}&#39;</code>获取。</p>
+<p>详细信息请参阅 <a href="https://istio.io/docs/guides/bookinfo.html" target="_blank" rel="noopener">https://istio.io/docs/guides/bookinfo.html</a></p>
+<h2 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h2><p>除了特别说明，以下命令都在当前的repo目录下操作。</p>
+<h3 id="挂起"><a href="#挂起" class="headerlink" title="挂起"></a>挂起</h3><p>将当前的虚拟机挂起，以便下次恢复。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant suspend</span><br></pre></td></tr></table></figure>
+<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><p>恢复虚拟机的上次状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant resume</span><br></pre></td></tr></table></figure>
+<p>注意：我们每次挂起虚拟机后再重新启动它们的时候，看到的虚拟机中的时间依然是挂载时候的时间，这样将导致监控查看起来比较麻烦。因此请考虑先停机再重新启动虚拟机。</p>
+<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><p>停机后重启启动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">vagrant halt</span><br><span class="line">vagrant up</span><br><span class="line"># login to node1</span><br><span class="line">vagrant ssh node1</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">exit</span><br><span class="line"># login to node2</span><br><span class="line">vagrant ssh node2</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">exit</span><br><span class="line"># login to node3</span><br><span class="line">vagrant ssh node3</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">sudo -i</span><br><span class="line">cd /vagrant/hack</span><br><span class="line">./deploy-base-services.sh</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>现在你已经拥有一个完整的基础的kubernetes运行环境，在该repo的根目录下执行下面的命令可以获取kubernetes dahsboard的admin用户的token。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack/get-dashboard-token.sh</span><br></pre></td></tr></table></figure>
+<p>根据提示登录即可。</p>
+<h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><p>清理虚拟机。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vagrant destroy</span><br><span class="line">rm -rf .vagrant</span><br></pre></td></tr></table></figure>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>仅做开发测试使用，不要在生产环境使用该项目。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://jimmysong.io/kubernetes-handbook/develop/using-vagrant-and-virtualbox-for-development.html" target="_blank" rel="noopener">本地分布式开发环境搭建（使用Vagrant和Virtualbox）</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Hugo" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/04/Hugo/" class="article-date">
+      <time datetime="2018-07-04T16:40:08.000Z" itemprop="datePublished">2018-07-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a></p>
+<p><a href="http://nanshu.wang/post/2015-01-31/" target="_blank" rel="noopener">Hugo静态网站生成器中文教程</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/magefile/mage</span><br><span class="line">go get -d github.com/gohugoio/hugo</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;GOPATH:-$HOME/go&#125;</span>/src/github.com/gohugoio/hugo</span><br><span class="line">mage vendor</span><br><span class="line">mage install</span><br></pre></td></tr></table></figure>
+<p>新建hugo项目</p>
+<p><code>hugo new site hugo.ovwane.me</code></p>
+<p>初始化git</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd hugo.ovwane.me</span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>Install DocDock as git submodule</p>
+<p><code>git submodule add https://github.com/vjeantet/hugo-theme-docdock.git themes/hugo-theme-docdock</code></p>
+<p><code>git submodule add https://github.com/spf13/hugoThemes.git themes/spf13</code></p>
+<p>Next initialize submodule for parent git repo:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git submodule init</span><br><span class="line">git submodule update</span><br></pre></td></tr></table></figure>
+<p>Configure<br>Import sample config from sample site to Hugo root.</p>
+<p><code>cp themes/hugo-theme-docdock/exampleSite/config.toml .</code></p>
+<p>Preview site</p>
+<p><code>hugo server</code></p>
+<p><code>hugo new post/first-article.md</code></p>
+<p><code>git clone https://github.com/vjeantet/hugo-theme-docdock.git themes/docdock</code></p>
+<p>git checkout -b hugo</p>
+<p>git add .</p>
+<p>git commit -m “初始化分支，主题使用psf13的”</p>
+<p>git push –set-upstream origin hugo</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 安装配置Hugo" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/04/macOS 安装配置Hugo/" class="article-date">
+      <time datetime="2018-07-04T16:24:10.000Z" itemprop="datePublished">2018-07-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a><br><a href="https://gohugo.io/getting-started/installing/" target="_blank" rel="noopener">Install Hugo</a><a href="https://jimmysong.io/posts/building-github-pages-with-hugo/" target="_blank" rel="noopener">零基础使用Hugo和GitHub Pages创建自己的博客</a></p>
+<p><code>brew install hugo</code></p>
+<p>下载主题</p>
+<p><a href="https://github.com/halogenica/beautifulhugo" target="_blank" rel="noopener">Beautiful Hugo github</a>|<a href="https://themes.gohugo.io/beautifulhugo/" target="_blank" rel="noopener">Beautiful Hugo</a></p>
+<p><code>git clone https://github.com/halogenica/beautifulhugo.git themes/beautifulhugo</code></p>
+<p><code>hugo server -t beautifulhugo --buildDrafts</code></p>
+<p>-t参数的意思是使用beautifulhugo主题渲染我们的页面，注意到about.md目前是作为草稿，即draft参数设置为true，运行Hugo时要加上–buildDrafts参数才会生成被标记为草稿的页面。 在浏览器输入localhost:1313，就可以看到我们刚刚创建的页面。</p>
+<p>注意观察当前目录下多了一个文件夹public/，这里面是Hugo生成的整个静态网站，如果使用Github pages来作为博客的Host，你只需要将public/里的文件上传就可以，这相当于是Hugo的输出。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS gitbook" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/08/macOS gitbook/" class="article-date">
+      <time datetime="2018-06-08T08:13:00.000Z" itemprop="datePublished">2018-06-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-商业保险" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/15/商业保险/" class="article-date">
+      <time datetime="2018-05-15T20:50:01.000Z" itemprop="datePublished">2018-05-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/15/商业保险/">商业保险</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="我："><a href="#我：" class="headerlink" title="我："></a>我：</h2><p><strong>重疾险</strong></p>
+<p>百年康惠保</p>
+<p><strong>定期寿险</strong></p>
+<p>30年比20年贵一半</p>
+<p>不要终身寿险</p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIwNzY5MjA2Nw==&amp;mid=2247483813&amp;idx=1&amp;sn=38611df460a894d60e056100dee3afb7&amp;chksm=970fc9e9a07840ffc405b54c7ed5dc7fd97fed907bb37444d0b56bb21377e48baa8d1e7080f9&amp;mpshare=1&amp;scene=1&amp;srcid=0514itQjYc3TKjzhhFZxoKQM%23rd" target="_blank" rel="noopener">这三个爆款定期寿险</a></p>
+<p>大白定期寿险</p>
+<p><strong>瑞和定期寿险</strong> *</p>
+<p><strong>擎天柱定期寿险</strong></p>
+<p><strong>意外险</strong></p>
+<h2 id="妈："><a href="#妈：" class="headerlink" title="妈："></a>妈：</h2><p><strong>重疾险</strong></p>
+<p>考虑终生</p>
+<p><strong>意外险</strong></p>
+<p><strong>医疗险</strong></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生活/">生活</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Go编码规范指南" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/11/Go编码规范指南/" class="article-date">
+      <time datetime="2018-05-11T13:59:01.000Z" itemprop="datePublished">2018-05-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Go编码规范指南"><a href="#Go编码规范指南" class="headerlink" title="Go编码规范指南"></a>Go编码规范指南</h1><h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>看过很多方面的编码规范，可能每一家公司都有不同的规范，这份编码规范是写给我自己的，同时希望我们公司内部同事也能遵循这个规范来写Go代码。</p>
+<p>如果你的代码没有办法找到下面的规范，那么就遵循标准库的规范，多阅读标准库的源码，标准库的代码可以说是我们写代码参考的标杆。</p>
+<h2 id="格式化规范"><a href="#格式化规范" class="headerlink" title="格式化规范"></a>格式化规范</h2><p>go默认已经有了gofmt工具，但是我们强烈建议使用goimport工具，这个在gofmt的基础上增加了自动删除和引入包.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get golang.org/x/tools/cmd/goimports</span></span><br></pre></td></tr></table></figure>
+<p>不同的编辑器有不同的配置, sublime的配置教程：<a href="http://michaelwhatcott.com/gosublime-goimports/" target="_blank" rel="noopener">http://michaelwhatcott.com/gosublime-goimports/</a></p>
+<p>LiteIDE默认已经支持了goimports，如果你的不支持请点击属性配置-&gt;golangfmt-&gt;勾选goimports</p>
+<p>保存之前自动fmt你的代码。</p>
+<h2 id="行长约定"><a href="#行长约定" class="headerlink" title="行长约定"></a>行长约定</h2><p>一行最长不超过80个字符，超过的请使用换行展示，尽量保持格式优雅。</p>
+<h2 id="go-vet"><a href="#go-vet" class="headerlink" title="go vet"></a>go vet</h2><p>vet工具可以帮我们静态分析我们的源码存在的各种问题，例如多余的代码，提前return的逻辑，struct的tag是否符合标准等。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get golang.org/x/tools/cmd/vet</span></span><br></pre></td></tr></table></figure>
+<p>使用如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go vet .</span></span><br></pre></td></tr></table></figure>
+<h2 id="package名字"><a href="#package名字" class="headerlink" title="package名字"></a>package名字</h2><p>保持package的名字和目录保持一致，尽量采取有意义的包名，简短，有意义，尽量和标准库不要冲突。</p>
+<h2 id="import-规范"><a href="#import-规范" class="headerlink" title="import 规范"></a>import 规范</h2><p>import在多行的情况下，goimports会自动帮你格式化，但是我们这里还是规范一下import的一些规范，如果你在一个文件里面引入了一个package，还是建议采用如下格式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>如果你的包引入了三种类型的包，标准库包，程序内部包，第三方包，建议采用如下方式进行组织你的包：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"encoding/json"</span></span><br><span class="line">    <span class="string">"strings"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"myproject/models"</span></span><br><span class="line">    <span class="string">"myproject/controller"</span></span><br><span class="line">    <span class="string">"myproject/utils"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"github.com/astaxie/beego"</span></span><br><span class="line">    <span class="string">"github.com/go-sql-driver/mysql"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>有顺序的引入包，不同的类型采用空格分离，第一种实标准库，第二是项目包，第三是第三方包。</p>
+<p>在项目中不要使用相对路径引入包：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是不好的导入</span></span><br><span class="line"><span class="keyword">import</span> “../net”</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这是正确的做法</span></span><br><span class="line"><span class="keyword">import</span> “github.com/repo/proj/src/net”</span><br></pre></td></tr></table></figure>
+<h2 id="变量申明"><a href="#变量申明" class="headerlink" title="变量申明"></a>变量申明</h2><p>变量名采用驼峰标准，不要使用<code>_</code>来命名变量名，多个变量申明放在一起</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    Found <span class="keyword">bool</span></span><br><span class="line">    count <span class="keyword">int</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在函数外部申明必须使用var,不要采用<code>:=</code>，容易踩到变量的作用域的问题。</p>
+<h2 id="自定义类型的string循环问题"><a href="#自定义类型的string循环问题" class="headerlink" title="自定义类型的string循环问题"></a>自定义类型的string循环问题</h2><p>如果自定义的类型定义了String方法，那么在打印的时候会产生隐藏的一些bug</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyInt <span class="keyword">int</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MyInt)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123; </span><br><span class="line">    <span class="keyword">return</span> fmt.Sprint(m)   <span class="comment">//<span class="doctag">BUG:</span>死循环</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(m MyInt)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123; </span><br><span class="line">    <span class="keyword">return</span> fmt.Sprint(<span class="keyword">int</span>(m))   <span class="comment">//这是安全的,因为我们内部进行了类型转换</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="避免返回命名的参数"><a href="#避免返回命名的参数" class="headerlink" title="避免返回命名的参数"></a>避免返回命名的参数</h2><p>如果你的函数很短小，少于10行代码，那么可以使用，不然请直接使用类型，因为如果使用命名变量很<br>容易引起隐藏的bug</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Foo</span><span class="params">(a <span class="keyword">int</span>, b <span class="keyword">int</span>)</span> <span class="params">(<span class="keyword">string</span>, ok)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然如果是有多个相同类型的参数返回，那么命名参数可能更清晰：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *Foo)</span> <span class="title">Location</span><span class="params">()</span> <span class="params">(<span class="keyword">float64</span>, <span class="keyword">float64</span>, error)</span></span></span><br></pre></td></tr></table></figure>
+<p>下面的代码就更清晰了：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Location returns f's latitude and longitude.</span></span><br><span class="line"><span class="comment">// Negative values mean south and west, respectively.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *Foo)</span> <span class="title">Location</span><span class="params">()</span> <span class="params">(lat, long <span class="keyword">float64</span>, err error)</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>错误处理的原则就是不能丢弃任何有返回err的调用，不要采用<code>_</code>丢弃，必须全部处理。接收到错误，要么返回err，要么实在不行就panic，或者使用log记录下来</p>
+<h3 id="error-信息"><a href="#error-信息" class="headerlink" title="error 信息"></a>error 信息</h3><p>error的信息不要采用大写字母，尽量保持你的错误简短，但是要足够表达你的错误的意思。</p>
+<h2 id="长句子打印或者调用，使用参数进行格式化分行"><a href="#长句子打印或者调用，使用参数进行格式化分行" class="headerlink" title="长句子打印或者调用，使用参数进行格式化分行"></a>长句子打印或者调用，使用参数进行格式化分行</h2><p>我们在调用<code>fmt.Sprint</code>或者<code>log.Sprint</code>之类的函数时，有时候会遇到很长的句子，我们需要在参数调用处进行多行分割：</p>
+<p>下面是错误的方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log.Printf(“A long format <span class="keyword">string</span>: %s %d %d %s”, myStringParameter, <span class="built_in">len</span>(a),</span><br><span class="line">    expected.Size, defrobnicate(“Anotherlongstringparameter”,</span><br><span class="line">        expected.Growth.Nanoseconds() /<span class="number">1e6</span>))</span><br></pre></td></tr></table></figure>
+<p>应该是如下的方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">log.Printf( </span><br><span class="line">    “A long format <span class="keyword">string</span>: %s %d %d %s”, </span><br><span class="line">    myStringParameter,</span><br><span class="line">    <span class="built_in">len</span>(a),</span><br><span class="line">    expected.Size,</span><br><span class="line">    defrobnicate(</span><br><span class="line">        “Anotherlongstringparameter”,</span><br><span class="line">        expected.Growth.Nanoseconds()/<span class="number">1e6</span>, </span><br><span class="line">    ),</span><br><span class="line">）</span><br></pre></td></tr></table></figure>
+<h2 id="注意闭包的调用"><a href="#注意闭包的调用" class="headerlink" title="注意闭包的调用"></a>注意闭包的调用</h2><p>在循环中调用函数或者goroutine方法，一定要采用显示的变量调用，不要再闭包函数里面调用循环的参数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fori:=<span class="number">0</span>;i&lt;limit;i++&#123;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; DoSomething(i) &#125;() <span class="comment">//错误的做法</span></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>)</span></span>&#123; DoSomething(i) &#125;(i)<span class="comment">//正确的做法</span></span><br><span class="line">￼&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="http://golang.org/doc/articles/race_detector.html#Race_on_loop_counter" target="_blank" rel="noopener">http://golang.org/doc/articles/race_detector.html#Race_on_loop_counter</a></p>
+<h2 id="在逻辑处理中禁用panic"><a href="#在逻辑处理中禁用panic" class="headerlink" title="在逻辑处理中禁用panic"></a>在逻辑处理中禁用panic</h2><p>在main包中只有当实在不可运行的情况采用panic，例如文件无法打开，数据库无法连接导致程序无法<br>正常运行，但是对于其他的package对外的接口不能有panic，只能在包内采用。</p>
+<p>强烈建议在main包中使用log.Fatal来记录错误，这样就可以由log来结束程序。</p>
+<h2 id="注释规范"><a href="#注释规范" class="headerlink" title="注释规范"></a>注释规范</h2><p>注释可以帮我们很好的完成文档的工作，写得好的注释可以方便我们以后的维护。详细的如何写注释可以<br>参考：<a href="http://golang.org/doc/effective_go.html#commentary" target="_blank" rel="noopener">http://golang.org/doc/effective_go.html#commentary</a></p>
+<h3 id="bug注释"><a href="#bug注释" class="headerlink" title="bug注释"></a>bug注释</h3><p>针对代码中出现的bug，可以采用如下教程使用特殊的注释，在godocs可以做到注释高亮：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BUG(astaxie):This divides by zero. </span></span><br><span class="line"><span class="keyword">var</span> i float = <span class="number">1</span>/<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><a href="http://blog.golang.org/2011/03/godoc%C2%ADdocumenting%C2%ADgo%C2%ADcode.html" target="_blank" rel="noopener">http://blog.golang.org/2011/03/godoc­documenting­go­code.html</a></p>
+<h2 id="struct规范"><a href="#struct规范" class="headerlink" title="struct规范"></a>struct规范</h2><h3 id="struct申明和初始化格式采用多行："><a href="#struct申明和初始化格式采用多行：" class="headerlink" title="struct申明和初始化格式采用多行："></a>struct申明和初始化格式采用多行：</h3><p>定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span>&#123;</span><br><span class="line">    Username  <span class="keyword">string</span></span><br><span class="line">    Email     <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">u := User&#123;</span><br><span class="line">    Username: <span class="string">"astaxie"</span>,</span><br><span class="line">    Email:    <span class="string">"astaxie@gmail.com"</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="recieved是值类型还是指针类型"><a href="#recieved是值类型还是指针类型" class="headerlink" title="recieved是值类型还是指针类型"></a>recieved是值类型还是指针类型</h3><p>到底是采用值类型还是指针类型主要参考如下原则：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(w Win)</span> <span class="title">Tally</span><span class="params">(playerPlayer)</span><span class="title">int</span>    //<span class="title">w</span>不会有任何改变 </span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(w *Win)</span> <span class="title">Tally</span><span class="params">(playerPlayer)</span><span class="title">int</span>    //<span class="title">w</span>会改变数据</span></span><br></pre></td></tr></table></figure>
+<p>更多的请参考：<a href="https://code.google.com/p/go-wiki/wiki/CodeReviewComments#Receiver_Type" target="_blank" rel="noopener">https://code.google.com/p/go-wiki/wiki/CodeReviewComments#Receiver_Type</a></p>
+<h3 id="带mutex的struct必须是指针receivers"><a href="#带mutex的struct必须是指针receivers" class="headerlink" title="带mutex的struct必须是指针receivers"></a>带mutex的struct必须是指针receivers</h3><p>如果你定义的struct中带有mutex,那么你的receivers必须是指针</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="https://code.google.com/p/go-wiki/wiki/CodeReviewComments" target="_blank" rel="noopener">https://code.google.com/p/go-wiki/wiki/CodeReviewComments</a></li>
+<li><a href="http://golang.org/doc/effective_go.html" target="_blank" rel="noopener">http://golang.org/doc/effective_go.html</a></li>
+<li><a href="http://golanghome.com/post/550" target="_blank" rel="noopener">http://golanghome.com/post/550</a></li>
+<li><a href="https://talks.golang.org/2014/names.slide#1" target="_blank" rel="noopener">https://talks.golang.org/2014/names.slide#1</a></li>
+</ol>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-IntelliJ IDEA 配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/11/IntelliJ IDEA 配置/" class="article-date">
+      <time datetime="2018-05-11T12:00:40.000Z" itemprop="datePublished">2018-05-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>IntelliJ IDEA 2018.1.2</p>
+<p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
+<p>Theme Darcula</p>
+<p><strong>Keymap</strong></p>
+<p>Mac OS X 10.5+</p>
+<p><strong>Editor</strong></p>
+<p>Font: Menlo</p>
+<p>Size: 20</p>
+<p><strong>Plugins</strong></p>
+<p>Go</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-第1章-简介和配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/09/第1章-简介和配置/" class="article-date">
+      <time datetime="2018-05-09T13:35:00.000Z" itemprop="datePublished">2018-05-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/09/第1章-简介和配置/">老男孩Golang第一期 第1章</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="第1章-简介和配置"><a href="#第1章-简介和配置" class="headerlink" title="第1章-简介和配置"></a>第1章-简介和配置</h1><p> 2018-02-19</p>
+<h1 id="一、介绍和安装"><a href="#一、介绍和安装" class="headerlink" title="一、介绍和安装"></a>一、介绍和安装</h1><h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h2><h3 id="1-1-什么是Golang"><a href="#1-1-什么是Golang" class="headerlink" title="1.1 什么是Golang"></a>1.1 什么是Golang</h3><p>Go也被称为Golang，它是由谷歌创建的一种开源、编译和静态类型的编程语言。</p>
+<p>Golang的主要目标是使高可用性和可伸缩的web应用程序的开发变得简单易行。</p>
+<h3 id="1-2-为什么选择Golang"><a href="#1-2-为什么选择Golang" class="headerlink" title="1.2 为什么选择Golang"></a>1.2 为什么选择Golang</h3><p>当有很多其他语言(如python、ruby、node.js)时，为什么选择Golang作为服务端编程语言呢?</p>
+<ul>
+<li>并发是语言的一个固有部分。因此编写多线程程序是小菜一碟。这是通过Goroutines和channel实现的，我们将在后面的教程中讨论。</li>
+<li>Golang是一种编译语言。源代码编译成原生二进制。这在解释语言(如nodejs中使用的JavaScript)中丢失了。</li>
+<li>语言规范非常简单。整个规范适合于一个页面，您甚至可以使用它来编写自己的编译器:)</li>
+<li>go编译器支持静态链接。所有的go代码都可以静态地链接到一个大的fat二进制文件中，并且可以轻松地部署到云服务器中，而不用担心依赖关系。</li>
+</ul>
+<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><h3 id="2-1下载"><a href="#2-1下载" class="headerlink" title="2.1下载"></a>2.1下载</h3><p>在Mac、Windows和Linux三个平台上都支持Golang。您可以从<a href="https://golang.org/dl/下载相应平台的二进制文件。" target="_blank" rel="noopener">https://golang.org/dl/下载相应平台的二进制文件。</a></p>
+<p><img src="http://om1c35wrq.bkt.clouddn.com/001_%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E5%8C%85.jpg" alt="img"></p>
+<p>Mac OS 从<a href="https://golang.org/dl/" target="_blank" rel="noopener">https://golang.org/dl/</a>下载<code>osx</code>安装程序。双击启动安装。按照提示，这应该在<code>/usr/local/go</code>中安装了<code>Golang</code>，并且还会将文件夹<code>/usr/local/go/bin</code>添加到您的<code>PATH</code>环境变量中。</p>
+<p>Windows 从<a href="https://golang.org/dl/" target="_blank" rel="noopener">https://golang.org/dl/</a>下载<code>MSI</code>安装程序。双击启动安装并遵循提示。这将在位置<code>C</code>中安装<code>Golang:\Go</code>，并且还将添加目录<code>C:\Go\bin</code>到您的<code>path</code>环境变量。</p>
+<p>Linux 从<a href="https://golang.org/dl/" target="_blank" rel="noopener">https://golang.org/dl/</a>下载 <code>tar</code>文件，并将其解压到<code>/usr/local</code>。</p>
+<p>将<code>/usr/local/go/bin</code>添加到<code>PATH</code>环境变量中。这应该安装在<code>linux</code>中。</p>
+<h3 id="2-2-windows下安装并配置环境变量"><a href="#2-2-windows下安装并配置环境变量" class="headerlink" title="2.2 windows下安装并配置环境变量"></a>2.2 windows下安装并配置环境变量</h3><p>安装步骤就不在多说什么了，一路到底</p>
+<p><strong>A、配置环境变量</strong></p>
+<p>注意：如果是 <code>msi</code> 安装文件，<code>Go</code> 语言的环境变量会自动设置好。</p>
+<p>我的电脑——右键“属性”——“高级系统设置”——“环境变量”——“系统变量”</p>
+<p>​    假设GO安装于C盘根目录</p>
+<p><strong>新建：</strong></p>
+<ul>
+<li><code>GOROOT：Go</code> 安装路径（例：<code>C:\Go</code>）</li>
+<li><code>GOBIN：Go</code>安装路径的bin路径（例：<code>C:\Go\bin</code>）</li>
+<li><code>GOPATH：Go</code>工程的路径（例：<code>E:\go</code>）。如果有多个，就以分号分隔添加</li>
+</ul>
+<p><strong>修改：</strong></p>
+<ul>
+<li><code>Path：</code> 添加上<code>Go</code>安装路径，以分号结尾</li>
+</ul>
+<blockquote>
+<p>工作目录就是我们用来存放开发的源代码的地方，对应的也是Go里的GOPATH这个环境变量。这个环境变量指定之后，我们编译源代码等生成的文件都会放到这个目录下，GOPATH环境变量的配置参考上面的安装Go，配置到Windows下的系统变量里。</p>
+</blockquote>
+<p><strong>B、查看是否安装配置成功</strong></p>
+<p>使用快捷键win+R键，输入cmd，打开命令行提示符，在命令行中输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go env  # 查看得到go的配置信息</span><br><span class="line">go version  # 查看go的版本号</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-mac系统安装并配置"><a href="#2-3-mac系统安装并配置" class="headerlink" title="2.3 mac系统安装并配置"></a>2.3 mac系统安装并配置</h3><p><strong>安装</strong></p>
+<p>双击 pkg 包，顺着指引，即可安装成功。 在命令行输入 go version，获取到 go 的version，则代表安装成功。</p>
+<p><strong>配置环境变量</strong></p>
+<p>1、打开终端输入cd ~进入用户主目录; 2、输入ls -all命令查看是否存在.bash_profile; 3、存在既使用vim .bash_profile 打开文件; 4、输入 i 进入vim编辑模式； 5、输入下面代码， 其中 GOPATH: 日常开发的根目录。GOBIN:是GOPATH下的bin目录。</p>
+<blockquote>
+<p><code>export GOPATH=/Users/yztc/go</code></p>
+<p><code>export GOBIN=$GOPATH/bin</code></p>
+<p><code>export PATH=$PATH:$GOBIN</code></p>
+</blockquote>
+<p>6、点击ESC，并输入 :wq 保存并退出编辑。可输入vim .bash_profile 查看是否保存成功。</p>
+<p>7、输入source ~/.bash_profile 完成对golang环境变量的配置，配置成功没有提示。 8、输入go env 查看配置结果</p>
+<h1 id="二、搭建开发工具"><a href="#二、搭建开发工具" class="headerlink" title="二、搭建开发工具"></a>二、搭建开发工具</h1><p>安装好atom工具，然后安装go-plus插件和atom-terminal-panel插件。</p>
+<p>1.安装go-plus插件</p>
+<p><img src="http://om1c35wrq.bkt.clouddn.com/002_%E6%8F%92%E4%BB%B6.bmp" alt="img"></p>
+<p>2.安装atom-terminal-panel插件</p>
+<p><img src="http://om1c35wrq.bkt.clouddn.com/001_%E6%8F%92%E4%BB%B6.bmp" alt="img"></p>
+<h1 id="三、第一个程序：HelloWorld"><a href="#三、第一个程序：HelloWorld" class="headerlink" title="三、第一个程序：HelloWorld"></a>三、第一个程序：HelloWorld</h1><h3 id="3-1-编写第一个程序"><a href="#3-1-编写第一个程序" class="headerlink" title="3.1 编写第一个程序"></a>3.1 编写第一个程序</h3><p>1.打开编辑器创建一个新的helloworld.go文件，并输入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">   /* 输出 */</span><br><span class="line">   fmt.Println(&quot;Hello, World!&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.执行go程序</p>
+<p>执行go程序由几种方式</p>
+<p>方式一：使用go run命令</p>
+<p>​    step1：使用快捷键win+R，输入cmd打开命令行提示符</p>
+<p>​    step2：进入helloworld.go所在的目录</p>
+<p>​    step3：输入go run helloworld.go命令并观察运行结果。</p>
+<p>方式二：使用go build命令</p>
+<p>​    step1：使用快捷键win+R，输入cmd打开命令行提示符</p>
+<p>​    step2：进入helloworld.go所在的目录</p>
+<p>​    step3：输入go build helloworld.go命令进行编译，产生同名的helloworld.exe文件</p>
+<p>​    step4：输入helloworld.exe，执行</p>
+<p>方式三：使用 go playground</p>
+<p>​    step1：打开一下网址<a href="https://play.golang.org/" target="_blank" rel="noopener">https://play.golang.org/</a></p>
+<h3 id="3-2-第一个程序的解释说明"><a href="#3-2-第一个程序的解释说明" class="headerlink" title="3.2 第一个程序的解释说明"></a>3.2 第一个程序的解释说明</h3><h4 id="3-2-1-package"><a href="#3-2-1-package" class="headerlink" title="3.2.1 package"></a>3.2.1 package</h4><ul>
+<li>在同一个包下面的文件属于同一个工程文件，不用<code>import</code>包，可以直接使用</li>
+<li>在同一个包下面的所有文件的package名，都是一样的</li>
+<li>在同一个包下面的文件<code>package</code>名都建议设为是该目录名，但也可以不是</li>
+</ul>
+<h4 id="3-2-2-import"><a href="#3-2-2-import" class="headerlink" title="3.2.2 import"></a>3.2.2 import</h4><p>import “fmt” 告诉 Go 编译器这个程序需要使用 fmt 包的函数，fmt 包实现了格式化 IO（输入/输出）的函数</p>
+<p>可以是相对路径也可以是绝对路径，推荐使用绝对路径（起始于工程根目录）</p>
+<ol>
+<li><p>点操作 我们有时候会看到如下的方式导入包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import(</span><br><span class="line">	. &quot;fmt&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>这个点操作的含义就是这个包导入之后在你调用这个包的函数时，你可以省略前缀的包名，也就是前面你调</p>
+<p>用的<code>fmt.Println(&quot;hello world&quot;)</code>可以省略的写成<code>Println(&quot;hello world&quot;)</code></p>
+</li>
+<li><p>别名操作 别名操作顾名思义我们可以把包命名成另一个我们用起来容易记忆的名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import(</span><br><span class="line">	f &quot;fmt&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>别名操作的话调用包函数时前缀变成了我们的前缀，即<code>f.Println(&quot;hello world&quot;)</code></p>
+</li>
+<li><p>_操作 这个操作经常是让很多人费解的一个操作符，请看下面这个import</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">  &quot;database/sql&quot;</span><br><span class="line">  _ &quot;github.com/ziutek/mymysql/godrv&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>_操作其实是引入该包，而不直接使用包里面的函数，而是调用了该包里面的init函数</p>
+</li>
+</ol>
+<h4 id="3-3-3-main与init"><a href="#3-3-3-main与init" class="headerlink" title="3.3.3 main与init"></a>3.3.3 main与init</h4><ul>
+<li>这两个函数在定义时不能有任何的参数和返回值</li>
+<li>虽然一个package里面可以写任意多个init函数，但推荐只用一个</li>
+<li>Go程序会自动调用init()和main()</li>
+<li>每个package中的init函数都是可选的，但package main就必须包含一个main函数</li>
+<li>先调用init函数，再调用main函数</li>
+<li>运行程序，必须要运行存在main函数的go文件</li>
+</ul>
+<p><code>初始化顺序：</code></p>
+<p>程序的初始化和执行都起始于main包。如果main包还导入了其它的包，那么就会在编译时将它们依次导入。有时一个包会被多个包同时导入，那么它只会被导入一次（例如很多包可能都会用到fmt包，但它只会被导入一次，因为没有必要导入多次）。当一个包被导入时，如果该包还导入了其它的包，那么会先将其它包导入进来，然后再对这些包中的包级常量和变量进行初始化，接着执行init函数（如果有的话），依次类推。等所有被导入的包都加载完毕了，就会开始对main包中的包级常量和变量进行初始化，然后执行main包中的init函数（如果存在的话），最后执行main函数。</p>
+<h1 id="四、编码规范"><a href="#四、编码规范" class="headerlink" title="四、编码规范"></a>四、编码规范</h1><h3 id="4-1-编码规范"><a href="#4-1-编码规范" class="headerlink" title="4.1 编码规范"></a>4.1 编码规范</h3><h3 id="4-2-注释"><a href="#4-2-注释" class="headerlink" title="4.2 注释"></a>4.2 注释</h3><ul>
+<li>单行注释是最常见的注释形式，你可以在任何地方使用以 // 开头的单行注释</li>
+<li>多行注释也叫块注释，均已以 /<em> 开头，并以 </em>/ 结尾，且不可以嵌套使用，多行注释一般用于包的文档描述或注释成块的代码片段</li>
+</ul>
+<h3 id="4-3-标识符"><a href="#4-3-标识符" class="headerlink" title="4.3 标识符"></a>4.3 标识符</h3><p>当标识符（包括常量、变量、类型、函数名、结构字段等等）以一个大写字母开头，如：Group1，那么使用这种形式的标识符的对象就<strong>可以被外部包的代码所使用</strong>（客户端程序需要先导入这个包），这被称为导出（像面向对象语言中的 public）；<strong>标识符如果以小写字母开头，则对包外是不可见的，但是他们在整个包的内部是可见并且可用的</strong>（像面向对象语言中的 private ）</p>
+<h3 id="4-4-语句的结尾"><a href="#4-4-语句的结尾" class="headerlink" title="4.4 语句的结尾"></a>4.4 语句的结尾</h3><p>Go语言中是不需要类似于Java需要冒号结尾，默认一行就是一条数据</p>
+<p>如果你打算将多个语句写在同一行，它们则必须使用 <strong>;</strong></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://liyuechun.org/2018/02/19/golang-introduce/" target="_blank" rel="noopener">第1章-简介和配置</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-第12章-结构体" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/09/第12章-结构体/" class="article-date">
+      <time datetime="2018-05-09T13:35:00.000Z" itemprop="datePublished">2018-05-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/09/第12章-结构体/">老男孩Golang第一期 第12章</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="第12章-结构体"><a href="#第12章-结构体" class="headerlink" title="第12章-结构体"></a>第12章-结构体</h1><p> 2018-03-02</p>
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><h2 id="1-1-什么是接口"><a href="#1-1-什么是接口" class="headerlink" title="1.1 什么是接口?"></a>1.1 什么是接口?</h2><p>面向对象世界中的接口的一般定义是“接口定义对象的行为”。它只指定对象应该做什么。实现这种行为的方法(实现细节)是针对对象的。</p>
+<p>在Go中，接口是一组方法签名。当类型为接口中的所有方法提供定义时，它被称为实现接口。它与OOP非常相似。接口指定了类型应该具有的方法，类型决定了如何实现这些方法。</p>
+<blockquote>
+<p>它把所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实现了这个接口</p>
+<p>接口定义了一组方法，如果某个对象实现了某个接口的所有方法，则此对象就实现了该接口。</p>
+</blockquote>
+<h2 id="1-2-接口的定义语法"><a href="#1-2-接口的定义语法" class="headerlink" title="1.2 接口的定义语法"></a>1.2 接口的定义语法</h2><p>定义接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/* 定义接口 */</span><br><span class="line">type interface_name interface &#123;</span><br><span class="line">   method_name1 [return_type]</span><br><span class="line">   method_name2 [return_type]</span><br><span class="line">   method_name3 [return_type]</span><br><span class="line">   ...</span><br><span class="line">   method_namen [return_type]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 定义结构体 */</span><br><span class="line">type struct_name struct &#123;</span><br><span class="line">   /* variables */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 实现接口方法 */</span><br><span class="line">func (struct_name_variable struct_name) method_name1() [return_type] &#123;</span><br><span class="line">   /* 方法实现 */</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line">func (struct_name_variable struct_name) method_namen() [return_type] &#123;</span><br><span class="line">   /* 方法实现*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Phone interface &#123;</span><br><span class="line">    call()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type NokiaPhone struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (nokiaPhone NokiaPhone) call() &#123;</span><br><span class="line">    fmt.Println(&quot;I am Nokia, I can call you!&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type IPhone struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (iPhone IPhone) call() &#123;</span><br><span class="line">    fmt.Println(&quot;I am iPhone, I can call you!&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    var phone Phone</span><br><span class="line"></span><br><span class="line">    phone = new(NokiaPhone)</span><br><span class="line">    phone.call()</span><br><span class="line"></span><br><span class="line">    phone = new(IPhone)</span><br><span class="line">    phone.call()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>结果</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">I am Nokia, I can call you!</span><br><span class="line">I am iPhone, I can call you!</span><br></pre></td></tr></table></figure>
+<ul>
+<li>interface可以被任意的对象实现</li>
+<li>一个对象可以实现任意多个interface</li>
+<li>任意的类型都实现了空interface(我们这样定义：interface{})，也就是包含0个method的interface</li>
+</ul>
+<h2 id="1-3-interface值"><a href="#1-3-interface值" class="headerlink" title="1.3 interface值"></a>1.3 interface值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">type Human struct &#123;</span><br><span class="line">	name  string</span><br><span class="line">	age   int</span><br><span class="line">	phone string</span><br><span class="line">&#125;</span><br><span class="line">type Student struct &#123;</span><br><span class="line">	Human  //匿名字段</span><br><span class="line">	school string</span><br><span class="line">	loan   float32</span><br><span class="line">&#125;</span><br><span class="line">type Employee struct &#123;</span><br><span class="line">	Human   //匿名字段</span><br><span class="line">	company string</span><br><span class="line">	money   float32</span><br><span class="line">&#125; //Human实现Sayhi方法</span><br><span class="line">func (h Human) SayHi() &#123;</span><br><span class="line">	fmt.Printf(&quot;Hi, I am %s you can call me on %s\n&quot;, h.name, h.phone)</span><br><span class="line">&#125; //Human实现Sing方法</span><br><span class="line">func (h Human) Sing(lyrics string) &#123;</span><br><span class="line">	fmt.Println(&quot;La la la la...&quot;, lyrics)</span><br><span class="line">&#125; //Employee重写Human的SayHi方法</span><br><span class="line">func (e Employee) SayHi() &#123;</span><br><span class="line">	fmt.Printf(&quot;Hi, I am %s, I work at %s. Call me on %s\n&quot;, e.name,</span><br><span class="line">		e.company, e.phone) //Yes you can split into 2 lines here.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Interface Men被Human,Student和Employee实现</span><br><span class="line">// 因为这三个类型都实现了这两个方法</span><br><span class="line">type Men interface &#123;</span><br><span class="line">	SayHi()</span><br><span class="line">	Sing(lyrics string)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	mike := Student&#123;Human&#123;&quot;Mike&quot;, 25, &quot;222-222-XXX&quot;&#125;, &quot;MIT&quot;, 0.00&#125;</span><br><span class="line">	paul := Student&#123;Human&#123;&quot;Paul&quot;, 26, &quot;111-222-XXX&quot;&#125;, &quot;Harvard&quot;, 100&#125;</span><br><span class="line">	sam := Employee&#123;Human&#123;&quot;Sam&quot;, 36, &quot;444-222-XXX&quot;&#125;, &quot;Golang Inc.&quot;, 1000&#125;</span><br><span class="line">	Tom := Employee&#123;Human&#123;&quot;Sam&quot;, 36, &quot;444-222-XXX&quot;&#125;, &quot;Things Ltd.&quot;, 5000&#125;</span><br><span class="line">	//定义Men类型的变量i</span><br><span class="line">	var i Men</span><br><span class="line">	//i能存储Student</span><br><span class="line">	i = mike</span><br><span class="line">	fmt.Println(&quot;This is Mike, a Student:&quot;)</span><br><span class="line">	i.SayHi()</span><br><span class="line">	i.Sing(&quot;November rain&quot;)</span><br><span class="line">	//i也能存储Employee</span><br><span class="line">	i = Tom</span><br><span class="line">	fmt.Println(&quot;This is Tom, an Employee:&quot;)</span><br><span class="line">	i.SayHi()</span><br><span class="line">	i.Sing(&quot;Born to be wild&quot;)</span><br><span class="line">	//定义了slice Men</span><br><span class="line">	fmt.Println(&quot;Let&apos;s use a slice of Men and see what happens&quot;)</span><br><span class="line">	x := make([]Men, 3)</span><br><span class="line">	//T这三个都是不同类型的元素，但是他们实现了interface同一个接口</span><br><span class="line">	x[0], x[1], x[2] = paul, sam, mike</span><br><span class="line">	for _, value := range x &#123;</span><br><span class="line">		value.SayHi()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>结果</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">This is Mike, a Student:</span><br><span class="line">Hi, I am Mike you can call me on 222-222-XXX</span><br><span class="line">La la la la... November rain</span><br><span class="line">This is Tom, an Employee:</span><br><span class="line">Hi, I am Sam, I work at Things Ltd.. Call me on 444-222-XXX</span><br><span class="line">La la la la... Born to be wild</span><br><span class="line">Let&apos;s use a slice of Men and see what happens</span><br><span class="line">Hi, I am Paul you can call me on 111-222-XXX</span><br><span class="line">Hi, I am Sam, I work at Golang Inc.. Call me on 444-222-XXX</span><br><span class="line">Hi, I am Mike you can call me on 222-222-XXX</span><br></pre></td></tr></table></figure>
+<p>那么interface里面到底能存什么值呢？如果我们定义了一个interface的变量，那么这个变量里面可以存实现这个 interface的任意类型的对象。例如上面例子中，我们定义了一个Men interface类型的变量m，那么m里面可以存 Human、Student或者Employee值</p>
+<blockquote>
+<p>当然，使用指针的方式，也是可以的</p>
+<p>但是，接口对象不能调用实现对象的属性</p>
+</blockquote>
+<p><strong>interface函数参数</strong></p>
+<p>interface的变量可以持有任意实现该interface类型的对象，这给我们编写函数(包括method)提供了一些额外的思 考，我们是不是可以通过定义interface参数，让函数接受各种类型的参数</p>
+<p><strong>嵌入interface</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">type Human interface &#123;</span><br><span class="line">	Len()</span><br><span class="line">&#125;</span><br><span class="line">type Student interface &#123;</span><br><span class="line">	Human</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Test struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (h *Test) Len() &#123;</span><br><span class="line">	fmt.Println(&quot;成功&quot;)</span><br><span class="line">&#125;</span><br><span class="line">func main() &#123;</span><br><span class="line">	var s Student</span><br><span class="line">	s = new(Test)</span><br><span class="line">	s.Len()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>结果</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">成功</span><br></pre></td></tr></table></figure>
+<p><code>例</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package test</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Controller struct &#123;</span><br><span class="line">	M int32</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Something interface &#123;</span><br><span class="line">	Get()</span><br><span class="line">	Post()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c *Controller) Get() &#123;</span><br><span class="line">	fmt.Print(&quot;GET&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c *Controller) Post() &#123;</span><br><span class="line">	fmt.Print(&quot;POST&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;test&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type T struct &#123;</span><br><span class="line">	test.Controller</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (t *T) Get() &#123;</span><br><span class="line">	//new(test.Controller).Get()</span><br><span class="line">	fmt.Print(&quot;T&quot;)</span><br><span class="line">&#125;</span><br><span class="line">func (t *T) Post() &#123;</span><br><span class="line">	fmt.Print(&quot;T&quot;)</span><br><span class="line">&#125;</span><br><span class="line">func main() &#123;</span><br><span class="line">	var something test.Something</span><br><span class="line">	something = new(T)</span><br><span class="line">	var t T</span><br><span class="line">	t.M = 1</span><br><span class="line">	//	t.Controller.M = 1</span><br><span class="line">	something.Get()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>结果</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T</span><br></pre></td></tr></table></figure>
+<p>Controller实现了所有的Something接口方法，当结构体T中调用Controller结构体的时候，T就相当于Java中的继承，T继承了Controller，因此，T可以不用重写所有的Something接口中的方法，因为父构造器已经实现了接口。</p>
+<p>如果Controller没有实现Something接口方法，则T要调用Something中方法，就要实现其所有方法。</p>
+<p>如果<code>something = new(test.Controller)</code>则调用的是Controller中的Get方法。</p>
+<p>T可以使用Controller结构体中定义的变量</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>接口对象不能调用接口实现对象的属性</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-CentOS7 配置shadowsocks" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -260,477 +1052,9 @@
 
 
   
-    <article id="post-jollychic" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/08/jollychic/" class="article-date">
-      <time datetime="2018-05-08T20:32:33.000Z" itemprop="datePublished">2018-05-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>新建项目和crawlspider爬虫</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scrapy startproject shopping</span><br><span class="line">cd shopping</span><br><span class="line">scrapy genspider -t crawl jollychic www.jollychic.com</span><br></pre></td></tr></table></figure>
-<p>设置settings.py 项目的路径</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">project_dir = os.path.abspath(os.path.dirname(__file__))</span><br><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))</span><br><span class="line">sys.path.insert(<span class="number">0</span>, os.path.join(BASE_DIR, <span class="string">'shopping'</span>))</span><br></pre></td></tr></table></figure>
-<p>items.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> Item, Field</span><br><span class="line"><span class="keyword">from</span> scrapy.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JollychicItemLoader</span><span class="params">(ItemLoader)</span>:</span></span><br><span class="line">    default_output_processor = TakeFirst()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JollychicItem</span><span class="params">(Item)</span>:</span></span><br><span class="line">    title = Field()</span><br></pre></td></tr></table></figure>
-<p>spiders/jollychic.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> item <span class="keyword">import</span> JollychicItemLoader, JollychicItem</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">    item_loader = JollychicItemLoader(item=JollychicItem, response=reponse)</span><br><span class="line">    item_loader.add_css()</span><br><span class="line">    item = item_loader.load_item()</span><br><span class="line">    <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-CentOS Go环境配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/08/CentOS Go环境配置/" class="article-date">
-      <time datetime="2018-05-08T17:01:31.000Z" itemprop="datePublished">2018-05-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
-<p>CentOS Linux release 7.5.1804 (Core)</p>
-<p>Linux 3.10.0-862.3.3.el7.x86_64</p>
-</blockquote>
-<p><strong>安装依赖</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y mercurial gcc bison</span><br></pre></td></tr></table></figure>
-<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span><br></pre></td></tr></table></figure>
-<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -B 表示只安装二进制包</span><br><span class="line"><span class="meta">$</span> gvm install go1.4.3 -B</span><br><span class="line"><span class="meta">$</span> gvm use go1.4.3</span><br><span class="line"><span class="meta">$</span> export GOROOT_BOOTSTRAP=$GOROOT</span><br><span class="line"><span class="meta">$</span> gvm install go1.10.2</span><br></pre></td></tr></table></figure>
-<p><strong>离线安装</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> git clone 官方源go1.10.2</span><br><span class="line">git clone -b go1.10.2 https://go.googlesource.com/go go1.10.2</span><br><span class="line"><span class="meta">#</span>可以放到别的电脑上</span><br><span class="line">tar cvfz go1.10.2.tar.bz2 go1.10.2</span><br><span class="line"><span class="meta">#</span>指定本地go1.10.2 git源</span><br><span class="line">gvm install go1.10.2 --source=/root/go1.10.2</span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
-<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> gvm use go1.10.2 --default</span><br></pre></td></tr></table></figure>
-<p><strong>使用</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看可以安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm listall</span><br><span class="line"><span class="meta">#</span> 查看本地安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm list</span><br><span class="line"><span class="meta">#</span> go环境变量</span><br><span class="line"><span class="meta">$</span> go env</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
-<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
-<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-如何使用restgo-admin" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/08/如何使用restgo-admin/" class="article-date">
-      <time datetime="2018-05-08T11:34:00.000Z" itemprop="datePublished">2018-05-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="如何使用restgo-admin"><a href="#如何使用restgo-admin" class="headerlink" title="如何使用restgo-admin"></a>如何使用<a href="https://github.com/winlion/restgo-admin/" target="_blank" rel="noopener">restgo-admin</a></h1><h2 id="使用如下指令克隆"><a href="#使用如下指令克隆" class="headerlink" title="使用如下指令克隆"></a>使用如下指令克隆</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH/src</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/winlion/restgo-admin.git</span><br></pre></td></tr></table></figure>
-<p>你将得到restgo-admin 目录 进入目录 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd restgo-admin</span><br></pre></td></tr></table></figure>
-<h2 id="建立数据库"><a href="#建立数据库" class="headerlink" title="建立数据库"></a>建立数据库</h2><p>新建数据库名称为restgo-admin,编码为utf-8<br>将restgo-admin.sql导入到数据库中</p>
-<h2 id="初始化依赖包"><a href="#初始化依赖包" class="headerlink" title="初始化依赖包"></a>初始化依赖包</h2><p>使用前先使用如下指令安装指令安装文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/go-sql-driver/mysql</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get -v -u github.com/alecthomas/log4go</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/gin-gonic/gin</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/go-xorm/xorm</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/tommy351/gin-sessions</span></span><br></pre></td></tr></table></figure>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>使用前先使用如下指令启动应用<br><code>go run main.go</code><br>使用前先使用如下指令打包应用<br><code>build.bat</code></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Go-Gin" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/08/Go-Gin/" class="article-date">
-      <time datetime="2018-05-08T08:58:44.000Z" itemprop="datePublished">2018-05-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/gin-gonic/gin</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/winlion/restgo-admin.git</span></span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Windows 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/06/Windows 安装软件/" class="article-date">
-      <time datetime="2018-05-06T15:41:19.000Z" itemprop="datePublished">2018-05-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://www.edrawsoft.cn/download-edrawmax.php" target="_blank" rel="noopener">亿图图示</a></p>
-<p><a href="http://www.yipojie.cn/684.html" target="_blank" rel="noopener">[亿图图示 Edraw Max v9.1 中文破解版及破解授权补丁]</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.13 Go" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/06/macOS 10.13 Go/" class="article-date">
-      <time datetime="2018-05-06T07:02:16.000Z" itemprop="datePublished">2018-05-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><strong>安装依赖</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install mercurial</span></span><br></pre></td></tr></table></figure>
-<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span></span><br></pre></td></tr></table></figure>
-<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
-<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -B 表示只安装二进制包</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm install go1.10.1 -B</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm use go1.10.1</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> GOROOT_BOOTSTRAP=<span class="variable">$GOROOT</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm install go1.10.2</span></span><br></pre></td></tr></table></figure>
-<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> gvm use go1.10.2 --default</span></span><br></pre></td></tr></table></figure>
-<p><strong>使用</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看可以安装的go版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm listall</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看本地安装的go版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm list</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> go环境变量</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go env</span></span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
-<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
-<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Alfred 配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/06/Alfred 配置/" class="article-date">
-      <time datetime="2018-05-06T06:09:54.000Z" itemprop="datePublished">2018-05-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p> <strong>如何解决 alfred 每次开机都弹出 alfred 想访问你的通讯录</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo codesign -f -d -s - /Applications/Alfred\ 3.app/Contents/Frameworks/Alfred\ Framework.framework/Versions/A/Alfred\ Framework</span><br></pre></td></tr></table></figure>
-<p>成功返回:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Alfred 3.app/Contents/Frameworks/Alfred Framework.framework/Versions/A/Alfred Framework: replacing existing signature</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/cc206abae6e5" target="_blank" rel="noopener">【玩转MAC】解决Alfred每次开机后，都会提示“是否允许访问通讯录”</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2018-05-06" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/06/2018-05-06/" class="article-date">
-      <time datetime="2018-05-06T00:01:26.000Z" itemprop="datePublished">2018-05-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>2018-05-06 00:01</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.13 删除应用软件" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/macOS 10.13 删除应用软件/" class="article-date">
-      <time datetime="2018-05-05T20:22:27.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p>Mac和Windows操作系统有一个很大的不同，大部分App是没有安装程序的，一般下载下来就是一个dmg文件，解开之后直接将App拖到<code>应用程序</code>目录下就可以了，所以给人感觉卸载也就是将App拖到<code>废纸篓</code>然后清空。如果真这样做就大错特错，即使一个最简单的App都会在下面几个目录中或多或少留下纪念，这些目录一般有：</p>
-<ul>
-<li>~/Library</li>
-<li>~/Library/Application Support</li>
-<li>~/Library/Application Support/CrashReporter</li>
-<li>~/Library/Caches</li>
-<li>~/Library/Containers</li>
-<li>~/Library/LaunchAgents</li>
-<li>~/Library/Preferences</li>
-<li>~/Library/PreferencePanes</li>
-</ul>
-<p>如果一个程序是通过<code>pkg</code>方式安装，或者是在第一次运行时请求管理员权限，那一般还会在如下几个目录中留点纪念：</p>
-<ul>
-<li>/Library</li>
-<li>/Library/Application Support</li>
-<li>/Library/Extensions</li>
-<li>/Library/LaunchAgents</li>
-<li>/Library/LaunchDaemons</li>
-<li>/Library/PreferencePanes</li>
-<li>/Library/Preferences</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://segmentfault.com/a/1190000005035742" target="_blank" rel="noopener">如何彻底删除不需要的App</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
     </nav>
   
 </div>
