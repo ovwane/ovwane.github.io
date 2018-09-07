@@ -38,3 +38,4 @@ ctrl+alt+m 压缩json字符串
 #格式化html、css、js
 command+shift+h 格式化快捷键
 ```
+##### [P3-Assembly-Sublime-Text-Syntax](https://github.com/Jguer/P3-Assembly-Sublime-Text-Syntax)

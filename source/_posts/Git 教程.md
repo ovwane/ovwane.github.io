@@ -51,3 +51,10 @@ echo "**/._.DS_Store" >> ~/.gitignore_global
 ```shell
 git config --global core.excludesfile ~/.gitignore_global
 ```
+git操作中文文件错误
+
+```shell
+#core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常。
+git config --global core.quotepath false
+```
+

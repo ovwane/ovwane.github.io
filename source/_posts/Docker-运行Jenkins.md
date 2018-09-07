@@ -1,0 +1,45 @@
+---
+title: Docker 运行Jenkins
+date: 2018-09-02 00:01:28
+tags:
+---
+
+```shell
+docker pull jenkins/jenkins:2.121.3
+
+#jenkins启动用户id 1000
+chown -R 1000:1000 /data/jenkins
+
+docker run -p 8080:8080 -v /data/jenkins:/var/jenkins_home -d --name jenkins-2.121.3 jenkins/jenkins:2.121.3 
+```
+
+nginx反向代理
+
+```nginx
+listen               443 ssl;
+
+location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_redirect http:// https://;
+
+        add_header Pragma "no-cache";
+        proxy_pass http://127.0.0.1:8080;
+    }
+```
+
+**插件**
+
+Git
+
+Email Extension
+
+
+
+## 参考
+
+[docker运行jenkins](https://www.jianshu.com/p/3671eb8de971)
+
+[Create a HTTP proxy for jenkins using NGINX.](https://gist.github.com/rdegges/913102)
