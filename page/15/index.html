@@ -206,6 +206,305 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-分布式爬虫实战第二期-杨真-小象学院-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-笔记/" class="article-date">
+      <time datetime="2017-12-08T16:27:00.000Z" itemprop="datePublished">2017-12-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-笔记/">手把手带你构建一个分布式爬虫系统实战-小象学院-笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>01 静态网页爬虫：爬虫的基础技术.flv 2:40:54<br>02 登录及动态网页的抓取.flv 2:19:24<br>03 微博的抓取.flv 2:42:00<br>04 多线程与多进程的爬虫.flv 2:02:20<br>05 微博数据的存储：分布式数据库及应用.flv 2:15:07<br>06 多机并行的微博抓取：分布式系统设计.flv 2:12:20<br>07 应对反爬虫的策略.flv 2:25:33<br>08 分布式系统的高可用与高并发处理.flv 2:13:47<br>09 日志系统、以及基于Page Rank的顺序调整.flv 2:13:54<br>10 日志、守护线程以及验证码处理.flv 2:07:54<br>11 分布式数据库架构分析、优化及要点.flv 2:23:10<br>12 自动摘要及正文抽取.flv 1:57:54<br>13 网页分类与针对文本的机器学习应用.flv 2:17:14<br>14 信息检索、搜索引擎原理及应用.flv 2:31:18<br>15 Scrapy录播视频.flv 2:21:02<br>16 Scrapy进阶录播视频.flv 2:10:09<br>17 网页排重.flv 2:19:19</p>
+<h1 id="01"><a href="#01" class="headerlink" title="01"></a>01</h1><p>新建PyCharm项目 chinahadoop_crawl_spider<br>新建PyCharm项目 chinahadoop_crawl_spider_py2.7</p>
+<p>cd chinahadoop_crawl_spider</p>
+<p>macOS下安装pipenv</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install pipenv</span><br></pre></td></tr></table></figure>
+<p>添加pipenv自动补全</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(pipenv --completion)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>初始化pipenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</span><br></pre></td></tr></table></figure>
+<p>修改pypi源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#linux</span></span><br><span class="line">sed -i <span class="string">"s#python.org#douban.com#g"</span> Pipfile</span><br><span class="line"></span><br><span class="line"><span class="comment">#macOS 和linux不同，需要加“”</span></span><br><span class="line">sed -i <span class="string">""</span> <span class="string">"s#python.org#douban.com#g"</span> Pipfile</span><br></pre></td></tr></table></figure>
+<p>BITMAP 方式记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install murmurhash3 bitarray</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2.7.14 安装murmurhash3失败</span><br></pre></td></tr></table></figure>
+<p>Bloom Filter<br>pybloomfilter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pybloomfilter</span><br></pre></td></tr></table></figure>
+<h1 id="02"><a href="#02" class="headerlink" title="02"></a>02</h1><p>lxml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install lxml</span><br></pre></td></tr></table></figure>
+<p>Selenium</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install selenium</span><br></pre></td></tr></table></figure>
+<p>PhantomJS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install phantomjs</span><br></pre></td></tr></table></figure>
+<h1 id="03"><a href="#03" class="headerlink" title="03"></a>03</h1><h1 id="04"><a href="#04" class="headerlink" title="04"></a>04</h1><p>Python Mysql Connector</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymysql</span><br></pre></td></tr></table></figure>
+<p>Python Mysql Connector<br>py2.7</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mysqlclient</span><br></pre></td></tr></table></figure>
+<h1 id="05"><a href="#05" class="headerlink" title="05"></a>05</h1><p>Python hdfs module</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install hdfs</span><br></pre></td></tr></table></figure>
+<p>MongoDB<br>pymongo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymongo</span><br></pre></td></tr></table></figure>
+<p>Python Redis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install redis</span><br></pre></td></tr></table></figure>
+<h1 id="06"><a href="#06" class="headerlink" title="06"></a>06</h1><h1 id="07"><a href="#07" class="headerlink" title="07"></a>07</h1><h1 id="08"><a href="#08" class="headerlink" title="08"></a>08</h1><p>Scrapy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
+<h1 id="09"><a href="#09" class="headerlink" title="09"></a>09</h1><p>Python 的 PageRank - NetworkX</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install networkx</span><br></pre></td></tr></table></figure>
+<p>查重算法<br>SimHash – 海明距离</p>
+<p>依赖 sh库</p>
+<p><a href="https://www.the5fire.com/analyze-python-lib-sh.html" target="_blank" rel="noopener">[Python库]分析一个python库–sh（系统调用）</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install simhash</span><br></pre></td></tr></table></figure>
+<h1 id="10"><a href="#10" class="headerlink" title="10"></a>10</h1><p>Daemontool</p>
+<p>Pillow</p>
+<p>Pillow 是一个图像工具包，包含了一个 Image 类用来做图像的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pillow</span><br></pre></td></tr></table></figure>
+<p>Tesseract-Ocr</p>
+<p>Tesseract-Ocr 是一个 Google 主导的开源 OCR (Optical Character Recongnition) 引擎。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pytesseract</span><br></pre></td></tr></table></figure>
+<h1 id="12"><a href="#12" class="headerlink" title="12"></a>12</h1><p>Goose<br>PyGoose</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install goose3</span><br></pre></td></tr></table></figure>
+<p>py2.7</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pygoose</span><br></pre></td></tr></table></figure>
+<h1 id="13"><a href="#13" class="headerlink" title="13"></a>13</h1><p>结巴分词</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install jieba</span><br></pre></td></tr></table></figure>
+<p>Python TF-IDF</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install sklearn scipy numpy</span><br></pre></td></tr></table></figure>
+<h1 id="14"><a href="#14" class="headerlink" title="14"></a>14</h1><p>Elastic Search</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-分布式爬虫实战第二期-杨真-小象学院-目录" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-目录/" class="article-date">
+      <time datetime="2017-12-08T16:27:00.000Z" itemprop="datePublished">2017-12-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/08/分布式爬虫实战第二期-杨真-小象学院-目录/">手把手带你构建一个分布式爬虫系统实战-小象学院-目录</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>01 静态网页爬虫：爬虫的基础技术.flv 2:40:54<br>02 登录及动态网页的抓取.flv 2:19:24<br>03 微博的抓取.flv 2:42:00<br>04 多线程与多进程的爬虫.flv 2:02:20<br>05 微博数据的存储：分布式数据库及应用.flv 2:15:07<br>06 多机并行的微博抓取：分布式系统设计.flv 2:12:20<br>07 应对反爬虫的策略.flv 2:25:33<br>08 分布式系统的高可用与高并发处理.flv 2:13:47<br>09 日志系统、以及基于Page Rank的顺序调整.flv 2:13:54<br>10 日志、守护线程以及验证码处理.flv 2:07:54<br>11 分布式数据库架构分析、优化及要点.flv 2:23:10<br>12 自动摘要及正文抽取.flv 1:57:54<br>13 网页分类与针对文本的机器学习应用.flv 2:17:14<br>14 信息检索、搜索引擎原理及应用.flv 2:31:18<br>15 Scrapy录播视频.flv 2:21:02<br>16 Scrapy进阶录播视频.flv 2:10:09<br>17 网页排重.flv 2:19:19</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Jira安装配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/11/30/Jira安装配置/" class="article-date">
+      <time datetime="2017-11-30T08:45:00.000Z" itemprop="datePublished">2017-11-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/30/Jira安装配置/">Jira安装配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Jira安装配置"><a href="#Jira安装配置" class="headerlink" title="Jira安装配置"></a>Jira安装配置</h1><p>JIRA Core server<br><a href="https://www.ilanni.com/?p=12119" target="_blank" rel="noopener">烂泥：jira7.3/7.2安装、中文及破解(20170829更新)</a><br><a href="http://www.yfshare.vip/2017/05/09/%E9%83%A8%E7%BD%B2JIRA-7-2-2-for-Linux/" target="_blank" rel="noopener">部署JIRA 7.2.2 for Linux</a><a href="http://blog.wangruirui.cn/2017/04/26/jara-install/" target="_blank" rel="noopener">CentOS 7 安装jara7.3.3 破解+汉化 一篇就够了(By-Ruicky)</a><br><a href="https://confluence.atlassian.com/doc/server-hardware-requirements-guide-30736403.html" target="_blank" rel="noopener">硬件要求</a></p>
+<h3 id="下载jira7-2-2"><a href="#下载jira7-2-2" class="headerlink" title="下载jira7.2.2"></a>下载jira7.2.2</h3><p><a href="https://www.atlassian.com/software/jira/download" target="_blank" rel="noopener">https://www.atlassian.com/software/jira/download</a></p>
+<p><code>wget https://downloads.atlassian.com/software/jira/downloads/atlassian-jira-software-7.2.2-x64.bin</code></p>
+<h3 id="安装jira"><a href="#安装jira" class="headerlink" title="安装jira"></a>安装jira</h3><p>现在开始安装jira7.2.2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod 755 atlassian-jira-software-7.2.2-x64.bin</span><br><span class="line"></span><br><span class="line">./atlassian-jira-software-7.2.2-x64.bin</span><br></pre></td></tr></table></figure>
+<p>通过上图，我们可以很明显的看出jira安装到了/opt/atlassian/jira和/var/atlassian/application-data/jira目录下，并且jira监听的端口是8080。</p>
+<p>jira的主要配置文件，存放在/opt/atlassian/jira/conf/server.xml文件中，如下：</p>
+<p>vim /opt/atlassian/jira/conf/server.xml</p>
+<p>现在我们先关闭jira，然后把破解包里面的atlassian-extras-3.1.2.jar和mysql-connector-java-5.1.39-bin.jar两个文件复制到/opt/atlassian/jira/atlassian-jira/WEB-INF/lib/目录下。</p>
+<p>其中atlassian-extras-3.1.2.jar是用来替换原来的atlassian-extras-3.1.2.jar文件，用作破解jira系统的。</p>
+<p>而mysql-connector-java-5.1.39-bin.jar是用来连接mysql数据库的驱动软件包。</p>
+<p>现在再次启动jira，然后我们现在来访问如下地址：</p>
+<p>jira.ilanni.com:8080</p>
+<p>而连接数据库的配置是/var/atlassian/application-data/jira/dbconfig.xml，如下：</p>
+<p>cat /var/atlassian/application-data/jira/dbconfig.xml</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Python爬虫学习实践笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/11/23/Python爬虫学习实践笔记/" class="article-date">
+      <time datetime="2017-11-23T22:09:39.000Z" itemprop="datePublished">2017-11-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/23/Python爬虫学习实践笔记/">Python爬虫学习实践笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>Python 3.6.3</p>
+</blockquote>
+<p>环境创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkvirtualenv crawl_spider --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</span><br></pre></td></tr></table></figure>
+<p>安装库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests==2.18.4 beautifulsoup4==4.6.0</span><br></pre></td></tr></table></figure>
+<p><a href="http://python-requests.org/" target="_blank" rel="noopener">Requests</a></p>
+<p><a href="https://www.crummy.com/software/BeautifulSoup/" target="_blank" rel="noopener">Beautiful Soup</a></p>
+<p>lxml和BeautifulSoup的区别</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-CentOS7 新装服务器初始化配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -888,269 +1187,6 @@ backend mysqlservers
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HAProxy/">HAProxy</a></li></ul>
     </div>
 
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-生病的这段日子" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/11/11/生病的这段日子/" class="article-date">
-      <time datetime="2017-11-11T16:27:43.000Z" itemprop="datePublished">2017-11-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/11/生病的这段日子/">生病的这段日子</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>生病的这段日子</p>
-<p>2017.10.21~</p>
-<p>2017.10.21 星期六早上大概3点多。肚子突然就疼起来了。起初以为吃坏了肚子。肠炎而已。就忍着疼一直到天亮还是疼。大概10点多吧。去了住的地方路口的小诊所。给医生说自己肚子疼，可能是肠炎。然后医生就给输液，然后贴肚子的。起初好转很多也不疼了。等输液输完。贴肚子的使用完后。过了一会儿依然疼。给医生说。医生又给的阿莫西林和止疼药。同时医生说你去大医院检查一下吧、在诊所吃了阿莫西林和止疼药。休息了一会儿。还是疼。就回住处了。晚上喝了一点纯牛奶。疼痛一直没有消失。等到22号依然疼。早上9点多。还是疼。就骑着电动车忍着疼去了村中的另一家诊所。医生是一位阿姨。然后给她描述了症状，然后她给检查了。并说腹部敲击回声和整个腹部都痛。应该不是肠炎一类的病。就让去大医院看。这次没有再犹豫。就打滴滴去了北京清华长庚医院。排了急诊。等了好久，缴费，排队，检查，缴费，输液，然后有个医生过来说你的病很严重。需要住院，然后输着液。去缴费。在输液室等着医护带着去了住院部。22号下午住院，星期一有两个小伙伴去医院看我。很感谢他们。一直到27号做手术。期间输液没有停止，左胳膊输液出了反应肿了，换右胳膊。右胳膊肿了，换左胳膊，最后又换右胳膊。直到29号出院。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-uWSGI搭配Nginx配置Django部署环境" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/" class="article-date">
-      <time datetime="2017-11-11T14:09:00.000Z" itemprop="datePublished">2017-11-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/">uWSGI搭配Nginx配置Django部署环境</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://www.nowamagic.net/academy/detail/1330308" target="_blank" rel="noopener">uWSGI搭配Nginx配置</a>Django部署环境</p>
-<h1 id="WSGI简介"><a href="#WSGI简介" class="headerlink" title="WSGI简介"></a>WSGI简介</h1><p>WSGI是什么？</p>
-<p>WSGI，全称 Web Server Gateway Interface，或者 Python Web Server Gateway Interface ，是为 Python 语言定义的 Web 服务器和 Web 应用程序或框架之间的一种简单而通用的接口。自从 WSGI 被开发出来以后，许多其它语言中也出现了类似接口。</p>
-<p>WSGI 的官方定义是，the Python Web Server Gateway Interface。从名字就可以看出来，这东西是一个Gateway，也就是网关。网关的作用就是在协议之间进行转换。</p>
-<p>WSGI 是作为 Web 服务器与 Web 应用程序或应用框架之间的一种低级别的接口，以提升可移植 Web 应用开发的共同点。WSGI 是基于现存的 CGI 标准而设计的。</p>
-<p>很多框架都自带了 WSGI server ，比如 Flask，webpy，Django、CherryPy等等。当然性能都不好，自带的 web server 更多的是测试用途，发布时则使用生产环境的 WSGI server或者是联合 nginx 做 uwsgi 。</p>
-<p>WSGI的作用</p>
-<p>WSGI有两方：“服务器”或“网关”一方，以及“应用程序”或“应用框架”一方。服务方调用应用方，提供环境信息，以及一个回调函数（提供给应用程序用来将消息头传递给服务器方），并接收Web内容作为返回值。</p>
-<p>所谓的 WSGI中间件同时实现了API的两方，因此可以在WSGI服务和WSGI应用之间起调解作用：从WSGI服务器的角度来说，中间件扮演应用程序，而从应用程序的角度来说，中间件扮演服务器。“中间件”组件可以执行以下功能：</p>
-<p>重写环境变量后，根据目标URL，将请求消息路由到不同的应用对象。<br>允许在一个进程中同时运行多个应用程序或应用框架。<br>负载均衡和远程处理，通过在网络上转发请求和响应消息。<br>进行内容后处理，例如应用XSLT样式表。<br>WSGI 的设计确实参考了 Java 的 servlet</p>
-<p>WSGI是一种Web服务器网关接口。它是一个Web服务器（如nginx）与应用服务器（如uWSGI服务器）通信的一种规范。</p>
-<p>接下来，我们要介绍的是 uWSGI。</p>
-<p>uWSGI</p>
-<p>uWSGI是一个Web服务器，它实现了WSGI协议、uwsgi、http等协议。Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换。</p>
-<p>要注意 WSGI / uwsgi / uWSGI 这三个概念的区分。</p>
-<p>WSGI是一种通信协议。<br>uwsgi同WSGI一样是一种通信协议。<br>而uWSGI是实现了uwsgi和WSGI两种协议的Web服务器。<br>uwsgi协议是一个uWSGI服务器自有的协议，它用于定义传输信息的类型（type of information），每一个uwsgi packet前4byte为传输信息类型描述，它与WSGI相比是两样东西。</p>
-<h1 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h1><p>在 nginx.conf 上加入/修改，我的 server 配置如下（一切从简……）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  115.28.0.89;</span><br><span class="line">    #server_name localhost;</span><br><span class="line"></span><br><span class="line">    access_log /home/nowamagic/logs/access.log;</span><br><span class="line">    error_log /home/nowamagic/logs/error.log;</span><br><span class="line"></span><br><span class="line">    #root         /root/nowamagic_venv/nowamagic_pj;</span><br><span class="line">    location / &#123;</span><br><span class="line">        uwsgi_pass 127.0.0.1:8077;</span><br><span class="line">        #include uwsgi_params;</span><br><span class="line">        include /etc/nginx/uwsgi_params;</span><br><span class="line">        #uwsgi_pass 127.0.0.1:8077;</span><br><span class="line">        #uwsgi_param UWSGI_SCRIPT index;</span><br><span class="line">        #uwsgi_param UWSGI_PYHOME $document_root;</span><br><span class="line">        #uwsgi_param UWSGI_CHDIR  $document_root;</span><br><span class="line">   &#125;</span><br><span class="line">   access_log off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意保证配置里写的目录 /home/nowamagic/logs/ 和 /home/nowamagic/logs/ 存在，接下来就没啥问题了，Nginx 配置很简单。</p>
-<h1 id="uWSGI-配置"><a href="#uWSGI-配置" class="headerlink" title="uWSGI 配置"></a>uWSGI 配置</h1><h2 id="安装uWSGI"><a href="#安装uWSGI" class="headerlink" title="安装uWSGI"></a>安装uWSGI</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure>
-<p>在实际部署环境中，我们常用的是配置文件的方式，而非命令行的方式。</p>
-<p>我的 Django 程序目录：/root/nowamagic_venv/nowamagic_pj/</p>
-<p>这里让 Nginx 采用 8077 端口与 uWSGI 通讯，请确保此端口没有被其它程序采用。</p>
-<p>uWSGI 支持多种配置文件格式，比如 xml，ini，json 等等都可以。</p>
-<p>xml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vi /root/nowamagic_venv/nowamagic_pj/nowamgic_pj.xml</span><br><span class="line"></span><br><span class="line">&lt;uwsgi&gt;</span><br><span class="line"> &lt;socket&gt;127.0.0.1:8077&lt;/socket&gt;</span><br><span class="line"> &lt;listen&gt;80&lt;/listen&gt;</span><br><span class="line"> &lt;master&gt;true&lt;/master&gt;</span><br><span class="line"> &lt;pythonpath&gt;/root/nowamagic_venv/nowamagic_pj&lt;/pythonpath&gt;</span><br><span class="line"> &lt;processes&gt;1&lt;/processes&gt;</span><br><span class="line"> &lt;logdate&gt;true&lt;/logdate&gt;</span><br><span class="line"> &lt;daemonize&gt;/var/log/uwsgi.log&lt;/daemonize&gt;</span><br><span class="line"> &lt;plugins&gt;python&lt;/plugins&gt;</span><br><span class="line">&lt;/uwsgi&gt;</span><br></pre></td></tr></table></figure>
-<p>然后执行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/bin/uwsgi -x /root/nowamagic_venv/nowamagic_pj/nowamagic_pj.xml</span><br></pre></td></tr></table></figure>
-<p>ini 配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">vhost = false</span><br><span class="line">plugins = python</span><br><span class="line">socket = 127.0.0.1:8077</span><br><span class="line">master = true</span><br><span class="line">enable-threads = true</span><br><span class="line">workers = 1</span><br><span class="line">wsgi-file = /root/nowamagic_venv/nowamagic_pj/nowamagic_pj/wsgi.py</span><br><span class="line">virtualenv = /root/nowamagic_venv</span><br><span class="line">chdir = /root/nowamagic_venv/nowamagic_pj</span><br></pre></td></tr></table></figure>
-<p>执行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --ini /root/nowamagic_venv/nowamagic_pj.ini&amp;</span><br></pre></td></tr></table></figure>
-<p>uwsgi 这样就启动起来了。如果无意外的话，就能在网上访问你的 Python 项目了。</p>
-<p>一些我在配置时用到的命令，省得你去搜索：</p>
-<p>关闭 uWSGI：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">killall  -9 uwsgi</span><br><span class="line">killall -s HUP /var/www/uwsgi </span><br><span class="line">killall -s HUP /usr/local/bin/uwsgi</span><br></pre></td></tr></table></figure>
-<p>列出端口占用情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lpnt</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a><a class="article-category-link" href="/categories/技术/Linux/Python/">Python</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/uWSGI/">uWSGI</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-brew 错误提示汇总" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/11/10/brew 错误提示汇总/" class="article-date">
-      <time datetime="2017-11-10T15:18:51.000Z" itemprop="datePublished">2017-11-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="openssl"><a href="#openssl" class="headerlink" title="openssl"></a>openssl</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">A CA file has been bootstrapped using certificates from the SystemRoots</span><br><span class="line">keychain. To add additional certificates (e.g. the certificates added in</span><br><span class="line">the System keychain), place .pem files in</span><br><span class="line">  /usr/local/etc/openssl/certs</span><br><span class="line"></span><br><span class="line">and run</span><br><span class="line">  /usr/local/opt/openssl/bin/c_rehash</span><br><span class="line"></span><br><span class="line">This formula is keg-only, which means it was not symlinked into /usr/local,</span><br><span class="line">because Apple has deprecated use of OpenSSL in favor of its own TLS and crypto libraries.</span><br><span class="line"></span><br><span class="line">If you need to have this software first in your PATH run:</span><br><span class="line">  echo &apos;export PATH=&quot;/usr/local/opt/openssl/bin:$PATH&quot;&apos; &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">For compilers to find this software you may need to set:</span><br><span class="line">    LDFLAGS:  -L/usr/local/opt/openssl/lib</span><br><span class="line">    CPPFLAGS: -I/usr/local/opt/openssl/include</span><br><span class="line">For pkg-config to find this software you may need to set:</span><br><span class="line">    PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig</span><br></pre></td></tr></table></figure>
-<h3 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Python modules have been installed and Homebrew&apos;s site-packages is not</span><br><span class="line">in your Python sys.path, so you will not be able to import the modules</span><br><span class="line">this formula installed. If you plan to develop with these modules,</span><br><span class="line">please run:</span><br><span class="line">  mkdir -p /Users/jinlong/Library/Python/2.7/lib/python/site-packages</span><br><span class="line">  echo &apos;import site; site.addsitedir(&quot;/usr/local/lib/python2.7/site-packages&quot;)&apos; &gt;&gt; /Users/jinlong/Library/Python/2.7/lib/python/site-packages/homebrew.pth</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Cisco 路由器配置命令" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/11/05/Cisco 路由器配置命令/" class="article-date">
-      <time datetime="2017-11-05T20:31:30.000Z" itemprop="datePublished">2017-11-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Cisco-路由器配置命令"><a href="#Cisco-路由器配置命令" class="headerlink" title="Cisco 路由器配置命令"></a>Cisco 路由器配置命令</h1><h3 id="改变命令状态"><a href="#改变命令状态" class="headerlink" title="改变命令状态"></a>改变命令状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">任务  命令 </span><br><span class="line">进入特权命令状态 enable </span><br><span class="line">退出特权命令状态 disable </span><br><span class="line">进入设置对话状态 setup  </span><br><span class="line">进入全局设置状态 config terminal </span><br><span class="line">退出全局设置状态 end  </span><br><span class="line">进入端口设置状态 interface type slot/number </span><br><span class="line">进入子端口设置状态 interface type number.subinterface [point-to-point | multipoint] </span><br><span class="line">进入线路设置状态 line type slot/number </span><br><span class="line">进入路由设置状态 router protocol </span><br><span class="line">退出局部设置状态  exit</span><br></pre></td></tr></table></figure>
-<p>路由器的状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">命令状态</span><br><span class="line">route1&gt;</span><br><span class="line">特权命令状态(进入特权enable，退出特权disable)</span><br><span class="line">route1&gt;enable</span><br><span class="line">route1#</span><br><span class="line">特权状态下的命令</span><br><span class="line">进入设置对话状态 setup</span><br><span class="line">route1#setup</span><br><span class="line">         --- System Configuration Dialog ---</span><br><span class="line">Continue with configuration dialog? [yes/no]:</span><br><span class="line"></span><br><span class="line">进入全局设置状态 config terminal(conf t)</span><br><span class="line">route1#conf t</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">route1(config)#</span><br><span class="line"></span><br><span class="line">退出全局设置状态 end</span><br><span class="line">route1(config)#end</span><br><span class="line">route1#</span><br><span class="line">进入端口配置</span><br><span class="line">route2#show ip interface</span><br><span class="line">FastEthernet0/0 is administratively down, line protocol is down</span><br><span class="line">  Internet protocol processing disabled</span><br><span class="line"></span><br><span class="line">route2(config)#interface FastEthernet0/0</span><br><span class="line">route2(config-if)#</span><br></pre></td></tr></table></figure>
-<p>Cisco路由器初始化配置<br>设置路由器内部时钟</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">全局配置模式下 clock timezone GMT +8</span><br><span class="line">exit</span><br><span class="line">特权模式下</span><br><span class="line">clock set 11:54:00 october 22 2017</span><br></pre></td></tr></table></figure>
-<p>1.路由器名<br>2.特权状态密码<br>3.Console密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">line console 0</span><br><span class="line">password 密码</span><br><span class="line">login</span><br></pre></td></tr></table></figure></p>
-<p>4.AUX密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">line aux 0</span><br><span class="line">password 密码</span><br><span class="line">login</span><br></pre></td></tr></table></figure>
-<p>5.VTY密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">使用远程登录，需要先配置特权密码</span><br><span class="line">line vty 0 4</span><br><span class="line">pass 密码</span><br><span class="line">login</span><br><span class="line"></span><br><span class="line">限制IP远程登录</span><br><span class="line">access-list 1 permit 12.1.1.1</span><br><span class="line">line vty 0 4</span><br><span class="line">access-class 1 in</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
-<p>5.配置接口IP</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">interface </span><br><span class="line">ip address 10.0.0.1 255.255.255.0</span><br><span class="line">description &quot;描述信息&quot;</span><br><span class="line">ip address 10.1.1.1 255.255.255.0 secondary</span><br><span class="line">no shutdown</span><br></pre></td></tr></table></figure>
-<p>模式转换<br>用户模式–&gt;特权模式 enable<br>特权模式–&gt;全局配置模式 config t<br>全剧配置模式–&gt;接口模式 interface<br>全局配置模式–&gt;线控模式 line</p>
-<p>默认进入的是命令状态，<br>config 之后 状态上有</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Cisco3725124-25.T14-1#configure terminal</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Cisco3725124-25.T14-(config)#</span><br></pre></td></tr></table></figure>
-<p>% Unrecognized command<br>％无法识别的命令</p>
-<p>设置路由器主机名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">默认模式转换到全局配置模式 confit t</span><br><span class="line"></span><br><span class="line">Cisco3725124-25.T14-1#configure terminal</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Cisco3725124-25.T14-(config)#hostname riga</span><br></pre></td></tr></table></figure>
-<p>设置特权密码<br>全局配置模式下执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route2(config)#enable secret 密码</span><br></pre></td></tr></table></figure>
-<p>设置访问用户及密码</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
       
       <div class="clearfix"></div>
     </div>
