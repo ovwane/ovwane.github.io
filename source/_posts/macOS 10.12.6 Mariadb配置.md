@@ -1,5 +1,6 @@
 ---
-date:2017-08-08 15:59:28
+title: macOS 10.12.6 Mariadb配置
+date: 2017-08-08 15:59:28
 ---
 
 brew tap homebrew/services
