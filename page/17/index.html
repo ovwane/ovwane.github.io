@@ -206,74 +206,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-macOS 安装数据库服务" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/16/macOS 安装数据库服务/" class="article-date">
-      <time datetime="2017-10-16T08:25:23.000Z" itemprop="datePublished">2017-10-16</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/16/macOS 安装数据库服务/">macOS 安装数据库服务</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="macOS-安装数据库服务"><a href="#macOS-安装数据库服务" class="headerlink" title="macOS 安装数据库服务"></a>macOS 安装数据库服务</h1><blockquote>
-<p>macOS 10.12.6<br>macOS 10.13</p>
-</blockquote>
-<h4 id="位置"><a href="#位置" class="headerlink" title="位置"></a>位置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 二进制文件</span><br><span class="line">/usr/local/opt/</span><br><span class="line">usr/local/Cellar</span><br><span class="line"></span><br><span class="line">#  临时文件</span><br><span class="line">/usr/local/var/</span><br></pre></td></tr></table></figure>
-<h4 id="安装-MariaDB"><a href="#安装-MariaDB" class="headerlink" title="安装 MariaDB"></a>安装 MariaDB</h4><hr>
-<p>Error: The <code>brew link</code> step did not complete successfully<br>The formula built, but is not symlinked into /usr/local<br>Could not symlink share/man/man8/mysqld.8<br>/usr/local/share/man/man8 is not writable.</p>
-<p>You can try again using:<br>  brew link mariadb</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>$ brew link mariadb<br>Linking /usr/local/Cellar/mariadb/10.2.9…<br>Error: Could not symlink share/man/man8/mysqld.8<br>/usr/local/share/man/man8 is not writable.</p>
-<h1 id="提示‘-usr-local-share-man-man8’-不能写入"><a href="#提示‘-usr-local-share-man-man8’-不能写入" class="headerlink" title="提示‘/usr/local/share/man/man8’ 不能写入"></a>提示‘/usr/local/share/man/man8’ 不能写入</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R $(whoami) /usr/local/share/man/man8</span><br></pre></td></tr></table></figure>
-<h1 id="再次执行"><a href="#再次执行" class="headerlink" title="再次执行"></a>再次执行</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew link mariadb</span><br><span class="line">​`</span><br></pre></td></tr></table></figure>
-<p>MAC下 brew link qt 出现的一些问题](<a href="http://www.cnblogs.com/o-din/p/5929037.html" target="_blank" rel="noopener">http://www.cnblogs.com/o-din/p/5929037.html</a>)</p>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">brew install mariadb</span><br><span class="line">brew services start mariadb</span><br><span class="line"></span><br><span class="line"># iTerm2 输入 mysql 找不到这个命令</span><br><span class="line">/usr/local/Cellar/mariadb/10.2.9/bin</span><br><span class="line">/usr/local/opt/mariadb/bin</span><br><span class="line"></span><br><span class="line"># 有时候没有自己建立sock文件，需要手动建立。</span><br><span class="line">touch /tmp/mysql.sock</span><br><span class="line"></span><br><span class="line">#### 安装 Redis</span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line">brew install redis</span><br><span class="line"></span><br><span class="line">brew services start redis</span><br><span class="line"></span><br><span class="line">redis-server /usr/local/etc/redis.conf</span><br></pre></td></tr></table></figure>
-<h4 id="安装-MongoDB"><a href="#安装-MongoDB" class="headerlink" title="安装 MongoDB"></a>安装 MongoDB</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">brew install mongodb</span><br><span class="line"></span><br><span class="line">brew services start mongodb</span><br><span class="line"></span><br><span class="line">mongod --config /usr/local/etc/mongod.conf</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-博客-回忆-悔？" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1020,6 +952,60 @@
   
     <h1 itemprop="name">
       <a class="article-title" href="/2017/10/08/2017-10-08-从明天要好好工作了，要去赚钱了。/">2017.10.08 从明天要好好工作了，要去赚钱了。</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2017-10-07-收到新买的-Apple-MacBook-Pro-15" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/08/2017-10-07-收到新买的-Apple-MacBook-Pro-15/" class="article-date">
+      <time datetime="2017-10-08T12:51:26.000Z" itemprop="datePublished">2017-10-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/08/2017-10-07-收到新买的-Apple-MacBook-Pro-15/">2017.10.07 收到新买的 Apple MacBook Pro 15</a>
     </h1>
   
 

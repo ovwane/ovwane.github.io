@@ -206,253 +206,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-CentOS7-开启BBR" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/23/CentOS7-开启BBR/" class="article-date">
-      <time datetime="2018-07-23T08:30:43.000Z" itemprop="datePublished">2018-07-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/23/CentOS7-开启BBR/">CentOS7 开启BBR</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="CentOS7-开启BBR"><a href="#CentOS7-开启BBR" class="headerlink" title="CentOS7 开启BBR"></a>CentOS7 开启BBR</h1><p>安装kernel</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">yum remove -y kernel-headers kernel-tools kernel-tools-libs</span><br><span class="line"></span><br><span class="line">rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br><span class="line"></span><br><span class="line">rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm</span><br><span class="line"></span><br><span class="line">yum -y install grub2</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">kernel-ml-4.17.9-1.el7.elrepo.x86_64</span></span><br><span class="line">yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-headers kernel-ml-devel </span><br><span class="line">yum --enablerepo=elrepo-kernel install -y kernel-ml-doc  kernel-ml-tools  kernel-ml-tools-libs perf python-perf</span><br><span class="line"></span><br><span class="line">ls -l /boot/vmlinuz*</span><br><span class="line"> </span><br><span class="line">mkdir /boot/grub</span><br><span class="line"></span><br><span class="line">grub2-mkconfig -o /boot/grub/grub.cfg</span><br><span class="line"></span><br><span class="line">rpm -qa | grep kernel</span><br><span class="line"></span><br><span class="line">awk -F\' '$1=="menuentry " &#123;print $2&#125;' /etc/grub2.cfg</span><br><span class="line"><span class="meta">#</span><span class="bash">egrep ^menuentry /etc/grub2.cfg | cut -f 2 -d \<span class="string">'</span></span></span><br><span class="line"></span><br><span class="line">shutdown -r now</span><br><span class="line"></span><br><span class="line">yum remove -y kernel</span><br><span class="line"></span><br><span class="line">shutdown -r now</span><br></pre></td></tr></table></figure>
-<p>开启BBR</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;&gt;/etc/sysctl.conf &lt;&lt; EOF</span><br><span class="line">net.core.default_qdisc=fq</span><br><span class="line">net.ipv4.tcp_congestion_control=bbr</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br><span class="line"></span><br><span class="line">sysctl net.ipv4.tcp_available_congestion_control</span><br><span class="line"></span><br><span class="line">sysctl net.core.default_qdisc</span><br><span class="line"></span><br><span class="line">lsmod | grep bbr</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.linuxeye.cn/452.html" target="_blank" rel="noopener">Linode CentOS7开启Google TCP-BBR优化算法</a></p>
-<p><a href="https://teddysun.com/489.html" target="_blank" rel="noopener">一键安装最新内核并开启 BBR 脚本</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ovwane的技术栈" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/21/ovwane的技术栈/" class="article-date">
-      <time datetime="2018-07-21T06:55:02.000Z" itemprop="datePublished">2018-07-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/21/ovwane的技术栈/">ovwane的技术栈</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="ovwane的技术栈"><a href="#ovwane的技术栈" class="headerlink" title="ovwane的技术栈"></a>ovwane的技术栈</h1><h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><p>CentOS </p>
-<p>macOS</p>
-<h2 id="编程语言"><a href="#编程语言" class="headerlink" title="编程语言"></a>编程语言</h2><p>Shell(Bash)</p>
-<p>Python</p>
-<p>Golang</p>
-<h2 id="生活技能"><a href="#生活技能" class="headerlink" title="生活技能"></a>生活技能</h2><p>英语</p>
-<p>烹饪</p>
-<p>健身</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-工程师" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/20/工程师/" class="article-date">
-      <time datetime="2018-07-20T13:22:00.000Z" itemprop="datePublished">2018-07-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/20/工程师/">工程师title</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="工程师"><a href="#工程师" class="headerlink" title="工程师"></a>工程师</h1><p>爬虫工程师</p>
-<p>Python爬虫工程师</p>
-<p>内容抓取工程师</p>
-<p>golang工程师</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-百度网盘" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/19/百度网盘/" class="article-date">
-      <time datetime="2018-07-19T13:11:00.000Z" itemprop="datePublished">2018-07-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/19/百度网盘/">百度网盘</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>百度云盘提供了一些api供开发者使用,使用的时候需要通过api key获取access_token,这里有一个简洁的方法快速获取百度云Pcs的access_token</p>
-<p>进入云开发者 <a href="http://www.dayanmei.com/%22http://developer.baidu.com//%22" target="_blank" rel="noopener">http://developer.baidu.com/</a>  开发者服务管理-&gt;开发者服务管理</p>
-<p>如果还没有创建工程 请先创建工程</p>
-<p>如果已经有了工程</p>
-<p>点选工程 可以看到 API Key：</p>
-<p>在浏览器地址栏输入如下内容 其中”{你的API KEY}”替换成你的API Key</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://openapi.baidu.com/oauth/2.0/authorize?response_type=token&amp;client_id=&#123;你的API KEY&#125;&amp;redirect_uri=oob&amp;scope=netdisk</span><br></pre></td></tr></table></figure>
-<p>打开之后会跳转到另外一个地址</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://openapi.baidu.com/oauth/2.0/login_success#expires_in=2592000&amp;access_token=&#123;access_token&#125;&amp;session_secret=&#123;session_secret&#125;&amp;session_key=&#123;session_key&#125;&amp;scope=basic+netdisk</span><br></pre></td></tr></table></figure>
-<p>其中access_token后面一段是我们需要的,保存下来即可</p>
-<p>使用期限是30天,但如果这个access_token一直在使用的话 是不会过期的,可以放心使用</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.dayanmei.com/baidu_pcs_access_token/" target="_blank" rel="noopener">http://www.dayanmei.com/baidu_pcs_access_token/</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-通过CrawlSpider对招聘网站进行整站爬取" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -819,6 +572,352 @@
           
         <p>姜学栋<br><a href="http://zmister.com/archives/217.html" target="_blank" rel="noopener">Vtrois’s Blog</a></p>
 <p>笑遍世界<br><a href="http://smilejay.com/" target="_blank" rel="noopener">笑遍世界</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-计算机设备" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/计算机设备/" class="article-date">
+      <time datetime="2018-07-12T10:45:03.000Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/12/计算机设备/">计算机设备</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="网络设备"><a href="#网络设备" class="headerlink" title="网络设备"></a>网络设备</h2><h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>锐捷</p>
+<h3 id="AC控制器"><a href="#AC控制器" class="headerlink" title="AC控制器"></a>AC控制器</h3><p>华为</p>
+<h3 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h3><p>华为</p>
+<h3 id="POE交换机"><a href="#POE交换机" class="headerlink" title="POE交换机"></a>POE交换机</h3><p>华为</p>
+<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h3 id="NAS"><a href="#NAS" class="headerlink" title="NAS"></a>NAS</h3><p>synology</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-金融" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/金融/" class="article-date">
+      <time datetime="2018-07-12T10:45:03.000Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/12/金融/">财经商业和投资理财微信公众号</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="财经商业和投资理财微信公众号"><a href="#财经商业和投资理财微信公众号" class="headerlink" title="财经商业和投资理财微信公众号"></a>财经商业和投资理财微信公众号</h1><p><strong>1、吴晓波频道（ID：wuxiaobopd）</strong></p>
+<p>这是著名财经作家吴晓波老师在2014年5月开设的自媒体平台，两年以来吴晓波频道的影响力扶摇直上，一飞冲天。目前累计粉丝数量将近200万人，是现阶段最大的财经商业类自媒体平台。两年以来，无数10万+的文章被纷纷刷屏，从《去日本买只马桶盖》到《别慌》，再到《疯了》。我相信，对财经商业感兴趣的朋友们应该已经早早的关注了吴晓波频道。我就不再废话了。</p>
+<p><strong>2、秦朔朋友圈（ID：qspyq2015）</strong></p>
+<p>吴晓波的朋友秦朔，前《第一财经日报》的总编辑，这个被吴晓波称为“最后一个看门狗”的河南蛮牛，毅然决然地离开了传统媒体行业，“下海”开设了秦朔朋友圈这个自媒体平台。在这里，秦朔先生不定期分享关于对经济发展、金融潮流、商业领域等方面的观点。</p>
+<p><strong>3、力哥说理财（ID：lglicai）</strong></p>
+<p>这是我最近每天上班路上必听的一档理财脱口秀节目《力哥说理财》，喜欢的朋友也可以在喜马拉雅FM上订阅“力哥说理财”。力哥说理财的口号是：简单，好玩，有干货。力哥每期节目中都会用非常风趣幽默的方式跟大家分享投资理财相关的心得，并且有很多内容都能很好的帮助大家养成理性的投资价值观。音频节目的文字版本也会定期发布在这个微信公众号上。</p>
+<p><strong>4、金融八卦女（ID：jinrongbaguanv）</strong></p>
+<p>这位金融八卦女是一位基金行业的从业人员，她开设的金融八卦女微信公众号是金融业内最有名气的自媒体平台之一，据说绝大多数的金融从业者都关注了这个微信公众号。我自己就是一名金融从业者，在我微信不足400人的朋友列表里，竟然有超过80人都关注了金融八卦女，可想而知她的受欢迎程度。</p>
+<p><strong>5、越女读财（ID：ynducai）</strong></p>
+<p>“一个小小的理财抽屉，一枚玩心很重的财女”。这是“越女读财”这个微信公众号的个人介绍。越女读财是我最近一段时间每天必读的公众号，越女每天都会分享一些理财、投资方面的心得，并获得了广泛的好评。更重要的是，我很喜欢越女的文字，简单，清新，不脱俗。</p>
+<p><strong>6、三公子的人生记录仪（ID：sangongzi0906）</strong></p>
+<p>豆瓣红人三公子的个人微信公众号，我第一次知道三公子其实是在简书这个平台上看到的。是个很励志的小女孩，她是一位理财达人，作为一名普通的公务员，通过自己的理财规划，用5年的时间就积累了100万的个人资产。在微信公众号中，她分享了很多理财相关的话题，比如基金定投、小白理财、资产配置和自我成长以及健身相关的文章。</p>
+<p><strong>7、定投十年赚十倍（ID：auto10bagger）</strong></p>
+<p>雪球大V银行螺丝钉开设的个人微信公众号，银行螺丝钉是专注在指数基金的投资，是畅销书《指数基金投资指南》的作者。在这里，她会经常分享关于指数基金投资方面的一些心得，她的很多文章我都有阅读，受益很大。更加难得的是，她还通过科学的方法，编制了市场主要指数的估值表，并每天在公众号上发布。想系统性学习指数基金投资的朋友不妨关注。</p>
+<p><strong>8、大玩家张磊（ID：seniorplayer）</strong></p>
+<p>与其说帮你赚钱，倒不如说帮你省钱，也就是教你如何薅羊毛。大玩家张磊在这里会经常发布一些很实用、高逼格的薅羊毛的攻略，包括信用卡、航空里程、酒店等各个方面。他和我一样，都是周杰伦的铁杆粉丝，据说他把公司的每个会议室都用周杰伦的歌名来命名，很酷。他还是懒投资的CEO，在懒投资推出了很多收益稳健的理财产品，有兴趣的朋友也可以去看下。</p>
+<p><strong>9、长投学堂（ID：ichangtou）</strong></p>
+<p>长投学堂是一家专注量化投资和价值投资学习的网站，是由豆瓣红人水湄物语和他先生小熊创办的在线投资学习平台。在长投学堂，有系统性的价值投资的课程（入门课、初级课、进阶课和高级课），还会不定期邀请在投资领域有所建树的大牛们分享其他低风险的投资方法。所以如果你想成为巴菲特，想实现财务自由，想通过量化的价值投资来获得稳健低风险的投资回报，推荐你加入长投学堂，当然，里面有些课程是付费的。</p>
+<p><strong>10、零基础学投资理财（ID：xuetouzilicai）</strong></p>
+<p>同样来自长投学堂的衍生平台，这个微信公众号的定位主要是针对小白人群，所以分享的文章更多是关于零基础的人士如何去学习投资理财的，经常会有很多超级实用、简单的干货分享出来。再次连同长投学堂一并推荐给大家。</p>
+<p><strong>工薪金融街（ID：richgx）</strong></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/e9ab1654c5a8" target="_blank" rel="noopener">10个最值得关注的财经商业和投资理财类微信公众号</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-使用Vagrant和Virtualbox搭建Kubernetes集群" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/08/使用Vagrant和Virtualbox搭建Kubernetes集群/" class="article-date">
+      <time datetime="2018-07-08T17:00:16.000Z" itemprop="datePublished">2018-07-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="使用Vagrant和Virtualbox搭建Kubernetes集群"><a href="#使用Vagrant和Virtualbox搭建Kubernetes集群" class="headerlink" title="使用Vagrant和Virtualbox搭建Kubernetes集群"></a>使用Vagrant和Virtualbox搭建Kubernetes集群</h1><h2 id="安装Vagrant和VirtualBox"><a href="#安装Vagrant和VirtualBox" class="headerlink" title="安装Vagrant和VirtualBox"></a>安装Vagrant和VirtualBox</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew cask install vagrant</span><br><span class="line">brew cask install virtualbox</span><br></pre></td></tr></table></figure>
+<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><p>确保安装好以上的准备环境后，执行下列命令启动kubernetes集群：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ovwane/kubernetes-vagrant-centos-cluster.git</span><br><span class="line">cd kubernetes-vagrant-centos-cluster</span><br><span class="line">vagrant up</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：克隆完Git仓库后，需要提前下载kubernetes的压缩包到<code>kubenetes-vagrant-centos-cluster</code>目录下，包括如下两个文件：</p>
+<ul>
+<li>kubernetes-client-linux-amd64.tar.gz</li>
+<li>kubernetes-server-linux-amd64.tar.gz</li>
+</ul>
+<p>如果是首次部署，会自动下载<code>centos/7</code>的box，这需要花费一些时间，另外每个节点还需要下载安装一系列软件包，整个过程大概需要10几分钟。</p>
+<p>如果您在运行<code>vagrant up</code>的过程中发现无法下载<code>centos/7</code>的box，可以手动下载后将其添加到vagrant中。</p>
+<p><strong>手动添加centos/7 box</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1805_01.VirtualBox.box</span><br><span class="line">vagrant box add CentOS-7-x86_64-Vagrant-1805_01.VirtualBox.box --name centos/7</span><br></pre></td></tr></table></figure>
+<p>这样下次运行<code>vagrant up</code>的时候就会自动读取本地的<code>centos/7</code> box而不会再到网上下载。</p>
+<h3 id="访问kubernetes集群"><a href="#访问kubernetes集群" class="headerlink" title="访问kubernetes集群"></a>访问kubernetes集群</h3><p>访问Kubernetes集群的方式有三种：</p>
+<ul>
+<li>本地访问</li>
+<li>在VM内部访问</li>
+<li>kubernetes dashboard</li>
+</ul>
+<p><strong>通过本地访问</strong></p>
+<p>可以直接在你自己的本地环境中操作该kubernetes集群，而无需登录到虚拟机中，执行以下步骤：</p>
+<p>将<code>conf/admin.kubeconfig</code>文件放到<code>~/.kube/config</code>目录下即可在本地使用<code>kubectl</code>命令操作集群。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.kube</span><br><span class="line">cp conf/admin.kubeconfig ~/.kube/config</span><br></pre></td></tr></table></figure>
+<p>我们推荐您使用这种方式。</p>
+<p><strong>在虚拟机内部访问</strong></p>
+<p>如果有任何问题可以登录到虚拟机内部调试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vagrant ssh node1</span><br><span class="line">sudo -i</span><br><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+<p><strong>Kubernetes dashboard</strong></p>
+<p>还可以直接通过dashboard UI来访问：<a href="https://172.17.8.101:8443/" target="_blank" rel="noopener">https://172.17.8.101:8443</a></p>
+<p>可以在本地执行以下命令获取token的值（需要提前安装kubectl）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-system describe secret `kubectl -n kube-system get secret|grep admin-token|cut -d &quot; &quot; -f1`|grep &quot;token:&quot;|tr -s &quot; &quot;|cut -d &quot; &quot; -f2</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：token的值也可以在<code>vagrant up</code>的日志的最后看到。</p>
+<p><strong>Heapster监控</strong></p>
+<p>创建Heapster监控：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/heapster/</span><br></pre></td></tr></table></figure>
+<p>访问Grafana</p>
+<p>使用Ingress方式暴露的服务，在本地<code>/etc/hosts</code>中增加一条配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 grafana.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>访问Grafana：<a href="http://grafana.jimmysong.io/" target="_blank" rel="noopener">http://grafana.jimmysong.io</a></p>
+<p><strong>Traefik</strong></p>
+<p>部署Traefik ingress controller和增加ingress配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/traefik-ingress</span><br></pre></td></tr></table></figure>
+<p>在本地<code>/etc/hosts</code>中增加一条配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 traefik.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>访问Traefik UI：<a href="http://traefik.jimmysong.io/" target="_blank" rel="noopener">http://traefik.jimmysong.io</a></p>
+<p><strong>EFK</strong></p>
+<p>使用EFK做日志收集。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/efk/</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：运行EFK的每个节点需要消耗很大的CPU和内存，请保证每台虚拟机至少分配了4G内存。</p>
+<p><strong>Helm</strong></p>
+<p>用来部署helm。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack/deploy-helm.sh</span><br></pre></td></tr></table></figure>
+<h3 id="Service-Mesh"><a href="#Service-Mesh" class="headerlink" title="Service Mesh"></a>Service Mesh</h3><p>我们使用 <a href="https://istio.io/" target="_blank" rel="noopener">istio</a> 作为 service mesh。</p>
+<p><strong>安装</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/istio/</span><br></pre></td></tr></table></figure>
+<p><strong>运行示例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -n default -f &lt;(istioctl kube-inject -f yaml/istio-bookinfo/bookinfo.yaml)</span><br><span class="line">istioctl create -f yaml/istio-bookinfo/bookinfo-gateway.yaml</span><br></pre></td></tr></table></figure>
+<p>在您自己的本地主机的<code>/etc/hosts</code>文件中增加如下配置项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 grafana.istio.jimmysong.io</span><br><span class="line">172.17.8.102 servicegraph.istio.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>我们可以通过下面的URL地址访问以上的服务。</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>grafana</td>
+<td><a href="http://grafana.istio.jimmysong.io/" target="_blank" rel="noopener">http://grafana.istio.jimmysong.io</a></td>
+</tr>
+<tr>
+<td>servicegraph</td>
+<td><a href="http://servicegraph.istio.jimmysong.io/dotviz%3E" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/dotviz&gt;</a>, <a href="http://servicegraph.istio.jimmysong.io/graph" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/graph</a>,<a href="http://servicegraph.istio.jimmysong.io/force/forcegraph.html" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/force/forcegraph.html</a></td>
+</tr>
+<tr>
+<td>tracing</td>
+<td><a href="http://172.17.8.101:$JAEGER_PORT/" target="_blank" rel="noopener">http://172.17.8.101:$JAEGER_PORT</a></td>
+</tr>
+<tr>
+<td>productpage</td>
+<td><a href="http://172.17.8.101:$GATEWAY_PORT/productpage" target="_blank" rel="noopener">http://172.17.8.101:$GATEWAY_PORT/productpage</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意</strong>：<code>JAEGER_PORT</code>可以通过<code>kubectl -n istio-system get svc tracing -o jsonpath=&#39;{.spec.ports[0].nodePort}&#39;</code>获取，<code>GATEWAY_PORT</code>可以通过<code>kubectl -n istio-system get svc istio-ingressgateway -o jsonpath=&#39;{.spec.ports[0].nodePort}&#39;</code>获取。</p>
+<p>详细信息请参阅 <a href="https://istio.io/docs/guides/bookinfo.html" target="_blank" rel="noopener">https://istio.io/docs/guides/bookinfo.html</a></p>
+<h2 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h2><p>除了特别说明，以下命令都在当前的repo目录下操作。</p>
+<h3 id="挂起"><a href="#挂起" class="headerlink" title="挂起"></a>挂起</h3><p>将当前的虚拟机挂起，以便下次恢复。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant suspend</span><br></pre></td></tr></table></figure>
+<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><p>恢复虚拟机的上次状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant resume</span><br></pre></td></tr></table></figure>
+<p>注意：我们每次挂起虚拟机后再重新启动它们的时候，看到的虚拟机中的时间依然是挂载时候的时间，这样将导致监控查看起来比较麻烦。因此请考虑先停机再重新启动虚拟机。</p>
+<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><p>停机后重启启动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">vagrant halt</span><br><span class="line">vagrant up</span><br><span class="line"># login to node1</span><br><span class="line">vagrant ssh node1</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">exit</span><br><span class="line"># login to node2</span><br><span class="line">vagrant ssh node2</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">exit</span><br><span class="line"># login to node3</span><br><span class="line">vagrant ssh node3</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">sudo -i</span><br><span class="line">cd /vagrant/hack</span><br><span class="line">./deploy-base-services.sh</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>现在你已经拥有一个完整的基础的kubernetes运行环境，在该repo的根目录下执行下面的命令可以获取kubernetes dahsboard的admin用户的token。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack/get-dashboard-token.sh</span><br></pre></td></tr></table></figure>
+<p>根据提示登录即可。</p>
+<h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><p>清理虚拟机。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vagrant destroy</span><br><span class="line">rm -rf .vagrant</span><br></pre></td></tr></table></figure>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>仅做开发测试使用，不要在生产环境使用该项目。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://jimmysong.io/kubernetes-handbook/develop/using-vagrant-and-virtualbox-for-development.html" target="_blank" rel="noopener">本地分布式开发环境搭建（使用Vagrant和Virtualbox）</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Hugo" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/04/Hugo/" class="article-date">
+      <time datetime="2018-07-04T16:40:08.000Z" itemprop="datePublished">2018-07-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a></p>
+<p><a href="http://nanshu.wang/post/2015-01-31/" target="_blank" rel="noopener">Hugo静态网站生成器中文教程</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/magefile/mage</span><br><span class="line">go get -d github.com/gohugoio/hugo</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;GOPATH:-$HOME/go&#125;</span>/src/github.com/gohugoio/hugo</span><br><span class="line">mage vendor</span><br><span class="line">mage install</span><br></pre></td></tr></table></figure>
+<p>新建hugo项目</p>
+<p><code>hugo new site hugo.ovwane.me</code></p>
+<p>初始化git</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd hugo.ovwane.me</span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>Install DocDock as git submodule</p>
+<p><code>git submodule add https://github.com/vjeantet/hugo-theme-docdock.git themes/hugo-theme-docdock</code></p>
+<p><code>git submodule add https://github.com/spf13/hugoThemes.git themes/spf13</code></p>
+<p>Next initialize submodule for parent git repo:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git submodule init</span><br><span class="line">git submodule update</span><br></pre></td></tr></table></figure>
+<p>Configure<br>Import sample config from sample site to Hugo root.</p>
+<p><code>cp themes/hugo-theme-docdock/exampleSite/config.toml .</code></p>
+<p>Preview site</p>
+<p><code>hugo server</code></p>
+<p><code>hugo new post/first-article.md</code></p>
+<p><code>git clone https://github.com/vjeantet/hugo-theme-docdock.git themes/docdock</code></p>
+<p>git checkout -b hugo</p>
+<p>git add .</p>
+<p>git commit -m “初始化分支，主题使用psf13的”</p>
+<p>git push –set-upstream origin hugo</p>
 
       
       
