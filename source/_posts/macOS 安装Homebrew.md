@@ -27,7 +27,17 @@ brew tap caskroom/cask
 brew tap caskroom/versions
 ```
 
+清理缓存
+
+```shell
+# brew brew cask 缓存都会清理
+brew cleanup
+#强制删除所有cache
+rm -rf $(brew --cache)
+```
+
 ## Homebrew 安装软件列表
+
 ```
 brew install wget vim git tree zsh-completions nmap
 ```
@@ -62,7 +72,7 @@ nmap
 
 ## Homebrew Cask 安装软件列表
 ```shell
-brew cask install istat-menus keepassxc google-chrome firefox firefoxdeveloperedition opera xmind mplayerx vlc macdown atom sublime-text iterm2 zoc qq charles alfred pycharm thunder wireshark youdaodict youdaonote zoomus keka archiver
+brew cask install istat-menus keepassxc google-chrome firefox firefoxdeveloperedition opera xmind mplayerx vlc macdown atom sublime-text iterm2 zoc qq charles alfred pycharm thunder wireshark youdaodict youdaonote zoomus keka archiver losslesscut
 ```
 
 密码管理工具
@@ -139,6 +149,10 @@ parallels
 
 zoom.us
 
+视频剪切
+
+losslesscut
+
 ### 工作用的软件
 邮箱客户端
 foxmail
@@ -178,6 +192,16 @@ WeChat
 
 ### 应用软件
 [DMG Canvas](http://www.araelium.com/dmgcanvas)|[Adobe Creative Cloud](https://creative.adobe.com/products/creative-cloud)| [Logitech 游戏软件 G502](http://support.logitech.com.cn/zh_cn/product/g502-proteus-core-tunable-gaming-mouse/downloads)|[ShadowsocksX-NG](https://github.com/shadowsocks/ShadowsocksX-NG/releases)
+
+### 视频剪辑
+
+~~TunesKit Video Cutter~~
+
+### 软件清理
+
+~~App Uninstaller~~
+
+App Cleaner & Uninstaller
 
 
 ### 工作用的软件

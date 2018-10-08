@@ -140,10 +140,29 @@ docker run -p 8088:8080 -v /data/docker/jira:/var/atlassian/jira -d --name jira-
 cd /opt/atlassian/jira/atlassian-jira/WEB-INF/lib/
 ```
 
-code key
+**JIRA Software (Server): Evaluation**
 
 ```shell
+AAABdQ0ODAoPeNp9kU9vgkAQxe98CpJe2sMSIG2tJiS1sDU0CEZsbZpetjjqNrKQ2QXrty8CjVr/H
+Iflzfu9N1dTmOkx5Lp5p9tWz+72TFN3vYlum9aDtkAAsczyHNAIeAJCAp1xxTPh0HBCx6OxH1MtL
+NIvwGj+KgGlQyzNzYRiiQpZCk5WrpmAx0XK+MpIslT75siMI8mowGTJJHhMgbP1JmaXmPda6zrZ5
+FCvc6PhkI5dvx/8PdGfnONmp7PMra5FoMPK9pghBiwBfc95eh6MyAcdDEg4jfskCN+jBjDHbFYky
+tgORGZztWYIRrWRl+AoLKD57XwpJ6o7FaLiEwoEE8mZIBdojkpsfapcge/FNCSBZdudjt251arJO
+fxyYXGsGCpAZ85WErQIF0xwyeqER1W6CPXL/8OtGpa3Cm2rsw8KgSoz5shl26UHMkGe1w4v/rivx
+y2Kft2c6uazp9OSrYraq2E/d4xTNe+b7+t2O5v5F6LlDH4wLAIUCfrbZmVmXsLs8QU/ckLP/eLCD
+JsCFCRRqQYfO2gW3mlydfYyj5FIcjiYX02i6
+```
 
+**JIRA Core (Server): Evaluation**
+
+```shell
+AAABVQ0ODAoPeNp1kdtOg0AQhu95ChJv9GIbDtYekk2ssIkYSitUmxhv1u1U18BClgXt27tAm1axl
+3P65/tnLtawMRMoTGtoOtbUcafuyPT8lQ7ssRFV2RvIxfapBFliZBteLhRlKqIZ4Lz+ogJu3zPK0
+wHLM+OTSzooZL6pmBo0AWK5hEFPpO3rZZeVZB+0BJ8qwM12ZE2QdWOEnIEoYbUroF3rLeZzEnvBL
+DyUyHfB5e44Z1vN3B6VzDVenzUBWYMMfHx3P3tEy3A4RC8TN0HX8To+ZyRRVCqQeEvTErqmA8GGK
+54LTKIViZdxkJBzGpqI14CVrMDQZEKBoIKdsbBX15Rh4CckQqHtOKORNXYNHeHfmYV8p4KXtAXp+
+fUktJW/1027Fc/6Cc2cY/hQMsmLVuUhiGemp7HNy+5eV69Tk9Q0rVqtzuOpo9Ob/Pew42zX/wNzj
+NUrMCwCFEEnmeijjMtt7NE0TXO1VXvHnosCAhRApci+OpA4MTtE0d/t7LAIH4gmkw==X02gs
 ```
 
 ## 参考
