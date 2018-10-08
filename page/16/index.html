@@ -206,162 +206,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-生病的这段日子" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/11/11/生病的这段日子/" class="article-date">
-      <time datetime="2017-11-11T16:27:43.000Z" itemprop="datePublished">2017-11-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/11/生病的这段日子/">生病的这段日子</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>生病的这段日子</p>
-<p>2017.10.21~</p>
-<p>2017.10.21 星期六早上大概3点多。肚子突然就疼起来了。起初以为吃坏了肚子。肠炎而已。就忍着疼一直到天亮还是疼。大概10点多吧。去了住的地方路口的小诊所。给医生说自己肚子疼，可能是肠炎。然后医生就给输液，然后贴肚子的。起初好转很多也不疼了。等输液输完。贴肚子的使用完后。过了一会儿依然疼。给医生说。医生又给的阿莫西林和止疼药。同时医生说你去大医院检查一下吧、在诊所吃了阿莫西林和止疼药。休息了一会儿。还是疼。就回住处了。晚上喝了一点纯牛奶。疼痛一直没有消失。等到22号依然疼。早上9点多。还是疼。就骑着电动车忍着疼去了村中的另一家诊所。医生是一位阿姨。然后给她描述了症状，然后她给检查了。并说腹部敲击回声和整个腹部都痛。应该不是肠炎一类的病。就让去大医院看。这次没有再犹豫。就打滴滴去了北京清华长庚医院。排了急诊。等了好久，缴费，排队，检查，缴费，输液，然后有个医生过来说你的病很严重。需要住院，然后输着液。去缴费。在输液室等着医护带着去了住院部。22号下午住院，星期一有两个小伙伴去医院看我。很感谢他们。一直到27号做手术。期间输液没有停止，左胳膊输液出了反应肿了，换右胳膊。右胳膊肿了，换左胳膊，最后又换右胳膊。直到29号出院。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-uWSGI搭配Nginx配置Django部署环境" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/" class="article-date">
-      <time datetime="2017-11-11T14:09:00.000Z" itemprop="datePublished">2017-11-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/">uWSGI搭配Nginx配置Django部署环境</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://www.nowamagic.net/academy/detail/1330308" target="_blank" rel="noopener">uWSGI搭配Nginx配置</a>Django部署环境</p>
-<h1 id="WSGI简介"><a href="#WSGI简介" class="headerlink" title="WSGI简介"></a>WSGI简介</h1><p>WSGI是什么？</p>
-<p>WSGI，全称 Web Server Gateway Interface，或者 Python Web Server Gateway Interface ，是为 Python 语言定义的 Web 服务器和 Web 应用程序或框架之间的一种简单而通用的接口。自从 WSGI 被开发出来以后，许多其它语言中也出现了类似接口。</p>
-<p>WSGI 的官方定义是，the Python Web Server Gateway Interface。从名字就可以看出来，这东西是一个Gateway，也就是网关。网关的作用就是在协议之间进行转换。</p>
-<p>WSGI 是作为 Web 服务器与 Web 应用程序或应用框架之间的一种低级别的接口，以提升可移植 Web 应用开发的共同点。WSGI 是基于现存的 CGI 标准而设计的。</p>
-<p>很多框架都自带了 WSGI server ，比如 Flask，webpy，Django、CherryPy等等。当然性能都不好，自带的 web server 更多的是测试用途，发布时则使用生产环境的 WSGI server或者是联合 nginx 做 uwsgi 。</p>
-<p>WSGI的作用</p>
-<p>WSGI有两方：“服务器”或“网关”一方，以及“应用程序”或“应用框架”一方。服务方调用应用方，提供环境信息，以及一个回调函数（提供给应用程序用来将消息头传递给服务器方），并接收Web内容作为返回值。</p>
-<p>所谓的 WSGI中间件同时实现了API的两方，因此可以在WSGI服务和WSGI应用之间起调解作用：从WSGI服务器的角度来说，中间件扮演应用程序，而从应用程序的角度来说，中间件扮演服务器。“中间件”组件可以执行以下功能：</p>
-<p>重写环境变量后，根据目标URL，将请求消息路由到不同的应用对象。<br>允许在一个进程中同时运行多个应用程序或应用框架。<br>负载均衡和远程处理，通过在网络上转发请求和响应消息。<br>进行内容后处理，例如应用XSLT样式表。<br>WSGI 的设计确实参考了 Java 的 servlet</p>
-<p>WSGI是一种Web服务器网关接口。它是一个Web服务器（如nginx）与应用服务器（如uWSGI服务器）通信的一种规范。</p>
-<p>接下来，我们要介绍的是 uWSGI。</p>
-<p>uWSGI</p>
-<p>uWSGI是一个Web服务器，它实现了WSGI协议、uwsgi、http等协议。Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换。</p>
-<p>要注意 WSGI / uwsgi / uWSGI 这三个概念的区分。</p>
-<p>WSGI是一种通信协议。<br>uwsgi同WSGI一样是一种通信协议。<br>而uWSGI是实现了uwsgi和WSGI两种协议的Web服务器。<br>uwsgi协议是一个uWSGI服务器自有的协议，它用于定义传输信息的类型（type of information），每一个uwsgi packet前4byte为传输信息类型描述，它与WSGI相比是两样东西。</p>
-<h1 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h1><p>在 nginx.conf 上加入/修改，我的 server 配置如下（一切从简……）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  115.28.0.89;</span><br><span class="line">    #server_name localhost;</span><br><span class="line"></span><br><span class="line">    access_log /home/nowamagic/logs/access.log;</span><br><span class="line">    error_log /home/nowamagic/logs/error.log;</span><br><span class="line"></span><br><span class="line">    #root         /root/nowamagic_venv/nowamagic_pj;</span><br><span class="line">    location / &#123;</span><br><span class="line">        uwsgi_pass 127.0.0.1:8077;</span><br><span class="line">        #include uwsgi_params;</span><br><span class="line">        include /etc/nginx/uwsgi_params;</span><br><span class="line">        #uwsgi_pass 127.0.0.1:8077;</span><br><span class="line">        #uwsgi_param UWSGI_SCRIPT index;</span><br><span class="line">        #uwsgi_param UWSGI_PYHOME $document_root;</span><br><span class="line">        #uwsgi_param UWSGI_CHDIR  $document_root;</span><br><span class="line">   &#125;</span><br><span class="line">   access_log off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意保证配置里写的目录 /home/nowamagic/logs/ 和 /home/nowamagic/logs/ 存在，接下来就没啥问题了，Nginx 配置很简单。</p>
-<h1 id="uWSGI-配置"><a href="#uWSGI-配置" class="headerlink" title="uWSGI 配置"></a>uWSGI 配置</h1><h2 id="安装uWSGI"><a href="#安装uWSGI" class="headerlink" title="安装uWSGI"></a>安装uWSGI</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure>
-<p>在实际部署环境中，我们常用的是配置文件的方式，而非命令行的方式。</p>
-<p>我的 Django 程序目录：/root/nowamagic_venv/nowamagic_pj/</p>
-<p>这里让 Nginx 采用 8077 端口与 uWSGI 通讯，请确保此端口没有被其它程序采用。</p>
-<p>uWSGI 支持多种配置文件格式，比如 xml，ini，json 等等都可以。</p>
-<p>xml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vi /root/nowamagic_venv/nowamagic_pj/nowamgic_pj.xml</span><br><span class="line"></span><br><span class="line">&lt;uwsgi&gt;</span><br><span class="line"> &lt;socket&gt;127.0.0.1:8077&lt;/socket&gt;</span><br><span class="line"> &lt;listen&gt;80&lt;/listen&gt;</span><br><span class="line"> &lt;master&gt;true&lt;/master&gt;</span><br><span class="line"> &lt;pythonpath&gt;/root/nowamagic_venv/nowamagic_pj&lt;/pythonpath&gt;</span><br><span class="line"> &lt;processes&gt;1&lt;/processes&gt;</span><br><span class="line"> &lt;logdate&gt;true&lt;/logdate&gt;</span><br><span class="line"> &lt;daemonize&gt;/var/log/uwsgi.log&lt;/daemonize&gt;</span><br><span class="line"> &lt;plugins&gt;python&lt;/plugins&gt;</span><br><span class="line">&lt;/uwsgi&gt;</span><br></pre></td></tr></table></figure>
-<p>然后执行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/bin/uwsgi -x /root/nowamagic_venv/nowamagic_pj/nowamagic_pj.xml</span><br></pre></td></tr></table></figure>
-<p>ini 配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">vhost = false</span><br><span class="line">plugins = python</span><br><span class="line">socket = 127.0.0.1:8077</span><br><span class="line">master = true</span><br><span class="line">enable-threads = true</span><br><span class="line">workers = 1</span><br><span class="line">wsgi-file = /root/nowamagic_venv/nowamagic_pj/nowamagic_pj/wsgi.py</span><br><span class="line">virtualenv = /root/nowamagic_venv</span><br><span class="line">chdir = /root/nowamagic_venv/nowamagic_pj</span><br></pre></td></tr></table></figure>
-<p>执行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --ini /root/nowamagic_venv/nowamagic_pj.ini&amp;</span><br></pre></td></tr></table></figure>
-<p>uwsgi 这样就启动起来了。如果无意外的话，就能在网上访问你的 Python 项目了。</p>
-<p>一些我在配置时用到的命令，省得你去搜索：</p>
-<p>关闭 uWSGI：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">killall  -9 uwsgi</span><br><span class="line">killall -s HUP /var/www/uwsgi </span><br><span class="line">killall -s HUP /usr/local/bin/uwsgi</span><br></pre></td></tr></table></figure>
-<p>列出端口占用情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lpnt</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a><a class="article-category-link" href="/categories/技术/Linux/Python/">Python</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/uWSGI/">uWSGI</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-brew 错误提示汇总" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1117,6 +961,130 @@
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Requests/">Requests</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrapy/">Scrapy</a></li></ul>
     </div>
 
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Django企业开发实战-the5fire-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/17/Django企业开发实战-the5fire-笔记/" class="article-date">
+      <time datetime="2017-10-17T22:54:00.000Z" itemprop="datePublished">2017-10-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://python3wos.appspot.com/" target="_blank" rel="noopener">PYTHON 3 WALL OF SUPERPOWERS</a></p>
+<blockquote>
+<p>是否有人能够掌控开始使用框架之后遇到的所有问题。<br>你必须要做那个能解决所有问题的人。</p>
+</blockquote>
+<blockquote>
+<p>Too Choices Means No Choices</p>
+</blockquote>
+<blockquote>
+<p>不要担心，就是因为不会。才要学习。</p>
+</blockquote>
+<p>两种提供Web服务的方式，分别是<br>一：直接通过socket来处理http请求;<br>二：通过实现WSGI Application部分的协议。</p>
+<p>WSGI，全称是Web Server Gateway Interface（Web服务网关接口）。</p>
+<p>gunicorn<br>Gunicorn可以通过gevent/greenlet/gthread等来实现协程或者异步IO</p>
+<p>Werkzeug</p>
+<p>我们要做的还是带着需求去找框架，找技术栈，而不是拿着框架来做需求。</p>
+<p>所以拿着需求去找框架，选择合适的框架，而不是功能最全的框架或者最先进的框架。</p>
+<h1 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h1><ol>
+<li>需求分析</li>
+<li>技术选型</li>
+<li>开发</li>
+</ol>
+<blockquote>
+<p>一起读一下文档</p>
+</blockquote>
+<p>无论是MVC模式还是MTV模式，甚至是其他的什么模式，都是为了解耦。把一个软件系统划分为一层一层的结构，让每一层的逻辑更加纯粹，便于开发人员维护。</p>
+<p>Django</p>
+<p>Model在整个项目结构中是直接同数据库打交道的层，所以数据处理的部分都在这一层。在业务开发中，关于纯数据操作的部分，建议都放到这一层来做。</p>
+<p>在View中，我们通过操作Model拿到数据，做一些业务上调整，然后把数据传递到模板中，最终渲染出来页面。</p>
+<p>Template 这是Django声称对设计师友好的部分，因为它提供的语法很简单，任何人都可以很快上手，即便是不同编程的人，也可以很容易学习和使用。</p>
+<p>Forms 对于传统的，需要通过form来提交数据的页面，Form还是挺好用的。Form是对html中Form表单的抽象。</p>
+<blockquote>
+<p>无论是Django文档，还是其他问题，甚至是这本书，都是仅供参考。正确的答案始终是在你电脑上的代码里。无论是因为，框架版本的原因，还是文档上的书写错误，或者是本书的书写错误，你电脑上的代码始终不会骗你。</p>
+</blockquote>
+<p>创建项目</p>
+<p>配置python环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">mkdir student_house &amp;&amp; cd student_house</span><br><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python</span><br><span class="line"></span><br><span class="line">pipenv shell</span><br><span class="line">pip install django==1.11.2</span><br><span class="line">​```</span><br><span class="line"></span><br><span class="line">​````bash</span><br><span class="line">#创建项目</span><br><span class="line">django-admin startproject student_sys</span><br><span class="line"></span><br><span class="line">cd student_sys #所有操作都基于这个目录</span><br><span class="line"></span><br><span class="line">#创建APP</span><br><span class="line">python manage.py startapp student</span><br><span class="line"></span><br><span class="line"># 1.Model</span><br><span class="line">vim student/models.py</span><br><span class="line"></span><br><span class="line"># 2.Admin</span><br><span class="line">vim student/admin.py</span><br><span class="line"></span><br><span class="line"># 3.student app放到settings.py中</span><br><span class="line">vim student_sys/settings.py</span><br><span class="line"></span><br><span class="line">INSTALLED_APPS = [</span><br><span class="line">    &apos;student&apos;,</span><br><span class="line"></span><br><span class="line"># 4. 迁移</span><br><span class="line">python manage.py makemigrations 创建迁移文件</span><br><span class="line">python manage.py migrate 创建表</span><br><span class="line">python manage.py createsuperuser 根据提示，输出用户名，邮箱，密码</span><br><span class="line"></span><br><span class="line"># 5.基础配置</span><br><span class="line"></span><br><span class="line">#开发首页</span><br><span class="line"># 6.</span><br><span class="line">vim student/views.py </span><br><span class="line"></span><br><span class="line"># 7.</span><br><span class="line">mkdir student/templates</span><br><span class="line">vim student/templates/index.html</span><br><span class="line"></span><br><span class="line"># 8.</span><br><span class="line">vim student_sys/urls.py</span><br><span class="line"></span><br><span class="line"># 9.</span><br><span class="line">vim student/forms.py </span><br><span class="line">​```</span><br><span class="line"> </span><br><span class="line">启动项目: python manage.py runserver</span><br><span class="line"></span><br><span class="line">基础配置</span><br><span class="line">vim student_sys/student_sys/settings.py</span><br><span class="line"></span><br><span class="line">​```</span><br><span class="line">LANGUAGE_CODE = &apos;zh-hans&apos;  # 语言</span><br><span class="line"></span><br><span class="line">TIME_ZONE = &apos;Asia/Shanghai&apos;  # 时区</span><br><span class="line"></span><br><span class="line">USE_I18N = True  # 语言</span><br><span class="line"></span><br><span class="line">USE_L10N = True  # 数据和时间格式</span><br><span class="line"></span><br><span class="line">USE_TZ = True  # 启用时区</span><br><span class="line">​```</span><br><span class="line"></span><br><span class="line">在admin中，展示带有choices属性的字段时，Django会自动帮我们调用get_status_display方法，所以我们不用配置。</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 安装配置Nginx" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/17/macOS 安装配置Nginx/" class="article-date">
+      <time datetime="2017-10-17T21:26:23.000Z" itemprop="datePublished">2017-10-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="macOS-安装配置Nginx"><a href="#macOS-安装配置Nginx" class="headerlink" title="macOS 安装配置Nginx"></a>macOS 安装配置Nginx</h1><blockquote>
+<p>macOS 10.12.6<br>macOS 10.13</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Docroot is: /usr/local/var/www</span><br><span class="line"></span><br><span class="line">The default port has been set in /usr/local/etc/nginx/nginx.conf to 8080 so that</span><br><span class="line">nginx can run without sudo.</span><br><span class="line"></span><br><span class="line">nginx will load all files in /usr/local/etc/nginx/servers/.</span><br><span class="line"></span><br><span class="line">To have launchd start nginx now and restart at login:</span><br><span class="line">  brew services start nginx</span><br><span class="line">Or, if you don&apos;t want/need a background service you can just run:</span><br><span class="line">  nginx</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
       
       <div class="clearfix"></div>
     </div>

@@ -206,127 +206,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-CentOS7-配置Shadowsocks-go" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/23/CentOS7-配置Shadowsocks-go/" class="article-date">
-      <time datetime="2018-07-23T12:07:39.000Z" itemprop="datePublished">2018-07-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/23/CentOS7-配置Shadowsocks-go/">CentOS7 配置Shadowsocks-go</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="CentOS7-Shadowsocks-go"><a href="#CentOS7-Shadowsocks-go" class="headerlink" title="CentOS7 Shadowsocks-go"></a>CentOS7 Shadowsocks-go</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull cloverzrg/shadowsocks-go</span><br><span class="line"></span><br><span class="line">docker run -d -p 192.81.131.192:8373:8373 -e PASSWORD=meiyoumima -e METHOD=chacha20 --restart always  cloverzrg/shadowsocks-go</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/cloverzrg/shadowsocks-go-docker" target="_blank" rel="noopener">shadowsocks-go-docker</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-CentOS7 Shadowsocks-go" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/23/CentOS7 Shadowsocks-go/" class="article-date">
-      <time datetime="2018-07-23T12:07:00.000Z" itemprop="datePublished">2018-07-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/23/CentOS7 Shadowsocks-go/">CentOS7 Shadowsocks-go</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="CentOS7-Shadowsocks-go"><a href="#CentOS7-Shadowsocks-go" class="headerlink" title="CentOS7 Shadowsocks-go"></a>CentOS7 Shadowsocks-go</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum list docker-ce --showduplicates | sort -r</span><br><span class="line"></span><br><span class="line">yum install docker-ce-18.06.1.ce</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull cloverzrg/shadowsocks-go</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 192.81.131.192:8373:8373 -e PASSWORD=meiyoumima -e METHOD=chacha20 --restart always --name shadowsocks-go cloverzrg/shadowsocks-go</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/cloverzrg/shadowsocks-go-docker" target="_blank" rel="noopener">shadowsocks-go-docker</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-CentOS7-开启BBR" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -811,6 +690,135 @@
 <p>git pull = git fetch + git merge</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#添加远程git</span><br><span class="line">git remote add origin</span><br><span class="line">#把代码推送到远程git</span><br><span class="line">git push origin dev</span><br><span class="line">#拉取代码,并合并到本地</span><br><span class="line">git pull origin dev</span><br><span class="line">#获取分支最新内容到版本库的分支</span><br><span class="line">git fetch origin dev</span><br><span class="line">#将版本库的分支内容合并到工作去</span><br><span class="line">git merge origin/dev</span><br><span class="line">#初始化git代码到本地</span><br><span class="line">git clone </span><br><span class="line">#创建分支且和远程分支同步</span><br><span class="line">git branch dev origin/dev</span><br></pre></td></tr></table></figure>
 <p>协同合作</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-胡阳" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/胡阳/" class="article-date">
+      <time datetime="2018-07-12T10:49:00.000Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/12/胡阳/">胡阳</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="胡阳"><a href="#胡阳" class="headerlink" title="胡阳"></a>胡阳</h1><p><a href="https://www.the5fire.com/" target="_blank" rel="noopener">the5fire的技术博客</a></p>
+<p><a href="http://blog.csdn.net/the_fire" target="_blank" rel="noopener">the_fire的技术博客-csdn</a></p>
+<p><a href="https://www.zhihu.com/people/the5fire/" target="_blank" rel="noopener">知乎</a></p>
+<p><a href="https://github.com/the5fire" target="_blank" rel="noopener">Github</a></p>
+<blockquote>
+<p>热爱开源，但没拿的出手的项目。怎么来证明你的能力？</p>
+</blockquote>
+<p>git、需求分析、redis、流程、自动部署</p>
+<p>运维开发</p>
+<p><strong>课程目标</strong><br><strong>企业开发</strong></p>
+<p>Git、Django、Redis、Python、软件工程、沟通协调、需求的理解、开发的理解</p>
+<p>定义model，admin，1.1，cms系统</p>
+<p>教练/同事/搭档</p>
+<p><strong><em>课程大纲</em></strong><br><strong>第零讲 课程介绍**</strong></p>
+<blockquote>
+<p>Life is short. I use Python.<br>Talk is cheap,Show me the Code.</p>
+</blockquote>
+<p><em>完全搞懂</em></p>
+<p>Zen of Python<br>Python之禅</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-运维相关的书签" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/运维相关的书签/" class="article-date">
+      <time datetime="2018-07-12T10:47:24.000Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/12/运维相关的书签/">运维相关的书签</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>姜学栋<br><a href="http://zmister.com/archives/217.html" target="_blank" rel="noopener">Vtrois’s Blog</a></p>
+<p>笑遍世界<br><a href="http://smilejay.com/" target="_blank" rel="noopener">笑遍世界</a></p>
 
       
       
