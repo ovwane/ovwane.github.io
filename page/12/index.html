@@ -206,11 +206,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Typora使用技巧" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-iTerm2 配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/10/Typora使用技巧/" class="article-date">
-      <time datetime="2018-04-10T14:27:13.000Z" itemprop="datePublished">2018-04-10</time>
+      <a href="/2018/05/05/iTerm2 配置/" class="article-date">
+      <time datetime="2018-05-05T12:15:39.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -222,7 +222,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="https://typora.io/" target="_blank" rel="noopener">Typora</a></p>
+        <p><a href="http://iterm2colorschemes.com/" target="_blank" rel="noopener">iTerm2主题</a></p>
+<p><strong>Solarized Dark Higher Contrast</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Solarized%20Dark%20Higher%20Contrast.itermcolors</span></span><br></pre></td></tr></table></figure>
+<p>导入主题</p>
+<p>iTerm2-&gt;Preferences-&gt;Profiles-&gt;Color</p>
+<p>Color Presets-&gt;import</p>
 
       
       
@@ -250,11 +255,11 @@
 
 
   
-    <article id="post-tencent_vps" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-KeePassXC 配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/10/tencent_vps/" class="article-date">
-      <time datetime="2018-04-10T13:24:21.000Z" itemprop="datePublished">2018-04-10</time>
+      <a href="/2018/05/05/KeePassXC 配置/" class="article-date">
+      <time datetime="2018-05-05T09:12:37.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -266,101 +271,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname quanjinlong.cn</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd jinlong</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">visudo</span><br><span class="line">jinlong ALL=(ALL)       ALL</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;ovwane@gmail.com&quot; -f tencent_vps_rsa</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.ssh</span><br><span class="line">vim ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br><span class="line">chmod 700 ~/.ssh</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/handongyu/p/6386789.html" target="_blank" rel="noopener">设置 SSH，打开密钥登录功能</a><br>编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Port 22</span><br><span class="line">Protocol 2</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">#禁止root用户通过SSH登录</span><br><span class="line">PermitRootLogin no</span><br><span class="line">#禁用密码登录</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">ChallengeResponseAuthentication no</span><br><span class="line">UsePAM yes</span><br><span class="line">UseDNS no</span><br><span class="line">X11Forwarding no</span><br></pre></td></tr></table></figure>
-<p>最后，重启 SSH 服务：<br>systemctl restart sshd.service</p>
-<p>#优化</p>
-<ol>
-<li>关闭SELinux</li>
-<li>关闭firewalld</li>
-<li>最大进程数和最大文件打开数<br> 修改/etc/security/limits.conf文件</li>
-<li><p>删除默认用户<br>centos</p>
-</li>
-<li><p>更换yum源<br><a href="https://www.centos.org/download/mirrors/" target="_blank" rel="noopener">CentOS mirrors List</a></p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"></span><br><span class="line">删除缓存</span><br><span class="line">yum clean all</span><br><span class="line">rm -rf /var/cache/yum</span><br><span class="line"></span><br><span class="line">生成缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.jianshu.com/p/4df7692bdc2b" target="_blank" rel="noopener">yum upgrade</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y upgrade</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel  </span><br><span class="line"></span><br><span class="line">yum -y autoremove kernel-3.10.0-693.el7</span><br><span class="line">yum -y autoremove kernel-devel-3.10.0-693.el7</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>时间<br><a href="https://blog.csdn.net/maxsky/article/details/53866475" target="_blank" rel="noopener">ntp</a></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ntpd.service</span><br><span class="line"></span><br><span class="line">yum list installed|grep ntp</span><br><span class="line">ntp.x86_64                              4.2.6p5-25.el7.centos.2        @anaconda</span><br><span class="line">ntpdate.x86_64 </span><br><span class="line"></span><br><span class="line">time5.aliyun.com</span><br><span class="line">cn.pool.ntp.org</span><br></pre></td></tr></table></figure>
-<p><a href="https://chrony.tuxfamily.org/documentation.html" target="_blank" rel="noopener">chrony</a></p>
-<p><a href="https://www.cnblogs.com/clsn/archive/2017/11/16/7844857.html" target="_blank" rel="noopener">chrony软件使用说明</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum -y install chrony</span><br><span class="line"></span><br><span class="line">systemctl start chronyd.service</span><br><span class="line">systemctl enable chronyd.service</span><br><span class="line">systemctl status chronyd.service</span><br><span class="line"></span><br><span class="line">查看同步状态</span><br><span class="line">chronyc sourcestats</span><br></pre></td></tr></table></figure>
-<p><a href="http://www.mamicode.com/info-detail-1553924.html" target="_blank" rel="noopener">删除软件包并删除孤立的依赖包</a><br><a href="https://segmentfault.com/q/1010000000626683" target="_blank" rel="noopener">https://segmentfault.com/q/1010000000626683</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">需要在 /etc/yum.conf 里面添加一个配置：</span><br><span class="line">clean_requirements_on_remove=1</span><br><span class="line"></span><br><span class="line">yum autoremove</span><br></pre></td></tr></table></figure>
-<p>删除ntp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum list installed |grep ntp</span><br><span class="line"></span><br><span class="line">yum -y autoremove ntp</span><br><span class="line"></span><br><span class="line">rm -rf /etc/ntp.conf.rpmsave</span><br><span class="line"></span><br><span class="line">yum autoremove ntpdate</span><br></pre></td></tr></table></figure></p>
-<p>删除postfix</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove postfix</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch /var/lock/subsys/local</span><br><span class="line">/usr/local/qcloud/rps/set_rps.sh &gt;/tmp/setRps.log 2&gt;&amp;1</span><br><span class="line">/usr/local/qcloud/irq/net_smp_affinity.sh &gt;/tmp/net_affinity.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-<p>删除 firewalld</p>
-<p>删除 wpa_supplicant<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove wpa_supplicant</span><br></pre></td></tr></table></figure></p>
-<p>删除用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd</span><br><span class="line">/etc/shadow</span><br><span class="line">/etc/group</span><br><span class="line">/etc/gshadow</span><br><span class="line"></span><br><span class="line">postfix</span><br><span class="line">ntp</span><br><span class="line">games</span><br><span class="line">ftp</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/duzhaoqi/p/7582404.html" target="_blank" rel="noopener">centOS7服务管理与启动流程</a></p>
-<p>下载必要软件包<br>再安装操作系统的时候使用的最小化安装，有很多包没有安装，使用时发现好多命令没有如{vim、wget、tree…等}，下面就安装命令，可以根据需求自行调整。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget net-tools screen lsof tcpdump nc mtr openssl-devel vim bash-completion lrzsz nmap telnet tree ntpdate</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-python全栈3期day104" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/05/python全栈3期day104/" class="article-date">
-      <time datetime="2018-04-05T05:50:32.000Z" itemprop="datePublished">2018-04-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>01.就业指导-简历制作.mp4 16：35<br>02.就业指导-简历制作2.mp4 1：05：29<br>03.就业指导-简历制作3.mp4 35：42<br>04.就业指导-简历制作4.mp4 16：59<br>06.就业指导-如何面试2.mp4 55：59<br>07.就业指导-如何面试3.mp4 30：53<br>08.就业指导-最后的鸡汤.mp4 36：59<br>09.天帅分享：Nginx+uWSGI+Django部署.mp4 9：52</p>
-<p>开始日期 2017.10.20 0：15</p>
-<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><p>结束时间 2017.10.20 07：49</p>
-<p>自我介绍</p>
-<p>天帅 运维开发</p>
-<p>1、我们开发项目是为了什么<br>    给其他人使用<br>2、怎么给其他人使用<br>    runserver<br>3、我想给其他人使用怎么办？<br>    1、买台服务器<br>    2、Python环境<br>    3、把代码上传到服务器上<br>    4、runserver<br>    这一套流程，我们称之为”部署”</p>
-<p>Django 内部有socket server 但是性能比较差</p>
-<p>使用uWSGI</p>
-<p>uWSGI + Django<br>安装 uwsgi<br>pip install uwsgi</p>
-<p>使用命令启动<br>uwsgi –http –file django/wsgi.py –static-map=/static=static</p>
-<p>视频不完整 </p>
+        <h3 id="浏览器配合"><a href="#浏览器配合" class="headerlink" title="浏览器配合"></a>浏览器配合</h3><p>✅启用KeepassXC浏览器集成</p>
+<p>Google Chrome</p>
 
       
       
@@ -388,11 +300,11 @@
 
 
   
-    <article id="post-python全栈3期day004" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 购买的应用清单" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/02/python全栈3期day004/" class="article-date">
-      <time datetime="2018-04-02T19:35:50.000Z" itemprop="datePublished">2018-04-02</time>
+      <a href="/2018/05/05/macOS 10.13 购买的应用清单/" class="article-date">
+      <time datetime="2018-05-05T08:00:16.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -404,43 +316,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>01.上节课复习.mp4 17：25<br>02.创建用户相关的文件.mp4 55：10<br>03.用户增删该查及组相关操作.mp4 26：05<br>04.对文件的权限管理.mp4 1：08：24<br>05.对目录的权限管理.mp4 26：08<br>06.权限管理补充..mp4 04:10<br>07.属主属组及基于数字的权限管理.mp4 15：33</p>
-<p>开始日期 2016.11.10 09：40<br>2016.11.10 16:30</p>
-<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>怎么安装系统</p>
-<p>系统提示符$和#的区别</p>
-<p><a href="http://www.cnblogs.com/linhaifeng/articles/6045600.html" target="_blank" rel="noopener">Linux基础</a></p>
-<p>相对路径和绝对路径</p>
-<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>linux核心一切皆文件</p>
-<p>useradd<br>/etc/passwd</p>
-<p>用户:密码:uid:gid:描述信息:用户家目录:sh类型<br>root:x:0:0:root:/root:/bin/bash</p>
-<p>/etc/shadow</p>
-<p>/etc/group</p>
-<p>组名:密码:gid<br>root:x:0</p>
-<p>/etc/gshadow</p>
-<p>/home<br>home下的文件模板 /etc/skel目录下</p>
-<p>/var/spool/mail/</p>
-<p>id</p>
-<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>useradd<br>-u 指定用户的UID<br>-g 指定用户所属的群组<br>-d 指定用户目录<br>-c 指定备注信息<br>-s 指定shell</p>
-<p>userdel</p>
-<p>usermod<br>-d 更改用户家目录<br>-aG 添加附加组</p>
-<p>groupadd</p>
-<h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>文件权限信息 硬链接 属主 属组 文件大小 文件创建日期 文件名<br>-rwxrwxrwx@ 1 jinlong  staff   66347968  3 21 13:54 01.上节课复习.mp4</p>
-<p>SELinux</p>
-<ul>
-<li>文件<br>d 目录<br>l 软连接<br>b 设备<br>p 管道文件</li>
-</ul>
-<p>rwx rwx rwx<br>属主 属组 其它</p>
-<p>chmod<br>u=user<br>g=group<br>o=other<br>a=all</p>
-<p>执行sh文件<br>sh 文件名<br>bash 文件名<br>. 文件名<br>./文件名</p>
-<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>目录可读可写</p>
-<p>rwx r可以ls目录下的文件名 w可以新建删除重命名目录内的文件 x可以cd进入目录</p>
-<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>vim 强制保存退出<br>wq!</p>
-<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p>r 读 4,w 写 2,x 执行 1</p>
-<p>chown</p>
-<p>chown root.root<br>chown root:root</p>
-<p>chown root<br>chown .root </p>
-<p>touch {1..9}.txt</p>
-<p>chmod 664 a.txt</p>
+        <p>购买的应用</p>
+<p>iStat Menus 6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">电子邮件地址：ovwane@gmail.com</span><br><span class="line">序列号：GAWAE-FD8HG-HMQTF-ZC4QY-4SARF-EVGLZ-4ENDW-R58QC-CRD7W-76W7E-CM5BD-5HDDW-SPGLE-UFSUL-LPFU</span><br></pre></td></tr></table></figure>
 
       
       
@@ -468,11 +346,11 @@
 
 
   
-    <article id="post-python全栈3期day005" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 配置Zsh" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/02/python全栈3期day005/" class="article-date">
-      <time datetime="2018-04-02T12:44:56.000Z" itemprop="datePublished">2018-04-02</time>
+      <a href="/2018/05/05/macOS 10.13 配置Zsh/" class="article-date">
+      <time datetime="2018-05-05T07:52:28.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -484,20 +362,27 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>01.上节课复习.mp4 26:42<br>02.文件合并与文件归档.mp4 23:26<br>03.文件归档与两种压缩方式.mp4 21：05<br>04.vim编辑器.mp4<br>05.系统启动流程.mp4<br>06.grub加密.mp4<br>07.bios加密.mp4<br>08.top命令.mp4<br>09.free命令.mp4<br>10.进程管理.mp4</p>
-<p>开始日期 2016.11.14 09:35</p>
-<p><a href="http://www.cnblogs.com/nulige/p/6052941.html" target="_blank" rel="noopener">努力哥-运维自动化</a></p>
-<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>/etc/passwd 文件列含义<br>/etc/shadow</p>
-<p>/etc/group<br>/etc/gshadow</p>
-<p>/var/spool/mail<br>/home</p>
-<p>groupadd<br>groupmod<br>groupdel</p>
-<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>重定向&gt;,&gt;&gt;,&lt;,&lt;&lt;</p>
-<p>wc -l</p>
-<p>归档<br>tar</p>
-<p>打包文件<br>tar<br>c 创建一个新的tar文件<br>t 列出tar文件中目录的内容<br>x 抽取文件<br>f 指定归档文件<br>v 显示详细<br>z gzip<br>j bzip2<br>C 解压到指定目录</p>
-<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>压缩的定义，将一个大的文件通过一些压缩算法变成一个小文件<br>gzip<br>bzip2</p>
-<p>tar czvf gzip压缩<br>tar cjvf bzip2压缩</p>
-<h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>该看这章了</p>
+        <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p><a href="http://ohmyz.sh/" target="_blank" rel="noopener">Oh My Zsh</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"</span><br></pre></td></tr></table></figure>
+<p><strong>主题</strong></p>
+<p><strong>目前使用的是</strong> ys </p>
+<p>期望使用 agnoster</p>
+<h3 id="Zsh插件"><a href="#Zsh插件" class="headerlink" title="Zsh插件"></a>Zsh插件</h3><p><strong>Clone this repository in oh-my-zsh’s plugins directory:</strong></p>
+<p><strong><a href="https://github.com/zsh-users/zsh-syntax-highlighting" target="_blank" rel="noopener">zsh-syntax-highlighting</a></strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/zsh-users/zsh-autosuggestions" target="_blank" rel="noopener">zsh-autosuggestions</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-autosuggestions</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/zsh-users/zsh-completions" target="_blank" rel="noopener">zsh-completions</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-completions <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-completions</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/zsh-users/zsh-history-substring-search" target="_blank" rel="noopener">zsh-history-substring-search</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-history-substring-search <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-history-substring-search</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/zsh-users/zsh-apple-touchbar" target="_blank" rel="noopener">zsh-apple-touchbar</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-apple-touchbar <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-apple-touchbar</span></span><br></pre></td></tr></table></figure>
+<p><strong>Add the plugin to the list of plugins for Oh My Zsh to load:</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br><span class="line"></span><br><span class="line">plugins=(</span><br><span class="line">	zsh-syntax-highlighting</span><br><span class="line">	zsh-autosuggestions</span><br><span class="line">	zsh-completions</span><br><span class="line">	zsh-history-substring-search</span><br><span class="line">	</span><br><span class="line">	zsh-apple-touchbar</span><br><span class="line">	)</span><br></pre></td></tr></table></figure>
+<p><strong>Source <code>~/.zshrc</code> to take changes into account:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/33deff6b8a63" target="_blank" rel="noopener">ITerm2配色方案</a></p>
 
       
       
@@ -525,11 +410,11 @@
 
 
   
-    <article id="post-Python爬虫面试题" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/02/Python爬虫面试题/" class="article-date">
-      <time datetime="2018-04-02T12:35:51.000Z" itemprop="datePublished">2018-04-02</time>
+      <a href="/2018/05/05/macOS 10.13 安装软件/" class="article-date">
+      <time datetime="2018-05-05T06:51:28.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -541,14 +426,25 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Python面试题</p>
-<p><a href="http://blog.csdn.net/u014745194/article/details/78835270" target="_blank" rel="noopener">python面试题系列之一</a></p>
-<p><a href="http://www.jianshu.com/p/be60981eed2b" target="_blank" rel="noopener">python爬虫(一)_爬虫原理和数据抓取</a></p>
-<p><a href="http://blog.csdn.net/u014745194/article/details/75258491" target="_blank" rel="noopener">Python爬虫简述系列之一</a></p>
-<p><a href="http://blog.csdn.net/qq_36143300/article/details/54928389" target="_blank" rel="noopener">数据科学工程师面试宝典系列之一–Python爬虫实战</a></p>
-<p>数据分析简历<br><a href="https://erlemar.github.io/" target="_blank" rel="noopener">Data science portfolio by Andrey Lukyanenko</a></p>
-<p><a href="https://github.com/rushter/data-science-blogs" target="_blank" rel="noopener">rushter/data-science-blogs</a></p>
-<p><a href="http://www.jianshu.com/p/97e10182c38a" target="_blank" rel="noopener">数据科学家的成长之路[译]</a></p>
+        <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1.安装<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases" target="_blank" rel="noopener"><strong>ShadowsocksX-NG</strong></a></p>
+<p>2.安装<a href="https://brew.sh" target="_blank" rel="noopener">Homebrew</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span><br></pre></td></tr></table></figure>
+<p>3.安装<a href="http://caskroom.io" target="_blank" rel="noopener">Homebrew Cask</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/cask</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew tap caskroom/versions</span></span><br></pre></td></tr></table></figure>
+<p>4.安装<a href="https://github.com/mas-cli/mas" target="_blank" rel="noopener">mas</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install mas</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><h3 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install vim wget git</span></span><br></pre></td></tr></table></figure>
+<h3 id="Homebrew-Cask"><a href="#Homebrew-Cask" class="headerlink" title="Homebrew Cask"></a>Homebrew Cask</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install typora google-chrome firefox sublime-text keepassxc qq youdaodict youdaonote iina istat-menus baidunetdisk</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew cask install firefox-developer-edition iterm2 zoc wireshark charles pycharm goland</span></span><br></pre></td></tr></table></figure>
+<h3 id="mas"><a href="#mas" class="headerlink" title="mas"></a>mas</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mas install 409201541 409203825 409183694 410628904 836500024</span></span><br></pre></td></tr></table></figure>
+<p>409201541 Pages</p>
+<p>409203825 Numbers</p>
+<p>409183694 Keynote</p>
+<p>410628904 Wunderlist </p>
+<p>836500024 WeChat </p>
+<h2 id="手动安装软件"><a href="#手动安装软件" class="headerlink" title="手动安装软件"></a>手动安装软件</h2><p><a href="https://www.jianguoyun.com/s/downloads" target="_blank" rel="noopener">坚果云</a>|<a href="https://creative.adobe.com/products/download/creative-cloud" target="_blank" rel="noopener">Adobe Creative Cloud</a></p>
+<h4 id="激活软件"><a href="#激活软件" class="headerlink" title="激活软件"></a>激活软件</h4><p><a href="https://www.52pojie.cn/thread-725112-1-1.html" target="_blank" rel="noopener">Charles 4.2.5 Mac and Win通用破解文件</a></p>
+<p>/Applications/Charles.app/Contents/Java/charles.jar</p>
 
       
       
@@ -576,11 +472,11 @@
 
 
   
-    <article id="post-python全栈3期day002" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 偏好设置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/02/python全栈3期day002/" class="article-date">
-      <time datetime="2018-04-02T10:28:53.000Z" itemprop="datePublished">2018-04-02</time>
+      <a href="/2018/05/05/macOS 10.13 偏好设置/" class="article-date">
+      <time datetime="2018-05-05T06:36:27.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -592,29 +488,35 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>01.上节课复习.mp4 37:45<br>02.arp协议复习.mp4 25:30<br>03.字符编码.mp4 30:56</p>
-<p>开始日期 2016.11.08 09:32</p>
-<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>计算机的组成<br>硬件系统<br>软件系统</p>
-<p>硬件系统<br>运算器<br>控制器<br>储存器<br>输入设备<br>输出设备</p>
-<p>cpu 运算器和控制器<br>内存 储存器 速度快，断电不储存<br>硬盘 储存器 速度慢，断电储存</p>
-<p>软件系统<br>系统软件<br>应用软件</p>
-<p>系统启动流程<br>bios<br>找到启动介质<br>把系统加载到内存<br>cpu执行</p>
-<p>进制<br>二进制<br>八进制<br>十进制<br>十六进制</p>
-<p>位权 二进一 八进一 十进一 十六进一</p>
-<p>机器数与真值</p>
-<p>原码反码补码</p>
-<p>OSI七层网络协议</p>
-<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>ARP协议</p>
-<blockquote>
-<p>懂了不行，要记住。</p>
-</blockquote>
-<p>1.计算是否在一个广播域<br>who has ip x.x.x.x？ arp协议<br>2.广播一个包<br>src mac，dsc mac FF:FF:FF:FF:FF:FF</p>
-<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>字符编码<br>ASCII<br>ASCII最多表示256个字符</p>
-<p>GB2312</p>
-<p>Shitf_JIS<br>Euc-kr</p>
-<p>unicode</p>
-<p>utf-8</p>
-<p>2016.11.08 11:37结束</p>
+        <h3 id="系统偏好设置-日期与时间"><a href="#系统偏好设置-日期与时间" class="headerlink" title="系统偏好设置-日期与时间"></a>系统偏好设置-日期与时间</h3><p><strong>时钟</strong></p>
+<p>✅闪动时间分割符</p>
+<p>✅使用 24 小时格式时钟</p>
+<p>✅显示日期</p>
+<h3 id="系统偏好设置-用户与群组"><a href="#系统偏好设置-用户与群组" class="headerlink" title="系统偏好设置-用户与群组"></a>系统偏好设置-用户与群组</h3><p><strong>客人用户</strong></p>
+<p>🈳️✅允许客人登陆到这台电脑</p>
+<h3 id="系统偏好设置-程序坞"><a href="#系统偏好设置-程序坞" class="headerlink" title="系统偏好设置-程序坞"></a>系统偏好设置-程序坞</h3><p>置于屏幕上的位置</p>
+<p>左边</p>
+<h3 id="系统偏好设置-触摸板"><a href="#系统偏好设置-触摸板" class="headerlink" title="系统偏好设置-触摸板"></a>系统偏好设置-触摸板</h3><p><strong>光标与点按</strong></p>
+<p>✅轻点来点按</p>
+<p><strong>更多手势</strong></p>
+<p>✅应用Expose</p>
+<h3 id="系统偏好设置-辅助功能"><a href="#系统偏好设置-辅助功能" class="headerlink" title="系统偏好设置-辅助功能"></a>系统偏好设置-辅助功能</h3><p>鼠标与触控板-触控板选项-启用拖拽-三指拖移</p>
+<h3 id="系统偏好设置-声音"><a href="#系统偏好设置-声音" class="headerlink" title="系统偏好设置-声音"></a>系统偏好设置-声音</h3><p>✅当更改音量时播放反馈</p>
+<p>✅在菜单栏中显示音量</p>
+<h3 id="系统偏好设置-键盘"><a href="#系统偏好设置-键盘" class="headerlink" title="系统偏好设置-键盘"></a>系统偏好设置-键盘</h3><p><strong>键盘</strong></p>
+<p>✅闲置<strong><em>1分钟</em></strong>后关闭键盘背光灯</p>
+<p><strong>输入法</strong></p>
+<p>添加 英语-美国</p>
+<p>删除 ABC</p>
+<h3 id="访达"><a href="#访达" class="headerlink" title="访达"></a>访达</h3><p><strong>边栏</strong></p>
+<p>✅影片</p>
+<p>✅音乐</p>
+<p>✅图片</p>
+<p>✅jinlong</p>
+<p><strong>高级</strong></p>
+<p>执行搜索时：<strong><em>搜索当前文件夹</em></strong></p>
+<p><strong>通用</strong></p>
+<p>开启新“访达”窗口时打开：<strong>文稿</strong></p>
 
       
       
@@ -642,11 +544,11 @@
 
 
   
-    <article id="post-python全栈3期day003" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 制作U盘安装盘" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/01/python全栈3期day003/" class="article-date">
-      <time datetime="2018-04-01T19:48:50.000Z" itemprop="datePublished">2018-04-01</time>
+      <a href="/2018/05/05/macOS 10.13 制作U盘安装盘/" class="article-date">
+      <time datetime="2018-05-05T05:58:26.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -655,55 +557,24 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/05/macOS 10.13 制作U盘安装盘/">macOS 10.13 制作U盘安装盘</a>
+    </h1>
+  
+
+      </header>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>01.网络基础和dos命令.mp4 56:43<br>02.为何学习linux.mp4 08:59<br>03.课程内容介绍.mp4 03:12<br>04.操作系统内核与系统调用.mp4 22:18<br>05.操作系统安装原理.mp4 09：02<br>06.linux操作系统安装part1.mp4 28：12<br>07.linux操作系统安装part2.mp4 14:33<br>08.初识linux命令.mp4 34:49<br>09.linux操作系统目录结构.mp4 42:19<br>10.目录及文件操作.mp4 44:05</p>
-<p>2016.11.09 09:39</p>
-<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>局域网<br>城域网<br>广域网</p>
-<p>传输介质<br>有线<br>光纤<br>无线</p>
-<p>568A<br>568B</p>
-<p>交叉线<br>568A-&gt;568B</p>
-<p>同种设备之间连接用交叉线</p>
-<p>非同种设备之间连接用直通线</p>
-<p>IP地址<br>五类</p>
-<p>A<br>B<br>C<br>D<br>E</p>
-<p>ipconfig<br>ping</p>
-<p>cd<br>d:</p>
-<p>rd 删除目录</p>
-<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>Linux学习</p>
-<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>操作系统核心 内核:内核是一个管理和控制程序,负责管理计算机的所有物理资源,文件系统、内存管理，设备管理，进程管理。<br>系统调用接口 api</p>
-<p>内核态:<br>用户态:</p>
-<p>RHEL、CentOS、Fedora、Ubuntu、SuSE</p>
-<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>Linux系统笔刷安装<br>硬件配置<br>1核心<br>内存2GB<br>硬盘20GB</p>
-<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>系统镜像盘 iso</p>
-<p>CentOS 6.8</p>
-<p>/boot 500MB<br>swap 虚拟内存,一般内存的1.5或者2倍.大于16GB就16GB了<br>/ 剩余所有</p>
-<p>Minimal 安装</p>
-<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p>Kdump</p>
-<h2 id="08"><a href="#08" class="headerlink" title="08"></a>08</h2><p>初识linux命令</p>
-<p>UNIX是什么<br>MINIX<br>多任务多用户</p>
-<p>GNU 和 GPL</p>
-<p>Linux是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统</p>
-<p>常用桌面KDE和GNOME</p>
-<p>关闭Linux系统的命令 init 0</p>
-<p>登录后的提示符 $<br>root用户的提示符 #</p>
-<p>退出命令 exit</p>
-<p>Linux命令的格式</p>
-<p>命令 选项 参数</p>
-<p>ls -a /</p>
-<p>ls</p>
-<p>whoami<br>who<br>date<br>hwclock -s<br>cal<br>clear ctrl+l</p>
-<p>useradd<br>su<br>passwd</p>
-<p>终止命令运行 ctrl + c</p>
-<p>man<br>help<br>–help</p>
-<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><p>目录</p>
-<p>/ 根目录<br>. 本目录<br>.. 上一级目录</p>
-<p>pwd</p>
-<p>/bin 二进制可以执行文件<br>/sbin 系统管理的二进制可执行文件<br>/root root用户的家目录<br>/home 普通用户的默认家目录<br>/dev 设备文件目录<br>/etc 配置文件目录</p>
-<p>绝对路径和相对路径</p>
-<p>绝对路径 必须以一个正斜线”/“开始<br>相对路径 相对于某个目录</p>
-<h2 id="10"><a href="#10" class="headerlink" title="10"></a>10</h2><p>cp<br>mv<br>mkdir<br>touch<br>rm<br>alias<br>tr<br>cat<br>head<br>tail<br>more<br>less</p>
+        <p>macOS 10.13 制作U盘安装盘</p>
+<p>命令格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo createinstallmedia --volume /Volumes/Install --</span></span><br><span class="line">applicationpath -- nointeraction</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/</span></span><br><span class="line">Resources/createinstallmedia --volume /Volumes/Install --</span><br><span class="line">applicationpath /Applications/Install\ macOS\ High\ Sierra.app --</span><br><span class="line"> nointeraction</span><br></pre></td></tr></table></figure>
 
       
       
@@ -731,11 +602,11 @@
 
 
   
-    <article id="post-python全栈3期day001" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-4-20今天要发工资了" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/01/python全栈3期day001/" class="article-date">
-      <time datetime="2018-04-01T19:48:50.000Z" itemprop="datePublished">2018-04-01</time>
+      <a href="/2018/04/20/4-20今天要发工资了/" class="article-date">
+      <time datetime="2018-04-20T09:22:28.000Z" itemprop="datePublished">2018-04-20</time>
 </a>
     </div>
   
@@ -744,80 +615,21 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/20/4-20今天要发工资了/">4.20今天要发工资了</a>
+    </h1>
+  
+
+      </header>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>01.计算机发展史.mp4 1:08:21<br>02.计算机系统.mp4 45:12<br>03.小结.mp4 03:45<br>04.数据的概念.mp4 18:26<br>05.进制转换.mp4 19:53<br>06.原码补码反码.mp4 21:16<br>07.物理层和数据链路层.mp4 49:08<br>08.网络层和arp协议.mp4 17:41<br>09.传输层和应用层.mp4 13:17</p>
-<p>注释：<br>更改文件名<br>ls |grep ev4|sed ‘s/(.<em>).ev4(.</em>)/mv &amp; “\1.mp4”/g’|sh</p>
-<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>开班日期 2016.11.07 14:04<br>学习日期 2018.04.01 19:48</p>
-<p>讲师：林海峰<br>qq:378533872<br>phone:18611453110</p>
-<p>1、计算机组成原理<br>2、Linux基础</p>
-<p>编程语言</p>
-<p>什么是计算机？<br>数值计算<br>逻辑计算<br>储存</p>
-<p>八卦</p>
-<p>bug的来历<br>继电器里有个飞蛾</p>
-<p>二进制</p>
-<p>冯诺依曼体系结构</p>
-<p>计算机的构成<br>运算器<br>控制器<br>储存器<br>输入设备<br>输出设备</p>
-<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>计算机系统包括硬件系统和软件系统</p>
-<p>软件系统包含：<br>系统软件<br>应用软件</p>
-<p>CPU<br>内存 速度快，不能永久保存数据<br>硬盘 速度慢，可以永久保存内存</p>
-<p>计算机的工作过程<br>取消指令<br>分析指令<br>执行指令<br>为执行下一条指令做好准备，即去除下一条指令地址</p>
-<p>总结</p>
-<p>思维导图</p>
-<p>计算机体系<br>硬件系统<br>软件系统</p>
-<p>课后作业</p>
-<p>课程结构<br>1、<br>2、<br>3、<br>4、<br>5、课后作业</p>
-<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>数据概述<br>数据（data）<br>大数据</p>
-<p>计算机系统中，数据以二进制信息单元0，1的形式表示<br>计算机系统中，各种数据经过加工就成为信息。数据本身没有意义。</p>
-<p>什么是进制<br>二进制 0 1<br>十进制 0 1 2 3 4 5 6 7 8 9</p>
-<p>位权<br>5000 = 5*10 3次方<br>5是位权</p>
-<p>二进制转换为十进制<br>按位权求和</p>
-<p>1010 1001<br>128 64 32 16 8 4 2 1</p>
-<p>10101001=128+32+8+1</p>
-<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>十进制转二进制<br>除二取余</p>
-<p>13</p>
-<p>13 2 1<br>6 2 0<br>3 1 1<br>1 1 1<br>0</p>
-<p>13 = 1101</p>
-<p>八进制数<br>0 1 2 3 4 5 6 7</p>
-<p>10</p>
-<p><code>1*8（2-1）+0**(1-1)</code></p>
-<p>十六进制数<br>0 1 2 3 4 5 6 7 8 9 a b c d e f</p>
-<p>表示十六进制<br>0x<br>H</p>
-<p>十六进制转换为二进制</p>
-<p>四位一分</p>
-<p>4 A C 8<br>0100 1010 1111 1000 1011</p>
-<p>4AC8<br>4(16(4-1)+A<em>16(3-1)+C</em>16(2-1)+8*16(1-1)</p>
-<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>机器数与真值</p>
-<p>机器数<br>正数 0<br>负数 1</p>
-<p>+3 正3<br>-3 负3</p>
-<p>00000011<br>10000011</p>
-<p>00000011和10000011 就是机器数</p>
-<p>真值<br>将带符号位的机器数对应的真正数值成为机器数的真值<br>00000001的真值+0000001=+1 +1为真值<br>10000011的真值-0000001=-1 -1为真值</p>
-<p>原码、反码、补码<br>原码：原码是符号位加上真值的绝对值，即用第一位表示符号，其余位表示值<br>+1 0000 0001<br>-1 1000 0001</p>
-<p>反码：正数的反码是其本身，负数的反码是在其源码的基础上，符号位不变，其余个各位取反。</p>
-<p>+1 0000 0001=0000 0001<br>-1 1000 0001=1111 1110</p>
-<p>补码：正数的补码就是其本身，负数的补码是在起原码的基础上，符号位不变，其余个各位取反，最后+1</p>
-<p>+1 0000 0001=0000 0001<br>-1 1000 0001=1111 1111</p>
-<p>在计算机系统中，数值一律用补码来表示（储存）</p>
-<p>使用补码，减法可以按照加法来处理。</p>
-<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p><a href="http://www.cnblogs.com/linhaifeng/articles/5937962.html" target="_blank" rel="noopener">网络基础之网络协议篇</a></p>
-<p>网络基础<br>网络通信原理<br>网络协议</p>
-<p>OSI七层协议<br>TCP/IP四层协议</p>
-<h4 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h4><p>光缆、电缆、双绞线、无线电波</p>
-<p>小学玩的水杯和一根线的电话</p>
-<h4 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h4><p>以太网协议<br>head data<br>18个字节 最短4字节，最长1500字节<br>src dsc type</p>
-<p>mac地址<br>48位2进制数</p>
-<p>广播<br>一台主机通过arp协议获取另外一台主机的mac地址</p>
-<h4 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h4><h2 id="08"><a href="#08" class="headerlink" title="08"></a>08</h2><p>IP协议<br>IP地址分成两部分<br>网络部分：标识子网<br>主机部分：标识主机</p>
-<p>子网掩码</p>
-<p>ip数据包<br>head data</p>
-<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><h4 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h4><p>tcp协议<br>udp协议</p>
-<p>端口范围 0~65535<br>0~1023 为系统占用端口</p>
-<p>Socket抽象层</p>
-<h4 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h4><p>总结<br>进程通讯PID</p>
-<p>网络通信Socket</p>
-
+        
       
       
     </div>
@@ -844,11 +656,11 @@
 
 
   
-    <article id="post-Python开发者" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linode-Nginx-1.13.11" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/01/Python开发者/" class="article-date">
-      <time datetime="2018-04-01T17:00:43.000Z" itemprop="datePublished">2018-04-01</time>
+      <a href="/2018/04/14/linode-Nginx-1.13.11/" class="article-date">
+      <time datetime="2018-04-14T20:35:32.000Z" itemprop="datePublished">2018-04-14</time>
 </a>
     </div>
   
@@ -860,23 +672,68 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>优秀Python开发者</p>
-<p>Flask和Requests的作者<br>Celery作者Ask Solem<br>Django<br>kombu</p>
-<p>爬虫<br>刚开始写爬虫用的是urllib2，后来知道了requests，惊为天人。刚开始解析网页用的是re，后来知道了BeautifulSoup，解析页面不能再轻松。再后来看别人的爬虫，知道了scrapy，被这个框架惊艳到了。之后遇到了一些有验证码的网站，于是知道了PIL。但后来知道了opencv，pybrain。当在爬虫中用上人工神经网络识别出验证码，兴奋得守在爬虫旁边看他爬完全站。再后来知道了threading，知道了celery。不断的学习，不断的接触和知道更多的东西，爬虫与反爬虫的对抗会一直进行下去。</p>
-<p>作者：bsdr<br>链接：<a href="https://www.zhihu.com/question/38192299/answer/75884957" target="_blank" rel="noopener">https://www.zhihu.com/question/38192299/answer/75884957</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-<p>requests<br>BeautifulSoup<br>opencv<br>pybrain<br>threading<br>celery</p>
-<p>scrapy<br>selenium<br>phantomjs</p>
-<p>python学习手册 第四版</p>
-<p>python核心编程 第二版</p>
-<p>开始不用学，进阶学习<br>ORM<br>ElasticSearch</p>
-<p>不用存储，爬去数据发送邮件</p>
-<p>抓去顺序</p>
-<p>开放的API<br>手机APP的API<br>Android的API实现抓取知乎的数据<br>HTML</p>
-<p>抓包工具<br>Charles</p>
-<p>lxml<br>xpath</p>
-<p>前端知识</p>
-<p>运维-&gt;运维开发-&gt;Web开发-&gt;数据分析-&gt;需要数据写爬虫</p>
+              <p>编译安装nginx</p>
+<p>安装依赖环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y make gcc git pcre-devel zlib-devel</span><br></pre></td></tr></table></figure>
+<p>添加nginx用户和组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -s /sbin/nologin -M nginx</span><br></pre></td></tr></table></figure>
+          
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
 
+      
+      
+        <p class="article-more-link">
+          <a  href="/2018/04/14/linode-Nginx-1.13.11/#more">大航海 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-acme.sh" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/10/acme.sh/" class="article-date">
+      <time datetime="2018-04-10T16:54:43.000Z" itemprop="datePublished">2018-04-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acme.sh</a><br><a href="https://github.com/Neilpang/acme.sh/wiki/dns-manual-mode" target="_blank" rel="noopener">DNS manual mode</a></p>
+<p> yum -y install openssl </p>
+<p> curl <a href="https://get.acme.sh" target="_blank" rel="noopener">https://get.acme.sh</a> | sh</p>
+<p> ./acme.sh –issue -d quanjinlong.cn –dns \<br> –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
+<p>./acme.sh –renew -d quanjinlong.cn \<br>  –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
+<p>copy/安装 证书<br>mkdir -p /data/www/ssl</p>
+<p>./acme.sh –install-cert -d quanjinlong.cn \<br>–key-file       /data/www/ssl/quanjinlong.cn.key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn.cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
+<p>“/root/.acme.sh”/acme.sh –issue –dns dns_cx -d quanjinlong.cn -k ec-256</p>
+<p>./acme.sh –install-cert -d quanjinlong.cn_ecc \<br>–key-file       /data/www/ssl/quanjinlong.cn/ecc_key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn/ecc_cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
+<h2 id="log"><a href="#log" class="headerlink" title="log"></a>log</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">  [root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --issue -d quanjinlong.cn --dns \</span></span><br><span class="line">&gt;  --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:29:42 CST 2018] Registering account</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Registered</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] ACCOUNT_THUMBPRINT=<span class="string">'kiwEXzVZgNIaJAK8Nhfc82QAu8MUgz5hkXiSc-1dNIw'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Creating domain key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] The domain key is here: /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting webroot <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting new-authz <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] The new-authz request is ok.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Add the following TXT record:</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Domain: <span class="string">'_acme-challenge.quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] TXT value: <span class="string">'n1_OFICy66s8pQT9_Y_B6_CPtVggPaBQgILNOMx_Nfw'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please be aware that you prepend _acme-challenge. before your domain</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] so the resulting subdomain will be: _acme-challenge.quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add the TXT records to the domains, and re-run with --renew.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add <span class="string">'--debug'</span> or <span class="string">'--log'</span> to check more details.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] See: https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh</span><br><span class="line">[root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --renew -d quanjinlong.cn \</span></span><br><span class="line">&gt;   --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:35:45 CST 2018] Renew: <span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Verifying:quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:35:55 CST 2018] Pending</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Success</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Verify finished, start to sign.</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Cert success.</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIGBzCCBO+gAwIBAgISAyvAMFcP9Xllga0gd+ZYlZpdMA0GCSqGSIb3DQEBCwUA</span><br><span class="line">MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD</span><br><span class="line">ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xODA0MDUwMDM2MDFaFw0x</span><br><span class="line">ODA3MDQwMDM2MDFaMBkxFzAVBgNVBAMTDnF1YW5qaW5sb25nLmNuMIIBIjANBgkq</span><br><span class="line">hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo91hTopV6JCu8tdfgPka43fkDYIIYu1r</span><br><span class="line">gFVbQcvU01sAVd7XkXUknzpnZCKnCEAfQCrAKyJvqHh/fqtpxkFd6K4XuGH9xJXf</span><br><span class="line">PBd1PZ02NhrCVPpiKTDLsaBqn/IYBS0YzvwUSYNl5bbUjgozCRrAZDFsTzFe0lnM</span><br><span class="line">CM55PyYkBPePWFiWEXXWyUvbjsBerMOa4gQrQl7HNHHLBZ7w0AJwTafz3iDEgrRg</span><br><span class="line">u04NzVehre3FWwfOLcOe396NpH300N6EuGl2bo2cRldgek81CyM0A1JDl5hmFlAh</span><br><span class="line">MlBgt/87PNGtv7ZpTq+/i+t/BfslVgavWbJ+fy7B4a3cBEBYWGbQEwIDAQABo4ID</span><br><span class="line">FjCCAxIwDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEF</span><br><span class="line">BQcDAjAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSiboptH4fpTKM/ozBKc91kBDxB</span><br><span class="line">oDAfBgNVHSMEGDAWgBSoSmpjBH3duubRObemRWXv86jsoTBvBggrBgEFBQcBAQRj</span><br><span class="line">MGEwLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwLmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcwLwYIKwYBBQUHMAKGI2h0dHA6Ly9jZXJ0LmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcvMBkGA1UdEQQSMBCCDnF1YW5qaW5sb25nLmNuMIH+BgNVHSAEgfYwgfMwCAYG</span><br><span class="line">Z4EMAQIBMIHmBgsrBgEEAYLfEwEBATCB1jAmBggrBgEFBQcCARYaaHR0cDovL2Nw</span><br><span class="line">cy5sZXRzZW5jcnlwdC5vcmcwgasGCCsGAQUFBwICMIGeDIGbVGhpcyBDZXJ0aWZp</span><br><span class="line">Y2F0ZSBtYXkgb25seSBiZSByZWxpZWQgdXBvbiBieSBSZWx5aW5nIFBhcnRpZXMg</span><br><span class="line">YW5kIG9ubHkgaW4gYWNjb3JkYW5jZSB3aXRoIHRoZSBDZXJ0aWZpY2F0ZSBQb2xp</span><br><span class="line">Y3kgZm91bmQgYXQgaHR0cHM6Ly9sZXRzZW5jcnlwdC5vcmcvcmVwb3NpdG9yeS8w</span><br><span class="line">ggEEBgorBgEEAdZ5AgQCBIH1BIHyAPAAdgApPFGWVMg5ZbqqUPxYB9S3b79Yeily</span><br><span class="line">3KTDDPTlRUf0eAAAAWKTckIrAAAEAwBHMEUCIQDAxllHOVE/fIfd/1q61yIQb7K3</span><br><span class="line">h+KvMJQm4ob+UjPqVgIgW3OtuN2FVCppgJhV1lKoQHSjgI9neRBGfwbpWyKmNAYA</span><br><span class="line">dgBVgdTCFpA2AUrqC5tXPFPwwOQ4eHAlCBcvo6odBxPTDAAAAWKTckNSAAAEAwBH</span><br><span class="line">MEUCIQDDhoKDEShosj+OYHWp04ZRGb2GBeknEvvQ6RpW/fB9LQIgI8bdN5X17KoH</span><br><span class="line">HEsNhBGAVwPrP3TqcAQ7rYKsz38WWsUwDQYJKoZIhvcNAQELBQADggEBAJCm+iuD</span><br><span class="line">g6CHchyNEPXfooa0zntBgzNKlwjTwSLzMJxKmFD1GBXkZGLZwRtRtu14SRw67dQG</span><br><span class="line">dBUwoxsSRae/F9eHiQLJrqY7p4s79zU/0aHD8NAnGm9nERXPL2ehjnKPx0lgAQc5</span><br><span class="line">8qORHJaRXPaOUGu+XpWBbXnOihq12Uhq4Bx5fIoR+4Kd4+oIET7nv00eeBPMJmiX</span><br><span class="line">83xOxIKRvEAJqWj0W6DOymvkc1NaGp2LCMRRfHNbd2p+l2xLtbewjnhzf/V3XXGv</span><br><span class="line">l9ZdDtEUPH4meQQY4xrAEgu9rTTLOpMmLSSPdNQFN8wJqJqPVHfcxMbPOqusQgGo</span><br><span class="line">I4qVG2BqLb9t3FQ=</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.cer</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert key is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] The intermediate CA cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/ca.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] And the full chain certs is there:  /root/.acme.sh/quanjinlong.cn/fullchain.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] It seems that you are using dns manual mode. please take care: The dns manual mode can not renew automatically, you must issue it again manually. You<span class="string">'d better use the other modes instead.</span></span><br><span class="line"><span class="string">[Thu Apr  5 09:36:03 CST 2018] Call hook error.</span></span><br></pre></td></tr></table></figure>
       
       
     </div>
@@ -905,7 +762,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
     </nav>
   
 </div>
