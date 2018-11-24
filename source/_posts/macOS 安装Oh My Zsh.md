@@ -30,7 +30,20 @@ https://github.com/robbyrussell/oh-my-zsh
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
+### 安装[zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+
+```shell
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+```
+
+### 安装[**zsh-completions**](https://github.com/zsh-users/zsh-completions)
+
+```shell
+git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions
+```
+
 ### 安装[autojump](https://github.com/wting/autojump)
+
 ```
 brew install autojump
 ```
@@ -66,12 +79,6 @@ set laststatus=2
 set t_Co=256
 ```
 [powerline安装参考](http://blog.topspeedsnail.com/archives/2652)
-
-#### 安装 autojump
-
-```
-brew install autojump
-```
 
 网站
 https://github.com/wting/autojump

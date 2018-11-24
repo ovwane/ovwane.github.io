@@ -44,6 +44,12 @@ nvm install 8.2.1 # 安装的npm版本是5.3.0
 nvm alias default 8.2.1
 ```
 
+**更新npm**
+
+```shell
+npm i -g npm
+```
+
 ## 参考
 
 1.http://www.cnblogs.com/Don/p/4672287.html

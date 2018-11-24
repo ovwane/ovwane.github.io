@@ -21,3 +21,9 @@ Or, if you don't want/need a background service you can just run:
   nginx
   
 ```
+启动
+
+```shell
+brew services start nginx
+```
+

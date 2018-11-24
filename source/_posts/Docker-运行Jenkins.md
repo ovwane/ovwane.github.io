@@ -5,12 +5,12 @@ tags:
 ---
 
 ```shell
-docker pull jenkins/jenkins:2.121.3
+docker pull jenkins/jenkins:2.138.2
 
 #jenkins启动用户id 1000
 chown -R 1000:1000 /data/jenkins
 
-docker run -p 8080:8080 -v /data/jenkins:/var/jenkins_home -d --name jenkins-2.121.3 jenkins/jenkins:2.121.3 
+docker run --network=sonar_sonarnet -p 8810:8080 -p 50000:50000 -v ~/docker/jenkins:/var/jenkins_home -d --name jenkins-2.138.2 jenkins/jenkins:2.138.2 
 ```
 
 nginx反向代理

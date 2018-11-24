@@ -4,6 +4,17 @@ date: 2017-06-24 08:23:05
 ---
 MariaDB 10.2.13
 
+
+
+用户授权
+
+```mysql
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'mypwd' WITH GRANT OPTION;
+flush privileges;
+```
+
+
+
 ### [修改密码](https://www.cnblogs.com/liufei88866/p/5619215.html)
 #### 方法1： 用SET PASSWORD命令
 ```
@@ -87,6 +98,18 @@ show variables like 'collation_%';
 ```shell
 show variables like 'character_set_%';
 ```
+
+
+
+## 数据库导出导入
+
+导入数据库
+
+```mysql
+source future.sql;
+```
+
+
 
 ## 参考
 

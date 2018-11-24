@@ -18,7 +18,7 @@ eval "$(pipenv --completion)"
 ```
 
 ```bash
-pipenv --python=/Users/jinlong/.pyenv/versions/3.6.4/bin/python
+pipenv --python=/Users/jinlong/.pyenv/versions/3.6.1/bin/python
 ```
 
 ```
@@ -33,3 +33,8 @@ pipenv graph
 ```
 pipenv shell
 ```
+
+
+## FAQ
+
+[pip 18.1 causes "TypeError: 'module' object is not callable" · Issue #2924 · pypa/pipenv](https://github.com/pypa/pipenv/issues/2924)

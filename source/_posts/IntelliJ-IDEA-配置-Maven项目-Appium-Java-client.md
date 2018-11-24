@@ -42,14 +42,20 @@ mvn -v
 pom.xml
 
 ```xml
-<dependencies>
-    <dependency>
-        <groupId>io.appium</groupId>
-        <artifactId>java-client</artifactId>
-        <version>6.1.0</version>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>6.1.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 ```
 
 当然了，也可以自己[下载jar包](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.appium%22%20AND%20a%3A%22java-client%22)，请自行选择最新版本。

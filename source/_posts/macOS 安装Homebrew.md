@@ -237,3 +237,41 @@ F913BE58 42FEA319 F954EFDD AE881E0B
 FG3TU-DDX1M-084CY-MFYQX-QC0RD
 ```
 
+
+
+**查找本地缓存目录**
+
+brew是将所有要安装的包都下载到缓存目录中，然后才进行安装，那么我们就可以通过`brew --cache`来查看是在哪个目录
+
+```shell
+brew --cache
+```
+
+**手动下载的安装包移动到缓存目录**
+
+在执行`brew install` `brew upgrade`的时候会在控制台中打印出下载地址
+
+```shell
+#下载
+wget https://services.gradle.org/distributions/gradle-4.5-all.zip
+
+#移动到缓存目录，删除incomplete文件
+mv ~/Downloads/gradle-4.5-all.zip ~/Library/Caches/Homebrew
+rm -f ~/Library/Caches/Homebrew/gradle-4.5.zip.incomplete
+
+#重命名
+cd ~/Library/Caches/Homebrew
+mv gradle-4.5-all.zip gradle-4.5.zip
+```
+
+**执行`brew upgrade`，安装本地的安装包。**
+
+```shell
+brew upgrade
+```
+
+
+
+## 参考
+
+[brew使用本地安装包 | Charles's Note](https://liyang.pro/brew-install-local-package/)
