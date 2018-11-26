@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <title>幻舞梦境</title>
@@ -26,10 +26,10 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
      
-      <meta name="baidu-site-verification" content="3rC08I0Cp6" />
+      <meta name="baidu-site-verification" content="3rC08I0Cp6">
     
      
-      <meta name="google-site-verification" content="rn8f25RzFQoiByt8ezg9E17KZIElbIlwJ4y-EKSlWbA" />
+      <meta name="google-site-verification" content="rn8f25RzFQoiByt8ezg9E17KZIElbIlwJ4y-EKSlWbA">
     
   
   
@@ -37,7 +37,7 @@
   
   <!-- 加载特效 -->
     <script src="/js/pace.js"></script>
-    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
   <script>
       var yiliaConfig = {
           rootUrl: '/',
@@ -51,7 +51,7 @@
           open_in_new: false
       }
   </script>
-</head>
+</head></html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -210,7 +210,61 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-jollychic" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS7 配置shadowsocks" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/08/CentOS7 配置shadowsocks/" class="article-date">
+      <time datetime="2018-05-08T13:11:49.000Z" itemprop="datePublished">2018-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade pip</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+<p>fast_open未启用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 3 &gt; /proc/sys/net/ipv4/tcp_fastopen</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/shadowsocks.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  "server":"",</span><br><span class="line">  "server_port":,</span><br><span class="line">  "local_address": "127.0.0.1",</span><br><span class="line">  "local_port":1027,</span><br><span class="line">  "password":"",</span><br><span class="line">  "timeout":300,</span><br><span class="line">  "method":"rc4-md5",</span><br><span class="line">  "workers": 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup sslocal -c /etc/shadowsocks.json /dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --socks5 127.0.0.1:1027 http://httpbin.org/ip</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y privoxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/privoxy/config</span><br><span class="line"></span><br><span class="line">listen-address 127.0.0.1:1087</span><br><span class="line">forward-socks5t / 127.0.0.1:1027 .</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable privoxy.service</span><br><span class="line">systemctl start privoxy.service</span><br><span class="line">systemctl status privoxy.service</span><br><span class="line">systemctl restart privoxy.service</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;</span><br><span class="line"></span><br><span class="line">curl http://httpbin.org/ip</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://brickyang.github.io/2017/01/14/CentOS-7-%E5%AE%89%E8%A3%85-Shadowsocks-%E5%AE%A2%E6%88%B7%E7%AB%AF/" target="_blank" rel="noopener">CentOS 7 安装 shadowsocks 客户端</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-jollychic" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/08/jollychic/" class="article-date">
@@ -220,7 +274,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
     <div class="article-entry" itemprop="articleBody">
@@ -261,7 +315,7 @@
 
 
   
-    <article id="post-CentOS Go环境配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS Go环境配置" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/08/CentOS Go环境配置/" class="article-date">
@@ -271,7 +325,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
     <div class="article-entry" itemprop="articleBody">
@@ -324,7 +378,7 @@
 
 
   
-    <article id="post-如何使用restgo-admin" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-如何使用restgo-admin" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/08/如何使用restgo-admin/" class="article-date">
@@ -334,7 +388,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
     <div class="article-entry" itemprop="articleBody">
@@ -375,7 +429,7 @@
 
 
   
-    <article id="post-Go-Gin" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Go-Gin" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/08/Go-Gin/" class="article-date">
@@ -385,7 +439,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
     <div class="article-entry" itemprop="articleBody">
@@ -419,7 +473,7 @@
 
 
   
-    <article id="post-Windows 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Windows 安装软件" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/06/Windows 安装软件/" class="article-date">
@@ -429,7 +483,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
     <div class="article-entry" itemprop="articleBody">
@@ -464,7 +518,7 @@
 
 
   
-    <article id="post-macOS 10.13 Go" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 Go" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/06/macOS 10.13 Go/" class="article-date">
@@ -474,7 +528,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
     <div class="article-entry" itemprop="articleBody">
@@ -521,7 +575,7 @@
 
 
   
-    <article id="post-Alfred 配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Alfred 配置" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/06/Alfred 配置/" class="article-date">
@@ -531,7 +585,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
     <div class="article-entry" itemprop="articleBody">
@@ -569,7 +623,7 @@
 
 
   
-    <article id="post-2018-05-06" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2018-05-06" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/06/2018-05-06/" class="article-date">
@@ -579,7 +633,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
     <div class="article-entry" itemprop="articleBody">
@@ -613,7 +667,7 @@
 
 
   
-    <article id="post-macOS 10.13 删除应用软件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS 10.13 删除应用软件" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/05/05/macOS 10.13 删除应用软件/" class="article-date">
@@ -623,7 +677,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
     <div class="article-entry" itemprop="articleBody">
@@ -678,61 +732,6 @@
 
 
   
-    <article id="post-Vim 配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/Vim 配置/" class="article-date">
-      <time datetime="2018-05-05T09:00:21.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://github.com/VundleVim/Vundle.vim" target="_blank" rel="noopener">Vundle</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.vimrc</span><br><span class="line"></span><br><span class="line">set nocompatible              &quot; be iMproved, required</span><br><span class="line">filetype off                  &quot; required</span><br><span class="line"></span><br><span class="line">&quot; set the runtime path to include Vundle and initialize</span><br><span class="line">set rtp+=~/.vim/bundle/Vundle.vim</span><br><span class="line">call vundle#begin()</span><br><span class="line">&quot; alternatively, pass a path where Vundle should install plugins</span><br><span class="line">&quot;call vundle#begin(&apos;~/some/path/here&apos;)</span><br><span class="line"></span><br><span class="line">&quot; let Vundle manage Vundle, required</span><br><span class="line">Plugin &apos;VundleVim/Vundle.vim&apos;</span><br><span class="line"></span><br><span class="line">&quot; The following are examples of different formats supported.</span><br><span class="line">&quot; Keep Plugin commands between vundle#begin/end.</span><br><span class="line">&quot; plugin on GitHub repo</span><br><span class="line">Plugin &apos;tpope/vim-fugitive&apos;</span><br><span class="line">&quot; plugin from http://vim-scripts.org/vim/scripts.html</span><br><span class="line">&quot; Plugin &apos;L9&apos;</span><br><span class="line">&quot; Git plugin not hosted on GitHub</span><br><span class="line">Plugin &apos;git://git.wincent.com/command-t.git&apos;</span><br><span class="line">&quot; git repos on your local machine (i.e. when working on your own plugin)</span><br><span class="line">Plugin &apos;file:///home/gmarik/path/to/plugin&apos;</span><br><span class="line">&quot; The sparkup vim script is in a subdirectory of this repo called vim.</span><br><span class="line">&quot; Pass the path to set the runtimepath properly.</span><br><span class="line">Plugin &apos;rstacruz/sparkup&apos;, &#123;&apos;rtp&apos;: &apos;vim/&apos;&#125;</span><br><span class="line">&quot; Install L9 and avoid a Naming conflict if you&apos;ve already installed a</span><br><span class="line">&quot; different version somewhere else.</span><br><span class="line">&quot; Plugin &apos;ascenator/L9&apos;, &#123;&apos;name&apos;: &apos;newL9&apos;&#125;</span><br><span class="line"></span><br><span class="line">&quot; All of your Plugins must be added before the following line</span><br><span class="line">call vundle#end()            &quot; required</span><br><span class="line">filetype plugin indent on    &quot; required</span><br><span class="line">&quot; To ignore plugin indent changes, instead use:</span><br><span class="line">&quot;filetype plugin on</span><br><span class="line">&quot;</span><br><span class="line">&quot; Brief help</span><br><span class="line">&quot; :PluginList       - lists configured plugins</span><br><span class="line">&quot; :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate</span><br><span class="line">&quot; :PluginSearch foo - searches for foo; append `!` to refresh local cache</span><br><span class="line">&quot; :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal</span><br><span class="line">&quot;</span><br><span class="line">&quot; see :h vundle for more details or wiki for FAQ</span><br><span class="line">&quot; Put your non-Plugin stuff after this line</span><br></pre></td></tr></table></figure>
-<p>Install Plugins:</p>
-<p>Launch <code>vim</code> and run <code>:PluginInstall</code></p>
-<p>To install from command line: <code>vim +PluginInstall +qall</code></p>
-<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">“显示行号</span><br><span class="line">　　set nummber</span><br><span class="line">　　“语法高亮度显示</span><br><span class="line">　　 syntax on </span><br><span class="line">　　“下面两行在进行编写代码时，在格式对起上很有用；</span><br><span class="line">　　“第一行，vim使用自动对起，也就是把当前行的对起格式应用到下一行；</span><br><span class="line">　　“第二行，依据上面的对起格式，智能的选择对起方式，对于类似C语言编</span><br><span class="line">　　“写上很有用</span><br><span class="line">　　set autoindent</span><br><span class="line">　　set smartindent</span><br><span class="line">　　“第一行设置tab键为4个空格，第二行设置当行之间交错时使用4个空格</span><br><span class="line">　　set tabstop=4</span><br><span class="line">　　set shiftwidth=4</span><br><span class="line">　　“设置匹配模式，类似当输入一个左括号时会匹配相应的那个右括号</span><br><span class="line">　　set showmatch</span><br></pre></td></tr></table></figure>
-<h3 id="主题配色"><a href="#主题配色" class="headerlink" title="主题配色"></a>主题配色</h3><p>[vim-colors-solarized</p>
-<h3 id="Vim插件"><a href="#Vim插件" class="headerlink" title="Vim插件"></a>Vim插件</h3><p><a href="https://github.com/vim-airline/vim-airline" target="_blank" rel="noopener">vim-airline</a></p>
-<p><a href="https://github.com/scrooloose/nerdtree" target="_blank" rel="noopener"><strong>nerdtree</strong></a></p>
-<p><a href="https://github.com/Xuyuanp/nerdtree-git-plugin" target="_blank" rel="noopener">nerdtree-git-plugin</a></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/3066b3191cb1" target="_blank" rel="noopener">上古神器vim插件：你真的学会用NERDTree了吗？</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
@@ -752,8 +751,8 @@
         
             <div class="visit">
                 
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >海贼到访数: 
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">海贼到访数: 
                             <span id="busuanzi_value_site_uv"></span>
                         </span>
                     </span>
@@ -762,7 +761,7 @@
                     <span>, </span>
                 
                 
-                    <span id="busuanzi_container_page_pv" style='display:none'>
+                    <span id="busuanzi_container_page_pv" style="display:none">
                         <span id="page-visit">本页阅读量: 
                             <span id="busuanzi_value_page_pv"></span>
                         </span>

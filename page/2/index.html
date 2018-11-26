@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <title>幻舞梦境</title>
@@ -26,10 +26,10 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
      
-      <meta name="baidu-site-verification" content="3rC08I0Cp6" />
+      <meta name="baidu-site-verification" content="3rC08I0Cp6">
     
      
-      <meta name="google-site-verification" content="rn8f25RzFQoiByt8ezg9E17KZIElbIlwJ4y-EKSlWbA" />
+      <meta name="google-site-verification" content="rn8f25RzFQoiByt8ezg9E17KZIElbIlwJ4y-EKSlWbA">
     
   
   
@@ -37,7 +37,7 @@
   
   <!-- 加载特效 -->
     <script src="/js/pace.js"></script>
-    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
   <script>
       var yiliaConfig = {
           rootUrl: '/',
@@ -51,7 +51,7 @@
           open_in_new: false
       }
   </script>
-</head>
+</head></html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -210,7 +210,105 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-FastMonkey-配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Docker-InfluxDB和Grafana配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/24/Docker-InfluxDB和Grafana配置/" class="article-date">
+      <time datetime="2018-10-24T01:56:38.000Z" itemprop="datePublished">2018-10-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/24/Docker-InfluxDB和Grafana配置/">Docker InfluxDB和Grafana配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>拉取镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull samuelebistoletti/docker-statsd-influxdb-grafana:2.1.0</span><br></pre></td></tr></table></figure>
+<p>启动镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --ulimit nofile=66000:66000 \</span><br><span class="line">  -d \</span><br><span class="line">  --name docker-statsd-influxdb-grafana-2.1.0 \</span><br><span class="line">  -p 3003:3003 \</span><br><span class="line">  -p 3004:8888 \</span><br><span class="line">  -p 8086:8086 \</span><br><span class="line">  -p 22022:22 \</span><br><span class="line">  -p 8125:8125/udp \</span><br><span class="line">  samuelebistoletti/docker-statsd-influxdb-grafana:2.1.0</span><br></pre></td></tr></table></figure>
+<p>关闭启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker stop docker-statsd-influxdb-grafana</span><br><span class="line"></span><br><span class="line">docker start docker-statsd-influxdb-grafana</span><br></pre></td></tr></table></figure>
+<p>端口映射关系</p>
+<h2 id="Mapped-Ports"><a href="#Mapped-Ports" class="headerlink" title="Mapped Ports"></a>Mapped Ports</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host		Container		Service</span><br><span class="line"></span><br><span class="line">3003		3003			grafana</span><br><span class="line">3004		8888			influxdb-admin (chronograf)</span><br><span class="line">8086		8086			influxdb</span><br><span class="line">8125		8125			statsd</span><br><span class="line">22022		22              sshd</span><br></pre></td></tr></table></figure>
+<h2 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@localhost -p 22022</span><br></pre></td></tr></table></figure>
+<p>Password: root</p>
+<h2 id="Grafana"><a href="#Grafana" class="headerlink" title="Grafana"></a>Grafana</h2><p>Open <a href="http://localhost:3003/" target="_blank" rel="noopener">http://localhost:3003</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Username: root</span><br><span class="line">Password: root</span><br></pre></td></tr></table></figure>
+<h3 id="Add-data-source-on-Grafana"><a href="#Add-data-source-on-Grafana" class="headerlink" title="Add data source on Grafana"></a>Add data source on Grafana</h3><ol>
+<li>Using the wizard click on <code>Add data source</code></li>
+<li>Choose a <code>name</code> for the source and flag it as <code>Default</code></li>
+<li>Choose <code>InfluxDB</code> as <code>type</code></li>
+<li>Choose <code>direct</code> as <code>access</code></li>
+<li>Fill remaining fields as follows and click on <code>Add</code> without altering other fields</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Url: http://localhost:8086</span><br><span class="line">Database:	telegraf</span><br><span class="line">User: telegraf</span><br><span class="line">Password:	telegraf</span><br></pre></td></tr></table></figure>
+<p>Basic auth and credentials must be left unflagged. Proxy is not required.</p>
+<p>Now you are ready to add your first dashboard and launch some query on database.</p>
+<h2 id="InfluxDB"><a href="#InfluxDB" class="headerlink" title="InfluxDB"></a>InfluxDB</h2><h3 id="Web-Interface"><a href="#Web-Interface" class="headerlink" title="Web Interface"></a>Web Interface</h3><p>Open <a href="http://localhost:3004/" target="_blank" rel="noopener">http://localhost:3004</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Username: root</span><br><span class="line">Password: root</span><br><span class="line">Port: 8086</span><br></pre></td></tr></table></figure>
+<h3 id="InfluxDB-Shell-CLI"><a href="#InfluxDB-Shell-CLI" class="headerlink" title="InfluxDB Shell (CLI)"></a>InfluxDB Shell (CLI)</h3><ol>
+<li>Establish a ssh connection with the container</li>
+<li>Launch <code>influx</code> to open InfluxDB Shell (CLI)</li>
+</ol>
+<h2 id="数据收集"><a href="#数据收集" class="headerlink" title="数据收集"></a>数据收集</h2><p><strong>安装TeleGraf</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install telegraf</span><br></pre></td></tr></table></figure>
+<p><strong>设置</strong></p>
+<p>/etc/telegraf/telegraf.conf<br>修改influxdb地址，用户名及密码，设置hostname</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telegraf -config /usr/local/etc/telegraf.conf</span><br></pre></td></tr></table></figure>
+<p><strong>重启服务</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services restart telegraf</span><br></pre></td></tr></table></figure>
+<p><strong>导入Grafana Dashboard</strong></p>
+<p>下载最新版本的dashboard配置：<br><a href="https://grafana.com/dashboards/1443/revisions" target="_blank" rel="noopener">https://grafana.com/dashboards/1443/revisions</a></p>
+<p>在grafana的新建dashboard并导入配置，完成。</p>
+<p><strong>注意</strong></p>
+<p>docker内部已经启动了telegraf，如果不需要的话可以停掉，在多台服务器上安装并配置Telegraf写入同一Influxdb就可以实现对集群进行系统监控。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/samuelebistoletti/docker-statsd-influxdb-grafana" target="_blank" rel="noopener"> Docker Image with Telegraf (StatsD), InfluxDB and Grafana</a></p>
+<p><a href="http://xuqi365.com/2017/08/14/docker-grafana-influxdb-telegraf%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Docker+Grafana+Influxdb+Telegraf安装部署</a></p>
+<p><a href="https://blog.csdn.net/w958660278/article/details/80484486" target="_blank" rel="noopener">Telegraf+InfluxDB+Grafana搭建服务器监控平台</a></p>
+<p><a href="http://www.cnblogs.com/Scissors/p/5977670.html" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/Scissors/p/5977670.html" target="_blank" rel="noopener">grafana + influxdb + telegraf , 构建性能监控平台</a></a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-FastMonkey-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/10/22/FastMonkey-配置/" class="article-date">
@@ -220,7 +318,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -272,7 +370,7 @@
 
 
   
-    <article id="post-Appium-iOS-WebDriverAgent-配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Appium-iOS-WebDriverAgent-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/10/22/Appium-iOS-WebDriverAgent-配置/" class="article-date">
@@ -282,7 +380,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -362,7 +460,7 @@
 
 
   
-    <article id="post-Appium-Server-启动log分析" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Appium-Server-启动log分析" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/10/22/Appium-Server-启动log分析/" class="article-date">
@@ -372,7 +470,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -424,7 +522,7 @@
 
 
   
-    <article id="post-Docker-运行ELK" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Docker-运行ELK" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/10/19/Docker-运行ELK/" class="article-date">
@@ -434,7 +532,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -481,7 +579,7 @@
 
 
   
-    <article id="post-macOS-pip-配置-supervisor" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS-pip-配置-supervisor" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/10/17/macOS-pip-配置-supervisor/" class="article-date">
@@ -491,7 +589,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -544,7 +642,7 @@
 
 
   
-    <article id="post-macOS-配置-Macaca" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS-配置-Macaca" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/10/15/macOS-配置-Macaca/" class="article-date">
@@ -554,7 +652,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -650,7 +748,7 @@
 
 
   
-    <article id="post-macOS-配置Tomcat" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-macOS-配置Tomcat" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/10/15/macOS-配置Tomcat/" class="article-date">
@@ -660,7 +758,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -713,7 +811,7 @@
 
 
   
-    <article id="post-ffmpeg-使用方法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ffmpeg-使用方法" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/10/14/ffmpeg-使用方法/" class="article-date">
@@ -723,7 +821,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -773,7 +871,7 @@
 
 
   
-    <article id="post-在Pypi上发布自己的Python包" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-在Pypi上发布自己的Python包" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/10/14/在Pypi上发布自己的Python包/" class="article-date">
@@ -783,7 +881,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -837,66 +935,6 @@
 
 
   
-    <article id="post-Maven-配置-Selenium-testNG-reportNG-运行环境" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/12/Maven-配置-Selenium-testNG-reportNG-运行环境/" class="article-date">
-      <time datetime="2018-10-12T02:23:34.000Z" itemprop="datePublished">2018-10-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/12/Maven-配置-Selenium-testNG-reportNG-运行环境/">Maven 配置 Selenium + testNG + reportNG 运行环境</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- maven 参数配置，这里引用不同的testng.xml --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">xmlFileName</span>&gt;</span>testng.xml<span class="tag">&lt;/<span class="name">xmlFileName</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- maven 引用依赖不同的jar --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖testNg --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.testng<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>testng<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.9.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖reportNg 关联testNg --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.uncommons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>reportng<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.testng<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>testng<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖Guice --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.inject<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>guice<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖Selenium驱动包 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.seleniumhq.selenium<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>selenium-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.52.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">           <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">           scope标签中对应值的解释：</span></span><br><span class="line"><span class="comment">               * compile，缺省值，适用于所有阶段，会随着项目一起发布。</span></span><br><span class="line"><span class="comment">               * provided，类似 compile，期望 JDK、容器或使用者会提供这个依赖。如 servlet.jar。</span></span><br><span class="line"><span class="comment">               * runtime，只在运行时使用，如 JDBC 驱动，适用运行和测试阶段。</span></span><br><span class="line"><span class="comment">               * test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。</span></span><br><span class="line"><span class="comment">               * system，类似 provided，需要显式提供包含依赖的 jar， Maven 不会在 Repository 中查找它。</span></span><br><span class="line"><span class="comment">            --&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">           <span class="comment">&lt;!-- 添加插件 关联testNg.xml --&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">suiteXmlFiles</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">suiteXmlFile</span>&gt;</span>res/$&#123;xmlFileName&#125;<span class="tag">&lt;/<span class="name">suiteXmlFile</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">suiteXmlFiles</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="comment">&lt;!-- 添加插件,添加ReportNg的监听器，修改最后的TestNg的报告 --&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">name</span>&gt;</span>usedefaultlisteners<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">name</span>&gt;</span>listener<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.uncommons.reportng.HTMLReporter<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">workingDirectory</span>&gt;</span>target/<span class="tag">&lt;/<span class="name">workingDirectory</span>&gt;</span></span><br><span class="line">                   <span class="comment">&lt;!-- &lt;forkMode&gt;always&lt;/forkMode&gt; --&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【注意：】上面配置如果报错，需要在项目下新建一个目录&quot;res/testng.xml&quot;，他会去这个目录读取指定的XML</span><br></pre></td></tr></table></figure>
-<p>testng.xml配置如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">suite</span> <span class="attr">name</span>=<span class="string">"Default suite"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">test</span> <span class="attr">verbose</span>=<span class="string">"2"</span> <span class="attr">name</span>=<span class="string">"Default test"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">classes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">"com.jase.test.BaiduTest"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">classes</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">test</span>&gt;</span> <span class="comment">&lt;!-- Default test --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">suite</span>&gt;</span> <span class="comment">&lt;!-- Default suite --&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/yyhh/p/5226955.html" target="_blank" rel="noopener">Maven 配置 Selenium + testNG + reportNG 运行环境 - ﹏猴子请来的救兵 - 博客园</a></p>
-<p><a href="https://www.jianshu.com/p/f76d04de982b" target="_blank" rel="noopener">一、搭建TestNG+Maven+IDEA接口测试环境 - 简书</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -916,8 +954,8 @@
         
             <div class="visit">
                 
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >海贼到访数: 
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">海贼到访数: 
                             <span id="busuanzi_value_site_uv"></span>
                         </span>
                     </span>
@@ -926,7 +964,7 @@
                     <span>, </span>
                 
                 
-                    <span id="busuanzi_container_page_pv" style='display:none'>
+                    <span id="busuanzi_container_page_pv" style="display:none">
                         <span id="page-visit">本页阅读量: 
                             <span id="busuanzi_value_page_pv"></span>
                         </span>
