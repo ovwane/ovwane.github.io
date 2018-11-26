@@ -2,20 +2,27 @@ language: node_js
 
 sudo: false
 
+env:
+    global:
+      - TZ=Asia/Shanghai
+
+git:
+  depth: false
+  submodules: false
+
 cache:
   apt: true
   directories:
   - node_modules
 
 node_js:
-  - 8.11.3
+  - 8.13.0
 
 branches:
   only:
   - hexo
 
 before_install:
-- export TZ='Asia/Shanghai'
 - openssl aes-256-cbc -K $encrypted_40dbd9c24c4f_key -iv $encrypted_40dbd9c24c4f_iv
   -in .travis/hexo_rsa.enc -out ~/.ssh/hexo_rsa -d
 - chmod 600 ~/.ssh/hexo_rsa
@@ -29,13 +36,12 @@ install:
 - npm install hexo-cli -g
 - npm install hexo-deployer-git --save
 - npm install
+- git submodule update --recursive --remote --init
 - git clone https://github.com/ovwane/ovwane.github.io .deploy_git
 - cd .deploy_git && git checkout master
 - cd ..
 
 script:
-- git submodule init      # 用于更新主题,更新源为自己的主题项目。
-- git submodule update
 - hexo clean
 - hexo generate
 - hexo deploy
