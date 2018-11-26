@@ -206,445 +206,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Docker-运行Jira" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/05/Docker-运行Jira/" class="article-date">
-      <time datetime="2018-09-05T20:29:49.000Z" itemprop="datePublished">2018-09-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/05/Docker-运行Jira/">Docker 运行Jira</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><strong>生产环境数据库</strong><br>不要着急，如果是正式部署在生产环境上的，如果使用内置数据库，总感觉有点不保险，JIRA也建议如果部署在生产环境上的话，直接使用外部数据库，因此我们只需要在docker容器上启动一个数据库即可：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 3306:3306 \</span><br><span class="line">-v /data/docker/mysql/logs:/logs -v /data/docker/mysql/data:/mysql_data \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=root \</span><br><span class="line">-e MYSQL_DATABASE=jira \</span><br><span class="line">-e MYSQL_USER=jira \</span><br><span class="line">-e MYSQL_PASSWORD=jira \</span><br><span class="line">--name jira-mysql \</span><br><span class="line">-d mysql:5.6 \</span><br><span class="line">--character-set-server=utf8mb4 \</span><br><span class="line">--collation-server=utf8mb4_bin</span><br></pre></td></tr></table></figure>
-<h4 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/cptactionhank/docker-atlassian-jira.git</span><br><span class="line"></span><br><span class="line">cd docker-atlassian-jira</span><br></pre></td></tr></table></figure>
-<p>Dockerfile</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Configuration variables.</span></span><br><span class="line"><span class="keyword">ENV</span> JIRA_HOME     /var/atlassian/jira</span><br><span class="line"><span class="keyword">ENV</span> JIRA_INSTALL  /opt/atlassian/jira</span><br><span class="line"><span class="keyword">ENV</span> JIRA_VERSION  <span class="number">7.12</span>.<span class="number">1</span></span><br><span class="line"><span class="comment"># 定义临时文件夹，用于存放上传的文件</span></span><br><span class="line"><span class="keyword">ENV</span> TEMP_PATH     /temp/jira</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备JIRA的安装工作</span></span><br><span class="line"><span class="comment"># 1. 创建/temp/jira临时目录</span></span><br><span class="line"><span class="comment"># 2. 将需要的文件上传到临时文件，有破解文件和JIRA的安装包等等</span></span><br><span class="line"><span class="comment"># 3. 将sources.list.163文件上传，用于替换成163源</span></span><br><span class="line"><span class="comment"># To Ready JIRA</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /temp &amp;&amp; mkdir /temp/jira</span></span><br><span class="line"><span class="bash">COPY mysql-connector-java-5.1.42-bin.jar         /temp/jira/mysql-connector-java-5.1.42-bin.jar</span></span><br><span class="line"><span class="bash">COPY postgresql-42.2.1.jar                    /temp/jira/postgresql-42.2.1.jar</span></span><br><span class="line"><span class="bash">COPY atlassian-extras-3.2.jar                    /temp/jira/atlassian-extras-3.2.jar</span></span><br><span class="line"><span class="bash">COPY atlassian-jira-software-<span class="variable">$&#123;JIRA_VERSION&#125;</span>.tar.gz        /temp/jira/atlassian-jira-software-<span class="variable">$&#123;JIRA_VERSION&#125;</span>.tar.gz</span></span><br><span class="line"><span class="bash">COPY 163.com.sources.list                           /temp/jira/163.com.sources.list</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># 安装JIRA的运行命令，主要做了以下工作：</span></span></span><br><span class="line"><span class="bash"><span class="comment"># 1. 将debain的原始源替换成国内的163源</span></span></span><br><span class="line"><span class="bash"><span class="comment"># 2. 将下载获取JIRA更换为上传JIRA的源码包，因为下载JIRA的速度实在有点感人</span></span></span><br><span class="line"><span class="bash"><span class="comment"># Install Atlassian JIRA and helper tools and setup initial home</span></span></span><br><span class="line"><span class="bash"><span class="comment"># directory structure.</span></span></span><br><span class="line"><span class="bash">RUN <span class="built_in">set</span> -x \</span></span><br><span class="line"><span class="bash">    &amp;&amp; mv                      /etc/apt/sources.list /etc/apt/sources.list.back \</span></span><br><span class="line"><span class="bash">    &amp;&amp; cp                      <span class="string">"<span class="variable">$&#123;TEMP_PATH&#125;</span>/163.com.sources.list"</span> /etc/apt/sources.list \</span></span><br><span class="line"><span class="bash">    <span class="comment"># &amp;&amp; echo "deb http://mirrors.163.com/debian jessie-backports main" &gt; /etc/apt/sources.list.d/jessie-backports.list \</span></span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get update --quiet \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get install --quiet --yes --no-install-recommends xmlstarlet \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get install --quiet --yes --no-install-recommends -t jessie-backports libtcnative-1 \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get clean \</span></span><br><span class="line"><span class="bash">    &amp;&amp; mkdir -p                <span class="string">"<span class="variable">$&#123;JIRA_HOME&#125;</span>"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; mkdir -p                <span class="string">"<span class="variable">$&#123;JIRA_HOME&#125;</span>/caches/indexes"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chmod -R 700            <span class="string">"<span class="variable">$&#123;JIRA_HOME&#125;</span>"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chown -R daemon:daemon  <span class="string">"<span class="variable">$&#123;JIRA_HOME&#125;</span>"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; mkdir -p                <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/conf/Catalina"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; cp                      <span class="string">"<span class="variable">$&#123;TEMP_PATH&#125;</span>/atlassian-jira-software-<span class="variable">$&#123;JIRA_VERSION&#125;</span>.tar.gz"</span> <span class="string">"./atlassian-jira-software-<span class="variable">$&#123;JIRA_VERSION&#125;</span>.tar.gz"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; tar -zxvf               <span class="string">"./atlassian-jira-software-<span class="variable">$&#123;JIRA_VERSION&#125;</span>.tar.gz"</span> --directory <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>"</span> --strip-components=1 --no-same-owner \</span></span><br><span class="line"><span class="bash">    &amp;&amp; cp                      <span class="string">"<span class="variable">$&#123;TEMP_PATH&#125;</span>/mysql-connector-java-5.1.42-bin.jar"</span> <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/lib/mysql-connector-java-5.1.42-bin.jar"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; rm -f                   <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/lib/postgresql-9.1-903.jdbc4-atlassian-hosted.jar"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; cp                      <span class="string">"<span class="variable">$&#123;TEMP_PATH&#125;</span>/postgresql-42.2.1.jar"</span> <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/lib/postgresql-42.2.1.jar"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chmod -R 700            <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/conf"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chmod -R 700            <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/logs"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chmod -R 700            <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/temp"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chmod -R 700            <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/work"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chown -R daemon:daemon  <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/conf"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chown -R daemon:daemon  <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/logs"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chown -R daemon:daemon  <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/temp"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; chown -R daemon:daemon  <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/work"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; sed --<span class="keyword">in</span>-place          <span class="string">"s/java version/openjdk version/g"</span> <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/bin/check-java.sh"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; <span class="built_in">echo</span> -e                 <span class="string">"\njira.home=<span class="variable">$JIRA_HOME</span>"</span> &gt;&gt; <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/atlassian-jira/WEB-INF/classes/jira-application.properties"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; touch -d <span class="string">"@0"</span>           <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/conf/server.xml"</span></span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># 使用补丁包替换掉原来的JAR包</span></span></span><br><span class="line"><span class="bash"><span class="comment"># Hack</span></span></span><br><span class="line"><span class="bash">RUN <span class="built_in">set</span> -x \</span></span><br><span class="line"><span class="bash">    &amp;&amp; rm -rf                  <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/atlassian-jira/WEB-INF/lib/atlassian-extras-3.2.jar"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; cp                      <span class="string">"<span class="variable">$&#123;TEMP_PATH&#125;</span>/atlassian-extras-3.2.jar"</span> <span class="string">"<span class="variable">$&#123;JIRA_INSTALL&#125;</span>/atlassian-jira/WEB-INF/lib/atlassian-extras-3.2.jar"</span></span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># Use the default unprivileged account. This could be considered bad practice</span></span></span><br><span class="line"><span class="bash"><span class="comment"># on systems where multiple processes end up being executed by 'daemon' but</span></span></span><br><span class="line"><span class="bash"><span class="comment"># here we only ever run one process anyway.</span></span></span><br><span class="line"><span class="bash">USER daemon:daemon</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># Expose default HTTP connector port.</span></span></span><br><span class="line"><span class="bash">EXPOSE 8080</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># Set volume mount points for installation and home directory. Changes to the</span></span></span><br><span class="line"><span class="bash"><span class="comment"># home directory needs to be persisted as well as parts of the installation</span></span></span><br><span class="line"><span class="bash"><span class="comment"># directory due to eg. logs.</span></span></span><br><span class="line"><span class="bash">VOLUME [<span class="string">"/var/atlassian/jira"</span>, <span class="string">"/opt/atlassian/jira/logs"</span>]</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># Set the default working directory as the installation directory.</span></span></span><br><span class="line"><span class="bash">WORKDIR /var/atlassian/jira</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">COPY <span class="string">"docker-entrypoint.sh"</span> <span class="string">"/"</span></span></span><br><span class="line"><span class="bash">ENTRYPOINT [<span class="string">"/docker-entrypoint.sh"</span>]</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># Run Atlassian JIRA as a foreground process by default.</span></span></span><br><span class="line"><span class="bash">CMD [<span class="string">"/opt/atlassian/jira/bin/start-jira.sh"</span>, <span class="string">"-fg"</span>]</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t atlassian/jira:7.12.1 .</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R 2:2 /data/docker/jira</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8088:8080 -v /data/docker/jira:/var/atlassian/jira -d --name jira-7.12.1 atlassian/jira:7.12.1</span><br></pre></td></tr></table></figure>
-<p><strong>破解jira</strong></p>
-<p>先关闭jira，然后把破解包里面的atlassian-extras-3.2.jar和mysql-connector-java- 5.1.42-bin.jar两个文件复制到/usr/local/atlassian/jira/atlassian-jira/WEB-INF/lib/目录下。</p>
-<p>其中atlassian-extras-3.2.jar是用来替换原来的atlassian-extras-3.1.2.jar文件，用作破解jira系统的。</p>
-<p>而mysql-connector-java- 5.1.42-bin.jar是用来连接mysql数据库的驱动软件包。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/atlassian/jira/atlassian-jira/WEB-INF/lib/</span><br></pre></td></tr></table></figure>
-<p><strong>JIRA Software (Server): Evaluation</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AAABdQ0ODAoPeNp9kU9vgkAQxe98CpJe2sMSIG2tJiS1sDU0CEZsbZpetjjqNrKQ2QXrty8CjVr/H</span><br><span class="line">Iflzfu9N1dTmOkx5Lp5p9tWz+72TFN3vYlum9aDtkAAsczyHNAIeAJCAp1xxTPh0HBCx6OxH1MtL</span><br><span class="line">NIvwGj+KgGlQyzNzYRiiQpZCk5WrpmAx0XK+MpIslT75siMI8mowGTJJHhMgbP1JmaXmPda6zrZ5</span><br><span class="line">FCvc6PhkI5dvx/8PdGfnONmp7PMra5FoMPK9pghBiwBfc95eh6MyAcdDEg4jfskCN+jBjDHbFYky</span><br><span class="line">tgORGZztWYIRrWRl+AoLKD57XwpJ6o7FaLiEwoEE8mZIBdojkpsfapcge/FNCSBZdudjt251arJO</span><br><span class="line">fxyYXGsGCpAZ85WErQIF0xwyeqER1W6CPXL/8OtGpa3Cm2rsw8KgSoz5shl26UHMkGe1w4v/rivx</span><br><span class="line">y2Kft2c6uazp9OSrYraq2E/d4xTNe+b7+t2O5v5F6LlDH4wLAIUCfrbZmVmXsLs8QU/ckLP/eLCD</span><br><span class="line">JsCFCRRqQYfO2gW3mlydfYyj5FIcjiYX02i6</span><br></pre></td></tr></table></figure>
-<p><strong>JIRA Core (Server): Evaluation</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">AAABVQ0ODAoPeNp1kdtOg0AQhu95ChJv9GIbDtYekk2ssIkYSitUmxhv1u1U18BClgXt27tAm1axl</span><br><span class="line">3P65/tnLtawMRMoTGtoOtbUcafuyPT8lQ7ssRFV2RvIxfapBFliZBteLhRlKqIZ4Lz+ogJu3zPK0</span><br><span class="line">wHLM+OTSzooZL6pmBo0AWK5hEFPpO3rZZeVZB+0BJ8qwM12ZE2QdWOEnIEoYbUroF3rLeZzEnvBL</span><br><span class="line">DyUyHfB5e44Z1vN3B6VzDVenzUBWYMMfHx3P3tEy3A4RC8TN0HX8To+ZyRRVCqQeEvTErqmA8GGK</span><br><span class="line">54LTKIViZdxkJBzGpqI14CVrMDQZEKBoIKdsbBX15Rh4CckQqHtOKORNXYNHeHfmYV8p4KXtAXp+</span><br><span class="line">fUktJW/1027Fc/6Cc2cY/hQMsmLVuUhiGemp7HNy+5eV69Tk9Q0rVqtzuOpo9Ob/Pew42zX/wNzj</span><br><span class="line">NUrMCwCFEEnmeijjMtt7NE0TXO1VXvHnosCAhRApci+OpA4MTtE0d/t7LAIH4gmkw==X02gs</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.ilanni.com/?p=12119" target="_blank" rel="noopener"><a href="https://www.ilanni.com/?p=12119" target="_blank" rel="noopener">烂泥：jira7.3/7.2安装、中文及破解(20170829更新)</a></a></p>
-<p><a href="http://www.llbee.com/?p=609" target="_blank" rel="noopener">CentOS_7_Jira7.4.1安装部署_及破解</a></p>
-<p><a href="https://xuqiang.me/Docker-JIRA-7-3-8-%E7%A0%B4%E8%A7%A3%E9%83%A8%E7%BD%B2.html" target="_blank" rel="noopener">Docker JIRA 7.3.8 破解部署</a></p>
-<p><a href="http://xumf.net/blog/docker+centos7+jira7.3/" target="_blank" rel="noopener">Docker+centos7+jira7.3.6+postgre Sql破解搭建</a></p>
-<p><a href="https://www.jianshu.com/p/b48eb3297dee" target="_blank" rel="noopener">docker入门到实战(5)安装mysql容器</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Let-s-Encrypt-泛域名证书申请" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/02/Let-s-Encrypt-泛域名证书申请/" class="article-date">
-      <time datetime="2018-09-02T00:37:47.000Z" itemprop="datePublished">2018-09-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/02/Let-s-Encrypt-泛域名证书申请/">Let&#39;s Encrypt 泛域名证书申请</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --issue --dns dns_he --keylength 4096 -d *.xxx.com -d xxx.com</span><br></pre></td></tr></table></figure>
-<p>nginx配置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssl_certificate     fullchain.cer;</span><br><span class="line">ssl_certificate_key xxx.com.key;</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-运行Jenkins" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/02/Docker-运行Jenkins/" class="article-date">
-      <time datetime="2018-09-02T00:01:28.000Z" itemprop="datePublished">2018-09-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/02/Docker-运行Jenkins/">Docker 运行Jenkins</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins/jenkins:2.138.2</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">jenkins启动用户id 1000</span></span><br><span class="line">chown -R 1000:1000 /data/jenkins</span><br><span class="line"></span><br><span class="line">docker run --network=sonar_sonarnet -p 8810:8080 -p 50000:50000 -v ~/docker/jenkins:/var/jenkins_home -d --name jenkins-2.138.2 jenkins/jenkins:2.138.2</span><br></pre></td></tr></table></figure>
-<p>nginx反向代理</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">listen</span>               <span class="number">443</span> ssl;</span><br><span class="line"></span><br><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto https;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_redirect</span> http:// https://;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">add_header</span> Pragma <span class="string">"no-cache"</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:8080;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p><strong>插件</strong></p>
-<p>Git</p>
-<p>Email Extension</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/3671eb8de971" target="_blank" rel="noopener">docker运行jenkins</a></p>
-<p><a href="https://gist.github.com/rdegges/913102" target="_blank" rel="noopener">Create a HTTP proxy for jenkins using NGINX.</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Vim-配置vim-plug" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/01/Vim-配置vim-plug/" class="article-date">
-      <time datetime="2018-09-01T20:48:13.000Z" itemprop="datePublished">2018-09-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/01/Vim-配置vim-plug/">Vim 配置vim-plug</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="安装vim"><a href="#安装vim" class="headerlink" title="安装vim"></a>安装vim</h2><p>1.检查vim旧版本，若已存在，将其卸载。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vim</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> yum remove vim* -y</span></span><br></pre></td></tr></table></figure>
-<p>2.安装终端字符处理库nucrses</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> yum install ncurses-devel -y</span></span><br></pre></td></tr></table></figure>
-<p>编译安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget https://codeload.github.com/vim/vim/tar.gz/v8.0.0134</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> tar zxf v8.0.0134</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> vim-8.0.0134/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./configure --prefix=/usr/<span class="built_in">local</span>/vim8</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> make &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> $?</span></span><br></pre></td></tr></table></figure>
-<p>安装成功后，通过/usr/local/vim8/bin/vim运行vim命令。将vim命令路径添加到系统PATH环境变量，就可以直接运行vim了。本文不修改/etc/profile文件，通过添加脚本到/etc/profile.d/实现。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/vim8/bin/vim /etc/profile.d/path.sh</span><br><span class="line">添加以下内容：</span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">export PATH=$PATH:/usr/local/vim8/bin/</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> /etc/profile.d/path.sh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim</span></span><br></pre></td></tr></table></figure>
-<h2 id="vim-plug"><a href="#vim-plug" class="headerlink" title="vim-plug"></a><a href="https://github.com/junegunn/vim-plug" target="_blank" rel="noopener">vim-plug</a></h2><p>安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fLo ~/.vim/autoload/plug.vim --create-dirs \</span><br><span class="line">    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim</span><br></pre></td></tr></table></figure>
-<p>配置</p>
-<p>.vimrc</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; ~/.vimrc &lt;&lt;EOF</span><br><span class="line">" Specify a directory for plugins</span><br><span class="line">" - For Neovim: ~/.local/share/nvim/plugged</span><br><span class="line">" - Avoid using standard Vim directory names like 'plugin'</span><br><span class="line">call plug#begin('~/.vim/plugged')</span><br><span class="line"></span><br><span class="line">" Make sure you use single quotes</span><br><span class="line"></span><br><span class="line">" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align</span><br><span class="line">" Plug 'junegunn/vim-easy-align'</span><br><span class="line"></span><br><span class="line">" Any valid git URL is allowed</span><br><span class="line">" Plug 'https://github.com/junegunn/vim-github-dashboard.git'</span><br><span class="line"></span><br><span class="line">" Multiple Plug commands can be written in a single line using | separators</span><br><span class="line">" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'</span><br><span class="line"></span><br><span class="line">" On-demand loading</span><br><span class="line">" Plug 'scrooloose/nerdtree', &#123; 'on':  'NERDTreeToggle' &#125;</span><br><span class="line">" Plug 'tpope/vim-fireplace', &#123; 'for': 'clojure' &#125;</span><br><span class="line"></span><br><span class="line">" Using a non-master branch</span><br><span class="line">" Plug 'rdnetto/YCM-Generator', &#123; 'branch': 'stable' &#125;</span><br><span class="line"></span><br><span class="line">" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)</span><br><span class="line">Plug 'fatih/vim-go'  ", &#123; 'tag': '*' &#125;</span><br><span class="line"></span><br><span class="line">""</span><br><span class="line">Plug 'vim-airline/vim-airline'</span><br><span class="line">Plug 'vim-airline/vim-airline-themes'</span><br><span class="line"></span><br><span class="line">" Plugin options</span><br><span class="line">" Plug 'nsf/gocode', &#123; 'tag': 'v.20150303', 'rtp': 'vim' &#125;</span><br><span class="line"></span><br><span class="line">" Plugin outside ~/.vim/plugged with post-update hook</span><br><span class="line">" Plug 'junegunn/fzf', &#123; 'dir': '~/.fzf', 'do': './install --all' &#125;</span><br><span class="line"></span><br><span class="line">" Unmanaged plugin (manually installed and updated)</span><br><span class="line">" Plug '~/my-prototype-plugin'</span><br><span class="line"></span><br><span class="line">" Initialize plugin system</span><br><span class="line">call plug#end()</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<p>安装插件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim esc模式下</span><br><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/vim-airline/vim-airline" target="_blank" rel="noopener">vim-airline</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/dinglinuX/article/details/53908313" target="_blank" rel="noopener">编译安装vim-8.0 (centos)</a></p>
-<p><a href="https://vimzijun.net/2016/09/21/vim-plug/" target="_blank" rel="noopener">vim 入坑指南（五）插件 Vim-Plug</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker运行MariaDB" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/01/Docker运行MariaDB/" class="article-date">
-      <time datetime="2018-09-01T11:25:39.000Z" itemprop="datePublished">2018-09-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/01/Docker运行MariaDB/">Docker运行MariaDB</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull mariadb:10.3.9</span><br><span class="line"></span><br><span class="line">docker run -p 3306:3306 -v ~/docker/mariadb:/var/lib/mysql -e TIMEZONE=Asis/Shanghai -e MYSQL_ROOT_PASSWORD=root -e SERVER_ID=1 --name mariadb-10.3.9 -d mariadb:10.3.9</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.centos.bz/2017/07/docker-install-mariadb/" target="_blank" rel="noopener">docker安装配置Mariadb数据库</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker运行Redis" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/01/Docker运行Redis/" class="article-date">
-      <time datetime="2018-09-01T11:21:44.000Z" itemprop="datePublished">2018-09-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/01/Docker运行Redis/">Docker运行Redis</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull redis:4.0.11</span><br><span class="line"></span><br><span class="line">docker run -p 6379:6379 -v ~/docker/redis/:/data  --name redis-4.0.11 -d redis:4.0.11</span><br></pre></td></tr></table></figure>
-<p><strong>客户端</strong></p>
-<p>macOS 客户端 Redis Desktop Manager](<a href="http://docs.redisdesktop.com/en/0.9/)编译" target="_blank" rel="noopener">http://docs.redisdesktop.com/en/0.9/)编译</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">未测试</span></span><br><span class="line">git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.9 rdm &amp;&amp; cd ./rdm</span><br><span class="line"></span><br><span class="line">Install XCode with Xcode build tools</span><br><span class="line"></span><br><span class="line">Install Homebrew</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Copy </span></span><br><span class="line">cd ./src &amp;&amp; cp ./resources/Info.plist.sample ./resources/Info.plist</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Building RDM dependencies require i.a. openssl and cmake. Install them: </span></span><br><span class="line">brew install openssl cmake</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Build RDM dependencies </span></span><br><span class="line">./configure</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Install Qt 5.9. Add Qt Creator and under Qt 5.9.x add Qt Charts module.</span></span><br><span class="line">Open ./src/rdm.pro in Qt Creator</span><br><span class="line"></span><br><span class="line">Run build</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/fd64464e23d9" target="_blank" rel="noopener">CentOS7+Docker+Redis配置</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker运行MongoDB" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/01/Docker运行MongoDB/" class="article-date">
-      <time datetime="2018-09-01T11:13:13.000Z" itemprop="datePublished">2018-09-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/01/Docker运行MongoDB/">Docker运行MongoDB</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>创建并运行MongoDB镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull mongo:4.1.2</span><br><span class="line"></span><br><span class="line">docker run -p 27017:27017 -v ~/docker/mongodb:/data/db --name mongodb-4.1.2 -d mongo:4.1.2</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/6fdb2bcb4b43" target="_blank" rel="noopener">Docker MongoDB 部署</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-tmux-安装使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -851,6 +412,511 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./frpc -c ./frpc.ini &amp;</span><br></pre></td></tr></table></figure>
 <p>这样就成功让frp在后台运行了。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.sunnyrx.com/2016/10/21/simple-to-use-frp/" target="_blank" rel="noopener">使用frp实现内网穿透 群晖NAS+frp发挥更大作用</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-crawl_spider 环境配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/crawl_spider 环境配置/" class="article-date">
+      <time datetime="2018-08-08T20:37:33.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><code>mkvirtualenv crawl_spider --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</code></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Debian8安装Shadowsock和moeSS" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Debian8安装Shadowsock和moeSS/" class="article-date">
+      <time datetime="2018-08-08T20:37:00.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y git</span><br></pre></td></tr></table></figure>
+<h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone -b manyuser https://github.com/mengskysama/shadowsocks.git</span><br><span class="line">git clone https://github.com/wzxjohn/moeSS.git</span><br></pre></td></tr></table></figure>
+<h3 id="配置LAMP环境"><a href="#配置LAMP环境" class="headerlink" title="配置LAMP环境"></a>配置LAMP环境</h3><p>http2.4<br>php5.4+<br>mysql5.6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#安装apache httpd web服务</span><br><span class="line">apt-get install -y apache2</span><br><span class="line"></span><br><span class="line">#设置开机自启动</span><br><span class="line">systemctl enable apache2</span><br><span class="line">#启动应用</span><br><span class="line">systemctl start apache2</span><br><span class="line"></span><br><span class="line">#开启rewrite功能</span><br><span class="line">a2enmod rewrite</span><br><span class="line">systemctl restart apache2</span><br></pre></td></tr></table></figure>
+<p>修改配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/apache2/apache2.conf</span><br><span class="line">/var/www/html/ #此路径为web服务器存放网页的地方。</span><br><span class="line">AllowOverride All #开启rewrite所有</span><br></pre></td></tr></table></figure>
+<h3 id="安装mysql数据库"><a href="#安装mysql数据库" class="headerlink" title="安装mysql数据库"></a>安装mysql数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y mysql-server</span><br><span class="line"></span><br><span class="line">#开机自启动</span><br><span class="line">systemctl enable mysql</span><br><span class="line">systemctl start mysql</span><br><span class="line"></span><br><span class="line">#新建数据库 shaodowsocks</span><br><span class="line">create database shadowsocks;</span><br><span class="line">#导入数据库结构表。</span><br><span class="line">mysql -uroot -p shadowsocks &lt;shadowsocks.sql</span><br></pre></td></tr></table></figure>
+<h3 id="安装php和php插件"><a href="#安装php和php插件" class="headerlink" title="安装php和php插件"></a>安装php和php插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get -y install php5 libapache2-mod-php5 php5-mysql php5-mysqlnd php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl</span><br><span class="line"></span><br><span class="line">#重启web服务</span><br><span class="line">systemctl restart apache2</span><br></pre></td></tr></table></figure>
+<h3 id="安装shadowsocks-插件"><a href="#安装shadowsocks-插件" class="headerlink" title="安装shadowsocks 插件"></a>安装shadowsocks 插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#安装pip工具，</span><br><span class="line">apt-get install -y python-pip python-m2crypto</span><br><span class="line"></span><br><span class="line">#安装python数据库支持</span><br><span class="line">pip install cymysql</span><br><span class="line"></span><br><span class="line">#运行shadowsocks</span><br><span class="line">cd shadowsocks </span><br><span class="line">nohup python server.py &amp;</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-distribute_crawler项目实战" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/distribute_crawler项目实战/" class="article-date">
+      <time datetime="2018-08-08T20:36:49.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://blog.csdn.net/u011008734/article/details/47259197" target="_blank" rel="noopener">distribute_crawler项目实战</a><br><a href="https://github.com/aware-why/distribute_crawler" target="_blank" rel="noopener">distribute_crawler</a></p>
+<p>Python编译依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y zlib1g-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev</span><br></pre></td></tr></table></figure>
+<p>配置 pyenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br><span class="line"></span><br><span class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line">echo -e &apos;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&apos; &gt;&gt; ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.3</span><br><span class="line">pyenv global 3.6.3</span><br></pre></td></tr></table></figure>
+<p>更改pypi源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd project</span><br><span class="line">pipenv install </span><br><span class="line">pip install scrapy redis pymongo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y redis-server</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6</span><br><span class="line"></span><br><span class="line">echo &quot;deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse&quot; | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list</span><br><span class="line"></span><br><span class="line">apt-get update</span><br><span class="line"></span><br><span class="line">apt-get install -y mongodb-org</span><br><span class="line"></span><br><span class="line">systemctl enable mongod</span><br><span class="line"></span><br><span class="line">systemctl start mongod</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y apache2 libapache2-mod-wsgi \</span><br><span class="line">python-twisted python-cairo python-django-tagging</span><br><span class="line"></span><br><span class="line">pip install Django==1.5.2 tagging carbon whisper graphite-web parse_lookup</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-docker" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/docker/" class="article-date">
+      <time datetime="2018-08-08T20:36:41.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p><a href="https://yq.aliyun.com/articles/110806" target="_blank" rel="noopener">Docker CE 镜像源站-阿里云</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># step 1: 安装必要的一些系统工具</span></span><br><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2 firewalld</span><br><span class="line"><span class="comment"># Step 2: 添加软件源信息</span></span><br><span class="line">sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"><span class="comment"># Step 3: 更新并安装 Docker-CE</span></span><br><span class="line">sudo yum makecache fast</span><br><span class="line">sudo yum -y install docker-ce</span><br><span class="line"><span class="comment"># Step 4: 开启Docker服务</span></span><br><span class="line">sudo service docker start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意：</span></span><br><span class="line"><span class="comment"># Step 1: 查找Docker-CE的版本:</span></span><br><span class="line"><span class="comment"># yum list docker-ce.x86_64 --showduplicates | sort -r</span></span><br><span class="line"><span class="comment">#   Loading mirror speeds from cached hostfile</span></span><br><span class="line"><span class="comment">#   Loaded plugins: branch, fastestmirror, langpacks</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.1.ce-1.el7.centos            docker-ce-stable</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.1.ce-1.el7.centos            @docker-ce-stable</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.0.ce-1.el7.centos            docker-ce-stable</span></span><br><span class="line"><span class="comment">#   Available Packages</span></span><br><span class="line"><span class="comment"># Step2 : 安装指定版本的Docker-CE: (VERSION 例如上面的 17.03.0.ce.1-1.el7.centos)</span></span><br><span class="line"><span class="comment"># sudo yum -y install docker-ce-[VERSION]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable docker.service</span><br><span class="line">systemctl start docker.service</span><br><span class="line">systemctl status docker.service</span><br></pre></td></tr></table></figure>
+<p>/usr/lib/systemd/system/docker.service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Docker Application Container Engine</span><br><span class="line">Documentation=https://docs.docker.com</span><br><span class="line">After=network-online.target firewalld.service</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">NotifyAccess=all</span><br><span class="line"># the default is not to use systemd for cgroups because the delegate issues still</span><br><span class="line"># exists and systemd currently does not support the cgroup feature set required</span><br><span class="line"># for containers run by docker</span><br><span class="line">EnvironmentFile=-/run/flannel/docker</span><br><span class="line">EnvironmentFile=-/run/docker_opts.env</span><br><span class="line">EnvironmentFile=-/run/flannel/subnet.env</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-storage</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-network</span><br><span class="line">EnvironmentFile=-/run/docker_opts.env</span><br><span class="line">Environment=GOTRACEBACK=crash</span><br><span class="line">Environment=DOCKER_HTTP_HOST_COMPAT=1</span><br><span class="line">Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin</span><br><span class="line">ExecStart=/usr/bin/dockerd \</span><br><span class="line">          --exec-opt native.cgroupdriver=systemd \</span><br><span class="line">          $DOCKER_OPT_BIP \</span><br><span class="line">          $DOCKER_OPT_IPMASQ \</span><br><span class="line">          $DOCKER_OPT_MTU \</span><br><span class="line">          -s=overlay \</span><br><span class="line">          --log-driver=json-file \</span><br><span class="line">          --insecure-registry=registry.cn-hangzhou.aliyuncs.com</span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line"># Having non-zero Limit*s causes performance problems due to accounting overhead</span><br><span class="line"># in the kernel. We recommend using cgroups to do container-local accounting.</span><br><span class="line"># Uncomment TasksMax if your systemd version supports it.</span><br><span class="line"># Only systemd 226 and above support this version.</span><br><span class="line">LimitNOFILE=1048576</span><br><span class="line">LimitNPROC=1048576</span><br><span class="line">LimitCORE=infinity</span><br><span class="line">TimeoutStartSec=0</span><br><span class="line">Restart=on-abnormal</span><br><span class="line">MountFlags=slave</span><br><span class="line">#TasksMax=infinity</span><br><span class="line"># set delegate yes so that systemd does not reset the cgroups of docker containers</span><br><span class="line">Delegate=yes</span><br><span class="line"># kill only the docker process, not all processes in the cgroup</span><br><span class="line">KillMode=process</span><br><span class="line"># restart the docker process if it exits prematurely</span><br><span class="line">Restart=on-failure</span><br><span class="line">StartLimitBurst=3</span><br><span class="line">StartLimitInterval=60s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<h2 id="Dokcer-常用操作"><a href="#Dokcer-常用操作" class="headerlink" title="Dokcer 常用操作"></a>Dokcer 常用操作</h2><p>registry.cn-hangzhou.aliyuncs.com/google-containers/pause-amd64:3.0</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Django生产环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Django生产环境搭建/" class="article-date">
+      <time datetime="2018-08-08T20:36:10.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pipenv install</span><br><span class="line"></span><br><span class="line">pipenv install uwsgi</span><br><span class="line"></span><br><span class="line">pipenv install django</span><br><span class="line"></span><br><span class="line">pipenv install gunicorn</span><br></pre></td></tr></table></figure>
+<p>django 2.0.4</p>
+<p>pip show django</p>
+<p>uwsgi 2.0.17</p>
+<p>pip show uwsgi</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django-admin startproject teacher</span><br></pre></td></tr></table></figure>
+<p>使用的</p>
+<p>mkdir -p /data/uwsgi/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">vim /data/uwsgi/teacher.ini</span><br><span class="line"></span><br><span class="line">[uwsgi]</span><br><span class="line"># 项目目录</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line"># 指定项目的application</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line"># 进程个数</span><br><span class="line">workers=2</span><br><span class="line">pidfile = /data/uwsgi/uwsgi_teacher.pid</span><br><span class="line"># 指定IP端口</span><br><span class="line">http=127.0.0.1:8001</span><br><span class="line"># 指定静态文件</span><br><span class="line"># static-map=/root/py3/teacher/static</span><br><span class="line"># 启动uwsgi的用户名和用户组</span><br><span class="line">uid=root</span><br><span class="line">gid=root</span><br><span class="line"># 启用主进程</span><br><span class="line">master=true</span><br><span class="line"># 自动移除unix Socket和pid文件当服务停止的时候</span><br><span class="line">vacuum=true</span><br><span class="line"># 序列化接受的内容，如果可能的话</span><br><span class="line">thunder-lock=true</span><br><span class="line"># 启用线程</span><br><span class="line">enable-threads=true</span><br><span class="line"># 设置自中断时间</span><br><span class="line">harakiri=30</span><br><span class="line"># 设置缓冲</span><br><span class="line">post-buffering=4096</span><br><span class="line"># 设置日志目录</span><br><span class="line">daemonize=/data/uwsgi/teacher.log</span><br><span class="line"># 指定sock的文件路径</span><br><span class="line">socket=/data/uwsgi/teacher.sock</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unix:/data/uwsgi.sock;</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 启动uwsgi配置</span><br><span class="line">uwsgi --ini /data/uwsgi/teacher.ini   </span><br><span class="line"></span><br><span class="line"># 关闭uwsgi</span><br><span class="line">uwsgi --stop uwsgi.pid  </span><br><span class="line">killall -s INT /root/.virtualenv/py3-xzcW3AwM/bin/uwsgi</span><br><span class="line"></span><br><span class="line">#重新加载配置</span><br><span class="line">uwsgi --reload uwsgi.pid</span><br></pre></td></tr></table></figure>
+<p>nginx配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 指定项目路径uwsgi</span><br><span class="line">       location /django/ &#123;        # 这个location就和咱们Django的url(r&apos;^admin/&apos;, admin.site.urls),</span><br><span class="line">           include uwsgi_params;  # 导入一个Nginx模块他是用来和uWSGI进行通讯的</span><br><span class="line">           uwsgi_connect_timeout 30;  # 设置连接uWSGI超时时间</span><br><span class="line">           # 指定uwsgi的sock文件所有动态请求就会直接丢给他</span><br><span class="line">           uwsgi_pass unix:/opt/project_teacher/script/uwsgi.sock;  </span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       # 指定静态文件路径</span><br><span class="line">       location /static/ &#123;</span><br><span class="line">           alias  /opt/project_teacher/teacher/static/;</span><br><span class="line">           index  index.html index.htm;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">[uwsgi]</span><br><span class="line">socket = 127.0.0.1:9090</span><br><span class="line">master = true         //主进程</span><br><span class="line">vhost = true          //多站模式</span><br><span class="line">no-site = true        //多站模式时不设置入口模块和文件</span><br><span class="line">workers = 2           //子进程数</span><br><span class="line">reload-mercy = 10     </span><br><span class="line">vacuum = true         //退出、重启时清理文件</span><br><span class="line">max-requests = 1000   </span><br><span class="line">limit-as = 512</span><br><span class="line">buffer-size = 30000</span><br><span class="line">pidfile = /var/run/uwsgi9090.pid    //pid文件，用于下面的脚本启动、停止该进程</span><br><span class="line">daemonize = /data/log/uwsgi9090.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line">master=True</span><br><span class="line">pidfile=/var/run/uwsgi9090.pid</span><br><span class="line">vacuum=True</span><br><span class="line">max-requests=5000</span><br><span class="line">daemonize=/data/log/uwsgi9090.logi</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line">uid=nobody</span><br><span class="line">gid=nobody</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line">socket=/data/uwsgi.sock</span><br><span class="line">master=true</span><br><span class="line">workers=5</span><br><span class="line">pidfile=/data/uwsgi.pid</span><br><span class="line">vacuum=true</span><br><span class="line">thunder-lock=true</span><br><span class="line">enable-threads=true</span><br><span class="line">harakiri=30</span><br><span class="line">post-buffering=4096</span><br><span class="line">daemonize=/data/uwsgi.log</span><br></pre></td></tr></table></figure>
+<h3 id="django静态文件收集"><a href="#django静态文件收集" class="headerlink" title="django静态文件收集"></a><strong>django静态文件收集</strong></h3><p>​    1.setting.py设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DEBUG = False</span><br><span class="line">STATIC_ROOT = os.path.join(BASE_DIR, &apos;statics&apos;)</span><br></pre></td></tr></table></figure>
+<p>​    2. 执行collectstatic命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py collectstatic</span><br></pre></td></tr></table></figure>
+<p>好处：django把静态文件拷贝到你设置的statics目录下（这样可以更方便的和nignx集成，权限管理也更方便）</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.chenxm.cc/post/275.html" target="_blank" rel="noopener">Liunx之Ubuntu下Django+uWSGI+nginx部署</a></p>
+<p><a href="https://www.cnblogs.com/chenice/p/6921727.html" target="_blank" rel="noopener"><a href="http://www.cnblogs.com/chenice/p/6921727.html" target="_blank" rel="noopener">Django + Uwsgi + Nginx 的生产环境部署</a></a></p>
+<p><a href="https://www.zhihu.com/question/27295854" target="_blank" rel="noopener">如何配置nginx+uwsgi+django?</a>˜</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Kubernetes" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Kubernetes/" class="article-date">
+      <time datetime="2018-08-08T20:35:00.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Kubernetes安装配置"><a href="#Kubernetes安装配置" class="headerlink" title="Kubernetes安装配置"></a>Kubernetes安装配置</h1><p><a href="https://jimmysong.io/kubernetes-handbook/" target="_blank" rel="noopener">Kubernetes Handbook</a></p>
+<p><a href="https://jimmysong.io/kubernetes-handbook/practice/" target="_blank" rel="noopener">Kubernetes 最佳实践</a></p>
+<p><a href="https://mritd.me/2017/07/21/set-up-kubernetes-ha-cluster-by-binary/" target="_blank" rel="noopener">手动档搭建 Kubernetes HA 集群</a></p>
+<h2 id="集群详情"><a href="#集群详情" class="headerlink" title="集群详情"></a>集群详情</h2><ul>
+<li>OS：CentOS Linux release 7.4.1708 (Core) 3.10.0-693.21.1.el7.x86_64</li>
+<li>Kubernetes 1.10.0</li>
+<li>Docker 1.13.1（使用yum安装）</li>
+<li>Etcd 3.2.18</li>
+<li>Flannel 0.10.0 vxlan或者host-gw 网络</li>
+<li>TLS 认证通信 (所有组件，如 etcd、kubernetes master 和 node)</li>
+<li>RBAC 授权</li>
+<li>kubelet TLS BootStrapping</li>
+<li>kubedns、dashboard、heapster(influxdb、grafana)、EFK(elasticsearch、fluentd、kibana) 集群插件</li>
+<li>VMware Harbor 1.4.0 (私有docker镜像仓库，harbor提供离线安装包，直接使用docker-compose启动即可）</li>
+</ul>
+<p><a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.10.md#v1100" target="_blank" rel="noopener">Kubernetes v1.10.0</a></p>
+<p><a href="https://github.com/coreos/flannel/releases" target="_blank" rel="noopener">flannel v0.10.0</a></p>
+<p><a href="https://github.com/coreos/etcd/releases" target="_blank" rel="noopener">etcd v3.2.18</a></p>
+<p><a href="https://github.com/vmware/harbor/releases" target="_blank" rel="noopener">VMware Harbor v1.4.0</a></p>
+<h2 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h2><p>在下面的步骤中，我们将在三台CentOS系统的物理机上部署具有三个节点的kubernetes1.6.0集群。</p>
+<p>角色分配如下：</p>
+<p>Master：10.8.8.8</p>
+<p>Node：10.8.8.8、10.8.8.10、10.8.8.11</p>
+<p>注意：10.8.8.8这台主机master和node复用。所有生成证书、执行kubectl命令的操作都在这台节点上执行。一旦node加入到kubernetes集群之后就不需要再登陆node节点了。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="安装前的准备"><a href="#安装前的准备" class="headerlink" title="安装前的准备"></a>安装前的准备</h3><ul>
+<li><p>1.关闭所有节点的SELinux<br>修改/etc/selinux/config文件中设置SELINUX=disabled ，然后重启服务器。<br>  使用命令setenforce 0</p>
+</li>
+<li><p>2.在node节点上安装docker <code>yum -y install docker</code></p>
+</li>
+<li><p>3.准备harbor私有镜像仓库</p>
+</li>
+</ul>
+<p>参考：<a href="https://github.com/vmware/harbor" target="_blank" rel="noopener">https://github.com/vmware/harbor</a></p>
+<p><a href="./docker.md">docker</a></p>
+<h2 id="1-生成证书"><a href="#1-生成证书" class="headerlink" title="1.生成证书"></a>1.<a href="./生成证书.md">生成证书</a></h2><h2 id="2-下载安装文件"><a href="#2-下载安装文件" class="headerlink" title="2.下载安装文件"></a>2.下载安装文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/k8s</span><br><span class="line">cd /root/k8s</span><br><span class="line"></span><br><span class="line">wget https://dl.k8s.io/v1.10.0/kubernetes-server-linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line">wget https://github.com/coreos/flannel/releases/download/v0.10.0/flannel-v0.10.0-linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line">wget https://github.com/coreos/etcd/releases/download/v3.2.18/etcd-v3.2.18-linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="master-10-8-8-8"><a href="#master-10-8-8-8" class="headerlink" title="master 10.8.8.8"></a>master 10.8.8.8</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line">export PATH=/usr/local/bin:$PATH</span><br><span class="line"></span><br><span class="line">#kubernetes</span><br><span class="line">tar -xzvf kubernetes-server-linux-amd64.tar.gz</span><br><span class="line">cp -r kubernetes/server/bin/&#123;kube-apiserver,kube-controller-manager,kube-scheduler,kubectl&#125; /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzf  kubernetes/kubernetes-src.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="node-10-8-8-10-10-8-8-11"><a href="#node-10-8-8-10-10-8-8-11" class="headerlink" title="node 10.8.8.10 10.8.8.11"></a>node 10.8.8.10 10.8.8.11</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line">export PATH=/usr/local/bin:$PATH</span><br><span class="line"></span><br><span class="line"># 不确定 node 需要kubectl不，暂时不复制到node节点</span><br><span class="line">cp -r kubernetes/server/bin/&#123;kube-proxy,kubelet&#125; /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<h3 id="master和node"><a href="#master和node" class="headerlink" title="master和node"></a>master和node</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#etcd</span><br><span class="line">tar -xzvf etcd-*-linux-amd64.tar.gz</span><br><span class="line">mv etcd-*-linux-amd64/etcd* /usr/local/bin</span><br><span class="line"></span><br><span class="line">#flanneld</span><br><span class="line">tar -xzvf flannel-*-linux-amd64.tar.gz</span><br><span class="line">mv flanneld mk-docker-opts.sh /usr/local/bin</span><br></pre></td></tr></table></figure>
+<h2 id="3-创建-kubeconfig-文件"><a href="#3-创建-kubeconfig-文件" class="headerlink" title="3.创建 kubeconfig 文件"></a>3.创建 kubeconfig 文件</h2><h3 id="1-创建-TLS-Bootstrapping-Token"><a href="#1-创建-TLS-Bootstrapping-Token" class="headerlink" title="1.创建 TLS Bootstrapping Token"></a>1.创建 TLS Bootstrapping Token</h3><p>Token auth file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/kubernetes/</span><br><span class="line"></span><br><span class="line">export BOOTSTRAP_TOKEN=$(head -c 16 /dev/urandom | od -An -t x | tr -d &apos; &apos;)</span><br><span class="line"></span><br><span class="line">cat &gt; token.csv &lt;&lt;EOF</span><br><span class="line">$&#123;BOOTSTRAP_TOKEN&#125;,kubelet-bootstrap,10001,&quot;system:kubelet-bootstrap&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="2-创建-kubelet-bootstrapping-kubeconfig-文件"><a href="#2-创建-kubelet-bootstrapping-kubeconfig-文件" class="headerlink" title="2.创建 kubelet bootstrapping kubeconfig 文件"></a>2.创建 kubelet bootstrapping kubeconfig 文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">export KUBE_APISERVER=&quot;https://10.8.8.8:6443&quot;</span><br><span class="line"></span><br><span class="line"># 设置集群参数</span><br><span class="line">kubectl config set-cluster kubernetes \</span><br><span class="line">  --certificate-authority=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --embed-certs=true \</span><br><span class="line">  --server=$&#123;KUBE_APISERVER&#125; \</span><br><span class="line">  --kubeconfig=bootstrap.kubeconfig</span><br><span class="line"></span><br><span class="line"># 设置客户端认证参数</span><br><span class="line">kubectl config set-credentials kubelet-bootstrap \</span><br><span class="line">  --token=$&#123;BOOTSTRAP_TOKEN&#125; \</span><br><span class="line">  --kubeconfig=bootstrap.kubeconfig</span><br><span class="line"></span><br><span class="line"># 设置上下文参数</span><br><span class="line">kubectl config set-context default \</span><br><span class="line">  --cluster=kubernetes \</span><br><span class="line">  --user=kubelet-bootstrap \</span><br><span class="line">  --kubeconfig=bootstrap.kubeconfig</span><br><span class="line"></span><br><span class="line"># 设置默认上下文</span><br><span class="line">kubectl config use-context default --kubeconfig=bootstrap.kubeconfig</span><br></pre></td></tr></table></figure>
+<h3 id="3-创建-kube-proxy-kubeconfig-文件"><a href="#3-创建-kube-proxy-kubeconfig-文件" class="headerlink" title="3.创建 kube-proxy kubeconfig 文件"></a>3.创建 kube-proxy kubeconfig 文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">export KUBE_APISERVER=&quot;https://10.8.8.8:6443&quot;</span><br><span class="line"></span><br><span class="line"># 设置集群参数</span><br><span class="line">kubectl config set-cluster kubernetes \</span><br><span class="line">  --certificate-authority=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --embed-certs=true \</span><br><span class="line">  --server=$&#123;KUBE_APISERVER&#125; \</span><br><span class="line">  --kubeconfig=kube-proxy.kubeconfig</span><br><span class="line"># 设置客户端认证参数</span><br><span class="line">kubectl config set-credentials kube-proxy \</span><br><span class="line">  --client-certificate=/etc/kubernetes/ssl/kube-proxy.pem \</span><br><span class="line">  --client-key=/etc/kubernetes/ssl/kube-proxy-key.pem \</span><br><span class="line">  --embed-certs=true \</span><br><span class="line">  --kubeconfig=kube-proxy.kubeconfig</span><br><span class="line"># 设置上下文参数</span><br><span class="line">kubectl config set-context default \</span><br><span class="line">  --cluster=kubernetes \</span><br><span class="line">  --user=kube-proxy \</span><br><span class="line">  --kubeconfig=kube-proxy.kubeconfig</span><br><span class="line"># 设置默认上下文</span><br><span class="line">kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig</span><br></pre></td></tr></table></figure>
+<h3 id="4-分发-kubeconfig-文件"><a href="#4-分发-kubeconfig-文件" class="headerlink" title="4.分发 kubeconfig 文件"></a>4.分发 kubeconfig 文件</h3><p>将两个 kubeconfig 文件分发到所有 Node 机器的 /etc/kubernetes/ 目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp bootstrap.kubeconfig kube-proxy.kubeconfig /etc/kubernetes/</span><br></pre></td></tr></table></figure>
+<h3 id="5-创建-kubectl-kubeconfig-文件"><a href="#5-创建-kubectl-kubeconfig-文件" class="headerlink" title="5.创建 kubectl kubeconfig 文件"></a>5.创建 kubectl kubeconfig 文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">export KUBE_APISERVER=&quot;https://10.8.8.8:6443&quot;</span><br><span class="line"></span><br><span class="line"># 设置集群参数</span><br><span class="line">kubectl config set-cluster kubernetes \</span><br><span class="line">  --certificate-authority=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --embed-certs=true \</span><br><span class="line">  --server=$&#123;KUBE_APISERVER&#125;</span><br><span class="line"># 设置客户端认证参数</span><br><span class="line">kubectl config set-credentials admin \</span><br><span class="line">  --client-certificate=/etc/kubernetes/ssl/admin.pem \</span><br><span class="line">  --embed-certs=true \</span><br><span class="line">  --client-key=/etc/kubernetes/ssl/admin-key.pem</span><br><span class="line"># 设置上下文参数</span><br><span class="line">kubectl config set-context kubernetes \</span><br><span class="line">  --cluster=kubernetes \</span><br><span class="line">  --user=admin</span><br><span class="line"># 设置默认上下文</span><br><span class="line">kubectl config use-context kubernetes</span><br><span class="line"></span><br><span class="line">注意：生成的 kubeconfig 被保存到 ~/.kube/config 文件；~/.kube/config文件拥有对该集群的最高权限，请妥善保管。</span><br><span class="line">admin.pem 证书 OU 字段值为 system:masters，kube-apiserver 预定义的 RoleBinding cluster-admin 将 Group system:masters 与 Role cluster-admin 绑定，该 Role 授予了调用kube-apiserver 相关 API 的权限；</span><br></pre></td></tr></table></figure>
+<h2 id="4-创建高可用-etcd-集群"><a href="#4-创建高可用-etcd-集群" class="headerlink" title="4.创建高可用 etcd 集群"></a>4.创建高可用 etcd 集群</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/etcd&amp;&amp;mkdir -p /var/lib/etcd</span><br></pre></td></tr></table></figure>
+<h3 id="1-环境变量配置文件-etc-etcd-etcd-conf"><a href="#1-环境变量配置文件-etc-etcd-etcd-conf" class="headerlink" title="1.环境变量配置文件/etc/etcd/etcd.conf"></a>1.环境变量配置文件/etc/etcd/etcd.conf</h3><p>这是10.8.8.8节点的配置，其他两个etcd节点只要将上面的IP地址改成相应节点的IP地址即可。ETCD_NAME换成对应节点的infra1/2/3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/etcd/etcd.conf&lt;&lt;EOF</span><br><span class="line"># [member]</span><br><span class="line">ETCD_NAME=infra1</span><br><span class="line">ETCD_DATA_DIR=&quot;/var/lib/etcd&quot;</span><br><span class="line">ETCD_LISTEN_PEER_URLS=&quot;https://10.8.8.8:2380&quot;</span><br><span class="line">ETCD_LISTEN_CLIENT_URLS=&quot;https://10.8.8.8:2379&quot;</span><br><span class="line"></span><br><span class="line">#[cluster]</span><br><span class="line">ETCD_INITIAL_ADVERTISE_PEER_URLS=&quot;https://10.8.8.8:2380&quot;</span><br><span class="line">ETCD_INITIAL_CLUSTER_TOKEN=&quot;etcd-cluster&quot;</span><br><span class="line">ETCD_ADVERTISE_CLIENT_URLS=&quot;https://10.8.8.8:2379&quot;</span><br><span class="line"></span><br><span class="line"># [security]</span><br><span class="line">ETCD_CERT_FILE=&quot;/etc/kubernetes/ssl/kubernetes.pem&quot;</span><br><span class="line">ETCD_KEY_FILE=&quot;/etc/kubernetes/ssl/kubernetes-key.pem&quot;</span><br><span class="line">ETCD_CLIENT_CERT_AUTH=&quot;true&quot;</span><br><span class="line">ETCD_TRUSTED_CA_FILE=&quot;/etc/kubernetes/ssl/ca.pem&quot;</span><br><span class="line">ETCD_AUTO_TLS=&quot;true&quot;</span><br><span class="line">ETCD_PEER_CERT_FILE=&quot;/etc/kubernetes/ssl/kubernetes.pem&quot;</span><br><span class="line">ETCD_PEER_KEY_FILE=&quot;/etc/kubernetes/ssl/kubernetes-key.pem&quot;</span><br><span class="line">ETCD_PEER_CLIENT_CERT_AUTH=&quot;true&quot;</span><br><span class="line">ETCD_PEER_TRUSTED_CA_FILE=&quot;/etc/kubernetes/ssl/ca.pem&quot;</span><br><span class="line">ETCD_PEER_AUTO_TLS=&quot;true&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="2-创建-etcd-的-systemd-unit-文件-etcd-service"><a href="#2-创建-etcd-的-systemd-unit-文件-etcd-service" class="headerlink" title="2.创建 etcd 的 systemd unit 文件 etcd.service"></a>2.创建 etcd 的 systemd unit 文件 etcd.service</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/etcd.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Etcd Server</span><br><span class="line">After=network.target</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line">Documentation=https://github.com/coreos</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">WorkingDirectory=/var/lib/etcd/</span><br><span class="line">EnvironmentFile=-/etc/etcd/etcd.conf</span><br><span class="line">ExecStart=/usr/local/bin/etcd \</span><br><span class="line">  --name $&#123;ETCD_NAME&#125; \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  --peer-cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --peer-key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  --trusted-ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --initial-advertise-peer-urls $&#123;ETCD_INITIAL_ADVERTISE_PEER_URLS&#125; \</span><br><span class="line">  --listen-peer-urls $&#123;ETCD_LISTEN_PEER_URLS&#125; \</span><br><span class="line">  --listen-client-urls $&#123;ETCD_LISTEN_CLIENT_URLS&#125;,http://127.0.0.1:2379 \</span><br><span class="line">  --advertise-client-urls $&#123;ETCD_ADVERTISE_CLIENT_URLS&#125; \</span><br><span class="line">  --initial-cluster-token $&#123;ETCD_INITIAL_CLUSTER_TOKEN&#125; \</span><br><span class="line">  --initial-cluster infra1=https://10.8.8.8:2380,infra2=https://10.8.8.10:2380,infra3=https://10.8.8.11:2380 \</span><br><span class="line">  --initial-cluster-state new \</span><br><span class="line">  --data-dir=$&#123;ETCD_DATA_DIR&#125;</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<h3 id="3-启动-etcd-服务"><a href="#3-启动-etcd-服务" class="headerlink" title="3.启动 etcd 服务"></a>3.启动 etcd 服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload.service</span><br><span class="line">systemctl enable etcd.service</span><br><span class="line">systemctl start etcd.service</span><br><span class="line">systemctl status etcd.service</span><br></pre></td></tr></table></figure>
+<h3 id="4-验证服务"><a href="#4-验证服务" class="headerlink" title="4.验证服务"></a>4.验证服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">etcdctl \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  cluster-health</span><br></pre></td></tr></table></figure>
+<h2 id="5-部署master节点"><a href="#5-部署master节点" class="headerlink" title="5.部署master节点"></a>5.部署master节点</h2><h3 id="config"><a href="#config" class="headerlink" title="config"></a>config</h3><p>/etc/kubernetes/config</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/kubernetes/config&lt;&lt;EOF</span><br><span class="line"># kubernetes system config</span><br><span class="line">#</span><br><span class="line"># The following values are used to configure various aspects of all</span><br><span class="line"># kubernetes services, including</span><br><span class="line">#</span><br><span class="line">#   kube-apiserver.service</span><br><span class="line">#   kube-controller-manager.service</span><br><span class="line">#   kube-scheduler.service</span><br><span class="line">#   kubelet.service</span><br><span class="line">#   kube-proxy.service</span><br><span class="line"># logging to stderr means we get it in the systemd journal</span><br><span class="line">KUBE_LOGTOSTDERR=&quot;--logtostderr=true&quot;</span><br><span class="line"></span><br><span class="line"># journal message level, 0 is debug</span><br><span class="line">KUBE_LOG_LEVEL=&quot;--v=0&quot;</span><br><span class="line"></span><br><span class="line"># Should this cluster be allowed to run privileged docker containers</span><br><span class="line">KUBE_ALLOW_PRIV=&quot;--allow-privileged=true&quot;</span><br><span class="line"></span><br><span class="line"># How the controller-manager, scheduler, and proxy find the apiserver</span><br><span class="line">#KUBE_MASTER=&quot;--master=http://sz-pg-oam-docker-test-001.tendcloud.com:8080&quot;</span><br><span class="line">KUBE_MASTER=&quot;--master=http://10.8.8.8:8080&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>/etc/kubernetes/apiserver</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/kubernetes/apiserver&lt;&lt;EOF</span><br><span class="line">## kubernetes system config</span><br><span class="line">##</span><br><span class="line">## The following values are used to configure the kube-apiserver</span><br><span class="line">##</span><br><span class="line">#</span><br><span class="line">## The address on the local server to listen to.</span><br><span class="line">KUBE_API_ADDRESS=&quot;--advertise-address=10.8.8.8 --bind-address=10.8.8.8 --insecure-bind-address=10.8.8.8&quot;</span><br><span class="line">#</span><br><span class="line">## The port on the local server to listen on.</span><br><span class="line">#KUBE_API_PORT=&quot;--port=8080&quot;</span><br><span class="line">#</span><br><span class="line">## Port minions listen on</span><br><span class="line">#KUBELET_PORT=&quot;--kubelet-port=10250&quot;</span><br><span class="line">#</span><br><span class="line">## Comma separated list of nodes in the etcd cluster</span><br><span class="line">KUBE_ETCD_SERVERS=&quot;--etcd-servers=https://10.8.8.8:2379&quot;</span><br><span class="line">#</span><br><span class="line">## Address range to use for services</span><br><span class="line">KUBE_SERVICE_ADDRESSES=&quot;--service-cluster-ip-range=10.254.0.0/16&quot;</span><br><span class="line">#</span><br><span class="line">## default admission control policies</span><br><span class="line">KUBE_ADMISSION_CONTROL=&quot;--admission-control=ServiceAccount,NamespaceLifecycle,NamespaceExists,LimitRanger,ResourceQuota&quot;</span><br><span class="line">#</span><br><span class="line">## Add your own!</span><br><span class="line">KUBE_API_ARGS=&quot;--authorization-mode=RBAC --runtime-config=rbac.authorization.k8s.io/v1beta1 --kubelet-https=true --enable-bootstrap-token-auth --token-auth-file=/etc/kubernetes/token.csv --service-node-port-range=30000-32767 --tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem --tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem --client-ca-file=/etc/kubernetes/ssl/ca.pem --service-account-key-file=/etc/kubernetes/ssl/ca-key.pem --etcd-cafile=/etc/kubernetes/ssl/ca.pem --etcd-certfile=/etc/kubernetes/ssl/kubernetes.pem --etcd-keyfile=/etc/kubernetes/ssl/kubernetes-key.pem --enable-swagger-ui=true --apiserver-count=3 --audit-log-maxage=30 --audit-log-maxbackup=3 --audit-log-maxsize=100 --audit-log-path=/var/lib/audit.log --event-ttl=1h&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>/etc/kubernetes/controller-manager</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/kubernetes/controller-manager&lt;&lt;EOF</span><br><span class="line"># The following values are used to configure the kubernetes controller-manager</span><br><span class="line"></span><br><span class="line"># defaults from config and apiserver should be adequate</span><br><span class="line"></span><br><span class="line"># Add your own!</span><br><span class="line">KUBE_CONTROLLER_MANAGER_ARGS=&quot;--address=127.0.0.1 --service-cluster-ip-range=10.254.0.0/16 --cluster-name=kubernetes --cluster-signing-cert-file=/etc/kubernetes/ssl/ca.pem --cluster-signing-key-file=/etc/kubernetes/ssl/ca-key.pem  --service-account-private-key-file=/etc/kubernetes/ssl/ca-key.pem --root-ca-file=/etc/kubernetes/ssl/ca.pem --leader-elect=true&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>/etc/kubernetes/scheduler</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/kubernetes/scheduler&lt;&lt;EOF</span><br><span class="line"># kubernetes scheduler config</span><br><span class="line"></span><br><span class="line"># default config should be adequate</span><br><span class="line"></span><br><span class="line"># Add your own!</span><br><span class="line">KUBE_SCHEDULER_ARGS=&quot;--leader-elect=true --address=127.0.0.1&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="serivce配置文件"><a href="#serivce配置文件" class="headerlink" title="serivce配置文件"></a>serivce配置文件</h3><p>创建 kube-apiserver的service配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/kube-apiserver.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Kubernetes API Service</span><br><span class="line">Documentation=https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line">After=network.target</span><br><span class="line">After=etcd.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">EnvironmentFile=-/etc/kubernetes/config</span><br><span class="line">EnvironmentFile=-/etc/kubernetes/apiserver</span><br><span class="line">ExecStart=/usr/local/bin/kube-apiserver \</span><br><span class="line">        $KUBE_LOGTOSTDERR \</span><br><span class="line">        $KUBE_LOG_LEVEL \</span><br><span class="line">        $KUBE_ETCD_SERVERS \</span><br><span class="line">        $KUBE_API_ADDRESS \</span><br><span class="line">        $KUBE_API_PORT \</span><br><span class="line">        $KUBELET_PORT \</span><br><span class="line">        $KUBE_ALLOW_PRIV \</span><br><span class="line">        $KUBE_SERVICE_ADDRESSES \</span><br><span class="line">        $KUBE_ADMISSION_CONTROL \</span><br><span class="line">        $KUBE_API_ARGS</span><br><span class="line">Restart=on-failure</span><br><span class="line">Type=notify</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p>创建 kube-controller-manager的serivce配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/kube-controller-manager.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Kubernetes Controller Manager</span><br><span class="line">Documentation=https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">EnvironmentFile=-/etc/kubernetes/config</span><br><span class="line">EnvironmentFile=-/etc/kubernetes/controller-manager</span><br><span class="line">ExecStart=/usr/local/bin/kube-controller-manager \</span><br><span class="line">        $KUBE_LOGTOSTDERR \</span><br><span class="line">        $KUBE_LOG_LEVEL \</span><br><span class="line">        $KUBE_MASTER \</span><br><span class="line">        $KUBE_CONTROLLER_MANAGER_ARGS</span><br><span class="line">Restart=on-failure</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p>创建 kube-scheduler的serivce配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/kube-scheduler.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Kubernetes Scheduler Plugin</span><br><span class="line">Documentation=https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">EnvironmentFile=-/etc/kubernetes/config</span><br><span class="line">EnvironmentFile=-/etc/kubernetes/scheduler</span><br><span class="line">ExecStart=/usr/local/bin/kube-scheduler \</span><br><span class="line">            $KUBE_LOGTOSTDERR \</span><br><span class="line">            $KUBE_LOG_LEVEL \</span><br><span class="line">            $KUBE_MASTER \</span><br><span class="line">            $KUBE_SCHEDULER_ARGS</span><br><span class="line">Restart=on-failure</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p><code>systemctl daemon-reload</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> service <span class="keyword">in</span> kube-apiserver kube-controller-manager kube-scheduler; <span class="keyword">do</span></span><br><span class="line">	systemctl <span class="built_in">enable</span> <span class="variable">$service</span></span><br><span class="line">	systemctl start <span class="variable">$service</span></span><br><span class="line">	systemctl status <span class="variable">$service</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="验证-master-节点功能"><a href="#验证-master-节点功能" class="headerlink" title="验证 master 节点功能"></a>验证 master 节点功能</h3><p>我们启动每个组件后可以通过执行命令kubectl get componentstatuses，来查看各个组件的状态;</p>
+<p><code>kubectl get componentstatuses</code></p>
+<h2 id="6-安装flannel网络插件"><a href="#6-安装flannel网络插件" class="headerlink" title="6.安装flannel网络插件"></a>6.安装flannel网络插件</h2><p>/etc/sysconfig/flanneld配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/sysconfig/flanneld&lt;&lt;EOF</span><br><span class="line"># Flanneld configuration options  </span><br><span class="line"></span><br><span class="line"># etcd url location.  Point this to the server where etcd runs</span><br><span class="line">FLANNEL_ETCD_ENDPOINTS=&quot;https://10.8.8.8:2379&quot;</span><br><span class="line"></span><br><span class="line"># etcd config key.  This is the configuration key that flannel queries</span><br><span class="line"># For address range assignment</span><br><span class="line">FLANNEL_ETCD_PREFIX=&quot;/kube-centos/network&quot;</span><br><span class="line"></span><br><span class="line"># Any additional options that you want to pass</span><br><span class="line">FLANNEL_OPTIONS=&quot;-etcd-cafile=/etc/kubernetes/ssl/ca.pem -etcd-certfile=/etc/kubernetes/ssl/kubernetes.pem -etcd-keyfile=/etc/kubernetes/ssl/kubernetes-key.pem&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>service配置文件/usr/lib/systemd/system/flanneld.service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/flanneld.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Flanneld overlay address etcd agent</span><br><span class="line">After=network.target</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line">After=etcd.service</span><br><span class="line">Before=docker.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">EnvironmentFile=/etc/sysconfig/flanneld</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-network</span><br><span class="line">ExecStart=/usr/local/bin/flanneld \</span><br><span class="line">  -etcd-endpoints=$&#123;FLANNEL_ETCD_ENDPOINTS&#125; \</span><br><span class="line">  -etcd-prefix=$&#123;FLANNEL_ETCD_PREFIX&#125; \</span><br><span class="line">  $FLANNEL_OPTIONS</span><br><span class="line">ExecStartPost=/usr/local/bin/mk-docker-opts.sh -k DOCKER_NETWORK_OPTIONS -d /run/flannel/docker</span><br><span class="line">Restart=on-failure</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">RequiredBy=docker.service</span><br></pre></td></tr></table></figure>
+<h3 id="3-在etcd中创建网络配置"><a href="#3-在etcd中创建网络配置" class="headerlink" title="3.在etcd中创建网络配置"></a>3.在etcd中创建网络配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#新建目录 /kube-centos/network</span><br><span class="line">etcdctl --endpoints=https://10.8.8.8:2379 \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  mkdir /kube-centos/network</span><br><span class="line">  </span><br><span class="line">#指定IP段</span><br><span class="line">etcdctl --endpoints=https://10.8.8.8:2379 \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  mk /kube-centos/network/config &apos;&#123;&quot;Network&quot;:&quot;172.30.0.0/16&quot;,&quot;SubnetLen&quot;:24,&quot;Backend&quot;:&#123;&quot;Type&quot;:&quot;vxlan&quot;&#125;&#125;&apos;</span><br><span class="line">  </span><br><span class="line">#查看数据</span><br><span class="line">etcdctl --endpoints=https://10.8.8.8:2379 \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  get /kube-centos/network/config </span><br><span class="line"></span><br><span class="line">#查看目录  </span><br><span class="line">etcdctl --endpoints=$&#123;ETCD_ENDPOINTS&#125; \</span><br><span class="line">  --ca-file=/etc/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \</span><br><span class="line">  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \</span><br><span class="line">  ls /kube-centos/network/subnets</span><br></pre></td></tr></table></figure>
+<p>启动flannel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable flanneld.service</span><br><span class="line">systemctl start flanneld.service</span><br><span class="line">systemctl status flanneld.service</span><br></pre></td></tr></table></figure>
+<p>使用systemctl命令启动flanneld后，会自动执行./mk-docker-opts.sh -i生成如下两个文件环境变量文件：</p>
+<p>/run/flannel/subnet.env<br>/run/docker_opts.env</p>
+<p>配置docker</p>
+<p>二进制方式安装的flannel</p>
+<p>修改docker的配置文件/usr/lib/systemd/system/docker.service，增加如下几条环境变量配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EnvironmentFile=-/run/docker_opts.env</span><br><span class="line">EnvironmentFile=-/run/flannel/subnet.env</span><br></pre></td></tr></table></figure>
+<h2 id="7-部署Node节点"><a href="#7-部署Node节点" class="headerlink" title="7.部署Node节点"></a>7.部署Node节点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /var/lib/kubelet</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1.–kubeconfig=/etc/kubernetes/kubelet.kubeconfig中指定的kubelet.kubeconfig文件在第一次启动kubelet之前并不存在，请看下文，当通过CSR请求后会自动生成kubelet.kubeconfig文件，如果你的节点上已经生成了~/.kube/config文件，你可以将该文件拷贝到该路径下，并重命名为kubelet.kubeconfig，所有node节点可以共用同一个kubelet.kubeconfig文件，这样新添加的节点就不需要再创建CSR请求就能自动添加到kubernetes集群中。同样，在任意能够访问到kubernetes集群的主机上使用kubectl –kubeconfig命令操作集群时，只要使用~/.kube/config文件就可以通过权限认证，因为这里面已经有认证信息并认为你是admin用户，对集群拥有所有权限。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp ~/.kube/config /etc/kubernetes/kubelet.kubeconfig</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1.修改/etc/fstab将，swap系统注释掉。</li>
+<li>2.kubelet 启动时向 kube-apiserver 发送 TLS bootstrapping 请求，需要先将 bootstrap token 文件中的 kubelet-bootstrap 用户赋予 system:node-bootstrapper cluster 角色(role)， 然后 kubelet 才能有权限创建认证请求(certificate signing requests)：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/kubernetes</span><br><span class="line"></span><br><span class="line">kubectl create clusterrolebinding kubelet-bootstrap \</span><br><span class="line">  --clusterrole=system:node-bootstrapper \</span><br><span class="line">  --user=kubelet-bootstrap</span><br></pre></td></tr></table></figure>
+<p>/etc/kubernetes/kubelet</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/kubernetes/kubelet&lt;&lt;EOF</span><br><span class="line">###</span><br><span class="line">## kubernetes kubelet (minion) config</span><br><span class="line">#</span><br><span class="line">## The address for the info server to serve on (set to 0.0.0.0 or &quot;&quot; for all interfaces)</span><br><span class="line">KUBELET_ADDRESS=&quot;--address=10.8.8.8&quot;</span><br><span class="line">#</span><br><span class="line">## The port for the info server to serve on</span><br><span class="line">#KUBELET_PORT=&quot;--port=10250&quot;</span><br><span class="line">#</span><br><span class="line">## You may leave this blank to use the actual hostname</span><br><span class="line">KUBELET_HOSTNAME=&quot;--hostname-override=10.8.8.8&quot;</span><br><span class="line">#</span><br><span class="line">## location of the api-server</span><br><span class="line">## COMMENT THIS ON KUBERNETES 1.8+</span><br><span class="line">#KUBELET_API_SERVER=&quot;--api-servers=http://10.8.8.8:8080&quot;</span><br><span class="line">#</span><br><span class="line">## pod infrastructure container</span><br><span class="line">KUBELET_POD_INFRA_CONTAINER=&quot;--pod-infra-container-image=index.tenxcloud.com/jimmy/pod-infrastructure:rhel7&quot;</span><br><span class="line">#</span><br><span class="line">## Add your own!</span><br><span class="line">KUBELET_ARGS=&quot;--runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice --cgroup-driver=systemd --cluster-dns=10.254.0.2 --bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig --kubeconfig=/etc/kubernetes/kubelet.kubeconfig --cert-dir=/etc/kubernetes/ssl --cluster-domain=cluster.local --hairpin-mode promiscuous-bridge --serialize-image-pulls=false&quot;</span><br><span class="line"># --require-kubeconfig </span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/kubernetes/kubernetes/issues/41161" target="_blank" rel="noopener">Remove –require-kubeconfig and the default kubeconfig path in v1.10</a></p>
+<p><a href="https://github.com/kubernetes/contrib/issues/2830" target="_blank" rel="noopener">kubelet Error: unknown flag: –api-servers</a></p>
+<p>创建kubelet的service配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/kubelet.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Kubernetes Kubelet Server</span><br><span class="line">Documentation=https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line">After=docker.service</span><br><span class="line">Requires=docker.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">WorkingDirectory=/var/lib/kubelet</span><br><span class="line">EnvironmentFile=-/etc/kubernetes/config</span><br><span class="line">EnvironmentFile=-/etc/kubernetes/kubelet</span><br><span class="line">ExecStart=/usr/local/bin/kubelet \</span><br><span class="line">            $KUBE_LOGTOSTDERR \</span><br><span class="line">            $KUBE_LOG_LEVEL \</span><br><span class="line">            $KUBELET_API_SERVER \</span><br><span class="line">            $KUBELET_ADDRESS \</span><br><span class="line">            $KUBELET_PORT \</span><br><span class="line">            $KUBELET_HOSTNAME \</span><br><span class="line">            $KUBE_ALLOW_PRIV \</span><br><span class="line">            $KUBELET_POD_INFRA_CONTAINER \</span><br><span class="line">            $KUBELET_ARGS</span><br><span class="line">Restart=on-failure</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p>启动kublet</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable kubelet.service</span><br><span class="line">systemctl start kubelet.service</span><br><span class="line">systemctl status kubelet.service</span><br></pre></td></tr></table></figure>
+<h3 id="2-配置-kube-proxy"><a href="#2-配置-kube-proxy" class="headerlink" title="2.配置 kube-proxy"></a>2.配置 kube-proxy</h3><p>/etc/kubernetes/proxy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/kubernetes/proxy&lt;&lt;EOF</span><br><span class="line">###</span><br><span class="line"># kubernetes proxy config</span><br><span class="line"></span><br><span class="line"># default config should be adequate</span><br><span class="line"></span><br><span class="line"># Add your own!</span><br><span class="line">KUBE_PROXY_ARGS=&quot;--bind-address=10.8.8.8 --hostname-override=10.8.8.8 --kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig --cluster-cidr=10.254.0.0/16&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>/usr/lib/systemd/system/kube-proxy.service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/kube-proxy.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Kubernetes Kube-Proxy Server</span><br><span class="line">Documentation=https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">EnvironmentFile=-/etc/kubernetes/config</span><br><span class="line">EnvironmentFile=-/etc/kubernetes/proxy</span><br><span class="line">ExecStart=/usr/local/bin/kube-proxy \</span><br><span class="line">        $KUBE_LOGTOSTDERR \</span><br><span class="line">        $KUBE_LOG_LEVEL \</span><br><span class="line">        $KUBE_MASTER \</span><br><span class="line">        $KUBE_PROXY_ARGS</span><br><span class="line">Restart=on-failure</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p>启动 kube-proxy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable kube-proxy</span><br><span class="line">systemctl start kube-proxy</span><br><span class="line">systemctl status kube-proxy</span><br></pre></td></tr></table></figure>
+<p>由于采用了 TLS Bootstrapping，所以 kubelet 启动后不会立即加入集群，而是进行证书申请，此时只需要在 master 允许其证书申请即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 查看 csr</span><br><span class="line">➜  kubectl get csr</span><br><span class="line">NAME        AGE       REQUESTOR           CONDITION</span><br><span class="line">csr-l9d25   2m        kubelet-bootstrap   Pending</span><br><span class="line"></span><br><span class="line"># 签发证书</span><br><span class="line">➜  kubectl certificate approve csr-l9d25</span><br><span class="line">certificatesigningrequest &quot;csr-l9d25&quot; approved</span><br><span class="line"></span><br><span class="line"># 查看 node</span><br><span class="line">kubectl get node</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker pull jimmysong/pause-amd64:3.0</span><br><span class="line"></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/sunyuki/pod-infrastructure:latest</span><br><span class="line"></span><br><span class="line">docker pull nginx:1.13.11</span><br></pre></td></tr></table></figure>
+<h3 id="4-验证测试"><a href="#4-验证测试" class="headerlink" title="4.验证测试"></a>4.验证测试</h3><p>我们创建一个nginx的service试一下集群是否可用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl run nginx --replicas=2 --labels=&quot;run=nginx-load-balancer&quot; --image=nginx:1.13.11  --port=80</span><br><span class="line"></span><br><span class="line">kubectl expose deployment nginx --type=NodePort --name=nginx-service</span><br><span class="line"></span><br><span class="line">kubectl describe svc nginx-service</span><br></pre></td></tr></table></figure>
+<p>删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete svc nginx</span><br><span class="line">kubectl delete deploy nginx</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ele-A面-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Ele-A面-笔记/" class="article-date">
+      <time datetime="2018-08-08T20:35:00.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>当你做某件事的时候，一旦想要求快，就表示你再也不关心它，而想去做别的事。</p>
+</blockquote>
+<blockquote>
+<p>Fighting and Happy Coding O(∩_∩)O~<br><a href="http://ictar.github.io/" target="_blank" rel="noopener">Ele - A面</a></p>
+</blockquote>
+<p><a href="http://ictar.github.io/2016/03/01/2016%E5%B9%B4%E7%82%B9%E4%BA%AE%E6%8A%80%E8%83%BD%E6%A0%91%E7%9A%84%E6%9F%90%E4%B8%AA%E6%9E%9D%E6%A1%A0/" target="_blank" rel="noopener">2016年点亮技能树的某个枝桠</a></p>
+<p>nginx<br>uwsgi<br>couchbase<br>rbmq<br>redis</p>
+<p>pdb和traceback来做调试</p>
+<p>awk,sed 来快速搜索</p>
+<p>pd来做统计分析</p>
+<p><a href="http://ictar.github.io/2017/01/27/%E5%8E%BB%E5%90%A7%E5%8E%BB%E5%90%A7%EF%BC%8C2016/" target="_blank" rel="noopener">去吧去吧，2016</a></p>
+<p><a href="https://book.douban.com/subject/5372651/" target="_blank" rel="noopener">Pragmatic Thinking and Learning - Refactor Your Wetware</a></p>
+<p>Docker<br>Go<br>DjangoCon US 2016<br>PyCon 2016<br>个人wiki<br>StackOverflow<br>得到上面订了一年的硅谷来信<br>pssh<br>ansible</p>
+<p><a href="https://book.douban.com/subject/22793675/" target="_blank" rel="noopener">深入理解Nginx
+</a><br>涂先生写的数据之巅<br>吴军老师的智能时代<br>Docker源码分析<br><a href="https://book.douban.com/subject/11577300/" target="_blank" rel="noopener">Go语言编程</a><br><a href="https://book.douban.com/subject/26351257/" target="_blank" rel="noopener">算法的乐趣</a><br><a href="https://book.douban.com/subject/25942191/" target="_blank" rel="noopener">第一行代码</a></p>
+<blockquote>
+<p>这个月发生了一件令我有所触动的小事。工作上使用了python的一个库，但有些功能它并不具备，因此写了一些shell script来做辅助，算是外部对功能进行扩展吧。后来发现这样做要填补的坑是在太多了，而且坑中有坑，不知何处还有坑。搞得头发又掉了好几百根。再后来觉得不行，决定破釜沉舟，从内部解决。于是好好分析了下那个库的代码，做了类继承，重写了一些功能。幸好那个库是可以扩展的，也幸好代码逻辑简单，花的功夫竟然比纠结的时间还少。这件事告诉我，不要觉得重写很麻烦，也不要害怕替换，虽然本质上是对自己的及其不信任。但是做总比不做来得强，更何况很多时候，那些困难不过是自己想出来吓唬自己的，要有所增进，不就是要打败一只只挡在路上的大大小小的真/假纸老虎吗？</p>
+</blockquote>
+<blockquote>
+<p>上个月呀，信誓旦旦的要看uwsgi代码。于是某日，真的沐浴更衣，准备潜心阅读。但一看到它长长的一下子拉不到底的uwsgi_sever结构，嗯，我怂了。为了不误入歧途，索性准备换一下，潜心看uwsgi官方文档。</p>
+</blockquote>
+<blockquote>
+<p>六月份要把Eva的个人网站加上xadmin (这也是最近玩得最多的package呀！！！)，修整一下，差不多可以给它买个域名买个空间了。</p>
+</blockquote>
+<blockquote>
+<p>前段时间看到某个博客上有个menu叫做”exchange”，是博主用来挂他看过的书并且希望换书的。我觉得这种想法相当的好！可惜当时没收藏，已经找不到是哪位的了。但是，Ele计划借鉴一下，也在自己的博客新增一个menu，放自己看过的书并且希望有人可以跟我换书看。</p>
+</blockquote>
+<blockquote>
+<p>我几乎包办了产品在这个项目的需求分析、开发、测试、交付和问题处理，以及偶尔的人力预算分析。经过那些日子的洗礼，那个一无所知的小女孩也可以在别人需要帮助的时候出现在旁边，那些对从前的我来说晦涩难懂的东西也变得开明易懂起来，跟别人沟通也不再是一件艰难的事。而我的眼界也慢慢的放开。</p>
+</blockquote>
+<hr>
+<p>就这样被折腾了一段时间，在某天项目清闲的时候，我终于忍不住，想对这个过程进行自动化。当然，全自动化是理想，半自动化却相对比较容易实现不是。这个决定大大提高了版本管理的效率，减缓了我的焦躁，以及奠定了我对python的喜爱。</p>
+<p>先是用脚本统计N份文档中的代码量，然后将所有版本资料整理成规定形式，接着检查资料规范及完整性。随着对win32com这个python库进一步熟悉，还用它帮忙拷贝几十份文档的病毒扫描结果，提取相关信息以帮助输出版本度量表。从此，QA能挑出的毛病越来越少，我花在版本这件事上的时间也越来越少。而因为大大减少了文档的打开及复制粘贴，从此手也不酸了。直接跑个脚本，然后该干嘛干嘛。</p>
+<p>人生苦短，我用python.</p>
+<p>用脚本实现这些繁琐的工作，还有一个好处。中途因为出差，将版本这件事转交给另一个同事的时候，我只需要告诉他怎么使用这些脚本即可。</p>
+<hr>
+<p><a href="http://ictar.github.io/2015/12/16/%E9%82%A3%E4%BA%9B%E4%BB%A4%E4%BA%BAwow%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7%E9%9B%86%E9%94%A6/" target="_blank" rel="noopener">那些令人wow的小技巧集锦</a></p>
+<p>五月不定阴晴暴雨时时至，不如静坐写代码<br>六月艳日夏愈显，吹着风扇写代码<br>七月浑浑又噩噩，打着呵欠写代码<br>八月早睡早起身体好，对着砖书写代码<br>九月团团圆圆平平淡淡，啃着糕点写代码<br>十月秋风扫落叶，啃着文档写代码</p>
 
       
       
