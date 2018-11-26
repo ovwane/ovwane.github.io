@@ -15,6 +15,7 @@ branches:
   - hexo
 
 before_install:
+- export TZ='Asia/Shanghai'
 - openssl aes-256-cbc -K $encrypted_40dbd9c24c4f_key -iv $encrypted_40dbd9c24c4f_iv
   -in .travis/hexo_rsa.enc -out ~/.ssh/hexo_rsa -d
 - chmod 600 ~/.ssh/hexo_rsa
@@ -33,6 +34,8 @@ install:
 - cd ..
 
 script:
+- git submodule init      # 用于更新主题,更新源为自己的主题项目。
+- git submodule update
 - hexo clean
 - hexo generate
 - hexo deploy
