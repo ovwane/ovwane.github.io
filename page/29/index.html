@@ -206,6 +206,59 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-CentOS7 安装Python" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/08/CentOS7 安装Python/" class="article-date">
+      <time datetime="2017-05-08T10:33:50.000Z" itemprop="datePublished">2017-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="安装Python"><a href="#安装Python" class="headerlink" title="安装Python"></a>安装Python</h2><h3 id="安装Python依赖"><a href="#安装Python依赖" class="headerlink" title="安装Python依赖"></a>安装Python依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># CentOS7</span><br><span class="line">yum install -y  gcc gcc-c++ make git patch openssl-devel zlib-devel readline-devel sqlite sqlite-devel bzip2-devel curl wget ncurses-devel sqlite-devel gdbm-devel xz-devel tk-devel</span><br></pre></td></tr></table></figure>
+<h3 id="安装pyenv"><a href="#安装pyenv" class="headerlink" title="安装pyenv"></a>安装<a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener">pyenv</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br></pre></td></tr></table></figure>
+<h4 id="配置bash-profile"><a href="#配置bash-profile" class="headerlink" title="配置bash_profile"></a>配置bash_profile</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line">echo &apos;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">echo -e &apos;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&apos; &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line">exec &quot;$SHELL&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="安装Python-1"><a href="#安装Python-1" class="headerlink" title="安装Python"></a>安装Python</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.6.5 -v</span><br><span class="line"></span><br><span class="line">pyenv global 3.6.5</span><br><span class="line"></span><br><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure>
+<p>/root/.pyenv/versions/3.6.5/bin/python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install virtualenvwrapper pipenv</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">start virtualwrapper</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/root/.pyenv/versions/3.6.5/bin/python</span><br><span class="line">export WORKON_HOME='~/.virtualenv'</span><br><span class="line">source /root/.pyenv/versions/3.6.5/bin/virtualenvwrapper.sh</span><br><span class="line"><span class="meta">#</span><span class="bash">end</span></span><br></pre></td></tr></table></figure>
+<p>pipenv –python=/root/.pyenv/versions/3.6.5/bin/python</p>
+<p>因Supervisor现在不支持python3的版本需要安装Python 2.7.13</p>
+<p>pyenv install 2.7.14 -v<br>pyenv global 2.7.14<br>pyenv rehash</p>
+<h3 id="更改pypi源"><a href="#更改pypi源" class="headerlink" title="更改pypi源"></a>更改pypi源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 新建pip.conf存放目录</span><br><span class="line">mkdir ~/.pip&amp;&amp;cd ~/.pip</span><br><span class="line"></span><br><span class="line">cat &gt;pip.conf&lt;&lt;EOF</span><br><span class="line">[global]</span><br><span class="line">index-url = https://pypi.douban.com/simple</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Python相关的书签" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -554,10 +607,10 @@
 
 
   
-    <article id="post-Python分布式爬虫打造搜索引擎-bobby-慕课网-目录" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Python分布式爬虫打造搜索引擎-bobby-慕课网-笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-目录/" class="article-date">
+      <a href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-笔记/" class="article-date">
       <time datetime="2017-05-01T20:18:02.000Z" itemprop="datePublished">2017-05-01</time>
 </a>
     </div>
@@ -571,7 +624,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-目录/">Python分布式爬虫打造搜索引擎-bobby-慕课网-目录</a>
+      <a class="article-title" href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-笔记/">Python分布式爬虫打造搜索引擎-bobby-慕课网-笔记</a>
     </h1>
   
 
@@ -670,10 +723,10 @@
 
 
   
-    <article id="post-Python分布式爬虫打造搜索引擎-bobby-慕课网-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Python分布式爬虫打造搜索引擎-bobby-慕课网-目录" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-笔记/" class="article-date">
+      <a href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-目录/" class="article-date">
       <time datetime="2017-05-01T20:18:02.000Z" itemprop="datePublished">2017-05-01</time>
 </a>
     </div>
@@ -687,7 +740,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-笔记/">Python分布式爬虫打造搜索引擎-bobby-慕课网-笔记</a>
+      <a class="article-title" href="/2017/05/01/Python分布式爬虫打造搜索引擎-bobby-慕课网-目录/">Python分布式爬虫打造搜索引擎-bobby-慕课网-目录</a>
     </h1>
   
 
@@ -799,60 +852,6 @@
   
     <h1 itemprop="name">
       <a class="article-title" href="/2017/05/01/生活总结/">生活总结</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-工作总结" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/05/01/工作总结/" class="article-date">
-      <time datetime="2017-05-01T09:58:58.000Z" itemprop="datePublished">2017-05-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/01/工作总结/">工作总结</a>
     </h1>
   
 

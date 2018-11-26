@@ -206,6 +206,76 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-IntelliJ-IDEA-配置-Maven项目-Appium-Java-client" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/12/IntelliJ-IDEA-配置-Maven项目-Appium-Java-client/" class="article-date">
+      <time datetime="2018-10-12T09:59:50.000Z" itemprop="datePublished">2018-10-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/12/IntelliJ-IDEA-配置-Maven项目-Appium-Java-client/">IntelliJ IDEA 配置 Maven项目 Appium Java-client</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>安装maven</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install maven</span><br></pre></td></tr></table></figure>
+<p>设置MAVEN_HOME</p>
+<p>vim ~/.zshrc</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Maven start</span></span><br><span class="line">MAVEN_HOME=/usr/local/Cellar/maven/3.5.4</span><br><span class="line">export PATH=$MAVEN_HOME/bin:$PATH</span><br><span class="line"><span class="meta">#</span><span class="bash"> Maven end</span></span><br></pre></td></tr></table></figure>
+<p>查看mvn版本信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn -v</span><br></pre></td></tr></table></figure>
+<h4 id="Maven-安装-Java-client"><a href="#Maven-安装-Java-client" class="headerlink" title="Maven 安装 Java-client"></a>Maven 安装 Java-client</h4><hr>
+<p>首先，启动IntelliJ IDEA，创建Maven项目（参考上面步骤），然后在maven配置文件(pom.xml)中添加Java-client配置。</p>
+<p>pom.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.appium<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>java-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当然了，也可以自己<a href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.appium%22%20AND%20a%3A%22java-client%22" target="_blank" rel="noopener">下载jar包</a>，请自行选择最新版本。</p>
+<p>最新版本号可以到 github <a href="https://github.com/appium/java-client" target="_blank" rel="noopener">Java-client开源项目</a>上查看。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/kaola8023/p/8443131.html" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/kaola8023/p/8443131.html" target="_blank" rel="noopener">Appium移动自动化测试—–（五） java-client安装与测试</a></a></p>
+<p><a href="https://github.com/appium/java-client/wiki" target="_blank" rel="noopener">Home · appium/java-client Wiki</a></p>
+<p><a href="https://github.com/appium/java-client" target="_blank" rel="noopener">appium/java-client: Java language binding for writing Appium Tests, conforms to Mobile JSON Wire Protocol</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-第14节-企业经验及面试技巧分享" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1313,60 +1383,6 @@
 <p>Preferences—&gt;Tools—&gt;Python Integrated Tools</p>
 <p>Testing—&gt;Default test runner</p>
 
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PyCharm-新建项目使用-pipenv" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/25/PyCharm-新建项目使用-pipenv/" class="article-date">
-      <time datetime="2018-09-25T12:22:43.000Z" itemprop="datePublished">2018-09-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/25/PyCharm-新建项目使用-pipenv/">PyCharm 新建项目使用 pipenv</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
       
       
     </div>

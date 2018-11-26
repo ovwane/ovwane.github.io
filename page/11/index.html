@@ -206,6 +206,75 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-通过CrawlSpider对招聘网站进行整站爬取" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/12/通过CrawlSpider对招聘网站进行整站爬取/" class="article-date">
+      <time datetime="2018-07-12T11:14:04.000Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/12/通过CrawlSpider对招聘网站进行整站爬取/">通过爬虫对招聘网站进行整站爬取</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Windows下类似linux的终端 ·cmder·</p>
+<p>数据库 article_spider</p>
+<p>数据表 lagou_job</p>
+<p>设计数据表结构</p>
+<p><img src="./lagou_job.png" alt=""></p>
+<p>编写CrawlSpider</p>
+<p>查看scrapy spider提供的模板</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider --list</span><br></pre></td></tr></table></figure>
+<p>生成crawlspider</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider -t crawl lagou www.lagou.com</span><br></pre></td></tr></table></figure>
+<p>变量PYTHONPATH</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">project_dir = os.path.abspath(os.path.dirname(__file__))</span><br><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))</span><br><span class="line">sys.path.insert(<span class="number">0</span>, os.path.join(BASE_DIR, <span class="string">'ArticleSpider'</span>))</span><br></pre></td></tr></table></figure>
+<p>CrawlSpider是个什么类？</p>
+<p>Rule</p>
+<p>LinkExtractor</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-随记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -849,57 +918,6 @@
 <p>git add .</p>
 <p>git commit -m “初始化分支，主题使用psf13的”</p>
 <p>git push –set-upstream origin hugo</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 安装配置Hugo" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/04/macOS 安装配置Hugo/" class="article-date">
-      <time datetime="2018-07-04T16:24:10.000Z" itemprop="datePublished">2018-07-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a><br><a href="https://gohugo.io/getting-started/installing/" target="_blank" rel="noopener">Install Hugo</a><a href="https://jimmysong.io/posts/building-github-pages-with-hugo/" target="_blank" rel="noopener">零基础使用Hugo和GitHub Pages创建自己的博客</a></p>
-<p><code>brew install hugo</code></p>
-<p>下载主题</p>
-<p><a href="https://github.com/halogenica/beautifulhugo" target="_blank" rel="noopener">Beautiful Hugo github</a>|<a href="https://themes.gohugo.io/beautifulhugo/" target="_blank" rel="noopener">Beautiful Hugo</a></p>
-<p><code>git clone https://github.com/halogenica/beautifulhugo.git themes/beautifulhugo</code></p>
-<p><code>hugo server -t beautifulhugo --buildDrafts</code></p>
-<p>-t参数的意思是使用beautifulhugo主题渲染我们的页面，注意到about.md目前是作为草稿，即draft参数设置为true，运行Hugo时要加上–buildDrafts参数才会生成被标记为草稿的页面。 在浏览器输入localhost:1313，就可以看到我们刚刚创建的页面。</p>
-<p>注意观察当前目录下多了一个文件夹public/，这里面是Hugo生成的整个静态网站，如果使用Github pages来作为博客的Host，你只需要将public/里的文件上传就可以，这相当于是Hugo的输出。</p>
 
       
       
