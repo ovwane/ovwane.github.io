@@ -1,3 +1,8 @@
+---
+title: PyCharm cython问题
+date: 2017-08-04 09:56:44
+---
+
 ## 问题
 warning: Debugger speedups using cython not found.
 

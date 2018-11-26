@@ -1,3 +1,8 @@
+---
+title: Scrapyd 部署 ArticleSpider
+date: 2017-09-08 20:37:44
+---
+
 # Scrapyd 部署 ArticleSpider
 #### 安装数据库
 ```
@@ -27,7 +32,7 @@ mysql -uroot -p
 mysql_secure_installation
 # 登陆测试
 mysql -uroot -p
-``` 
+```
 
 #### 安装Python三方库
 ```

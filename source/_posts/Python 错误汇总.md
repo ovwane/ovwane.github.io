@@ -1,3 +1,8 @@
+---
+title: Python 错误汇总
+date: 2017-10-07 15:21:45
+---
+
 # python中import urllib2 出错？
 https://www.zhihu.com/question/32177179
 

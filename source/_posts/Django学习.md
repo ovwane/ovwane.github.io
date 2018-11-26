@@ -1,4 +1,9 @@
->macOS 10.13
+---
+title: Django学习
+date: 2017-10-12 09:31:51
+---
+
+>>macOS 10.13
 >Python 3.6.3
 >Django 1.11.6
 >PyMySQL 0.7.11

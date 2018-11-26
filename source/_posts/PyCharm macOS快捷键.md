@@ -1,3 +1,8 @@
+---
+title: PyCharm macOS快捷键
+date: 2017-09-20 11:00:46
+---
+
 # macOS 10.12.6 PyCharm快捷键
 ***
 作者：古佛青灯度流年

@@ -1,3 +1,8 @@
+---
+title: PyCharm配置使用
+date: 2017-10-07 16:34:43
+---
+
 #### 安装PyCharm
 brew cask install pycharm
 
