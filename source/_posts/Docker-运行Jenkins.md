@@ -10,7 +10,7 @@ docker pull jenkins/jenkins:2.138.2
 #jenkins启动用户id 1000
 chown -R 1000:1000 /data/jenkins
 
-docker run --network=sonar_sonarnet -p 8810:8080 -p 50000:50000 -v ~/docker/jenkins:/var/jenkins_home -d --name jenkins-2.138.2 jenkins/jenkins:2.138.2 
+docker run --network=sonar_sonarnet -p 8810:8080 -p 50000:50000 --env JAVA_OPTS=-Duser.timezone=Asia/Shanghai -v ~/docker/jenkins:/var/jenkins_home -d --name jenkins-2.138.2 jenkins/jenkins:2.138.2 
 ```
 
 nginx反向代理
@@ -43,3 +43,5 @@ Email Extension
 [docker运行jenkins](https://www.jianshu.com/p/3671eb8de971)
 
 [Create a HTTP proxy for jenkins using NGINX.](https://gist.github.com/rdegges/913102)
+
+[docker容器的时区问题和中文问题](https://www.jianshu.com/p/9299e2685976)

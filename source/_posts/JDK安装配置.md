@@ -16,7 +16,7 @@ tags:
 
 ```bash
 #解压缩jdk
-tar xf jdk-8u151-linux-x64.tar.gz -C /usr/local/
+tar xf jdk-*-linux-x64.tar.gz -C /usr/local/
 #软连接
 ln -s /usr/local/jdk1.8.0_151 /usr/local/jdk
 #更改jdk的权限
