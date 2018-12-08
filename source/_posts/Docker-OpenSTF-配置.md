@@ -4,6 +4,13 @@ date: 2018-10-26 14:06:01
 tags:
 ---
 
+**安装OpenSTF**
+
+- mac下brew安装
+- mac下vagrant安装
+- ubuntu下docker安装
+- ubuntu下docker安装stf-app
+
 ## macOS下安装OpenSTF
 
 **安装依赖**
@@ -161,47 +168,403 @@ docker pull sorccu/adb:latest
 docker pull nginx:1.15.7-alpine
 ```
 
+```shell
+for name in openstf/stf:v3.4.0 openstf/ambassador:latest rethinkdb:2.3.6 sorccu/adb:latest nginx:1.15.7-alpine; do
+	docker pull $name
+done
+```
+
 [解决Error response from daemon: Get https://registry-1.docker.io/v2](https://blog.csdn.net/quanqxj/article/details/79479943)
 
 #### 启动镜像
 
-- 启动一个数据库
+- 启动数据库
 
-  ```shell
-  docker run -d --name rethinkdb-2.3.6 --net host -p 8821:8080 -p 28015:28015 -p 29015:29015 -v /data/docker/rethinkdb:/data rethinkdb:2.3.6
-  ```
-  ```shell
-  docker stop rethinkdb-2.3.6
-  docker rm rethinkdb-2.3.6
-  ```
-
-  
+```shell
+docker run -d --name rethinkdb-2.3.6 --net host -v /data/docker/rethinkdb:/data rethinkdb:2.3.6
+```
+```shell
+docker stop rethinkdb-2.3.6
+docker rm rethinkdb-2.3.6
+```
 
 - 启动adb service
 
-  ```shell
+```shell
   docker run -d --name adbd --privileged --net host -v /dev/bus/usb:/dev/bus/usb sorccu/adb:latest
-  ```
-  ```shell
+```
+```shell
   docker stop adbd
   docker rm adbd
   docker start adbd
-  ```
-
-  
-
+```
 - 启动stf 启动的时配置的IP地址为你服务器的ip
 
-  ```shell
-  docker run -d --name stf-3.4.0 --net host openstf/stf:v3.4.0 stf local --public-ip 10.8.8.108
-  ```
-  ```shell
+```shell
+  docker run -d --name stf-3.4.0 --net host openstf/stf:v3.4.0 stf local --public-ip 10.8.8.118
+```
+```shell
   docker stop stf-3.4.0
   docker rm stf-3.4.0
   docker start stf-3.4.0
+```
+
+# [STF 正式环境 docker 化集群部署](https://testerhome.com/topics/12755)
+
+在本地开发STF，需依次安装Node.js，ADB ，RethinkDB，GraphicsMagick，ZeroMQ ，Protocol Buffers，yasm， pkg-config环境，如果部署到生产环境，每增加一台机器节点，都安装这些环境，那将是一个非常痛苦的过程。STF官方也推荐使用docker来搭建STF环境，服务器只需要安装docker，然后依次拉取以下镜像： docker pull openstf/stf:latest docker pull sorccu/adb:latest  docker pull rethinkdb:latest  docker pull openstf/ambassador:latest  docker pull nginx:latest openstf/stf是stf的主镜像，sorccu/adb是adb工具，如果本地服务器已经有adb环境，可以不要此镜像，rethinkdb是stf数据库镜像，openstf/ambassador为网络代理工具，nginx是一个web服务器反向代理工具， stf依赖它将不同的url转发到不同模块上，没有nginx，生产环境中的stf是肯定不能正常工作的。拉取这些镜像以后，stf就可以直接在容器中运行了，不需要再安装stf的相关工具，openstf/stf镜像已经包含了所依赖的环境。 如果基于stf做了二次定制，要在服务器上进行docker部署，可不是一个stf local命令就开始使用了，需要以下步骤：
+
+## 发布镜像
+
+```shell
+git clone https://github.com/openstf/stf.git
+cd stf/docker
+```
+
+openstf/stf是STF官方push到docker官方仓库的镜像，如果进行了二次开发，理论上只需要替换该镜像即可。制作镜像首先需要DockerFile，在源码的根目录下，已经提供了现成的DockerFile，直接基于该File制作镜像，在DockerFile目录下，执行 `sudo docker build -t dystf/stf:latest .`其中dystf/stf为镜像名称，latest为镜像版本。网速好的情况下，10分钟内可以制作好，网速不好的情况下，半个小时以上甚至失败都是有可能的，这个时候需要不断地重试，执行完后，执行`sudo doker images`可查看刚制作好的镜像。如果新发布的镜像有问题，可以快速恢复到上个版本。每次修改代码以后，基于主服务器重新制定新的镜像，可将该镜像保存，然后可以分发到其他服务器上，其他服务器不需要再重新制定，方便快捷，`sudo docker save 镜像ID> dystf_image.tar`
+
+ ## 集群化部署
+
+ 如果只有10-15个设备的数据量，只需要一台服务器节点，直接启动stf local命令就可以了。当然实际生产环境中，绝对提供不止十几台的数量，有可能达到上百台，上百台的话，至少需要 10台服务器节点，一台服务器节点一般10台手机。所以只有通过集群部署来解决该问题，而且能够达到快速扩展新节点目的。 STF包含多个独立运行的进程，这些进程之间通过ZeroMQ和Protocol Buffers通信，每个进程节点叫做“unit”，这些单元可以分别部署到不同的服务器上，通过nigix配置来转发，详情可以看官方文档介绍。在我们的远程真机部署环境中，选了一台性能较好的服务器作为主节点，该服务器不连任何设备，provider节点作为设备的提供agent，它将设备上报给主服务器，并展示。
+
+### **provider服务器节点部署以下单元模块**： 
+
+- adbd.service（adb环境） 
+- stf-provider@.service 
+
+> stf-provider的作用就是给主框架提供手机，provider可以运行在同一台机器，也可以运行在其他机器，但是，这台机器一定要可直接访问的，因为手机屏幕其实就是从这里出来的。在provider机器上一定要先由adb的环境，毕竟安卓手机要依赖adb调试。
+
+### **添加新provider节点** 
+
+添加新的设备，需要增加新的服务器节点，新的节点只需几分钟便可接入完成： 
+
+- 第一步：安装docker环境，adb环境。 
+
+- 第二部：导入镜像，在上面第一步中，将主服务器已经发布好的镜像dystf_image.tar scp 到该服务器上，然后导入该镜像： `sudo docker load < /Users/mtp/dystf_image.tar` 刚导入的镜像没有名字和版本，需要对其打标，dystf/stf:latest为打标的名字和版本 `sudo docker tag $(sudo docker images --filter "dangling=true" -q) dystf/stf:latest `
+
+- 第三部：启动stf-provider，如上命令。 
+
+- 第四部：配置nginx 在主服务器的nginx.conf文件下，添加刚启动的provider节点配置，添加：
+
+  ```nginx
+  location ~ "^/d/新节点启动名称,如上例的agentX/(/+)/(?[0-9]{5})/$" { 
+      proxy_pass http://新节点IP2:$port/; proxy_http_version 1.1; 
+      proxy_set_header Upgrade $http_upgrade; 
+      proxy_set_header Connection $connection_upgrade; 
+      proxy_set_header X-Forwarded-For $remote_addr; 
+      proxy_set_header X-Real-IP $remote_addr; 
+  } 
   ```
 
+  > 配置完成后，重启ngnix，新节点所连接的设备即可上报给主服务器。
+
+
+
+# STF Setup Examples using Vagrant and Docker
+
+```shell
+git clone https://github.com/openstf/setup-examples.git
+cd stf-setup-examples
+```
+
+### Create Rethinkdb Cluster
+
+Lets create rethinkdb cluster. Go to the `db` folder and run `vagrant up`. Yeah, thats it.
+
+```shell
+cd ./db; vagrant up
+```
+
+
+
+# Deployment OpenStf
+
+### IP address
+
+- app role、database role: `10.8.8.128`
+- provider1: `10.8.8.131`
+
+### Database role
+
+The database role requires the following units, UNLESS you already have a working RethinkDB server/cluster running somewhere. In that case you simply will not have this role, and should point your [rethinkdb-proxy-28015.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#rethinkdb-proxy-28015service) to that server instead.
+
+- [rethinkdb.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#rethinkdbservice)
+
+### App role
+
+The app role can contain any of the following units. You may distribute them as you wish, as long as the [assumptions above](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#assumptions) hold. Some units may have more requirements, they will be listed where applicable.
+
+- [stf-app@.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-appservice)
+- [stf-auth@.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-authservice)
+- [stf-log-rethinkdb.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-log-rethinkdbservice)
+- [stf-migrate.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-migrateservice)
+- [stf-processor@.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-processorservice)
+- [stf-reaper.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-reaperservice)
+- [stf-storage-plugin-apk@.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-storage-plugin-apkservice)
+- [stf-storage-plugin-image@.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-storage-plugin-imageservice)
+- [stf-storage-temp@.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-storage-tempservice)
+- [stf-triproxy-app.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-triproxy-appservice)
+- [stf-triproxy-dev.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-triproxy-devservice)
+- [stf-websocket@.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-websocketservice)
+- [stf-api@.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-apiservice)
+
+### Provider role
+
+The provider role requires the following units, which must be together on a single or more hosts.
+
+- [adbd.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#adbdservice)
+
+- [stf-provider@.service](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-providerservice)
+
   
+
+# App role配置
+
+## 启动nignx容器
+
+```shell
+mkdir /data/stf/nginx/ -p
+
+cd /data/stf/nginx/ 
+
+vim nginx.conf
+```
+
+```nginx
+#daemon off;
+worker_processes 4;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+  upstream stf_app {
+    server 10.8.8.128:3100 max_fails=0;
+  }
+
+  upstream stf_auth {
+    server 10.8.8.128:3101 max_fails=0;
+  }
+
+  upstream stf_storage_apk {
+    server 10.8.8.128:3102 max_fails=0;
+  }
+
+  upstream stf_storage_image {
+    server 10.8.8.128:3103 max_fails=0;
+  }
+
+  upstream stf_storage {
+    server 10.8.8.128:3104 max_fails=0;
+  }
+
+  upstream stf_websocket {
+    server 10.8.8.128:3105 max_fails=0;
+  }
+
+  upstream stf_api {
+    server 10.8.8.128:3106 max_fails=0;
+  }
+
+  types {
+    application/javascript  js;
+    image/gif               gif;
+    image/jpeg              jpg;
+    text/css                css;
+    text/html               html;
+  }
+
+  map $http_upgrade $connection_upgrade {
+    default  upgrade;
+    ''       close;
+  }
+
+  server {
+    listen 80;
+    server_name stf.ovwane.com;
+    keepalive_timeout 70;
+#    resolver 114.114.114.114 8.8.8.8 valid=300s;
+#    resolver_timeout 10s;
+
+    # Handle stf-provider@floor1.service
+    location ~ "^/d/floor1/([^/]+)/(?<port>[0-9]{5})/$" {
+      proxy_pass http://10.8.8.131:$port/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # Handle stf-provider@floor2.service
+    location ~ "^/d/floor2/([^/]+)/(?<port>[0-9]{5})/$" {
+      proxy_pass http://10.8.8.132:$port/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location /auth/ {
+      proxy_pass http://stf_auth/auth/;
+    }
+
+    location /api/ {
+      proxy_pass http://stf_api/api/;
+    }
+
+    location /s/image/ {
+      proxy_pass http://stf_storage_image;
+    }
+
+    location /s/apk/ {
+      proxy_pass http://stf_storage_apk;
+    }
+
+    location /s/ {
+      client_max_body_size 1024m;
+      client_body_buffer_size 128k;
+      proxy_pass http://stf_storage;
+    }
+
+    location /socket.io/ {
+      proxy_pass http://stf_websocket;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Real-IP $http_x_real_ip;
+    }
+
+    location / {
+      proxy_pass http://stf_app;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Real-IP $http_x_real_ip;
+    }
+  }
+}
+```
+
+**启动nginx**
+
+```shell
+docker run -d --name stf-nginx-1.15.7 --net host -v /data/stf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro nginx:1.15.7-alpine
+```
+
+## 启动rethinkdb
+
+```shell
+docker run -d --name stf-rethinkdb-2.3.6 -v /data/stf/rethinkdb:/data -e "AUTHKEY=RETHINKDBAUTHKEYANY" --net host rethinkdb:2.3.6 rethinkdb --bind all --cache-size 8192 --http-port 8090 --no-update-check
+```
+
+## 启动stf-migrate 初始化数据库表
+
+```shell
+docker run -d --name stf-migrate-3.4.0 --net host openstf/stf:v3.4.0 stf migrate
+```
+
+## 启动stf-app
+
+```shell
+docker run -d --name stf-app-3.4.0 --net host -e "SECRET=RETHINKDBAUTHKEYANY" openstf/stf:v3.4.0 stf app --port 3100 --auth-url $STF_URL/auth/mock/ --websocket-url ws://stf.ovwane.com/
+```
+
+## 启动stf-auth
+
+```shell
+docker run -d --name stf-auth-3.4.0 --net host -e "SECRET=RETHINKDBAUTHKEYANY" openstf/stf:v3.4.0 stf auth-mock --port 3101 --app-url http://stf.ovwane.com/
+```
+
+> 启动 stf-app和stf-auth之后就可以登录了。
+
+## 启动stf-websocket
+
+```shell
+docker run -d --name stf-websocket-3.4.0 --net host -e "SECRET=RETHINKDBAUTHKEYANY" openstf/stf:v3.4.0 stf websocket --port 3105 --storage-url http://stf.ovwane.com/ --connect-sub tcp://stf.ovwane.com:7150 --connect-push tcp://stf.ovwane.com:7170
+```
+
+## 启动stf-api
+
+```shell
+docker run -d --name stf-api-3.4.0 --net host -e "SECRET=RETHINKDBAUTHKEYANY" openstf/stf:v3.4.0 stf api --port 3106 --connect-sub tcp://stf.ovwane.com:7150 --connect-push tcp://stf.ovwane.com:7170
+```
+
+## 启动stf-storage-plugin-apk
+
+```shell
+docker run -d --name stf-storage-plugin-apk-3.4.0 --net host openstf/stf:v3.4.0 stf storage-plugin-apk --port 3102 --storage-url http://stf.ovwane.com/
+```
+
+## 启动stf-storage-plugin-image
+
+```shell
+docker run -d --name stf-storage-plugin-image-3.4.0 --net host openstf/stf:v3.4.0 stf storage-plugin-image --port 3103 --storage-url http://stf.ovwane.com/
+```
+
+## 启动stf-storage-temp
+
+```shell
+docker run -d --name stf-storage-temp-3.4.0 --net host openstf/stf:v3.4.0 stf storage-temp --port 3104 --save-dir /data
+```
+
+## 启动stf-triproxy-app
+
+```shell
+docker run -d --name stf-triproxy-app-3.4.0 --net host openstf/stf:v3.4.0 stf triproxy app --bind-pub "tcp://*:7150" --bind-dealer "tcp://*:7160" --bind-pull "tcp://*:7170"
+```
+
+## 启动stf-processor
+
+```shell
+docker run -d --name stf-processor-3.4.0 --net host openstf/stf:v3.4.0 stf processor stf-processer --connect-app-dealer tcp://stf.ovwane.com:7160 --connect-dev-dealer tcp://stf.ovwane.com:7260
+```
+
+## 启动stf-triproxy-dev
+
+```shell
+docker run -d --name stf-triproxy-dev-3.4.0 --net host openstf/stf:v3.4.0 stf triproxy dev --bind-pub "tcp://*:7250" --bind-dealer "tcp://*:7260" --bind-pull "tcp://*:7270"
+```
+
+## 启动stf-reaper
+
+```shell
+docker run -d --name stf-reaper-3.4.0 --net host openstf/stf:v3.4.0 stf reaper dev --connect-push tcp://stf.ovwane.com:7270 --connect-sub tcp://stf.ovwane.com:7150 --heartbeat-timeout 30000
+```
+
+## 启动stf-log-rethinkdb（可选安装）
+
+```shell
+docker run -d --name stf-log-rethinkdb-3.4.0 --net host openstf/stf:v3.4.0 stf log-rethinkdb --connect-sub tcp://devside.stf.ovwane.com:7150
+```
+
+> devside或者appside
+
+
+
+# Provider role配置
+
+> 每台provider都要启动adbd和stf-provider。
+
+## 启动adbd
+
+```shell
+docker run -d --name adbd --privileged --net host -v /dev/bus/usb:/dev/bus/usb sorccu/adb:latest
+```
+
+## 启动stf-provider1
+
+```shell
+docker run -d --name stf-provider-3.4.0-1 --net host openstf/stf:v3.4.0 stf provider --name "provider-1" --connect-sub tcp://devside.stf.ovwane.com:7250 --connect-push tcp://devside.stf.ovwane.com:7270 --storage-url http://stf.ovwane.com --public-ip provider1.stf.ovwane.com --min-port=15000 --max-port=25000 --heartbeat-interval 20000 --screen-ws-url-pattern "ws://stf.ovwane.com/d/floor1/<%= serial %>/<%= publicPort %>/"
+```
+
+## 启动stf-provider2
+
+```shell
+docker run -d --name stf-provider-3.4.0-2 --net host openstf/stf:v3.4.0 stf provider --name "provider-2" --connect-sub tcp://devside.stf.ovwane.com:7250 --connect-push tcp://devside.stf.ovwane.com:7270 --storage-url http://stf.ovwane.com --public-ip provider2.stf.ovwane.com --min-port=15000 --max-port=25000 --heartbeat-interval 20000 --screen-ws-url-pattern "ws://stf.ovwane.com/d/floor2/<%= serial %>/<%= publicPort %>/"
+```
+
+
 
 ## 参考
 
@@ -212,3 +575,10 @@ docker pull nginx:1.15.7-alpine
 [STF docker 集群部署，树莓派做子节点,附带完整配置](https://testerhome.com/topics/15027)
 
 [Mac 上用 docker 安装 openstf--一步一坑从入门到放弃](https://testerhome.com/topics/12489)
+
+[OpenStf Deployment](https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md)
+
+[STF docker 集群部署，树莓派做子节点,附带完整配置](https://testerhome.com/topics/15027)
+
+[STF 开发环境搭建与制作 docker 镜像过程](https://testerhome.com/topics/5206)
+
