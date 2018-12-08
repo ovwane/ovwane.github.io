@@ -210,6 +210,112 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-macOS-配置-Macaca" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/15/macOS-配置-Macaca/" class="article-date">
+      <time datetime="2018-10-15T06:51:25.000Z" itemprop="datePublished">2018-10-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/15/macOS-配置-Macaca/">macOS 配置 Macaca</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a><strong>安装node</strong></h4><h4 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a><strong>iOS</strong></h4><p>Xcode v9 or higher is required.</p>
+<ul>
+<li><a href="https://github.com/libimobiledevice/usbmuxd" target="_blank" rel="noopener">usbmuxd</a> is needed in order to testing real iOS device via USB.</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install usbmuxd</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://github.com/libimobiledevice/ideviceinstaller" target="_blank" rel="noopener">ideviceinstaller</a> is needed in order to install App to real device.</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ideviceinstaller</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://github.com/google/ios-webkit-debug-proxy" target="_blank" rel="noopener">ios-webkit-debug-proxy</a> is needed in order to testing WebViews.</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ios-webkit-debug-proxy</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://github.com/macacajs/XCTestWD/blob/master/README.md#43-debug-info" target="_blank" rel="noopener">debug log</a> will be displayed when ‘–verbose’ is set as an argument when initiating macaca.</li>
+<li>查看TEAM_ID</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEVELOPMENT_TEAM_ID=TEAM_ID npm i macaca-ios -g</span><br></pre></td></tr></table></figure>
+<h4 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h4><ul>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">JDK 1.8</a> (Java 9 is not supported)</li>
+<li>Android SDK</li>
+<li>Set the <code>ANDROID_HOME</code> environment variable to your <code>~/.bashrc</code>, <code>~/.bash_profile</code>, <code>~/.zshrc</code> or </li>
+</ul>
+<p><a href="https://gradle.org/" target="_blank" rel="noopener">gradle</a> is needed in order to build <a href="https://github.com/macacajs/UIAutomatorWD" target="_blank" rel="noopener">UIAutomatorWD</a> and other package</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install gradle</span><br></pre></td></tr></table></figure>
+<ul>
+<li>If you got a error like [You have not accepted the license agreements of the following SDK components] on your install command [npm i macaca-android -g]，plz accept all Android SDK licenses uses command below, and retry install.</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses</span><br></pre></td></tr></table></figure>
+<h4 id="ChromeDriver"><a href="#ChromeDriver" class="headerlink" title="ChromeDriver"></a>ChromeDriver</h4><h3 id="Macaca-Cli"><a href="#Macaca-Cli" class="headerlink" title="Macaca Cli"></a>Macaca Cli</h3><h4 id="Global-Installation"><a href="#Global-Installation" class="headerlink" title="Global Installation"></a>Global Installation</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g macaca-cli</span><br></pre></td></tr></table></figure>
+<h4 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h4><p>Let’s check the version and verify the environment.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> electron</span></span><br><span class="line"><span class="meta">#</span><span class="bash">npm install electron -g</span></span><br><span class="line">npm install macaca-electron -g</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> show version</span></span><br><span class="line">macaca -v</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> verify environment</span></span><br><span class="line">macaca doctor</span><br></pre></td></tr></table></figure>
+<h4 id="启动Macaca"><a href="#启动Macaca" class="headerlink" title="启动Macaca"></a>启动Macaca</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">macaca server --verbose</span><br></pre></td></tr></table></figure>
+<h4 id="安装-app-inspector"><a href="#安装-app-inspector" class="headerlink" title="安装 app-inspector"></a>安装 app-inspector</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install app-inspector -g</span><br></pre></td></tr></table></figure>
+<h4 id="获取设备-ID"><a href="#获取设备-ID" class="headerlink" title="获取设备 ID"></a>获取设备 ID</h4><h5 id="iOS-1"><a href="#iOS-1" class="headerlink" title="iOS"></a>iOS</h5><pre><code>**命令行方式**
+</code></pre><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun simctl list</span><br></pre></td></tr></table></figure>
+<pre><code>这行命令会列出你的所以模拟器信息，里面有类似 XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX 的代码，就是模拟器 UDID。
+
+**从 Xcode 获取**
+</code></pre><p>打开模拟器，从菜单中打开 Hardware - devices - manage devices。 然后你会看到模拟器信息界面，里面有个 identifier，就是 UDID。</p>
+<h5 id="Android-1"><a href="#Android-1" class="headerlink" title="Android"></a>Android</h5><pre><code>从命令行
+
+先启动你的设备，然后使用 adb 命令查看设备信息：
+</code></pre><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb devices</span><br></pre></td></tr></table></figure>
+<h5 id="iOS-真机问题-重新安装app-inspector，并添加TEAM-ID"><a href="#iOS-真机问题-重新安装app-inspector，并添加TEAM-ID" class="headerlink" title="iOS 真机问题,重新安装app-inspector，并添加TEAM_ID"></a>iOS 真机问题,重新安装app-inspector，并添加TEAM_ID</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> DEVELOPMENT_TEAM_ID=TEAM_ID npm i app-inspector -g</span></span><br></pre></td></tr></table></figure>
+<h4 id="命令行启动"><a href="#命令行启动" class="headerlink" title="命令行启动"></a>命令行启动</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app-inspector -u YOUR-DEVICE-ID</span><br></pre></td></tr></table></figure>
+<h4 id="打开界面"><a href="#打开界面" class="headerlink" title="打开界面"></a>打开界面</h4><pre><code>你的命令行将输出如下的文字：
+</code></pre><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inspector start at: http://192.168.10.100:5678</span><br></pre></td></tr></table></figure>
+<pre><code>然后在浏览器里面打开输出的链接：http://192.168.10.100:5678。
+
+推荐用 Chrome 浏览器。
+</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://macacajs.github.io/environment-setup" target="_blank" rel="noopener">Macaca Environment Setup</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-macOS-配置Tomcat" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -984,70 +1090,6 @@
 <h3 id="java客户端安装"><a href="#java客户端安装" class="headerlink" title="java客户端安装"></a>java客户端安装</h3><p>配置maven项目</p>
 <p>在src/test下编写用例</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;groupId&gt;io.appium&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;java-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.0.4&lt;/version&gt;</span><br><span class="line">    &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-源码编译Jmeter" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/09/源码编译Jmeter/" class="article-date">
-      <time datetime="2018-10-09T00:19:39.000Z" itemprop="datePublished">2018-10-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/源码编译Jmeter/">源码编译Jmeter</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>安装Ant工具</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ant</span><br></pre></td></tr></table></figure>
-<p>下载JMeter源码</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/apache/jmeter.git</span><br></pre></td></tr></table></figure>
-<p>ant初始化build环境</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ant download_jars</span><br></pre></td></tr></table></figure>
-<p>执行下ant</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ant</span><br></pre></td></tr></table></figure>
-<p>build，This will compile the application and enable you to run <code>jmeter</code> from the <code>bin</code> directory.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ant test [-Djava.awt.headless=true]</span><br></pre></td></tr></table></figure>
 
       
       
