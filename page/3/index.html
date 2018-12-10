@@ -210,6 +210,126 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Docker-运行ELK" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/19/Docker-运行ELK/" class="article-date">
+      <time datetime="2018-10-19T07:52:38.000Z" itemprop="datePublished">2018-10-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/19/Docker-运行ELK/">Docker 运行ELK</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull sebp/elk:642</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name elk-624 \</span><br><span class="line">-e LOGSTASH_START=0 \</span><br><span class="line">-e ES_HEAP_SIZE="1g" \</span><br><span class="line">--network=sonar_sonarnet \</span><br><span class="line">-p 5601:5601 -p 9200:9200 -p 5044:5044 \</span><br><span class="line">sebp/elk:642</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS-pip-配置-supervisor" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/17/macOS-pip-配置-supervisor/" class="article-date">
+      <time datetime="2018-10-17T07:27:45.000Z" itemprop="datePublished">2018-10-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/17/macOS-pip-配置-supervisor/">macOS pip 配置 supervisor</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>macOS 10.13.6</p>
+</blockquote>
+<p>etc目录在/usr/local/etc</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/local/etc/supervisor/</span><br><span class="line">echo_supervisord_conf &gt; /usr/local/etc/supervisor/supervisord.conf</span><br></pre></td></tr></table></figure>
+<p>vim /usr/local/etc/supervisor/supervisord.conf</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[inet_http_server]         </span><br><span class="line">port=127.0.0.1:9001</span><br><span class="line"></span><br><span class="line">[supervisord]</span><br><span class="line">logfile=/usr/local/etc/supervisor/supervisord.log</span><br><span class="line">logfile_maxbytes=50MB        ; max main logfile bytes b4 rotation; default 50MB</span><br><span class="line">logfile_backups=10           ; # of main logfile backups; 0 means none, default 10</span><br><span class="line">loglevel=info                ; log level; default info; others: debug,warn,trace</span><br><span class="line">pidfile=/usr/local/etc/supervisor/supervisord.pid</span><br><span class="line"></span><br><span class="line">[supervisorctl]</span><br><span class="line">serverurl=http://127.0.0.1:9001</span><br><span class="line">serverurl=unix:///usr/local/etc/supervisor/supervisor.sock</span><br><span class="line"></span><br><span class="line">[include]</span><br><span class="line">files = /usr/local/etc/supervisor/conf.d/*.conf</span><br></pre></td></tr></table></figure>
+<p>启动supervisor</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisord -c /usr/local/etc/supervisor/supervisord.conf</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-macOS-配置-Macaca" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -802,294 +922,6 @@
 <p>3.断言机制</p>
 <p>4.rest-assured进阶</p>
 <p>5.jenkins集成接口测试</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Appium自动化测试系列进阶课程" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/09/Appium自动化测试系列进阶课程/" class="article-date">
-      <time datetime="2018-10-09T06:11:36.000Z" itemprop="datePublished">2018-10-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/Appium自动化测试系列进阶课程/">Appium自动化测试系列进阶课程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Appium-android进阶第1讲-调试分析方法</p>
-<p>Appium-android进阶第2讲-toast识别条件</p>
-<p>Appium-android进阶第3讲-toast识别-屏幕滑动</p>
-<p>Appium-android进阶第4讲-toas识别-代码实现1</p>
-<p>Appium-android进阶第5讲-toast识别答疑</p>
-<p>Appium-android进阶第6讲-toast识别-代码实现2</p>
-<p>Appium-android进阶第7讲-显式、隐式等待</p>
-<p>Appium-android进阶第8讲-高级特性-API演示</p>
-<p>Appium-android进阶第9讲-高级特性-深入XPath定位</p>
-<p>Appium-android进阶第10讲-高级特性-Webview切换 </p>
-<p>Appium-android进阶第11讲-capability高级讲解</p>
-<p>Appium-android进阶第12讲-Grid模式演示</p>
-<p>Appium-android进阶第13讲-8.0 webview切换问题解析</p>
-<p>Appium-android进阶第14讲-8.0 webview切换解决方法</p>
-<p>Appium-android进阶第15讲-pageobject基础使用</p>
-<p>Appium-android进阶第16讲-pageobject答疑</p>
-<p>Appium-android进阶第17讲-兼容性测试-介绍</p>
-<p>Appium-android进阶第18讲-兼容性测试-STF平台讲解</p>
-<p>Appium-android进阶第19讲-兼容性测试-远程调试平台演练</p>
-<p>Appium-android进阶第20讲-常用测试类介绍</p>
-<p>Appium-android进阶第21讲-数据驱动</p>
-<p> Appium-android进阶第22讲-测试套件</p>
-<p>Appium-android进阶第23讲-执行顺序控制</p>
-<p>Appium-ios第1讲-Xcode编译UICatalog</p>
-<p>Appium-ios第2讲-Appium-Desktop启动app</p>
-<p>Appium-ios第3讲-使用Inspector定位</p>
-<p>Appium-ios第4讲-Appium-ios用例演练</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Appium自动化测试系列入门课程" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/09/Appium自动化测试系列入门课程/" class="article-date">
-      <time datetime="2018-10-09T04:38:08.000Z" itemprop="datePublished">2018-10-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/Appium自动化测试系列入门课程/">Appium自动化测试系列入门课程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Appium安装第1讲-环境设置</p>
-<p>Appium安装第2讲_相关依赖安装</p>
-<p>Appium安装第3讲_两种安装方法1</p>
-<p>Appium安装第4讲_两种安装方法2</p>
-<p>Appium安装第5讲_组件介绍</p>
-<p>Appium安装第6讲_webdriver协议介绍</p>
-<p>Appium安装第7讲_webdriver演示分析</p>
-<p>Appium-android基础第1讲-Appium介绍</p>
-<p>Appium-android基础第2讲-常用命令讲解</p>
-<p>Appium-android基础第3讲-Inspector使用</p>
-<p>Appium-android基础第4讲-appium日志讲解</p>
-<p>Appium-android基础第5讲-用例编写1</p>
-<p>Appium-android基础第6讲-用例编写2</p>
-<p>Appium-android基础第7讲-用例编写3</p>
-<p>Appium-android基础第8讲-元素定位</p>
-<p>Appium-android基础第9讲-常见自动化动作</p>
-<h2 id="01-Appium安装第1讲-环境设置"><a href="#01-Appium安装第1讲-环境设置" class="headerlink" title="01.Appium安装第1讲-环境设置"></a>01.Appium安装第1讲-环境设置</h2><p><a href="https://testerhome.com/topics/6040" target="_blank" rel="noopener">通过代理安装 appium</a></p>
-<p>写在 macOS-配置Appium环境.md</p>
-<h2 id="Appium安装第5讲-组件介绍"><a href="#Appium安装第5讲-组件介绍" class="headerlink" title="Appium安装第5讲_组件介绍"></a>Appium安装第5讲_组件介绍</h2><p>appium-uiautomator2-driver-&gt;appium-uiautomator2-server</p>
-<p>appium-selendroid-driver</p>
-<p>Hacking appium</p>
-<p>更改appium源码</p>
-<p>appium/lib/</p>
-<p><strong>appium 源码下 docs需要读一下</strong></p>
-<h2 id="Appium安装第6讲-webdriver协议介绍"><a href="#Appium安装第6讲-webdriver协议介绍" class="headerlink" title="Appium安装第6讲_webdriver协议介绍"></a>Appium安装第6讲_webdriver协议介绍</h2><p>webdriver w3c标准</p>
-<h2 id="Appium安装第7讲-webdriver演示分析"><a href="#Appium安装第7讲-webdriver演示分析" class="headerlink" title="Appium安装第7讲_webdriver演示分析"></a>Appium安装第7讲_webdriver演示分析</h2><p>/session/{session id}/</p>
-<p>拼接url请求</p>
-<h2 id="Appium-android基础第1讲-Appium介绍"><a href="#Appium-android基础第1讲-Appium介绍" class="headerlink" title="Appium-android基础第1讲-Appium介绍"></a>Appium-android基础第1讲-Appium介绍</h2><h3 id="UI自动化测试在企业中的价值"><a href="#UI自动化测试在企业中的价值" class="headerlink" title="UI自动化测试在企业中的价值"></a>UI自动化测试在企业中的价值</h3><ul>
-<li>主流程业务的回归测试</li>
-<li>自动探索和自动遍历测试</li>
-<li>app端性能测试自动化</li>
-<li>在上百机型的兼容测试</li>
-</ul>
-<h3 id="目前mobile自动化的方案"><a href="#目前mobile自动化的方案" class="headerlink" title="目前mobile自动化的方案"></a>目前mobile自动化的方案</h3><p>appium</p>
-<p> iOS：UIAutomation</p>
-<p>Android：UIAutomator</p>
-<p>google trends 搜索</p>
-<h2 id="Appium的优势"><a href="#Appium的优势" class="headerlink" title="Appium的优势"></a>Appium的优势</h2><p>多种开发模式支持 native hybrid webview</p>
-<p>多平台支持 android ios firefox</p>
-<p>跨语言 java python ruby nodejs</p>
-<p>支持跨app</p>
-<h2 id="Appium生态工具"><a href="#Appium生态工具" class="headerlink" title="Appium生态工具"></a>Appium生态工具</h2><p>Appium Client -&gt; Appium Server -&gt; Phone</p>
-<p>adb</p>
-<p>Appium Desktop</p>
-<h2 id="Appium-android基础第2讲-常用命令讲解"><a href="#Appium-android基础第2讲-常用命令讲解" class="headerlink" title="Appium-android基础第2讲-常用命令讲解"></a>Appium-android基础第2讲-常用命令讲解</h2><p>aapt dump badging *.apk</p>
-<p>Android Asset Packing Tool</p>
-<p>aapt list *.apk</p>
-<p>aapt dump strings *.apk</p>
-<p>aapt dump resources *.apk</p>
-<p>aapt dump xmltree</p>
-<p>aapt dump xmlstrings</p>
-<p>adb install -r *.apk</p>
-<p>launchable-activity</p>
-<p>adb logcat 查看日志</p>
-<p>adb logcat |grep ActivityManager</p>
-<p>adb logcat |awk ‘/ActivityManager/‘</p>
-<h2 id="Appium-android基础第3讲-Inspector使用"><a href="#Appium-android基础第3讲-Inspector使用" class="headerlink" title="Appium-android基础第3讲-Inspector使用"></a>Appium-android基础第3讲-Inspector使用</h2><p>Desired Capabilities</p>
-<p>deviceName</p>
-<p>platformName</p>
-<p>appPackage</p>
-<p>appActivity</p>
-<p>adb logcat|grep cmp</p>
-<p>cmp=com.android.dialer/.DialtactsActivity</p>
-<p>com.xueqiu.android/.view.WelcomeActivityAlias</p>
-<h2 id="Appium-android基础第4讲-appium日志讲解"><a href="#Appium-android基础第4讲-appium日志讲解" class="headerlink" title="Appium-android基础第4讲-appium日志讲解"></a>Appium-android基础第4讲-appium日志讲解</h2><p>ANDROID_HOME</p>
-<p>JAVA_HOME</p>
-<p>查看app Activity</p>
-<p><code>adb logcat |grep -i activitymanager.*cmp=</code></p>
-<p><code>adb logcat |grep -i activitymanager.*cmp= |awk &#39;{print $}&#39;</code></p>
-<p><code>adb logcat |grep --line-buffered -i activitymanager.*cmp= | awk &#39;{print $(NF-8)}&#39;</code></p>
-<h3 id="Appium生态工具-1"><a href="#Appium生态工具-1" class="headerlink" title="Appium生态工具"></a>Appium生态工具</h3><p>adb：</p>
-<p>Appium Desktop：-&gt; Custom Server</p>
-<p>Appium Server：appium的核心工具，命令行工具</p>
-<p>Appium Client</p>
-<p>robotframework-appium</p>
-<p>AppCrawler 自动遍历工具</p>
-<p>储存appium日志</p>
-<p><code>appium -g appium.log</code></p>
-<h2 id="Appium-android基础第5讲-用例编写1"><a href="#Appium-android基础第5讲-用例编写1" class="headerlink" title="Appium-android基础第5讲-用例编写1"></a>Appium-android基础第5讲-用例编写1</h2><h3 id="自动化测试用例编写"><a href="#自动化测试用例编写" class="headerlink" title="自动化测试用例编写"></a>自动化测试用例编写</h3><p>示例地址 <a href="https://testerhome.com/topics/12144" target="_blank" rel="noopener">https://testerhome.com/topics/12144</a></p>
-<h3 id="测试用例的重要部分"><a href="#测试用例的重要部分" class="headerlink" title="测试用例的重要部分"></a>测试用例的重要部分</h3><p>启动appium</p>
-<ul>
-<li>启动参数 –session-override</li>
-<li>获得可访问的url <a href="http://localhost:4723/wd/hub" target="_blank" rel="noopener">http://localhost:4723/wd/hub</a></li>
-<li>准备手机设备或者模拟器 genymotion bluestacks</li>
-</ul>
-<p>编写脚本</p>
-<ul>
-<li>导入依赖</li>
-<li>capabilities设置</li>
-<li>元素定位与操作 find + action</li>
-<li>断言 assert</li>
-</ul>
-<h3 id="获取app的入口"><a href="#获取app的入口" class="headerlink" title="获取app的入口"></a>获取app的入口</h3><ul>
-<li>platformName</li>
-<li>deviceName</li>
-<li>app入口<ul>
-<li>appPackage + appActivity Android使用</li>
-<li><code>adb logcat|grep -i ActivityManger.*Displayed</code>推荐</li>
-<li><code>aapt dump badging mobike.app|grep launchable-activity</code></li>
-</ul>
-</li>
-<li>bundleID iOS使用</li>
-<li>browserName 浏览器使用</li>
-</ul>
-<h3 id="capabilities设置"><a href="#capabilities设置" class="headerlink" title="capabilities设置"></a>capabilities设置</h3><ul>
-<li>app apk地址</li>
-<li>appPackage 包名</li>
-<li>appActivity Activity名字</li>
-<li>automationName默认使用uiautomator</li>
-<li>noReset fullReset 是否在测试前后重置相关环境</li>
-<li>unicodeKeyBoard resetKeyBoard 是否需要输入非英文之外的语言并在测试完成后重置输入法</li>
-</ul>
-<h2 id="Appium-android基础第6讲-用例编写2"><a href="#Appium-android基础第6讲-用例编写2" class="headerlink" title="Appium-android基础第6讲-用例编写2"></a>Appium-android基础第6讲-用例编写2</h2><p><a href="https://github.com/appium-boneyard/sample-code" target="_blank" rel="noopener">appium-boneyard/sample-code: appium sample code (dotnet, java, node, perl, php, python, ruby, etc.)</a></p>
-<p>Java：Junit</p>
-<p>Python：unittest</p>
-<p>断言</p>
-<h3 id="控件基础知识"><a href="#控件基础知识" class="headerlink" title="控件基础知识"></a>控件基础知识</h3><p>dom：Document Object Model 文档对象模型</p>
-<p>dom应用</p>
-<p>xpath：xml路径语言，用于xml中的节点定位。</p>
-<h3 id="app-dom结构解析"><a href="#app-dom结构解析" class="headerlink" title="app dom结构解析"></a>app dom结构解析</h3><p>resource-id</p>
-<h3 id="app-dom为例"><a href="#app-dom为例" class="headerlink" title="app dom为例"></a>app dom为例</h3><ul>
-<li>node</li>
-<li>attribute<ul>
-<li>clickable</li>
-<li>content-desc</li>
-<li>resource-id</li>
-<li>text</li>
-<li>bounds</li>
-</ul>
-</li>
-<li>iOS与Android的区别<ul>
-<li>dom属性和节点结构类似</li>
-<li>名字和属性的命名不同</li>
-</ul>
-</li>
-</ul>
-<h3 id="元素定位"><a href="#元素定位" class="headerlink" title="元素定位"></a>元素定位</h3><ul>
-<li>测试步骤三要素：<ul>
-<li>定位、交互、断言</li>
-</ul>
-</li>
-<li>定位<ul>
-<li>id（重要）：resource-id</li>
-<li>xpath（重要）</li>
-<li>accessibityId：content-desc</li>
-<li>不推荐：class -ios -android</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element_by_xpath(<span class="string">"//*[@text='自选']"</span>)</span><br><span class="line"></span><br><span class="line">driver.find_element_by_xpath(<span class="string">"//*[@text='自选' and @resource-id='com.xueqiu.android:id/tab_name']"</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="java客户端安装"><a href="#java客户端安装" class="headerlink" title="java客户端安装"></a>java客户端安装</h3><p>配置maven项目</p>
-<p>在src/test下编写用例</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;groupId&gt;io.appium&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;java-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.0.4&lt;/version&gt;</span><br><span class="line">    &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
 
       
       

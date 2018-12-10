@@ -210,6 +210,104 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-grep命令总结" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/grep命令总结/" class="article-date">
+      <time datetime="2018-08-08T08:39:20.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Linux下服务器性能测试" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Linux下服务器性能测试/" class="article-date">
+      <time datetime="2018-08-08T08:33:08.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><h3 id="使用-iperf-检测主机间网络带宽"><a href="#使用-iperf-检测主机间网络带宽" class="headerlink" title="使用 iperf 检测主机间网络带宽"></a>使用 iperf 检测主机间网络带宽</h3><p><strong>背景介绍：</strong><br>在调试网络时，经常需要检测两台主机间的最大带宽，我一直使用iperf命令，效果很好很准确，但发现有一些运维朋友并不知道有这个工具，于是打算写篇文章简单介绍一下。</p>
+<p><strong>具体操作：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">  yum update</span><br><span class="line">  yum -y install iperf</span><br></pre></td></tr></table></figure>
+<p>服务端</p>
+<p>服务器端需要开启 tcp 5001端口</p>
+<p>启动<code>iperf -s</code></p>
+<p>客户端 <code>iperf -c IP地址</code></p>
+<p>macOS</p>
+<p><code>brew install iperf3</code></p>
+<p>参考资料：**</p>
+<p><a href="http://heylinux.com/archives/3825.html" target="_blank" rel="noopener">http://heylinux.com/archives/3825.html</a></p>
+<p><a href="https://blogs.oracle.com/mandalika/entry/measuring_network_bandwidth_using_iperf" target="_blank" rel="noopener">https://blogs.oracle.com/mandalika/entry/measuring_network_bandwidth_using_iperf</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Python+Web开发实战-董伟明-笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -679,182 +777,6 @@
       
 
       
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Gitlab教程" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/24/Gitlab教程/" class="article-date">
-      <time datetime="2018-07-24T06:19:32.000Z" itemprop="datePublished">2018-07-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/24/Gitlab教程/">Gitlab教程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><strong>部署 GitLab</strong></p>
-<p>获取 GitLab 镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull gitlab/gitlab-ce:11.1.4-ce.0</span><br></pre></td></tr></table></figure>
-<p>查看本地镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
-<p>创建目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/gitlab/&#123;config,data,logs&#125;</span><br></pre></td></tr></table></figure>
-<p>创建并运行容器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --detach \</span><br><span class="line">    --hostname git.xxx.com \</span><br><span class="line">    --publish 443:443 --publish 80:80 --publish 22:22 \</span><br><span class="line">    --name gitlab-11.1.4 \</span><br><span class="line">    --restart always \</span><br><span class="line">    --volume /data/gitlab/config:/etc/gitlab:Z \</span><br><span class="line">    --volume /data/gitlab/logs:/var/log/gitlab:Z \</span><br><span class="line">    --volume /data/gitlab/data:/var/opt/gitlab:Z \</span><br><span class="line">    gitlab/gitlab-ce:11.1.4-ce.0</span><br></pre></td></tr></table></figure>
-<p>查看运行状态</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">netstat -ntulap | grep docker</span><br></pre></td></tr></table></figure>
-<p><strong>修改配置文件</strong></p>
-<p>添加https, 需要导入证书</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入挂载配置目录</span></span><br><span class="line">cd /data/gitlab/config</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建密钥文件夹, 并放入证书</span></span><br><span class="line">mkdir ssl;cd ssl</span><br><span class="line"><span class="meta">#</span><span class="bash"> 移动证书，使用的是Let’s Encrypt证书</span></span><br><span class="line">mv fullchain.cer  域名.key .</span><br></pre></td></tr></table></figure>
-<p>修改配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vi /data/gitlab/config/gitlab.rb</span><br><span class="line"></span><br><span class="line">###################################################</span><br><span class="line"># 添加外部请求的域名(如果不支持https, 可以改成http)</span><br><span class="line">external_url &apos;https://git.xxx.com&apos;</span><br><span class="line"># 修改gitlab对应的时区 </span><br><span class="line">gitlab_rails[&apos;time_zone&apos;] = &apos;Asia/Shanghai&apos;</span><br><span class="line"># 配置ssl参数</span><br><span class="line">nginx[&apos;enable&apos;] = true</span><br><span class="line">nginx[&apos;redirect_http_to_https&apos;] = false</span><br><span class="line">nginx[&apos;redirect_http_to_https_port&apos;] = 443</span><br><span class="line">nginx[&apos;ssl_certificate&apos;] = &quot;/etc/gitlab/ssl/fullchain.cer&quot;</span><br><span class="line">nginx[&apos;ssl_certificate_key&apos;] = &quot;/etc/gitlab/ssl/域名.key&quot;</span><br><span class="line">###################################################</span><br></pre></td></tr></table></figure>
-<p>重启服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 登陆容器, 重启配置</span></span><br><span class="line">docker exec -it  xxxxxx bash   </span><br><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
-<p>访问 GitLab</p>
-<ul>
-<li><a href="https://git.xxx.com" target="_blank" rel="noopener">https://git.xxx.com</a><ul>
-<li>如果没有域名，直接使用 IP 访问即可。</li>
-</ul>
-</li>
-</ul>
-<p>关闭注册功能</p>
-<p>Admin Area-&gt;Settings-&gt;Sign-up restrictions-&gt;Sign-up enabled 取消</p>
-<h3 id="安装gitlab-runner"><a href="#安装gitlab-runner" class="headerlink" title="安装gitlab-runner"></a>安装gitlab-runner</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name gitlab-runner-11.1.0 --restart always \</span><br><span class="line">  -v /data/gitlab-runner/config:/etc/gitlab-runner \</span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">  gitlab/gitlab-runner:v11.1.0</span><br></pre></td></tr></table></figure>
-<p>参数说明：</p>
-<ul>
-<li>-d: 设置容器后台运行</li>
-<li>–name：容器名称</li>
-<li>-restart always：每次启动容器就重启 gitlab-runner</li>
-<li>-v: 共享目录挂载</li>
-</ul>
-<p>安装好后，执行<code>$ docker ps</code>查看容器是否运行。</p>
-<h3 id="注册和初始化"><a href="#注册和初始化" class="headerlink" title="注册和初始化"></a>注册和初始化</h3><p>编辑<code>vim /data/gitlab-runner/config/config.toml</code>，手动修改配置：</p>
-<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">concurrent</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">check_interval</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="section">[[runners]]</span></span><br><span class="line">  name = "runner1"</span><br><span class="line">  url = "https://git.xxx.com"</span><br><span class="line">  token = "e7b1109634c7082f3363fccbb9f165"</span><br><span class="line">  executor = "docker"</span><br><span class="line"><span class="section">  [runners.docker]</span></span><br><span class="line">    tls_verify = false</span><br><span class="line">    image = "ruby:2.1"</span><br><span class="line">    privileged = false</span><br><span class="line">    disable_cache = false</span><br><span class="line">    volumes = ["/cache"]</span><br><span class="line">    shm_size = 0</span><br><span class="line"><span class="section">  [runners.cache]</span></span><br></pre></td></tr></table></figure>
-<p>或者交互式注册runner信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it gitlab-runner gitlab-ci-multi-runner register</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> gitlab-ci-multi-runner register</span></span><br><span class="line">Running in system-mode.</span><br><span class="line">Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com/):</span><br><span class="line"><span class="meta">#</span><span class="bash"> https://git.xxx.com</span></span><br><span class="line">Please enter the gitlab-ci token for this runner:</span><br><span class="line"><span class="meta">#</span><span class="bash"> v7YsuyhYduqSyxJi8fmW <span class="comment">#在gitlib中寻找runner token</span></span></span><br><span class="line">Please enter the gitlab-ci description for this runner:</span><br><span class="line"><span class="meta">#</span><span class="bash"> alpine 3.8</span></span><br><span class="line">Please enter the gitlab-ci tags for this runner (comma separated):</span><br><span class="line"><span class="meta">#</span><span class="bash"> qa</span></span><br><span class="line">Registering runner... succeeded                     runner=v7YsuyhY</span><br><span class="line">Please enter the executor: kubernetes, parallels, ssh, docker+machine, virtualbox, docker-ssh+machine, docker, docker-ssh, shell:</span><br><span class="line"><span class="meta">#</span><span class="bash"> docker</span></span><br><span class="line">Please enter the default Docker image (e.g. ruby:2.1):</span><br><span class="line"><span class="meta">#</span><span class="bash"> alpine:3.8</span></span><br><span class="line">Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!</span><br></pre></td></tr></table></figure>
-<p><strong>注册后使用 <code>gitlab-runner list</code> 查阅配置</strong></p>
-<p><strong>gitlab-runner unregister 命令</strong></p>
-<ol>
-<li>通过 url 和 token 取消注册 <code>gitlab-runner unregister --url https://git.xxx.com/ --token t0k3n</code></li>
-<li>通过name取消注册 <code>gitlab-runner unregister --name test-runner</code></li>
-<li>删除所有注册runner <code>gitlab-runner unregister --all-runners</code></li>
-</ol>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://about.gitlab.com/installation/" target="_blank" rel="noopener">GitLab Installation</a></p>
-<p><a href="http://blog.daocloud.io/using-docker-deploy-gitlab/" target="_blank" rel="noopener">使用Docker来搭建gitlab</a></p>
-<p><a href="https://www.jianshu.com/p/8d8e6b45a514" target="_blank" rel="noopener">通过 docker 搭建自用的 gitlab 服务</a></p>
-<p><a href="https://docs.gitlab.com/omnibus/docker/" target="_blank" rel="noopener">GitLab Docker images</a></p>
-<p><a href="https://my.oschina.net/u/1432614/blog/658568" target="_blank" rel="noopener">在 CentOS 7 上使用 Docker 部署安装 GitLab</a></p>
-<p> <a href="https://medium.com/@CoderAFI/docker-gitlab-3fa06d6ec0b5" target="_blank" rel="noopener">Docker+Gitlab https</a></p>
-<p> <a href="http://blog.fatedier.com/2016/04/05/install-gitlab-supporting-ci-with-docker/#%E5%90%AF%E5%8A%A8-gitlab" target="_blank" rel="noopener">利用docker搭建gitlab及持续集成模块</a></p>
-<p> <a href="https://medium.com/@CoderAFI/docker-gitlab-3fa06d6ec0b5" target="_blank" rel="noopener">Docker+Gitlab 配置</a></p>
-<p><a href="https://www.centos.bz/2017/09/docker%e9%83%a8%e7%bd%b2gitlab/" target="_blank" rel="noopener">Docker部署GitLab</a></p>
-<p><a href="https://www.cnblogs.com/jesse2013/p/gitlab-ci-netcoreapi-on-docker.html" target="_blank" rel="noopener">Gitlab CI 自动部署 asp.net core web api 到Docker容器</a></p>
-<p><a href="https://segmentfault.com/a/1190000013362589" target="_blank" rel="noopener">【GITLAB】 服务配置可持续集成部署的项目案例 - 安装篇</a></p>
-<p><a href="https://docs.gitlab.com/runner/register/index.html" target="_blank" rel="noopener">Registering Runners</a></p>
-<p><a href="http://www.ttlsa.com/docker/use-gitlab-ci-to-automatically-create-docker-images/" target="_blank" rel="noopener">使用 GitLab-CI 来自动创建 Docker 镜像</a></p>
-<p><a href="https://wjqwsp.github.io/2016/11/23/Gitlab-CI-%E4%B8%8E-Docker-%E7%9A%84%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%95%B4%E5%90%88%E6%B5%81%E7%A8%8B/" target="_blank" rel="noopener">Gitlab CI 与 Docker 的配置与整合流程</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-CentOS7-配置Shadowsocks-go" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/23/CentOS7-配置Shadowsocks-go/" class="article-date">
-      <time datetime="2018-07-23T04:07:39.000Z" itemprop="datePublished">2018-07-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/23/CentOS7-配置Shadowsocks-go/">CentOS7 配置Shadowsocks-go</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="CentOS7-Shadowsocks-go"><a href="#CentOS7-Shadowsocks-go" class="headerlink" title="CentOS7 Shadowsocks-go"></a>CentOS7 Shadowsocks-go</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull cloverzrg/shadowsocks-go</span><br><span class="line"></span><br><span class="line">docker run -d -p 192.81.131.192:8373:8373 -e PASSWORD=meiyoumima -e METHOD=chacha20 --restart always  cloverzrg/shadowsocks-go</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/cloverzrg/shadowsocks-go-docker" target="_blank" rel="noopener">shadowsocks-go-docker</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li></ul>
-    </div>
-
       
       <div class="clearfix"></div>
     </div>

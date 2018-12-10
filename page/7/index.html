@@ -210,6 +210,98 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-firewalld" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/firewalld/" class="article-date">
+      <time datetime="2018-08-08T12:33:20.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#显示状态</span><br><span class="line">firewall-cmd --state</span><br><span class="line"></span><br><span class="line">#查看区域信息</span><br><span class="line">firewall-cmd --get-default-zone</span><br><span class="line"></span><br><span class="line">#将接口添加到区域，默认接口都在public</span><br><span class="line">firewall-cmd --zone=public --add-interface=eth0 --permanent</span><br><span class="line"></span><br><span class="line">#设置默认接口区域</span><br><span class="line">firewall-cmd --set-default-zone=public</span><br><span class="line"></span><br><span class="line">#查看指定接口所属区域</span><br><span class="line">firewall-cmd --get-zone-of-interface=eth0</span><br><span class="line"></span><br><span class="line">#要得到特定区域的所有配置</span><br><span class="line">firewall-cmd --zone=public --list-all</span><br><span class="line"></span><br><span class="line">#查看所有打开的端口</span><br><span class="line">firewall-cmd --zone=public --list-ports</span><br><span class="line"></span><br><span class="line">#查看所有打开的服务</span><br><span class="line">firewall-cmd --zone=public --list-services</span><br><span class="line"></span><br><span class="line">#开启服务</span><br><span class="line">firewall-cmd --zone=public --add-service=http</span><br><span class="line"></span><br><span class="line">#永久开启服务</span><br><span class="line">firewall-cmd --zone=public --add-service=http --permanent</span><br><span class="line"></span><br><span class="line">#移除服务</span><br><span class="line">firewall-cmd --zone=public --remove-service=dhcpv6-client --permanent</span><br><span class="line"></span><br><span class="line">#更新防火墙规则</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-KeePass使用问题" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/KeePass使用问题/" class="article-date">
+      <time datetime="2018-08-08T12:31:20.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>KeePass使用问题</p>
+<p>有些网站不能自动输入密码</p>
+<p>例如 aliyun.com<br>它的密码输入框引用的是”<a href="https://passport.alibaba.com/&quot;阿里巴巴的登录" target="_blank" rel="noopener">https://passport.alibaba.com/&quot;阿里巴巴的登录</a></p>
+<p>KeePassXC<br>设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KeePassHttp Settings</span><br><span class="line"></span><br><span class="line">&#123;&quot;Allow&quot;:[&quot;passport.alibaba.com&quot;],&quot;Deny&quot;:[],&quot;Realm&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>允许多个域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KeePassHttp Settings</span><br><span class="line"></span><br><span class="line">&#123;&quot;Allow&quot;:[&quot;mailsso.mxhichina.com&quot;,&quot;passport.alibaba.com&quot;],&quot;Deny&quot;:[],&quot;Realm&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-书签" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -598,114 +690,6 @@
 </blockquote>
 <p>作者：罗罔极<br>链接：<a href="https://zhuanlan.zhihu.com/p/30386257" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/30386257</a></p>
 
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-关注的Github项目" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/08/关注的Github项目/" class="article-date">
-      <time datetime="2018-08-08T12:22:00.000Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>关注的Github项目</p>
-<p>#Resume<br><a href="https://github.com/geekcompany/ResumeSample" target="_blank" rel="noopener"> 程序员简历模板系列</a></p>
-<p><a href="https://github.com/geekcompany/DeerResume" target="_blank" rel="noopener">geekcompany/DeerResume</a></p>
-<p><a href="https://github.com/there4/markdown-resume" target="_blank" rel="noopener">there4/markdown-resume</a></p>
-<p><a href="https://github.com/luuman/resume-1" target="_blank" rel="noopener">luuman/resume-1</a></p>
-<p><a href="https://github.com/chantisnake/resume" target="_blank" rel="noopener">chantisnake/resume</a></p>
-<p><a href="https://github.com/knyte/resume" target="_blank" rel="noopener">nyte/resume</a></p>
-<h1 id="PowerShell"><a href="#PowerShell" class="headerlink" title="PowerShell"></a>PowerShell</h1><p><a href="https://github.com/ovwane/PowerShell-Docs" target="_blank" rel="noopener">PowerShell-Docs</a></p>
-<p><a href="https://github.com/PowerShell/powerShell-Docs.zh-cn" target="_blank" rel="noopener">powerShell-Docs.zh-cn</a></p>
-<p><a href="https://github.com/PowerShell/powerShell-Docs.zh-tw" target="_blank" rel="noopener">powerShell-Docs.zh-tw</a></p>
-<h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><p><a href="https://github.com/requests/requests" target="_blank" rel="noopener">requests</a></p>
-<h2 id="Openstack"><a href="#Openstack" class="headerlink" title="Openstack"></a>Openstack</h2><p><a href="https://github.com/openstack/swift" target="_blank" rel="noopener">Swift</a></p>
-<p><a href="https://github.com/openstack/keystone" target="_blank" rel="noopener">Keystone</a></p>
-<p><a href="https://github.com/openstack/nova" target="_blank" rel="noopener">Nova</a></p>
-<p><a href="https://github.com/openstack/glance" target="_blank" rel="noopener">Glance</a></p>
-<p><a href="https://github.com/openstack/cinder" target="_blank" rel="noopener">Cinder</a></p>
-<p><a href="https://github.com/openstack/neutron" target="_blank" rel="noopener">Neutron</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-清华大学开源软件镜像站-CentOS7" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/08/清华大学开源软件镜像站-CentOS7/" class="article-date">
-      <time datetime="2018-08-08T12:19:20.000Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>CentOS-Base.repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"># CentOS-Base.repo</span><br><span class="line">#</span><br><span class="line"># The mirror system uses the connecting IP address of the client and the</span><br><span class="line"># update status of each mirror to pick mirrors that are updated to and</span><br><span class="line"># geographically close to the client.  You should use this for CentOS updates</span><br><span class="line"># unless you are manually picking other mirrors.</span><br><span class="line">#</span><br><span class="line"># If the mirrorlist= does not work for you, as a fall back you can try the</span><br><span class="line"># remarked out baseurl= line instead.</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">[base]</span><br><span class="line">name=CentOS-$releasever - Base</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/os/$basearch/</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">#released updates</span><br><span class="line">[updates]</span><br><span class="line">name=CentOS-$releasever - Updates</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/updates/$basearch/</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">#additional packages that may be useful</span><br><span class="line">[extras]</span><br><span class="line">name=CentOS-$releasever - Extras</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/extras/$basearch/</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line">#additional packages that extend functionality of existing packages</span><br><span class="line">[centosplus]</span><br><span class="line">name=CentOS-$releasever - Plus</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/centosplus/$basearch/</span><br><span class="line">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=0</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure>
-<p>epel.repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[epel]</span><br><span class="line">name=Extra Packages for Enterprise Linux 7 - $basearch</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/epel/7/$basearch</span><br><span class="line">#mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-7&amp;arch=$basearch</span><br><span class="line">failovermethod=priority</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7</span><br><span class="line"></span><br><span class="line">[epel-debuginfo]</span><br><span class="line">name=Extra Packages for Enterprise Linux 7 - $basearch - Debug</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/epel/7/$basearch/debug</span><br><span class="line">#mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-debug-7&amp;arch=$basearch</span><br><span class="line">failovermethod=priority</span><br><span class="line">enabled=0</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7</span><br><span class="line">gpgcheck=1</span><br><span class="line"></span><br><span class="line">[epel-source]</span><br><span class="line">name=Extra Packages for Enterprise Linux 7 - $basearch - Source</span><br><span class="line">baseurl=https://mirrors.tuna.tsinghua.edu.cn/epel/7/SRPMS</span><br><span class="line">#mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-source-7&amp;arch=$basearch</span><br><span class="line">failovermethod=priority</span><br><span class="line">enabled=0</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7</span><br><span class="line">gpgcheck=1</span><br></pre></td></tr></table></figure>
-<p>rpmforge.repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; /etc/yum.repos.d/rpmforge.repo &lt;&lt; EOF</span><br><span class="line">[rpmforge]</span><br><span class="line">name = RHEL $releasever - RPMforge.net - dag</span><br><span class="line">baseurl = https://mirrors.tuna.tsinghua.edu.cn/repoforge/redhat/el7/en/x86_64/rpmforge</span><br><span class="line">mirrorlist = http://mirrorlist.repoforge.org/el7/mirrors-rpmforge</span><br><span class="line">enabled = 1</span><br><span class="line">protect = 0</span><br><span class="line">gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-dag</span><br><span class="line">gpgcheck = 1</span><br><span class="line"></span><br><span class="line">[rpmforge-extras]</span><br><span class="line">name = RHEL $releasever - RPMforge.net - extras</span><br><span class="line">baseurl = https://mirrors.tuna.tsinghua.edu.cn/repoforge/redhat/el7/en/x86_64/extras</span><br><span class="line">mirrorlist = http://mirrorlist.repoforge.org/el7/mirrors-rpmforge-extras</span><br><span class="line">enabled = 0</span><br><span class="line">protect = 0</span><br><span class="line">gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-dag</span><br><span class="line">gpgcheck = 1</span><br><span class="line"></span><br><span class="line">[rpmforge-testing]</span><br><span class="line">name = RHEL $releasever - RPMforge.net - testing</span><br><span class="line">baseurl = https://mirrors.tuna.tsinghua.edu.cn/repoforge/redhat/el7/en/x86_64/testing</span><br><span class="line">mirrorlist = http://mirrorlist.repoforge.org/el7/mirrors-rpmforge-testing</span><br><span class="line">enabled = 0  </span><br><span class="line">protect = 0</span><br><span class="line">gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-dag</span><br><span class="line">gpgcheck = 1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
       
       
     </div>
