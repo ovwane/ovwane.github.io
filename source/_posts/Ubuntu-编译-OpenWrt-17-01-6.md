@@ -1,0 +1,863 @@
+---
+title: Ubuntu 编译 OpenWrt 17.01.6
+date: 2018-12-25 08:03:45
+tags:
+---
+
+## 软件版本
+
+- Ubuntu 18.04 LTS (Linux ubuntu 4.15.0-23-generic)
+- OpenWrt 17.01.6
+
+## 配置编译环境
+
+```shell
+apt install -y gcc g++ binutils patch bzip2 flex bison make gettext texinfo unzip sharutils libncurses5-dev ncurses-term zlib1g-dev asciidoc autoconf libssl-dev 
+
+# libz-dev
+apt -y install zlib1g zlib1g-dev 
+
+apt install -y build-essential
+apt -y install subversion
+apt -y install git-core
+apt -y install libncurses5-dev
+apt -y install zlib1g-dev
+apt -y install gawk
+apt -y install flex
+apt -y install quilt
+apt -y install libssl-dev
+apt -y install xsltproc
+apt -y install libxml-parser-perl
+apt -y install mercurial
+apt -y install bzr
+apt -y install ecj
+apt -y install cvs
+apt -y install unzip  
+```
+
+## 下载 OpenWrt 源代码
+
+[OpenWrt source repository downloads](https://dev.archive.openwrt.org/wiki/GetSource)
+
+https://github.com/openwrt/openwrt
+
+下载源代码
+
+```shell
+mkdir openwrt
+```
+
+```shell
+git clone -b v17.01.6 https://github.com/openwrt/openwrt.git v17.01.6
+```
+
+更新软件
+
+feed
+
+```shell
+src-git packages https://github.com/openwrt/packages.git
+./scripts/feeds update packages
+./scripts/feeds install -a -p packages
+```
+
+```shell
+src-git packages https://github.com/openwrt/luci.git
+./scripts/feeds update luci
+./scripts/feeds install -a -p luci
+```
+
+```shell
+src-git routing git://github.com/openwrt-routing/packages.git
+./scripts/feeds update routing
+./scripts/feeds install -a -p routing
+```
+
+```shell
+src-git telephony https://github.com/openwrt/telephony.git
+./scripts/feeds update telephony
+./scripts/feeds install -a -p telephony
+```
+
+更新
+
+feeds.conf
+
+```
+src-git packages https://github.com/openwrt/packages.git^40da7ecf21ffe1f3523ffa430c406e1db58ce3d4
+src-git luci https://github.com/openwrt/luci.git^7bf036750081787e01339c82865ad45fca6520ef
+src-git routing src-git routing git://github.com/openwrt-routing/packages.git^d09478290f72c6e58833b65baf14d9173eaf98e1
+src-git telephony https://github.com/openwrt/telephony.git^95498e75db5c6741cd53f8746ffc1473c72b6e5d
+```
+
+```shell
+cd openwrt
+
+cp feeds.conf.default feeds.conf
+
+./scripts/feeds update -a && ./scripts/feeds install -a 
+```
+
+测试编译环境
+
+```shell
+make defconfig
+```
+
+~~预先下载dl库，可以避免下载造成的编译失败。~~
+
+```shell
+make download V=s
+```
+
+编译配置
+
+```shell
+make menuconfig
+```
+
+配置
+
+```shell
+Target System (Atheros AR7xxx/AR9xxx)
+Target Profile (TP-LINK TL-WR703N)
+Target Images->ramdisk->Compression(lzma)
+Target Images->tar.gz
+Kernel modules->Filesystems->kmod-fs-ext4
+Kernel modules->USB Support->(kmod-usb-core, kmod-usb-ohci, kmod-usb-storage)
+Base system->block-mount
+Utilities->Shells->zsh
+Utilities->
+Utilities->Compression->gzip
+Utilities->kexec-tools->Configuration->lzma support
+```
+
+或者修改 .config
+
+```shell
+CONFIG_MODULES=y
+CONFIG_HAVE_DOT_CONFIG=y
+CONFIG_TARGET_ar71xx=y
+CONFIG_TARGET_ar71xx_generic=y
+CONFIG_TARGET_ar71xx_generic_DEVICE_tl-wr703n-v1=y
+CONFIG_HAS_SUBTARGETS=y
+CONFIG_HAS_DEVICES=y
+CONFIG_TARGET_BOARD="ar71xx"
+CONFIG_TARGET_SUBTARGET="generic"
+CONFIG_TARGET_PROFILE="DEVICE_tl-wr703n-v1"
+CONFIG_TARGET_ARCH_PACKAGES="mips_24kc"
+CONFIG_DEFAULT_TARGET_OPTIMIZATION="-Os -pipe -mno-branch-likely -mips32r2 -mtune=24kc"
+CONFIG_CPU_TYPE="24kc"
+CONFIG_LINUX_4_4=y
+CONFIG_DEFAULT_base-files=y
+CONFIG_DEFAULT_busybox=y
+CONFIG_DEFAULT_dnsmasq=y
+CONFIG_DEFAULT_dropbear=y
+CONFIG_DEFAULT_firewall=y
+CONFIG_DEFAULT_fstools=y
+CONFIG_DEFAULT_ip6tables=y
+CONFIG_DEFAULT_iptables=y
+CONFIG_DEFAULT_iwinfo=y
+CONFIG_DEFAULT_kmod-ath9k=y
+CONFIG_DEFAULT_kmod-gpio-button-hotplug=y
+CONFIG_DEFAULT_kmod-usb-core=y
+CONFIG_DEFAULT_kmod-usb-ledtrig-usbport=y
+CONFIG_DEFAULT_kmod-usb-ohci=y
+CONFIG_DEFAULT_kmod-usb2=y 
+CONFIG_DEFAULT_libc=y
+CONFIG_DEFAULT_libgcc=y
+CONFIG_DEFAULT_logd=y
+CONFIG_DEFAULT_mtd=y
+CONFIG_DEFAULT_netifd=y
+CONFIG_DEFAULT_odhcp6c=y
+CONFIG_DEFAULT_odhcpd=y
+CONFIG_DEFAULT_opkg=y
+CONFIG_DEFAULT_ppp=y
+CONFIG_DEFAULT_ppp-mod-pppoe=y
+CONFIG_DEFAULT_swconfig=y
+CONFIG_DEFAULT_uboot-envtools=y
+CONFIG_DEFAULT_uci=y
+CONFIG_DEFAULT_uclient-fetch=y
+CONFIG_DEFAULT_wpad-mini=y
+CONFIG_AUDIO_SUPPORT=y
+CONFIG_GPIO_SUPPORT=y
+CONFIG_PCI_SUPPORT=y
+CONFIG_USB_SUPPORT=y
+CONFIG_BIG_ENDIAN=y
+CONFIG_USES_DEVICETREE=y
+CONFIG_USES_SQUASHFS=y
+CONFIG_HAS_MIPS16=y
+CONFIG_mips=y
+CONFIG_ARCH="mips"
+CONFIG_EXTERNAL_CPIO=""
+CONFIG_TARGET_ROOTFS_SQUASHFS=y
+CONFIG_TARGET_SQUASHFS_BLOCK_SIZE=256
+CONFIG_TARGET_UBIFS_FREE_SPACE_FIXUP=y
+CONFIG_TARGET_UBIFS_JOURNAL_SIZE=""
+CONFIG_SIGNED_PACKAGES=y
+CONFIG_BUILD_PATENTED=y
+CONFIG_SHADOW_PASSWORDS=y
+CONFIG_KERNEL_BUILD_USER=""
+CONFIG_KERNEL_BUILD_DOMAIN=""
+CONFIG_KERNEL_PRINTK=y
+CONFIG_KERNEL_CRASHLOG=y
+CONFIG_KERNEL_SWAP=y
+CONFIG_KERNEL_DEBUG_FS=y
+CONFIG_KERNEL_KALLSYMS=y
+CONFIG_KERNEL_DEBUG_KERNEL=y
+CONFIG_KERNEL_DEBUG_INFO=y
+CONFIG_KERNEL_MAGIC_SYSRQ=y
+CONFIG_KERNEL_COREDUMP=y
+CONFIG_KERNEL_ELF_CORE=y
+CONFIG_KERNEL_PRINTK_TIME=y 
+CONFIG_KERNEL_RELAY=y
+CONFIG_KERNEL_IPV6=y
+CONFIG_KERNEL_IPV6_MULTIPLE_TABLES=y
+CONFIG_KERNEL_IPV6_SUBTREES=y
+CONFIG_KERNEL_IPV6_MROUTE=y
+CONFIG_IPV6=y
+CONFIG_USE_SSTRIP=y
+CONFIG_USE_UCLIBCXX=y 
+CONFIG_PKG_CHECK_FORMAT_SECURITY=y
+CONFIG_PKG_CC_STACKPROTECTOR_REGULAR=y
+CONFIG_KERNEL_CC_STACKPROTECTOR_REGULAR=y
+CONFIG_PKG_FORTIFY_SOURCE_1=y
+CONFIG_PKG_RELRO_FULL=y
+CONFIG_BINARY_FOLDER=""
+CONFIG_DOWNLOAD_FOLDER=""
+CONFIG_LOCALMIRROR=""
+CONFIG_AUTOREBUILD=y
+CONFIG_BUILD_SUFFIX=""
+CONFIG_TARGET_ROOTFS_DIR=""
+CONFIG_EXTERNAL_KERNEL_TREE=""
+CONFIG_KERNEL_GIT_CLONE_URI=""
+CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt"
+CONFIG_TARGET_OPTIMIZATION="-Os -pipe -mno-branch-likely -mips32r2 -mtune=24kc"
+CONFIG_SOFT_FLOAT=y
+CONFIG_USE_MIPS16=y
+CONFIG_EXTRA_BINUTILS_CONFIG_OPTIONS=""
+CONFIG_EXTRA_GCC_CONFIG_OPTIONS=""
+CONFIG_GDB=y
+CONFIG_USE_MUSL=y
+CONFIG_BINUTILS_VERSION_2_25_1=y
+CONFIG_BINUTILS_VERSION="2.25.1"
+CONFIG_GCC_VERSION="5.4.0"
+CONFIG_MUSL_VERSION="1.1.16"
+CONFIG_LIBC="musl"
+CONFIG_LIBC_VERSION="1.1.16"
+CONFIG_TARGET_SUFFIX="musl"
+CONFIG_TARGET_PREINIT_SUPPRESS_STDERR=y
+CONFIG_TARGET_PREINIT_TIMEOUT=2
+CONFIG_TARGET_PREINIT_IFNAME=""
+CONFIG_TARGET_PREINIT_IP="10.8.7.1"
+CONFIG_TARGET_PREINIT_NETMASK="255.255.255.0"
+CONFIG_TARGET_PREINIT_BROADCAST="10.8.7.255"
+CONFIG_TARGET_INIT_PATH="/usr/sbin:/usr/bin:/sbin:/bin"
+CONFIG_TARGET_INIT_ENV=""
+CONFIG_TARGET_INIT_CMD="/sbin/init"
+CONFIG_TARGET_INIT_SUPPRESS_STDERR=y
+CONFIG_PER_FEED_REPO=y
+CONFIG_PER_FEED_REPO_ADD_DISABLED=y
+CONFIG_PER_FEED_REPO_ADD_COMMENTED=y
+CONFIG_FEED_packages=y
+CONFIG_FEED_luci=y
+CONFIG_FEED_telephony=y
+CONFIG_PACKAGE_base-files=y
+CONFIG_PACKAGE_busybox=y
+CONFIG_BUSYBOX_DEFAULT_HAVE_DOT_CONFIG=y
+CONFIG_BUSYBOX_DEFAULT_INCLUDE_SUSv2=y
+CONFIG_BUSYBOX_DEFAULT_PLATFORM_LINUX=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_BUFFERS_GO_ON_STACK=y
+CONFIG_BUSYBOX_DEFAULT_SHOW_USAGE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VERBOSE_USAGE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_COMPRESS_USAGE=y
+CONFIG_BUSYBOX_DEFAULT_SUBST_WCHAR=0
+CONFIG_BUSYBOX_DEFAULT_LAST_SUPPORTED_WCHAR=0
+CONFIG_BUSYBOX_DEFAULT_LONG_OPTS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_DEVPTS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_PIDFILE=y
+CONFIG_BUSYBOX_DEFAULT_PID_FILE_PATH="/var/run"
+CONFIG_BUSYBOX_DEFAULT_FEATURE_SUID=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_PREFER_APPLETS=y
+CONFIG_BUSYBOX_DEFAULT_BUSYBOX_EXEC_PATH="/proc/self/exe"
+CONFIG_BUSYBOX_DEFAULT_FEATURE_SYSLOG=y
+CONFIG_BUSYBOX_DEFAULT_LFS=y
+CONFIG_BUSYBOX_DEFAULT_CROSS_COMPILER_PREFIX=""
+CONFIG_BUSYBOX_DEFAULT_SYSROOT=""
+CONFIG_BUSYBOX_DEFAULT_EXTRA_CFLAGS=""
+CONFIG_BUSYBOX_DEFAULT_EXTRA_LDFLAGS=""
+CONFIG_BUSYBOX_DEFAULT_EXTRA_LDLIBS=""
+CONFIG_BUSYBOX_DEFAULT_NO_DEBUG_LIB=y
+CONFIG_BUSYBOX_DEFAULT_INSTALL_APPLET_SYMLINKS=y
+CONFIG_BUSYBOX_DEFAULT_PREFIX="./_install"
+CONFIG_BUSYBOX_DEFAULT_PASSWORD_MINLEN=6
+CONFIG_BUSYBOX_DEFAULT_MD5_SMALL=1
+CONFIG_BUSYBOX_DEFAULT_SHA3_SMALL=1
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FAST_TOP=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_EDITING=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_EDITING_MAX_LEN=512
+CONFIG_BUSYBOX_DEFAULT_FEATURE_EDITING_HISTORY=256
+CONFIG_BUSYBOX_DEFAULT_FEATURE_TAB_COMPLETION=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_EDITING_FANCY_PROMPT=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_NON_POSIX_CP=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_COPYBUF_KB=4
+CONFIG_BUSYBOX_DEFAULT_IOCTL_HEX2STR_ERROR=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_SEAMLESS_GZ=y
+CONFIG_BUSYBOX_DEFAULT_GUNZIP=y
+CONFIG_BUSYBOX_DEFAULT_BUNZIP2=y
+CONFIG_BUSYBOX_DEFAULT_GZIP=y
+CONFIG_BUSYBOX_DEFAULT_TAR=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_TAR_CREATE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_TAR_FROM=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_TAR_GNU_EXTENSIONS=y
+CONFIG_BUSYBOX_DEFAULT_BASENAME=y
+CONFIG_BUSYBOX_DEFAULT_CAT=y
+CONFIG_BUSYBOX_DEFAULT_DATE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_DATE_ISOFMT=y
+CONFIG_BUSYBOX_DEFAULT_DD=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_DD_SIGNAL_HANDLING=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_DD_IBS_OBS=y
+CONFIG_BUSYBOX_DEFAULT_ID=y
+CONFIG_BUSYBOX_DEFAULT_SYNC=y
+CONFIG_BUSYBOX_DEFAULT_TEST=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_TEST_64=y
+CONFIG_BUSYBOX_DEFAULT_TOUCH=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_TOUCH_SUSV3=y
+CONFIG_BUSYBOX_DEFAULT_TR=y 
+CONFIG_BUSYBOX_DEFAULT_CHGRP=y
+CONFIG_BUSYBOX_DEFAULT_CHMOD=y
+CONFIG_BUSYBOX_DEFAULT_CHOWN=y
+CONFIG_BUSYBOX_DEFAULT_CHROOT=y
+CONFIG_BUSYBOX_DEFAULT_CP=y
+CONFIG_BUSYBOX_DEFAULT_CUT=y
+CONFIG_BUSYBOX_DEFAULT_DF=y
+CONFIG_BUSYBOX_DEFAULT_DIRNAME=y
+CONFIG_BUSYBOX_DEFAULT_DU=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_DU_DEFAULT_BLOCKSIZE_1K=y
+CONFIG_BUSYBOX_DEFAULT_ECHO=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FANCY_ECHO=y
+CONFIG_BUSYBOX_DEFAULT_ENV=y
+CONFIG_BUSYBOX_DEFAULT_EXPR=y
+CONFIG_BUSYBOX_DEFAULT_EXPR_MATH_SUPPORT_64=y
+CONFIG_BUSYBOX_DEFAULT_FALSE=y
+CONFIG_BUSYBOX_DEFAULT_FSYNC=y
+CONFIG_BUSYBOX_DEFAULT_HEAD=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FANCY_HEAD=y
+CONFIG_BUSYBOX_DEFAULT_LN=y
+CONFIG_BUSYBOX_DEFAULT_LS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_LS_FILETYPES=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_LS_FOLLOWLINKS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_LS_RECURSIVE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_LS_SORTFILES=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_LS_TIMESTAMPS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_LS_USERNAME=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_LS_COLOR=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_LS_COLOR_IS_DEFAULT=y
+CONFIG_BUSYBOX_DEFAULT_MD5SUM=y
+CONFIG_BUSYBOX_DEFAULT_MKDIR=y
+CONFIG_BUSYBOX_DEFAULT_MKFIFO=y
+CONFIG_BUSYBOX_DEFAULT_MKNOD=y
+CONFIG_BUSYBOX_DEFAULT_MV=y
+CONFIG_BUSYBOX_DEFAULT_NICE=y
+CONFIG_BUSYBOX_DEFAULT_PRINTF=y
+CONFIG_BUSYBOX_DEFAULT_PWD=y
+CONFIG_BUSYBOX_DEFAULT_READLINK=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_READLINK_FOLLOW=y
+CONFIG_BUSYBOX_DEFAULT_RM=y
+CONFIG_BUSYBOX_DEFAULT_RMDIR=y
+CONFIG_BUSYBOX_DEFAULT_SEQ=y
+CONFIG_BUSYBOX_DEFAULT_SHA256SUM=y
+CONFIG_BUSYBOX_DEFAULT_SLEEP=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FANCY_SLEEP=y
+CONFIG_BUSYBOX_DEFAULT_SORT=y
+CONFIG_BUSYBOX_DEFAULT_TAIL=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FANCY_TAIL=y
+CONFIG_BUSYBOX_DEFAULT_TEE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_TEE_USE_BLOCK_IO=y
+CONFIG_BUSYBOX_DEFAULT_TRUE=y
+CONFIG_BUSYBOX_DEFAULT_UNAME=y
+CONFIG_BUSYBOX_DEFAULT_UNAME_OSNAME="GNU/Linux"
+CONFIG_BUSYBOX_DEFAULT_UNIQ=y
+CONFIG_BUSYBOX_DEFAULT_WC=y
+CONFIG_BUSYBOX_DEFAULT_YES=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_PRESERVE_HARDLINKS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_AUTOWIDTH=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_HUMAN_READABLE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_MD5_SHA1_SUM_CHECK=y
+CONFIG_BUSYBOX_DEFAULT_CLEAR=y
+CONFIG_BUSYBOX_DEFAULT_RESET=y
+CONFIG_BUSYBOX_DEFAULT_DEFAULT_SETFONT_DIR=""
+CONFIG_BUSYBOX_DEFAULT_MKTEMP=y
+CONFIG_BUSYBOX_DEFAULT_START_STOP_DAEMON=y
+CONFIG_BUSYBOX_DEFAULT_WHICH=y
+CONFIG_BUSYBOX_DEFAULT_AWK=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_AWK_LIBM=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_AWK_GNU_EXTENSIONS=y
+CONFIG_BUSYBOX_DEFAULT_CMP=y
+CONFIG_BUSYBOX_DEFAULT_SED=y
+CONFIG_BUSYBOX_DEFAULT_VI=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_MAX_LEN=1024
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_COLON=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_YANKMARK=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_SEARCH=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_USE_SIGNALS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_DOT_CMD=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_READONLY=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_SETOPTS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_SET=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_WIN_RESIZE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_ASK_TERMINAL=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_VI_UNDO_QUEUE_MAX=0
+CONFIG_BUSYBOX_DEFAULT_FEATURE_ALLOW_EXEC=y
+CONFIG_BUSYBOX_DEFAULT_FIND=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_PRINT0=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_MTIME=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_PERM=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_TYPE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_XDEV=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_MAXDEPTH=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_EXEC=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_USER=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_GROUP=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_NOT=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_DEPTH=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_PAREN=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_SIZE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_PRUNE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_PATH=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FIND_REGEX=y
+CONFIG_BUSYBOX_DEFAULT_GREP=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_GREP_EGREP_ALIAS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_GREP_FGREP_ALIAS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_GREP_CONTEXT=y
+CONFIG_BUSYBOX_DEFAULT_XARGS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_XARGS_SUPPORT_CONFIRMATION=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_XARGS_SUPPORT_QUOTES=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_XARGS_SUPPORT_TERMOPT=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_XARGS_SUPPORT_ZERO_TERM=y
+CONFIG_BUSYBOX_DEFAULT_HALT=y
+CONFIG_BUSYBOX_DEFAULT_TELINIT_PATH=""
+CONFIG_BUSYBOX_DEFAULT_FEATURE_KILL_DELAY=0
+CONFIG_BUSYBOX_DEFAULT_INIT_TERMINAL_TYPE=""
+CONFIG_BUSYBOX_DEFAULT_FEATURE_SHADOWPASSWDS=y
+CONFIG_BUSYBOX_DEFAULT_LAST_ID=0
+CONFIG_BUSYBOX_DEFAULT_FIRST_SYSTEM_ID=0
+CONFIG_BUSYBOX_DEFAULT_LAST_SYSTEM_ID=0
+CONFIG_BUSYBOX_DEFAULT_FEATURE_DEFAULT_PASSWD_ALGO="md5"
+CONFIG_BUSYBOX_DEFAULT_LOGIN=y
+CONFIG_BUSYBOX_DEFAULT_LOGIN_SESSION_AS_CHILD=y
+CONFIG_BUSYBOX_DEFAULT_PASSWD=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_PASSWD_WEAK_CHECK=y
+CONFIG_BUSYBOX_DEFAULT_DEFAULT_MODULES_DIR=""
+CONFIG_BUSYBOX_DEFAULT_DEFAULT_DEPMOD_FILE=""
+CONFIG_BUSYBOX_DEFAULT_MOUNT=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_MOUNT_HELPERS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_MOUNT_CIFS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_MOUNT_FLAGS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_MOUNT_FSTAB=y
+CONFIG_BUSYBOX_DEFAULT_DMESG=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_DMESG_PRETTY=y
+CONFIG_BUSYBOX_DEFAULT_HEXDUMP=y
+CONFIG_BUSYBOX_DEFAULT_HWCLOCK=y
+CONFIG_BUSYBOX_DEFAULT_MKSWAP=y
+CONFIG_BUSYBOX_DEFAULT_PIVOT_ROOT=y
+CONFIG_BUSYBOX_DEFAULT_SWITCH_ROOT=y
+CONFIG_BUSYBOX_DEFAULT_UMOUNT=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_UMOUNT_ALL=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_MOUNT_LOOP=y
+CONFIG_BUSYBOX_DEFAULT_CROND=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_CROND_DIR="/etc"
+CONFIG_BUSYBOX_DEFAULT_LESS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_LESS_MAXLINES=9999999
+CONFIG_BUSYBOX_DEFAULT_FEATURE_BEEP_FREQ=0
+CONFIG_BUSYBOX_DEFAULT_FEATURE_BEEP_LENGTH_MS=0
+CONFIG_BUSYBOX_DEFAULT_CRONTAB=y
+CONFIG_BUSYBOX_DEFAULT_LOCK=y
+CONFIG_BUSYBOX_DEFAULT_STRINGS=y
+CONFIG_BUSYBOX_DEFAULT_TIME=y
+CONFIG_BUSYBOX_DEFAULT_NC=y
+CONFIG_BUSYBOX_DEFAULT_PING=y
+CONFIG_BUSYBOX_DEFAULT_PING6=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_FANCY_PING=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_IPV6=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_PREFER_IPV4_ADDRESS=y
+CONFIG_BUSYBOX_DEFAULT_VERBOSE_RESOLUTION_ERRORS=y
+CONFIG_BUSYBOX_DEFAULT_BRCTL=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_BRCTL_FANCY=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_BRCTL_SHOW=y
+CONFIG_BUSYBOX_DEFAULT_IFCONFIG=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_IFCONFIG_STATUS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_IFCONFIG_HW=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_IFCONFIG_BROADCAST_PLUS=y
+CONFIG_BUSYBOX_DEFAULT_IFUPDOWN_IFSTATE_PATH=""
+CONFIG_BUSYBOX_DEFAULT_IP=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_IP_ADDRESS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_IP_LINK=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_IP_ROUTE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_IP_ROUTE_DIR="/etc/iproute2"
+CONFIG_BUSYBOX_DEFAULT_FEATURE_IP_RULE=y
+CONFIG_BUSYBOX_DEFAULT_NETMSG=y
+CONFIG_BUSYBOX_DEFAULT_NETSTAT=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_NETSTAT_WIDE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_NETSTAT_PRG=y
+CONFIG_BUSYBOX_DEFAULT_NSLOOKUP_LEDE=y
+CONFIG_BUSYBOX_DEFAULT_NTPD=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_NTPD_SERVER=y
+CONFIG_BUSYBOX_DEFAULT_ROUTE=y
+CONFIG_BUSYBOX_DEFAULT_TRACEROUTE=y
+CONFIG_BUSYBOX_DEFAULT_TRACEROUTE6=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_TRACEROUTE_VERBOSE=y
+CONFIG_BUSYBOX_DEFAULT_DHCPD_LEASES_FILE=""
+CONFIG_BUSYBOX_DEFAULT_UDHCPC=y
+CONFIG_BUSYBOX_DEFAULT_UDHCP_DEBUG=0
+CONFIG_BUSYBOX_DEFAULT_FEATURE_UDHCP_RFC3397=y
+CONFIG_BUSYBOX_DEFAULT_UDHCPC_DEFAULT_SCRIPT="/usr/share/udhcpc/default.script"
+CONFIG_BUSYBOX_DEFAULT_UDHCPC_SLACK_FOR_BUGGY_SERVERS=80
+CONFIG_BUSYBOX_DEFAULT_IFUPDOWN_UDHCPC_CMD_OPTIONS=""
+CONFIG_BUSYBOX_DEFAULT_FEATURE_MIME_CHARSET=""
+CONFIG_BUSYBOX_DEFAULT_TOP=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_TOP_CPU_USAGE_PERCENTAGE=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_TOP_CPU_GLOBAL_PERCENTS=y
+CONFIG_BUSYBOX_DEFAULT_UPTIME=y
+CONFIG_BUSYBOX_DEFAULT_FREE=y
+CONFIG_BUSYBOX_DEFAULT_KILL=y
+CONFIG_BUSYBOX_DEFAULT_KILLALL=y
+CONFIG_BUSYBOX_DEFAULT_PGREP=y
+CONFIG_BUSYBOX_DEFAULT_PIDOF=y
+CONFIG_BUSYBOX_DEFAULT_PS=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_PS_WIDE=y
+CONFIG_BUSYBOX_DEFAULT_BB_SYSCTL=y
+CONFIG_BUSYBOX_DEFAULT_SV_DEFAULT_SERVICE_DIR=""
+CONFIG_BUSYBOX_DEFAULT_ASH=y
+CONFIG_BUSYBOX_DEFAULT_ASH_BASH_COMPAT=y
+CONFIG_BUSYBOX_DEFAULT_ASH_JOB_CONTROL=y
+CONFIG_BUSYBOX_DEFAULT_ASH_ALIAS=y
+CONFIG_BUSYBOX_DEFAULT_ASH_GETOPTS=y
+CONFIG_BUSYBOX_DEFAULT_ASH_BUILTIN_ECHO=y
+CONFIG_BUSYBOX_DEFAULT_ASH_BUILTIN_PRINTF=y
+CONFIG_BUSYBOX_DEFAULT_ASH_BUILTIN_TEST=y
+CONFIG_BUSYBOX_DEFAULT_ASH_CMDCMD=y
+CONFIG_BUSYBOX_DEFAULT_ASH_EXPAND_PRMT=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_SH_IS_ASH=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_BASH_IS_NONE=y
+CONFIG_BUSYBOX_DEFAULT_SH_MATH_SUPPORT=y
+CONFIG_BUSYBOX_DEFAULT_SH_MATH_SUPPORT_64=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_SH_NOFORK=y
+CONFIG_BUSYBOX_DEFAULT_LOGGER=y
+CONFIG_BUSYBOX_DEFAULT_FEATURE_SYSLOGD_READ_BUFFER_SIZE=0
+CONFIG_BUSYBOX_DEFAULT_FEATURE_IPC_SYSLOG_BUFFER_SIZE=0
+CONFIG_PACKAGE_dnsmasq=y
+CONFIG_PACKAGE_dropbear=y
+CONFIG_DROPBEAR_CURVE25519=y
+CONFIG_PACKAGE_firewall=y
+CONFIG_PACKAGE_fstools=y
+CONFIG_PACKAGE_fwtool=y
+CONFIG_PACKAGE_jsonfilter=y
+CONFIG_PACKAGE_lede-keyring=y
+CONFIG_PACKAGE_libc=y
+CONFIG_PACKAGE_libgcc=y
+CONFIG_PACKAGE_libpthread=y
+CONFIG_PACKAGE_logd=y
+CONFIG_PACKAGE_mtd=y
+CONFIG_PACKAGE_netifd=y
+CONFIG_PACKAGE_opkg=y
+CONFIG_PACKAGE_procd=y
+CONFIG_PACKAGE_swconfig=y
+CONFIG_PACKAGE_ubox=y
+CONFIG_PACKAGE_ubus=y
+CONFIG_PACKAGE_ubusd=y
+CONFIG_PACKAGE_uci=y
+CONFIG_PACKAGE_usign=y
+CONFIG_PACKAGE_kmod-lib-crc-ccitt=y
+CONFIG_PACKAGE_kmod-nls-base=y
+CONFIG_PACKAGE_kmod-ip6tables=y
+CONFIG_PACKAGE_kmod-ipt-conntrack=y
+CONFIG_PACKAGE_kmod-ipt-core=y
+CONFIG_PACKAGE_kmod-ipt-nat=y
+CONFIG_PACKAGE_kmod-nf-conntrack=y
+CONFIG_PACKAGE_kmod-nf-conntrack6=y
+CONFIG_PACKAGE_kmod-nf-ipt=y
+CONFIG_PACKAGE_kmod-nf-ipt6=y
+CONFIG_PACKAGE_kmod-nf-nat=y
+CONFIG_PACKAGE_kmod-ppp=y
+CONFIG_PACKAGE_kmod-pppoe=y
+CONFIG_PACKAGE_kmod-pppox=y
+CONFIG_PACKAGE_kmod-slhc=y
+CONFIG_PACKAGE_kmod-gpio-button-hotplug=y
+CONFIG_PACKAGE_kmod-usb-core=y
+CONFIG_PACKAGE_kmod-usb-ledtrig-usbport=y
+CONFIG_PACKAGE_kmod-usb-ohci=y
+CONFIG_PACKAGE_kmod-usb2=y
+CONFIG_PACKAGE_kmod-ath=y
+CONFIG_ATH_USER_REGD=y
+CONFIG_PACKAGE_ATH_DFS=y
+CONFIG_PACKAGE_kmod-ath9k=y
+CONFIG_ATH9K_UBNTHSR=y
+CONFIG_PACKAGE_kmod-ath9k-common=y
+CONFIG_PACKAGE_kmod-cfg80211=y
+CONFIG_PACKAGE_kmod-mac80211=y
+CONFIG_PACKAGE_MAC80211_DEBUGFS=y
+CONFIG_PACKAGE_MAC80211_MESH=y
+CONFIG_PACKAGE_libip4tc=y
+CONFIG_PACKAGE_libip6tc=y
+CONFIG_PACKAGE_libxtables=y
+CONFIG_PACKAGE_libblobmsg-json=y
+CONFIG_PACKAGE_libiwinfo=y
+CONFIG_PACKAGE_libjson-c=y
+CONFIG_PACKAGE_libnl-tiny=y
+CONFIG_PACKAGE_libubox=y
+CONFIG_PACKAGE_libubus=y
+CONFIG_PACKAGE_libuci=y
+CONFIG_PACKAGE_libuclient=y
+CONFIG_PACKAGE_ip6tables=y
+CONFIG_PACKAGE_iptables=y
+CONFIG_PACKAGE_hostapd-common=y
+CONFIG_PACKAGE_iw=y
+CONFIG_PACKAGE_odhcp6c=y
+CONFIG_PACKAGE_odhcp6c_ext_cer_id=0
+CONFIG_PACKAGE_odhcpd=y
+CONFIG_PACKAGE_odhcpd_ext_cer_id=0
+CONFIG_PACKAGE_ppp=y
+CONFIG_PACKAGE_ppp-mod-pppoe=y
+CONFIG_PACKAGE_uclient-fetch=y
+CONFIG_WPA_MSG_MIN_PRIORITY=3
+CONFIG_DRIVER_11N_SUPPORT=y
+CONFIG_DRIVER_11W_SUPPORT=y
+CONFIG_PACKAGE_wpad-mini=y
+CONFIG_PACKAGE_uboot-envtools=y
+CONFIG_PACKAGE_iwinfo=y
+CONFIG_PACKAGE_jshn=y
+CONFIG_PACKAGE_libjson-script=y
+CONFIG_PACKAGE_block-mount=y
+CONFIG_PACKAGE_kmod-usb-storage=y
+CONFIG_PACKAGE_kmod-fs-ext4=y
+```
+
+执行
+
+> WARNING: your configuration is out of sync. Please run make menuconfig, oldconfig or defconfig!  
+
+```shell
+make defconfig
+```
+
+执行编译
+
+> j是CPU核心数量
+>
+> make V=99开始编译，第一次编译会比较慢，因为要下载开源包，生成在dl目录。
+
+```shell
+make V=99    // V = verbose 全部都显示
+```
+
+## 内核编译
+
+编译配置
+
+```shell
+make kernel_menuconfig
+```
+
+配置
+
+build_dir/target-mips_24kc_musl-1.1.16/linux-ar71xx_generic/linux-4.4.153/.config
+
+```
+Kernel type->Kexec system call
+General Setup->(Initial RAM filesystem and RAM disk(initramfs/initrd) support, Support initial ramdisks compressed using LZMA)
+Device Drivers->SCSI device support->M (SCSI device support, SCSI disk support)
+
+Device Drivers->USB support->M (Support for Host-side USB, OHCI HCD (USB 1.1)support), USB OHCI support for Atheros AR71xx/AR7240 SoCs, M (USB Mass Storage support), USB announce new devices
+
+Kernel hacking->Built-in kernel command line(rootfstype=ext4 noinitrd console=ttyS0,115200 board=TL-WR703N)
+```
+
+
+
+**Modify:**
+
+1. **./build_dir/linux-ar71xx/linux-2.6.32.27/arch/mips/kernel/machine_kexec.c**
+
+   **Change Line 55 to:** `kexec_start_address = (unsigned long) phys_to_virt(image→start);`
+
+   ```shell
+   build_dir/target-mips_24kc_musl-1.1.16/linux-ar71xx_generic/linux-4.4.153/arch/mips/kernel/machine_kexec.c
+   ```
+
+   
+
+2. **./build_dir/toolchain-mips_r2_gcc-4.3.3+cs_uClibc-0.9.30.1/linux-2.6.32.27/arch/mips/kernel/machine_kexec.c**
+
+   **Change Line 55 to:** `kexec_start_address = (unsigned long) phys_to_virt(image→start);`
+
+   ```shell
+   build_dir/toolchain-mips_24kc_gcc-5.4.0_musl-1.1.16/linux/arch/mips/kernel/machine_kexec.c
+   ```
+
+   
+
+3. **For USB support:**
+
+   1. **./target/linux/ar71xx/files/arch/mips/ar71xx/Kconfig**
+
+      **Add new line 176** *(under config AR71XX_MACH_TL_WR741ND)***:** `select AR71XX_DEV_USB`
+
+      ```shell
+      target/linux/ar71xx/files/arch/mips/ath79/Kconfig.openwrt
+      ```
+
+      
+
+   2. **./target/linux/ar71xx/files/arch/mips/ar71xx/mach-tl-wr741nd.c**
+
+      1. **Add Line 22** *(under includes)***:** `#include “dev-usb.h”`
+      2. **Add line 102** *(under static void __init tl_wr741nd_setup(void))***:** `ar71xx_add_device_usb();`
+
+      ```shell
+      target/linux/ar71xx/files/arch/mips/ath79/mach-tl-wr703n.c
+      
+      static void __init tl_wr703n_setup(void)
+      {
+              common_setup(TL_WR703N_GPIO_USB_POWER, false);
+      }
+      ```
+
+   编译内核配置
+
+4. ```shell
+   make kernel_menuconfig
+   
+   # build_dir/target-mips_24kc_musl-1.1.16/linux-ar71xx_generic/linux-4.4.153/kernel_menuconfig_703n.config.old
+   
+   kernel_menuconfig_703n.config
+   kernel_menuconfig_703n.config.old 
+   ```
+
+   1. **Select the following:**
+      1. `Kernel type` → `Kexec system call`
+
+      2. `General setup` → `Support initial ramdisks compressed using LZMA`
+         1. `Built-in initramfs compression mode` → `LZMA`
+
+      3. `Device Drivers` → `SCSI device support` → `M SCSI device support`
+         1. `M SCSI disk support`
+         2. `Probe all LUNs on each SCSI device`
+
+      4. `Device Drivers` → `USB support` → `M Support for Host-side USB`
+         1. `M OHCI HCD support` → `USB OHCI support for Atheros AR71xx`
+            1. `M USB Mass Storage support`
+            2. `USB announce new devices`
+
+      5. `Kernel hacking` → `Default kernel command string` →
+
+         ```
+         rootfstype=ext4 noinitrd console=ttyS0,115200 board=TL-WR703N
+         ```
+
+5. **Modify: ./package/base-files/files/etc/preinit**
+
+   1. **Below . /etc/diag.sh, add line:** `rootfs=/dev/sda1`
+
+   ```shell
+   [ -z "$PREINIT" ] && exec /sbin/init
+   
+   export PATH="%PATH%"
+   
+   rootfs=/dev/sda1
+   ```
+
+   1. **Optionally you can modify: ./target/linux/generic-2.6/base-files/init**
+      1. **Change line 50 to:** `mount $rootfs /mnt -o noatime`
+         - *Blocks wear out faster if written to every time a file is accessed*
+
+6. ```
+   make clean && make V=s
+   ```
+
+7. **Repeat Step 5**
+
+   - *Clean operation creates issues, however it's necessary for the USB patch to work*
+
+8. ```
+   make V=s
+   ```
+
+9. **Partition external storage, then format first partition as ext2**
+
+10. **Extract contents of ./bin/ar71xx/openwrt-ar71xx-rootfs.tar.gz to root of file system**
+
+11. **Copy ./bin/ar71xx/openwrt-ar71xx-vmlinux-initramfs.elf to root of file system**
+
+## 参考
+
+[新手折腾进阶篇---------openwrt编译入门（绝对详细版）](https://www.right.com.cn/forum/thread-324501-1-1.html)
+
+[703n完全USB启动](https://www.right.com.cn/forum/forum.php?mod=viewthread&tid=115614&ordertype=1&page=1)
+
+[刷机固件安装指南](http://fqrouter.tumblr.com/installation-guide)
+
+[OpenWrt build system – Installation](https://oldwiki.archive.openwrt.org/doc/howto/buildroot.exigence)
+
+[Configuring kexec](https://openwrt.org/docs/guide-user/advanced/kexec)
+
+[kexec 概述](https://www.ibm.com/developerworks/cn/linux/l-kexec/index.html)
+
+[linux kexec 介绍](https://www.cnblogs.com/wahaha02/p/7152796.html)
+
+[kexec on openwrt - linux boots linux, kernel boots kernel on openwrt](https://www.cnblogs.com/nicephil/p/7965767.html)
+
+[ Kexec 引导内核内幕](https://blog.csdn.net/ongoingcre/article/details/75339037)
+
+[kexec简介及使用方法](http://blog.chinaunix.net/uid-22238267-id-5736298.html)
+
+[fqrouter USB启动原理【2】：kexec + losetup](http://fqrouter.tumblr.com/post/41196327982/fqrouter-usb%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%862kexec-losetup)
+
+[【技巧】在openwrt下使用kexec启动硬盘上的linux系统。](http://www.anywlan.com/thread-65933-1-1.html)
+
+[HG255d 用 kexec 执行 U 盘固件来规避 Flash 写错误的问题](https://www.right.com.cn/forum/thread-129552-1-1.html)
+
+[LEDE源代码](https://openwrt.org/zh/docs/guide-developer/source-code/start)
+
+[openwrt构建过程探索](https://www.cnblogs.com/tfanalysis/p/3625430.html)
+
+[openwrt feed 用法，第三方库](https://blog.csdn.net/u012385733/article/details/81558780)
+
+[OpenWRT 编译过程](https://www.cnblogs.com/elewei/p/9353908.html)
+
+[ubuntu16.04编译OpenWrt环境搭建](https://jingyan.baidu.com/article/cb5d6105fb6597005c2fe028.html)
+
+https://github.com/ovwane/fqrouter
+
+[（一）openwrt make menuconfig流程分析](https://blog.csdn.net/chuanzhilong/article/details/52487717)
+
+[（二）openwrt make kernel_menuconfig流程分析](https://blog.csdn.net/chuanzhilong/article/details/52618205)
+
+[Openwrt启动流程及启动脚本分析](https://blog.csdn.net/chuanzhilong/article/details/52711764)
+
+[openwrt启动脚本分析](https://blog.csdn.net/chuanzhilong/article/details/52711777)
+
+[ [UCI] OpenWrt-uci命令系统](https://blog.csdn.net/chuanzhilong/article/details/52689474)
+
+[openwrt: Makefile 框架分析](https://blog.csdn.net/chuanzhilong/article/details/52297063)
+
+[(一)openwrt源码目录概述](https://blog.csdn.net/chuanzhilong/article/details/52265890)
+
+[arm-linux启动过程](https://blog.csdn.net/chuanzhilong/article/details/52182552)
+
+[Linux 内核配置机制（make menuconfig、Kconfig、makefile）讲解](https://blog.csdn.net/chuanzhilong/article/details/52160894)
+
+[无线路由器提供AP、Client、Router、Bridge、Repeater五种工作模式各自含义](https://blog.csdn.net/chuanzhilong/article/details/52125811)
+
+[从零开始编译OpenWRT(LEDE)固件](https://www.right.com.cn/forum/thread-340269-1-1.html)
+
+[编译openwrt支持USB自动mount功能](https://blog.csdn.net/mounter625/article/details/49968223)
+
+[TL-WR703N、TL-WR720N将官方OpenWrt系统扩展到U盘运行](https://www.coldawn.com/tl-wr703n-tl-wr720n-official-openwrt-barrier_breaker-14-07-extroot-rootfs-on-remove-disk/)
+
+[品胜 WPR001N 和 TP-Link WR703N 挂载U盘扩展磁盘空间](https://ifhw.github.io/2017/02/14/wr703n-mount-udisk/)
+
+未使用
+
+[WR703n带U盘引导，刷机的uboot发布 ！！！](https://www.right.com.cn/forum/thread-162699-1-1.html)
+

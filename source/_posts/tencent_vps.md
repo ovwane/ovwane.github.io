@@ -12,7 +12,7 @@ useradd jinlong
 
 ```
 visudo
-jinlong ALL=(ALL)       ALL
+jinlong ALL=(ALL)       NOPASSWD: ALL
 ```
 
 ```
@@ -180,3 +180,6 @@ ftp
 ```
 yum -y install wget net-tools screen lsof tcpdump nc mtr openssl-devel vim bash-completion lrzsz nmap telnet tree ntpdate
 ```
+## 参考
+
+[Ubuntu 设置当前用户sudo免密码](https://www.linuxidc.com/Linux/2016-12/139018.htm)

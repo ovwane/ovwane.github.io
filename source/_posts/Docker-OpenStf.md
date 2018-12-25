@@ -8,11 +8,19 @@ date: 2018-12-08 11:11:43
 ### IP address
 
 - proxy role: `10.8.8.128`
-
 - database role: `10.8.8.128`
-
 - app role: `10.8.8.128`
 - provider1: `10.8.8.131`
+
+/etc/hosts
+
+```
+10.8.8.128 stf.ovwane.com
+10.8.8.128 devside.stf.ovwane.com
+10.8.8.131 provider1.stf.ovwane.com
+```
+
+
 
 ## Proxy role
 
@@ -65,7 +73,7 @@ docker pull nginx:1.15.7-alpine
 ## 启动nignx容器
 
 ```shell
-cd /data/nginx/conf/ 
+/data/nginx/conf/nginx.conf
 
 vim stf.域名.conf
 ```
@@ -317,6 +325,64 @@ docker run -d --name stf-log-rethinkdb-$STF_VERSION --net host $STF_IMAGE stf lo
 
 
 
+dc.sh
+
+```
+cat > dc.sh<<EOF
+#!/usr/bin/env bash
+
+PWD=/root/stf_app
+
+function stop(){
+    cd $PWD
+    docker-compose down
+}
+
+function start(){
+    cd $PWD
+    docker-compose up -d
+}
+
+\$1
+EOF
+```
+
+```shell
+chmod +x dc.sh
+```
+
+vim /etc/systemd/system/stf-app.service
+
+```
+[Unit]
+Description=stf app
+Wants=network.target
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStartPre=/root/stf_app/dc.sh stop
+ExecStart=/root/stf_app/dc.sh start
+ExecStop=/root/stf_app/dc.sh start
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target
+```
+
+启动
+
+```shell
+systemctl enable stf-app.service
+systemctl start stf-app.service
+systemctl status stf-app.service
+systemctl stop stf-app.service
+```
+
+
+
 # Provider role配置
 
 ## 拉取镜像
@@ -329,22 +395,161 @@ done
 
 > 每台provider都要启动adbd和stf-provider。
 
-## 启动adbd
+## ~~启动adbd~~
+
+> 此方式添加新手机不能自动识别。
 
 ```shell
 docker run -d --name adbd --privileged --net host -v /dev/bus/usb:/dev/bus/usb sorccu/adb:latest
 ```
 
-## 启动stf-provider1
+## 使用ubuntu端adb
 
 ```shell
-docker run -d --name stf-provider1-3.4.0 --net host openstf/stf:v3.4.0 stf provider --name "provider1" --connect-sub tcp://devside.stf.ovwane.com:7250 --connect-push tcp://devside.stf.ovwane.com:7270 --storage-url http://stf.ovwane.com --public-ip provider1.stf.ovwane.com --min-port=15000 --max-port=25000 --heartbeat-interval 20000 --screen-ws-url-pattern "ws://stf.ovwane.com/d/provider1/<%= serial %>/<%= publicPort %>/"
+apt -y install adb
+```
+
+
+
+vim /etc/systemd/system/adbd.service  
+
+```
+[Unit]
+Description=Android Debug Bridge daemon
+After=network.target
+
+[Service]
+#TimeoutStartSec=1min
+Restart=always
+RestartSec=2s
+Type=forking
+User=root
+ExecStartPre=/usr/bin/adb kill-server
+ExecStart=/usr/bin/adb start-server
+ExecStop=/usr/bin/adb kill-server
+
+[Install]
+WantedBy=multi-user.target
+```
+
+启动
+
+```shell
+systemctl enable adbd.service
+systemctl start adbd.service
+systemctl status adbd.service
+```
+
+dc.sh
+
+```shell
+cat > dc.sh<<EOF
+#!/usr/bin/env bash
+
+PWD=/root/stf_provider
+
+function stop(){
+    cd $PWD
+    docker-compose down
+}
+
+function start(){
+    cd $PWD
+    docker-compose up -d
+}
+
+\$1
+EOF
+```
+
+```shell
+chmod +x dc.sh
+```
+
+
+
+vim /etc/systemd/system/stf-provider.service
+
+```
+[Unit]
+Description=stf provider
+After=adbd.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/root/stf_provider/dc.sh stop
+ExecStart=/root/stf_provider/dc.sh start
+ExecStop=/root/stf_provider/dc.sh stop
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target
+```
+
+启动
+
+```shell
+systemctl enable stf-provider.service
+systemctl start stf-provider.service
+systemctl status stf-provider.service
+systemctl stop stf-provider.service
+```
+
+## 启动stf-provider1
+
+**添加系统变量**
+
+```shell
+STF_VERSION=3.4.0 \
+STF_HOST=stf.域名 \
+SFT_URL=https://$STF_HOST \
+STF_IMAGE=openstf/stf:v$STF_VERSION \
+STF_PROVIDER=provider1
+```
+
+**启动stf-provider**
+
+```shell
+docker run -d --name stf-($STF_PROVIDER)-$STF_VERSION --net host $STF_IMAGE stf provider --name "${STF_PROVIDER}" --connect-sub tcp://devside.$STF_HOST:7250 --connect-push tcp://devside.$STF_HOST:7270 --storage-url $SFT_URL --public-ip $STF_PROVIDER.$STF_HOST --min-port=15000 --max-port=25000 --heartbeat-interval 20000 --screen-ws-url-pattern "ws://${STF_HOST}/d/${STF_PROVIDER}/<%= serial %>/<%= publicPort %>/"
 ```
 
 ## 启动stf-provider2
 
+**添加系统变量**
+
 ```shell
-docker run -d --name stf-provider2-3.4.0 --net host openstf/stf:v3.4.0 stf provider --name "provider2" --connect-sub tcp://devside.stf.ovwane.com:7250 --connect-push tcp://devside.stf.ovwane.com:7270 --storage-url http://stf.ovwane.com --public-ip provider2.stf.ovwane.com --min-port=15000 --max-port=25000 --heartbeat-interval 20000 --screen-ws-url-pattern "ws://stf.ovwane.com/d/provider2/<%= serial %>/<%= publicPort %>/"
+STF_VERSION=3.4.0 \
+STF_HOST=stf.域名 \
+SFT_URL=https://$STF_HOST \
+STF_IMAGE=openstf/stf:v$STF_VERSION \
+STF_PROVIDER=provider2
+```
+
+**启动stf-provider**
+
+```shell
+docker run -d --name stf-($STF_PROVIDER)-$STF_VERSION --net host $STF_IMAGE stf provider --name "${STF_PROVIDER}" --connect-sub tcp://devside.$STF_HOST:7250 --connect-push tcp://devside.$STF_HOST:7270 --storage-url $SFT_URL --public-ip $STF_PROVIDER.$STF_HOST --min-port=15000 --max-port=25000 --heartbeat-interval 20000 --screen-ws-url-pattern "ws://${STF_HOST}/d/${STF_PROVIDER}/<%= serial %>/<%= publicPort %>/"
+```
+
+## 错误
+
+- [INF/provider 1 [*] Providing all 0 of 2 device(s); ignoring "67e2906f"](https://github.com/openstf/stf/issues/627)：原因是provider连不上stf-app。
+- Lost device
+
+```verilog
+root@ubuntu:~# docker logs -f stf_provider_stf-provider_1
+2018-12-12T12:52:15.648Z INF/provider 1 [*] Subscribing to permanent channel "aA26iWR0Sv6dhk8e+lOKaw=="
+2018-12-12T12:52:15.660Z INF/provider 1 [*] Sending output to "tcp://devside.stf.ovwane.com:7270"
+2018-12-12T12:52:15.662Z INF/provider 1 [*] Receiving input from "tcp://devside.stf.ovwane.com:7250"
+2018-12-12T12:52:15.668Z INF/provider 1 [*] Tracking devices
+2018-12-12T12:52:16.546Z INF/provider 1 [*] Found device "27423f88" (offline)
+2018-12-12T12:52:16.566Z INF/provider 1 [*] Registered device "27423f88"
+2018-12-12T12:52:16.567Z INF/provider 1 [*] Lost device "27423f88" (offline)
+2018-12-12T12:52:17.573Z INF/provider 1 [*] Found device "27423f88" (offline)
+2018-12-12T12:52:17.591Z INF/provider 1 [*] Registered device "27423f88"
+2018-12-12T12:52:17.592Z INF/provider 1 [*] Lost device "27423f88" (offline)
 ```
 
 

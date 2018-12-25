@@ -147,6 +147,26 @@ inspector start at: http://192.168.10.100:5678
 
        推荐用 Chrome 浏览器。
 
+# Docker 运行Macaca
+
+[macacajs/macaca-android-docker](https://hub.docker.com/r/macacajs/macaca-android-docker/tags)
+
+```shell
+docker pull macacajs/macaca-android-docker:latest
+```
+
+[macacajs/macaca-datahub](https://hub.docker.com/r/macacajs/macaca-datahub)
+
+```shell
+docker pull macacajs/macaca-datahub:latest
+```
+
+```shell
+docker run -d -p 9200:9200 -p 9300:9300 macacajs/macaca-datahub:latest
+```
+
 ## 参考
 
 [Macaca Environment Setup](https://macacajs.github.io/environment-setup)
+
+[Macaca • 面向多端的自动化测试](https://macacajs.github.io/zh/run-with-docker#%E4%BD%BF%E7%94%A8-docker)
