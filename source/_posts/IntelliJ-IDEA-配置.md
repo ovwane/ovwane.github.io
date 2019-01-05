@@ -1,8 +1,30 @@
 ---
 title: IntelliJ IDEA 配置
-date: 2018-12-18 14:18:11
+date: 2018-05-11 12:00:40
 tags:
 ---
+
+> IntelliJ IDEA 2018.1.2
+
+## 设置
+
+Apperance & BBehavior->Apperance**
+
+Theme Darcula
+
+
+
+**Keymap**
+
+Mac OS X 10.5+
+
+
+
+**Editor**
+
+Font: Menlo
+
+Size: 20
 
 ## File and Code Templates
 

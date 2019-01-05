@@ -46,6 +46,16 @@ command + shift + o
 - 查找：command + shift + f
 - 替换：command + shift + r
 
+## 插件
+
+### .ignore
+
+.ignore插件忽略不必要提交的文件
+
+### Rainbow Brackets
+
+彩虹颜色的括号 看着很舒服 敲代码效率变高。
+
 ## 参考
 
 [WebStorm“奇技淫巧”](https://github.com/YutHelloWorld/Blog/issues/8)

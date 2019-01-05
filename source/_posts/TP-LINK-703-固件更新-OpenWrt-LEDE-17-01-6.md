@@ -194,7 +194,6 @@ vim /etc/config/wireless
 ```shell
 opkg remove ip6tables
 opkg remove odhcp6c
-
 ```
 
 更新软件列表（每次重启路由器后，需要先运行一次这个，才能安装软件包）
@@ -239,22 +238,10 @@ opkg install kmod-fs-ext4
 # 大概用了221kb
 ```
 
-
-
 6.安装开机从u盘启动
 
 ```shell
 opkg install block-mount
-```
-
-```shell
-mkdir -p /tmp/introot
-mkdir -p /tmp/extroot
-mount --bind / /tmp/introot
-mount /dev/sda1 /tmp/extroot
-tar -C /tmp/introot -cvf - . | tar -C /tmp/extroot -xf -
-umount /tmp/introot
-umount /tmp/extroot
 ```
 
 ```verilog
@@ -266,6 +253,47 @@ this file has been obsoleted. please call "/sbin/block mount" directly
 root@LEDE:~#
 # 大概用了36kb
 ```
+
+转移数据
+
+```shell
+mount /dev/sda1 /mnt  
+mkdir /tmp/root  
+mount --bind / /tmp/root  
+tar -C /tmp/root -cvf - . | tar -C /mnt -xvf -  
+sync   
+umount /tmp/root  
+```
+
+把当前挂在状态写入到fstab文件:
+
+```shell
+block detect > /etc/config/fstab
+```
+
+修改/etc/config/fstab文件
+
+```
+config 'global'
+        option  anon_swap       '0'
+        option  anon_mount      '0'
+        option  auto_swap       '1'
+        option  auto_mount      '1'
+        option  delay_root      '5'
+        option  check_fs        '0'
+
+config 'mount'
+        option  target  '/'
+        option  uuid    '69d679a5-fdf1-4f8b-950f-c2fdb7b9eede'
+        option  enabled '1'
+
+config 'mount'
+        option  target  '/data'
+        option  uuid    '7470c2d3-3cb0-4924-a7bd-63c33d2ee7f3'
+        option  enabled '1'
+```
+
+将sda1作为根分区, sda2 作为swap， sda3作为root目录: `/mnt/sda1`改为`/` ,`/mnt/sda3`改为`/root` 将config mount 和config swap的 option enabled都改为1
 
 LEDE 17.01.6
 
