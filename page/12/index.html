@@ -210,6 +210,316 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-macOS-安装配置PyV8" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/27/macOS-安装配置PyV8/" class="article-date">
+      <time datetime="2018-07-27T03:19:31.000Z" itemprop="datePublished">2018-07-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/27/macOS-安装配置PyV8/">macOS 安装配置PyV8</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="macOS-安装配置PyV8"><a href="#macOS-安装配置PyV8" class="headerlink" title="macOS 安装配置PyV8"></a>macOS 安装配置PyV8</h1><blockquote>
+<p>macOS 10.13.5</p>
+</blockquote>
+<p><strong>安装依赖：</strong><br>Boost</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install boost </span><br><span class="line"></span><br><span class="line">brew install libboost-all-dev boost-python3 boost-build boost-mpi</span><br></pre></td></tr></table></figure>
+<p>安装v8</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install v8</span><br></pre></td></tr></table></figure>
+<p>安装PyV8</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -e git://github.com/brokenseal/PyV8-OS-X#egg=pyv8</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/sc_lujun/article/details/69067543" target="_blank" rel="noopener">安装pyv8</a></p>
+<p><a href="http://rrifx.com/post/mac-install-pyv8/" target="_blank" rel="noopener">mac下安装pyv8</a></p>
+<p><a href="https://github.com/brokenseal/PyV8-OS-X" target="_blank" rel="noopener">PyV8-OS-X</a></p>
+<p><a href="https://www.cnblogs.com/richerdyoung/p/8535149.html" target="_blank" rel="noopener">【Python3】 PyV8的安装与使用</a></p>
+<p><a href="https://www.cnblogs.com/shengulong/p/8082768.html" target="_blank" rel="noopener">pyv8的安装和使用：python中执行js代码</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Gitlab教程" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/24/Gitlab教程/" class="article-date">
+      <time datetime="2018-07-24T06:19:32.000Z" itemprop="datePublished">2018-07-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/24/Gitlab教程/">Gitlab教程</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>部署 GitLab</strong></p>
+<p>获取 GitLab 镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull gitlab/gitlab-ce:11.1.4-ce.0</span><br></pre></td></tr></table></figure>
+<p>查看本地镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p>创建目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/gitlab/&#123;config,data,logs&#125;</span><br></pre></td></tr></table></figure>
+<p>创建并运行容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --detach \</span><br><span class="line">    --hostname git.xxx.com \</span><br><span class="line">    --publish 443:443 --publish 80:80 --publish 22:22 \</span><br><span class="line">    --name gitlab-11.1.4 \</span><br><span class="line">    --restart always \</span><br><span class="line">    --volume /data/gitlab/config:/etc/gitlab:Z \</span><br><span class="line">    --volume /data/gitlab/logs:/var/log/gitlab:Z \</span><br><span class="line">    --volume /data/gitlab/data:/var/opt/gitlab:Z \</span><br><span class="line">    gitlab/gitlab-ce:11.1.4-ce.0</span><br></pre></td></tr></table></figure>
+<p>查看运行状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">netstat -ntulap | grep docker</span><br></pre></td></tr></table></figure>
+<p><strong>修改配置文件</strong></p>
+<p>添加https, 需要导入证书</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入挂载配置目录</span></span><br><span class="line">cd /data/gitlab/config</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建密钥文件夹, 并放入证书</span></span><br><span class="line">mkdir ssl;cd ssl</span><br><span class="line"><span class="meta">#</span><span class="bash"> 移动证书，使用的是Let’s Encrypt证书</span></span><br><span class="line">mv fullchain.cer  域名.key .</span><br></pre></td></tr></table></figure>
+<p>修改配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vi /data/gitlab/config/gitlab.rb</span><br><span class="line"></span><br><span class="line">###################################################</span><br><span class="line"># 添加外部请求的域名(如果不支持https, 可以改成http)</span><br><span class="line">external_url &apos;https://git.xxx.com&apos;</span><br><span class="line"># 修改gitlab对应的时区 </span><br><span class="line">gitlab_rails[&apos;time_zone&apos;] = &apos;Asia/Shanghai&apos;</span><br><span class="line"># 配置ssl参数</span><br><span class="line">nginx[&apos;enable&apos;] = true</span><br><span class="line">nginx[&apos;redirect_http_to_https&apos;] = false</span><br><span class="line">nginx[&apos;redirect_http_to_https_port&apos;] = 443</span><br><span class="line">nginx[&apos;ssl_certificate&apos;] = &quot;/etc/gitlab/ssl/fullchain.cer&quot;</span><br><span class="line">nginx[&apos;ssl_certificate_key&apos;] = &quot;/etc/gitlab/ssl/域名.key&quot;</span><br><span class="line">###################################################</span><br></pre></td></tr></table></figure>
+<p>重启服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 登陆容器, 重启配置</span></span><br><span class="line">docker exec -it  xxxxxx bash   </span><br><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+<p>访问 GitLab</p>
+<ul>
+<li><a href="https://git.xxx.com" target="_blank" rel="noopener">https://git.xxx.com</a><ul>
+<li>如果没有域名，直接使用 IP 访问即可。</li>
+</ul>
+</li>
+</ul>
+<p>关闭注册功能</p>
+<p>Admin Area-&gt;Settings-&gt;Sign-up restrictions-&gt;Sign-up enabled 取消</p>
+<h3 id="安装gitlab-runner"><a href="#安装gitlab-runner" class="headerlink" title="安装gitlab-runner"></a>安装gitlab-runner</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name gitlab-runner-11.1.0 --restart always \</span><br><span class="line">  -v /data/gitlab-runner/config:/etc/gitlab-runner \</span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">  gitlab/gitlab-runner:v11.1.0</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>-d: 设置容器后台运行</li>
+<li>–name：容器名称</li>
+<li>-restart always：每次启动容器就重启 gitlab-runner</li>
+<li>-v: 共享目录挂载</li>
+</ul>
+<p>安装好后，执行<code>$ docker ps</code>查看容器是否运行。</p>
+<h3 id="注册和初始化"><a href="#注册和初始化" class="headerlink" title="注册和初始化"></a>注册和初始化</h3><p>编辑<code>vim /data/gitlab-runner/config/config.toml</code>，手动修改配置：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">concurrent</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">check_interval</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="section">[[runners]]</span></span><br><span class="line">  name = "runner1"</span><br><span class="line">  url = "https://git.xxx.com"</span><br><span class="line">  token = "e7b1109634c7082f3363fccbb9f165"</span><br><span class="line">  executor = "docker"</span><br><span class="line"><span class="section">  [runners.docker]</span></span><br><span class="line">    tls_verify = false</span><br><span class="line">    image = "ruby:2.1"</span><br><span class="line">    privileged = false</span><br><span class="line">    disable_cache = false</span><br><span class="line">    volumes = ["/cache"]</span><br><span class="line">    shm_size = 0</span><br><span class="line"><span class="section">  [runners.cache]</span></span><br></pre></td></tr></table></figure>
+<p>或者交互式注册runner信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it gitlab-runner gitlab-ci-multi-runner register</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> gitlab-ci-multi-runner register</span></span><br><span class="line">Running in system-mode.</span><br><span class="line">Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com/):</span><br><span class="line"><span class="meta">#</span><span class="bash"> https://git.xxx.com</span></span><br><span class="line">Please enter the gitlab-ci token for this runner:</span><br><span class="line"><span class="meta">#</span><span class="bash"> v7YsuyhYduqSyxJi8fmW <span class="comment">#在gitlib中寻找runner token</span></span></span><br><span class="line">Please enter the gitlab-ci description for this runner:</span><br><span class="line"><span class="meta">#</span><span class="bash"> alpine 3.8</span></span><br><span class="line">Please enter the gitlab-ci tags for this runner (comma separated):</span><br><span class="line"><span class="meta">#</span><span class="bash"> qa</span></span><br><span class="line">Registering runner... succeeded                     runner=v7YsuyhY</span><br><span class="line">Please enter the executor: kubernetes, parallels, ssh, docker+machine, virtualbox, docker-ssh+machine, docker, docker-ssh, shell:</span><br><span class="line"><span class="meta">#</span><span class="bash"> docker</span></span><br><span class="line">Please enter the default Docker image (e.g. ruby:2.1):</span><br><span class="line"><span class="meta">#</span><span class="bash"> alpine:3.8</span></span><br><span class="line">Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!</span><br></pre></td></tr></table></figure>
+<p><strong>注册后使用 <code>gitlab-runner list</code> 查阅配置</strong></p>
+<p><strong>gitlab-runner unregister 命令</strong></p>
+<ol>
+<li>通过 url 和 token 取消注册 <code>gitlab-runner unregister --url https://git.xxx.com/ --token t0k3n</code></li>
+<li>通过name取消注册 <code>gitlab-runner unregister --name test-runner</code></li>
+<li>删除所有注册runner <code>gitlab-runner unregister --all-runners</code></li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://about.gitlab.com/installation/" target="_blank" rel="noopener">GitLab Installation</a></p>
+<p><a href="http://blog.daocloud.io/using-docker-deploy-gitlab/" target="_blank" rel="noopener">使用Docker来搭建gitlab</a></p>
+<p><a href="https://www.jianshu.com/p/8d8e6b45a514" target="_blank" rel="noopener">通过 docker 搭建自用的 gitlab 服务</a></p>
+<p><a href="https://docs.gitlab.com/omnibus/docker/" target="_blank" rel="noopener">GitLab Docker images</a></p>
+<p><a href="https://my.oschina.net/u/1432614/blog/658568" target="_blank" rel="noopener">在 CentOS 7 上使用 Docker 部署安装 GitLab</a></p>
+<p> <a href="https://medium.com/@CoderAFI/docker-gitlab-3fa06d6ec0b5" target="_blank" rel="noopener">Docker+Gitlab https</a></p>
+<p> <a href="http://blog.fatedier.com/2016/04/05/install-gitlab-supporting-ci-with-docker/#%E5%90%AF%E5%8A%A8-gitlab" target="_blank" rel="noopener">利用docker搭建gitlab及持续集成模块</a></p>
+<p> <a href="https://medium.com/@CoderAFI/docker-gitlab-3fa06d6ec0b5" target="_blank" rel="noopener">Docker+Gitlab 配置</a></p>
+<p><a href="https://www.centos.bz/2017/09/docker%e9%83%a8%e7%bd%b2gitlab/" target="_blank" rel="noopener">Docker部署GitLab</a></p>
+<p><a href="https://www.cnblogs.com/jesse2013/p/gitlab-ci-netcoreapi-on-docker.html" target="_blank" rel="noopener">Gitlab CI 自动部署 asp.net core web api 到Docker容器</a></p>
+<p><a href="https://segmentfault.com/a/1190000013362589" target="_blank" rel="noopener">【GITLAB】 服务配置可持续集成部署的项目案例 - 安装篇</a></p>
+<p><a href="https://docs.gitlab.com/runner/register/index.html" target="_blank" rel="noopener">Registering Runners</a></p>
+<p><a href="http://www.ttlsa.com/docker/use-gitlab-ci-to-automatically-create-docker-images/" target="_blank" rel="noopener">使用 GitLab-CI 来自动创建 Docker 镜像</a></p>
+<p><a href="https://wjqwsp.github.io/2016/11/23/Gitlab-CI-%E4%B8%8E-Docker-%E7%9A%84%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%95%B4%E5%90%88%E6%B5%81%E7%A8%8B/" target="_blank" rel="noopener">Gitlab CI 与 Docker 的配置与整合流程</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CentOS7-配置Shadowsocks-go" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/23/CentOS7-配置Shadowsocks-go/" class="article-date">
+      <time datetime="2018-07-23T04:07:39.000Z" itemprop="datePublished">2018-07-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/23/CentOS7-配置Shadowsocks-go/">CentOS7 配置Shadowsocks-go</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="CentOS7-Shadowsocks-go"><a href="#CentOS7-Shadowsocks-go" class="headerlink" title="CentOS7 Shadowsocks-go"></a>CentOS7 Shadowsocks-go</h1><p>获取ip</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IP_ADDR=$(ip a|grep "inet "|awk -F\  '&#123;print $2&#125;'|awk '&#123;print $1&#125;'|grep -v '127.*'|grep -v '172.*'|awk -F/ '&#123;print $1&#125;')</span><br><span class="line"></span><br><span class="line">echo $IP_ADDR</span><br></pre></td></tr></table></figure>
+<p>安装docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum -y install docker</span><br><span class="line"></span><br><span class="line">systemctl enable docker</span><br><span class="line"></span><br><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
+<p>安装shadowsocks-go</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull cloverzrg/shadowsocks-go</span><br><span class="line"></span><br><span class="line">docker run -d -p $IP_ADDR:8373:8373 -e PASSWORD=meiyoumima -e METHOD=chacha20 --restart always  cloverzrg/shadowsocks-go</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/cloverzrg/shadowsocks-go-docker" target="_blank" rel="noopener">shadowsocks-go-docker</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CentOS7 Shadowsocks-go" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/23/CentOS7 Shadowsocks-go/" class="article-date">
+      <time datetime="2018-07-23T04:07:00.000Z" itemprop="datePublished">2018-07-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/23/CentOS7 Shadowsocks-go/">CentOS7 Shadowsocks-go</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="CentOS7-Shadowsocks-go"><a href="#CentOS7-Shadowsocks-go" class="headerlink" title="CentOS7 Shadowsocks-go"></a>CentOS7 Shadowsocks-go</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum list docker-ce --showduplicates | sort -r</span><br><span class="line"></span><br><span class="line">yum install docker-ce-18.06.1.ce</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull cloverzrg/shadowsocks-go</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 192.81.131.192:8373:8373 -e PASSWORD=meiyoumima -e METHOD=chacha20 --restart always --name shadowsocks-go cloverzrg/shadowsocks-go</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/cloverzrg/shadowsocks-go-docker" target="_blank" rel="noopener">shadowsocks-go-docker</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-CentOS7-开启BBR" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -591,265 +901,6 @@
 
 
   
-    <article id="post-老男孩Python自动化开发s16-笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/老男孩Python自动化开发s16-笔记/" class="article-date">
-      <time datetime="2018-07-12T02:51:02.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/老男孩Python自动化开发s16-笔记/">老男孩Python自动化开发s16</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>没有的课程<br>L016<br>L019<br>L020<br>L023<br>L024<br>L025<br>L034</p>
-<p>35周 8个月左右</p>
-<p>学习笔记<br><a href="http://www.cnblogs.com/52forjie/" target="_blank" rel="noopener">forjie</a><br><a href="http://blog.51cto.com/zoucuo/1883734" target="_blank" rel="noopener">python学习笔记（开课介绍1）</a></p>
-<p><a href="http://blog.51cto.com/zoucuo/1883734" target="_blank" rel="noopener">python学习笔记（开课介绍1）</a></p>
-<p><a href="https://www.bbsmax.com/A/kjdwA0n6JN/" target="_blank" rel="noopener">老男孩python自动化运维作业1</a></p>
-<p><a href="http://qkxue.net/info/45155/python" target="_blank" rel="noopener">老男孩python自动化运维作业(二)</a></p>
-<p><a href="http://www.cnblogs.com/cyalu/" target="_blank" rel="noopener">陆雅亮</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-老男孩教育Python课程老师们的博客" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/老男孩教育Python课程老师们的博客/" class="article-date">
-      <time datetime="2018-07-12T02:50:00.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/老男孩教育Python课程老师们的博客/">老男孩教育Python课程老师们的博客</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="老男孩教育Python课程老师们的博客"><a href="#老男孩教育Python课程老师们的博客" class="headerlink" title="老男孩教育Python课程老师们的博客"></a>老男孩教育Python课程老师们的博客</h1><p>Alex</p>
-<p>武沛齐<br><a href="http://www.cnblogs.com/wupeiqi/" target="_blank" rel="noopener">Mr.Seven</a></p>
-<p><a href="http://www.cnblogs.com/wupeiqi/p/7295372.html" target="_blank" rel="noopener">老铁，这年头不会点Git真不行！！！</a></p>
-<p><a href="https://www.youtube.com/watch?v=4XpnKHJAok8" target="_blank" rel="noopener">Tech Talk: Linus Torvalds on git</a> 4:36 git发音 给特 </p>
-<p><a href="https://english.stackexchange.com/questions/47622/how-do-you-pronounce-git?newreg=e31e4c18b6564225aecf3b0cfe260ebf" target="_blank" rel="noopener">How do you pronounce “Git”?</a></p>
-<p><a href="http://www.cnblogs.com/wupeiqi/p/4493506.html" target="_blank" rel="noopener">Python 面向对象（初级篇）</a><br><a href="http://www.cnblogs.com/wupeiqi/p/4766801.html" target="_blank" rel="noopener">python 面向对象（进阶篇）</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#配置全局用户和邮箱</span><br><span class="line">git config --global user.name &quot;&quot;</span><br><span class="line">git config --global user.email &quot;&quot;</span><br><span class="line">#初始化</span><br><span class="line">git init</span><br><span class="line">#查看git状态</span><br><span class="line">git status</span><br><span class="line">#添加当前目录所有文件到版本库</span><br><span class="line">git add .</span><br><span class="line">#提交到版本库，并填写版本说明。</span><br><span class="line">git commit -m &quot;提交说明&quot;</span><br><span class="line">#查看提交记录</span><br><span class="line">git log</span><br><span class="line">#现在b版本，恢复到a版本本，“4ba728de5e2136e03124732fc3e6c779ee74a222”这串字符是git log查看的commit后面的字符串。</span><br><span class="line">git reset --hard 4ba728de5e2136e03124732fc3e6c779ee74a222</span><br><span class="line"></span><br><span class="line">#恢复到b版本，”4ba728d“这个是查看reflog</span><br><span class="line">git reflog</span><br><span class="line">git reset --hard 4ba728d</span><br></pre></td></tr></table></figure>
-<p>stash</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#将当前工作区所有修改过的内容存储到“某个地方”，将工作区还原到当前版本未修改过的状态</span><br><span class="line">git stash</span><br><span class="line">#查看“某个地方”存储的所有记录</span><br><span class="line">git stash list</span><br><span class="line">#清空“某个地方”     </span><br><span class="line">git stash clear</span><br><span class="line">#将第一个记录从“某个地方”重新拿到工作区（可能有冲突）</span><br><span class="line">git stash pop </span><br><span class="line">#编号, 将指定编号记录从“某个地方”重新拿到工作区（可能有冲突）</span><br><span class="line">git stash apply</span><br><span class="line">#编号，删除指定编号的记录 </span><br><span class="line">git stash drop</span><br></pre></td></tr></table></figure>
-<p>branch</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#创建分支</span><br><span class="line">git branch dev</span><br><span class="line">#切换到dev分支</span><br><span class="line">git checkout dev</span><br><span class="line">#创建并切换到指定分支</span><br><span class="line">git branch -m dev</span><br><span class="line">#查看所有文章</span><br><span class="line">git branch</span><br><span class="line">#删除分支</span><br><span class="line">git branch -d dev</span><br><span class="line">#将指定分支合并到当前分支</span><br><span class="line">git merge dev</span><br></pre></td></tr></table></figure>
-<p>远程</p>
-<p>git pull = git fetch + git merge</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#添加远程git</span><br><span class="line">git remote add origin</span><br><span class="line">#把代码推送到远程git</span><br><span class="line">git push origin dev</span><br><span class="line">#拉取代码,并合并到本地</span><br><span class="line">git pull origin dev</span><br><span class="line">#获取分支最新内容到版本库的分支</span><br><span class="line">git fetch origin dev</span><br><span class="line">#将版本库的分支内容合并到工作去</span><br><span class="line">git merge origin/dev</span><br><span class="line">#初始化git代码到本地</span><br><span class="line">git clone </span><br><span class="line">#创建分支且和远程分支同步</span><br><span class="line">git branch dev origin/dev</span><br></pre></td></tr></table></figure>
-<p>协同合作</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-胡阳" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/胡阳/" class="article-date">
-      <time datetime="2018-07-12T02:49:00.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/胡阳/">胡阳</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="胡阳"><a href="#胡阳" class="headerlink" title="胡阳"></a>胡阳</h1><p><a href="https://www.the5fire.com/" target="_blank" rel="noopener">the5fire的技术博客</a></p>
-<p><a href="http://blog.csdn.net/the_fire" target="_blank" rel="noopener">the_fire的技术博客-csdn</a></p>
-<p><a href="https://www.zhihu.com/people/the5fire/" target="_blank" rel="noopener">知乎</a></p>
-<p><a href="https://github.com/the5fire" target="_blank" rel="noopener">Github</a></p>
-<blockquote>
-<p>热爱开源，但没拿的出手的项目。怎么来证明你的能力？</p>
-</blockquote>
-<p>git、需求分析、redis、流程、自动部署</p>
-<p>运维开发</p>
-<p><strong>课程目标</strong><br><strong>企业开发</strong></p>
-<p>Git、Django、Redis、Python、软件工程、沟通协调、需求的理解、开发的理解</p>
-<p>定义model，admin，1.1，cms系统</p>
-<p>教练/同事/搭档</p>
-<p><strong><em>课程大纲</em></strong><br><strong>第零讲 课程介绍**</strong></p>
-<blockquote>
-<p>Life is short. I use Python.<br>Talk is cheap,Show me the Code.</p>
-</blockquote>
-<p><em>完全搞懂</em></p>
-<p>Zen of Python<br>Python之禅</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-运维相关的书签" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/运维相关的书签/" class="article-date">
-      <time datetime="2018-07-12T02:47:24.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/运维相关的书签/">运维相关的书签</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>姜学栋<br><a href="http://zmister.com/archives/217.html" target="_blank" rel="noopener">Vtrois’s Blog</a></p>
-<p>笑遍世界<br><a href="http://smilejay.com/" target="_blank" rel="noopener">笑遍世界</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
@@ -860,7 +911,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2018 幻舞梦境
+                &copy; 2019 幻舞梦境
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman

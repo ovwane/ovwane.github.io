@@ -210,6 +210,307 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-好苦呐！" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/29/好苦呐！/" class="article-date">
+      <time datetime="2017-06-29T09:10:25.000Z" itemprop="datePublished">2017-06-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/29/好苦呐！/">好苦呐！</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-好难啊、MySQL主从复制" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/29/好难啊、MySQL主从复制/" class="article-date">
+      <time datetime="2017-06-29T09:10:10.000Z" itemprop="datePublished">2017-06-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/29/好难啊、MySQL主从复制/">好难啊、MySQL主从复制</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-MariaDB使用笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/24/MariaDB使用笔记/" class="article-date">
+      <time datetime="2017-06-24T00:23:05.000Z" itemprop="datePublished">2017-06-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/24/MariaDB使用笔记/">MariaDB使用笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>MariaDB 10.2.13</p>
+<p>用户授权</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;%&apos; IDENTIFIED BY &apos;mypwd&apos; WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<h3 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a><a href="https://www.cnblogs.com/liufei88866/p/5619215.html" target="_blank" rel="noopener">修改密码</a></h3><h4 id="方法1：-用SET-PASSWORD命令"><a href="#方法1：-用SET-PASSWORD命令" class="headerlink" title="方法1： 用SET PASSWORD命令"></a>方法1： 用SET PASSWORD命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">mysql&gt; SET PASSWORD FOR &apos;root&apos;@&apos;localhost&apos; = PASSWORD(&apos;newpass&apos;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">方法2：用mysqladmin</span><br><span class="line"></span><br><span class="line">　　mysqladmin -u root password &quot;newpass&quot;</span><br><span class="line"></span><br><span class="line">　　如果root已经设置过密码，采用如下方法</span><br><span class="line"></span><br><span class="line">　　mysqladmin -u root password oldpass &quot;newpass&quot;</span><br><span class="line"></span><br><span class="line">方法3： 用UPDATE直接编辑user表</span><br><span class="line"></span><br><span class="line">　　mysql -u root</span><br><span class="line"></span><br><span class="line">　　mysql&gt; use mysql;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; UPDATE user SET Password = PASSWORD(&apos;newpass&apos;) WHERE user = &apos;root&apos;;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line"></span><br><span class="line">在丢失root密码的时候，可以这样</span><br><span class="line"></span><br><span class="line">　　mysqld_safe --skip-grant-tables&amp;</span><br><span class="line"></span><br><span class="line">　　mysql -u root mysql</span><br><span class="line"></span><br><span class="line">　　mysql&gt; UPDATE user SET password=PASSWORD(&quot;new password&quot;) WHERE user=&apos;root&apos;;</span><br><span class="line"></span><br><span class="line">　　mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<h5 id="列出数据库"><a href="#列出数据库" class="headerlink" title="列出数据库"></a>列出数据库</h5><p>show databases;</p>
+<h5 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database proxy_ip;</span><br></pre></td></tr></table></figure>
+<h5 id="新建数据表"><a href="#新建数据表" class="headerlink" title="新建数据表"></a>新建数据表</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table xici_proxy(ip varchar(20) COMMENT &apos;地址&apos;,</span><br><span class="line">port varchar(5) COMMENT &apos;端口&apos;, </span><br><span class="line">proxy_type varchar(5) COMMENT &apos;类型&apos;, </span><br><span class="line">speed varchar(10) NULL COMMENT &apos;速度&apos;,</span><br><span class="line">PRIMARY KEY(ip)</span><br><span class="line">)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&apos;西刺代理IP池&apos;;</span><br></pre></td></tr></table></figure>
+<h5 id="查看表结构"><a href="#查看表结构" class="headerlink" title="查看表结构"></a>查看表结构</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc xici_proxy;</span><br></pre></td></tr></table></figure>
+<h5 id="查看表生成的DDL"><a href="#查看表生成的DDL" class="headerlink" title="查看表生成的DDL"></a>查看表生成的DDL</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table xici_proxy;</span><br></pre></td></tr></table></figure>
+<h5 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop database xici_proxy;</span><br></pre></td></tr></table></figure>
+<h5 id="查看字符集"><a href="#查看字符集" class="headerlink" title="查看字符集"></a>查看字符集</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like 'collation_%';</span><br></pre></td></tr></table></figure>
+<h5 id="查看字符集-1"><a href="#查看字符集-1" class="headerlink" title="查看字符集"></a>查看字符集</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like 'character_set_%';</span><br></pre></td></tr></table></figure>
+<h2 id="数据库导出导入"><a href="#数据库导出导入" class="headerlink" title="数据库导出导入"></a>数据库导出导入</h2><p>导入数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source future.sql;</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/" target="_blank" rel="noopener">configuring-mariadb-for-remote-client-access</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Scrapy操作步骤" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/23/Scrapy操作步骤/" class="article-date">
+      <time datetime="2017-06-23T03:22:02.000Z" itemprop="datePublished">2017-06-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scrapy startproject crawl_spider</span><br><span class="line">cd crawl_spider</span><br><span class="line"></span><br><span class="line">scrapy genspider jobbole &quot;blog.jobbole.com&quot;</span><br><span class="line">scrapy genspider zhihu &quot;www.zhihu.com&quot;</span><br><span class="line">scrapy genspider lagou &quot;www.lagou.com&quot;</span><br></pre></td></tr></table></figure>
+<p>pycharm调试scrapy</p>
+<p>main.py 和 scrapy.cfg 在同一级目录下</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line">execute([<span class="string">"scrapy"</span>,<span class="string">"crawl"</span>,<span class="string">"jobbole"</span>])</span><br></pre></td></tr></table></figure>
+<p>settings.py</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ROBOTSTXT_OBEY = <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<p>伯乐在线提取文章<br>标题，日期，评论，点赞，</p>
+<p>xpath</p>
+<p>xpath语法<br>/div/<em> 选取属于div元素的所有子节点<br>//</em> 选取所有元素<br>//div[@*] 选取所有带属性的div元素<br>/div/a|//div/p 选取所有div元素的a和p元素<br>//span|//ul 选取文档中的span和ul元素<br>article/div/p|//span 选取所有属于artile的div的p元素和所有的span元素</p>
+<p>scrapy shell 调试 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell http://blog.jobbole.com/110287/</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">title = response.xpath(<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line">title = response.xpath(<span class="string">"//div[@class="</span>entry-heade<span class="string">r"]/h1"</span>)</span><br><span class="line"></span><br><span class="line">title = response.xpath(<span class="string">"//div[@class="</span>entry-heade<span class="string">r"]/h1/text()"</span>)</span><br><span class="line"></span><br><span class="line">title = response.xpath(<span class="string">"//div[@class="</span>entry-heade<span class="string">r"]/h1/text()"</span>).extract()[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">response.xpath(<span class="string">'//div[@id="archive"]//a[@class="archive-title"]/@href'</span>).extract()</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[element <span class="keyword">for</span> element <span class="keyword">in</span> tag_list <span class="keyword">if</span> <span class="keyword">not</span> element.strip().endswith(<span class="string">"评论"</span>)]</span><br></pre></td></tr></table></figure>
+<p>css selector</p>
+<p>css选择器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">* 选择所有节点</span><br><span class="line">#con 选择id为con的节点</span><br><span class="line">.con 选择所有class包含con的节点</span><br><span class="line">li a 选取所有li下的所有a节点</span><br><span class="line">ul + p 选择ul后面的第一个p元素</span><br><span class="line">div#con &gt; ul 选取id为con的div的第一个ul子元素</span><br><span class="line">ul ~ p 选择与ul相邻的所有p元素</span><br><span class="line">a[title] 选取所有有tilte属性的a元素</span><br><span class="line">input[type=radio]:checked 选择选中的radio的元素</span><br><span class="line">div:not(#con) 选取所有id非con的div属性</span><br><span class="line">li:nth-child(3)选取第三个li元素</span><br><span class="line">tr:nth-child(2n)第偶数个tr</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title = response.css(<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line">title = response.css(<span class="string">".entry-header h1"</span>)</span><br><span class="line"></span><br><span class="line">title = response.css(<span class="string">".entry-header h1::text"</span>)</span><br><span class="line"></span><br><span class="line">title = response.css(<span class="string">".entry-header h1:text"</span>).extract()</span><br></pre></td></tr></table></figure>
+<p>1.获取文章列表页的文章url并交给scrapy下载后并进行解析<br>2.获取下一页的url并交给scrapy进行下载，下载完成后交给parse</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_urls = response.css(<span class="string">".con a::attr(href)"</span>).extract()</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.http <span class="keyword">import</span> Request</span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse</span><br><span class="line"></span><br><span class="line"><span class="comment">#下载所有文章的url</span></span><br><span class="line"><span class="keyword">yield</span> Request(url=parse.urljoin(response.url, post_url),callback=self.parse_detail)</span><br><span class="line"></span><br><span class="line"><span class="comment">#提取下一页的url</span></span><br><span class="line">next_urls = response.css(<span class="string">".next.page-number::attr(href)"</span>).extract()</span><br><span class="line"><span class="keyword">if</span> next_url:</span><br><span class="line">	<span class="keyword">yield</span> Request(url=parse.urljoin(response.url, post_url),callback=self.parse)</span><br></pre></td></tr></table></figure>
+<p>items.py</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JobboleItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">	title = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<p>scrapy自带的下载中间件<br>图片中间件</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(__file__))</span><br><span class="line">IMAGES_URLS_FIELD = <span class="string">""</span></span><br><span class="line">IMAGES_STORE = os.path.join(BASE_DIR, <span class="string">'images'</span>)</span><br></pre></td></tr></table></figure>
+<p>1.先定义items<br>scrapy items<br>2.在jobbole.py爬虫写处理逻辑<br>yield 爬去的数据<br>3.在pipelines中定义怎么储存yield过来的数据<br>3.1 设置setttings.py中的downloader中间件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;   &apos;crawl_spider.middlewares.MyCustomDownloaderMiddleware&apos;: 543,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>item loader机制</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-太原游记" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/20/太原游记/" class="article-date">
+      <time datetime="2017-06-20T09:35:47.000Z" itemprop="datePublished">2017-06-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/20/太原游记/">太原游记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-2017-06-20" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -480,278 +781,6 @@
 
 
   
-    <article id="post-自己吓唬自己是最可怕的事情" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/06/06/自己吓唬自己是最可怕的事情/" class="article-date">
-      <time datetime="2017-06-06T07:17:29.000Z" itemprop="datePublished">2017-06-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/06/自己吓唬自己是最可怕的事情/">自己吓唬自己是最可怕的事情</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>“自己吓唬自己是最可怕的事情”，“枯萎的花朵🥀都能被看成幽灵👻”。面对困难和不确定，我们会感到恐惧。</p>
-<p><a href="http://51world.win/2017/06/02/%E7%BC%96%E7%A8%8B%E9%82%A3%E7%82%B9%E4%BA%8B%E5%84%BF-%E7%A8%8B%E5%BA%8F%E6%98%AF%E6%80%8E%E6%A0%B7%E8%B7%91%E8%B5%B7%E6%9D%A5%E7%9A%84/" target="_blank" rel="noopener">链接</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-不想再为她难过了。" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/06/06/不想再为她难过了。/" class="article-date">
-      <time datetime="2017-06-06T03:38:48.000Z" itemprop="datePublished">2017-06-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/06/不想再为她难过了。/">不想再为她难过了。</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-怎么保持好心情" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/06/06/怎么保持好心情/" class="article-date">
-      <time datetime="2017-06-06T03:38:27.000Z" itemprop="datePublished">2017-06-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/06/怎么保持好心情/">怎么保持好心情</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-6-6" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/06/06/6-6/" class="article-date">
-      <time datetime="2017-06-06T03:37:16.000Z" itemprop="datePublished">2017-06-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/06/6-6/">6.6</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2017-06-06" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/06/06/2017-06-06/" class="article-date">
-      <time datetime="2017-06-06T03:37:10.000Z" itemprop="datePublished">2017-06-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/06/2017-06-06/">2017.06.06</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/27/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/29/">Next &raquo;</a>
@@ -762,7 +791,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2018 幻舞梦境
+                &copy; 2019 幻舞梦境
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
