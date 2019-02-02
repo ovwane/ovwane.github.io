@@ -1,6 +1,7 @@
 ---
-title: CentOS7 Shadowsocks-go
-date: 2018-07-23 12:07
+title: Docker 配置Shadowsocks-go
+date: 2018-07-23 12:07:39
+tags: CentOS
 ---
 
 # CentOS7 Shadowsocks-go
@@ -34,13 +35,33 @@ yum list docker-ce --showduplicates | sort -r
 yum install docker-ce-18.06.1.ce
 ```
 
+启动 docker
+
+```shell
+systemctl enable docker
+
+systemctl start docker
+```
+
+安装shadowsocks-go
+
 ```shell
 docker pull cloverzrg/shadowsocks-go
 ```
 
+获取ip
+
+```shell
+IP_ADDR=$(ip a|grep "inet "|awk -F\  '{print $2}'|awk '{print $1}'|grep -v '127.*'|grep -v '172.*'|awk -F/ '{print $1}')
+
+echo $IP_ADDR
 ```
-docker run -d -p 192.81.131.192:8373:8373 -e PASSWORD=meiyoumima -e METHOD=chacha20 --restart always --name shadowsocks-go cloverzrg/shadowsocks-go
+
+```shell
+docker run -d --name shadowsocks-go -p $IP_ADDR:443:8373 -e PASSWORD=meiyoumima -e METHOD=chacha20 --restart always  cloverzrg/shadowsocks-go
 ```
+
+
 
 ## 参考
 

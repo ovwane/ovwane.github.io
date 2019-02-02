@@ -8,17 +8,17 @@ hostnamectl set-hostname ovwane.com
 ```
 
 ```shell
-useradd jinlong
-passwd jinlong
+useradd 用户名
+passwd 用户名
 ```
 
 ```Shell
 visudo
-jinlong ALL=(ALL)       ALL
+用户名 ALL=(ALL)       ALL
 ```
 
 ```
-ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f linode_vps_rsa
+ssh-keygen -t rsa -b 4096 -C "邮箱" -f linode_vps_rsa
 ```
 
 ```

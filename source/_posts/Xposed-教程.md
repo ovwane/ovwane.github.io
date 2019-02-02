@@ -1,31 +1,48 @@
 ---
-title: Xposed
+title: Xposed 教程
 date: 2019-01-04 09:23:41
 tags:
 ---
 
+## Xposed
+
 [Xposed Module Repository](https://repo.xposed.info/)
 
-**下载Xposed Installer**
+### **下载Xposed Installer**
 
 https://repo.xposed.info/module/de.robv.android.xposed.installer
 
+### 安装Xposed
+
+> Android 6.0
+
+**刷机安装 xposed.zip**
+
+ `xposed-v89-sdk23-x86`
+
+**安装apk**
+
+`XposedInstaller_3.1.5.apk`
+
+
+
 ## 模块
 
-- [模拟位置 (FakeLocation)](https://repo.xposed.info/module/com.rong.xposed.fakelocation)
+- XPrivacy
+
+## 模拟位置
+
+- 模拟位置 (FakeLocation)](https://repo.xposed.info/module/com.rong.xposed.fakelocation)
 - [Fake My GPS](https://repo.xposed.info/module/com.fakemygps.android)
 - https://github.com/hilarycheng/xposed-gps
 - https://github.com/qdk0901/FakeXX
+- https://github.com/mark-ypq/GPSHook
 
-
-
-## 模拟位置
+[Android开发 ：详细讲解如何使用Xposed拦截修改地理位置信息](https://blog.csdn.net/qq_34149335/article/details/81329007) ok，看这篇文章搞定了高德地图。
 
 [Android之基于Xposed的模拟位置模块实现](https://www.jianshu.com/p/796e94d8af31)
 
 [Hook实现Android 微信，陌陌 ，探探位置模拟](https://blog.csdn.net/u012889434/article/details/61921933)
-
-[mark-ypq/GPSHook](https://github.com/mark-ypq/GPSHook)
 
 [用Xposed框架拦截微信、人人、QQ等LBS应用的当前位置](https://blog.csdn.net/u011000290/article/details/46925713)
 
@@ -46,3 +63,5 @@ https://repo.xposed.info/module/de.robv.android.xposed.installer
 [【Xposed模块开发入门】真·第一课](https://www.52pojie.cn/thread-688466-1-1.html)
 
 [萌新跟我来入门Hook技术](https://www.52pojie.cn/thread-682743-1-1.html)
+
+[[OFFICIAL] Xposed for Lollipop/Marshmallow/Nougat/Oreo [v90-beta3, 2018/01/29]](https://forum.xda-developers.com/showthread.php?t=3034811)

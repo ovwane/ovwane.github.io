@@ -47,6 +47,16 @@ public class ${NAME} {
 
 ## 插件
 
+### Maven Helper
+
+一旦安装了Maven Helper插件，只要打开pom文件，就可以打开该pom文件的Dependency Analyzer视图（在文件打开之后，文件下面会多出这样一个tab）。
+
+### FindBugs-IDEA
+
+FindBugs很多人都并不陌生，Eclipse中有插件可以帮助查找代码中隐藏的bug，IDEA中也有这款插件。
+
+使用方法很简单，就是可以对多种级别的内容进行finbugs
+
 ### .ignore
 
 git提交时过滤掉不需要提交的文件，很方便，有些本地文件是不需要提交到Git上的。
@@ -67,9 +77,23 @@ git提交时过滤掉不需要提交的文件，很方便，有些本地文件�
 
 一键根据json文本生成java类 非常方便
 
+### String Manipulation
+
+字符串日常开发中经常用到的，但是不同的字符串类型在不同的地方可能有一些不同的规则，比如类名要用驼峰形式、常量需要全部大写等，有时候还需要进行编码解码等。这里推荐一款强大的字符串转换工具——String Manipulation
+
+### Key promoter X
+
+Key Promoter X 是一个提示插件，当你在IDEA里面使用鼠标的时候，如果这个鼠标操作是能够用快捷键替代的，那么Key Promoter X会弹出一个提示框，告知你这个鼠标操作可以用什么快捷键替代。
+
 ### GenerateAllSetter
 
 一键调用一个对象的所有set方法并且赋予默认值 在对象字段多的时候非常方便，在做项目时，每层都有各自的实体对象需要相互转换，但是考虑BeanUtil.copyProperties()等这些工具的弊端，有些地方就需要手动的赋值时，有这个插件就会很方便，创建完对象后在变量名上面按Alt+Enter就会出来 generate all setter选项。
+
+### AceJump
+
+前面介绍了一款可以通过使用快捷键来代替鼠标操作的插件，这里再介绍一款可以彻底摆脱鼠标的插件，即AceJump
+
+AceJump允许您快速将光标导航到编辑器中可见的任何位置，只需点击“ctrl +;”，然后输入一个你想要跳转到的字符，之后键入匹配的字符就跳转到你想要挑战的地方了。
 
 ### CodeGlance
 
@@ -119,3 +143,5 @@ Alibaba Java Coding Guidelines pmd implements
 [idea生成类注释和方法注释的正确方法](https://blog.csdn.net/qq_34581118/article/details/78409782)
 
 [IntelliJ IDEA 简体中文专题教程](https://github.com/judasn/IntelliJ-IDEA-Tutorial)
+
+[IntelliJ IDEA 18 周岁，吐血推进珍藏已久的必装插件](https://mp.weixin.qq.com/s?__biz=MzI3NzE0NjcwMg==&mid=2650123120&idx=1&sn=563ae7e8fd66e0d7c311ea9a8616d558&chksm=f36bb651c41c3f4700bcf053340a0b9e52e8ad07399d9758d677c426116b2e876b0a4378977f&mpshare=1&scene=23&srcid=#rd)

@@ -4,6 +4,18 @@ date: 2019-01-04 07:39:27
 tags:
 ---
 
+## ARM_Translation
+
+
+
+## OpenGapps
+
+```
+~/.Genymobile/Genymotion/cache/opengapps
+```
+
+
+
 ## GPS
 
 启动 Genymotin Shell
@@ -52,3 +64,5 @@ gps setlongitude 113.2643446427
 ## 参考
 
 [Starting Genymotion Shell](https://docs.genymotion.com/latest/Content/04_Tools/Genymotion_Shell/Starting_Genymotion_Shell.htm)
+
+[Genymotion安装配置指南](http://ju.outofmemory.cn/entry/317903)
