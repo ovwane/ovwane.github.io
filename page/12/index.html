@@ -210,11 +210,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-macOS-安装配置PyV8" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-CentOS安装配置MongoDB" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/27/macOS-安装配置PyV8/" class="article-date">
-      <time datetime="2018-07-27T03:19:31.000Z" itemprop="datePublished">2018-07-27</time>
+      <a href="/2018/08/08/CentOS安装配置MongoDB/" class="article-date">
+      <time datetime="2018-08-08T08:47:48.000Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -223,34 +223,45 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/27/macOS-安装配置PyV8/">macOS 安装配置PyV8</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="macOS-安装配置PyV8"><a href="#macOS-安装配置PyV8" class="headerlink" title="macOS 安装配置PyV8"></a>macOS 安装配置PyV8</h1><blockquote>
-<p>macOS 10.13.5</p>
-</blockquote>
-<p><strong>安装依赖：</strong><br>Boost</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install boost </span><br><span class="line"></span><br><span class="line">brew install libboost-all-dev boost-python3 boost-build boost-mpi</span><br></pre></td></tr></table></figure>
-<p>安装v8</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install v8</span><br></pre></td></tr></table></figure>
-<p>安装PyV8</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -e git://github.com/brokenseal/PyV8-OS-X#egg=pyv8</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/sc_lujun/article/details/69067543" target="_blank" rel="noopener">安装pyv8</a></p>
-<p><a href="http://rrifx.com/post/mac-install-pyv8/" target="_blank" rel="noopener">mac下安装pyv8</a></p>
-<p><a href="https://github.com/brokenseal/PyV8-OS-X" target="_blank" rel="noopener">PyV8-OS-X</a></p>
-<p><a href="https://www.cnblogs.com/richerdyoung/p/8535149.html" target="_blank" rel="noopener">【Python3】 PyV8的安装与使用</a></p>
-<p><a href="https://www.cnblogs.com/shengulong/p/8082768.html" target="_blank" rel="noopener">pyv8的安装和使用：python中执行js代码</a></p>
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.mongodb.org/static/pgp/server-3.6.asc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/yum.repos.d/mongodb-org-3.6.repo&lt;&lt;EOF</span><br><span class="line">[mongodb-org-3.6]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.6/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=https://www.mongodb.org/static/pgp/server-3.6.asc</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mongodb-org-3.6.4 mongodb-org-server-3.6.4 mongodb-org-shell-3.6.4 mongodb-org-tools-3.6.4 mongodb-org-mongos-3.6.4</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/mongodb/db</span><br><span class="line">chown mongod:mongod /data/mongodb/db</span><br></pre></td></tr></table></figure>
+<p>/etc/mongod.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">systemLog:</span><br><span class="line">  destination: file</span><br><span class="line">  logAppend: true</span><br><span class="line">  path: /data/mongodb/mongod.log</span><br><span class="line"></span><br><span class="line">storage:</span><br><span class="line">  dbPath: /data/mongodb/db</span><br><span class="line">  journal:</span><br><span class="line">    enabled: true</span><br><span class="line"></span><br><span class="line">processManagement:</span><br><span class="line">  fork: true  # fork and run in background</span><br><span class="line">  pidFilePath: /data/mongodb/mongod.pid  # location of pidfile</span><br><span class="line">  timeZoneInfo: /usr/share/zoneinfo</span><br><span class="line">  </span><br><span class="line">net:</span><br><span class="line">  port: 27017</span><br><span class="line">  bindIp: 127.0.0.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mongod.service</span><br><span class="line">systemctl start mongod.service</span><br><span class="line">systemctl restart mongod.service</span><br><span class="line">systemctl status mongod.service</span><br><span class="line">systemctl stop mongod.service</span><br></pre></td></tr></table></figure>
+<h3 id="开启权限验证"><a href="#开启权限验证" class="headerlink" title="开启权限验证"></a>开启权限验证</h3><p>下Mongodb中角色的定义：<br>角色说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">read：允许用户读取指定数据库 </span><br><span class="line">readWrite：允许用户读写指定数据库 </span><br><span class="line">dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile </span><br><span class="line">userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户 </span><br><span class="line">clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限。 </span><br><span class="line">readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限 </span><br><span class="line">readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限 </span><br><span class="line">userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限 </span><br><span class="line">dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。 </span><br><span class="line">root：只在admin数据库中可用。超级账号，超级权限</span><br></pre></td></tr></table></figure>
+<p>添加管理员账号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(    &#123;</span><br><span class="line">        user: &quot;root&quot;,</span><br><span class="line">        pwd: &quot;UbM43zUgecBnb8v8MLiu&quot;,</span><br><span class="line">        roles: [ &#123; role: &quot;root&quot;, db: &quot;admin&quot; &#125; ]</span><br><span class="line">   &#125;</span><br><span class="line">  ) </span><br><span class="line"></span><br><span class="line">#查看用户</span><br><span class="line">show users</span><br><span class="line">db.system.users.find()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: &quot;admin&quot;,</span><br><span class="line">     pwd: &quot;mongodb:passok&quot;,</span><br><span class="line">     roles: [ &#123; role: &quot;userAdminAnyDatabase&quot;, db: &quot;admin&quot; &#125; ]</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="添加普通用户"><a href="#添加普通用户" class="headerlink" title="添加普通用户"></a>添加普通用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.createUser(</span><br><span class="line">   &#123;</span><br><span class="line">     user: &quot;test&quot;,</span><br><span class="line">     pwd: &quot;123456&quot;,</span><br><span class="line">     roles: [ &#123; role: &quot;readWrite&quot;, db: &quot;test&quot; &#125;],</span><br><span class="line">   &#125;</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/mongod.conf</span><br><span class="line"></span><br><span class="line">security:</span><br><span class="line">  authorization: enabled</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">重启</span></span><br><span class="line">systemctl restart mongod.service</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">登陆</span></span><br><span class="line">mongo -u "admin" -p "密码" --authenticationDatabase "admin"</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#数据库中登陆</span><br><span class="line">use admin</span><br><span class="line">db.auth(&quot;admin&quot;, &quot;密码&quot;)</span><br></pre></td></tr></table></figure>
+<p>修改用户密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.changeUserPassword(&apos;root&apos;,&apos;密码&apos;)</span><br></pre></td></tr></table></figure>
+<p>操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; show dbs  #显示数据库列表 </span><br><span class="line">&gt; show collections  #显示当前数据库中的集合（类似关系数据库中的表）</span><br><span class="line">&gt; show users  #显示用户</span><br><span class="line">&gt; use &lt;db name&gt;  #切换当前数据库，如果数据库不存在则创建数据库。 </span><br><span class="line">&gt; db.help()  #显示数据库操作命令，里面有很多的命令 </span><br><span class="line">&gt; db.foo.help()  #显示集合操作命令，同样有很多的命令，foo指的是当前数据库下，一个叫foo的集合，并非真正意义上的命令 </span><br><span class="line">&gt; db.foo.find()  #对于当前数据库中的foo集合进行数据查找（由于没有条件，会列出所有数据） </span><br><span class="line">&gt; db.foo.find( &#123; a : 1 &#125; )  #对于当前数据库中的foo集合进行查找，条件是数据中有一个属性叫a，且a的值为1</span><br><span class="line">&gt; db.dropDatabase()  #删除当前使用数据库</span><br><span class="line">&gt; db.cloneDatabase(&quot;127.0.0.1&quot;)   #将指定机器上的数据库的数据克隆到当前数据库</span><br><span class="line">&gt; db.copyDatabase(&quot;mydb&quot;, &quot;temp&quot;, &quot;127.0.0.1&quot;)  #将本机的mydb的数据复制到temp数据库中</span><br><span class="line">&gt; db.repairDatabase()  #修复当前数据库</span><br><span class="line">&gt; db.getName()  #查看当前使用的数据库，也可以直接用db</span><br><span class="line">&gt; db.stats()  #显示当前db状态</span><br><span class="line">&gt; db.version()  #当前db版本</span><br><span class="line">&gt; db.getMongo()  ＃查看当前db的链接机器地址</span><br><span class="line">&gt; db.serverStatus()  #查看数据库服务器的状态</span><br></pre></td></tr></table></figure>
+<h3 id="那么如何正常关闭mongodb？"><a href="#那么如何正常关闭mongodb？" class="headerlink" title="那么如何正常关闭mongodb？"></a>那么如何正常关闭mongodb？</h3><p>可以去看官方文档：<br><a href="http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/" target="_blank" rel="noopener">http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/</a></p>
+<p>先通过shell连上服务器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mongo</span><br><span class="line"></span><br><span class="line">use admin</span><br><span class="line"></span><br><span class="line">db.shutdownServer()</span><br></pre></td></tr></table></figure>
+<p>错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WARNING: /sys/kernel/mm/transparent_hugepage/enabled is &apos;always&apos;.</span><br><span class="line"></span><br><span class="line">We suggest setting it to &apos;never&apos;</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/" target="_blank" rel="noopener">Install MongoDB Community Edition on Red Hat Enterprise or CentOS Linux[¶]</a></p>
+<p><a href="https://docs.mongodb.com/manual/reference/configuration-options/" target="_blank" rel="noopener">MongoDB Configuration File Options</a></p>
+<p><a href="http://www.mongoing.com/archives/631" target="_blank" rel="noopener">安全部署MongoDB最佳实践</a></p>
+<p><a href="http://blog.51cto.com/hld1992/2074619" target="_blank" rel="noopener">Mongodb之权限认证管理</a></p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/enable-authentication/" target="_blank" rel="noopener">Enable Auth</a></p>
+<p><a href="https://www.jianshu.com/p/a4e94bb8a052" target="_blank" rel="noopener">如何对MongoDB 3.2.7进行用户权限管理配置</a></p>
+<p>[<a href="http://www.itttl.com/blog/mongodb_user_roles.html" target="_blank" rel="noopener">MongoDB 用户的创建、删除、密码修改，角色分配</a>]</p>
+<p><a href="http://blog.51yip.com/nosql/1576.html" target="_blank" rel="noopener">mongodb 修改用户密码 2种方法</a></p>
+<p><a href="https://blog.csdn.net/sinat_30397435/article/details/50774175" target="_blank" rel="noopener">mongodb启动不了：child process failed, exited with error number 100</a></p>
 
       
       
@@ -278,11 +289,11 @@
 
 
   
-    <article id="post-Gitlab教程" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Go" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/24/Gitlab教程/" class="article-date">
-      <time datetime="2018-07-24T06:19:32.000Z" itemprop="datePublished">2018-07-24</time>
+      <a href="/2018/08/08/Go/" class="article-date">
+      <time datetime="2018-08-08T08:43:08.000Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -291,82 +302,18 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/24/Gitlab教程/">Gitlab教程</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><strong>部署 GitLab</strong></p>
-<p>获取 GitLab 镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull gitlab/gitlab-ce:11.1.4-ce.0</span><br></pre></td></tr></table></figure>
-<p>查看本地镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
-<p>创建目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/gitlab/&#123;config,data,logs&#125;</span><br></pre></td></tr></table></figure>
-<p>创建并运行容器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --detach \</span><br><span class="line">    --hostname git.xxx.com \</span><br><span class="line">    --publish 443:443 --publish 80:80 --publish 22:22 \</span><br><span class="line">    --name gitlab-11.1.4 \</span><br><span class="line">    --restart always \</span><br><span class="line">    --volume /data/gitlab/config:/etc/gitlab:Z \</span><br><span class="line">    --volume /data/gitlab/logs:/var/log/gitlab:Z \</span><br><span class="line">    --volume /data/gitlab/data:/var/opt/gitlab:Z \</span><br><span class="line">    gitlab/gitlab-ce:11.1.4-ce.0</span><br></pre></td></tr></table></figure>
-<p>查看运行状态</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">netstat -ntulap | grep docker</span><br></pre></td></tr></table></figure>
-<p><strong>修改配置文件</strong></p>
-<p>添加https, 需要导入证书</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入挂载配置目录</span></span><br><span class="line">cd /data/gitlab/config</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建密钥文件夹, 并放入证书</span></span><br><span class="line">mkdir ssl;cd ssl</span><br><span class="line"><span class="meta">#</span><span class="bash"> 移动证书，使用的是Let’s Encrypt证书</span></span><br><span class="line">mv fullchain.cer  域名.key .</span><br></pre></td></tr></table></figure>
-<p>修改配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vi /data/gitlab/config/gitlab.rb</span><br><span class="line"></span><br><span class="line">###################################################</span><br><span class="line"># 添加外部请求的域名(如果不支持https, 可以改成http)</span><br><span class="line">external_url &apos;https://git.xxx.com&apos;</span><br><span class="line"># 修改gitlab对应的时区 </span><br><span class="line">gitlab_rails[&apos;time_zone&apos;] = &apos;Asia/Shanghai&apos;</span><br><span class="line"># 配置ssl参数</span><br><span class="line">nginx[&apos;enable&apos;] = true</span><br><span class="line">nginx[&apos;redirect_http_to_https&apos;] = false</span><br><span class="line">nginx[&apos;redirect_http_to_https_port&apos;] = 443</span><br><span class="line">nginx[&apos;ssl_certificate&apos;] = &quot;/etc/gitlab/ssl/fullchain.cer&quot;</span><br><span class="line">nginx[&apos;ssl_certificate_key&apos;] = &quot;/etc/gitlab/ssl/域名.key&quot;</span><br><span class="line">###################################################</span><br></pre></td></tr></table></figure>
-<p>重启服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 登陆容器, 重启配置</span></span><br><span class="line">docker exec -it  xxxxxx bash   </span><br><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
-<p>访问 GitLab</p>
-<ul>
-<li><a href="https://git.xxx.com" target="_blank" rel="noopener">https://git.xxx.com</a><ul>
-<li>如果没有域名，直接使用 IP 访问即可。</li>
-</ul>
-</li>
-</ul>
-<p>关闭注册功能</p>
-<p>Admin Area-&gt;Settings-&gt;Sign-up restrictions-&gt;Sign-up enabled 取消</p>
-<h3 id="安装gitlab-runner"><a href="#安装gitlab-runner" class="headerlink" title="安装gitlab-runner"></a>安装gitlab-runner</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name gitlab-runner-11.1.0 --restart always \</span><br><span class="line">  -v /data/gitlab-runner/config:/etc/gitlab-runner \</span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">  gitlab/gitlab-runner:v11.1.0</span><br></pre></td></tr></table></figure>
-<p>参数说明：</p>
-<ul>
-<li>-d: 设置容器后台运行</li>
-<li>–name：容器名称</li>
-<li>-restart always：每次启动容器就重启 gitlab-runner</li>
-<li>-v: 共享目录挂载</li>
-</ul>
-<p>安装好后，执行<code>$ docker ps</code>查看容器是否运行。</p>
-<h3 id="注册和初始化"><a href="#注册和初始化" class="headerlink" title="注册和初始化"></a>注册和初始化</h3><p>编辑<code>vim /data/gitlab-runner/config/config.toml</code>，手动修改配置：</p>
-<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">concurrent</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">check_interval</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="section">[[runners]]</span></span><br><span class="line">  name = "runner1"</span><br><span class="line">  url = "https://git.xxx.com"</span><br><span class="line">  token = "e7b1109634c7082f3363fccbb9f165"</span><br><span class="line">  executor = "docker"</span><br><span class="line"><span class="section">  [runners.docker]</span></span><br><span class="line">    tls_verify = false</span><br><span class="line">    image = "ruby:2.1"</span><br><span class="line">    privileged = false</span><br><span class="line">    disable_cache = false</span><br><span class="line">    volumes = ["/cache"]</span><br><span class="line">    shm_size = 0</span><br><span class="line"><span class="section">  [runners.cache]</span></span><br></pre></td></tr></table></figure>
-<p>或者交互式注册runner信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it gitlab-runner gitlab-ci-multi-runner register</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> gitlab-ci-multi-runner register</span></span><br><span class="line">Running in system-mode.</span><br><span class="line">Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com/):</span><br><span class="line"><span class="meta">#</span><span class="bash"> https://git.xxx.com</span></span><br><span class="line">Please enter the gitlab-ci token for this runner:</span><br><span class="line"><span class="meta">#</span><span class="bash"> v7YsuyhYduqSyxJi8fmW <span class="comment">#在gitlib中寻找runner token</span></span></span><br><span class="line">Please enter the gitlab-ci description for this runner:</span><br><span class="line"><span class="meta">#</span><span class="bash"> alpine 3.8</span></span><br><span class="line">Please enter the gitlab-ci tags for this runner (comma separated):</span><br><span class="line"><span class="meta">#</span><span class="bash"> qa</span></span><br><span class="line">Registering runner... succeeded                     runner=v7YsuyhY</span><br><span class="line">Please enter the executor: kubernetes, parallels, ssh, docker+machine, virtualbox, docker-ssh+machine, docker, docker-ssh, shell:</span><br><span class="line"><span class="meta">#</span><span class="bash"> docker</span></span><br><span class="line">Please enter the default Docker image (e.g. ruby:2.1):</span><br><span class="line"><span class="meta">#</span><span class="bash"> alpine:3.8</span></span><br><span class="line">Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!</span><br></pre></td></tr></table></figure>
-<p><strong>注册后使用 <code>gitlab-runner list</code> 查阅配置</strong></p>
-<p><strong>gitlab-runner unregister 命令</strong></p>
-<ol>
-<li>通过 url 和 token 取消注册 <code>gitlab-runner unregister --url https://git.xxx.com/ --token t0k3n</code></li>
-<li>通过name取消注册 <code>gitlab-runner unregister --name test-runner</code></li>
-<li>删除所有注册runner <code>gitlab-runner unregister --all-runners</code></li>
-</ol>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://about.gitlab.com/installation/" target="_blank" rel="noopener">GitLab Installation</a></p>
-<p><a href="http://blog.daocloud.io/using-docker-deploy-gitlab/" target="_blank" rel="noopener">使用Docker来搭建gitlab</a></p>
-<p><a href="https://www.jianshu.com/p/8d8e6b45a514" target="_blank" rel="noopener">通过 docker 搭建自用的 gitlab 服务</a></p>
-<p><a href="https://docs.gitlab.com/omnibus/docker/" target="_blank" rel="noopener">GitLab Docker images</a></p>
-<p><a href="https://my.oschina.net/u/1432614/blog/658568" target="_blank" rel="noopener">在 CentOS 7 上使用 Docker 部署安装 GitLab</a></p>
-<p> <a href="https://medium.com/@CoderAFI/docker-gitlab-3fa06d6ec0b5" target="_blank" rel="noopener">Docker+Gitlab https</a></p>
-<p> <a href="http://blog.fatedier.com/2016/04/05/install-gitlab-supporting-ci-with-docker/#%E5%90%AF%E5%8A%A8-gitlab" target="_blank" rel="noopener">利用docker搭建gitlab及持续集成模块</a></p>
-<p> <a href="https://medium.com/@CoderAFI/docker-gitlab-3fa06d6ec0b5" target="_blank" rel="noopener">Docker+Gitlab 配置</a></p>
-<p><a href="https://www.centos.bz/2017/09/docker%e9%83%a8%e7%bd%b2gitlab/" target="_blank" rel="noopener">Docker部署GitLab</a></p>
-<p><a href="https://www.cnblogs.com/jesse2013/p/gitlab-ci-netcoreapi-on-docker.html" target="_blank" rel="noopener">Gitlab CI 自动部署 asp.net core web api 到Docker容器</a></p>
-<p><a href="https://segmentfault.com/a/1190000013362589" target="_blank" rel="noopener">【GITLAB】 服务配置可持续集成部署的项目案例 - 安装篇</a></p>
-<p><a href="https://docs.gitlab.com/runner/register/index.html" target="_blank" rel="noopener">Registering Runners</a></p>
-<p><a href="http://www.ttlsa.com/docker/use-gitlab-ci-to-automatically-create-docker-images/" target="_blank" rel="noopener">使用 GitLab-CI 来自动创建 Docker 镜像</a></p>
-<p><a href="https://wjqwsp.github.io/2016/11/23/Gitlab-CI-%E4%B8%8E-Docker-%E7%9A%84%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%95%B4%E5%90%88%E6%B5%81%E7%A8%8B/" target="_blank" rel="noopener">Gitlab CI 与 Docker 的配置与整合流程</a></p>
+        <p>#<a href="https://golang.org/" target="_blank" rel="noopener">Go</a><br>安装Go</p>
+<p><code>brew install go</code></p>
+<p>安装分布式管理工具hg</p>
+<p> <code>brew install hg</code></p>
+<p>建立go的环境变量文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd $HOME</span><br><span class="line"></span><br><span class="line">mkdir go</span><br></pre></td></tr></table></figure>
+<p>~/.zshrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">export GOPATH=$HOME/go</span><br><span class="line">export PATH=$HOME/bin:$GOPATH/bin:$PATH</span><br></pre></td></tr></table></figure>
+<p><code>brew cask install goland</code></p>
 
       
       
@@ -394,11 +341,11 @@
 
 
   
-    <article id="post-CentOS7-配置Shadowsocks-go" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Go相关的书签" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/23/CentOS7-配置Shadowsocks-go/" class="article-date">
-      <time datetime="2018-07-23T04:07:39.000Z" itemprop="datePublished">2018-07-23</time>
+      <a href="/2018/08/08/Go相关的书签/" class="article-date">
+      <time datetime="2018-08-08T08:42:08.000Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -407,92 +354,13 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/23/CentOS7-配置Shadowsocks-go/">CentOS7 配置Shadowsocks-go</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="CentOS7-Shadowsocks-go"><a href="#CentOS7-Shadowsocks-go" class="headerlink" title="CentOS7 Shadowsocks-go"></a>CentOS7 Shadowsocks-go</h1><p>获取ip</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IP_ADDR=$(ip a|grep "inet "|awk -F\  '&#123;print $2&#125;'|awk '&#123;print $1&#125;'|grep -v '127.*'|grep -v '172.*'|awk -F/ '&#123;print $1&#125;')</span><br><span class="line"></span><br><span class="line">echo $IP_ADDR</span><br></pre></td></tr></table></figure>
-<p>安装docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum -y install docker</span><br><span class="line"></span><br><span class="line">systemctl enable docker</span><br><span class="line"></span><br><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
-<p>安装shadowsocks-go</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull cloverzrg/shadowsocks-go</span><br><span class="line"></span><br><span class="line">docker run -d -p $IP_ADDR:8373:8373 -e PASSWORD=meiyoumima -e METHOD=chacha20 --restart always  cloverzrg/shadowsocks-go</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/cloverzrg/shadowsocks-go-docker" target="_blank" rel="noopener">shadowsocks-go-docker</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-CentOS7 Shadowsocks-go" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/23/CentOS7 Shadowsocks-go/" class="article-date">
-      <time datetime="2018-07-23T04:07:00.000Z" itemprop="datePublished">2018-07-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/23/CentOS7 Shadowsocks-go/">CentOS7 Shadowsocks-go</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="CentOS7-Shadowsocks-go"><a href="#CentOS7-Shadowsocks-go" class="headerlink" title="CentOS7 Shadowsocks-go"></a>CentOS7 Shadowsocks-go</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum list docker-ce --showduplicates | sort -r</span><br><span class="line"></span><br><span class="line">yum install docker-ce-18.06.1.ce</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull cloverzrg/shadowsocks-go</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 192.81.131.192:8373:8373 -e PASSWORD=meiyoumima -e METHOD=chacha20 --restart always --name shadowsocks-go cloverzrg/shadowsocks-go</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/cloverzrg/shadowsocks-go-docker" target="_blank" rel="noopener">shadowsocks-go-docker</a></p>
+        <p><a href="http://gohack2017.golangfoundation.org/" target="_blank" rel="noopener">Go Hack 2017</a></p>
+<p><a href="https://gocn.io/" target="_blank" rel="noopener"></a></p>
+<p><a href="https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md" target="_blank" rel="noopener">Unknwon/the-way-to-go_ZH_CN</a></p>
+<p><a href="https://keybase.io" target="_blank" rel="noopener">Keybase</a></p>
 
       
       
@@ -520,11 +388,11 @@
 
 
   
-    <article id="post-CentOS7-开启BBR" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-homebrew install list" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/23/CentOS7-开启BBR/" class="article-date">
-      <time datetime="2018-07-23T00:30:43.000Z" itemprop="datePublished">2018-07-23</time>
+      <a href="/2018/08/08/homebrew install list/" class="article-date">
+      <time datetime="2018-08-08T08:41:12.000Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -533,27 +401,11 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/23/CentOS7-开启BBR/">CentOS7 开启BBR</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="CentOS7-开启BBR"><a href="#CentOS7-开启BBR" class="headerlink" title="CentOS7 开启BBR"></a>CentOS7 开启BBR</h1><p>安装kernel</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">yum remove -y kernel-headers kernel-tools kernel-tools-libs</span><br><span class="line"></span><br><span class="line">rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br><span class="line"></span><br><span class="line">rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm</span><br><span class="line"></span><br><span class="line">yum -y install grub2</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">kernel-ml-4.17.9-1.el7.elrepo.x86_64</span></span><br><span class="line">yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-headers kernel-ml-devel </span><br><span class="line">yum --enablerepo=elrepo-kernel install -y kernel-ml-doc  kernel-ml-tools  kernel-ml-tools-libs perf python-perf</span><br><span class="line"></span><br><span class="line">ls -l /boot/vmlinuz*</span><br><span class="line"> </span><br><span class="line">mkdir /boot/grub</span><br><span class="line"></span><br><span class="line">grub2-mkconfig -o /boot/grub/grub.cfg</span><br><span class="line"></span><br><span class="line">rpm -qa | grep kernel</span><br><span class="line"></span><br><span class="line">awk -F\' '$1=="menuentry " &#123;print $2&#125;' /etc/grub2.cfg</span><br><span class="line"><span class="meta">#</span><span class="bash">egrep ^menuentry /etc/grub2.cfg | cut -f 2 -d \<span class="string">'</span></span></span><br><span class="line"></span><br><span class="line">shutdown -r now</span><br><span class="line"></span><br><span class="line">yum remove -y kernel</span><br><span class="line"></span><br><span class="line">shutdown -r now</span><br></pre></td></tr></table></figure>
-<p>开启BBR</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;&gt;/etc/sysctl.conf &lt;&lt; EOF</span><br><span class="line">net.core.default_qdisc=fq</span><br><span class="line">net.ipv4.tcp_congestion_control=bbr</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br><span class="line"></span><br><span class="line">sysctl net.ipv4.tcp_available_congestion_control</span><br><span class="line"></span><br><span class="line">sysctl net.core.default_qdisc</span><br><span class="line"></span><br><span class="line">lsmod | grep bbr</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.linuxeye.cn/452.html" target="_blank" rel="noopener">Linode CentOS7开启Google TCP-BBR优化算法</a></p>
-<p><a href="https://teddysun.com/489.html" target="_blank" rel="noopener">一键安装最新内核并开启 BBR 脚本</a></p>
+        <p>java8 goland clion eclipse-cpp</p>
+<p>postman</p>
 
       
       
@@ -581,11 +433,11 @@
 
 
   
-    <article id="post-ovwane的技术栈" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-hexo" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/21/ovwane的技术栈/" class="article-date">
-      <time datetime="2018-07-20T22:55:02.000Z" itemprop="datePublished">2018-07-21</time>
+      <a href="/2018/08/08/hexo/" class="article-date">
+      <time datetime="2018-08-08T08:41:01.000Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -594,28 +446,110 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/21/ovwane的技术栈/">ovwane的技术栈</a>
-    </h1>
-  
-
-      </header>
+    <div class="article-entry" itemprop="articleBody">
       
+          
+        <p>ssh-keygen -t rsa -b 4096 -C “<a href="mailto:ovwane@gmail.com" target="_blank" rel="noopener">ovwane@gmail.com</a>“ -f ~/.ssh/github_rsa </p>
+<p>ssh-keygen -t rsa -b 4096 -C “<a href="mailto:ovwane@gmail.com" target="_blank" rel="noopener">ovwane@gmail.com</a>“ -f ~/.ssh/coding_net_rsa </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br><span class="line"></span><br><span class="line">Host github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/github_rsa</span><br><span class="line">  </span><br><span class="line">Host git.coding.net</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/coding_net_rsa</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> -b hexo git@github.com:ovwane/ovwane.github.io.git blog.ovwane.me</span></span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-grep命令总结" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/grep命令总结/" class="article-date">
+      <time datetime="2018-08-08T08:39:20.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
     
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="ovwane的技术栈"><a href="#ovwane的技术栈" class="headerlink" title="ovwane的技术栈"></a>ovwane的技术栈</h1><h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><p>CentOS </p>
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Linux下服务器性能测试" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/Linux下服务器性能测试/" class="article-date">
+      <time datetime="2018-08-08T08:33:08.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><h3 id="使用-iperf-检测主机间网络带宽"><a href="#使用-iperf-检测主机间网络带宽" class="headerlink" title="使用 iperf 检测主机间网络带宽"></a>使用 iperf 检测主机间网络带宽</h3><p><strong>背景介绍：</strong><br>在调试网络时，经常需要检测两台主机间的最大带宽，我一直使用iperf命令，效果很好很准确，但发现有一些运维朋友并不知道有这个工具，于是打算写篇文章简单介绍一下。</p>
+<p><strong>具体操作：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">  yum update</span><br><span class="line">  yum -y install iperf</span><br></pre></td></tr></table></figure>
+<p>服务端</p>
+<p>服务器端需要开启 tcp 5001端口</p>
+<p>启动<code>iperf -s</code></p>
+<p>客户端 <code>iperf -c IP地址</code></p>
 <p>macOS</p>
-<h2 id="编程语言"><a href="#编程语言" class="headerlink" title="编程语言"></a>编程语言</h2><p>Shell(Bash)</p>
-<p>Python</p>
-<p>Golang</p>
-<h2 id="生活技能"><a href="#生活技能" class="headerlink" title="生活技能"></a>生活技能</h2><p>英语</p>
-<p>烹饪</p>
-<p>健身</p>
+<p><code>brew install iperf3</code></p>
+<p>参考资料：**</p>
+<p><a href="http://heylinux.com/archives/3825.html" target="_blank" rel="noopener">http://heylinux.com/archives/3825.html</a></p>
+<p><a href="https://blogs.oracle.com/mandalika/entry/measuring_network_bandwidth_using_iperf" target="_blank" rel="noopener">https://blogs.oracle.com/mandalika/entry/measuring_network_bandwidth_using_iperf</a></p>
 
       
       
@@ -643,11 +577,11 @@
 
 
   
-    <article id="post-工程师" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Python+Web开发实战-董伟明-笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/20/工程师/" class="article-date">
-      <time datetime="2018-07-20T05:22:00.000Z" itemprop="datePublished">2018-07-20</time>
+      <a href="/2018/08/08/Python+Web开发实战-董伟明-笔记/" class="article-date">
+      <time datetime="2018-08-08T08:14:10.000Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -656,24 +590,11 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/20/工程师/">工程师title</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="工程师"><a href="#工程师" class="headerlink" title="工程师"></a>工程师</h1><p>爬虫工程师</p>
-<p>Python爬虫工程师</p>
-<p>内容抓取工程师</p>
-<p>golang工程师</p>
+        <p>页码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">486 第15章 Web 开发项目实践</span><br></pre></td></tr></table></figure>
 
       
       
@@ -701,11 +622,11 @@
 
 
   
-    <article id="post-百度网盘" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Tomcat问题" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/19/百度网盘/" class="article-date">
-      <time datetime="2018-07-19T05:11:00.000Z" itemprop="datePublished">2018-07-19</time>
+      <a href="/2018/08/08/Tomcat问题/" class="article-date">
+      <time datetime="2018-08-08T05:22:10.000Z" itemprop="datePublished">2018-08-08</time>
 </a>
     </div>
   
@@ -714,32 +635,12 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/19/百度网盘/">百度网盘</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>百度云盘提供了一些api供开发者使用,使用的时候需要通过api key获取access_token,这里有一个简洁的方法快速获取百度云Pcs的access_token</p>
-<p>进入云开发者 <a href="http://www.dayanmei.com/%22http://developer.baidu.com//%22" target="_blank" rel="noopener">http://developer.baidu.com/</a>  开发者服务管理-&gt;开发者服务管理</p>
-<p>如果还没有创建工程 请先创建工程</p>
-<p>如果已经有了工程</p>
-<p>点选工程 可以看到 API Key：</p>
-<p>在浏览器地址栏输入如下内容 其中”{你的API KEY}”替换成你的API Key</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://openapi.baidu.com/oauth/2.0/authorize?response_type=token&amp;client_id=&#123;你的API KEY&#125;&amp;redirect_uri=oob&amp;scope=netdisk</span><br></pre></td></tr></table></figure>
-<p>打开之后会跳转到另外一个地址</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://openapi.baidu.com/oauth/2.0/login_success#expires_in=2592000&amp;access_token=&#123;access_token&#125;&amp;session_secret=&#123;session_secret&#125;&amp;session_key=&#123;session_key&#125;&amp;scope=basic+netdisk</span><br></pre></td></tr></table></figure>
-<p>其中access_token后面一段是我们需要的,保存下来即可</p>
-<p>使用期限是30天,但如果这个access_token一直在使用的话 是不会过期的,可以放心使用</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.dayanmei.com/baidu_pcs_access_token/" target="_blank" rel="noopener">http://www.dayanmei.com/baidu_pcs_access_token/</a></p>
+        <p>Parallels Desktop 运行的CentOS 7.4.1708</p>
+<p>jdk1.8.151<br>tomcat 8.5.23</p>
+<p>重启tomcat 就打不开了。不知道什么原因。然后用vmware fusion就可以立刻重启。怀疑时paralles的网络有问题。但技术不行暂时找不到问题</p>
 
       
       
@@ -767,11 +668,11 @@
 
 
   
-    <article id="post-通过CrawlSpider对招聘网站进行整站爬取" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-课时15：分析Ajax请求并抓取今日头条街拍美图" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/通过CrawlSpider对招聘网站进行整站爬取/" class="article-date">
-      <time datetime="2018-07-12T03:14:04.000Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/07/31/课时15：分析Ajax请求并抓取今日头条街拍美图/" class="article-date">
+      <time datetime="2018-07-31T12:35:17.000Z" itemprop="datePublished">2018-07-31</time>
 </a>
     </div>
   
@@ -784,7 +685,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/通过CrawlSpider对招聘网站进行整站爬取/">通过爬虫对招聘网站进行整站爬取</a>
+      <a class="article-title" href="/2018/07/31/课时15：分析Ajax请求并抓取今日头条街拍美图/">课时15：分析Ajax请求并抓取今日头条街拍美图</a>
     </h1>
   
 
@@ -794,87 +695,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Windows下类似linux的终端 ·cmder·</p>
-<p>数据库 article_spider</p>
-<p>数据表 lagou_job</p>
-<p>设计数据表结构</p>
-<p><img src="./lagou_job.png" alt=""></p>
-<p>编写CrawlSpider</p>
-<p>查看scrapy spider提供的模板</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider --list</span><br></pre></td></tr></table></figure>
-<p>生成crawlspider</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider -t crawl lagou www.lagou.com</span><br></pre></td></tr></table></figure>
-<p>变量PYTHONPATH</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">project_dir = os.path.abspath(os.path.dirname(__file__))</span><br><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))</span><br><span class="line">sys.path.insert(<span class="number">0</span>, os.path.join(BASE_DIR, <span class="string">'ArticleSpider'</span>))</span><br></pre></td></tr></table></figure>
-<p>CrawlSpider是个什么类？</p>
-<p>Rule</p>
-<p>LinkExtractor</p>
+        <p>爬取起始页面 </p>
+<p><a href="https://www.toutiao.com/search/?keyword=%E8%A1%97%E6%8B%8D" target="_blank" rel="noopener">https://www.toutiao.com/search/?keyword=%E8%A1%97%E6%8B%8D</a></p>
+<p>抓取索引页内容</p>
+<p>抓取详情页内容</p>
+<p>下载图片与保存数据库</p>
+<p>开启循环及多线程</p>
+<p>项目 Jeipai</p>
+<p>import requests</p>
+<p>def get_page_index()</p>
 
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-随记" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/12/随记/" class="article-date">
-      <time datetime="2018-07-12T03:04:00.000Z" itemprop="datePublished">2018-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/随记/">随记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>12 自动摘要及正文抽取.flv</p>
-<p>汽车之家 爬取方法</p>
-<p>java爬虫webmagic</p>
-<p>查询信用报表<br>3.20<br>6.20<br>9.20<br>12.20</p>
-<p>已经知道端口，怎么查找占用的服务</p>
-<ol>
-<li>lsof -i tcp:22</li>
-<li>netstat -lntup<br>p显示进程名</li>
-</ol>
-<p>监控<br>Open-Falcon、Cacti、Zabbix、Prometheus、Smokeping</p>
-<p>brew install you-get</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">If you need to have this software first in your PATH run:</span><br><span class="line">  echo &apos;export PATH=&quot;/usr/local/opt/openssl/bin:$PATH&quot;&apos; &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">For compilers to find this software you may need to set:</span><br><span class="line">    LDFLAGS:  -L/usr/local/opt/openssl/lib</span><br><span class="line">    CPPFLAGS: -I/usr/local/opt/openssl/include</span><br><span class="line">For pkg-config to find this software you may need to set:</span><br><span class="line">    PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig</span><br><span class="line">    </span><br><span class="line"> To use post-processing options, `brew install ffmpeg` or `brew install libav`</span><br></pre></td></tr></table></figure>
       
       
     </div>
@@ -903,7 +733,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
     </nav>
   
 </div>

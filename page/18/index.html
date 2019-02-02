@@ -210,11 +210,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-重做MacBook-Pro的系统macOS-10-13-3" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-acme.sh" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/" class="article-date">
-      <time datetime="2018-03-18T00:02:03.000Z" itemprop="datePublished">2018-03-18</time>
+      <a href="/2018/04/10/acme.sh/" class="article-date">
+      <time datetime="2018-04-10T08:54:43.000Z" itemprop="datePublished">2018-04-10</time>
 </a>
     </div>
   
@@ -223,21 +223,19 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/18/重做MacBook-Pro的系统macOS-10-13-3/">重做MacBook Pro的系统macOS 10.13.3</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        
+        <p><a href="https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">acme.sh</a><br><a href="https://github.com/Neilpang/acme.sh/wiki/dns-manual-mode" target="_blank" rel="noopener">DNS manual mode</a></p>
+<p> yum -y install openssl </p>
+<p> curl <a href="https://get.acme.sh" target="_blank" rel="noopener">https://get.acme.sh</a> | sh</p>
+<p> ./acme.sh –issue -d quanjinlong.cn –dns \<br> –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
+<p>./acme.sh –renew -d quanjinlong.cn \<br>  –yes-I-know-dns-manual-mode-enough-go-ahead-please</p>
+<p>copy/安装 证书<br>mkdir -p /data/www/ssl</p>
+<p>./acme.sh –install-cert -d quanjinlong.cn \<br>–key-file       /data/www/ssl/quanjinlong.cn.key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn.cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
+<p>“/root/.acme.sh”/acme.sh –issue –dns dns_cx -d quanjinlong.cn -k ec-256</p>
+<p>./acme.sh –install-cert -d quanjinlong.cn_ecc \<br>–key-file       /data/www/ssl/quanjinlong.cn/ecc_key.pem  \<br>–fullchain-file /data/www/ssl/quanjinlong.cn/ecc_cert.pem \<br>–reloadcmd     “service nginx force-reload”</p>
+<h2 id="log"><a href="#log" class="headerlink" title="log"></a>log</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">  [root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --issue -d quanjinlong.cn --dns \</span></span><br><span class="line">&gt;  --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:29:42 CST 2018] Registering account</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Registered</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] ACCOUNT_THUMBPRINT=<span class="string">'kiwEXzVZgNIaJAK8Nhfc82QAu8MUgz5hkXiSc-1dNIw'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Creating domain key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] The domain key is here: /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting webroot <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:47 CST 2018] Getting new-authz <span class="keyword">for</span> domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] The new-authz request is ok.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Add the following TXT record:</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Domain: <span class="string">'_acme-challenge.quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] TXT value: <span class="string">'n1_OFICy66s8pQT9_Y_B6_CPtVggPaBQgILNOMx_Nfw'</span></span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please be aware that you prepend _acme-challenge. before your domain</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] so the resulting subdomain will be: _acme-challenge.quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add the TXT records to the domains, and re-run with --renew.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] Please add <span class="string">'--debug'</span> or <span class="string">'--log'</span> to check more details.</span><br><span class="line">[Thu Apr  5 09:29:49 CST 2018] See: https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh</span><br><span class="line">[root@VM_8_12_centos .acme.sh]<span class="comment"># ./acme.sh --renew -d quanjinlong.cn \</span></span><br><span class="line">&gt;   --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Thu Apr  5 09:35:45 CST 2018] Renew: <span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Single domain=<span class="string">'quanjinlong.cn'</span></span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Getting domain auth token <span class="keyword">for</span> each domain</span><br><span class="line">[Thu Apr  5 09:35:47 CST 2018] Verifying:quanjinlong.cn</span><br><span class="line">[Thu Apr  5 09:35:55 CST 2018] Pending</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Success</span><br><span class="line">[Thu Apr  5 09:35:59 CST 2018] Verify finished, start to sign.</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Cert success.</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIGBzCCBO+gAwIBAgISAyvAMFcP9Xllga0gd+ZYlZpdMA0GCSqGSIb3DQEBCwUA</span><br><span class="line">MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD</span><br><span class="line">ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xODA0MDUwMDM2MDFaFw0x</span><br><span class="line">ODA3MDQwMDM2MDFaMBkxFzAVBgNVBAMTDnF1YW5qaW5sb25nLmNuMIIBIjANBgkq</span><br><span class="line">hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo91hTopV6JCu8tdfgPka43fkDYIIYu1r</span><br><span class="line">gFVbQcvU01sAVd7XkXUknzpnZCKnCEAfQCrAKyJvqHh/fqtpxkFd6K4XuGH9xJXf</span><br><span class="line">PBd1PZ02NhrCVPpiKTDLsaBqn/IYBS0YzvwUSYNl5bbUjgozCRrAZDFsTzFe0lnM</span><br><span class="line">CM55PyYkBPePWFiWEXXWyUvbjsBerMOa4gQrQl7HNHHLBZ7w0AJwTafz3iDEgrRg</span><br><span class="line">u04NzVehre3FWwfOLcOe396NpH300N6EuGl2bo2cRldgek81CyM0A1JDl5hmFlAh</span><br><span class="line">MlBgt/87PNGtv7ZpTq+/i+t/BfslVgavWbJ+fy7B4a3cBEBYWGbQEwIDAQABo4ID</span><br><span class="line">FjCCAxIwDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEF</span><br><span class="line">BQcDAjAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSiboptH4fpTKM/ozBKc91kBDxB</span><br><span class="line">oDAfBgNVHSMEGDAWgBSoSmpjBH3duubRObemRWXv86jsoTBvBggrBgEFBQcBAQRj</span><br><span class="line">MGEwLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwLmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcwLwYIKwYBBQUHMAKGI2h0dHA6Ly9jZXJ0LmludC14My5sZXRzZW5jcnlwdC5v</span><br><span class="line">cmcvMBkGA1UdEQQSMBCCDnF1YW5qaW5sb25nLmNuMIH+BgNVHSAEgfYwgfMwCAYG</span><br><span class="line">Z4EMAQIBMIHmBgsrBgEEAYLfEwEBATCB1jAmBggrBgEFBQcCARYaaHR0cDovL2Nw</span><br><span class="line">cy5sZXRzZW5jcnlwdC5vcmcwgasGCCsGAQUFBwICMIGeDIGbVGhpcyBDZXJ0aWZp</span><br><span class="line">Y2F0ZSBtYXkgb25seSBiZSByZWxpZWQgdXBvbiBieSBSZWx5aW5nIFBhcnRpZXMg</span><br><span class="line">YW5kIG9ubHkgaW4gYWNjb3JkYW5jZSB3aXRoIHRoZSBDZXJ0aWZpY2F0ZSBQb2xp</span><br><span class="line">Y3kgZm91bmQgYXQgaHR0cHM6Ly9sZXRzZW5jcnlwdC5vcmcvcmVwb3NpdG9yeS8w</span><br><span class="line">ggEEBgorBgEEAdZ5AgQCBIH1BIHyAPAAdgApPFGWVMg5ZbqqUPxYB9S3b79Yeily</span><br><span class="line">3KTDDPTlRUf0eAAAAWKTckIrAAAEAwBHMEUCIQDAxllHOVE/fIfd/1q61yIQb7K3</span><br><span class="line">h+KvMJQm4ob+UjPqVgIgW3OtuN2FVCppgJhV1lKoQHSjgI9neRBGfwbpWyKmNAYA</span><br><span class="line">dgBVgdTCFpA2AUrqC5tXPFPwwOQ4eHAlCBcvo6odBxPTDAAAAWKTckNSAAAEAwBH</span><br><span class="line">MEUCIQDDhoKDEShosj+OYHWp04ZRGb2GBeknEvvQ6RpW/fB9LQIgI8bdN5X17KoH</span><br><span class="line">HEsNhBGAVwPrP3TqcAQ7rYKsz38WWsUwDQYJKoZIhvcNAQELBQADggEBAJCm+iuD</span><br><span class="line">g6CHchyNEPXfooa0zntBgzNKlwjTwSLzMJxKmFD1GBXkZGLZwRtRtu14SRw67dQG</span><br><span class="line">dBUwoxsSRae/F9eHiQLJrqY7p4s79zU/0aHD8NAnGm9nERXPL2ehjnKPx0lgAQc5</span><br><span class="line">8qORHJaRXPaOUGu+XpWBbXnOihq12Uhq4Bx5fIoR+4Kd4+oIET7nv00eeBPMJmiX</span><br><span class="line">83xOxIKRvEAJqWj0W6DOymvkc1NaGp2LCMRRfHNbd2p+l2xLtbewjnhzf/V3XXGv</span><br><span class="line">l9ZdDtEUPH4meQQY4xrAEgu9rTTLOpMmLSSPdNQFN8wJqJqPVHfcxMbPOqusQgGo</span><br><span class="line">I4qVG2BqLb9t3FQ=</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.cer</span><br><span class="line">[Thu Apr  5 09:36:02 CST 2018] Your cert key is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/quanjinlong.cn.key</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] The intermediate CA cert is <span class="keyword">in</span>  /root/.acme.sh/quanjinlong.cn/ca.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] And the full chain certs is there:  /root/.acme.sh/quanjinlong.cn/fullchain.cer</span><br><span class="line">[Thu Apr  5 09:36:03 CST 2018] It seems that you are using dns manual mode. please take care: The dns manual mode can not renew automatically, you must issue it again manually. You<span class="string">'d better use the other modes instead.</span></span><br><span class="line"><span class="string">[Thu Apr  5 09:36:03 CST 2018] Call hook error.</span></span><br></pre></td></tr></table></figure>
       
       
     </div>
@@ -264,11 +262,11 @@
 
 
   
-    <article id="post-京峰教育Linux运维-笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Typora使用技巧" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/17/京峰教育Linux运维-笔记/" class="article-date">
-      <time datetime="2018-03-17T12:21:02.000Z" itemprop="datePublished">2018-03-17</time>
+      <a href="/2018/04/10/Typora使用技巧/" class="article-date">
+      <time datetime="2018-04-10T06:27:13.000Z" itemprop="datePublished">2018-04-10</time>
 </a>
     </div>
   
@@ -280,60 +278,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="你每天在公司做什么工作"><a href="#你每天在公司做什么工作" class="headerlink" title="你每天在公司做什么工作?"></a>你每天在公司做什么工作?</h1><p>自动化工具，脚本</p>
-<p>7*24服务监控</p>
-<p>处理故障</p>
-<p>写运维文档</p>
-<p>运维流程</p>
-<p>话术，<br>编写自动化脚本。哪些自动化脚本。</p>
-<p>说话不要有气无力。</p>
-<p>熟悉，网站自动化。目前在学习Python自动化。</p>
-<p>squid原理是什么？</p>
-<p>LVS工作原理是什么？有哪些算法？<br>dr </p>
-<p>Nginx日常的优化参数都有哪些？<br>Nginx动静分离是什么？</p>
-<p>Linux内核优化，你都优化过哪些参数</p>
-<p>你在维护网站的过程中，曾经遇到过什么重大故障<br>bad gateway 502，<br>upstream 后端超时<br>out of memory apache内存溢出<br>超时504<br>DDOS<br>SYN攻击</p>
-<p>你对哪一块比较熟悉？<br>项目经验说成工作经验。</p>
-<p>自己说的实验经验 是 项目经验</p>
-<p>排错，INnoDB写多，myisam查询性能高</p>
-<p>apache 2000，nginx10000多。</p>
-<p>网站出口20m，阿里云，AWS没有限制</p>
-<p>10台 10m</p>
-<p>50台 30m</p>
-<p>uv 3万作业<br>pv 20万</p>
-<p>Nginx日志查询</p>
-<p>w3c标准</p>
-<p>Linux运维工程师的职责是什么？<br>创新，学习新技能</p>
-<p>你为什么离职？<br>业务量不是很大，找一个有挑战的工作。<br>没问题。</p>
-<p>外包公司没有成长。<br>拖欠工资。</p>
-<p>职业规划，发展平台。</p>
-<p>你未来5-10年的职业规划。运维开发方向发展。</p>
-<p>你有还是什么缺点，自动化运维方面比较欠缺。k8s</p>
-<p>带过怎么项目。</p>
-<p>多面试多总结。面试十几家，总结面试经验。</p>
-<p>HR会问你现在多少钱？</p>
-<p>8k要10k</p>
-<p>13k<br>10k<br>只要发offer 90%成功了。</p>
-<p>20%左右</p>
-<p>心态<br>双向的，没有谁欠谁的？</p>
-<p>就算做几个月不行还可以离开。</p>
-<p>自我介绍，怎么自我介绍？话术<br>我叫，我毕业于。精简，浓缩精华，我介绍完毕，谢谢！</p>
-<p>机会太多了。面试心态特别好。面试不上又能怎样？是不是。</p>
-<p>最后总结一点，为什么失败。做什么事情自信最重要。</p>
-<p>当你相信你行的时候你就行！<br>每天都是新的一天，沉迷于过去有什么用处吗？没有的。</p>
-<p>活法！</p>
-<p>不要认为自己没有用-夏日娃娃</p>
-<p>如果你自己都不愿意动，谁还能帮你成功！</p>
-<p>不要让自卑左右你成功。</p>
-<h1 id="MySQL主从原理？"><a href="#MySQL主从原理？" class="headerlink" title="MySQL主从原理？"></a>MySQL主从原理？</h1><p>异步复制，binlog，同步是通过bin-log</p>
-<p>relay-log</p>
-<p>没有实践过，难道没有听过吗？</p>
-<h1 id="面试？怎么去面试？"><a href="#面试？怎么去面试？" class="headerlink" title="面试？怎么去面试？"></a>面试？怎么去面试？</h1><p>自信成就人生。<br>技术，心态，技巧。</p>
-<p>zhaopin.com<br>高级运维工程师</p>
-<p>薪资是衡量技术能力的。</p>
-<p>干了10年还是1万多的工资。</p>
-<p>信心和信念。<br>工资低，说明技术不行。</p>
-<p>现在停留在什么阶段，想要做到什么地步。</p>
+        <p><a href="https://typora.io/" target="_blank" rel="noopener">Typora</a></p>
 
       
       
@@ -361,11 +306,11 @@
 
 
   
-    <article id="post-GoLand-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Tencent-VPS-配置.md" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/04/GoLand-配置/" class="article-date">
-      <time datetime="2018-03-04T08:42:00.000Z" itemprop="datePublished">2018-03-04</time>
+      <a href="/2018/04/10/Tencent-VPS-配置.md/" class="article-date">
+      <time datetime="2018-04-10T05:24:21.000Z" itemprop="datePublished">2018-04-10</time>
 </a>
     </div>
   
@@ -374,28 +319,156 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/04/GoLand-配置/">GoLand 配置</a>
-    </h1>
-  
-
-      </header>
+    <div class="article-entry" itemprop="articleBody">
       
+          
+        <p><strong>配置主机名</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname 域名</span><br></pre></td></tr></table></figure>
+<p><strong>添加用户</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd 用户名</span><br></pre></td></tr></table></figure>
+<p><strong>添加 sudo 权限</strong> <a href="https://www.linuxidc.com/Linux/2016-12/139018.htm" target="_blank" rel="noopener">Ubuntu 设置当前用户sudo免密码</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">visudo</span><br></pre></td></tr></table></figure>
+<p>在<code>root    ALL=(ALL)       ALL</code> 下面一行，添加<code>用户名 ALL=(ALL)       NOPASSWD: ALL</code>。</p>
+<p><strong>生成 ssh key</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -o -a 100 -t ed25519 -C "邮箱" -f ~/.ssh/tencent_vps_ed</span><br></pre></td></tr></table></figure>
+<p><strong>添加 ssh public key</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">su 用户名</span><br><span class="line"></span><br><span class="line">mkdir ~/.ssh</span><br><span class="line">vim ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br><span class="line">chmod 700 ~/.ssh</span><br></pre></td></tr></table></figure>
+<p><strong>配置 SSH</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Port 22</span><br><span class="line">Protocol 2</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line"># 禁止 root 用户通过 SSH 登录</span><br><span class="line">PermitRootLogin no</span><br><span class="line"># 禁用密码登录</span><br><span class="line">PasswordAuthentication no</span><br><span class="line">ChallengeResponseAuthentication no</span><br><span class="line">UsePAM yes</span><br><span class="line">UseDNS no</span><br><span class="line">X11Forwarding yes</span><br></pre></td></tr></table></figure>
+<p>重启 SSH 服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart sshd.service</span><br></pre></td></tr></table></figure>
+<p>删除 ntp</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum list installed |grep ntp</span><br><span class="line"></span><br><span class="line">yum -y autoremove ntp</span><br><span class="line"></span><br><span class="line">rm -rf /etc/ntp.conf.rpmsave</span><br><span class="line"></span><br><span class="line">yum -y autoremove ntpdate</span><br></pre></td></tr></table></figure>
+<p>更新系统 <a href="https://www.jianshu.com/p/4df7692bdc2b" target="_blank" rel="noopener">yum upgrade</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y upgrade</span><br></pre></td></tr></table></figure>
+<p>删除老版本 kernel</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看 kernel</span></span><br><span class="line">rpm -qa | grep kernel  </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启后新 kernel 生效了，才能删除老版本的 kernel</span></span><br><span class="line">yum -y autoremove kernel-3.10.0-862.el7</span><br><span class="line">yum -y autoremove kernel-devel-3.10.0-862.el7</span><br></pre></td></tr></table></figure>
+<p><strong>时间同步</strong></p>
+<p><a href="https://chrony.tuxfamily.org/documentation.html" target="_blank" rel="noopener">chrony</a></p>
+<p> <a href="https://www.cnblogs.com/clsn/archive/2017/11/16/7844857.html" target="_blank" rel="noopener">chrony软件使用说明</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装</span></span><br><span class="line">yum -y install chrony</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动</span></span><br><span class="line">systemctl start chronyd.service</span><br><span class="line">systemctl enable chronyd.service</span><br><span class="line">systemctl status chronyd.service</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看同步状态</span></span><br><span class="line">chronyc sourcestats</span><br></pre></td></tr></table></figure>
+<p><strong>安装常用软件</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 工具</span></span><br><span class="line">yum install -y lrzsz tmux wget vim git tree unzip</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 网络</span></span><br><span class="line">yum install -y nc tcpdump mtr nmap telnet lsof net-tools sysstat</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/duzhaoqi/p/7582404.html" target="_blank" rel="noopener">centOS7服务管理与启动流程 - Linuxbugs - 博客园</a></p>
+<p>#优化</p>
+<ol>
+<li>关闭SELinux</li>
+<li>关闭firewalld</li>
+<li>最大进程数和最大文件打开数<br> 修改/etc/security/limits.conf文件</li>
+<li><p>删除默认用户<br>centos</p>
+</li>
+<li><p>更换yum源<br><a href="https://www.centos.org/download/mirrors/" target="_blank" rel="noopener">CentOS mirrors List</a></p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"></span><br><span class="line">删除缓存</span><br><span class="line">yum clean all</span><br><span class="line">rm -rf /var/cache/yum</span><br><span class="line"></span><br><span class="line">生成缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.mamicode.com/info-detail-1553924.html" target="_blank" rel="noopener">删除软件包并删除孤立的依赖包</a><br><a href="https://segmentfault.com/q/1010000000626683" target="_blank" rel="noopener">https://segmentfault.com/q/1010000000626683</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">需要在 /etc/yum.conf 里面添加一个配置：</span><br><span class="line">clean_requirements_on_remove=1</span><br><span class="line"></span><br><span class="line">yum autoremove</span><br></pre></td></tr></table></figure>
+<p>删除postfix</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove postfix</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch /var/lock/subsys/local</span><br><span class="line">/usr/local/qcloud/rps/set_rps.sh &gt;/tmp/setRps.log 2&gt;&amp;1</span><br><span class="line">/usr/local/qcloud/irq/net_smp_affinity.sh &gt;/tmp/net_affinity.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>删除 firewalld</p>
+<p>删除 wpa_supplicant<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y autoremove wpa_supplicant</span><br></pre></td></tr></table></figure></p>
+<p>删除用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd</span><br><span class="line">/etc/shadow</span><br><span class="line">/etc/group</span><br><span class="line">/etc/gshadow</span><br><span class="line"></span><br><span class="line">postfix</span><br><span class="line">ntp</span><br><span class="line">games</span><br><span class="line">ftp</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-python全栈3期day104" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/05/python全栈3期day104/" class="article-date">
+      <time datetime="2018-04-04T21:50:32.000Z" itemprop="datePublished">2018-04-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
     
     <div class="article-entry" itemprop="articleBody">
       
           
-        <blockquote>
-<p>GoLand 2018.1.2</p>
-</blockquote>
-<p>/Users/jinlong/Library/Application Support/GoLand2018.1</p>
-<p>/Users/jinlong/Library/Preferences/GoLand2018.1</p>
-<p>/Users/jinlong//Library/Logs/GoLand2018.1</p>
-<p>/Users/jinlong/Library/Caches/GoLand2018.1</p>
-<p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
+        <p>01.就业指导-简历制作.mp4 16：35<br>02.就业指导-简历制作2.mp4 1：05：29<br>03.就业指导-简历制作3.mp4 35：42<br>04.就业指导-简历制作4.mp4 16：59<br>06.就业指导-如何面试2.mp4 55：59<br>07.就业指导-如何面试3.mp4 30：53<br>08.就业指导-最后的鸡汤.mp4 36：59<br>09.天帅分享：Nginx+uWSGI+Django部署.mp4 9：52</p>
+<p>开始日期 2017.10.20 0：15</p>
+<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><p>结束时间 2017.10.20 07：49</p>
+<p>自我介绍</p>
+<p>天帅 运维开发</p>
+<p>1、我们开发项目是为了什么<br>    给其他人使用<br>2、怎么给其他人使用<br>    runserver<br>3、我想给其他人使用怎么办？<br>    1、买台服务器<br>    2、Python环境<br>    3、把代码上传到服务器上<br>    4、runserver<br>    这一套流程，我们称之为”部署”</p>
+<p>Django 内部有socket server 但是性能比较差</p>
+<p>使用uWSGI</p>
+<p>uWSGI + Django<br>安装 uwsgi<br>pip install uwsgi</p>
+<p>使用命令启动<br>uwsgi –http –file django/wsgi.py –static-map=/static=static</p>
+<p>视频不完整 </p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CLion-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/04/CLion-配置/" class="article-date">
+      <time datetime="2018-04-04T03:13:00.000Z" itemprop="datePublished">2018-04-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
 <p><strong>Theme</strong> Darcula</p>
 <p><strong>Keymap</strong></p>
 <p>Default</p>
@@ -404,7 +477,6 @@
 <p>Size: 20</p>
 <h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h3 id="ignore"><a href="#ignore" class="headerlink" title=".ignore"></a>.ignore</h3><p>.ignore插件忽略不必要提交的文件</p>
 <h3 id="Rainbow-Brackets"><a href="#Rainbow-Brackets" class="headerlink" title="Rainbow Brackets"></a>Rainbow Brackets</h3><p>彩虹颜色的括号 看着很舒服 敲代码效率变高。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://stozen.net/163.html" target="_blank" rel="noopener">Gogland更名为GoLand，并附加新功能</a></p>
 
       
       
@@ -432,78 +504,11 @@
 
 
   
-    <article id="post-PyCharm-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-python全栈3期day004" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/02/05/PyCharm-配置/" class="article-date">
-      <time datetime="2018-02-05T06:17:16.000Z" itemprop="datePublished">2018-02-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/05/PyCharm-配置/">PyCharm 配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
-<p>PyCharm 2018.1.2</p>
-</blockquote>
-<p><strong>Apperance &amp; BBehavior-&gt;Apperance</strong></p>
-<p>Theme Darcula</p>
-<p><strong>Keymap</strong></p>
-<p>Mac OS X 10.5+</p>
-<p><strong>Editor</strong></p>
-<p>Font: Menlo</p>
-<p>Size: 20</p>
-<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h3 id="ignore"><a href="#ignore" class="headerlink" title=".ignore"></a>.ignore</h3><p>.ignore插件忽略不必要提交的文件</p>
-<h3 id="Rainbow-Brackets"><a href="#Rainbow-Brackets" class="headerlink" title="Rainbow Brackets"></a>Rainbow Brackets</h3><p>彩虹颜色的括号 看着很舒服 敲代码效率变高。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/qq_34590097/article/details/56284935" target="_blank" rel="noopener">如何在IntelliJ IDEA中使用.ignore插件忽略不必要提交的文件</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PowerShell使用笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/09/PowerShell使用笔记/" class="article-date">
-      <time datetime="2018-01-09T10:16:08.000Z" itemprop="datePublished">2018-01-09</time>
+      <a href="/2018/04/02/python全栈3期day004/" class="article-date">
+      <time datetime="2018-04-02T11:35:50.000Z" itemprop="datePublished">2018-04-02</time>
 </a>
     </div>
   
@@ -515,195 +520,43 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>#查看PowerShell版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#查看 PSVersion版本，就是PowerShell的版本。</span><br><span class="line">$PSVersionTable</span><br></pre></td></tr></table></figure></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-云服务服务商" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/02/云服务服务商/" class="article-date">
-      <time datetime="2018-01-01T23:39:57.000Z" itemprop="datePublished">2018-01-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/02/云服务服务商/">云服务</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>VPS</p>
-<p><a href="https://www.aliyun.com/" target="_blank" rel="noopener">阿里云</a><br><a href="https://www.qingcloud.com/" target="_blank" rel="noopener">青云QingCloud</a><br><a href="https://www.linode.com/" target="_blank" rel="noopener">Linode</a><br><a href="https://www.digitalocean.com/" target="_blank" rel="noopener">DigitalOcean</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-阿里云账号注册日期" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/02/阿里云账号注册日期/" class="article-date">
-      <time datetime="2018-01-01T23:24:00.000Z" itemprop="datePublished">2018-01-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/02/阿里云账号注册日期/">阿里云账号注册日期</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="阿里云账号注册日期"><a href="#阿里云账号注册日期" class="headerlink" title="阿里云账号注册日期"></a>阿里云账号注册日期</h1><p>登录账号 ： <a href="mailto:ov****@aliyun.com" target="_blank" rel="noopener">ov****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 1547536365086440<br>注册时间 ： 05-07-2012 12:31:00</p>
-<p>登录账号 ： <a href="mailto:ov****@163.com" target="_blank" rel="noopener">ov****@163.com</a> 修改 (您已通过实名认证)<br>账号ID ： 28013902<br>注册时间 ： 08-08-2012 09:58:00</p>
-<p>登录账号 ： <a href="mailto:hi2900****@aliyun.com" target="_blank" rel="noopener">hi2900****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 29000343</p>
-<p>注册时间 ： 08-08-2012 09:52:00</p>
-<p>登录账号 ： <a href="mailto:hi2985****@aliyun.com" target="_blank" rel="noopener">hi2985****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 29852806</p>
-<p>注册时间 ： 08-07-2012 16:14:00</p>
-<p>登录账号 ： <a href="mailto:hi3497****@aliyun.com" target="_blank" rel="noopener">hi3497****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 34973157</p>
-<p>注册时间 ： 05-28-2012 16:36:00</p>
-<p>登录账号 ： <a href="mailto:hi5011****@aliyun.com" target="_blank" rel="noopener">hi5011****@aliyun.com</a> (未认证，点击进行实名认证)<br>账号ID ： 50116514</p>
-<p>注册时间 ： 11-28-2012 19:09:00</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-学习" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/01/学习/" class="article-date">
-      <time datetime="2017-12-31T17:10:00.000Z" itemprop="datePublished">2018-01-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/01/学习/">学习</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>你学习Linux运维和Python的目的是什么？<br>赚钱，养活自己。</p>
-<p>记录笔记的目的是什么？<br>在自己忘记学习过的知识点后，快速找回记忆。</p>
-<p>总结是归纳知识。</p>
-<p>你之前写的东西，东一点西一点到处乱放。想用的时候又找不到。不就等于没写。</p>
-<p>现在（2018-01-01）的技术关注点</p>
+        <p>01.上节课复习.mp4 17：25<br>02.创建用户相关的文件.mp4 55：10<br>03.用户增删该查及组相关操作.mp4 26：05<br>04.对文件的权限管理.mp4 1：08：24<br>05.对目录的权限管理.mp4 26：08<br>06.权限管理补充..mp4 04:10<br>07.属主属组及基于数字的权限管理.mp4 15：33</p>
+<p>开始日期 2016.11.10 09：40<br>2016.11.10 16:30</p>
+<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>怎么安装系统</p>
+<p>系统提示符$和#的区别</p>
+<p><a href="http://www.cnblogs.com/linhaifeng/articles/6045600.html" target="_blank" rel="noopener">Linux基础</a></p>
+<p>相对路径和绝对路径</p>
+<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>linux核心一切皆文件</p>
+<p>useradd<br>/etc/passwd</p>
+<p>用户:密码:uid:gid:描述信息:用户家目录:sh类型<br>root:x:0:0:root:/root:/bin/bash</p>
+<p>/etc/shadow</p>
+<p>/etc/group</p>
+<p>组名:密码:gid<br>root:x:0</p>
+<p>/etc/gshadow</p>
+<p>/home<br>home下的文件模板 /etc/skel目录下</p>
+<p>/var/spool/mail/</p>
+<p>id</p>
+<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>useradd<br>-u 指定用户的UID<br>-g 指定用户所属的群组<br>-d 指定用户目录<br>-c 指定备注信息<br>-s 指定shell</p>
+<p>userdel</p>
+<p>usermod<br>-d 更改用户家目录<br>-aG 添加附加组</p>
+<p>groupadd</p>
+<h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>文件权限信息 硬链接 属主 属组 文件大小 文件创建日期 文件名<br>-rwxrwxrwx@ 1 jinlong  staff   66347968  3 21 13:54 01.上节课复习.mp4</p>
+<p>SELinux</p>
 <ul>
-<li>English</li>
-<li>CentOS</li>
-<li>Python</li>
+<li>文件<br>d 目录<br>l 软连接<br>b 设备<br>p 管道文件</li>
 </ul>
-<p>文档起名</p>
-<p>案例-命令取名：<br>方法1，按命令分类取名<br>    命令-查看文件及内容处理命令.docx<br>    命令-基础网络操作命令.docx<br>方法2，单命令取名<br>    命令-cd.docx<br>    命令-ls.docx</p>
-<p>案例-分类取名：<br>    项目-sudo 权限集中管理<br>    项目-LAMP 环境部署<br>    文档-用户管理<br>    文档-找回 root 密码</p>
-<p>就如一个技术点，不管是马哥的视频还是老男孩的视频。都总结到一个文件内。时间长了自然积累很多东西。而内容可以分为常用的命令总结或全部命令总结。</p>
+<p>rwx rwx rwx<br>属主 属组 其它</p>
+<p>chmod<br>u=user<br>g=group<br>o=other<br>a=all</p>
+<p>执行sh文件<br>sh 文件名<br>bash 文件名<br>. 文件名<br>./文件名</p>
+<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>目录可读可写</p>
+<p>rwx r可以ls目录下的文件名 w可以新建删除重命名目录内的文件 x可以cd进入目录</p>
+<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>vim 强制保存退出<br>wq!</p>
+<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p>r 读 4,w 写 2,x 执行 1</p>
+<p>chown</p>
+<p>chown root.root<br>chown root:root</p>
+<p>chown root<br>chown .root </p>
+<p>touch {1..9}.txt</p>
+<p>chmod 664 a.txt</p>
 
       
       
@@ -731,11 +584,11 @@
 
 
   
-    <article id="post-Jenkins-持续集成企业实战系列" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-python全栈3期day005" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/31/Jenkins-持续集成企业实战系列/" class="article-date">
-      <time datetime="2017-12-31T06:05:43.000Z" itemprop="datePublished">2017-12-31</time>
+      <a href="/2018/04/02/python全栈3期day005/" class="article-date">
+      <time datetime="2018-04-02T04:44:56.000Z" itemprop="datePublished">2018-04-02</time>
 </a>
     </div>
   
@@ -744,39 +597,23 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/31/Jenkins-持续集成企业实战系列/">Jenkins 持续集成企业实战系列</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>1、传统网站部署流程.wmv 16:17<br>2、主流网站部署流程及方法.wmv 12:05<br>3、Jenkins持续平台安装.wmv 16:42<br>4、Jenkins持续集成MAVEN讲解.wmv 16:09<br>5、Jenkins持续集成JOB工程设置.wmv 18:27<br>6、Jenkins持续集成网站构建实战.wmv 17:06<br>7、Jenkins持续集成自动化部署一.wmv<br>8、Jenkins持续集成自动化部署二.wmv<br>9、Jenkins持续集成插件设置篇.wmv<br>10、Jenkins持续集成邮件设置篇.wmv<br>11、Jenkins持续集成多实例配置.mp4<br>12、Jenkins持续集成Ansible批量部署.mp4</p>
-<p>显示日期 2016-10-09<br>51cto博客 吴光科</p>
-<p>我们学这个软件做什么用？为什么用它？</p>
-<p>持续集成 Continuous Integration</p>
-<p>Jenkins 安装部署</p>
-<p>Jenkins是用java开发的软件，需要jdk和tomcat环境。</p>
-<p>jenkins.war</p>
-<p>解压缩jenkins <code>jar -xvf jenkins.war</code></p>
-<p>tomcat<br>应用存放路径 webapps/ROOT/<br>修改配置 conf/server.xml<br>启动 bin/startup.sh<br>日志 logs/catalina.out</p>
-<p>查看8080端口哪个软件在用<br><code>netstat -tnpl|grep 8080</code></p>
-<p>Make工具<br>Ant工具<br>Maven工具，maven是对ant工具的进一步改进。maven是一个构建工具。maven plugin(maven插件）<br>makefile文件<br>Eclipse工具</p>
-<p>下载maven<br>apache-maven-3.3.9-bin.tar.gz<br>添加maven命令到环境变量</p>
-<p>Jenkins后台配置</p>
-<p>系统管理-&gt;系统全局设置-&gt;<br>Maven Configuration<br>JDK路径<br>Maven</p>
-<p>保存</p>
-<p>IP:121.42.183.93哪个服务商的？</p>
-<p>新建任务<br>构建一个maven项目<br>源码管理<br>pom.xml maven的描述文件类似于makefile</p>
-<p>Build 指定pom.xml文件</p>
-<p>跳过测试 <code>clean install -Dmaven.test.skip=true</code></p>
+        <p>01.上节课复习.mp4 26:42<br>02.文件合并与文件归档.mp4 23:26<br>03.文件归档与两种压缩方式.mp4 21：05<br>04.vim编辑器.mp4<br>05.系统启动流程.mp4<br>06.grub加密.mp4<br>07.bios加密.mp4<br>08.top命令.mp4<br>09.free命令.mp4<br>10.进程管理.mp4</p>
+<p>开始日期 2016.11.14 09:35</p>
+<p><a href="http://www.cnblogs.com/nulige/p/6052941.html" target="_blank" rel="noopener">努力哥-运维自动化</a></p>
+<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>/etc/passwd 文件列含义<br>/etc/shadow</p>
+<p>/etc/group<br>/etc/gshadow</p>
+<p>/var/spool/mail<br>/home</p>
+<p>groupadd<br>groupmod<br>groupdel</p>
+<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>重定向&gt;,&gt;&gt;,&lt;,&lt;&lt;</p>
+<p>wc -l</p>
+<p>归档<br>tar</p>
+<p>打包文件<br>tar<br>c 创建一个新的tar文件<br>t 列出tar文件中目录的内容<br>x 抽取文件<br>f 指定归档文件<br>v 显示详细<br>z gzip<br>j bzip2<br>C 解压到指定目录</p>
+<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>压缩的定义，将一个大的文件通过一些压缩算法变成一个小文件<br>gzip<br>bzip2</p>
+<p>tar czvf gzip压缩<br>tar cjvf bzip2压缩</p>
+<h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>该看这章了</p>
 
       
       
@@ -804,11 +641,11 @@
 
 
   
-    <article id="post-Python3操作Excel" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Python爬虫面试题" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/Python3操作Excel/" class="article-date">
-      <time datetime="2017-12-29T07:18:07.000Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2018/04/02/Python爬虫面试题/" class="article-date">
+      <time datetime="2018-04-02T04:35:51.000Z" itemprop="datePublished">2018-04-02</time>
 </a>
     </div>
   
@@ -817,24 +654,172 @@
       <input type="hidden" class="isFancy">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/Python3操作Excel/">Python3操作Excel</a>
-    </h1>
-  
-
-      </header>
+    <div class="article-entry" itemprop="articleBody">
       
+          
+        <p>Python面试题</p>
+<p><a href="http://blog.csdn.net/u014745194/article/details/78835270" target="_blank" rel="noopener">python面试题系列之一</a></p>
+<p><a href="http://www.jianshu.com/p/be60981eed2b" target="_blank" rel="noopener">python爬虫(一)_爬虫原理和数据抓取</a></p>
+<p><a href="http://blog.csdn.net/u014745194/article/details/75258491" target="_blank" rel="noopener">Python爬虫简述系列之一</a></p>
+<p><a href="http://blog.csdn.net/qq_36143300/article/details/54928389" target="_blank" rel="noopener">数据科学工程师面试宝典系列之一–Python爬虫实战</a></p>
+<p>数据分析简历<br><a href="https://erlemar.github.io/" target="_blank" rel="noopener">Data science portfolio by Andrey Lukyanenko</a></p>
+<p><a href="https://github.com/rushter/data-science-blogs" target="_blank" rel="noopener">rushter/data-science-blogs</a></p>
+<p><a href="http://www.jianshu.com/p/97e10182c38a" target="_blank" rel="noopener">数据科学家的成长之路[译]</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-python全栈3期day002" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/02/python全栈3期day002/" class="article-date">
+      <time datetime="2018-04-02T02:28:53.000Z" itemprop="datePublished">2018-04-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
     
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>openpyxl</p>
-<p>xlwings</p>
-<p>xlsxwriter</p>
-<p>xlrd<br>xlwt<br>xlutils</p>
+        <p>01.上节课复习.mp4 37:45<br>02.arp协议复习.mp4 25:30<br>03.字符编码.mp4 30:56</p>
+<p>开始日期 2016.11.08 09:32</p>
+<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>计算机的组成<br>硬件系统<br>软件系统</p>
+<p>硬件系统<br>运算器<br>控制器<br>储存器<br>输入设备<br>输出设备</p>
+<p>cpu 运算器和控制器<br>内存 储存器 速度快，断电不储存<br>硬盘 储存器 速度慢，断电储存</p>
+<p>软件系统<br>系统软件<br>应用软件</p>
+<p>系统启动流程<br>bios<br>找到启动介质<br>把系统加载到内存<br>cpu执行</p>
+<p>进制<br>二进制<br>八进制<br>十进制<br>十六进制</p>
+<p>位权 二进一 八进一 十进一 十六进一</p>
+<p>机器数与真值</p>
+<p>原码反码补码</p>
+<p>OSI七层网络协议</p>
+<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>ARP协议</p>
+<blockquote>
+<p>懂了不行，要记住。</p>
+</blockquote>
+<p>1.计算是否在一个广播域<br>who has ip x.x.x.x？ arp协议<br>2.广播一个包<br>src mac，dsc mac FF:FF:FF:FF:FF:FF</p>
+<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>字符编码<br>ASCII<br>ASCII最多表示256个字符</p>
+<p>GB2312</p>
+<p>Shitf_JIS<br>Euc-kr</p>
+<p>unicode</p>
+<p>utf-8</p>
+<p>2016.11.08 11:37结束</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-python全栈3期day003" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/01/python全栈3期day003/" class="article-date">
+      <time datetime="2018-04-01T11:48:50.000Z" itemprop="datePublished">2018-04-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>01.网络基础和dos命令.mp4 56:43<br>02.为何学习linux.mp4 08:59<br>03.课程内容介绍.mp4 03:12<br>04.操作系统内核与系统调用.mp4 22:18<br>05.操作系统安装原理.mp4 09：02<br>06.linux操作系统安装part1.mp4 28：12<br>07.linux操作系统安装part2.mp4 14:33<br>08.初识linux命令.mp4 34:49<br>09.linux操作系统目录结构.mp4 42:19<br>10.目录及文件操作.mp4 44:05</p>
+<p>2016.11.09 09:39</p>
+<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>局域网<br>城域网<br>广域网</p>
+<p>传输介质<br>有线<br>光纤<br>无线</p>
+<p>568A<br>568B</p>
+<p>交叉线<br>568A-&gt;568B</p>
+<p>同种设备之间连接用交叉线</p>
+<p>非同种设备之间连接用直通线</p>
+<p>IP地址<br>五类</p>
+<p>A<br>B<br>C<br>D<br>E</p>
+<p>ipconfig<br>ping</p>
+<p>cd<br>d:</p>
+<p>rd 删除目录</p>
+<h2 id="02"><a href="#02" class="headerlink" title="02"></a>02</h2><p>Linux学习</p>
+<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><h2 id="04"><a href="#04" class="headerlink" title="04"></a>04</h2><p>操作系统核心 内核:内核是一个管理和控制程序,负责管理计算机的所有物理资源,文件系统、内存管理，设备管理，进程管理。<br>系统调用接口 api</p>
+<p>内核态:<br>用户态:</p>
+<p>RHEL、CentOS、Fedora、Ubuntu、SuSE</p>
+<h2 id="05"><a href="#05" class="headerlink" title="05"></a>05</h2><p>Linux系统笔刷安装<br>硬件配置<br>1核心<br>内存2GB<br>硬盘20GB</p>
+<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><p>系统镜像盘 iso</p>
+<p>CentOS 6.8</p>
+<p>/boot 500MB<br>swap 虚拟内存,一般内存的1.5或者2倍.大于16GB就16GB了<br>/ 剩余所有</p>
+<p>Minimal 安装</p>
+<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><p>Kdump</p>
+<h2 id="08"><a href="#08" class="headerlink" title="08"></a>08</h2><p>初识linux命令</p>
+<p>UNIX是什么<br>MINIX<br>多任务多用户</p>
+<p>GNU 和 GPL</p>
+<p>Linux是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统</p>
+<p>常用桌面KDE和GNOME</p>
+<p>关闭Linux系统的命令 init 0</p>
+<p>登录后的提示符 $<br>root用户的提示符 #</p>
+<p>退出命令 exit</p>
+<p>Linux命令的格式</p>
+<p>命令 选项 参数</p>
+<p>ls -a /</p>
+<p>ls</p>
+<p>whoami<br>who<br>date<br>hwclock -s<br>cal<br>clear ctrl+l</p>
+<p>useradd<br>su<br>passwd</p>
+<p>终止命令运行 ctrl + c</p>
+<p>man<br>help<br>–help</p>
+<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><p>目录</p>
+<p>/ 根目录<br>. 本目录<br>.. 上一级目录</p>
+<p>pwd</p>
+<p>/bin 二进制可以执行文件<br>/sbin 系统管理的二进制可执行文件<br>/root root用户的家目录<br>/home 普通用户的默认家目录<br>/dev 设备文件目录<br>/etc 配置文件目录</p>
+<p>绝对路径和相对路径</p>
+<p>绝对路径 必须以一个正斜线”/“开始<br>相对路径 相对于某个目录</p>
+<h2 id="10"><a href="#10" class="headerlink" title="10"></a>10</h2><p>cp<br>mv<br>mkdir<br>touch<br>rm<br>alias<br>tr<br>cat<br>head<br>tail<br>more<br>less</p>
 
       
       
@@ -864,7 +849,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
     </nav>
   
 </div>

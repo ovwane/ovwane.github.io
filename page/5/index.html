@@ -210,11 +210,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-接口测试系列入门课程" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Docker-disconf配置" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/10/09/接口测试系列入门课程/" class="article-date">
-      <time datetime="2018-10-09T07:08:54.000Z" itemprop="datePublished">2018-10-09</time>
+      <a href="/2018/10/24/Docker-disconf配置/" class="article-date">
+      <time datetime="2018-10-24T06:44:28.000Z" itemprop="datePublished">2018-10-24</time>
 </a>
     </div>
   
@@ -227,7 +227,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/接口测试系列入门课程/">接口测试系列入门课程</a>
+      <a class="article-title" href="/2018/10/24/Docker-disconf配置/">Docker disconf配置</a>
     </h1>
   
 
@@ -237,11 +237,21 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>1.接口测试基础</p>
-<p>2.rest-assured介绍</p>
-<p>3.断言机制</p>
-<p>4.rest-assured进阶</p>
-<p>5.jenkins集成接口测试</p>
+        <p><strong>新建 docker-compose 文件</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/docker/disconf</span><br><span class="line"></span><br><span class="line">vim docker-compose.yaml</span><br></pre></td></tr></table></figure>
+<p>docker-compose.yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  disconf_redis_1:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="string">daocloud.io/library/redis</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  disconf_redis_2:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="string">daocloud.io/library/redis</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  disconf_zookeeper:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="attr">zookeeper:3.3.6</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  disconf_mysql:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="string">bolingcavalry/disconf_mysql:0.0.1</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="attr">      MYSQL_ROOT_PASSWORD:</span> <span class="number">123456</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  disconf_tomcat:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="string">bolingcavalry/disconf_tomcat:0.0.1</span></span><br><span class="line"><span class="attr">    links:</span> </span><br><span class="line"><span class="attr">      - disconf_redis_1:</span><span class="string">redishost001</span> </span><br><span class="line"><span class="attr">      - disconf_redis_2:</span><span class="string">redishost002</span></span><br><span class="line"><span class="attr">      - disconf_zookeeper:</span><span class="string">zkhost</span></span><br><span class="line"><span class="attr">      - disconf_mysql:</span><span class="string">mysqlhost</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  disconf_nginx:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="string">bolingcavalry/disconf_nginx:0.0.1</span></span><br><span class="line"><span class="attr">    links:</span> </span><br><span class="line"><span class="attr">      - disconf_tomcat:</span><span class="string">tomcathost</span> </span><br><span class="line"><span class="attr">    ports:</span> </span><br><span class="line"><span class="bullet">      -</span> <span class="string">"8820:80"</span> </span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br></pre></td></tr></table></figure>
+<p><strong>运行</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<p>停止整个环境的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose stop1</span><br></pre></td></tr></table></figure>
+<p>删除整个环境的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose rm</span><br></pre></td></tr></table></figure>
+<p><strong>访问</strong></p>
+<p>用户名密码都是admin</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/boling_cavalry/article/details/71082610" target="_blank" rel="noopener">Docker搭建disconf环境，三部曲之一：极速搭建disconf</a></p>
+<p><a href="https://blog.csdn.net/boling_cavalry/article/details/71107498" target="_blank" rel="noopener">Docker搭建disconf环境，三部曲之二：本地快速构建disconf镜像</a></p>
+<p><a href="https://blog.csdn.net/boling_cavalry/article/details/71120725" target="_blank" rel="noopener">Docker搭建disconf环境，三部曲之三：细说搭建过程</a></p>
 
       
       
@@ -269,11 +279,11 @@
 
 
   
-    <article id="post-Appium自动化测试系列进阶课程" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Docker-InfluxDB和Grafana配置" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/10/09/Appium自动化测试系列进阶课程/" class="article-date">
-      <time datetime="2018-10-09T06:11:36.000Z" itemprop="datePublished">2018-10-09</time>
+      <a href="/2018/10/24/Docker-InfluxDB和Grafana配置/" class="article-date">
+      <time datetime="2018-10-24T01:56:38.000Z" itemprop="datePublished">2018-10-24</time>
 </a>
     </div>
   
@@ -286,7 +296,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/Appium自动化测试系列进阶课程/">Appium自动化测试系列进阶课程</a>
+      <a class="article-title" href="/2018/10/24/Docker-InfluxDB和Grafana配置/">Docker InfluxDB和Grafana配置</a>
     </h1>
   
 
@@ -296,33 +306,50 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Appium-android进阶第1讲-调试分析方法</p>
-<p>Appium-android进阶第2讲-toast识别条件</p>
-<p>Appium-android进阶第3讲-toast识别-屏幕滑动</p>
-<p>Appium-android进阶第4讲-toas识别-代码实现1</p>
-<p>Appium-android进阶第5讲-toast识别答疑</p>
-<p>Appium-android进阶第6讲-toast识别-代码实现2</p>
-<p>Appium-android进阶第7讲-显式、隐式等待</p>
-<p>Appium-android进阶第8讲-高级特性-API演示</p>
-<p>Appium-android进阶第9讲-高级特性-深入XPath定位</p>
-<p>Appium-android进阶第10讲-高级特性-Webview切换 </p>
-<p>Appium-android进阶第11讲-capability高级讲解</p>
-<p>Appium-android进阶第12讲-Grid模式演示</p>
-<p>Appium-android进阶第13讲-8.0 webview切换问题解析</p>
-<p>Appium-android进阶第14讲-8.0 webview切换解决方法</p>
-<p>Appium-android进阶第15讲-pageobject基础使用</p>
-<p>Appium-android进阶第16讲-pageobject答疑</p>
-<p>Appium-android进阶第17讲-兼容性测试-介绍</p>
-<p>Appium-android进阶第18讲-兼容性测试-STF平台讲解</p>
-<p>Appium-android进阶第19讲-兼容性测试-远程调试平台演练</p>
-<p>Appium-android进阶第20讲-常用测试类介绍</p>
-<p>Appium-android进阶第21讲-数据驱动</p>
-<p> Appium-android进阶第22讲-测试套件</p>
-<p>Appium-android进阶第23讲-执行顺序控制</p>
-<p>Appium-ios第1讲-Xcode编译UICatalog</p>
-<p>Appium-ios第2讲-Appium-Desktop启动app</p>
-<p>Appium-ios第3讲-使用Inspector定位</p>
-<p>Appium-ios第4讲-Appium-ios用例演练</p>
+        <p>拉取镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull samuelebistoletti/docker-statsd-influxdb-grafana:2.1.0</span><br></pre></td></tr></table></figure>
+<p>启动镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --ulimit nofile=66000:66000 \</span><br><span class="line">  -d \</span><br><span class="line">  --name docker-statsd-influxdb-grafana-2.1.0 \</span><br><span class="line">  -p 3003:3003 \</span><br><span class="line">  -p 3004:8888 \</span><br><span class="line">  -p 8086:8086 \</span><br><span class="line">  -p 22022:22 \</span><br><span class="line">  -p 8125:8125/udp \</span><br><span class="line">  samuelebistoletti/docker-statsd-influxdb-grafana:2.1.0</span><br></pre></td></tr></table></figure>
+<p>关闭启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker stop docker-statsd-influxdb-grafana</span><br><span class="line"></span><br><span class="line">docker start docker-statsd-influxdb-grafana</span><br></pre></td></tr></table></figure>
+<p>端口映射关系</p>
+<h2 id="Mapped-Ports"><a href="#Mapped-Ports" class="headerlink" title="Mapped Ports"></a>Mapped Ports</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host		Container		Service</span><br><span class="line"></span><br><span class="line">3003		3003			grafana</span><br><span class="line">3004		8888			influxdb-admin (chronograf)</span><br><span class="line">8086		8086			influxdb</span><br><span class="line">8125		8125			statsd</span><br><span class="line">22022		22              sshd</span><br></pre></td></tr></table></figure>
+<h2 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@localhost -p 22022</span><br></pre></td></tr></table></figure>
+<p>Password: root</p>
+<h2 id="Grafana"><a href="#Grafana" class="headerlink" title="Grafana"></a>Grafana</h2><p>Open <a href="http://localhost:3003/" target="_blank" rel="noopener">http://localhost:3003</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Username: root</span><br><span class="line">Password: root</span><br></pre></td></tr></table></figure>
+<h3 id="Add-data-source-on-Grafana"><a href="#Add-data-source-on-Grafana" class="headerlink" title="Add data source on Grafana"></a>Add data source on Grafana</h3><ol>
+<li>Using the wizard click on <code>Add data source</code></li>
+<li>Choose a <code>name</code> for the source and flag it as <code>Default</code></li>
+<li>Choose <code>InfluxDB</code> as <code>type</code></li>
+<li>Choose <code>direct</code> as <code>access</code></li>
+<li>Fill remaining fields as follows and click on <code>Add</code> without altering other fields</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Url: http://localhost:8086</span><br><span class="line">Database:	telegraf</span><br><span class="line">User: telegraf</span><br><span class="line">Password:	telegraf</span><br></pre></td></tr></table></figure>
+<p>Basic auth and credentials must be left unflagged. Proxy is not required.</p>
+<p>Now you are ready to add your first dashboard and launch some query on database.</p>
+<h2 id="InfluxDB"><a href="#InfluxDB" class="headerlink" title="InfluxDB"></a>InfluxDB</h2><h3 id="Web-Interface"><a href="#Web-Interface" class="headerlink" title="Web Interface"></a>Web Interface</h3><p>Open <a href="http://localhost:3004/" target="_blank" rel="noopener">http://localhost:3004</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Username: root</span><br><span class="line">Password: root</span><br><span class="line">Port: 8086</span><br></pre></td></tr></table></figure>
+<h3 id="InfluxDB-Shell-CLI"><a href="#InfluxDB-Shell-CLI" class="headerlink" title="InfluxDB Shell (CLI)"></a>InfluxDB Shell (CLI)</h3><ol>
+<li>Establish a ssh connection with the container</li>
+<li>Launch <code>influx</code> to open InfluxDB Shell (CLI)</li>
+</ol>
+<h2 id="数据收集"><a href="#数据收集" class="headerlink" title="数据收集"></a>数据收集</h2><p><strong>安装TeleGraf</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install telegraf</span><br></pre></td></tr></table></figure>
+<p><strong>设置</strong></p>
+<p>/etc/telegraf/telegraf.conf<br>修改influxdb地址，用户名及密码，设置hostname</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telegraf -config /usr/local/etc/telegraf.conf</span><br></pre></td></tr></table></figure>
+<p><strong>重启服务</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services restart telegraf</span><br></pre></td></tr></table></figure>
+<p><strong>导入Grafana Dashboard</strong></p>
+<p>下载最新版本的dashboard配置：<br><a href="https://grafana.com/dashboards/1443/revisions" target="_blank" rel="noopener">https://grafana.com/dashboards/1443/revisions</a></p>
+<p>在grafana的新建dashboard并导入配置，完成。</p>
+<p><strong>注意</strong></p>
+<p>docker内部已经启动了telegraf，如果不需要的话可以停掉，在多台服务器上安装并配置Telegraf写入同一Influxdb就可以实现对集群进行系统监控。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/samuelebistoletti/docker-statsd-influxdb-grafana" target="_blank" rel="noopener"> Docker Image with Telegraf (StatsD), InfluxDB and Grafana</a></p>
+<p><a href="http://xuqi365.com/2017/08/14/docker-grafana-influxdb-telegraf%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Docker+Grafana+Influxdb+Telegraf安装部署</a></p>
+<p><a href="https://blog.csdn.net/w958660278/article/details/80484486" target="_blank" rel="noopener">Telegraf+InfluxDB+Grafana搭建服务器监控平台</a></p>
+<p><a href="http://www.cnblogs.com/Scissors/p/5977670.html" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/Scissors/p/5977670.html" target="_blank" rel="noopener">grafana + influxdb + telegraf , 构建性能监控平台</a></a></p>
 
       
       
@@ -350,11 +377,11 @@
 
 
   
-    <article id="post-Appium自动化测试系列入门课程" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-FastMonkey-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/10/09/Appium自动化测试系列入门课程/" class="article-date">
-      <time datetime="2018-10-09T04:38:08.000Z" itemprop="datePublished">2018-10-09</time>
+      <a href="/2018/10/22/FastMonkey-配置/" class="article-date">
+      <time datetime="2018-10-22T13:57:05.000Z" itemprop="datePublished">2018-10-22</time>
 </a>
     </div>
   
@@ -367,7 +394,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/Appium自动化测试系列入门课程/">Appium自动化测试系列入门课程</a>
+      <a class="article-title" href="/2018/10/22/FastMonkey-配置/">FastMonkey 配置</a>
     </h1>
   
 
@@ -377,159 +404,434 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Appium安装第1讲-环境设置</p>
-<p>Appium安装第2讲_相关依赖安装</p>
-<p>Appium安装第3讲_两种安装方法1</p>
-<p>Appium安装第4讲_两种安装方法2</p>
-<p>Appium安装第5讲_组件介绍</p>
-<p>Appium安装第6讲_webdriver协议介绍</p>
-<p>Appium安装第7讲_webdriver演示分析</p>
-<p>Appium-android基础第1讲-Appium介绍</p>
-<p>Appium-android基础第2讲-常用命令讲解</p>
-<p>Appium-android基础第3讲-Inspector使用</p>
-<p>Appium-android基础第4讲-appium日志讲解</p>
-<p>Appium-android基础第5讲-用例编写1</p>
-<p>Appium-android基础第6讲-用例编写2</p>
-<p>Appium-android基础第7讲-用例编写3</p>
-<p>Appium-android基础第8讲-元素定位</p>
-<p>Appium-android基础第9讲-常见自动化动作</p>
-<h2 id="01-Appium安装第1讲-环境设置"><a href="#01-Appium安装第1讲-环境设置" class="headerlink" title="01.Appium安装第1讲-环境设置"></a>01.Appium安装第1讲-环境设置</h2><p><a href="https://testerhome.com/topics/6040" target="_blank" rel="noopener">通过代理安装 appium</a></p>
-<p>写在 macOS-配置Appium环境.md</p>
-<h2 id="Appium安装第5讲-组件介绍"><a href="#Appium安装第5讲-组件介绍" class="headerlink" title="Appium安装第5讲_组件介绍"></a>Appium安装第5讲_组件介绍</h2><p>appium-uiautomator2-driver-&gt;appium-uiautomator2-server</p>
-<p>appium-selendroid-driver</p>
-<p>Hacking appium</p>
-<p>更改appium源码</p>
-<p>appium/lib/</p>
-<p><strong>appium 源码下 docs需要读一下</strong></p>
-<h2 id="Appium安装第6讲-webdriver协议介绍"><a href="#Appium安装第6讲-webdriver协议介绍" class="headerlink" title="Appium安装第6讲_webdriver协议介绍"></a>Appium安装第6讲_webdriver协议介绍</h2><p>webdriver w3c标准</p>
-<h2 id="Appium安装第7讲-webdriver演示分析"><a href="#Appium安装第7讲-webdriver演示分析" class="headerlink" title="Appium安装第7讲_webdriver演示分析"></a>Appium安装第7讲_webdriver演示分析</h2><p>/session/{session id}/</p>
-<p>拼接url请求</p>
-<h2 id="Appium-android基础第1讲-Appium介绍"><a href="#Appium-android基础第1讲-Appium介绍" class="headerlink" title="Appium-android基础第1讲-Appium介绍"></a>Appium-android基础第1讲-Appium介绍</h2><h3 id="UI自动化测试在企业中的价值"><a href="#UI自动化测试在企业中的价值" class="headerlink" title="UI自动化测试在企业中的价值"></a>UI自动化测试在企业中的价值</h3><ul>
-<li>主流程业务的回归测试</li>
-<li>自动探索和自动遍历测试</li>
-<li>app端性能测试自动化</li>
-<li>在上百机型的兼容测试</li>
-</ul>
-<h3 id="目前mobile自动化的方案"><a href="#目前mobile自动化的方案" class="headerlink" title="目前mobile自动化的方案"></a>目前mobile自动化的方案</h3><p>appium</p>
-<p> iOS：UIAutomation</p>
-<p>Android：UIAutomator</p>
-<p>google trends 搜索</p>
-<h2 id="Appium的优势"><a href="#Appium的优势" class="headerlink" title="Appium的优势"></a>Appium的优势</h2><p>多种开发模式支持 native hybrid webview</p>
-<p>多平台支持 android ios firefox</p>
-<p>跨语言 java python ruby nodejs</p>
-<p>支持跨app</p>
-<h2 id="Appium生态工具"><a href="#Appium生态工具" class="headerlink" title="Appium生态工具"></a>Appium生态工具</h2><p>Appium Client -&gt; Appium Server -&gt; Phone</p>
-<p>adb</p>
-<p>Appium Desktop</p>
-<h2 id="Appium-android基础第2讲-常用命令讲解"><a href="#Appium-android基础第2讲-常用命令讲解" class="headerlink" title="Appium-android基础第2讲-常用命令讲解"></a>Appium-android基础第2讲-常用命令讲解</h2><p>aapt dump badging *.apk</p>
-<p>Android Asset Packing Tool</p>
-<p>aapt list *.apk</p>
-<p>aapt dump strings *.apk</p>
-<p>aapt dump resources *.apk</p>
-<p>aapt dump xmltree</p>
-<p>aapt dump xmlstrings</p>
-<p>adb install -r *.apk</p>
-<p>launchable-activity</p>
-<p>adb logcat 查看日志</p>
-<p>adb logcat |grep ActivityManager</p>
-<p>adb logcat |awk ‘/ActivityManager/‘</p>
-<h2 id="Appium-android基础第3讲-Inspector使用"><a href="#Appium-android基础第3讲-Inspector使用" class="headerlink" title="Appium-android基础第3讲-Inspector使用"></a>Appium-android基础第3讲-Inspector使用</h2><p>Desired Capabilities</p>
-<p>deviceName</p>
-<p>platformName</p>
-<p>appPackage</p>
-<p>appActivity</p>
-<p>adb logcat|grep cmp</p>
-<p>cmp=com.android.dialer/.DialtactsActivity</p>
-<p>com.xueqiu.android/.view.WelcomeActivityAlias</p>
-<h2 id="Appium-android基础第4讲-appium日志讲解"><a href="#Appium-android基础第4讲-appium日志讲解" class="headerlink" title="Appium-android基础第4讲-appium日志讲解"></a>Appium-android基础第4讲-appium日志讲解</h2><p>ANDROID_HOME</p>
-<p>JAVA_HOME</p>
-<p>查看app Activity</p>
-<p><code>adb logcat |grep -i activitymanager.*cmp=</code></p>
-<p><code>adb logcat |grep -i activitymanager.*cmp= |awk &#39;{print $}&#39;</code></p>
-<p><code>adb logcat |grep --line-buffered -i activitymanager.*cmp= | awk &#39;{print $(NF-8)}&#39;</code></p>
-<h3 id="Appium生态工具-1"><a href="#Appium生态工具-1" class="headerlink" title="Appium生态工具"></a>Appium生态工具</h3><p>adb：</p>
-<p>Appium Desktop：-&gt; Custom Server</p>
-<p>Appium Server：appium的核心工具，命令行工具</p>
-<p>Appium Client</p>
-<p>robotframework-appium</p>
-<p>AppCrawler 自动遍历工具</p>
-<p>储存appium日志</p>
-<p><code>appium -g appium.log</code></p>
-<h2 id="Appium-android基础第5讲-用例编写1"><a href="#Appium-android基础第5讲-用例编写1" class="headerlink" title="Appium-android基础第5讲-用例编写1"></a>Appium-android基础第5讲-用例编写1</h2><h3 id="自动化测试用例编写"><a href="#自动化测试用例编写" class="headerlink" title="自动化测试用例编写"></a>自动化测试用例编写</h3><p>示例地址 <a href="https://testerhome.com/topics/12144" target="_blank" rel="noopener">https://testerhome.com/topics/12144</a></p>
-<h3 id="测试用例的重要部分"><a href="#测试用例的重要部分" class="headerlink" title="测试用例的重要部分"></a>测试用例的重要部分</h3><p>启动appium</p>
+        <p>下载工程代码<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~/Xcode</span><br><span class="line"></span><br><span class="line">git clone https://github.com/zhangzhao4444/Fastmonkey.git</span><br></pre></td></tr></table></figure></p>
+<p>Cartfile</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">github &quot;SwiftyJSON/SwiftyJSON&quot;  ==  3.1.4</span><br><span class="line">github &quot;tadija/AEXML&quot; == 4.1.0</span><br></pre></td></tr></table></figure>
+<p>下载工程所依赖的包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">carthage update</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/zhangzhao4444/Fastmonkey" target="_blank" rel="noopener">FastMonkey</a></p>
+<p><a href="https://testerhome.com/topics/9524" target="_blank" rel="noopener">基于 XCTestWD，swiftmonkey 二次开发，实现无需插桩的 iOS monkey 自动化工具 fastmonkey</a></p>
+<p><a href="https://www.jianshu.com/p/2cbdb50411ae" target="_blank" rel="noopener">使用Fastmonkey进行Monkey测试实践</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Appium-iOS-WebDriverAgent-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/22/Appium-iOS-WebDriverAgent-配置/" class="article-date">
+      <time datetime="2018-10-22T11:59:21.000Z" itemprop="datePublished">2018-10-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/22/Appium-iOS-WebDriverAgent-配置/">Appium iOS WebDriverAgent 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>安装iOS授权工具</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g authorize-ios</span><br></pre></td></tr></table></figure>
+<p>安装工具</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">brew install libimobiledevice</span><br><span class="line"></span><br><span class="line">brew install ios-deploy</span><br><span class="line"></span><br><span class="line">brew install ios-webkit-debug-proxy</span><br></pre></td></tr></table></figure>
+<p>安装npm<br>安装Carthage</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install carthage</span><br></pre></td></tr></table></figure>
+<p>拉取代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~/Xcode</span><br><span class="line"></span><br><span class="line">git clone https://github.com/facebook/WebDriverAgent.git</span><br></pre></td></tr></table></figure>
+<p>下载依赖</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd WebDriverAgent</span><br><span class="line"></span><br><span class="line">mkdir -p Resources/WebDriverAgent.bundle</span><br><span class="line"></span><br><span class="line">./Scripts/bootstrap.sh -d</span><br></pre></td></tr></table></figure>
+<p>双击打开WebDriverAgent.xcodeproj这个文件。</p>
+<p><strong>修改配置</strong></p>
+<p>Build Settings-&gt;Product Bundle Identifier</p>
+<p>WebDriverAgent-&gt;WebDriverAgentLib-&gt;Signing-&gt;Automatically manage signinng</p>
+<p>WebDriverAgent-&gt;WebDriverAgentRunner-&gt;Build Settings-&gt;Product Bundle Identifier</p>
+<p>查看设备</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">instruments -s devices</span><br><span class="line">ios-deploy -c</span><br><span class="line">libimobiledevice -l</span><br></pre></td></tr></table></figure>
 <ul>
-<li>启动参数 –session-override</li>
-<li>获得可访问的url <a href="http://localhost:4723/wd/hub" target="_blank" rel="noopener">http://localhost:4723/wd/hub</a></li>
-<li>准备手机设备或者模拟器 genymotion bluestacks</li>
+<li>Finally, you can verify that everything works. Build the project:</li>
 </ul>
-<p>编写脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcodebuild -project WebDriverAgent.xcodeproj -scheme WebDriverAgentRunner -destination &apos;id=&lt;udid&gt;&apos; test</span><br></pre></td></tr></table></figure>
+<p><strong>运行</strong></p>
+<p>WebDriverAgentRunner-&gt;Test方式运行。</p>
+<p>Xcode终端会看到这个输出就证明运行成功<code>**Runner[2424:2946752] ServerURLHere-&gt;http://127.0.0.1:8100&lt;-ServerURLHere**</code></p>
+<p>查看状态<a href="http://127.0.0.1:8100/status" target="_blank" rel="noopener">http://127.0.0.1:8100/status</a></p>
+<p>查看元素位置<a href="http://127.0.0.1:8100/inspector" target="_blank" rel="noopener">http://127.0.0.1:8100/inspector</a></p>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm WARN deprecated minimatch@2.0.10: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue</span><br><span class="line">npm WARN deprecated css-list@0.1.3: Deprecated.</span><br><span class="line">npm WARN deprecated browserslist@0.4.0: Browserslist 2 could fail on reading Browserslist &gt;3.0 config used in other tools.</span><br><span class="line"></span><br><span class="line">npm WARN react-dom@15.6.2 requires a peer of react@^15.6.2 but none is installed. You must install peer dependencies yourself.</span><br><span class="line"></span><br><span class="line">npm WARN web-driver-inspector@1.0.0 No repository field.</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/facebook/WebDriverAgent/wiki/Starting-WebDriverAgent" target="_blank" rel="noopener"> Starting WebDriverAgent</a></p>
+<p><a href="https://blog.csdn.net/primefjt/article/details/78947480" target="_blank" rel="noopener">iOS WebDriverAgent 环境搭建</a></p>
+<p><a href="https://testerhome.com/topics/7220" target="_blank" rel="noopener">iOS 真机如何安装 WebDriverAgent</a></p>
+<p><a href="https://blog.yuhanle.com/2018/01/03/how-to-install-web-driver-agent-on-device/" target="_blank" rel="noopener">iOS 真机调试如何安装 WebDriverAgent</a></p>
+<p><a href="https://testerhome.com/topics/15697" target="_blank" rel="noopener">Appium iOS 真机测试</a></p>
+<p><a href="https://testerhome.com/topics/14460" target="_blank" rel="noopener">线上班第六期_IOS 进阶 Webview 测试_20180603</a></p>
+<p><a href="https://testerhome.com/topics/15669" target="_blank" rel="noopener">线下第三期_iOS 真机测试_20180819</a></p>
+<p><a href="https://github.com/appium/appium/blob/master/docs/en/drivers/ios-xcuitest-real-devices.md" target="_blank" rel="noopener">Appium XCUITest Driver Real Device Setup</a></p>
+<p><a href="https://testerhome.com/topics/7220" target="_blank" rel="noopener">ATX 文档 - iOS 真机如何安装 WebDriverAgent</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Appium-Server-启动log分析" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/22/Appium-Server-启动log分析/" class="article-date">
+      <time datetime="2018-10-22T00:31:00.000Z" itemprop="datePublished">2018-10-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/22/Appium-Server-启动log分析/">Appium Server 启动log分析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Appium启动命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appium -g ~/tmp/appium.log --log-timestamp --local-timezone --debug</span><br></pre></td></tr></table></figure>
+<p>Appium log分析</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 01.获取session信息</span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 02.新建session</span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.createSession() with args: [&#123;"appActivity":".view.WelcomeActivityAlias","appPackage":"com.xueqiu.android","automationName":" UiAutomator2","deviceName":"Genymotion","deviceUDID":"192.168.57.101:5555","platformName":"Android","platformVersion":"6.0","newCommandTimeout":0,"connectHardwareKeyboard":true&#125;,null,null]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 03.设置automationName为UiAutomator2。</span><br><span class="line">[Appium] Consider setting 'automationName' capability to 'UiAutomator2' on Android &gt;= 6, since UIAutomator framework is not maintained anymore by the OS vendor.</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 04.新建AndroidDriver session</span><br><span class="line">[Appium] Creating new AndroidDriver (v4.1.1) session</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 05.检查Java版本</span><br><span class="line">[AndroidDriver] Java version is: 1.8.0_181</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 06.检查adb</span><br><span class="line">[ADB] Checking whether adb is present</span><br><span class="line">[ADB] Found 4 'build-tools' folders under '~/Library/Android/sdk' (newest first):</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 07.查找连接android device</span><br><span class="line">[debug] [ADB] Trying to find a connected android device</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 08.获取设备平台版本</span><br><span class="line">[ADB] Getting device platform version</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell getprop ro.build.version.release'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 09.获取设备SDK版本</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell getprop ro.build.version.sdk'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 10.查找设备上待测试的app</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell pm list packages com.xueqiu.android'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 11.等待设备</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 wait-for-device'</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span> 12.测试设备连接状态 echo ping</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell echo ping'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 13.查找设备上的appium settings安装状态</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell pm list packages io.appium.settings'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 14.获取设备上appium settings的信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell dumpsys package io.appium.settings'    </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 15.检查aapt</span><br><span class="line">[ADB] Checking whether aapt is present</span><br><span class="line">[ADB] Using aapt from ~/Library/Android/sdk/build-tools/28.0.3/aapt</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span> 16.查看设备上运行的所有进程</span><br><span class="line">[ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell ps'</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span> 17.启动appium settings</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell am start -W -n io.appium.settings/.Settings -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -f 0x10200000'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 18.授权appium settings获取模拟定位信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell appops set io.appium.settings android\:mock_location allow'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 19.获取设备语言</span><br><span class="line">[AndroidDriver] Got language: 'null' and country: 'null'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 20.查找设备上的appium unlock安装状态</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell pm list packages io.appium.unlock'</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span> 21.获取设备上appium unlock的信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell dumpsys package io.appium.unlock'</span><br><span class="line">        </span><br><span class="line"><span class="meta">#</span> 22.获取设备release版本</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell getprop ro.build.version.release'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 23.获取设备屏幕尺寸信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell wm size'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 24.获取设备产品型号信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell getprop ro.product.model'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 25.获取设备生产厂家信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell getprop ro.product.manufacturer'</span><br><span class="line">2018-10-22 07:53:07:861 - info: [debug] [ADB] Current device property 'ro.product.manufacturer': Genymotion</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 26.获取待测app安装状态</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell pm list packages com.xueqiu.android'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 27.强制关闭待测app</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell am force-stop com.xueqiu.android'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 28.清除待测app用户数据</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell pm clear com.xueqiu.android'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 29.将本机的4724端口重定向到设备4724端口上(adb local remote)</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 forward tcp\:4724 tcp\:4724'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 30.启动UiAutomator，推送AppiumBootstrap.jar到设备/data/local/tmp/目录</span><br><span class="line">[debug] [UiAutomator] Starting UiAutomator</span><br><span class="line">debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 push ~/.nvm/versions/node/v8.11.3/lib/node_modules/appium/node_modules/appium-android-driver/bootstrap/bin/AppiumBootstrap.jar /data/local/tmp/'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 31.查看设备上运行的所有进程</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell ps'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 32.启动UiAutomator，创建进程</span><br><span class="line">[debug] [UiAutomator] Starting UIAutomator</span><br><span class="line">[debug] [ADB] Creating ADB subprocess with args: ["-P",5037,"-s","192.168.57.101:5555","shell","uiautomator","runtest","AppiumBootstrap.jar","-c","io.appium.android.bootstrap.Bootstrap","-e","pkg","com.xueqiu.android","-e","disableAndroidWatchers",false,"-e","acceptSslCerts",false]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 33.查询WMS服务相关信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell dumpsys window'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 34.启动待测app</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell am start -W -n com.xueqiu.android/.view.WelcomeActivityAlias -S -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -f 0x10200000'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 35. 新建AndroidDriver session</span><br><span class="line">[Appium] New AndroidDriver session created successfully, session 76cf893d-f1f9-43d6-be5e-7f59ca25c3db added to master session list</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 36.设置AppiumDriver上下文</span><br><span class="line">[HTTP] &lt;-- POST /wd/hub/session 200 5331 ms - 959</span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/context</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.setContext() with args: ["NATIVE_APP","76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 37.获取设备上Unix域套接字信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell cat /proc/net/unix'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 获取页面源码</span><br><span class="line">[HTTP] --&gt; GET /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/source</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.getPageSource() with args: ["76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line">[debug] [AndroidBootstrap] Sending command to android: &#123;"cmd":"action","action":"source","params":&#123;&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;"cmd":"action","action":"source","params":&#123;&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: source</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;"status":0,"value":"&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;页面源码&lt;/xml&gt;"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 截屏</span><br><span class="line">[HTTP] --&gt; GET /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/screenshot</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.getScreenshot() with args: ["76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line">[debug] [ADB] Device API level: 23</span><br><span class="line">[debug] [MJSONWP] Responding to client with driver.getScreenshot() result: "图片base64代码"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 获取屏幕尺寸信息</span><br><span class="line">[HTTP] --&gt; GET /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/window/current/size</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.getWindowSize() with args: ["current","76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Sending command to android: &#123;"cmd":"action","action":"getDeviceSize","params":&#123;&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;"cmd":"action","action":"getDeviceSize","params":&#123;&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: getDeviceSize</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Received command result from bootstrap</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;"status":0,"value":&#123;"height":2392,"width":1440&#125;&#125;</span><br><span class="line">[debug] [MJSONWP] Responding to client with driver.getWindowSize() result: &#123;"height":2392,"width":1440&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 获取元素</span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/elements</span><br><span class="line">[HTTP] &#123;"using":"id","value":"com.xueqiu.android:id/agree"&#125;</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.findElements() with args: ["id","com.xueqiu.android:id/agree","76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line"></span><br><span class="line">[debug] [BaseDriver] Valid locator strategies for this request: xpath, id, class name, accessibility id, -android uiautomator</span><br><span class="line"></span><br><span class="line">[debug] [BaseDriver] Waiting up to 0 ms for condition</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Sending command to android: &#123;"cmd":"action","action":"find","params":&#123;"strategy":"id","selector":"com.xueqiu.android:id/agree","context":"","multiple":true&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;"cmd":"action","action":"find","params":&#123;"strategy":"id","selector":"com.xueqiu.android:id/agree","context":"","multiple":true&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: find</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Finding 'com.xueqiu.android:id/agree' using 'ID' with the contextId: '' multiple: true</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Using: UiSelector[RESOURCE_ID=com.xueqiu.android:id/agree]</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] getElements selector:UiSelector[RESOURCE_ID=com.xueqiu.android:id/agree]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Element[] is null: (0)</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] getElements tmp selector:UiSelector[INSTANCE=0, RESOURCE_ID=com.xueqiu.android:id/agree]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Element[] is null: (1)</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] getElements tmp selector:UiSelector[INSTANCE=1, RESOURCE_ID=com.xueqiu.android:id/agree]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;"status":0,"value":[&#123;"ELEMENT":"1"&#125;]&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Received command result from bootstrap</span><br><span class="line">[debug] [MJSONWP] Responding to client with driver.findElements() result: [&#123;"ELEMENT":"1"&#125;]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 点击元素</span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/element/1/click</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.click() with args: ["1","76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Sending command to android: &#123;"cmd":"action","action":"element:click","params":&#123;"elementId":"1"&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;"cmd":"action","action":"element:click","params":&#123;"elementId":"1"&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: click</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Received command result from bootstrap</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;"status":0,"value":true&#125;</span><br><span class="line">[debug] [MJSONWP] Responding to client with driver.click() result: true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 发送数据 send_key </span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/element/3/value</span><br><span class="line">[HTTP] &#123;"value":["ali"]&#125;</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.setValue() with args: [["ali"],"3","76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Sending command to android: &#123;"cmd":"action","action":"element:setText","params":&#123;"elementId":"3","text":"ali","replace":false&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;"cmd":"action","action":"element:setText","params":&#123;"elementId":"3","text":"ali","replace":false&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</span><br><span class="line">[AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: setText</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Using element passed in: 3</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Attempting to clear using UiObject.clearText().</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Text remains after clearing, but it appears to be hint text.</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Text not cleared. Assuming remainder is hint text.</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Sending plain text to element: ali</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Received command result from bootstrap</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;"status":0,"value":true&#125;</span><br><span class="line">[debug] [MJSONWP] Responding to client with driver.setValue() result: true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Appium关闭</span><br><span class="line">[Appium] Received SIGINT - shutting down</span><br><span class="line"></span><br><span class="line">[Logcat] Logcat terminated with code null, signal SIGINT</span><br><span class="line">[UiAutomator] UiAutomator exited unexpectedly with code null, signal SIGINT</span><br><span class="line">[debug] [UiAutomator] Moving to state 'stopped'</span><br><span class="line"></span><br><span class="line">[debug] [AndroidDriver] Shutting down Android driver</span><br><span class="line"></span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell am force-stop com.xueqiu.android'</span><br><span class="line"></span><br><span class="line">[Appium] Closing session, cause was 'UiAUtomator shut down unexpectedly'</span><br><span class="line">[Appium] Removing session 76cf893d-f1f9-43d6-be5e-7f59ca25c3db from our master session list</span><br><span class="line"></span><br><span class="line">[debug] [ADB] Pressing the HOME button</span><br><span class="line"></span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell input keyevent 3'</span><br><span class="line"></span><br><span class="line">[AndroidBootstrap] Cannot shut down Android bootstrap; it has already shut down</span><br><span class="line"></span><br><span class="line">[debug] [Logcat] Stopping logcat capture</span><br><span class="line">[debug] [Logcat] Logcat already stopped</span><br><span class="line"></span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell am force-stop io.appium.unlock'</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>18.<a href="https://www.jianshu.com/p/baeed5eff82a" target="_blank" rel="noopener">mock_location</a></p>
+<p>29.<a href="http://www.cnblogs.com/wysk/archive/2017/12/21/7417122.html" target="_blank" rel="noopener">adb forward</a></p>
+<p>33.<a href="http://gityuan.com/2016/05/14/dumpsys-command/" target="_blank" rel="noopener">adb shell dumpsys window</a></p>
+<p>37.[adb shell cat /proc/net/unix</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Docker-运行ELK" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/19/Docker-运行ELK/" class="article-date">
+      <time datetime="2018-10-19T07:52:38.000Z" itemprop="datePublished">2018-10-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/19/Docker-运行ELK/">Docker 运行ELK</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Elastic-Stack"><a href="#Elastic-Stack" class="headerlink" title="Elastic Stack"></a>Elastic Stack</h1><p><a href="https://www.elastic.co/guide/index.html" target="_blank" rel="noopener">Elastic Stack and Product Documentation | Elastic</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull sebp/elk:642</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name elk-642 \</span><br><span class="line">-e LOGSTASH_START=0 \</span><br><span class="line">-e ES_HEAP_SIZE="1g" \</span><br><span class="line">--network=elk \</span><br><span class="line">-p 5601:5601 -p 9200:9200 -p 5044:5044 \</span><br><span class="line">sebp/elk:642</span><br></pre></td></tr></table></figure>
+<h2 id="单独安装"><a href="#单独安装" class="headerlink" title="单独安装"></a>单独安装</h2><h3 id="安装-elasticsearch"><a href="#安装-elasticsearch" class="headerlink" title="安装 elasticsearch"></a>安装 elasticsearch</h3><p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.5/docker.html" target="_blank" rel="noopener">Install Elasticsearch with Docker | Elasticsearch Reference [6.5] | Elastic</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull elasticsearch:6.5.4</span><br></pre></td></tr></table></figure>
+<h3 id="安装-elasticsearch-head-扩展"><a href="#安装-elasticsearch-head-扩展" class="headerlink" title="安装 elasticsearch-head 扩展"></a>安装 <a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="noopener">elasticsearch-head</a> 扩展</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mobz/elasticsearch-head:5</span><br></pre></td></tr></table></figure>
+<h3 id="安装-kibana"><a href="#安装-kibana" class="headerlink" title="安装 kibana"></a>安装 kibana</h3><p><a href="https://www.elastic.co/guide/en/kibana/6.5/docker.html" target="_blank" rel="noopener">Running Kibana on Docker | Kibana User Guide [6.5] | Elastic</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull kibana:6.5.4</span><br></pre></td></tr></table></figure>
+<h3 id="安装-logstash"><a href="#安装-logstash" class="headerlink" title="安装 logstash"></a>安装 logstash</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull logstash:6.5.4</span><br></pre></td></tr></table></figure>
+<h3 id="安装-filebeat"><a href="#安装-filebeat" class="headerlink" title="安装 filebeat"></a>安装 filebeat</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull filebeat:6.5.4</span><br></pre></td></tr></table></figure>
+<h3 id="安装-metricbeat"><a href="#安装-metricbeat" class="headerlink" title="安装 metricbeat"></a>安装 metricbeat</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull docker.elastic.co/beats/metricbeat:6.5.4</span><br></pre></td></tr></table></figure>
+<h3 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h3><p>docker-compose.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  es-master:</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">es-head</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">elasticsearch:6.5.4</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">es-master</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"ES_JAVA_OPTS=-Xms1g -Xmx1g"</span></span><br><span class="line"><span class="attr">    ulimits:</span></span><br><span class="line"><span class="attr">      memlock:</span></span><br><span class="line"><span class="attr">        soft:</span> <span class="bullet">-1</span></span><br><span class="line"><span class="attr">        hard:</span> <span class="bullet">-1</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">./conf/es-master.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">~/docker/elk/es-master/data:/usr/share/elasticsearch/data</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">~/docker/elasticsearch/es-master/plugins:/usr/share/elasticsearch/plugins</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="number">9200</span><span class="string">:9200</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"9300:9300"</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">esnet</span></span><br><span class="line"><span class="attr">  es-head:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">mobz/elasticsearch-head:5</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">es-head</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"9100:9100"</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">esnet</span></span><br><span class="line"><span class="attr">  kibana:</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">es-master</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">kibana:6.5.4</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">kibana</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">./conf/kibana.yml:/usr/share/kibana/config/kibana.yml:ro</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"5601:5601"</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">esnet</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">  esnet:</span></span><br></pre></td></tr></table></figure>
+<p><strong>文件配置</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir conf</span><br></pre></td></tr></table></figure>
+<p>conf/es-master.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">cluster.name:</span> <span class="string">es-cluster</span></span><br><span class="line"><span class="string">node.name:</span> <span class="string">es-master</span></span><br><span class="line"><span class="string">node.master:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">node.data:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">bootstrap.memory_lock:</span> <span class="literal">true</span></span><br><span class="line"><span class="comment"># discovery.zen.minimum_master_nodes: 1</span></span><br><span class="line"><span class="comment"># discovery.zen.ping.unicast.hosts: ["es-master", "es-node1"]</span></span><br><span class="line"><span class="comment"># discovery.zen.ping.unicast.hosts: ["es-master"]</span></span><br><span class="line"><span class="string">network.host:</span> <span class="string">es-master</span></span><br><span class="line"><span class="string">http.cors.enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">http.cors.allow-origin:</span> <span class="string">"*"</span></span><br><span class="line"><span class="string">xpack.monitoring.collection.enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>conf/kibana.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">server.name:</span> <span class="string">kibana</span></span><br><span class="line"><span class="string">server.host:</span> <span class="string">"0.0.0.0"</span></span><br><span class="line"><span class="string">elasticsearch.url:</span> <span class="attr">http://es-master:9200</span></span><br><span class="line"><span class="comment"># xpack.monitoring.ui.container.elasticsearch.enabled: true</span></span><br></pre></td></tr></table></figure>
+<p><strong>启动</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<p> <strong>Inspect status of cluster</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://127.0.0.1:9200/_cat/health</span><br></pre></td></tr></table></figure>
+<p><a href="http://localhost:9200/_cat/health?v" target="_blank" rel="noopener">http://localhost:9200/_cat/health?v</a></p>
+<p><a href="http://localhost:9200/_cat/health?format=json&amp;bytes=b" target="_blank" rel="noopener">http://localhost:9200/_cat/health?format=json&amp;bytes=b</a></p>
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>查看已安装的插件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch-plugin list</span><br></pre></td></tr></table></figure>
+<h3 id="IK-Analysis-Plugin-作者-Medcl"><a href="#IK-Analysis-Plugin-作者-Medcl" class="headerlink" title="IK Analysis Plugin (作者 Medcl)"></a><a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">IK Analysis Plugin</a> (作者 Medcl)</h3><p>简介：大名鼎鼎的ik分词，都懂的！</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.5.4/elasticsearch-analysis-ik-6.5.4.zip</span><br></pre></td></tr></table></figure>
+<p><strong>测试</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT http://localhost:9200/index</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET "http://localhost:9200/index/_analyze" -H 'Content-Type: application/json' -d'</span><br><span class="line">&#123;</span><br><span class="line">   "text":"中华人民共和国MN","tokenizer": "ik_max_word"</span><br><span class="line">&#125;'</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/guanheng68/article/details/81710406" target="_blank" rel="noopener">ElasticSearch安装(以Docker的方式）</a></p>
+<p><a href="https://www.cnblogs.com/mxmbk/p/9969008.html" target="_blank" rel="noopener">docker-compose安装elasticsearch集群</a></p>
+<p><a href="https://blog.csdn.net/wanglei_storage/article/details/82218940" target="_blank" rel="noopener">elasticsearch 6.3.2 集群配置</a></p>
+<p><a href="https://www.cnblogs.com/showtime813/p/5714603.html" target="_blank" rel="noopener">Kibana + ElasticSearch</a></p>
+<p><a href="https://blog.csdn.net/zyc88888/article/details/79019865" target="_blank" rel="noopener">ElasticSearch常用插件整理</a></p>
+<p><a href="https://github.com/medcl/elasticsearch-rtf" target="_blank" rel="noopener">Elasticsearch-RTF</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS-pip-配置-supervisor" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/17/macOS-pip-配置-supervisor/" class="article-date">
+      <time datetime="2018-10-17T07:27:45.000Z" itemprop="datePublished">2018-10-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/17/macOS-pip-配置-supervisor/">macOS pip 配置 supervisor</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>macOS 10.13.6</p>
+</blockquote>
+<p>etc目录在/usr/local/etc</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/local/etc/supervisor/</span><br><span class="line">echo_supervisord_conf &gt; /usr/local/etc/supervisor/supervisord.conf</span><br></pre></td></tr></table></figure>
+<p>vim /usr/local/etc/supervisor/supervisord.conf</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[inet_http_server]         </span><br><span class="line">port=127.0.0.1:9001</span><br><span class="line"></span><br><span class="line">[supervisord]</span><br><span class="line">logfile=/usr/local/etc/supervisor/supervisord.log</span><br><span class="line">logfile_maxbytes=50MB        ; max main logfile bytes b4 rotation; default 50MB</span><br><span class="line">logfile_backups=10           ; # of main logfile backups; 0 means none, default 10</span><br><span class="line">loglevel=info                ; log level; default info; others: debug,warn,trace</span><br><span class="line">pidfile=/usr/local/etc/supervisor/supervisord.pid</span><br><span class="line"></span><br><span class="line">[supervisorctl]</span><br><span class="line">serverurl=http://127.0.0.1:9001</span><br><span class="line">serverurl=unix:///usr/local/etc/supervisor/supervisor.sock</span><br><span class="line"></span><br><span class="line">[include]</span><br><span class="line">files = /usr/local/etc/supervisor/conf.d/*.conf</span><br></pre></td></tr></table></figure>
+<p>启动supervisor</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisord -c /usr/local/etc/supervisor/supervisord.conf</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS-配置-Macaca" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/15/macOS-配置-Macaca/" class="article-date">
+      <time datetime="2018-10-15T06:51:25.000Z" itemprop="datePublished">2018-10-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/15/macOS-配置-Macaca/">macOS 配置 Macaca</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a><strong>安装node</strong></h4><h4 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a><strong>iOS</strong></h4><p>Xcode v9 or higher is required.</p>
 <ul>
-<li>导入依赖</li>
-<li>capabilities设置</li>
-<li>元素定位与操作 find + action</li>
-<li>断言 assert</li>
+<li><a href="https://github.com/libimobiledevice/usbmuxd" target="_blank" rel="noopener">usbmuxd</a> is needed in order to testing real iOS device via USB.</li>
 </ul>
-<h3 id="获取app的入口"><a href="#获取app的入口" class="headerlink" title="获取app的入口"></a>获取app的入口</h3><ul>
-<li>platformName</li>
-<li>deviceName</li>
-<li>app入口<ul>
-<li>appPackage + appActivity Android使用</li>
-<li><code>adb logcat|grep -i ActivityManger.*Displayed</code>推荐</li>
-<li><code>aapt dump badging mobike.app|grep launchable-activity</code></li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install usbmuxd</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://github.com/libimobiledevice/ideviceinstaller" target="_blank" rel="noopener">ideviceinstaller</a> is needed in order to install App to real device.</li>
 </ul>
-</li>
-<li>bundleID iOS使用</li>
-<li>browserName 浏览器使用</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ideviceinstaller</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://github.com/google/ios-webkit-debug-proxy" target="_blank" rel="noopener">ios-webkit-debug-proxy</a> is needed in order to testing WebViews.</li>
 </ul>
-<h3 id="capabilities设置"><a href="#capabilities设置" class="headerlink" title="capabilities设置"></a>capabilities设置</h3><ul>
-<li>app apk地址</li>
-<li>appPackage 包名</li>
-<li>appActivity Activity名字</li>
-<li>automationName默认使用uiautomator</li>
-<li>noReset fullReset 是否在测试前后重置相关环境</li>
-<li>unicodeKeyBoard resetKeyBoard 是否需要输入非英文之外的语言并在测试完成后重置输入法</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ios-webkit-debug-proxy</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://github.com/macacajs/XCTestWD/blob/master/README.md#43-debug-info" target="_blank" rel="noopener">debug log</a> will be displayed when ‘–verbose’ is set as an argument when initiating macaca.</li>
+<li>查看TEAM_ID</li>
 </ul>
-<h2 id="Appium-android基础第6讲-用例编写2"><a href="#Appium-android基础第6讲-用例编写2" class="headerlink" title="Appium-android基础第6讲-用例编写2"></a>Appium-android基础第6讲-用例编写2</h2><p><a href="https://github.com/appium-boneyard/sample-code" target="_blank" rel="noopener">appium-boneyard/sample-code: appium sample code (dotnet, java, node, perl, php, python, ruby, etc.)</a></p>
-<p>Java：Junit</p>
-<p>Python：unittest</p>
-<p>断言</p>
-<h3 id="控件基础知识"><a href="#控件基础知识" class="headerlink" title="控件基础知识"></a>控件基础知识</h3><p>dom：Document Object Model 文档对象模型</p>
-<p>dom应用</p>
-<p>xpath：xml路径语言，用于xml中的节点定位。</p>
-<h3 id="app-dom结构解析"><a href="#app-dom结构解析" class="headerlink" title="app dom结构解析"></a>app dom结构解析</h3><p>resource-id</p>
-<h3 id="app-dom为例"><a href="#app-dom为例" class="headerlink" title="app dom为例"></a>app dom为例</h3><ul>
-<li>node</li>
-<li>attribute<ul>
-<li>clickable</li>
-<li>content-desc</li>
-<li>resource-id</li>
-<li>text</li>
-<li>bounds</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEVELOPMENT_TEAM_ID=TEAM_ID npm i macaca-ios -g</span><br></pre></td></tr></table></figure>
+<h4 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h4><ul>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">JDK 1.8</a> (Java 9 is not supported)</li>
+<li>Android SDK</li>
+<li>Set the <code>ANDROID_HOME</code> environment variable to your <code>~/.bashrc</code>, <code>~/.bash_profile</code>, <code>~/.zshrc</code> or </li>
 </ul>
-</li>
-<li>iOS与Android的区别<ul>
-<li>dom属性和节点结构类似</li>
-<li>名字和属性的命名不同</li>
+<p><a href="https://gradle.org/" target="_blank" rel="noopener">gradle</a> is needed in order to build <a href="https://github.com/macacajs/UIAutomatorWD" target="_blank" rel="noopener">UIAutomatorWD</a> and other package</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install gradle</span><br></pre></td></tr></table></figure>
+<ul>
+<li>If you got a error like [You have not accepted the license agreements of the following SDK components] on your install command [npm i macaca-android -g]，plz accept all Android SDK licenses uses command below, and retry install.</li>
 </ul>
-</li>
-</ul>
-<h3 id="元素定位"><a href="#元素定位" class="headerlink" title="元素定位"></a>元素定位</h3><ul>
-<li>测试步骤三要素：<ul>
-<li>定位、交互、断言</li>
-</ul>
-</li>
-<li>定位<ul>
-<li>id（重要）：resource-id</li>
-<li>xpath（重要）</li>
-<li>accessibityId：content-desc</li>
-<li>不推荐：class -ios -android</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element_by_xpath(<span class="string">"//*[@text='自选']"</span>)</span><br><span class="line"></span><br><span class="line">driver.find_element_by_xpath(<span class="string">"//*[@text='自选' and @resource-id='com.xueqiu.android:id/tab_name']"</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="java客户端安装"><a href="#java客户端安装" class="headerlink" title="java客户端安装"></a>java客户端安装</h3><p>配置maven项目</p>
-<p>在src/test下编写用例</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;groupId&gt;io.appium&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;java-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.0.4&lt;/version&gt;</span><br><span class="line">    &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses</span><br></pre></td></tr></table></figure>
+<h4 id="ChromeDriver"><a href="#ChromeDriver" class="headerlink" title="ChromeDriver"></a>ChromeDriver</h4><h3 id="Macaca-Cli"><a href="#Macaca-Cli" class="headerlink" title="Macaca Cli"></a>Macaca Cli</h3><h4 id="Global-Installation"><a href="#Global-Installation" class="headerlink" title="Global Installation"></a>Global Installation</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g macaca-cli</span><br></pre></td></tr></table></figure>
+<h4 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h4><p>Let’s check the version and verify the environment.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> electron</span></span><br><span class="line"><span class="meta">#</span><span class="bash">npm install electron -g</span></span><br><span class="line">npm install macaca-electron -g</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> show version</span></span><br><span class="line">macaca -v</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> verify environment</span></span><br><span class="line">macaca doctor</span><br></pre></td></tr></table></figure>
+<h4 id="启动Macaca"><a href="#启动Macaca" class="headerlink" title="启动Macaca"></a>启动Macaca</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">macaca server --verbose</span><br></pre></td></tr></table></figure>
+<h4 id="安装-app-inspector"><a href="#安装-app-inspector" class="headerlink" title="安装 app-inspector"></a>安装 app-inspector</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install app-inspector -g</span><br></pre></td></tr></table></figure>
+<h4 id="获取设备-ID"><a href="#获取设备-ID" class="headerlink" title="获取设备 ID"></a>获取设备 ID</h4><h5 id="iOS-1"><a href="#iOS-1" class="headerlink" title="iOS"></a>iOS</h5><pre><code>**命令行方式**
+</code></pre><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun simctl list</span><br></pre></td></tr></table></figure>
+<pre><code>这行命令会列出你的所以模拟器信息，里面有类似 XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX 的代码，就是模拟器 UDID。
+
+**从 Xcode 获取**
+</code></pre><p>打开模拟器，从菜单中打开 Hardware - devices - manage devices。 然后你会看到模拟器信息界面，里面有个 identifier，就是 UDID。</p>
+<h5 id="Android-1"><a href="#Android-1" class="headerlink" title="Android"></a>Android</h5><pre><code>从命令行
+
+先启动你的设备，然后使用 adb 命令查看设备信息：
+</code></pre><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb devices</span><br></pre></td></tr></table></figure>
+<h5 id="iOS-真机问题-重新安装app-inspector，并添加TEAM-ID"><a href="#iOS-真机问题-重新安装app-inspector，并添加TEAM-ID" class="headerlink" title="iOS 真机问题,重新安装app-inspector，并添加TEAM_ID"></a>iOS 真机问题,重新安装app-inspector，并添加TEAM_ID</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> DEVELOPMENT_TEAM_ID=TEAM_ID npm i app-inspector -g</span></span><br></pre></td></tr></table></figure>
+<h4 id="命令行启动"><a href="#命令行启动" class="headerlink" title="命令行启动"></a>命令行启动</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app-inspector -u YOUR-DEVICE-ID</span><br></pre></td></tr></table></figure>
+<h4 id="打开界面"><a href="#打开界面" class="headerlink" title="打开界面"></a>打开界面</h4><pre><code>你的命令行将输出如下的文字：
+</code></pre><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inspector start at: http://192.168.10.100:5678</span><br></pre></td></tr></table></figure>
+<pre><code>然后在浏览器里面打开输出的链接：http://192.168.10.100:5678。
+
+推荐用 Chrome 浏览器。
+</code></pre><h1 id="Docker-运行Macaca"><a href="#Docker-运行Macaca" class="headerlink" title="Docker 运行Macaca"></a>Docker 运行Macaca</h1><p><a href="https://hub.docker.com/r/macacajs/macaca-android-docker/tags" target="_blank" rel="noopener">macacajs/macaca-android-docker</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull macacajs/macaca-android-docker:latest</span><br></pre></td></tr></table></figure>
+<p><a href="https://hub.docker.com/r/macacajs/macaca-datahub" target="_blank" rel="noopener">macacajs/macaca-datahub</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull macacajs/macaca-datahub:latest</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 9200:9200 -p 9300:9300 macacajs/macaca-datahub:latest</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://macacajs.github.io/environment-setup" target="_blank" rel="noopener">Macaca Environment Setup</a></p>
+<p><a href="https://macacajs.github.io/zh/run-with-docker#%E4%BD%BF%E7%94%A8-docker" target="_blank" rel="noopener">Macaca • 面向多端的自动化测试</a></p>
 
       
       
@@ -557,11 +859,11 @@
 
 
   
-    <article id="post-源码编译Jmeter" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-macOS-配置Tomcat" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/10/09/源码编译Jmeter/" class="article-date">
-      <time datetime="2018-10-09T00:19:39.000Z" itemprop="datePublished">2018-10-09</time>
+      <a href="/2018/10/15/macOS-配置Tomcat/" class="article-date">
+      <time datetime="2018-10-15T03:24:32.000Z" itemprop="datePublished">2018-10-15</time>
 </a>
     </div>
   
@@ -574,7 +876,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/源码编译Jmeter/">源码编译Jmeter</a>
+      <a class="article-title" href="/2018/10/15/macOS-配置Tomcat/">macOS 配置Tomcat</a>
     </h1>
   
 
@@ -584,16 +886,15 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>安装Ant工具</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ant</span><br></pre></td></tr></table></figure>
-<p>下载JMeter源码</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/apache/jmeter.git</span><br></pre></td></tr></table></figure>
-<p>ant初始化build环境</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ant download_jars</span><br></pre></td></tr></table></figure>
-<p>执行下ant</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ant</span><br></pre></td></tr></table></figure>
-<p>build，This will compile the application and enable you to run <code>jmeter</code> from the <code>bin</code> directory.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ant test [-Djava.awt.headless=true]</span><br></pre></td></tr></table></figure>
+        <h4 id="安装Apr"><a href="#安装Apr" class="headerlink" title="安装Apr"></a>安装Apr</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install apr apr-util</span><br></pre></td></tr></table></figure>
+<h4 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install tomcat</span><br></pre></td></tr></table></figure>
+<h4 id="启动Tomcat"><a href="#启动Tomcat" class="headerlink" title="启动Tomcat"></a>启动Tomcat</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew services start tomcat</span><br><span class="line">brew services restart tomcat</span><br></pre></td></tr></table></figure>
+<h4 id="配置文件目录"><a href="#配置文件目录" class="headerlink" title="配置文件目录"></a>配置文件目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/Cellar/tomcat/</span><br><span class="line">cd /usr/local/Cellar/tomcat/9.0.12/libexec/conf</span><br></pre></td></tr></table></figure>
+<h4 id="部署jar项目"><a href="#部署jar项目" class="headerlink" title="部署jar项目"></a>部署jar项目</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp jenkins.jar /usr/local/Cellar/tomcat/9.0.12/libexec/webapps</span><br></pre></td></tr></table></figure>
+<h4 id="监控服务器"><a href="#监控服务器" class="headerlink" title="监控服务器"></a>监控服务器</h4><p>1、确保Tomcat可以正常启动</p>
+<p>2、打开conf下的tomcat-users.xml并添加<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>3、重启tomcat并访问<a href="http://localhost:8080/manager/html" target="_blank" rel="noopener">http://localhost:8080/manager/html</a></p>
+<p>4、<a href="http://localhost:8080/manager/status" target="_blank" rel="noopener">http://localhost:8080/manager/status</a></p>
 
       
       
@@ -621,11 +922,11 @@
 
 
   
-    <article id="post-快速上手Jmeter性能测试工具" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-ffmpeg-使用方法" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/10/09/快速上手Jmeter性能测试工具/" class="article-date">
-      <time datetime="2018-10-08T23:56:40.000Z" itemprop="datePublished">2018-10-09</time>
+      <a href="/2018/10/14/ffmpeg-使用方法/" class="article-date">
+      <time datetime="2018-10-14T01:24:42.000Z" itemprop="datePublished">2018-10-14</time>
 </a>
     </div>
   
@@ -638,7 +939,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/快速上手Jmeter性能测试工具/">快速上手Jmeter性能测试工具</a>
+      <a class="article-title" href="/2018/10/14/ffmpeg-使用方法/">ffmpeg 使用方法</a>
     </h1>
   
 
@@ -648,650 +949,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://www.dataguru.cn/article-6808-1.html" target="_blank" rel="noopener">快速上手Jmeter性能测试工具</a></p>
-<p><strong>课程大纲：</strong> </p>
-<p><strong>第1课：开源的力量–Jmeter </strong></p>
-<ol>
-<li><p>阐述开源软件的现状和趋势 </p>
-</li>
-<li><p>解析引入和使用Jmeter的原因</p>
-</li>
-<li><p>对比多种工具，阐述性能测试工具选型原则</p>
-</li>
-<li><p>阐述Jmeter的优势和劣势 </p>
-</li>
-<li><p>Jmeter的安装和目录解析  </p>
-</li>
-</ol>
-<p><strong>第2课：初识Jmeter</strong></p>
-<ol>
-<li>Jmeter界面结构解析 </li>
-<li>Jmeter重要的配置文件解析 </li>
-<li>实例演示如何使用Jmeter录制页面操作 </li>
-<li>代理和反向代理解析 </li>
-<li>Jmeter与LoadRunner总体对比 </li>
-</ol>
-<p><strong>第3课：搭建骨架–Jmeter重要组件介绍</strong> </p>
-<ol>
-<li>Jmeter中的属性和变量 </li>
-<li>Jmeter中的采样器 </li>
-<li>Jmeter中的计时器 </li>
-<li>Jmeter中的前置处理器和后置处理器 </li>
-<li>通过实例演示Jmeter组件作用域 </li>
-<li>Jmeter与LoadRunner骨架对比  </li>
-</ol>
-<p><strong>第4课：往骨架上添肉—Jmeter脚本组成和组件搭配</strong></p>
-<ol>
-<li>阐述在实际使用中Jmeter脚本组成和开发原则 </li>
-<li>阐述配置元素和Default元素的区别 </li>
-<li>通过实例演示HTTP Cookie Manager的使用  </li>
-</ol>
-<p><strong>第5课：Jmeter中的逻辑控制器（Logic Controller）</strong></p>
-<ol>
-<li>Jmeter中有多种逻辑控制器，不仅种类繁多，而且功能丰富，本节课将专门对逻辑控制器进行阐述。 </li>
-<li>实例演示循环逻辑控制器</li>
-<li>实例演示条件逻辑控制器 </li>
-<li>实例演示随机逻辑控制器</li>
-<li>Jmeter与LoadRunner中该功能的对比</li>
-</ol>
-<p><strong>第6课：采样器（Sampler）详细解析</strong></p>
-<ol>
-<li>采样器作业和配置详细解析 </li>
-<li>对重要的采样器的例如HTTP采样器进行详细剖析 </li>
-</ol>
-<p><strong>第7课：Jmeter中的参数化 </strong></p>
-<ol>
-<li>参数化的意义和作用 </li>
-<li>通过实例演示Jmeter中的参数化 </li>
-<li>Jmeter中的参数化与LoadRunner中的参数化的对比 </li>
-</ol>
-<p><strong>第8课：Jmeter中的关联</strong></p>
-<ol>
-<li>关联的意义和作用 </li>
-<li>通过实例演示Jmeter中的关联 </li>
-<li>Jmeter中的关联与LoadRunner中的关联的对比  </li>
-</ol>
-<p><strong>第9课：Jmeter中正则表达式和函数</strong></p>
-<ol>
-<li>基本的正则表达式</li>
-<li>Jmeter中如何使用正则表达式 </li>
-<li>Jmeter中函数的概念 </li>
-<li>Jmeter中函数的应用  </li>
-</ol>
-<p><strong>第10课：Jmeter中的Listener</strong> </p>
-<ol>
-<li>阐述性能测试工具中Listener的意义 </li>
-<li>Jmeter中常用Listener图表的含义 </li>
-<li>如何高效的使用Listener </li>
-<li>Jmeter中的Listener与LoadRunner中的Analysis的区别  </li>
-</ol>
-<p><strong>第11课：Jmeter扩展插件的使用</strong> </p>
-<ol>
-<li>阐述可扩展的含义 </li>
-<li>Jmeter中常用的扩展插件 </li>
-<li>通过实例查看扩展插件的使用效果  </li>
-</ol>
-<p><strong>第12课：分布式Jmeter</strong> </p>
-<ol>
-<li>分布式负载生成器的概念和意义 </li>
-<li>如何在Jmeter中配置server –client模式 </li>
-<li>Jmeter与LoadRunner在分布式上的区别和各自特色</li>
-</ol>
-<h2 id="第1课：开源的力量–Jmeter"><a href="#第1课：开源的力量–Jmeter" class="headerlink" title="第1课：开源的力量–Jmeter"></a>第1课：开源的力量–Jmeter</h2><h3 id="学习JMeter课程有什么用？"><a href="#学习JMeter课程有什么用？" class="headerlink" title="学习JMeter课程有什么用？"></a>学习JMeter课程有什么用？</h3><p>1）多掌握一门性能测试工具，提高职场竞争力。</p>
-<p>2）如果仅仅学习工具，那确实有点亏，我们一旦接触到相关知识点，会扩展。以便提升整个计算机体系的理解。听过软件性能测试课程的人都知道，我们的课程特点就是扩充和引导。</p>
-<p>3）提升英文水平。</p>
-<h3 id="性能测试工具选项的原则"><a href="#性能测试工具选项的原则" class="headerlink" title="性能测试工具选项的原则"></a>性能测试工具选项的原则</h3><p>1）成本</p>
-<p>​    a、工具成本</p>
-<p>​    b、学习成本</p>
-<p>2）通信协议</p>
-<p>​    a、标准协议</p>
-<p>​    b、自有协议 （性能测试的原理就是模拟协议）</p>
-<p>3）生命力</p>
-<p>4）跨平台</p>
-<h3 id="安装JMeter"><a href="#安装JMeter" class="headerlink" title="安装JMeter"></a>安装JMeter</h3><p><a href="https://jmeter.apache.org/download_jmeter.cgi" target="_blank" rel="noopener">Download Apache JMeter</a></p>
-<p><a href="https://github.com/apache/jmeter" target="_blank" rel="noopener">apache/jmeter: Mirror of Apache JMeter</a></p>
-<p>JDK6+，作者建议用JDK7</p>
-<p>JMeter 2.13 <a href="https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-2.13.tgz" target="_blank" rel="noopener">https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-2.13.tgz</a></p>
-<p>解压缩</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xf apache-jmeter-2.13.tgz</span><br></pre></td></tr></table></figure>
-<p>运行JMeter</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apache-jmeter-2.13/bin/jmeter</span><br></pre></td></tr></table></figure>
-<p>jmeter配置文件 apache-jmeter-2.13/bin/jmeter.properties</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">language=en</span><br></pre></td></tr></table></figure>
-<h3 id="JMeter模拟压力的原理"><a href="#JMeter模拟压力的原理" class="headerlink" title="JMeter模拟压力的原理"></a>JMeter模拟压力的原理</h3><p>1）性能测试工具-协议（性能测试工具通过什么模拟压力？）</p>
-<p>2）自动化测试工具-对象识别技术</p>
-<p>3）面试中的一个例子</p>
-<h3 id="JMeter目录结构"><a href="#JMeter目录结构" class="headerlink" title="JMeter目录结构"></a>JMeter目录结构</h3><p>1）目录结构解析</p>
-<p>docs：</p>
-<p>lib：</p>
-<p>bin：       </p>
-<p>extras：</p>
-<p>2）配置文件解析</p>
-<h3 id="需要注意的是："><a href="#需要注意的是：" class="headerlink" title="需要注意的是："></a>需要注意的是：</h3><p>强大的工具只是表象，高于工具的，是我们坚实的基础知识和分析问题的能力。</p>
-<p>不能做工具的奴隶，我们才是主人。</p>
-<p>工具共享：</p>
-<p>链接： <a href="http://pan.baidu.com/s/1i3yyRel" target="_blank" rel="noopener">http://pan.baidu.com/s/1i3yyRel</a> 密码：u55k</p>
-<h2 id="第2课：初识Jmeter"><a href="#第2课：初识Jmeter" class="headerlink" title="第2课：初识Jmeter"></a>第2课：初识Jmeter</h2><p>1）第一印象</p>
-<p>2）TestPlan（测试计划）</p>
-<p>3）线程组</p>
-<p>4）保存</p>
-<p>String开发的GUI界面</p>
-<p>所有内容都在 Test Plan 下面添加</p>
-<p>用户定义变量：User Defined Variables</p>
-<p>自定义jar包，放在 lib目录下</p>
-<p>Test Plan（测试计划）</p>
-<p>​    Thread Group（线程组）</p>
-<p>添加线程组，可以添加多个线程组一个测试计划下。</p>
-<p>线程组</p>
-<p>Number of Threads（并发线程数）</p>
-<p>发送请求</p>
-<p>5）添加一个Http Sampler 采样器</p>
-<p>Sampler -&gt; HTTP Request</p>
-<p><strong>至少到目前为止，我们实现了一个最简单的JMeter的测试计划，虽然还非常不完善，但可以跑起来。</strong></p>
-<p>Implementation: HttpClient4</p>
-<p>查看测试结果，需要添加一个Listener，View Results Tree类型。</p>
-<p>测试计划保存为.jmx文件</p>
-<p>JMeter更新的时候要注意jmx的影响，因为jmx文件没有校监功能。容易出错。</p>
-<p>jmx文件是xml文件格式的。</p>
-<h3 id="使用过程中要注意的"><a href="#使用过程中要注意的" class="headerlink" title="使用过程中要注意的"></a>使用过程中要注意的</h3><p>1）查看jmeter日志。bin/jmeter.log</p>
-<p>2）log_level.jmeter属性。bin/jmeter.properties</p>
-<p>3）Java虚拟机启动配置。HEAP=-Xms512m -Xmx512m</p>
-<p>启动JMeter。<code>java -jar ApacheJMeter.jar</code></p>
-<h3 id="JMeter-VS-LoadRunner"><a href="#JMeter-VS-LoadRunner" class="headerlink" title="JMeter VS LoadRunner"></a>JMeter VS LoadRunner</h3><p>1、界面上</p>
-<p>2、安装上</p>
-<p>3、协议支持上（Sampler）</p>
-<p>4、函数库</p>
-<p>5、成本（学习成本，价格成本）</p>
-<p>6、开源</p>
-<h3 id="JMeter中的录制-代理讲解"><a href="#JMeter中的录制-代理讲解" class="headerlink" title="JMeter中的录制-代理讲解"></a>JMeter中的录制-代理讲解</h3><p>1、录制的原理（Browser-&gt;JMeter-&gt;Web服务器）</p>
-<p>2、代理</p>
-<p>3、代理和反向代理</p>
-<h3 id="JMeter中的录制"><a href="#JMeter中的录制" class="headerlink" title="JMeter中的录制"></a>JMeter中的录制</h3><p>1、JMeter中的WorkBench（工作台）</p>
-<p>2、JMeter录制详解</p>
-<p>在JMeter里添加一个录制</p>
-<p>WorkBench-&gt;Add-&gt;Non-Test Elements-&gt;HTTP(s) Test Script Recorder</p>
-<p>Target Controller：选择测试计划里的线程组</p>
-<p>录制HTTPS网站需要安装证书</p>
-<h2 id="第3课：搭建骨架–Jmeter重要组件介绍"><a href="#第3课：搭建骨架–Jmeter重要组件介绍" class="headerlink" title="第3课：搭建骨架–Jmeter重要组件介绍"></a>第3课：搭建骨架–Jmeter重要组件介绍</h2><h3 id="Jmeter组件（元素）"><a href="#Jmeter组件（元素）" class="headerlink" title="Jmeter组件（元素）"></a>Jmeter组件（元素）</h3><p>1）<strong>Jmeter中的Sampler</strong></p>
-<p>2）Jmeter中的计时器</p>
-<p>3）Jmeter中的前置处理器和后置处理器</p>
-<p>4）Jmeter中的断言</p>
-<p>5）<strong>Jmeter中的Controller</strong></p>
-<p>6）Jmeter中的Listener</p>
-<p>7）配置原件（配置元素）(服务器地址，变量之类的配置文件)</p>
-<p>前置处理器 Pre Processors, Sampler 采样器之前处理</p>
-<p>后置处理器 Post Processors，Sampler 采样器之后处理</p>
-<p>Logic Controller 控制脚本的结构的。</p>
-<h3 id="认识了组件，顺序呢？"><a href="#认识了组件，顺序呢？" class="headerlink" title="认识了组件，顺序呢？"></a>认识了组件，顺序呢？</h3><p><strong>本节课的重点不是认识组件，而是组件执行的顺序和组件的作用域。 </strong></p>
-<p>同一级别下Linster是在Sampler之后运行的。（得到的结论）</p>
-<p>同一级别下Conf Element在Sampler之前生效。</p>
-<h4 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h4><p>作用域问题，同一个级别下作用域相同。</p>
-<p><strong>如果听不明白，请不要听下去。回去再听一遍。</strong></p>
-<p>如果有相同元素，不同级别，不同内容，则本元素同级引用，本元素生效。</p>
-<p>参数名字相同，会合并参数。</p>
-<p>同一级别，两个元素，按先后顺序生效一个。</p>
-<p>Timer 每个元素分别指定时间。并在元素执行之前。</p>
-<p>one 5s</p>
-<p>two 5s</p>
-<h3 id="Jmeter组件执行顺序"><a href="#Jmeter组件执行顺序" class="headerlink" title="Jmeter组件执行顺序"></a>Jmeter组件执行顺序</h3><p>测试计划的元素执行是有序的，通过一下方式执行：</p>
-<p>1-配置节点（Conf Element)</p>
-<p>2-前置处理器</p>
-<p>3-定时器</p>
-<p>4-取样器</p>
-<p>5-后置处理器（只在有结果可用情况下执行）</p>
-<p>6-断言（只在有结果可用情况下执行）</p>
-<p>7-监听器（只在有结果可用情况下执行）</p>
-<h3 id="JMeter与LoadRunner骨架对比"><a href="#JMeter与LoadRunner骨架对比" class="headerlink" title="JMeter与LoadRunner骨架对比"></a>JMeter与LoadRunner骨架对比</h3><p>1、Jmeter中作用域非常关键</p>
-<p>2、Jmeter中需要使用人员介入的部分更多</p>
-<p>3、开发一个Jmeter性能测试脚本，实际上，就是根据场景需求，按照一定的作用域拼装组件。</p>
-<p>4、LoadRunner中是通过代码的位置和迭代的设置来控制执行的顺序的。</p>
-<h2 id="第4课：往骨架上添肉—Jmeter脚本组成和组件搭配"><a href="#第4课：往骨架上添肉—Jmeter脚本组成和组件搭配" class="headerlink" title="第4课：往骨架上添肉—Jmeter脚本组成和组件搭配"></a>第4课：往骨架上添肉—Jmeter脚本组成和组件搭配</h2><h3 id="Jmeter脚本开发原则"><a href="#Jmeter脚本开发原则" class="headerlink" title="Jmeter脚本开发原则"></a>Jmeter脚本开发原则</h3><p><strong>简单、正确、高效。</strong></p>
-<p><strong>简单：</strong>去除无关的组件，同时能复用的尽量复用。</p>
-<p><strong>正确：</strong> 对脚本或者业务正确性进行必要的判断， 不能少也不能多。</p>
-<p><strong>高效：</strong>部分组件仅仅使用在脚本开发模式使用，在真正生产环境下不要使用。Lisener要越少越好。</p>
-<p>HttpWatch抓包</p>
-<p>Http Request-&gt;Embedded Resources from HTML File-&gt;对钩 Retrieve All Embedded Resources</p>
-<h3 id="HTTP-Cookie-Manager"><a href="#HTTP-Cookie-Manager" class="headerlink" title="HTTP Cookie Manager"></a>HTTP Cookie Manager</h3><p>1、HTTP Cookie Manager的应用场景</p>
-<p>2、Manager组件和Default组件的区别</p>
-<p>Manager不可以有多个，Default可以有多个，然后叠加参数。</p>
-<p>HTTP Cookie Manager不能有两个，在同一个作用域下。</p>
-<p>3、阅读官方文档</p>
-<p>官方文档</p>
-<p><a href="https://jmeter.apache.org/usermanual/component_reference.html" target="_blank" rel="noopener">Apache JMeter - User’s Manual: Component Reference</a></p>
-<h3 id="Jmeter中的属性"><a href="#Jmeter中的属性" class="headerlink" title="Jmeter中的属性"></a>Jmeter中的属性</h3><p>1、WorkBench中的属性查看组件</p>
-<p>WorkBench-&gt;Non-Test Elements-&gt;Property Display</p>
-<p>Option-&gt;Function Helper Dialog</p>
-<p>获取变量值</p>
-<p>${__P(LoadRunner,test)}</p>
-<p>2、属性（Property）</p>
-<p>1）什么是属性？</p>
-<p>2）如何使用属性？</p>
-<p>3）通过实例演示属性</p>
-<p>3、属性的特点</p>
-<p>1）JMeter属性在测试脚本的任何地方都是可见的（全局）</p>
-<p>2）JMeter属性对于整个测试计划都是可见的（全局），因此可以用于在线程间传递信息。</p>
-<h3 id="Jmeter中的变量"><a href="#Jmeter中的变量" class="headerlink" title="Jmeter中的变量"></a>Jmeter中的变量</h3><p>1、变量（Variables）</p>
-<p>1）回忆一下变量的应用场景</p>
-<p>2）LoadRunner中如何实现的？</p>
-<p>Test Plan -&gt; User Defined Variables</p>
-<p>2、如何使用变量？</p>
-<p>${loadrunner}</p>
-<p>专门查看变量的采样器</p>
-<p>Debug Sampler</p>
-<p>User Defined Variables 无论放在哪里，都会被所有线程共享。</p>
-<p>3、实例演示变量</p>
-<p>4、变量的特性</p>
-<p>1）JMeter变量对于测试线程而言是局部变量。这就以为着JMeter变量在不同测试线程中，既可以是完全相同的，也可以是不同的。</p>
-<p>2）如果有某个线程更新了变量，那么仅仅是更新了变量在该线程中复制的值。例如，”正则表达式提取器”（后置处理器）会依据它所在线程的采样结果来更新变量值，该变量值可以供相同的线程后续使用。</p>
-<p>5、属性和变量都是大小写敏感的。</p>
-<h2 id="第5课：Jmeter中的逻辑控制器（Logic-Controller）"><a href="#第5课：Jmeter中的逻辑控制器（Logic-Controller）" class="headerlink" title="第5课：Jmeter中的逻辑控制器（Logic Controller）"></a>第5课：Jmeter中的逻辑控制器（Logic Controller）</h2><p><strong>上次回顾：</strong>属性和参数</p>
-<p><strong>想象一些场景</strong></p>
-<p>1、连续发10个相同的请求</p>
-<p>2、其中前两个做特殊处理</p>
-<p><strong>思考</strong></p>
-<p>1、这样做真的好吗？</p>
-<p>２、如果脚本非常庞大呢？</p>
-<p>３、如果需要做选择操作呢？</p>
-<h3 id="Logic-Controller出场"><a href="#Logic-Controller出场" class="headerlink" title="Logic Controller出场"></a>Logic Controller出场</h3><p>1、首先必须声明的是：Jmeter中的Controller和LoadRunner中的Controller的区别</p>
-<p>2、</p>
-<p><strong>Simple Controller</strong></p>
-<p>提供一个块的结构和控制。更方便、更清晰，嵌套其他的Controller</p>
-<p>${__threadNum}</p>
-<p><strong>Loop Controller</strong></p>
-<p>1、简单的说就是提供一个循环</p>
-<p><strong>Once Only Controller</strong></p>
-<p>1、简介</p>
-<p>Thread Group-&gt;Once Only Controller只执行一次，线程组多次，也只执行一次。</p>
-<p>Thread Group-&gt;Loop Controller-&gt;Once Only Controller 如果在Loop Controller下，则会执行线程组的次数。</p>
-<p>2、例子</p>
-<p>3、适用场景</p>
-<p><strong>ForEach Controller</strong></p>
-<p>和User Defined Variables 一起使用</p>
-<p><strong>Transaction Controller</strong></p>
-<p>统计响应时间Load time</p>
-<p>Generate parent sample</p>
-<p><strong>If Controller</strong></p>
-<p>解析变量</p>
-<p>学什么东西要学以致用。</p>
-<h2 id="第6课：采样器（Sampler）详细解析"><a href="#第6课：采样器（Sampler）详细解析" class="headerlink" title="第6课：采样器（Sampler）详细解析"></a>第6课：采样器（Sampler）详细解析</h2><h3 id="采样器"><a href="#采样器" class="headerlink" title="采样器"></a>采样器</h3><p>1、那个默默干活的家伙（Sampler）</p>
-<p>2、就像每个Controller都有自己的特点一样，每个采样器也都有自己的个性。</p>
-<h3 id="个性？"><a href="#个性？" class="headerlink" title="个性？"></a>个性？</h3><p>1、如何理解个性？</p>
-<p>2、学习采样器主要注意哪些地方？</p>
-<p>3、有什么方法和技巧？</p>
-<p>课程到现在为止，你最熟悉那个采样器？</p>
-<p>HTTP Sampler</p>
-<h3 id="常规设置"><a href="#常规设置" class="headerlink" title="常规设置"></a>常规设置</h3><p>1、采样器默认实现-查看jmeter.httpsampler</p>
-<p>jmeter.properties</p>
-<p>jmeter.httpsampler=HttpClient4</p>
-<p>2、文件的上传和下载？</p>
-<p>上传：HTTP Sampler -&gt; Send Files With the Request</p>
-<p>下载：HTTP Sampler-&gt;Save Responses to file</p>
-<p>WorkBench-&gt;HTTP Mirror Server</p>
-<p>3、默认解析器是：htmlparser</p>
-<p>通过查看htmlparser.classname</p>
-<p>4、通过设置Retrieve All Embedded Resources from HTML Files 和 Use concurrent pool更真实的模拟负载。</p>
-<p>HTTP Sampler-&gt;Use concurrent pool</p>
-<p>HTTP Sampler-&gt;Retrieve All Embedded Resources from HTML Files </p>
-<p>5、URLs must match</p>
-<p>6、IP欺骗</p>
-<p>HTTP Sample -&gt; Source address </p>
-<p>7、file协议</p>
-<p>Http Sampler -&gt;protocol-&gt;file,除了http还可以用file协议</p>
-<h2 id="第7课：Jmeter中的参数化"><a href="#第7课：Jmeter中的参数化" class="headerlink" title="第7课：Jmeter中的参数化"></a>第7课：Jmeter中的参数化</h2><h3 id="概念的引入"><a href="#概念的引入" class="headerlink" title="概念的引入"></a>概念的引入</h3><p>参数化概念解释</p>
-<h3 id="现实考虑"><a href="#现实考虑" class="headerlink" title="现实考虑"></a>现实考虑</h3><p>1、被业务场景所迫：所有用户都输入相同的数据，不能体现出真实的业务环境。（搜索操作）</p>
-<p>2、被系统体系所迫：存在缓存，不能体现出真正的性能。</p>
-<p>3、被系统业务约束所迫：有些系统禁止同一用户多次登录系统，也就严重到无法测试的地步。</p>
-<h3 id="哪些需要参数化？"><a href="#哪些需要参数化？" class="headerlink" title="哪些需要参数化？"></a>哪些需要参数化？</h3><p>1、登录认证信息</p>
-<p>2、一些和时间相关的，违法时间约束的</p>
-<p>3、一些受其他字段约束的</p>
-<p>4、一些来自于其他数据源（例如数据库的）</p>
-<p>5、其他在系统运行过程中需要变动的</p>
-<h3 id="参数化"><a href="#参数化" class="headerlink" title="参数化"></a>参数化</h3><p>参数化后，写死了的代码变活，代码将更加美好！</p>
-<h3 id="工具中的参数化"><a href="#工具中的参数化" class="headerlink" title="工具中的参数化"></a>工具中的参数化</h3><p>1、LoadRunner中的参数化</p>
-<p>2、Jmeter中的参数化（本节课的重点）</p>
-<p>无论哪种形式或工具的参数化，本质是没有变的。变的只是不同工具提供的不同操作方法。</p>
-<h3 id="Jmeter中的参数化"><a href="#Jmeter中的参数化" class="headerlink" title="Jmeter中的参数化"></a>Jmeter中的参数化</h3><p>参数化-我们来了？你在哪？？</p>
-<p>变量-变量在哪？</p>
-<p>变量是每个线程都有各自一份的，一个线程修改并不影响另一个线程。</p>
-<p>Jmeter参数化可以通过多种方式，本节课只讲应用最广泛，最实用的。</p>
-<p>通过CSV Data Set Config组件</p>
-<p>1、更容易使用和理解</p>
-<p>2、适合于大参数量场景</p>
-<p>3、设置方便灵活</p>
-<p><strong>1</strong></p>
-<p>conf.csv</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user1,passwd1</span><br><span class="line">user2,passwd2</span><br></pre></td></tr></table></figure>
-<p>Conf Element-&gt;CSV Data Set Config</p>
-<p>Filename: conf.csv</p>
-<p>Variable Names：username,password</p>
-<p><strong>2</strong></p>
-<p>conf.csv</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">username,password</span><br><span class="line">user1,passwd1</span><br><span class="line">user2,passwd2</span><br><span class="line">&quot;us,er3&quot;,passwd3 #需要使用 Allow quoted data：True</span><br></pre></td></tr></table></figure>
-<p>Conf Element-&gt;CSV Data Set Config</p>
-<p>Filename: conf.csv</p>
-<p>Variable Names：</p>
-<p>如果recycle option和stopThread都是false，那么当到达文件尾部的时候，变量的数值被设置成EOF,当然，这个可以通过修改属性文件中的csvdataset.eofstring进行修改。 jmeter.properties中修改</p>
-<h2 id="第8课：Jmeter中的关联"><a href="#第8课：Jmeter中的关联" class="headerlink" title="第8课：Jmeter中的关联"></a>第8课：Jmeter中的关联</h2><h3 id="什么是关联"><a href="#什么是关联" class="headerlink" title="什么是关联"></a>什么是关联</h3><p>1）关联的定义</p>
-<p>2）参数化和关联的区别的阐述</p>
-<p>关联，从请求的响应中提取数据。参数化，自己做的数据。</p>
-<p>3）什么时候需要关联？</p>
-<p>服务器返回的动态变化且对业务有影响的。</p>
-<h3 id="工具中的关联"><a href="#工具中的关联" class="headerlink" title="工具中的关联"></a>工具中的关联</h3><p>1、LoadRunner中的关联</p>
-<p>2、Jmeter中的关联</p>
-<p><strong>无论哪种形式或工具的关联，本质是没有变的。变的只是不同工具提供的不同操作方法。</strong></p>
-<h3 id="Jmeter中的关联"><a href="#Jmeter中的关联" class="headerlink" title="Jmeter中的关联"></a>Jmeter中的关联</h3><p>关联 -我们来了，你在哪？？</p>
-<p>如何获取请求响应中特定的数据或信息？</p>
-<p>强大的后置处理器 Post Processors-&gt; Regular Expression Extractor</p>
-<h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>正则表达式，又称正规表示法、常规表示法（英语：Regular Expression，在代码中简称regex、regexp或RE），计算机科学中的一个概念。</p>
-<p><strong>Jmeter的正则规则基于Apache ORO，跟perl语言的正则表达式规则类似，目前学会了解和使用最常用的语法即可。</strong></p>
-<p>具有特殊含义的字符：</p>
-<p>（和）：界定期望获取字符串的匹配模式</p>
-<p>.(字符点)：匹配任意单个字符</p>
-<p>+：一次或者多次</p>
-<p>？：找到匹配的结果后立刻停止查找</p>
-<p>\：转义字符</p>
-<p>[]：匹配符合[]内的字符</p>
-<p>[a-z] 匹配所有小写字母字符</p>
-<p>[^0-9]匹配所有非数字字符</p>
-<p>[^a-z]匹配所有非小写字母字符</p>
-<p>^匹配字符开头的字符</p>
-<p>$匹配字符结尾的字符</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>通过例子可以看出，在性能测试工具中进行关联是构建正确的脚本基本要求。而高于工具和关联的，是需要对协议的了解和业务的属性。</p>
-<p>抓包查看分析也是一项基本技能。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-运行Tomcat" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/08/Docker-运行Tomcat/" class="article-date">
-      <time datetime="2018-10-08T11:59:13.000Z" itemprop="datePublished">2018-10-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/08/Docker-运行Tomcat/">Docker 运行Tomcat</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull tomcat:8.5.34-jre8-alpine</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  -p 8803:8080 -v ~/docker/tomcat:/usr/local/tomcat/webapps -d --name tomcat-8.5.34 --restart=always tomcat:8.5.34-jre8-alpine</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-运行Swagger" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/07/Docker-运行Swagger/" class="article-date">
-      <time datetime="2018-10-07T01:29:15.000Z" itemprop="datePublished">2018-10-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/07/Docker-运行Swagger/">Docker 运行Swagger</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a><a href="https://swagger.io/" target="_blank" rel="noopener">Swagger</a></h1><p>下载所需要的镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull swaggerapi/swagger-ui:v3.19.2 &amp;&amp;\</span><br><span class="line">docker pull swaggerapi/swagger-editor:v3.6.11</span><br></pre></td></tr></table></figure>
-<p>运行 swagger-ui</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8801:8080 -d --name swagger-ui-3.19.2 swaggerapi/swagger-ui:v3.19.2</span><br></pre></td></tr></table></figure>
-<p>For <code>latest</code>, and post <code>v3.0.5</code> tags, you can specify the default swagger-ui to load in the UI:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 80:8080 -e API_URL=http://generator.swagger.io/api/swagger.json swaggerapi/swagger-ui:v3.19.2</span><br></pre></td></tr></table></figure>
-<p>运行 swagger-editor</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8802:8080 -d --name swagger-editor-3.6.11 swaggerapi/swagger-editor:v3.6.11</span><br></pre></td></tr></table></figure>
-<p>访问</p>
-<p><a href="http://IP:8080" target="_blank" rel="noopener">http://IP:8080</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://hub.docker.com/r/swaggerapi/swagger-ui/" target="_blank" rel="noopener">Docker Hub swaggerapi/swagger-ui</a></p>
-<p><a href="https://hub.docker.com/r/swaggerapi/swagger-editor/" target="_blank" rel="noopener">Docker Hub swaggerapi/swagger-editor</a></p>
-<p><a href="https://blog.csdn.net/SweetyoYY/article/details/78388524" target="_blank" rel="noopener">docker部署swagger</a></p>
-<p><a href="https://o-my-chenjian.com/2017/04/19/Play-API-With-Swagger/" target="_blank" rel="noopener">DIY搭建Swagger-UI</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PyCharm-中使用-pytest" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/25/PyCharm-中使用-pytest/" class="article-date">
-      <time datetime="2018-09-25T06:09:33.000Z" itemprop="datePublished">2018-09-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/25/PyCharm-中使用-pytest/">PyCharm 中使用 pytest</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><strong>PyCharm中设置以pytest方式运行</strong></p>
-<p>Preferences—&gt;Tools—&gt;Python Integrated Tools</p>
-<p>Testing—&gt;Default test runner</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PyCharm-新建项目使用-pipenv" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/25/PyCharm-新建项目使用-pipenv/" class="article-date">
-      <time datetime="2018-09-25T04:22:43.000Z" itemprop="datePublished">2018-09-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/25/PyCharm-新建项目使用-pipenv/">PyCharm 新建项目使用 pipenv</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-运行Zentao" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/08/Docker-运行Zentao/" class="article-date">
-      <time datetime="2018-09-08T05:19:09.000Z" itemprop="datePublished">2018-09-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/08/Docker-运行Zentao/">Docker 运行Zentao</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull haha123/zentao:latest # zentao 9.2.1</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  -p 8800:80 -v ~/docker/zentao:/opt/zbox -d --name zentao-9.2.1 --restart=always haha123/zentao:latest</span><br></pre></td></tr></table></figure>
-<p>访问：</p>
-<p>默认user/passwd: admin/123456</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://hub.docker.com/u/haha123/" target="_blank" rel="noopener">haha123</a>/<a href="https://hub.docker.com/r/haha123/zentao/" target="_blank" rel="noopener">zentao</a></p>
+        <p>file.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file &apos;1.mp4&apos;</span><br><span class="line">file &apos;2.mp4&apos;</span><br><span class="line">file &apos;3.mp4&apos;</span><br></pre></td></tr></table></figure>
+<p>合并视频</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f concat -i file.txt -c copy output.mp4</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.ffmpeg.org/" target="_blank" rel="noopener">FFmpeg</a></p>
+<p><a href="https://moejj.com/ffmpeghe-bing-shi-pin-wen-jian-guan-fang-wen-dang/" target="_blank" rel="noopener">ffmpeg合并视频文件 官方文档</a></p>
 
       
       
@@ -1321,7 +984,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 </div>
