@@ -707,176 +707,6 @@
 
 
   
-    <article id="post-Docker-OpenStf" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/12/08/Docker-OpenStf/" class="article-date">
-      <time datetime="2018-12-08T03:11:43.000Z" itemprop="datePublished">2018-12-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/08/Docker-OpenStf/">Docker Deployment OpenStf</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Deployment-OpenStf"><a href="#Deployment-OpenStf" class="headerlink" title="Deployment OpenStf"></a>Deployment OpenStf</h1><h3 id="IP-address"><a href="#IP-address" class="headerlink" title="IP address"></a>IP address</h3><ul>
-<li>proxy role: <code>10.8.8.128</code></li>
-<li>database role: <code>10.8.8.128</code></li>
-<li>app role: <code>10.8.8.128</code></li>
-<li>provider1: <code>10.8.8.131</code></li>
-</ul>
-<p>/etc/hosts</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">10.8.8.128 stf.ovwane.com</span><br><span class="line">10.8.8.128 devside.stf.ovwane.com</span><br><span class="line">10.8.8.131 provider1.stf.ovwane.com</span><br></pre></td></tr></table></figure>
-<h2 id="Proxy-role"><a href="#Proxy-role" class="headerlink" title="Proxy role"></a>Proxy role</h2><ul>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#nginx-configuration" target="_blank" rel="noopener">nginx configuration</a></li>
-</ul>
-<h3 id="Database-role"><a href="#Database-role" class="headerlink" title="Database role"></a>Database role</h3><p>The database role requires the following units, UNLESS you already have a working RethinkDB server/cluster running somewhere. In that case you simply will not have this role, and should point your [to that server instead.</p>
-<ul>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#rethinkdbservice" target="_blank" rel="noopener">rethinkdb.service</a></li>
-</ul>
-<h3 id="App-role"><a href="#App-role" class="headerlink" title="App role"></a>App role</h3><p>The app role can contain any of the following units. You may distribute them as you wish, as long as the <a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#assumptions" target="_blank" rel="noopener">assumptions above</a> hold. Some units may have more requirements, they will be listed where applicable.</p>
-<ul>
-<li><p><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#rethinkdb-proxy-28015service" target="_blank" rel="noopener">rethinkdb-proxy-28015.service</a> </p>
-</li>
-<li><p><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-appservice" target="_blank" rel="noopener">stf-app@.service</a></p>
-</li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-authservice" target="_blank" rel="noopener">stf-auth@.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-log-rethinkdbservice" target="_blank" rel="noopener">stf-log-rethinkdb.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-migrateservice" target="_blank" rel="noopener">stf-migrate.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-processorservice" target="_blank" rel="noopener">stf-processor@.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-reaperservice" target="_blank" rel="noopener">stf-reaper.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-storage-plugin-apkservice" target="_blank" rel="noopener">stf-storage-plugin-apk@.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-storage-plugin-imageservice" target="_blank" rel="noopener">stf-storage-plugin-image@.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-storage-tempservice" target="_blank" rel="noopener">stf-storage-temp@.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-triproxy-appservice" target="_blank" rel="noopener">stf-triproxy-app.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-triproxy-devservice" target="_blank" rel="noopener">stf-triproxy-dev.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-websocketservice" target="_blank" rel="noopener">stf-websocket@.service</a></li>
-<li><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-apiservice" target="_blank" rel="noopener">stf-api@.service</a></li>
-</ul>
-<h3 id="Provider-role"><a href="#Provider-role" class="headerlink" title="Provider role"></a>Provider role</h3><p>The provider role requires the following units, which must be together on a single or more hosts.</p>
-<ul>
-<li><p><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#adbdservice" target="_blank" rel="noopener">adbd.service</a></p>
-</li>
-<li><p><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md#stf-providerservice" target="_blank" rel="noopener">stf-provider@.service</a></p>
-</li>
-</ul>
-<h1 id="Proxy-role配置"><a href="#Proxy-role配置" class="headerlink" title="Proxy role配置"></a>Proxy role配置</h1><h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx:1.15.7-alpine</span><br></pre></td></tr></table></figure>
-<h2 id="启动nignx容器"><a href="#启动nignx容器" class="headerlink" title="启动nignx容器"></a>启动nignx容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/data/nginx/conf/nginx.conf</span><br><span class="line"></span><br><span class="line">vim stf.域名.conf</span><br></pre></td></tr></table></figure>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#daemon off</span></span><br><span class="line"><span class="attribute">worker_processes</span> <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">  <span class="attribute">worker_connections</span> <span class="number">1024</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  <span class="attribute">upstream</span> stf_app &#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">10.8.8.128:3100</span> max_fails=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">upstream</span> stf_auth &#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">10.8.8.128:3101</span> max_fails=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">upstream</span> stf_storage_apk &#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">10.8.8.128:3102</span> max_fails=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">upstream</span> stf_storage_image &#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">10.8.8.128:3103</span> max_fails=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">upstream</span> stf_storage &#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">10.8.8.128:3104</span> max_fails=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">upstream</span> stf_websocket &#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">10.8.8.128:3105</span> max_fails=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">upstream</span> stf_api &#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">10.8.8.128:3106</span> max_fails=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="section">types</span> &#123;</span><br><span class="line">    application/javascript  js;</span><br><span class="line">    image/gif               gif;</span><br><span class="line">    image/jpeg              jpg;</span><br><span class="line">    text/css                css;</span><br><span class="line">    text/html               html;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">map</span> <span class="variable">$http_upgrade</span> <span class="variable">$connection_upgrade</span> &#123;</span><br><span class="line">    <span class="attribute">default</span>  upgrade;</span><br><span class="line">    ''       close;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> stf.ovwane.com;</span><br><span class="line">    <span class="attribute">keepalive_timeout</span> <span class="number">70</span>; </span><br><span class="line"><span class="comment">#    resolver 114.114.114.114 8.8.8.8 valid=300s;</span></span><br><span class="line"><span class="comment">#    resolver_timeout 10s;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Handle stf-provider@floor1.service</span></span><br><span class="line">    location ~ "^/d/provider1/([^/]+)/(?&lt;port&gt;[0-9]&#123;5&#125;)/$" &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://10.8.8.131:<span class="variable">$port</span>/;</span><br><span class="line">      <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> Connection <span class="variable">$connection_upgrade</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$remote_addr</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Handle stf-provider@floor2.service</span></span><br><span class="line">    location ~ "^/d/provider2/([^/]+)/(?&lt;port&gt;[0-9]&#123;5&#125;)/$" &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://10.8.8.132:<span class="variable">$port</span>/;</span><br><span class="line">      <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> Connection <span class="variable">$connection_upgrade</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$remote_addr</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /auth/ &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://stf_auth/auth/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /api/ &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://stf_api/api/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /s/image/ &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://stf_storage_image;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /s/apk/ &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://stf_storage_apk;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /s/ &#123;</span><br><span class="line">      <span class="attribute">client_max_body_size</span> <span class="number">1024m</span>;</span><br><span class="line">      <span class="attribute">client_body_buffer_size</span> <span class="number">128k</span>;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://stf_storage;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /socket.io/ &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://stf_websocket;</span><br><span class="line">      <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> Connection <span class="variable">$connection_upgrade</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$http_x_real_ip</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://stf_app;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">      <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$http_x_real_ip</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>启动nginx</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-nginx-1.15.7 --net host -v /data/stf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro nginx:1.15.7-alpine</span><br></pre></td></tr></table></figure>
-<h1 id="Database-role配置"><a href="#Database-role配置" class="headerlink" title="Database role配置"></a>Database role配置</h1><h2 id="拉取镜像-1"><a href="#拉取镜像-1" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rethinkdb:2.3.6</span><br></pre></td></tr></table></figure>
-<h2 id="启动rethinkdb"><a href="#启动rethinkdb" class="headerlink" title="启动rethinkdb"></a>启动rethinkdb</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> docker run -d --name stf-rethinkdb-2.3.6 -v /data/stf/rethinkdb:/data -e <span class="string">"AUTHKEY=RETHINKDBAUTHKEYANY"</span> --net host rethinkdb:2.3.6 rethinkdb --<span class="built_in">bind</span> all --cache-size 8192 --http-port 8090 --no-update-check</span></span><br><span class="line"></span><br><span class="line">docker run -d --name stf-rethinkdb-2.3.6 -v /data/stf/rethinkdb:/data --net host rethinkdb:2.3.6 rethinkdb --bind all --cache-size 8192 --http-port 8090 --no-update-check</span><br></pre></td></tr></table></figure>
-<h1 id="App-role配置"><a href="#App-role配置" class="headerlink" title="App role配置"></a>App role配置</h1><h2 id="拉取镜像-2"><a href="#拉取镜像-2" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for name in openstf/stf:v3.4.0 openstf/ambassador:latest; do</span><br><span class="line">	docker pull $name</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<h2 id="添加变量"><a href="#添加变量" class="headerlink" title="添加变量"></a>添加变量</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">STF_VERSION=3.4.0 \</span><br><span class="line">STF_HOST=stf.域名 \</span><br><span class="line">SFT_URL=https://$STF_HOST \</span><br><span class="line">STF_IMAGE=openstf/stf:v$STF_VERSION \</span><br><span class="line">STF_SECRET=RETHINKDBAUTHKEYANY</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-migrate-初始化数据库表"><a href="#启动stf-migrate-初始化数据库表" class="headerlink" title="启动stf-migrate 初始化数据库表"></a>启动stf-migrate 初始化数据库表</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-migrate-$STF_VERSION --net host $STF_IMAGE stf migrate</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-app"><a href="#启动stf-app" class="headerlink" title="启动stf-app"></a>启动stf-app</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-app-$STF_VERSION --net host -e "SECRET=$&#123;STF_SECRET&#125;" $STF_IMAGE stf app --port 3100 --auth-url $STF_URL/auth/mock/ --websocket-url ws://$STF_HOST/</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-auth"><a href="#启动stf-auth" class="headerlink" title="启动stf-auth"></a>启动stf-auth</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-auth-$STF_VERSION --net host -e "SECRET=$&#123;STF_SECRET&#125;" $STF_IMAGE stf auth-mock --port 3101 --app-url $STF_URL</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>启动 stf-app和stf-auth之后就可以登录了。</p>
-</blockquote>
-<h2 id="启动stf-websocket"><a href="#启动stf-websocket" class="headerlink" title="启动stf-websocket"></a>启动stf-websocket</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-websocket-$STF_VERSION --net host -e "SECRET=$&#123;STF_SECRET&#125;" $STF_IMAGE stf websocket --port 3105 --storage-url $STF_URL --connect-sub tcp://$STF_HOST:7150 --connect-push tcp://$STF_HOST:7170</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-api"><a href="#启动stf-api" class="headerlink" title="启动stf-api"></a>启动stf-api</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-api-$STF_VERSION --net host -e "SECRET=$&#123;STF_SECRET&#125;" $STF_IMAGE stf api --port 3106 --connect-sub tcp://$STF_HOST:7150 --connect-push tcp://$STF_HOST:7170</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-storage-plugin-apk"><a href="#启动stf-storage-plugin-apk" class="headerlink" title="启动stf-storage-plugin-apk"></a>启动stf-storage-plugin-apk</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-storage-plugin-apk-$STF_VERSION --net host $STF_IMAGE stf storage-plugin-apk --port 3102 --storage-url $SFT_URL</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-storage-plugin-image"><a href="#启动stf-storage-plugin-image" class="headerlink" title="启动stf-storage-plugin-image"></a>启动stf-storage-plugin-image</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-storage-plugin-image-$STF_VERSION --net host $STF_IMAGE stf storage-plugin-image --port 3103 --storage-url $SFT_URL</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-storage-temp"><a href="#启动stf-storage-temp" class="headerlink" title="启动stf-storage-temp"></a>启动stf-storage-temp</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-storage-temp-$STF_VERSION --net host $STF_IMAGE stf storage-temp --port 3104 --save-dir /data</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-triproxy-app"><a href="#启动stf-triproxy-app" class="headerlink" title="启动stf-triproxy-app"></a>启动stf-triproxy-app</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-triproxy-app-$STF_VERSION --net host $STF_IMAGE stf triproxy app --bind-pub "tcp://*:7150" --bind-dealer "tcp://*:7160" --bind-pull "tcp://*:7170"</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-processor"><a href="#启动stf-processor" class="headerlink" title="启动stf-processor"></a>启动stf-processor</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-processor-$STF_VERSION --net host $STF_IMAGE stf processor stf-processer --connect-app-dealer tcp://$SFT_HOST:7160 --connect-dev-dealer tcp://$SFT_HOST:7260</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-triproxy-dev"><a href="#启动stf-triproxy-dev" class="headerlink" title="启动stf-triproxy-dev"></a>启动stf-triproxy-dev</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-triproxy-dev-$STF_VERSION --net host $STF_IMAGE stf triproxy dev --bind-pub "tcp://*:7250" --bind-dealer "tcp://*:7260" --bind-pull "tcp://*:7270"</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-reaper"><a href="#启动stf-reaper" class="headerlink" title="启动stf-reaper"></a>启动stf-reaper</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-reaper-$STF_VERSION --net host $STF_IMAGE stf reaper dev --connect-push tcp://$SFT_HOST:7270 --connect-sub tcp://$SFT_HOST:7150 --heartbeat-timeout 30000</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-log-rethinkdb（可选安装）"><a href="#启动stf-log-rethinkdb（可选安装）" class="headerlink" title="启动stf-log-rethinkdb（可选安装）"></a>启动stf-log-rethinkdb（可选安装）</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-log-rethinkdb-$STF_VERSION --net host $STF_IMAGE stf log-rethinkdb --connect-sub tcp://devside.$SFT_HOST:7150</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>devside或者appside</p>
-</blockquote>
-<p>dc.sh</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; dc.sh&lt;&lt;EOF</span><br><span class="line">#!/usr/bin/env bash</span><br><span class="line"></span><br><span class="line">PWD=/root/stf_app</span><br><span class="line"></span><br><span class="line">function stop()&#123;</span><br><span class="line">    cd $PWD</span><br><span class="line">    docker-compose down</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function start()&#123;</span><br><span class="line">    cd $PWD</span><br><span class="line">    docker-compose up -d</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">\$1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x dc.sh</span><br></pre></td></tr></table></figure>
-<p>vim /etc/systemd/system/stf-app.service</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=stf app</span><br><span class="line">Wants=network.target</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=oneshot</span><br><span class="line">ExecStartPre=/root/stf_app/dc.sh stop</span><br><span class="line">ExecStart=/root/stf_app/dc.sh start</span><br><span class="line">ExecStop=/root/stf_app/dc.sh start</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">StandardOutput=journal</span><br><span class="line">StandardError=inherit</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable stf-app.service</span><br><span class="line">systemctl start stf-app.service</span><br><span class="line">systemctl status stf-app.service</span><br><span class="line">systemctl stop stf-app.service</span><br></pre></td></tr></table></figure>
-<h1 id="Provider-role配置"><a href="#Provider-role配置" class="headerlink" title="Provider role配置"></a>Provider role配置</h1><h2 id="拉取镜像-3"><a href="#拉取镜像-3" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for name in sorccu/adb:latest openstf/stf:v3.4.0; do</span><br><span class="line">	docker pull $name</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>每台provider都要启动adbd和stf-provider。</p>
-</blockquote>
-<h2 id="启动adbd"><a href="#启动adbd" class="headerlink" title="启动adbd"></a><del>启动adbd</del></h2><blockquote>
-<p>此方式添加新手机不能自动识别。</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name adbd --privileged --net host -v /dev/bus/usb:/dev/bus/usb sorccu/adb:latest</span><br></pre></td></tr></table></figure>
-<h2 id="使用ubuntu端adb"><a href="#使用ubuntu端adb" class="headerlink" title="使用ubuntu端adb"></a>使用ubuntu端adb</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt -y install adb</span><br></pre></td></tr></table></figure>
-<p>vim /etc/systemd/system/adbd.service  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Android Debug Bridge daemon</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">#TimeoutStartSec=1min</span><br><span class="line">Restart=always</span><br><span class="line">RestartSec=2s</span><br><span class="line">Type=forking</span><br><span class="line">User=root</span><br><span class="line">ExecStartPre=/usr/bin/adb kill-server</span><br><span class="line">ExecStart=/usr/bin/adb start-server</span><br><span class="line">ExecStop=/usr/bin/adb kill-server</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable adbd.service</span><br><span class="line">systemctl start adbd.service</span><br><span class="line">systemctl status adbd.service</span><br></pre></td></tr></table></figure>
-<p>dc.sh</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; dc.sh&lt;&lt;EOF</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line">PWD=/root/stf_provider</span><br><span class="line"></span><br><span class="line">function stop()&#123;</span><br><span class="line">    cd $PWD</span><br><span class="line">    docker-compose down</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function start()&#123;</span><br><span class="line">    cd $PWD</span><br><span class="line">    docker-compose up -d</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">\$1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x dc.sh</span><br></pre></td></tr></table></figure>
-<p>vim /etc/systemd/system/stf-provider.service</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=stf provider</span><br><span class="line">After=adbd.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=oneshot</span><br><span class="line">ExecStartPre=/root/stf_provider/dc.sh stop</span><br><span class="line">ExecStart=/root/stf_provider/dc.sh start</span><br><span class="line">ExecStop=/root/stf_provider/dc.sh stop</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">StandardOutput=journal</span><br><span class="line">StandardError=inherit</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable stf-provider.service</span><br><span class="line">systemctl start stf-provider.service</span><br><span class="line">systemctl status stf-provider.service</span><br><span class="line">systemctl stop stf-provider.service</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-provider1"><a href="#启动stf-provider1" class="headerlink" title="启动stf-provider1"></a>启动stf-provider1</h2><p><strong>添加系统变量</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">STF_VERSION=3.4.0 \</span><br><span class="line">STF_HOST=stf.域名 \</span><br><span class="line">SFT_URL=https://$STF_HOST \</span><br><span class="line">STF_IMAGE=openstf/stf:v$STF_VERSION \</span><br><span class="line">STF_PROVIDER=provider1</span><br></pre></td></tr></table></figure>
-<p><strong>启动stf-provider</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-($STF_PROVIDER)-$STF_VERSION --net host $STF_IMAGE stf provider --name "$&#123;STF_PROVIDER&#125;" --connect-sub tcp://devside.$STF_HOST:7250 --connect-push tcp://devside.$STF_HOST:7270 --storage-url $SFT_URL --public-ip $STF_PROVIDER.$STF_HOST --min-port=15000 --max-port=25000 --heartbeat-interval 20000 --screen-ws-url-pattern "ws://$&#123;STF_HOST&#125;/d/$&#123;STF_PROVIDER&#125;/&lt;%= serial %&gt;/&lt;%= publicPort %&gt;/"</span><br></pre></td></tr></table></figure>
-<h2 id="启动stf-provider2"><a href="#启动stf-provider2" class="headerlink" title="启动stf-provider2"></a>启动stf-provider2</h2><p><strong>添加系统变量</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">STF_VERSION=3.4.0 \</span><br><span class="line">STF_HOST=stf.域名 \</span><br><span class="line">SFT_URL=https://$STF_HOST \</span><br><span class="line">STF_IMAGE=openstf/stf:v$STF_VERSION \</span><br><span class="line">STF_PROVIDER=provider2</span><br></pre></td></tr></table></figure>
-<p><strong>启动stf-provider</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name stf-($STF_PROVIDER)-$STF_VERSION --net host $STF_IMAGE stf provider --name "$&#123;STF_PROVIDER&#125;" --connect-sub tcp://devside.$STF_HOST:7250 --connect-push tcp://devside.$STF_HOST:7270 --storage-url $SFT_URL --public-ip $STF_PROVIDER.$STF_HOST --min-port=15000 --max-port=25000 --heartbeat-interval 20000 --screen-ws-url-pattern "ws://$&#123;STF_HOST&#125;/d/$&#123;STF_PROVIDER&#125;/&lt;%= serial %&gt;/&lt;%= publicPort %&gt;/"</span><br></pre></td></tr></table></figure>
-<h2 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h2><ul>
-<li><a href="https://github.com/openstf/stf/issues/627" target="_blank" rel="noopener">INF/provider 1 [*] Providing all 0 of 2 device(s); ignoring “67e2906f”</a>：原因是provider连不上stf-app。</li>
-<li>Lost device</li>
-</ul>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:~# docker logs -f stf_provider_stf-provider_1</span><br><span class="line"><span class="number">2018</span>-<span class="number">12</span>-<span class="number">12</span>T12:<span class="number">52</span>:<span class="number">15</span><span class="variable">.648Z</span> INF/provider <span class="number">1</span> [*] Subscribing to permanent channel <span class="string">"aA26iWR0Sv6dhk8e+lOKaw=="</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">12</span>-<span class="number">12</span>T12:<span class="number">52</span>:<span class="number">15</span><span class="variable">.660Z</span> INF/provider <span class="number">1</span> [*] Sending <span class="keyword">output</span> to <span class="string">"tcp://devside.stf.ovwane.com:7270"</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">12</span>-<span class="number">12</span>T12:<span class="number">52</span>:<span class="number">15</span><span class="variable">.662Z</span> INF/provider <span class="number">1</span> [*] Receiving <span class="keyword">input</span> from <span class="string">"tcp://devside.stf.ovwane.com:7250"</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">12</span>-<span class="number">12</span>T12:<span class="number">52</span>:<span class="number">15</span><span class="variable">.668Z</span> INF/provider <span class="number">1</span> [*] Tracking devices</span><br><span class="line"><span class="number">2018</span>-<span class="number">12</span>-<span class="number">12</span>T12:<span class="number">52</span>:<span class="number">16</span><span class="variable">.546Z</span> INF/provider <span class="number">1</span> [*] Found device <span class="string">"27423f88"</span> (offline)</span><br><span class="line"><span class="number">2018</span>-<span class="number">12</span>-<span class="number">12</span>T12:<span class="number">52</span>:<span class="number">16</span><span class="variable">.566Z</span> INF/provider <span class="number">1</span> [*] Registered device <span class="string">"27423f88"</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">12</span>-<span class="number">12</span>T12:<span class="number">52</span>:<span class="number">16</span><span class="variable">.567Z</span> INF/provider <span class="number">1</span> [*] Lost device <span class="string">"27423f88"</span> (offline)</span><br><span class="line"><span class="number">2018</span>-<span class="number">12</span>-<span class="number">12</span>T12:<span class="number">52</span>:<span class="number">17</span><span class="variable">.573Z</span> INF/provider <span class="number">1</span> [*] Found device <span class="string">"27423f88"</span> (offline)</span><br><span class="line"><span class="number">2018</span>-<span class="number">12</span>-<span class="number">12</span>T12:<span class="number">52</span>:<span class="number">17</span><span class="variable">.591Z</span> INF/provider <span class="number">1</span> [*] Registered device <span class="string">"27423f88"</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">12</span>-<span class="number">12</span>T12:<span class="number">52</span>:<span class="number">17</span><span class="variable">.592Z</span> INF/provider <span class="number">1</span> [*] Lost device <span class="string">"27423f88"</span> (offline)</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://testerhome.com/topics/10406" target="_blank" rel="noopener"> STF 折腾之路 最后换成 Docker 来安装</a></p>
-<p><a href="https://testerhome.com/topics/12755" target="_blank" rel="noopener">STF 正式环境 docker 化集群部署</a></p>
-<p><a href="https://testerhome.com/topics/15027" target="_blank" rel="noopener">STF docker 集群部署，树莓派做子节点,附带完整配置</a></p>
-<p><a href="https://testerhome.com/topics/12489" target="_blank" rel="noopener">Mac 上用 docker 安装 openstf–一步一坑从入门到放弃</a></p>
-<p><a href="https://github.com/openstf/stf/blob/master/doc/DEPLOYMENT.md" target="_blank" rel="noopener">OpenStf Deployment</a></p>
-<p><a href="https://testerhome.com/topics/15027" target="_blank" rel="noopener">STF docker 集群部署，树莓派做子节点,附带完整配置</a></p>
-<p><a href="https://testerhome.com/topics/5206" target="_blank" rel="noopener">STF 开发环境搭建与制作 docker 镜像过程</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-安装-Docker-Compose" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -1108,6 +938,95 @@
 <p>存放位置</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/Library/Android/sdk/system-images/android-[API_VERSION]/google_apis/[API_TYPE]</span><br></pre></td></tr></table></figure>
 <p>实际存放位置：`~/Library/Android/sdk/system-images/android-23/google_apis/armeabi-v7a</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Pytest-Allure-Jenkins-持续集成" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/27/Pytest-Allure-Jenkins-持续集成/" class="article-date">
+      <time datetime="2018-11-27T01:40:43.000Z" itemprop="datePublished">2018-11-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/27/Pytest-Allure-Jenkins-持续集成/">Pytest Allure Jenkins 持续集成</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>安装Jenkins插件</strong>：</p>
+<ul>
+<li>Allure<ul>
+<li><a href="http://wiki.jenkins-ci.org/display/JENKINS/Allure+Plugin" target="_blank" rel="noopener">Allure Jenkins Plugin</a></li>
+</ul>
+</li>
+<li>GitLab<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Logo+Plugin" target="_blank" rel="noopener">GitLab Logo Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitLab+Plugin" target="_blank" rel="noopener">GitLab Plugin</a></li>
+<li><a href="https://plugins.jenkins.io/gitlab-oauth" target="_blank" rel="noopener">Gitlab Authentication</a></li>
+<li><a href="https://plugins.jenkins.io/gitlab-hook" target="_blank" rel="noopener">Gitlab Hook</a></li>
+</ul>
+</li>
+</ul>
+<p>访问gitlab API</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://$&#123;DOMAIN&#125;/api/v4/projects?private_token=$&#123;API_token&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>新建job</strong></p>
+<p>New Item-&gt;example_pytest_allure(Freestyle project)</p>
+<p>Source Code Management</p>
+<ul>
+<li>Git<ul>
+<li>Repository URL</li>
+<li>Credentials<ul>
+<li>Kind: SSH Username with private key</li>
+<li>Username: git</li>
+<li>Private Key: </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://qizhenjun.com/blog/37ea8921/" target="_blank" rel="noopener">pytest自动化测试框架（6）-pytest+Allure+jenkins集成</a></p>
+<p><a href="https://www.jianshu.com/p/50d58fa8bdc6" target="_blank" rel="noopener">使用gitlab API</a></p>
+<p><a href="https://blog.csdn.net/ruangong1203/article/details/73065410" target="_blank" rel="noopener">搭建GitLab+Jenkins持续集成环境图文教程</a></p>
+<p><a href="https://testerhome.com/topics/10422" target="_blank" rel="noopener">python+allure+jenkins</a></p>
 
       
       
