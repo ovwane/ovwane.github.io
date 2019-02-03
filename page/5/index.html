@@ -210,6 +210,76 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Docker-Selenium-Grid-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/26/Docker-Selenium-Grid-配置/" class="article-date">
+      <time datetime="2018-10-26T04:27:37.000Z" itemprop="datePublished">2018-10-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/26/Docker-Selenium-Grid-配置/">Docker Selenium Grid 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/seleniumHQ/docker-selenium" target="_blank" rel="noopener">Docker images for Selenium Grid Server (Standalone, Hub, and Nodes)</a></p>
+<p>拉取镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull selenium/hub:3.14.0</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull selenium/node-chrome:3.14.0</span><br></pre></td></tr></table></figure>
+<p>启动主<a href="https://hub.docker.com/r/selenium/hub/tags/" target="_blank" rel="noopener">hub</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -P --name selenium-hub selenium/hub:3.14.0</span><br></pre></td></tr></table></figure>
+<p>启动分组<a href="https://hub.docker.com/r/selenium/node-chrome/tags/" target="_blank" rel="noopener">node-chrome</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --link selenium-hub:hub selenium/node-chrome:3.14.0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>–link 通过 link 关联 <code>selenium-hub</code> 容器，并为其设置了别名<code>hub</code></p>
+</blockquote>
+<p>docker-compose.yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">"3"</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  selenium-hub:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">selenium/hub:3.14.0-iron</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">selenium-hub</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"4444:4444"</span></span><br><span class="line"><span class="attr">  chrome:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">selenium/node-chrome:3.14.0-iron</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">selenium-hub</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_HOST=selenium-hub</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_PORT=4444</span></span><br><span class="line"><span class="attr">  firefox:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">selenium/node-firefox:3.14.0-iron</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">selenium-hub</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_HOST=selenium-hub</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_PORT=4444</span></span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://yeqown.github.io/2018/01/23/docker-selenium-python%E6%9E%84%E5%BB%BA%E5%89%8D%E7%AB%AF%E8%87%AA%E5%8A%A8%E5%8C%96%E5%88%86%E5%B8%83%E5%BC%8F%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/" target="_blank" rel="noopener">docker+selenium+python构建前端自动化分布式测试环境</a></p>
+<p><a href="https://www.cnblogs.com/fnng/p/8358326.html" target="_blank" rel="noopener">Docker Selenium-虫师</a></p>
+<p><a href="https://blog.csdn.net/songer_xing/article/details/78626592" target="_blank" rel="noopener">docker+selenium grid+python实现分布式自动化测试</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Docker-disconf配置" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -895,66 +965,6 @@
 <p>2、打开conf下的tomcat-users.xml并添加<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>3、重启tomcat并访问<a href="http://localhost:8080/manager/html" target="_blank" rel="noopener">http://localhost:8080/manager/html</a></p>
 <p>4、<a href="http://localhost:8080/manager/status" target="_blank" rel="noopener">http://localhost:8080/manager/status</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ffmpeg-使用方法" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/14/ffmpeg-使用方法/" class="article-date">
-      <time datetime="2018-10-14T01:24:42.000Z" itemprop="datePublished">2018-10-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/14/ffmpeg-使用方法/">ffmpeg 使用方法</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>file.txt</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file &apos;1.mp4&apos;</span><br><span class="line">file &apos;2.mp4&apos;</span><br><span class="line">file &apos;3.mp4&apos;</span><br></pre></td></tr></table></figure>
-<p>合并视频</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f concat -i file.txt -c copy output.mp4</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.ffmpeg.org/" target="_blank" rel="noopener">FFmpeg</a></p>
-<p><a href="https://moejj.com/ffmpeghe-bing-shi-pin-wen-jian-guan-fang-wen-dang/" target="_blank" rel="noopener">ffmpeg合并视频文件 官方文档</a></p>
 
       
       

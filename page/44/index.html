@@ -210,6 +210,59 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Git 教程" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/05/11/Git 教程/" class="article-date">
+      <time datetime="2013-05-11T04:48:46.000Z" itemprop="datePublished">2013-05-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">克隆仓库</span></span><br><span class="line">git clone git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"><span class="meta">#</span><span class="bash">创建分支</span></span><br><span class="line">git checkout -b blog</span><br><span class="line"><span class="meta">#</span><span class="bash">切换分支</span></span><br><span class="line">git checout blog</span><br><span class="line"><span class="meta">#</span><span class="bash">查看分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="meta">#</span><span class="bash">查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"><span class="meta">#</span><span class="bash">删除分支</span></span><br><span class="line">git push origin blog</span><br><span class="line">git push origin -d blog</span><br><span class="line"><span class="meta">#</span><span class="bash">删除子模块</span></span><br><span class="line">git rm -r --cached themes/spfk</span><br></pre></td></tr></table></figure>
+<h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看之前提交的git commit的id </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">log</span> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成撤销,同时将代码恢复到前一commit_id 对应的版本 </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git reset --hard id</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改</span></span><br><span class="line">git reset id</span><br></pre></td></tr></table></figure>
+<p><a href="http://chen-tao.github.io/2017/09/24/Git%E5%85%A8%E5%B1%80%E9%80%92%E5%BD%92%E5%BF%BD%E7%95%A5-DS-Store/" target="_blank" rel="noopener">Git全局递归忽略.DS_Store</a></p>
+<p>全局配置</p>
+<p>如果没有<code>~/. gitignore_global</code>文件，<code>echo</code>也会为你生成一个，这里的主要目的是覆盖所有可能的<code>OS X</code>版本生成的<code>.DS_Store</code>，逐一执行一次就可以了，之后<code>cat</code>一下看是否正常写入了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo ".DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "._.DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "**/.DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "**/._.DS_Store" &gt;&gt; ~/.gitignore_global</span><br></pre></td></tr></table></figure>
+<p>然后设置一下全局的配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.excludesfile ~/.gitignore_global</span><br></pre></td></tr></table></figure>
+<p>git操作中文文件错误</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">core.quotepath设为<span class="literal">false</span>的话，就不会对0x80以上的字符进行quote。中文显示正常。</span></span><br><span class="line">git config --global core.quotepath false</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Cisco:H3C交换机配置与管理完全手册" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -792,90 +845,6 @@
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
     </div>
 
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-David-J-Malan" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2012/01/05/David-J-Malan/" class="article-date">
-      <time datetime="2012-01-05T11:15:27.000Z" itemprop="datePublished">2012-01-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/01/05/David-J-Malan/">David J. Malan</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="David-J-Malan"><a href="#David-J-Malan" class="headerlink" title="David J. Malan"></a>David J. Malan</h2><p><a href="https://cs.harvard.edu/malan/" target="_blank" rel="noopener">https://cs.harvard.edu/malan/</a></p>
-<p><a href="https://cs.harvard.edu/malan/courses/" target="_blank" rel="noopener">https://cs.harvard.edu/malan/courses/</a></p>
-<p><a href="https://www.quora.com/profile/David-J-Malan" target="_blank" rel="noopener">https://www.quora.com/profile/David-J-Malan</a></p>
-<p><a href="https://www.quora.com/Is-David-Malan-married" target="_blank" rel="noopener">https://www.quora.com/Is-David-Malan-married</a></p>
-<p><a href="https://www.quora.com/Who-is-Prof-David-J-Malan" target="_blank" rel="noopener">https://www.quora.com/Who-is-Prof-David-J-Malan</a></p>
-<p><a href="https://www.quora.com/unanswered/How-old-is-Prof-David-J-Malan" target="_blank" rel="noopener">https://www.quora.com/unanswered/How-old-is-Prof-David-J-Malan</a></p>
-<h2 id="CS75"><a href="#CS75" class="headerlink" title="CS75"></a>CS75</h2><blockquote>
-<p>Computer Science E-75: Building Dynamic Websites</p>
-</blockquote>
-<p><a href="http://cs75.tv/2012/summer/" target="_blank" rel="noopener">http://cs75.tv/2012/summer/</a></p>
-<p><a href="https://handbook.fas.harvard.edu/book/computer-science" target="_blank" rel="noopener">https://handbook.fas.harvard.edu/book/computer-science</a></p>
-<p><a href="https://www.quora.com/David-J-Malan-Why-CS50-course-is-given-the-name-CS50-Is-there-any-reason-for-it" target="_blank" rel="noopener">https://www.quora.com/David-J-Malan-Why-CS50-course-is-given-the-name-CS50-Is-there-any-reason-for-it</a></p>
-<h2 id="CS50"><a href="#CS50" class="headerlink" title="CS50"></a>CS50</h2><blockquote>
-<p>Computer Science 50: Introduction to Computer Science I</p>
-</blockquote>
-<p>date: 2017-12-29 13:55:24</p>
-<p><a href="https://cs50.harvard.edu/college/" target="_blank" rel="noopener">https://cs50.harvard.edu/college/</a></p>
-<p><a href="http://cs50.tv/2017/fall/" target="_blank" rel="noopener">http://cs50.tv/2017/fall/</a></p>
-<p><a href="https://cs50.statuspage.io/" target="_blank" rel="noopener">https://cs50.statuspage.io/</a></p>
-<h2 id="CS164"><a href="#CS164" class="headerlink" title="CS164"></a>CS164</h2><blockquote>
-<p>Computer Science 164: Software Engineering</p>
-</blockquote>
-<h2 id="CS-E-1"><a href="#CS-E-1" class="headerlink" title="CS E-1"></a>CS E-1</h2><blockquote>
-<p>Computer Science E-1: Understanding Computers and the Internet</p>
-</blockquote>
-<p><a href="http://computerscience1.tv/2011/spring/" target="_blank" rel="noopener">http://computerscience1.tv/2011/spring/</a></p>
-<h2 id="CS-E-7"><a href="#CS-E-7" class="headerlink" title="CS E-7"></a>CS E-7</h2><blockquote>
-<p>Computer Science E-7: Exposing Digital Photography</p>
-</blockquote>
-<p><a href="http://tv.digitalphotography.exposed/2011/fall/" target="_blank" rel="noopener">http://tv.digitalphotography.exposed/2011/fall/</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
       
       <div class="clearfix"></div>
     </div>

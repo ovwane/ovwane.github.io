@@ -210,6 +210,80 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-LNAMP配置WordPress" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/05/17/LNAMP配置WordPress/" class="article-date">
+      <time datetime="2015-05-17T07:21:20.000Z" itemprop="datePublished">2015-05-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/17/LNAMP配置WordPress/">LNAMP配置运行WordPress</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>LNAMP配置运行WordPress</p>
+<h2 id="nginx-301重定向配置"><a href="#nginx-301重定向配置" class="headerlink" title="nginx 301重定向配置"></a><a href="http://www.ttlsa.com/nginx/nginx-301-redirect/" target="_blank" rel="noopener">nginx 301重定向配置</a></h2><p>301重定向不陌生, 有时候有需求把某目录整个重定向到一个二级域名,或者不带www的顶级域名请求全部重定向到带www的二级域名.如果是Apache，需要配置.htaccess，nginx不支持，需要在配置文件里面使用rewrite指令来实现。</p>
+<p>顶级域名重定向到www</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> server_name ttlsa.com;</span><br><span class="line"> rewrite ^/(.*)$ http://www.ttlsa.com/$1 permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>如上配置，所有ttlsa.com的请求都会重定向到<a href="http://www.ttlsa.com,301重定向对SEO很有帮助.这个配置大家用的最多。" target="_blank" rel="noopener">www.ttlsa.com,301重定向对SEO很有帮助.这个配置大家用的最多。</a></p>
+<p>www二级域名重定向到顶级域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> server_name www.ttlsa.com;</span><br><span class="line"> rewrite ^/(.*)$ http://domain.com/$1 permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>江湖盛传顶级域名的权重会比www二级域名的权重高，有些seoer会要求运维一定要把www的请求转到顶级域名，和上面的做法相反。</p>
+<p>目录重定向</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ( $request_filename ~ nginxjiaocheng/ ) &#123;</span><br><span class="line"> rewrite ^ http://www.ttlsa.com/nginx/? permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>目录跳转新域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ( $request_filename ~ nginx/ ) &#123;</span><br><span class="line"> rewrite ^ http://nginx.ttlsa.com/? permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/httpd/">httpd</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-去广州" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -879,59 +953,6 @@
 <h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>一个完整的域名，由根域名、顶级域、二级、三级……域名构成，每级域名之间用点分开，每级域名由字母、数字和减号构成（第一个字母不能是减号），不区分大小写，长度不超过63个字符。</p>
 <p>很显然，单独的名字可以由正则表达式[a-zA-Z0-9][-a-zA-Z0-9]{0,62}来匹配，而完整的域名至少包括两个名字（比如google.com，由google和com构成），最后可以有一个表示根域的点（在规范中，最后又一个点的才是完整域名，但一般认为包括两个以上名字的域名也是完整域名，哪怕它后面没有点）。</p>
 <p>匹配完整域名的正则表达式：<br>[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+.?</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Git 教程" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/05/11/Git 教程/" class="article-date">
-      <time datetime="2013-05-11T04:48:46.000Z" itemprop="datePublished">2013-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">克隆仓库</span></span><br><span class="line">git clone git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"><span class="meta">#</span><span class="bash">创建分支</span></span><br><span class="line">git checkout -b blog</span><br><span class="line"><span class="meta">#</span><span class="bash">切换分支</span></span><br><span class="line">git checout blog</span><br><span class="line"><span class="meta">#</span><span class="bash">查看分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="meta">#</span><span class="bash">查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"><span class="meta">#</span><span class="bash">删除分支</span></span><br><span class="line">git push origin blog</span><br><span class="line">git push origin -d blog</span><br><span class="line"><span class="meta">#</span><span class="bash">删除子模块</span></span><br><span class="line">git rm -r --cached themes/spfk</span><br></pre></td></tr></table></figure>
-<h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看之前提交的git commit的id </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">log</span> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成撤销,同时将代码恢复到前一commit_id 对应的版本 </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git reset --hard id</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改</span></span><br><span class="line">git reset id</span><br></pre></td></tr></table></figure>
-<p><a href="http://chen-tao.github.io/2017/09/24/Git%E5%85%A8%E5%B1%80%E9%80%92%E5%BD%92%E5%BF%BD%E7%95%A5-DS-Store/" target="_blank" rel="noopener">Git全局递归忽略.DS_Store</a></p>
-<p>全局配置</p>
-<p>如果没有<code>~/. gitignore_global</code>文件，<code>echo</code>也会为你生成一个，这里的主要目的是覆盖所有可能的<code>OS X</code>版本生成的<code>.DS_Store</code>，逐一执行一次就可以了，之后<code>cat</code>一下看是否正常写入了</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo ".DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "._.DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "**/.DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "**/._.DS_Store" &gt;&gt; ~/.gitignore_global</span><br></pre></td></tr></table></figure>
-<p>然后设置一下全局的配置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.excludesfile ~/.gitignore_global</span><br></pre></td></tr></table></figure>
-<p>git操作中文文件错误</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">core.quotepath设为<span class="literal">false</span>的话，就不会对0x80以上的字符进行quote。中文显示正常。</span></span><br><span class="line">git config --global core.quotepath false</span><br></pre></td></tr></table></figure>
 
       
       
