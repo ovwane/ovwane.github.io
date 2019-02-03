@@ -1,5 +1,5 @@
 ---
-title: 百度网盘
+title: 百度网盘API
 date: 2018-07-19 13:11
 ---
 百度云盘提供了一些api供开发者使用,使用的时候需要通过api key获取access_token,这里有一个简洁的方法快速获取百度云Pcs的access_token

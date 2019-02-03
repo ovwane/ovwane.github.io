@@ -28,7 +28,9 @@ adb shell getevent /dev/input/event2 > unlock.txt
 
 **手机上滑动解锁一次**
 
-**unlock.txt里面的十六进制数转换为十进制数。**
+
+
+第一种方法：**unlock.txt里面的十六进制数转换为十进制数。**
 
 hex_to_dec.py
 
@@ -67,6 +69,14 @@ with open('./getevent2.sh', 'w') as f2:
 ```shell
 adb shell getevent /dev/input/event2 | awk '{print "adb shell sendevent /dev/input/event2  "strtonum("0x"$1)" "strtonum("0x"$2)" "strtonum("0x"$3); fflush()}'  >> unlock.sh
 ```
+
+第二种方法：**unlock.txt里面的十六进制数转换为十进制数。**
+
+```shell
+adb shell getevent /dev/input/event2 | awk '{print "adb shell sendevent /dev/input/event2  "strtonum("0x"$1)" "strtonum("0x"$2)" "strtonum("0x"$3); fflush()}'  >> unlock.sh
+```
+
+
 
 **写到shell script中执行，就可以实现自动解锁了。**
 

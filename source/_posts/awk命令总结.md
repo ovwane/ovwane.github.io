@@ -23,3 +23,16 @@ netstat -an|awk '/^tcp/{++s[$NF]}END{for(a in s)print a,s[a]}'
 ```bash
 awk '{a[$7]+=$10;++b[$7];total+=$10}END{for(x in a)print b[x],x,a[x]|"sort -rn -k1";print "total size is :"total}' /app/log/access_log
 ```
+
+
+数值转换，16进制转换魏10进制
+
+```
+adb shell getevent /dev/input/event2 | awk '{print "adb shell sendevent /dev/input/event2  "strtonum("0x"$1)" "strtonum("0x"$2)" "strtonum("0x"$3); fflush()}'  >> unlock.sh
+```
+
+```shell
+awk '{print "adb shell sendevent /dev/input/event2  "strtonum("0x"$1)" "strtonum("0x"$2)" "strtonum("0x"$3); fflush()}'
+```
+
+>fflush()立刻刷新缓存到文件。
