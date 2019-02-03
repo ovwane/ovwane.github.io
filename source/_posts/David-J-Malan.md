@@ -38,6 +38,8 @@ https://www.quora.com/David-J-Malan-Why-CS50-course-is-given-the-name-CS50-Is-th
 
 > Computer Science 50: Introduction to Computer Science I
 
+date: 2017-12-29 13:55:24
+
 https://cs50.harvard.edu/college/
 
 http://cs50.tv/2017/fall/

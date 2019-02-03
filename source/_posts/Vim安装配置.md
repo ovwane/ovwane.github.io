@@ -161,3 +161,225 @@ filetype plugin indent on
 
 ### Molokai
 [Molokai Color Scheme for Vim](https://github.com/tomasr/molokai)
+
+
+
+## 安装vim
+
+1.检查vim旧版本，若已存在，将其卸载。
+
+```shell
+$ vim
+
+$ yum remove vim* -y
+```
+
+2.安装终端字符处理库nucrses
+
+```shell
+$ yum install ncurses-devel -y
+```
+
+编译安装
+
+```shell
+$ cd /usr/local/src/
+
+$ wget https://codeload.github.com/vim/vim/tar.gz/v8.0.0134
+
+$ tar zxf v8.0.0134
+
+$ cd vim-8.0.0134/
+
+$ ./configure --prefix=/usr/local/vim8
+
+$ make && make install
+
+$ echo $?
+```
+
+安装成功后，通过/usr/local/vim8/bin/vim运行vim命令。将vim命令路径添加到系统PATH环境变量，就可以直接运行vim了。本文不修改/etc/profile文件，通过添加脚本到/etc/profile.d/实现。
+
+```shell
+/usr/local/vim8/bin/vim /etc/profile.d/path.sh
+添加以下内容：
+#!/bin/bash
+export PATH=$PATH:/usr/local/vim8/bin/
+
+$ source /etc/profile.d/path.sh
+$ vim
+```
+
+## [vim-plug](https://github.com/junegunn/vim-plug)
+
+安装
+
+```shell
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+配置
+
+.vimrc
+
+```shell
+cat > ~/.vimrc <<EOF
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+" Plug 'junegunn/vim-easy-align'
+
+" Any valid git URL is allowed
+" Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+
+" Multiple Plug commands can be written in a single line using | separators
+" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+" On-demand loading
+" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+
+" Using a non-master branch
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+
+" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+Plug 'fatih/vim-go'  ", { 'tag': '*' }
+
+""
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Plugin options
+" Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+
+" Plugin outside ~/.vim/plugged with post-update hook
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+" Unmanaged plugin (manually installed and updated)
+" Plug '~/my-prototype-plugin'
+
+" Initialize plugin system
+call plug#end()
+EOF
+```
+
+安装插件
+
+```shell
+vim esc模式下
+:PlugInstall
+```
+
+[vim-airline](https://github.com/vim-airline/vim-airline)
+
+
+
+## 参考
+
+[编译安装vim-8.0 (centos)](https://blog.csdn.net/dinglinuX/article/details/53908313)
+
+[vim 入坑指南（五）插件 Vim-Plug](https://vimzijun.net/2016/09/21/vim-plug/)
+
+
+
+[Vundle](http://github.com/VundleVim/Vundle.vim)
+
+```shell
+$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+```
+
+```
+vim ~/.vimrc
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+```
+
+Install Plugins:
+
+Launch `vim` and run `:PluginInstall`
+
+To install from command line: `vim +PluginInstall +qall`
+
+### 详解
+
+```
+   “显示行号
+　　set nummber
+　　“语法高亮度显示
+　　 syntax on 
+　　“下面两行在进行编写代码时，在格式对起上很有用；
+　　“第一行，vim使用自动对起，也就是把当前行的对起格式应用到下一行；
+　　“第二行，依据上面的对起格式，智能的选择对起方式，对于类似C语言编
+　　“写上很有用
+　　set autoindent
+　　set smartindent
+　　“第一行设置tab键为4个空格，第二行设置当行之间交错时使用4个空格
+　　set tabstop=4
+　　set shiftwidth=4
+　　“设置匹配模式，类似当输入一个左括号时会匹配相应的那个右括号
+　　set showmatch
+```
+
+### 主题配色
+
+[vim-colors-solarized
+
+### Vim插件
+
+[vim-airline](https://github.com/vim-airline/vim-airline)
+
+[**nerdtree**](https://github.com/scrooloose/nerdtree)
+
+[nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
+
+### 参考
+
+[上古神器vim插件：你真的学会用NERDTree了吗？](https://www.jianshu.com/p/3066b3191cb1)
