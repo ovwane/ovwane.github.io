@@ -210,6 +210,240 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Docker-TestLink-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/22/Docker-TestLink-配置/" class="article-date">
+      <time datetime="2019-01-22T02:00:32.000Z" itemprop="datePublished">2019-01-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/22/Docker-TestLink-配置/">Docker TestLink 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="bitnami-testlink"><a href="#bitnami-testlink" class="headerlink" title="bitnami/testlink"></a><a href="https://hub.docker.com/r/bitnami/testlink" target="_blank" rel="noopener">bitnami/testlink</a></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/docker/testlink</span><br><span class="line">chmod 777 /data/docker/testlink</span><br></pre></td></tr></table></figure>
+<p>vim docker-compose.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  mariadb:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'bitnami/mariadb:latest'</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">MARIADB_USER=bn_testlink</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">MARIADB_DATABASE=bitnami_testlink</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">MARIADB_ROOT_PASSWORD=testlink</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">MARIADB_PASSWORD=testlink</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'/data/docker/testlink/mariadb:/bitnami'</span></span><br><span class="line">      </span><br><span class="line"><span class="attr">  testlink:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'bitnami/testlink:latest'</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">TESTLINK_DATABASE_USER=bn_testlink</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">TESTLINK_DATABASE_NAME=bitnami_testlink</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">TESTLINK_DATABASE_PASSWORD=testlink</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'80:80'</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'443:443'</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'/data/docker/testlink/testlink:/bitnami'</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">mariadb</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p><a href="http://IP" target="_blank" rel="noopener">http://IP</a></p>
+<ul>
+<li>Default user: <code>user</code></li>
+<li>Default password: <code>bitnami</code></li>
+</ul>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Maven-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/17/Maven-配置/" class="article-date">
+      <time datetime="2019-01-17T02:13:14.000Z" itemprop="datePublished">2019-01-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/17/Maven-配置/">Maven 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><h3 id="apt安装"><a href="#apt安装" class="headerlink" title="apt安装"></a>apt安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y maven</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn -version</span><br></pre></td></tr></table></figure>
+<h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><p><a href="http://maven.apache.org/download.cgi" target="_blank" rel="noopener">Downloading Apache Maven</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxf apache-maven-*-bin.tar.gz</span><br><span class="line">mv apache-maven-3.6.0 /usr/local/maven-3.6.0</span><br></pre></td></tr></table></figure>
+<p>vim ~/.bashrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># set maven environment</span><br><span class="line">export M2_HOME=/usr/local/maven-3.6.0</span><br><span class="line">export PATH=$M2_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p><code>vim /etc/maven/settings.xml</code> <strong>or</strong> <code>vim $M2_HOME/conf/settings.xml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;mirror&gt;</span><br><span class="line">      &lt;id&gt;alimaven&lt;/id&gt;</span><br><span class="line">      &lt;name&gt;aliyun maven&lt;/name&gt;</span><br><span class="line">      &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;</span><br><span class="line">      &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;</span><br><span class="line">&lt;/mirror&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install maven</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/Cellar/maven/3.6.0/libexec/conf/settings.xml ~/.m2/</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.m2/settings.xml</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Dubbo-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/16/Dubbo-配置/" class="article-date">
+      <time datetime="2019-01-16T06:48:30.000Z" itemprop="datePublished">2019-01-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/16/Dubbo-配置/">Dubbo 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Dubbo"><a href="#Dubbo" class="headerlink" title="Dubbo"></a><a href="https://dubbo.apache.org" target="_blank" rel="noopener">Dubbo</a></h1><blockquote>
+<p>Ubuntu 18.04</p>
+<p>Zookeeper 3.3.3</p>
+</blockquote>
+<h2 id="Zookeeper-配置"><a href="#Zookeeper-配置" class="headerlink" title="Zookeeper 配置"></a><a href="https://zookeeper.apache.org/" target="_blank" rel="noopener">Zookeeper</a> 配置</h2><p><a href="https://dubbo.apache.org/en-us/docs/admin/install/zookeeper.html" target="_blank" rel="noopener">install Zookeeper configuration center</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull zookeeper:3.3.6</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Docker 没有 Zookeeper 3.3.3 版本。</p>
+<p>Zookeeper 3.5 是因为 Java Zookeepeer 提示 old server。rr-w 不生效。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull zookeeper:3.5</span><br></pre></td></tr></table></figure>
+<p><strong>运行</strong> <strong>Zookeeper</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name zookeeper-3.3.6 -p 2181:2181 zookeeper:3.3.6</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name zookeeper-3.5 -p 2181:2181 zookeeper:3.5</span><br></pre></td></tr></table></figure>
+<p><strong>测试</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo dump | nc 127.0.0.1 2181</span><br></pre></td></tr></table></figure>
+<h2 id="Dubbo-ops"><a href="#Dubbo-ops" class="headerlink" title="Dubbo ops"></a><a href="https://github.com/apache/dubbo-ops" target="_blank" rel="noopener">Dubbo ops</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull riveryang/dubbo-admin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.3.6:zk -e DUBBO_REGISTRY=&quot;zookeeper:\/\/zk:2181&quot; riveryang/dubbo-admin</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.5:zk -e DUBBO_REGISTRY="zookeeper:\/\/zk:2181" riveryang/dubbo-admin</span><br></pre></td></tr></table></figure>
+<p><strong>访问</strong></p>
+<p><a href="http://IP:8080" target="_blank" rel="noopener">http://IP:8080</a></p>
+<p>用户名：<code>root</code>，密码：<code>root</code></p>
+<h2 id="Dubbo-1"><a href="#Dubbo-1" class="headerlink" title="Dubbo"></a>Dubbo</h2><p><strong>安装 JDK</strong></p>
+<p><strong>安装 Maven</strong></p>
+<p><strong>下载示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/apache/dubbo-samples.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo-samples</span><br><span class="line">mvn clean package</span><br></pre></td></tr></table></figure>
+<h3 id="Dubbo-Provider"><a href="#Dubbo-Provider" class="headerlink" title="Dubbo Provider"></a>Dubbo Provider</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo-samples-basic</span><br><span class="line"></span><br><span class="line">mvn -Djava.net.preferIPv4Stack=true \</span><br><span class="line">-Dexec.mainClass=org.apache.dubbo.samples.basic.BasicProvider \</span><br><span class="line">exec:java</span><br></pre></td></tr></table></figure>
+<h3 id="Dubbo-Consumer"><a href="#Dubbo-Consumer" class="headerlink" title="Dubbo Consumer"></a>Dubbo Consumer</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo-samples-basic</span><br><span class="line"></span><br><span class="line">mvn -Djava.net.preferIPv4Stack=true \</span><br><span class="line">-Dexec.mainClass=org.apache.dubbo.samples.basic.BasicConsumer \</span><br><span class="line">exec:java</span><br></pre></td></tr></table></figure>
+<h3 id="Dubbo-ops-1"><a href="#Dubbo-ops-1" class="headerlink" title="Dubbo ops"></a><del><a href="https://github.com/apache/dubbo-ops" target="_blank" rel="noopener">Dubbo ops</a></del></h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull riveryang/dubbo-admin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.3.6:zk -e DUBBO_REGISTRY=&quot;zookeeper:\/\/zk:2181&quot; riveryang/dubbo-admin</span><br></pre></td></tr></table></figure>
+<p><del>下载</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/apache/dubbo-ops.git</span><br><span class="line">cd incubator-dubbo-ops/</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim dubbo-admin-backend/src/main/resources/application.properties</span><br></pre></td></tr></table></figure>
+<p><del>修改 Zookeeper IP</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim dubbo-admin-backend/src/main/resources/application.properties</span><br></pre></td></tr></table></figure>
+<p><del>安装npm</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt install -y npm</span><br><span class="line">npm i npm@latest -g</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo-admin-frontend/</span><br><span class="line">npm install ajv</span><br></pre></td></tr></table></figure>
+<p><del>Build</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean package</span><br></pre></td></tr></table></figure>
+<p><del>启动</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn --projects dubbo-admin-backend spring-boot:run</span><br></pre></td></tr></table></figure>
+<p><del>or</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo-admin-backend/target; java -jar dubbo-admin-backend-0.0.1-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.huangyunkun.com/2018/04/19/docker-multi-step-dubbo-admin/" target="_blank" rel="noopener">Docker多步构建生成dubbo-admin镜像</a></p>
+<p><a href="https://luoliangdsga.github.io/2018/06/10/%E4%BD%BF%E7%94%A8Docker%E5%AE%B9%E5%99%A8%E5%8C%96SpringBoot-Dubbo%E5%BA%94%E7%94%A8%E7%9A%84%E5%AE%9E%E8%B7%B5/" target="_blank" rel="noopener">使用Docker容器化SpringBoot+Dubbo应用的实践</a></p>
+<p><a href="https://github.com/bz51/SpringBoot-Dubbo-Docker-Jenkins" target="_blank" rel="noopener">基于SpringBoot+Dubbo的微服务框架（借助Docker+Jenkins实现自动化、容器化部署）</a></p>
+<p><a href="https://blog.csdn.net/u012627861/article/details/82945068" target="_blank" rel="noopener">Dubbo - Dubbo Admin 安装（生产版）</a></p>
+<p><a href="https://blog.csdn.net/u012627861/article/details/82754027" target="_blank" rel="noopener">Dubbo - Dubbo Admin 安装（开发版-Dubbo OPS）</a></p>
+<p><a href="https://www.cnblogs.com/darling2047/p/9681181.html" target="_blank" rel="noopener">dubbo入门学习笔记之环境准备</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-OmniPlan-使用" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -641,221 +875,6 @@
           
         <h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h3 id="ignore"><a href="#ignore" class="headerlink" title=".ignore"></a>.ignore</h3><p>.ignore插件忽略不必要提交的文件</p>
 <h3 id="Rainbow-Brackets"><a href="#Rainbow-Brackets" class="headerlink" title="Rainbow Brackets"></a>Rainbow Brackets</h3><p>彩虹颜色的括号 看着很舒服 敲代码效率变高。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Xposed-教程" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/01/04/Xposed-教程/" class="article-date">
-      <time datetime="2019-01-04T01:23:41.000Z" itemprop="datePublished">2019-01-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/04/Xposed-教程/">Xposed 教程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="Xposed"><a href="#Xposed" class="headerlink" title="Xposed"></a>Xposed</h2><p><a href="https://repo.xposed.info/" target="_blank" rel="noopener">Xposed Module Repository</a></p>
-<h3 id="下载Xposed-Installer"><a href="#下载Xposed-Installer" class="headerlink" title="下载Xposed Installer"></a><strong>下载Xposed Installer</strong></h3><p><a href="https://repo.xposed.info/module/de.robv.android.xposed.installer" target="_blank" rel="noopener">https://repo.xposed.info/module/de.robv.android.xposed.installer</a></p>
-<h3 id="安装Xposed"><a href="#安装Xposed" class="headerlink" title="安装Xposed"></a>安装Xposed</h3><blockquote>
-<p>Android 6.0</p>
-</blockquote>
-<p><strong>刷机安装 xposed.zip</strong></p>
-<p> <code>xposed-v89-sdk23-x86</code></p>
-<p><strong>安装apk</strong></p>
-<p><code>XposedInstaller_3.1.5.apk</code></p>
-<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ul>
-<li>XPrivacy</li>
-</ul>
-<h2 id="模拟位置"><a href="#模拟位置" class="headerlink" title="模拟位置"></a>模拟位置</h2><ul>
-<li>模拟位置 (FakeLocation)](<a href="https://repo.xposed.info/module/com.rong.xposed.fakelocation" target="_blank" rel="noopener">https://repo.xposed.info/module/com.rong.xposed.fakelocation</a>)</li>
-<li><a href="https://repo.xposed.info/module/com.fakemygps.android" target="_blank" rel="noopener">Fake My GPS</a></li>
-<li><a href="https://github.com/hilarycheng/xposed-gps" target="_blank" rel="noopener">https://github.com/hilarycheng/xposed-gps</a></li>
-<li><a href="https://github.com/qdk0901/FakeXX" target="_blank" rel="noopener">https://github.com/qdk0901/FakeXX</a></li>
-<li><a href="https://github.com/mark-ypq/GPSHook" target="_blank" rel="noopener">https://github.com/mark-ypq/GPSHook</a></li>
-</ul>
-<p><a href="https://blog.csdn.net/qq_34149335/article/details/81329007" target="_blank" rel="noopener">Android开发 ：详细讲解如何使用Xposed拦截修改地理位置信息</a> ok，看这篇文章搞定了高德地图。</p>
-<p><a href="https://www.jianshu.com/p/796e94d8af31" target="_blank" rel="noopener">Android之基于Xposed的模拟位置模块实现</a></p>
-<p><a href="https://blog.csdn.net/u012889434/article/details/61921933" target="_blank" rel="noopener">Hook实现Android 微信，陌陌 ，探探位置模拟</a></p>
-<p><a href="https://blog.csdn.net/u011000290/article/details/46925713" target="_blank" rel="noopener">用Xposed框架拦截微信、人人、QQ等LBS应用的当前位置</a></p>
-<p>参考这篇<a href="http://littlerich.top/2017/01/17/%E5%9F%BA%E4%BA%8EXposed%E6%A1%86%E6%9E%B6Hook%E5%AE%9A%E4%BD%8D%E5%8A%9F%E8%83%BD%E6%9D%A5%E7%A0%B4%E8%A7%A3QQ%E7%9A%84LBS%E7%BA%A2%E5%8C%85/" target="_blank" rel="noopener">基于Xposed框架Hook定位功能来破解QQ的LBS红包</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/fuchaosz/article/details/53143216" target="_blank" rel="noopener">Android 神器 xposed 框架使用指南</a></p>
-<p><a href="https://www.jianshu.com/p/655a07b687ec" target="_blank" rel="noopener">Xposed 使用手册</a></p>
-<p><a href="https://sspai.com/post/44447" target="_blank" rel="noopener">不需要 Root，也能用上强大的 Xposed 框架：VirtualXposed</a></p>
-<p><a href="https://www.zhihu.com/question/22063862" target="_blank" rel="noopener">Android 系统上的 Xposed 框架中都有哪些值得推荐的模块？</a></p>
-<p><a href="https://www.freebuf.com/articles/terminal/189021.html" target="_blank" rel="noopener">新手不要再被误导！这是一篇最新的Xposed模块编写教程</a></p>
-<p><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a></p>
-<p><a href="https://www.52pojie.cn/thread-682743-1-1.html" target="_blank" rel="noopener">萌新跟我来入门Hook技术</a></p>
-<p><a href="https://forum.xda-developers.com/showthread.php?t=3034811" target="_blank" rel="noopener">[OFFICIAL] Xposed for Lollipop/Marshmallow/Nougat/Oreo [v90-beta3, 2018/01/29]</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Genymotion-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/01/04/Genymotion-配置/" class="article-date">
-      <time datetime="2019-01-03T23:39:27.000Z" itemprop="datePublished">2019-01-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/04/Genymotion-配置/">Genymotion 配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="ARM-Translation"><a href="#ARM-Translation" class="headerlink" title="ARM_Translation"></a>ARM_Translation</h2><h2 id="OpenGapps"><a href="#OpenGapps" class="headerlink" title="OpenGapps"></a>OpenGapps</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/.Genymobile/Genymotion/cache/opengapps</span><br></pre></td></tr></table></figure>
-<h2 id="GPS"><a href="#GPS" class="headerlink" title="GPS"></a>GPS</h2><p>启动 Genymotin Shell</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Genymotion\ Shell.app/Contents/MacOS/genyshell</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看设备</span></span><br><span class="line">devices list</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 选择设备，0是设备id。</span></span><br><span class="line">devices select 0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 GPS 状态</span></span><br><span class="line">gps getstatus</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 开启 GPS</span></span><br><span class="line">gps setstatus enabled</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭 GPS</span></span><br><span class="line">gps setstatus disabled</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取纬度</span></span><br><span class="line">gps getlatitude</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 南京</span></span><br><span class="line">gps setlatitude 32.0523428565</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 广州</span></span><br><span class="line">gps setlatitude 23.1290765766</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取经度</span></span><br><span class="line">gps getlongitude</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 南京</span></span><br><span class="line">gps setlongitude 118.7847135259</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 广州</span></span><br><span class="line">gps setlongitude 113.2643446427</span><br></pre></td></tr></table></figure>
-<p><a href="http://www.gpsspg.com/maps.htm" target="_blank" rel="noopener">经纬度查询</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.genymotion.com/latest/Content/04_Tools/Genymotion_Shell/Starting_Genymotion_Shell.htm" target="_blank" rel="noopener">Starting Genymotion Shell</a></p>
-<p><a href="http://ju.outofmemory.cn/entry/317903" target="_blank" rel="noopener">Genymotion安装配置指南</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JavaScript-学习" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/01/02/JavaScript-学习/" class="article-date">
-      <time datetime="2019-01-02T12:35:41.000Z" itemprop="datePublished">2019-01-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/02/JavaScript-学习/">JavaScript 学习</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><strong>清除console内容</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.clear()</span><br></pre></td></tr></table></figure></p>
-<p><strong>查看console支持的方法</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.dir(<span class="built_in">console</span>);</span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> languages = [</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">"JavaScript"</span>, <span class="attr">fileExtension</span>: <span class="string">".js"</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">"TypeScript"</span>, <span class="attr">fileExtension</span>: <span class="string">".ts"</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">"CoffeeScript"</span>, <span class="attr">fileExtension</span>: <span class="string">".coffee"</span> &#125;</span><br><span class="line">    ];</span><br></pre></td></tr></table></figure>
-<p><strong>通过console.log()记录数组数据</strong> </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(languages);</span><br></pre></td></tr></table></figure>
-<p><strong>通过console.table()记录数组数据</strong> </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.table(languages);</span><br></pre></td></tr></table></figure>
-<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>Paused in debugger（在调试器中暂停）</p>
-<p>Paused on breakpoint（在断点处暂停）</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/u012195214/article/details/73825074" target="_blank" rel="noopener">利用Console来调试JS程序、Console用法总结</a></p>
-<p><a href="https://www.cnblogs.com/strinkbug/p/4991596.html" target="_blank" rel="noopener">Javascript系列： Google Chrome调试js代码(zz)</a></p>
-<p><a href="https://www.cnblogs.com/WangHaiMing/p/9553678.html" target="_blank" rel="noopener">chrome浏览器控制台创建js脚本并执行</a></p>
-<p><a href="https://www.cnblogs.com/yangjinjin/archive/2013/01/30/2883172.html" target="_blank" rel="noopener">WebStorm快捷键操作</a></p>
 
       
       

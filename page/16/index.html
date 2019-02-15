@@ -210,6 +210,171 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-jollychic" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/08/jollychic/" class="article-date">
+      <time datetime="2018-05-08T12:32:33.000Z" itemprop="datePublished">2018-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>新建项目和crawlspider爬虫</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scrapy startproject shopping</span><br><span class="line">cd shopping</span><br><span class="line">scrapy genspider -t crawl jollychic www.jollychic.com</span><br></pre></td></tr></table></figure>
+<p>设置settings.py 项目的路径</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">project_dir = os.path.abspath(os.path.dirname(__file__))</span><br><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))</span><br><span class="line">sys.path.insert(<span class="number">0</span>, os.path.join(BASE_DIR, <span class="string">'shopping'</span>))</span><br></pre></td></tr></table></figure>
+<p>items.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> Item, Field</span><br><span class="line"><span class="keyword">from</span> scrapy.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JollychicItemLoader</span><span class="params">(ItemLoader)</span>:</span></span><br><span class="line">    default_output_processor = TakeFirst()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JollychicItem</span><span class="params">(Item)</span>:</span></span><br><span class="line">    title = Field()</span><br></pre></td></tr></table></figure>
+<p>spiders/jollychic.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> item <span class="keyword">import</span> JollychicItemLoader, JollychicItem</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">    item_loader = JollychicItemLoader(item=JollychicItem, response=reponse)</span><br><span class="line">    item_loader.add_css()</span><br><span class="line">    item = item_loader.load_item()</span><br><span class="line">    <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CentOS Go环境配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/08/CentOS Go环境配置/" class="article-date">
+      <time datetime="2018-05-08T09:01:31.000Z" itemprop="datePublished">2018-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>CentOS Linux release 7.5.1804 (Core)</p>
+<p>Linux 3.10.0-862.3.3.el7.x86_64</p>
+</blockquote>
+<p><strong>安装依赖</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y mercurial gcc bison</span><br></pre></td></tr></table></figure>
+<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span><br></pre></td></tr></table></figure>
+<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> -B 表示只安装二进制包</span><br><span class="line"><span class="meta">$</span> gvm install go1.4.3 -B</span><br><span class="line"><span class="meta">$</span> gvm use go1.4.3</span><br><span class="line"><span class="meta">$</span> export GOROOT_BOOTSTRAP=$GOROOT</span><br><span class="line"><span class="meta">$</span> gvm install go1.10.2</span><br></pre></td></tr></table></figure>
+<p><strong>离线安装</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> git clone 官方源go1.10.2</span><br><span class="line">git clone -b go1.10.2 https://go.googlesource.com/go go1.10.2</span><br><span class="line"><span class="meta">#</span>可以放到别的电脑上</span><br><span class="line">tar cvfz go1.10.2.tar.bz2 go1.10.2</span><br><span class="line"><span class="meta">#</span>指定本地go1.10.2 git源</span><br><span class="line">gvm install go1.10.2 --source=/root/go1.10.2</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
+<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> gvm use go1.10.2 --default</span><br></pre></td></tr></table></figure>
+<p><strong>使用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看可以安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm listall</span><br><span class="line"><span class="meta">#</span> 查看本地安装的go版本</span><br><span class="line"><span class="meta">$</span> gvm list</span><br><span class="line"><span class="meta">#</span> go环境变量</span><br><span class="line"><span class="meta">$</span> go env</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
+<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
+<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-如何使用restgo-admin" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/08/如何使用restgo-admin/" class="article-date">
+      <time datetime="2018-05-08T03:34:00.000Z" itemprop="datePublished">2018-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="如何使用restgo-admin"><a href="#如何使用restgo-admin" class="headerlink" title="如何使用restgo-admin"></a>如何使用<a href="https://github.com/winlion/restgo-admin/" target="_blank" rel="noopener">restgo-admin</a></h1><h2 id="使用如下指令克隆"><a href="#使用如下指令克隆" class="headerlink" title="使用如下指令克隆"></a>使用如下指令克隆</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH/src</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/winlion/restgo-admin.git</span><br></pre></td></tr></table></figure>
+<p>你将得到restgo-admin 目录 进入目录 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd restgo-admin</span><br></pre></td></tr></table></figure>
+<h2 id="建立数据库"><a href="#建立数据库" class="headerlink" title="建立数据库"></a>建立数据库</h2><p>新建数据库名称为restgo-admin,编码为utf-8<br>将restgo-admin.sql导入到数据库中</p>
+<h2 id="初始化依赖包"><a href="#初始化依赖包" class="headerlink" title="初始化依赖包"></a>初始化依赖包</h2><p>使用前先使用如下指令安装指令安装文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/go-sql-driver/mysql</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get -v -u github.com/alecthomas/log4go</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/gin-gonic/gin</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/go-xorm/xorm</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/tommy351/gin-sessions</span></span><br></pre></td></tr></table></figure>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>使用前先使用如下指令启动应用<br><code>go run main.go</code><br>使用前先使用如下指令打包应用<br><code>build.bat</code></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Go-Gin" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -535,161 +700,6 @@
 <p>导入主题</p>
 <p>iTerm2-&gt;Preferences-&gt;Profiles-&gt;Color</p>
 <p>Color Presets-&gt;import</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-KeePassXC 配置" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/KeePassXC 配置/" class="article-date">
-      <time datetime="2018-05-05T01:12:37.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="浏览器配合"><a href="#浏览器配合" class="headerlink" title="浏览器配合"></a>浏览器配合</h3><p>✅启用KeepassXC浏览器集成</p>
-<p>Google Chrome</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.13 购买的应用清单" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/macOS 10.13 购买的应用清单/" class="article-date">
-      <time datetime="2018-05-05T00:00:16.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>购买的应用</p>
-<p>iStat Menus 6</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">电子邮件地址：ovwane@gmail.com</span><br><span class="line">序列号：GAWAE-FD8HG-HMQTF-ZC4QY-4SARF-EVGLZ-4ENDW-R58QC-CRD7W-76W7E-CM5BD-5HDDW-SPGLE-UFSUL-LPFU</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 10.13 配置Zsh" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/macOS 10.13 配置Zsh/" class="article-date">
-      <time datetime="2018-05-04T23:52:28.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p><a href="http://ohmyz.sh/" target="_blank" rel="noopener">Oh My Zsh</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"</span><br></pre></td></tr></table></figure>
-<p><strong>主题</strong></p>
-<p><strong>目前使用的是</strong> ys </p>
-<p>期望使用 agnoster</p>
-<h3 id="Zsh插件"><a href="#Zsh插件" class="headerlink" title="Zsh插件"></a>Zsh插件</h3><p><strong>Clone this repository in oh-my-zsh’s plugins directory:</strong></p>
-<p><strong><a href="https://github.com/zsh-users/zsh-syntax-highlighting" target="_blank" rel="noopener">zsh-syntax-highlighting</a></strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting</span></span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/zsh-users/zsh-autosuggestions" target="_blank" rel="noopener">zsh-autosuggestions</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-autosuggestions</span></span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/zsh-users/zsh-completions" target="_blank" rel="noopener">zsh-completions</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-completions <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-completions</span></span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/zsh-users/zsh-history-substring-search" target="_blank" rel="noopener">zsh-history-substring-search</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-history-substring-search <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-history-substring-search</span></span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/zsh-users/zsh-apple-touchbar" target="_blank" rel="noopener">zsh-apple-touchbar</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-apple-touchbar <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-apple-touchbar</span></span><br></pre></td></tr></table></figure>
-<p><strong>Add the plugin to the list of plugins for Oh My Zsh to load:</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.zshrc</span></span><br><span class="line"></span><br><span class="line">plugins=(</span><br><span class="line">	zsh-syntax-highlighting</span><br><span class="line">	zsh-autosuggestions</span><br><span class="line">	zsh-completions</span><br><span class="line">	zsh-history-substring-search</span><br><span class="line">	</span><br><span class="line">	zsh-apple-touchbar</span><br><span class="line">	)</span><br></pre></td></tr></table></figure>
-<p><strong>Source <code>~/.zshrc</code> to take changes into account:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/33deff6b8a63" target="_blank" rel="noopener">ITerm2配色方案</a></p>
 
       
       
