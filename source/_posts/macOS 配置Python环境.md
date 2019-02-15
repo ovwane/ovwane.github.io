@@ -9,13 +9,15 @@ tags:
 - macOS
 ---
 
-macOS 配置Python环境
+# macOS 配置Python环境
 
-10.12.6
+> 10.12.6
+>
+> 10.13
+>
+> 10.13.4 2018-05-05 20:01
 
-10.13
 
-10.13.4 2018-05-05 20:01
 
 ### 安装pyenv
 ```shell
@@ -30,7 +32,7 @@ $ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 
 [ERROR: The Python ssl extension was not compiled. Missing the OpenSSL lib?](https://github.com/pyenv/pyenv/wiki/Common-build-problems)
 
-```
+```shell
 # 设置变量
 export PYTHON_BUILD_CACHE_PATH=~/Downloads
 # 安装 Python 3.6.5

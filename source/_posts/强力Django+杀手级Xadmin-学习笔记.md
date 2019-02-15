@@ -240,3 +240,185 @@ STATICFILES_DIRS = [
 ## 第16章 快速升级到python3.6+django1.11
 
 简单的配置现有的依赖库和极少量的代码修改直接适配python3.6+django1.11
+
+
+
+
+
+```
+第一章 讲解课程所包含的内容
+
+第二章 搭建开发环境
+
+第三章 django的基础知识
+```
+
+## 第一章 开发环境介绍
+
+## 第二章 搭建开发环境
+```
+第一节 pycharm、mysql、navicat安装
+第二节 windows下virtualenv虚拟环境的搭建
+第三节 pychamr和navicat的简单使用
+```
+
+>Python 2.7.12
+>MySQL 5.6.24 实际版本 MySQL 5.6.37
+
+#### 安装
+```
+pyenv install 2.7.12
+brew install mysql@5.6
+
+# 启动mysql
+#后台运行
+brew services start mysql@5.6
+#普通运行
+/usr/local/opt/mysql@5.6/bin/mysql.server start
+```
+
+#### 新建虚拟环境
+```
+mkvirtualenv django_xadmin --python=/Users/jinlong/.pyenv/versions/2.7.12/bin/python
+
+#安装Django 1.9.8
+pip install Django==1.9.8
+```
+
+#### 新建PyCharm Django项目
+详细配置
+Run->Edit Configurations
+
+template 存放html文档
+
+#### 新建mysql数据库
+```
+数据库名 django_xadmin
+数据库字符集 utf8
+Collation utf8_general_ci
+```
+
+#### 新建数据库表
+***
+
+```
+CREATE TABLE `users` (
+  `name` varchar(10) NOT NULL,
+  `age` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+***
+
+```
+users
+# 设计表
+# 没有设置主键
+name varchar 10 0 notnull
+age int 11 0 null
+```
+
+```
+name age
+bobby 18
+mooc 5
+
+# 查询数据
+select * from users;
+# 查询django_xadmin数据库中的users表的所有数据
+SELECT * FROM `django_xadmin`.`users`
+```
+
+## 第三章 django基础知识
+### django目录结构
+#### 新项目自动生成的目录结构
+```
+├── django_xadmin
+│   ├── db.sqlite3
+│   ├── django_xadmin
+│   │   ├── __init__.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── wsgi.py
+│   ├── manage.py 
+│   └── templates 
+```
+
+#### 添加所需的文件夹后的目录结构
+```
+django_xadmin #主目录
+├── apps
+│   └── message
+├── db.sqlite3
+├── django_xadmin #主要配置文件存放位置
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── log #存放log日志
+├── manage.py #主要配置文件
+├── media #存放用户上传文件
+├── static #存放js css 静态图片文件
+└── templates #存放html文件
+```
+
+#### 安装 MySQL-python
+***
+提示 [mysql_config not found](http://www.cnblogs.com/ifantastic/archive/2013/04/13/3017677.html).
+```
+vim ~/.zshrc
+PATH="/usr/local/Cellar/mysql@5.6/5.6.37/bin:${PATH}"
+export PATH
+export DYLD_LIBRARY_PATH=/usr/local/Cellar/mysql@5.6/5.6.37/lib/
+export VERSIONER_PYTHON_PREFER_64_BIT=no
+```
+
+***
+
+```
+pip install MySQL-python
+```
+
+#### 运行
+Tools->Run manage.py Task
+
+#### 新建应用
+```
+manage.py startapp message
+```
+
+#### models
+```
+class UserMessage(models.Model):
+    name = models.CharField(max_length=20, verbose_name="用户名")
+    email = models.EmailField(verbose_name="邮箱")
+    address = models.CharField(max_length=100, verbose_name="联系地址")
+    message = models.CharField(max_length=500, verbose_name="留言信息")
+
+    class Meta:
+        verbose_name = "用户留言信息"
+```
+```
+INSTALLED_APPS = [
+
+    'app.message',
+]
+```
+
+#### 添加主键
+```
+class UserMessage(models.Model):
+    object_id = models.CharField(max_length=50, default="", primary_key=True, verbose_name="主键")
+    name = models.CharField(max_length=20, verbose_name="用户名")
+    email = models.EmailField(verbose_name="邮箱")
+    address = models.CharField(max_length=100, null=True, blank=True, default="", verbose_name="地址")
+    message = models.CharField(max_length=500, verbose_name="留言信息")
+
+    class Meta:
+        verbose_name = "用户留言信息"
+```
+```
+makemigrations message
+migrate message
+```
+# 该看3-4的课程了
+09:29分钟

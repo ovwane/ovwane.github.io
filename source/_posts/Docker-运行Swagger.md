@@ -43,6 +43,14 @@ http://IP:8080
 
 
 
+安装 Swagger Codegen
+
+```shell
+brew install swagger-codegen
+```
+
+
+
 ## 参考
 
 [Docker Hub swaggerapi/swagger-ui](https://hub.docker.com/r/swaggerapi/swagger-ui/)

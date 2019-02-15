@@ -1,5 +1,5 @@
 ---
-title: Gitlab教程
+title: Docker 配置 Gitlab
 date: 2018-07-24 14:19:32
 tags:
 ---
@@ -9,7 +9,7 @@ tags:
 获取 GitLab 镜像
 
 ```shell
-docker pull gitlab/gitlab-ce:11.1.4-ce.0
+docker pull gitlab/gitlab-ce:11.7.5-ce.0
 ```
 
 查看本地镜像
