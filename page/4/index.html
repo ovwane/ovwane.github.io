@@ -210,6 +210,69 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-安装-Docker-Compose" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/12/08/安装-Docker-Compose/" class="article-date">
+      <time datetime="2018-12-08T00:21:06.000Z" itemprop="datePublished">2018-12-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/08/安装-Docker-Compose/">安装 Docker Compose</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h2><p><strong>下载<a href="https://github.com/docker/compose/releases" target="_blank" rel="noopener">docker-compose releases</a></strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line">chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p><strong>bash/zsh 补全命令</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://raw.githubusercontent.com/docker/compose/1.23.2/contrib/completion/bash/docker-compose &gt; /etc/bash_completion.d/docker-compose</span><br></pre></td></tr></table></figure>
+<p><strong>查看配置文件</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose config</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/1656280a9c22" target="_blank" rel="noopener">制作nginx的dockerfile文件，使用docker-compose启动服务</a></p>
+<p><a href="https://docs.docker.com/compose/compose-file/#variable-substitution" target="_blank" rel="noopener">docker-compose.yml 变量使用</a></p>
+<p><a href="https://www.hi-linux.com/posts/12554.html" target="_blank" rel="noopener">使用 Docker-Compose 编排容器</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Ubuntu-18-04-使用教程" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -771,236 +834,6 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker service create --replicas 1 --name prometheus-2.5.0 \</span><br><span class="line">    --mount type=bind,source=/tmp/prometheus.yml,destination=/etc/prometheus/prometheus.yml \</span><br><span class="line">    --publish published=9090,target=9090,protocol=tcp \</span><br><span class="line">    prom/prometheus:v2.5.0</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.docker.com/config/thirdparty/prometheus/" target="_blank" rel="noopener">Collect Docker metrics with Prometheus</a></p>
 <p><a href="https://hub.docker.com/r/prom/prometheus/" target="_blank" rel="noopener">prometheus</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Pandas学习笔记：Excel、CSV文件的读取与导出" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/11/09/Pandas学习笔记：Excel、CSV文件的读取与导出/" class="article-date">
-      <time datetime="2018-11-09T08:34:35.000Z" itemprop="datePublished">2018-11-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/09/Pandas学习笔记：Excel、CSV文件的读取与导出/">Pandas学习笔记：Excel、CSV文件的读取与导出</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>在使用Pandas处理数据时，常见的读取数据的方式时从Excel或CSV文件中获取，另外有时也会需要将处理完的数据输出为Excel或CSV文件。今天就一起来学习下Pandas常见的文件读取与导出的方法。</p>
-<h2 id="加载Excel文件"><a href="#加载Excel文件" class="headerlink" title="加载Excel文件"></a>加载Excel文件</h2><p>在Pandas中，Excel文件读取方法是：pd.read_excel()。具体可传参数为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pandas.read_excel(io, sheet_name=<span class="number">0</span>, header=<span class="number">0</span>, names=<span class="keyword">None</span>, index_col=<span class="keyword">None</span>, usecols=<span class="keyword">None</span>, squeeze=<span class="keyword">False</span>, dtype=<span class="keyword">None</span>, engine=<span class="keyword">None</span>, converters=<span class="keyword">None</span>, true_values=<span class="keyword">None</span>, false_values=<span class="keyword">None</span>, skiprows=<span class="keyword">None</span>, nrows=<span class="keyword">None</span>, na_values=<span class="keyword">None</span>, parse_dates=<span class="keyword">False</span>, date_parser=<span class="keyword">None</span>, thousands=<span class="keyword">None</span>, comment=<span class="keyword">None</span>, skipfooter=<span class="number">0</span>, convert_float=<span class="keyword">True</span>, **kwds)</span><br></pre></td></tr></table></figure>
-<p>其中：</p>
-<ul>
-<li>io：excel文件，可以是文件路径、文件网址、file-like对象、xlrd workbook</li>
-<li>sheetname：返回指定的sheet，参数可以是字符串（sheet名）、整型（sheet索引）、list（元素为字符串和整型，返回字典{‘key’:’sheet’}）、none（返回字典，全部sheet）</li>
-<li>header：指定数据表的表头，参数可以是int、list of ints，即为索引行数为表头</li>
-<li>names：返回指定name的列，参数为array-like对象。</li>
-<li>index_col：设定索引的列，参数可以是int、list of ints</li>
-<li>usecol：设定需要解析的列，默认为None，代表解析素有，如果直传一个int，代表解析到最后的那个列，如果传的是list则返回的是限定的列，比如：“A:E”或“A,C,E:F”</li>
-<li>squeeze：如果解析的数据只包含一列数据，则返回一个Series，默认返回为DataFrame</li>
-<li>dtype：可以制定每列的类型，示例：{‘a’: np.float64, ‘b’: np.int32}</li>
-<li>engine：如果 io 不是缓冲区或路径，则必须设置 io。 可接受的值是 None 或 xlrd</li>
-<li>converters：自定形式，设定对应的列要用的转换函数。</li>
-<li>true_values：设定安歇为True值，不常用</li>
-<li>false_values：设定哪些为False值，不常用</li>
-<li>shiprows：需要跳过的行，list-like类型</li>
-<li>nrows：要分析的行数</li>
-<li>na_values：N/A值列表</li>
-<li>parse_dates：传入的是list，将指定的类解析为date格式</li>
-<li>date_parser：指定将输入的字符串转换为可变的时间数据。Pandas默认的数据读取格式是‘YYYY-MM-DD HH:MM:SS’。如需要读取的数据没有默认的格式，就要人工定义。</li>
-<li>thousands：千位分格数字的解析</li>
-<li>comment：设定注释标识，在注释内的内容不解析</li>
-<li>skipfooter：跳过末尾行</li>
-<li>convert_float：将小数位为0的float类型转为int</li>
-<li>**kwds：不清楚</li>
-</ul>
-<p>该函数返回pandas中的DataFrame或dict of DataFrame对象，利用DataFrame的相关操作即可读取相应的数据。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd </span><br><span class="line">excel_path = <span class="string">'example.xlsx'</span></span><br><span class="line">df = pd.read_excel(excel_path, sheet_name=<span class="string">"Sheet1"</span>)</span><br><span class="line">print(df.example_column_name)</span><br></pre></td></tr></table></figure>
-<p>该函数主要的参数为io、sheetname、header、names、encoding。encoding在上面的参数说明中没有介绍到，其主要功能是指定用何种编码（<a href="https://docs.python.org/3/library/codecs.html#standard-encodings" target="_blank" rel="noopener">codecs 包中的标准字符集</a>）读取数据。</p>
-<p>例如读取文件时报如下错误：</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>UnicodeDecodeError: ‘utf-8’ codec can’t decode byte 0x84 in position 36: invalid start byte</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>解决办法为设置encoding=”utf_8_sig” 或 encoding=”cp500″ 或 encoding=”gbk”，需要自行进行尝试。</p>
-<h2 id="加载CSV文件"><a href="#加载CSV文件" class="headerlink" title="加载CSV文件"></a>加载CSV文件</h2><p>在Pandas中，Excel文件读取方法是：pd.read_csv()。具体可传参数为：</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>pandas.read_csv(filepath_or_buffer, sep=’, ‘, delimiter=None, header=’infer’, names=None, index_col=None, usecols=None, squeeze=False, prefix=None, mangle_dupe_cols=True, dtype=None, engine=None, converters=None, true_values=None, false_values=None, skipinitialspace=False, skiprows=None, nrows=None, na_values=None, keep_default_na=True, na_filter=True, verbose=False, skip_blank_lines=True, parse_dates=False, infer_datetime_format=False, keep_date_col=False, date_parser=None, dayfirst=False, iterator=False, chunksize=None, compression=’infer’, thousands=None, decimal=b’.’, lineterminator=None, quotechar=’”‘, quoting=0, escapechar=None, comment=None, encoding=None, dialect=None, tupleize_cols=None, error_bad_lines=True, warn_bad_lines=True, skipfooter=0, doublequote=True, delim_whitespace=False, low_memory=True, memory_map=False, float_precision=None)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>与read_excel不同的参数有：</p>
-<ul>
-<li>filepath_or_buffer：这里可以接受一个文件名，或者一个URL，也可以接受一个打开的文件句柄，或者其他任何提供了read方法的对象。</li>
-<li>sep和delimiter：这两个参数是一个意思，delimiter是sep的别名；如果指定为\t（制表符）的话，就可以实现read_table的默认功能；支持使用正则表达式来匹配某些不标准的CSV文件</li>
-<li>mangle_dupe_cols：将冲虚的列X，指定为1，X.2，…</li>
-<li>skipinitialspace：在分隔符后跳过空格。</li>
-<li>keep_default_na：在解析数据时是否要包含默认的 NaN 值。</li>
-<li>na_filter：检测丢失的值标记(空字符串和 na 值的值)。 在没有 NAs 的数据中，通过过滤器 False 可以提高读取大文件的性能</li>
-<li>verbose：指示放置在非数字列中的 NA 值的数目</li>
-<li>skip_blank_lines：如果是真的，跳过空白行，而不是将其解释为 NaN 值。</li>
-<li>infer_datetime_format：如果启用 True 和 parse_dates，Pandas将尝试推断列中的差异的时间字符串的格式，如果可以推断出来，则切换到更快的分析方法。 在某些情况下，这可以使解析速度提高5-10倍。</li>
-<li>keep_date_col：解析出日期序列后，是否保留原来的列</li>
-<li>dayfirst：日期格式，DD/MM哪个在前</li>
-<li>iterator：返回 TextFileReader 对象用于迭代或 get chunk ()。</li>
-<li>chunksize：返回 TextFileReader 对象进行迭代。 有关iterator和chunksize的更多信息，请参见 <a href="http://pandas.pydata.org/pandas-docs/stable/io.html#io-chunking" target="_blank" rel="noopener">IO 工具文档</a>。</li>
-<li>compression：用于磁盘数据的实时解压</li>
-<li>decimal：识别有小数点的字符</li>
-<li>lineterminator：字符将文件分隔程行，只有C解析器才有效</li>
-<li>quotechar：用于表示引用项的开始和结束的字符。 引用的项可以包括分隔符，它将被忽略。</li>
-<li>quoting：控制字段引用行为</li>
-<li>escapechar：跳过的字符？</li>
-<li>dialect：如果提供了这个参数，这个参数将覆盖以下参数的值(默认或不是) : 分隔符、双引号、 escapechar、 skipinitialspace、 quotechar 和引号。 如果需要重写值，将发布一个 ParserWarning。 详情请参阅 csv 方言文档。</li>
-<li>tupleize_cols：在列上留下一个元组列表(默认情况是在列上转换为多索引)</li>
-<li>error_bad_lines：有太多字段的行(例如 csv 行，有太多逗号)将默认引发异常，并且不会返回 DataFrame。 如果错误，那么这些”bad lines”将从返回的 DataFrame 中删除。</li>
-<li>warn_bad_lines：如果错误错误行为是 False，并警告错误行是 True，那么对于每个”坏行”的警告将是输出。</li>
-<li>doublequote：指定 quotechar 时，引用不是QUOTE_NONE，指示是否将两个连续的 quotechar 元素解释为一个单独的 quotechar 元素。</li>
-<li>delim_whitespace：设定是否使用空白做字段区隔</li>
-<li>low_memory：内部处理文件的块，导致较低的内存使用同时分析，但可能混合类型推理。 为了确保没有混合类型设置 False，或指定具有 dtype 参数的类型。 请注意，整个文件被读入一个单一的 DataFrame，使用 chunksize 或 iterator 参数将数据以块的形式返回。 (只有 c 解析器有效)</li>
-<li>memory_map：如果为文件或缓冲区提供一个文件程序，将文件对象直接映射到内存中，并直接从内存访问数据。 使用此选项可以提高性能，因为不再有任何 i / o 开销。</li>
-<li>float_precision：指定 c 引擎应用于浮点值的转换器。</li>
-</ul>
-<p>加载CSV文件的方法同加载Excel类似。但是从性能上导入csv要比导入Excel快很多，收益推荐使用csv导入。但是如果 导入的csv的格式存在一些问题，则可能出现错行的问题。</p>
-<p>另外，除了导入CSV、Excel外，Pandas还支持如下方式导入：</p>
-<ul>
-<li>read_sql(query, connection_object)：从SQL表/库导入数据</li>
-<li>read_json(json_string)：从JSON格式的字符串导入数据</li>
-<li>DataFrame(dict)：从字典对象导入数据，Key是列名，Value是数据</li>
-<li>read_html(url)：解析URL、字符串或者HTML文件，抽取其中的tables表格</li>
-<li>read_clipboard()：从你的粘贴板获取内容，并传给read_table()</li>
-<li>read_table(filename)：从限定分隔符的文本文件导入数据</li>
-</ul>
-<p>这里有必要重点学习的是pd.read_sql(query, connection_object)，规划将在后面的学习中分享。</p>
-<h2 id="导出到Excel文件"><a href="#导出到Excel文件" class="headerlink" title="导出到Excel文件"></a>导出到Excel文件</h2><p>导出到Excel的方法非常的简单：</p>
-<table>
-<thead>
-<tr>
-<th>12345</th>
-<th>import pandas as pd excel_path = ‘example.xlsx’df = pd.read_excel(excel_path, sheetname=None)df.to_excel(‘output.xlsx’)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>具体导出方法还有众多参数：</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>DataFrame.to_excel(excel_writer, sheet_name=’Sheet1’, na_rep=’’, float_format=None, columns=None, header=True, index=True, index_label=None, startrow=0, startcol=0, engine=None, merge_cells=True, encoding=None, inf_rep=’inf’, verbose=True, freeze_panes=None)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>参数含义为：</p>
-<ul>
-<li>excel_writer：写入的目标excel文件，可以是文件路径、ExcelWriter对象;</li>
-<li>sheet_name：被写入的sheet名称，string类型，默认为’sheet1′;</li>
-<li>na_rep：缺失值表示，string类型;</li>
-<li>float_format：浮点数的格式</li>
-<li>columns：要写入的列</li>
-<li>header：是否写表头信息，布尔或list of string类型，默认为True;</li>
-<li>index：是否写行号，布尔类型，默认为True;</li>
-<li>index_label：索引标签</li>
-<li>startrow：开始行，其余会被舍弃</li>
-<li>startcol：开始列，其余会被舍弃</li>
-<li>engine：写入的引擎，可以是：excel.xlsx.writer, io.excel.xls.writer, io.excel.xlsm.writer</li>
-<li>merge_cells：合并单元格配置</li>
-<li>encoding：指定写入编码，string类型。</li>
-<li>inf_rep：指定数学符号无穷在Excel的表示</li>
-<li>verbose：未知</li>
-<li>freeze_panes：冻结窗格</li>
-</ul>
-<h2 id="导出到CSV文件"><a href="#导出到CSV文件" class="headerlink" title="导出到CSV文件"></a>导出到CSV文件</h2><p>导出方法同Excel类型，具体方法参数为：</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>DataFrame.to_csv(path_or_buf=None, sep=’, ‘, na_rep=’’, float_format=None, columns=None, header=True, index=True, index_label=None, mode=’w’, encoding=None, compression=None, quoting=None, quotechar=’”‘, line_terminator=’\n’, chunksize=None, tupleize_cols=None, date_format=None, doublequote=True, escapechar=None, decimal=’.’)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>具体参数含义为（与“导入CSV文件”、“导出为Excel文件”重复的内容不再单独说明）：</p>
-<ul>
-<li>path_or_buf：写入的文件名或文件路径</li>
-<li>mode：写入文件的模式，默认为w，改为a为追加。</li>
-<li>date_format：时间格式设定</li>
-</ul>
-<p>Pandas还支持的导出方式有：</p>
-<ul>
-<li>to_sql(table_name, connection_object)：导出数据到SQL表</li>
-<li>to_json(filename)：以Json格式导出数据到文本文件</li>
-</ul>
-<p>df.to_sql将在后面的学习中再做分享。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.biaodianfu.com/pandas-excel-csv.html" target="_blank" rel="noopener">Pandas学习笔记：Excel、CSV文件的读取与导出</a></p>
 
       
       

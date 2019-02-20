@@ -210,6 +210,99 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Docker-运行ELK" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/19/Docker-运行ELK/" class="article-date">
+      <time datetime="2018-10-19T07:52:38.000Z" itemprop="datePublished">2018-10-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/19/Docker-运行ELK/">Docker 运行ELK</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Elastic-Stack"><a href="#Elastic-Stack" class="headerlink" title="Elastic Stack"></a>Elastic Stack</h1><p><a href="https://www.elastic.co/guide/index.html" target="_blank" rel="noopener">Elastic Stack and Product Documentation | Elastic</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull sebp/elk:642</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name elk-642 \</span><br><span class="line">-e LOGSTASH_START=0 \</span><br><span class="line">-e ES_HEAP_SIZE="1g" \</span><br><span class="line">--network=elk \</span><br><span class="line">-p 5601:5601 -p 9200:9200 -p 5044:5044 \</span><br><span class="line">sebp/elk:642</span><br></pre></td></tr></table></figure>
+<h2 id="单独安装"><a href="#单独安装" class="headerlink" title="单独安装"></a>单独安装</h2><h3 id="安装-elasticsearch"><a href="#安装-elasticsearch" class="headerlink" title="安装 elasticsearch"></a>安装 elasticsearch</h3><p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.5/docker.html" target="_blank" rel="noopener">Install Elasticsearch with Docker | Elasticsearch Reference [6.5] | Elastic</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull elasticsearch:6.5.4</span><br></pre></td></tr></table></figure>
+<h3 id="安装-elasticsearch-head-扩展"><a href="#安装-elasticsearch-head-扩展" class="headerlink" title="安装 elasticsearch-head 扩展"></a>安装 <a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="noopener">elasticsearch-head</a> 扩展</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mobz/elasticsearch-head:5</span><br></pre></td></tr></table></figure>
+<h3 id="安装-kibana"><a href="#安装-kibana" class="headerlink" title="安装 kibana"></a>安装 kibana</h3><p><a href="https://www.elastic.co/guide/en/kibana/6.5/docker.html" target="_blank" rel="noopener">Running Kibana on Docker | Kibana User Guide [6.5] | Elastic</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull kibana:6.5.4</span><br></pre></td></tr></table></figure>
+<h3 id="安装-logstash"><a href="#安装-logstash" class="headerlink" title="安装 logstash"></a>安装 logstash</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull logstash:6.5.4</span><br></pre></td></tr></table></figure>
+<h3 id="安装-filebeat"><a href="#安装-filebeat" class="headerlink" title="安装 filebeat"></a>安装 filebeat</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull filebeat:6.5.4</span><br></pre></td></tr></table></figure>
+<h3 id="安装-metricbeat"><a href="#安装-metricbeat" class="headerlink" title="安装 metricbeat"></a>安装 metricbeat</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull docker.elastic.co/beats/metricbeat:6.5.4</span><br></pre></td></tr></table></figure>
+<h3 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h3><p>docker-compose.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  es-master:</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">es-head</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">elasticsearch:6.5.4</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">es-master</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"ES_JAVA_OPTS=-Xms1g -Xmx1g"</span></span><br><span class="line"><span class="attr">    ulimits:</span></span><br><span class="line"><span class="attr">      memlock:</span></span><br><span class="line"><span class="attr">        soft:</span> <span class="bullet">-1</span></span><br><span class="line"><span class="attr">        hard:</span> <span class="bullet">-1</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">./conf/es-master.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">~/docker/elk/es-master/data:/usr/share/elasticsearch/data</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">~/docker/elasticsearch/es-master/plugins:/usr/share/elasticsearch/plugins</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="number">9200</span><span class="string">:9200</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"9300:9300"</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">esnet</span></span><br><span class="line"><span class="attr">  es-head:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">mobz/elasticsearch-head:5</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">es-head</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"9100:9100"</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">esnet</span></span><br><span class="line"><span class="attr">  kibana:</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">es-master</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">kibana:6.5.4</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">kibana</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">./conf/kibana.yml:/usr/share/kibana/config/kibana.yml:ro</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"5601:5601"</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">esnet</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">  esnet:</span></span><br></pre></td></tr></table></figure>
+<p><strong>文件配置</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir conf</span><br></pre></td></tr></table></figure>
+<p>conf/es-master.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">cluster.name:</span> <span class="string">es-cluster</span></span><br><span class="line"><span class="string">node.name:</span> <span class="string">es-master</span></span><br><span class="line"><span class="string">node.master:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">node.data:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">bootstrap.memory_lock:</span> <span class="literal">true</span></span><br><span class="line"><span class="comment"># discovery.zen.minimum_master_nodes: 1</span></span><br><span class="line"><span class="comment"># discovery.zen.ping.unicast.hosts: ["es-master", "es-node1"]</span></span><br><span class="line"><span class="comment"># discovery.zen.ping.unicast.hosts: ["es-master"]</span></span><br><span class="line"><span class="string">network.host:</span> <span class="string">es-master</span></span><br><span class="line"><span class="string">http.cors.enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">http.cors.allow-origin:</span> <span class="string">"*"</span></span><br><span class="line"><span class="string">xpack.monitoring.collection.enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>conf/kibana.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">server.name:</span> <span class="string">kibana</span></span><br><span class="line"><span class="string">server.host:</span> <span class="string">"0.0.0.0"</span></span><br><span class="line"><span class="string">elasticsearch.url:</span> <span class="attr">http://es-master:9200</span></span><br><span class="line"><span class="comment"># xpack.monitoring.ui.container.elasticsearch.enabled: true</span></span><br></pre></td></tr></table></figure>
+<p><strong>启动</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<p> <strong>Inspect status of cluster</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://127.0.0.1:9200/_cat/health</span><br></pre></td></tr></table></figure>
+<p><a href="http://localhost:9200/_cat/health?v" target="_blank" rel="noopener">http://localhost:9200/_cat/health?v</a></p>
+<p><a href="http://localhost:9200/_cat/health?format=json&amp;bytes=b" target="_blank" rel="noopener">http://localhost:9200/_cat/health?format=json&amp;bytes=b</a></p>
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>查看已安装的插件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch-plugin list</span><br></pre></td></tr></table></figure>
+<h3 id="IK-Analysis-Plugin-作者-Medcl"><a href="#IK-Analysis-Plugin-作者-Medcl" class="headerlink" title="IK Analysis Plugin (作者 Medcl)"></a><a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">IK Analysis Plugin</a> (作者 Medcl)</h3><p>简介：大名鼎鼎的ik分词，都懂的！</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.5.4/elasticsearch-analysis-ik-6.5.4.zip</span><br></pre></td></tr></table></figure>
+<p><strong>测试</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT http://localhost:9200/index</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET "http://localhost:9200/index/_analyze" -H 'Content-Type: application/json' -d'</span><br><span class="line">&#123;</span><br><span class="line">   "text":"中华人民共和国MN","tokenizer": "ik_max_word"</span><br><span class="line">&#125;'</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/guanheng68/article/details/81710406" target="_blank" rel="noopener">ElasticSearch安装(以Docker的方式）</a></p>
+<p><a href="https://www.cnblogs.com/mxmbk/p/9969008.html" target="_blank" rel="noopener">docker-compose安装elasticsearch集群</a></p>
+<p><a href="https://blog.csdn.net/wanglei_storage/article/details/82218940" target="_blank" rel="noopener">elasticsearch 6.3.2 集群配置</a></p>
+<p><a href="https://www.cnblogs.com/showtime813/p/5714603.html" target="_blank" rel="noopener">Kibana + ElasticSearch</a></p>
+<p><a href="https://blog.csdn.net/zyc88888/article/details/79019865" target="_blank" rel="noopener">ElasticSearch常用插件整理</a></p>
+<p><a href="https://github.com/medcl/elasticsearch-rtf" target="_blank" rel="noopener">Elasticsearch-RTF</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-macOS-pip-配置-supervisor" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -871,87 +964,6 @@
 <p>3.断言机制</p>
 <p>4.rest-assured进阶</p>
 <p>5.jenkins集成接口测试</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Appium自动化测试系列进阶课程" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/09/Appium自动化测试系列进阶课程/" class="article-date">
-      <time datetime="2018-10-09T06:11:36.000Z" itemprop="datePublished">2018-10-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/Appium自动化测试系列进阶课程/">Appium自动化测试系列进阶课程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Appium-android进阶第1讲-调试分析方法</p>
-<p>Appium-android进阶第2讲-toast识别条件</p>
-<p>Appium-android进阶第3讲-toast识别-屏幕滑动</p>
-<p>Appium-android进阶第4讲-toas识别-代码实现1</p>
-<p>Appium-android进阶第5讲-toast识别答疑</p>
-<p>Appium-android进阶第6讲-toast识别-代码实现2</p>
-<p>Appium-android进阶第7讲-显式、隐式等待</p>
-<p>Appium-android进阶第8讲-高级特性-API演示</p>
-<p>Appium-android进阶第9讲-高级特性-深入XPath定位</p>
-<p>Appium-android进阶第10讲-高级特性-Webview切换 </p>
-<p>Appium-android进阶第11讲-capability高级讲解</p>
-<p>Appium-android进阶第12讲-Grid模式演示</p>
-<p>Appium-android进阶第13讲-8.0 webview切换问题解析</p>
-<p>Appium-android进阶第14讲-8.0 webview切换解决方法</p>
-<p>Appium-android进阶第15讲-pageobject基础使用</p>
-<p>Appium-android进阶第16讲-pageobject答疑</p>
-<p>Appium-android进阶第17讲-兼容性测试-介绍</p>
-<p>Appium-android进阶第18讲-兼容性测试-STF平台讲解</p>
-<p>Appium-android进阶第19讲-兼容性测试-远程调试平台演练</p>
-<p>Appium-android进阶第20讲-常用测试类介绍</p>
-<p>Appium-android进阶第21讲-数据驱动</p>
-<p> Appium-android进阶第22讲-测试套件</p>
-<p>Appium-android进阶第23讲-执行顺序控制</p>
-<p>Appium-ios第1讲-Xcode编译UICatalog</p>
-<p>Appium-ios第2讲-Appium-Desktop启动app</p>
-<p>Appium-ios第3讲-使用Inspector定位</p>
-<p>Appium-ios第4讲-Appium-ios用例演练</p>
 
       
       
