@@ -14,3 +14,18 @@ tags:
 pip install prettyprinter==0.14.0
 ```
 
+
+
+## 音频播放
+
+[PyAudio: PortAudio v19 Python Bindings](http://people.csail.mit.edu/hubert/pyaudio/)
+
+```shell
+brew install portaudio
+```
+
+```shell
+pip install PyAudio==0.2.11
+```
+
+[使用PyAudio模块播放音频流之体会 - 简书](https://www.jianshu.com/p/ba82e90ce706)
