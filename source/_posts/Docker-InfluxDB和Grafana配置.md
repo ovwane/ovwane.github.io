@@ -145,3 +145,5 @@ docker内部已经启动了telegraf，如果不需要的话可以停掉，在多
 
 [[grafana + influxdb + telegraf , 构建性能监控平台](https://www.cnblogs.com/Scissors/p/5977670.html)](http://www.cnblogs.com/Scissors/p/5977670.html)
 
+[Grafana部署-展示Zabbix数据](https://www.jianshu.com/p/d902f8bc59e3)
+
