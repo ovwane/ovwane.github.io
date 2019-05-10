@@ -210,6 +210,374 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-基于-HttpRunner-的-Web-测试平台" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/24/基于-HttpRunner-的-Web-测试平台/" class="article-date">
+      <time datetime="2019-01-23T23:57:23.000Z" itemprop="datePublished">2019-01-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/24/基于-HttpRunner-的-Web-测试平台/">基于 HttpRunner 的 Web 测试平台</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="基于-HttpRunner-的-Web-测试平台"><a href="#基于-HttpRunner-的-Web-测试平台" class="headerlink" title="基于 HttpRunner 的 Web 测试平台"></a><a href="https://github.com/HttpRunner/HttpRunnerManager" target="_blank" rel="noopener">基于 HttpRunner 的 Web 测试平台</a></h1><h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p>安装 </p>
+<h3 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a><a href="https://hub.docker.com/_/rabbitmq?tab=tags" target="_blank" rel="noopener">RabbitMQ</a></h3><p>安装 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rabbitmq:3.7.8-alpine</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --hostname rabbit.ovwane.com --name rabbitmq-3.7.8 -p 5672:5672 rabbitmq:3.7.8-alpine</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --hostname rabbit.ovwane.com --name rabbitmq-management-3.7.8 -p 5672:5672 -p 15672:15672 rabbitmq:3.7.8-management</span><br></pre></td></tr></table></figure>
+<p>访问</p>
+<p><a href="http://127.0.0.1:15672" target="_blank" rel="noopener">http://127.0.0.1:15672</a></p>
+<p>用户名：<code>guest</code>，密码：<code>guest</code></p>
+<h2 id="本地开发环境部署"><a href="#本地开发环境部署" class="headerlink" title="本地开发环境部署"></a>本地开发环境部署</h2><ol>
+<li>安装mysql数据库服务端(推荐5.7+),并设置为utf-8编码，创建相应HttpRunner数据库，设置好相应用户名、密码，启动mysql。</li>
+<li>修改:HttpRunnerManager/HttpRunnerManager/settings.py里DATABASES字典和邮件发送账号相关配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">    DATABASES = &#123;</span><br><span class="line">        &apos;default&apos;: &#123;</span><br><span class="line">        &apos;ENGINE&apos;: &apos;django.db.backends.mysql&apos;,</span><br><span class="line">        &apos;NAME&apos;: &apos;HttpRunner&apos;,  # 新建数据库名</span><br><span class="line">        &apos;USER&apos;: &apos;root&apos;,  # 数据库登录名</span><br><span class="line">        &apos;PASSWORD&apos;: &apos;lcc123456&apos;,  # 数据库登录密码</span><br><span class="line">        &apos;HOST&apos;: &apos;127.0.0.1&apos;,  # 数据库所在服务器ip地址</span><br><span class="line">        &apos;PORT&apos;: &apos;3306&apos;,  # 监听端口 默认3306即可</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EMAIL_SEND_USERNAME = &apos;username@163.com&apos;  # 定时任务报告发送邮箱，支持163,qq,sina,企业qq邮箱等，注意需要开通smtp服务</span><br><span class="line">EMAIL_SEND_PASSWORD = &apos;password&apos;     # 邮箱密码</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装rabbitmq消息中间件，启动服务，访问：<a href="http://host:15672/#/" target="_blank" rel="noopener">http://host:15672/#/</a> host即为你部署rabbitmq的服务器ip地址 username：guest、Password：guest, 成功登陆即可</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq-server start</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>修改:HttpRunnerManager/HttpRunnerManager/settings.py里worker相关配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">djcelery.setup_loader()</span><br><span class="line">CELERY_ENABLE_UTC = True</span><br><span class="line">CELERY_TIMEZONE = &apos;Asia/Shanghai&apos;</span><br><span class="line">BROKER_URL = &apos;amqp://guest:guest@127.0.0.1:5672//&apos;  # 127.0.0.1即为rabbitmq-server所在服务器ip地址</span><br><span class="line">CELERYBEAT_SCHEDULER = &apos;djcelery.schedulers.DatabaseScheduler&apos;</span><br><span class="line">CELERY_RESULT_BACKEND = &apos;djcelery.backends.database:DatabaseBackend&apos;</span><br><span class="line">CELERY_ACCEPT_CONTENT = [&apos;application/json&apos;]</span><br><span class="line">CELERY_TASK_SERIALIZER = &apos;json&apos;</span><br><span class="line">CELERY_RESULT_SERIALIZER = &apos;json&apos;</span><br><span class="line"></span><br><span class="line">CELERY_TASK_RESULT_EXPIRES = 7200  # celery任务执行结果的超时时间，</span><br><span class="line">CELERYD_CONCURRENCY = 10  # celery worker的并发数 也是命令行-c指定的数目 根据服务器配置实际更改 默认10</span><br><span class="line">CELERYD_MAX_TASKS_PER_CHILD = 100  # 每个worker执行了多少任务就会死掉，我建议数量可以大一些，默认100</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>命令行窗口执行pip install -r requirements.txt 安装工程所依赖的库文件</li>
+<li>命令行窗口切换到HttpRunnerManager目录 生成数据库迁移脚本,并生成表结构</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python manage.py makemigrations ApiManager #生成数据迁移脚本</span><br><span class="line">python manage.py migrate  #应用到db生成数据表</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>创建超级用户，用户后台管理数据库，并按提示输入相应用户名，密码，邮箱。 如不需用，可跳过此步骤</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py createsuperuser</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>启动服务,</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver 0.0.0.0:8000</span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>启动worker, 如果选择同步执行并确保不会使用到定时任务，那么此步骤可忽略</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python manage.py celery -A HttpRunnerManager worker --loglevel=info  #启动worker</span><br><span class="line">python manage.py celery beat --loglevel=info #启动定时任务监听器</span><br><span class="line">celery flower #启动任务监控后台</span><br></pre></td></tr></table></figure>
+<ol start="10">
+<li>访问：<a href="http://localhost:5555/dashboard" target="_blank" rel="noopener">http://localhost:5555/dashboard</a> 即可查看任务列表和状态</li>
+<li>浏览器输入：<a href="http://127.0.0.1:8000/api/register/" target="_blank" rel="noopener">http://127.0.0.1:8000/api/register/</a> 注册用户，开始尽情享用平台吧</li>
+<li>浏览器输入<a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener">http://127.0.0.1:8000/admin/</a> 输入步骤6设置的用户名、密码，登录后台运维管理系统，可后台管理数据</li>
+</ol>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Gradle-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/24/Gradle-配置/" class="article-date">
+      <time datetime="2019-01-23T22:55:39.000Z" itemprop="datePublished">2019-01-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/24/Gradle-配置/">Gradle 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>Gradle 5.1.1</p>
+</blockquote>
+<p><a href="https://gradle.org/install/#with-a-package-manager" target="_blank" rel="noopener">安装 Gradle</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install gradle</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-使命、愿景、价值观" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/23/使命、愿景、价值观/" class="article-date">
+      <time datetime="2019-01-23T08:25:27.000Z" itemprop="datePublished">2019-01-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/23/使命、愿景、价值观/">使命、愿景、价值观</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="使命、愿景、价值观"><a href="#使命、愿景、价值观" class="headerlink" title="使命、愿景、价值观"></a>使命、愿景、价值观</h1><p>​    前言：想到什么，就写什么。写了什么，就是什么。</p>
+<p>​    前些天，参加公司“品牌文化”宣贯会，主席对品牌文化落地的必要性这样解释道：“在座每个华发人，或多或少，或深或浅都会想过华发为什么而存在，华发将来是什么，华发要遵循哪些原则或准则？品牌文化项目就是为了回答这几个问题，明确的告诉大家华发的使命、愿景、价值观，以及在这背后支撑华发使命、使命、愿景、价值观落地的华发精神。”。</p>
+<p>​    一个企业，在其新一轮大发展的快速成长阶段，都必须回答为什么，是什么，以及怎么做的问题。一个个人，在其职业成长的最快阶段，是否也应该思考并清晰这三个问题呢？我认为是非常有必要的。<strong>有了使命，你就知道了做这份工作的意义所在；有了愿景，你就知道了未来自己将要到达的彼岸；有了价值观，当面对行为抉择的时候，就能快速下论断。</strong></p>
+<p>​    我们每个人也或多或少，或深或浅的在自己的日常工作中，思考并依据着这三个词语在工作。每个人可能都问过自己我做这件事情有没有<strong>意义</strong>？我在一年内期望达到什么样的<strong>职业高度</strong>？我要选择诚信为本，还是欺瞒至上。</p>
+<p>​    </p>
+<p>​    每件事情意义的<strong>思考</strong>、对每一年<strong>职业生涯</strong>的展望、对每一次行为的抉择都是一个决策行为，在德鲁克看来“<strong>经常性为同一件事情做决策，这个决策就是无效决策</strong>”。<strong>有效的决策是将经常思考的问题，进行集中处理，决策一次，日后便不用重复决策。</strong>那面对我们人生、乃至职业的终极问题，<strong>我们每个人也应该彻底明确自己职业的使命、愿景、价值观是什么。</strong></p>
+<p>​    我的内心在逃避这个问题，我清楚的知晓。做这样的思考，是痛苦的。大千世界，纷纷扰扰，明确了愿景，也就明确了人生的方向。人生的方向有那么多种，肆意漂流的人生岂不美哉。可人为什么要活着呢？从生到死，异常明确。中间的这些年，才是我们能为社会创造价值的年景。时光也挺短暂，一个人的寿命往长说也就90岁，现在已经26岁，还有64年就要到达生命的终点。24岁前都是在学习的阶段，真正为社会创造价值也就是工作以后。<strong>如果不尽早定下来个人的使命、愿景、价值观，生命的耗散就非常严重</strong>，而且也将继续持续进行。唯有使命、愿景、价值观才能在目标上有所专注，用这一生去达成目标。</p>
+<p>​    明确了愿景、使命、价值观，接着就需要分析内外部市场情况，结合个人性格制定个人人生的战略。战略可以分为<strong>短期战略</strong>和<strong>中长期战略</strong>。有了战略，就需要再次根据战略，找到实现战略的<strong>关键路径</strong>，并为关键路径设置<strong>目标和目标值</strong>。每个阶段对目标和目标值进行绩效考核，绩效考核的目的不是为了追求过去，而是为了发展未来。每个阶段，自我可以进行一次反思面谈，去问这个阶段目标值实现或者没有实现的原因，从而实现在下一个阶段的改进。</p>
+<p>​    使命、愿景、价值观是个人成长的终极三问，战略是基于使命、愿景、价值观的大的人生方向，根据战略目标，个人可以制定出个人战略计划（依托于路径，设置目标和目标值），每个阶段、月度和季度对自己进行一次绩效考核，核定计划的执行情况，并和自己开展一次绩效反馈面谈，助力下一阶段的快速成长。</p>
+<p>​    以这样的思考路径，写总结和计划就变得有了目的性。计划是完成个人目标的路线，总结是为了阶段性的反馈和改进。以这样的角度去<strong>思考</strong>，很多重要不紧急的事情都有了做的<strong>意义和价值</strong>。不去健身，就没有一个好的身体，就无法实现绩效目标达成。绩效目标的达成是不可以被拒绝的，因为绩效目标源于你个人的使命、愿景、价值观。</p>
+<p>​    我们因为使命而活着，如果我们没有使命，活着有何价值呢？还不如立马死了算了。既然决定了要活着，就要好好活着，就要为了人生的终极目的而奋斗终身。</p>
+<p>​    事业和家庭的平衡也可以说得通了，人生是短暂的，如果没有了家庭和爱，这一生活的得过的多么悲惨。在我们职业成功的同时，有和谐的家庭关系，有对他人的爱和支持，生命就变得丰满了。如同企业企业因其社会责任感而变得荣耀和自豪，个人也应其对家庭的责任感，因为家庭所给予的认可和支持，而变得荣耀和自豪。毕竟，我们最想获得的就是家人的支持和赞誉。</p>
+<p>​    根据以上内容，明确个人的使命、愿景、价值观已经变得紧急且重要，不明确这个事情，活着都没意义了呢。这三条就好像爱因斯坦的<code>e=mc^2</code>一样，构筑了人生能量公式的全部。还等什么，明确起来吧。</p>
+<p><a href="https://www.youtube.com/watch?v=qp0HIF3SfI4" target="_blank" rel="noopener">How great leaders inspire action | Simon Sinek</a></p>
+<ul>
+<li>信念 <code>Believe</code></li>
+<li>创造性 <code></code> 苹果公司、怀特兄弟、马丁 路德 金</li>
+</ul>
+<ul>
+<li>Why</li>
+<li>How</li>
+<li>What</li>
+</ul>
+<p>传递信息</p>
+<p>人们买的不是你的产品，是你的信念。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/94b8149378d4" target="_blank" rel="noopener">浅谈个人的“使命、愿景、价值观”</a></p>
+<p><a href="https://blog.luz.vc/zh-CN/%E4%BB%80%E4%B9%88%E5%92%8C/%E4%BD%BF%E5%91%BD%E6%84%BF%E6%99%AF%E5%92%8C%E4%BB%B7%E5%80%BC%E8%A7%82/" target="_blank" rel="noopener">使命，愿景和价值观：它们是什么以及如何主张自己？</a></p>
+<p><a href="http://detian.me/2017/02/04/understanding-vision-mission-values/" target="_blank" rel="noopener">打造个人文化：理解愿景、使命、价值观</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Docker-TestLink-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/22/Docker-TestLink-配置/" class="article-date">
+      <time datetime="2019-01-22T02:00:32.000Z" itemprop="datePublished">2019-01-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/22/Docker-TestLink-配置/">Docker TestLink 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="bitnami-testlink"><a href="#bitnami-testlink" class="headerlink" title="bitnami/testlink"></a><a href="https://hub.docker.com/r/bitnami/testlink" target="_blank" rel="noopener">bitnami/testlink</a></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/docker/testlink</span><br><span class="line">chmod 777 /data/docker/testlink</span><br></pre></td></tr></table></figure>
+<p>vim docker-compose.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  mariadb:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'bitnami/mariadb:latest'</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">MARIADB_USER=bn_testlink</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">MARIADB_DATABASE=bitnami_testlink</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">MARIADB_ROOT_PASSWORD=testlink</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">MARIADB_PASSWORD=testlink</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'/data/docker/testlink/mariadb:/bitnami'</span></span><br><span class="line">      </span><br><span class="line"><span class="attr">  testlink:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'bitnami/testlink:latest'</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">TESTLINK_DATABASE_USER=bn_testlink</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">TESTLINK_DATABASE_NAME=bitnami_testlink</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">TESTLINK_DATABASE_PASSWORD=testlink</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'80:80'</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'443:443'</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'/data/docker/testlink/testlink:/bitnami'</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">mariadb</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p><a href="http://IP" target="_blank" rel="noopener">http://IP</a></p>
+<ul>
+<li>Default user: <code>user</code></li>
+<li>Default password: <code>bitnami</code></li>
+</ul>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Maven-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/17/Maven-配置/" class="article-date">
+      <time datetime="2019-01-17T02:13:14.000Z" itemprop="datePublished">2019-01-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/17/Maven-配置/">Maven 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><h3 id="apt安装"><a href="#apt安装" class="headerlink" title="apt安装"></a>apt安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y maven</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn -version</span><br></pre></td></tr></table></figure>
+<h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><p><a href="http://maven.apache.org/download.cgi" target="_blank" rel="noopener">Downloading Apache Maven</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxf apache-maven-*-bin.tar.gz</span><br><span class="line">mv apache-maven-3.6.0 /usr/local/maven-3.6.0</span><br></pre></td></tr></table></figure>
+<p>vim ~/.bashrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># set maven environment</span><br><span class="line">export M2_HOME=/usr/local/maven-3.6.0</span><br><span class="line">export PATH=$M2_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p><code>vim /etc/maven/settings.xml</code> <strong>or</strong> <code>vim $M2_HOME/conf/settings.xml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;mirror&gt;</span><br><span class="line">      &lt;id&gt;alimaven&lt;/id&gt;</span><br><span class="line">      &lt;name&gt;aliyun maven&lt;/name&gt;</span><br><span class="line">      &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;</span><br><span class="line">      &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;</span><br><span class="line">&lt;/mirror&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install maven</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/Cellar/maven/3.6.0/libexec/conf/settings.xml ~/.m2/</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.m2/settings.xml</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Dubbo-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -554,347 +922,6 @@
 <p>导入包</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> io.restassured.RestAssured.*</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> io.restassured.matcher.RestAssuredMatchers.*</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.hamcrest.Matchers.*</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> io.restassured.<span class="keyword">module</span>.jsv.JsonSchemaValidator.*</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> io.restassured.<span class="keyword">module</span>.mockmvc.RestAssuredMockMvc.*</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.philipphauer.de/testing-restful-services-java-best-practices/" target="_blank" rel="noopener">Testing RESTful Services in Java: Best Practices</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Android-使用-adb-指令模拟-touch-滑动解锁" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/01/09/Android-使用-adb-指令模拟-touch-滑动解锁/" class="article-date">
-      <time datetime="2019-01-09T11:02:59.000Z" itemprop="datePublished">2019-01-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/09/Android-使用-adb-指令模拟-touch-滑动解锁/">Android 使用 adb 指令模拟 touch 滑动解锁</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><strong>查找手机触摸屏事件 event 的位置，寻找包含touch字段的内容。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell cat /proc/bus/input/devices</span><br></pre></td></tr></table></figure>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">I: Bus=<span class="number">0018</span> Vendor=<span class="number">0000</span> Product=<span class="number">0000</span> Version=<span class="number">0000</span></span><br><span class="line">N: Name=<span class="string">"atmel-maxtouch"</span></span><br><span class="line">P: Phys=</span><br><span class="line">S: Sysfs=/devices/f9924000<span class="variable">.i2c</span>/i2c-<span class="number">2</span>/<span class="number">2</span>-<span class="number">004</span>b/<span class="keyword">input</span>/input2</span><br><span class="line">U: Uniq=</span><br><span class="line">E: Enabled=<span class="number">0</span></span><br><span class="line">H: Handlers=kgsl event2 cpufreq</span><br></pre></td></tr></table></figure>
-<p><strong>录制解锁步骤，监听event</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell getevent /dev/input/event2 &gt; unlock.txt</span><br></pre></td></tr></table></figure>
-<p><strong>手机上滑动解锁一次</strong></p>
-<p>第一种方法：<strong>unlock.txt里面的十六进制数转换为十进制数。</strong></p>
-<p>hex_to_dec.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line">__date__ = <span class="string">"2019-01-09 15:22:46"</span></span><br><span class="line">__author__ = <span class="string">"ovwane"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"unlock.txt"</span>, <span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> f:</span><br><span class="line">        num_list = []</span><br><span class="line"></span><br><span class="line">        line = file</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> line.split(<span class="string">" "</span>):</span><br><span class="line">            i_num = int(i.rstrip(<span class="string">"\n"</span>), <span class="number">16</span>)</span><br><span class="line">            num_list.append(i_num)</span><br><span class="line"></span><br><span class="line">        print(num_list)</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">"adb_unlock.sh"</span>, <span class="string">"a+"</span>, encoding=<span class="string">"utf-8"</span>) <span class="keyword">as</span> ff:</span><br><span class="line">            ff.write(<span class="string">"adb shell sendevent /dev/input/event2 &#123;&#125; &#123;&#125; &#123;&#125; \n"</span>.format(num_list[<span class="number">0</span>], num_list[<span class="number">1</span>], num_list[<span class="number">2</span>]))</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># adb shell getevent //dev/input/event0 &gt;&gt; getevent.log</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./getevent2.sh'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> f2:</span><br><span class="line">    f2.write(<span class="string">"adb shell input keyevent 26\n"</span>)</span><br><span class="line">    <span class="comment"># f2.write("adb shell input keyevent 82\r")</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'./getevent.log'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">            new_line = <span class="string">" "</span>.join([str(int(it, <span class="number">16</span>)) <span class="keyword">for</span> it <span class="keyword">in</span> line.strip().split(<span class="string">" "</span>)])</span><br><span class="line">            f2.write(<span class="string">"adb shell sendevent //dev/input/event0 "</span> + new_line + <span class="string">"\r"</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell getevent /dev/input/event2 | awk '&#123;print "adb shell sendevent /dev/input/event2  "strtonum("0x"$1)" "strtonum("0x"$2)" "strtonum("0x"$3); fflush()&#125;'  &gt;&gt; unlock.sh</span><br></pre></td></tr></table></figure>
-<p>第二种方法：<strong>unlock.txt里面的十六进制数转换为十进制数。</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell getevent /dev/input/event2 | awk '&#123;print "adb shell sendevent /dev/input/event2  "strtonum("0x"$1)" "strtonum("0x"$2)" "strtonum("0x"$3); fflush()&#125;'  &gt;&gt; unlock.sh</span><br></pre></td></tr></table></figure>
-<p><strong>写到shell script中执行，就可以实现自动解锁了。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell sendevent /dev/input/event2</span><br></pre></td></tr></table></figure>
-<p>模拟发送电源键事件，点亮屏幕。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell input keyevent 26</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/xiaobaiing/article/details/51363835" target="_blank" rel="noopener">Android通过指令模拟touch滑动解锁</a></p>
-<p><a href="https://www.jianshu.com/p/630c5026279c" target="_blank" rel="noopener">ADB获取手机屏幕的状态(点亮与否)以及ADB点击事件基本操作</a></p>
-<p><a href="https://blog.csdn.net/fcc7619666/article/details/52022015" target="_blank" rel="noopener">awk 中 对于tail f 的文件重定向</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-视频下载" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/01/07/视频下载/" class="article-date">
-      <time datetime="2019-01-06T23:29:57.000Z" itemprop="datePublished">2019-01-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/07/视频下载/">视频下载</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>下载Youtube视频</p>
-<p><a href="https://github.com/soimort/you-get" target="_blank" rel="noopener">https://github.com/soimort/you-get</a></p>
-<p><a href="https://github.com/rg3/youtube-dl" target="_blank" rel="noopener">https://github.com/rg3/youtube-dl</a></p>
-<p>安装youtube-dl</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install youtube-dl</span><br></pre></td></tr></table></figure>
-<p>下载</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 获取所有视频格式id</span></span><br><span class="line">youtube-dl -F URL</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 下载视频</span></span><br><span class="line">youtube-dl -f id URL</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.zhukun.net/archives/6785" target="_blank" rel="noopener">使用youtube-dl下载youtube视频</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Android-Studio-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/01/04/Android-Studio-配置/" class="article-date">
-      <time datetime="2019-01-04T08:02:34.000Z" itemprop="datePublished">2019-01-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/04/Android-Studio-配置/">Android Studio 配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h3 id="ignore"><a href="#ignore" class="headerlink" title=".ignore"></a>.ignore</h3><p>.ignore插件忽略不必要提交的文件</p>
-<h3 id="Rainbow-Brackets"><a href="#Rainbow-Brackets" class="headerlink" title="Rainbow Brackets"></a>Rainbow Brackets</h3><p>彩虹颜色的括号 看着很舒服 敲代码效率变高。</p>
-<h3 id="Genymotion"><a href="#Genymotion" class="headerlink" title="Genymotion"></a>Genymotion</h3><p>View-&gt;Toolbar</p>
-<h3 id="java2smali"><a href="#java2smali" class="headerlink" title="java2smali"></a><a href="https://github.com/ollide/intellij-java2smali" target="_blank" rel="noopener">java2smali</a></h3><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/43fa1f4f2b4a" target="_blank" rel="noopener">我的 Android Studio 插件（持续更新）</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Xposed-教程" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/01/04/Xposed-教程/" class="article-date">
-      <time datetime="2019-01-04T01:23:41.000Z" itemprop="datePublished">2019-01-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/04/Xposed-教程/">Xposed 教程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="Xposed"><a href="#Xposed" class="headerlink" title="Xposed"></a>Xposed</h2><p><a href="https://repo.xposed.info/" target="_blank" rel="noopener">Xposed Module Repository</a></p>
-<h3 id="下载Xposed-Installer"><a href="#下载Xposed-Installer" class="headerlink" title="下载Xposed Installer"></a><strong>下载Xposed Installer</strong></h3><p><a href="https://repo.xposed.info/module/de.robv.android.xposed.installer" target="_blank" rel="noopener">https://repo.xposed.info/module/de.robv.android.xposed.installer</a></p>
-<h3 id="安装Xposed"><a href="#安装Xposed" class="headerlink" title="安装Xposed"></a>安装Xposed</h3><blockquote>
-<p>Android 6.0</p>
-</blockquote>
-<p><strong>刷机安装 xposed.zip</strong></p>
-<p> <code>xposed-v89-sdk23-x86</code></p>
-<p><strong>安装apk</strong></p>
-<p><code>XposedInstaller_3.1.5.apk</code></p>
-<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ul>
-<li>XPrivacy</li>
-</ul>
-<h2 id="模拟位置"><a href="#模拟位置" class="headerlink" title="模拟位置"></a>模拟位置</h2><ul>
-<li>模拟位置 (FakeLocation)](<a href="https://repo.xposed.info/module/com.rong.xposed.fakelocation" target="_blank" rel="noopener">https://repo.xposed.info/module/com.rong.xposed.fakelocation</a>)</li>
-<li><a href="https://repo.xposed.info/module/com.fakemygps.android" target="_blank" rel="noopener">Fake My GPS</a></li>
-<li><a href="https://github.com/hilarycheng/xposed-gps" target="_blank" rel="noopener">https://github.com/hilarycheng/xposed-gps</a></li>
-<li><a href="https://github.com/qdk0901/FakeXX" target="_blank" rel="noopener">https://github.com/qdk0901/FakeXX</a></li>
-<li><a href="https://github.com/mark-ypq/GPSHook" target="_blank" rel="noopener">https://github.com/mark-ypq/GPSHook</a></li>
-</ul>
-<p><a href="https://blog.csdn.net/qq_34149335/article/details/81329007" target="_blank" rel="noopener">Android开发 ：详细讲解如何使用Xposed拦截修改地理位置信息</a> ok，看这篇文章搞定了高德地图。</p>
-<p><a href="https://www.jianshu.com/p/796e94d8af31" target="_blank" rel="noopener">Android之基于Xposed的模拟位置模块实现</a></p>
-<p><a href="https://blog.csdn.net/u012889434/article/details/61921933" target="_blank" rel="noopener">Hook实现Android 微信，陌陌 ，探探位置模拟</a></p>
-<p><a href="https://blog.csdn.net/u011000290/article/details/46925713" target="_blank" rel="noopener">用Xposed框架拦截微信、人人、QQ等LBS应用的当前位置</a></p>
-<p>参考这篇<a href="http://littlerich.top/2017/01/17/%E5%9F%BA%E4%BA%8EXposed%E6%A1%86%E6%9E%B6Hook%E5%AE%9A%E4%BD%8D%E5%8A%9F%E8%83%BD%E6%9D%A5%E7%A0%B4%E8%A7%A3QQ%E7%9A%84LBS%E7%BA%A2%E5%8C%85/" target="_blank" rel="noopener">基于Xposed框架Hook定位功能来破解QQ的LBS红包</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/fuchaosz/article/details/53143216" target="_blank" rel="noopener">Android 神器 xposed 框架使用指南</a></p>
-<p><a href="https://www.jianshu.com/p/655a07b687ec" target="_blank" rel="noopener">Xposed 使用手册</a></p>
-<p><a href="https://sspai.com/post/44447" target="_blank" rel="noopener">不需要 Root，也能用上强大的 Xposed 框架：VirtualXposed</a></p>
-<p><a href="https://www.zhihu.com/question/22063862" target="_blank" rel="noopener">Android 系统上的 Xposed 框架中都有哪些值得推荐的模块？</a></p>
-<p><a href="https://www.freebuf.com/articles/terminal/189021.html" target="_blank" rel="noopener">新手不要再被误导！这是一篇最新的Xposed模块编写教程</a></p>
-<p><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a></p>
-<p><a href="https://www.52pojie.cn/thread-682743-1-1.html" target="_blank" rel="noopener">萌新跟我来入门Hook技术</a></p>
-<p><a href="https://forum.xda-developers.com/showthread.php?t=3034811" target="_blank" rel="noopener">[OFFICIAL] Xposed for Lollipop/Marshmallow/Nougat/Oreo [v90-beta3, 2018/01/29]</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Genymotion-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/01/04/Genymotion-配置/" class="article-date">
-      <time datetime="2019-01-03T23:39:27.000Z" itemprop="datePublished">2019-01-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/04/Genymotion-配置/">Genymotion 配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="ARM-Translation"><a href="#ARM-Translation" class="headerlink" title="ARM_Translation"></a>ARM_Translation</h2><h2 id="OpenGapps"><a href="#OpenGapps" class="headerlink" title="OpenGapps"></a>OpenGapps</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/.Genymobile/Genymotion/cache/opengapps</span><br></pre></td></tr></table></figure>
-<h2 id="GPS"><a href="#GPS" class="headerlink" title="GPS"></a>GPS</h2><p>启动 Genymotin Shell</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Genymotion\ Shell.app/Contents/MacOS/genyshell</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看设备</span></span><br><span class="line">devices list</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 选择设备，0是设备id。</span></span><br><span class="line">devices select 0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 GPS 状态</span></span><br><span class="line">gps getstatus</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 开启 GPS</span></span><br><span class="line">gps setstatus enabled</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭 GPS</span></span><br><span class="line">gps setstatus disabled</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取纬度</span></span><br><span class="line">gps getlatitude</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 南京</span></span><br><span class="line">gps setlatitude 32.0523428565</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 广州</span></span><br><span class="line">gps setlatitude 23.1290765766</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 获取经度</span></span><br><span class="line">gps getlongitude</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 南京</span></span><br><span class="line">gps setlongitude 118.7847135259</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 广州</span></span><br><span class="line">gps setlongitude 113.2643446427</span><br></pre></td></tr></table></figure>
-<p><a href="http://www.gpsspg.com/maps.htm" target="_blank" rel="noopener">经纬度查询</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.genymotion.com/latest/Content/04_Tools/Genymotion_Shell/Starting_Genymotion_Shell.htm" target="_blank" rel="noopener">Starting Genymotion Shell</a></p>
-<p><a href="http://ju.outofmemory.cn/entry/317903" target="_blank" rel="noopener">Genymotion安装配置指南</a></p>
 
       
       
