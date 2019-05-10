@@ -12,6 +12,14 @@ $2 以“：”冒号分割的第二列
 NF==7 字段数量
 NR==2 纪录数量
 
+RS：Record Separator，记录分隔符
+
+ORS：Output Record Separate，输出当前记录分隔符
+
+FS：Field Separator，字段分隔符
+
+OFS：Out of Field Separator，输出字段分隔符
+
 
 
 用 awk 中查看服务器连接状态并汇总
@@ -53,3 +61,19 @@ ifconfig eth0 | awk -F [" "]+ '{print "NF =", NF, $0}'
 >[awk -F "[ :]+"](https://blog.51cto.com/meiling/2307401)
 >
 >[" "]+这个是正则表达式，+表示一个或多个，这里就表示一个或多个空格。
+
+
+
+拆分行
+
+```shell
+curl -s https://testerhome.com/api/v3/topics.json | awk 'BEGIN{RS="}},{"}{print $0}'
+```
+
+> RS="}},{" `}},{`
+
+
+
+## 参考
+
+[awk之RS、ORS与FS、OFS](https://www.cnblogs.com/fhefh/archive/2011/11/16/2251656.html)

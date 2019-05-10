@@ -16,3 +16,9 @@ iTerm2->Preferences->Profiles->Color
 
 Color Presets->import
 
+
+
+## lrzsz
+
+> https://github.com/mmastrac/iterm2-zmodem
+

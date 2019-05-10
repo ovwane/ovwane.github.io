@@ -4,6 +4,18 @@ date: 2019-01-04 07:39:27
 tags:
 ---
 
+## ADB 位置
+
+> /Applications/Genymotion.app/Contents/MacOS/tools
+
+
+
+## 位置
+
+> /Users/name/.Genymobile/Genymotion/deployed/
+
+
+
 ## ARM_Translation
 
 
