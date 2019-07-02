@@ -210,6 +210,221 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-暂存书签" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/暂存书签/" class="article-date">
+      <time datetime="2018-08-08T08:56:00.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="书签"><a href="#书签" class="headerlink" title="书签"></a>书签</h3><p><a href="http://blog.51cto.com/ganbing/2059541" target="_blank" rel="noopener">总结一下：运维工程师面试的经历及面试相关问题</a></p>
+<p><a href="http://www.cnblogs.com/linhaifeng/p/6264636.html" target="_blank" rel="noopener">openstack系列阅读目录</a></p>
+<p><a href="https://www.sdnlab.com/" target="_blank" rel="noopener">SDNLAB | 专注网络创新技术</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ai_ml" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/ai_ml/" class="article-date">
+      <time datetime="2018-08-08T08:54:04.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>AI，ML，</p>
+<p><a href="https://github.com/wizardforcel" target="_blank" rel="noopener">Wizard Zhang</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-awk命令总结" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/awk命令总结/" class="article-date">
+      <time datetime="2018-08-08T08:52:07.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>-F 字段分隔符<br><code>awk -F&quot;:&quot; &#39;{print $0}&#39; /etc/passwd</code></p>
+<p>$0 整行<br>$1 以“：”冒号分割的第一列<br>$2 以“：”冒号分割的第二列</p>
+<p>NF==7 字段数量<br>NR==2 纪录数量</p>
+<p>RS：Record Separator，记录分隔符</p>
+<p>ORS：Output Record Separate，输出当前记录分隔符</p>
+<p>FS：Field Separator，字段分隔符</p>
+<p>OFS：Out of Field Separator，输出字段分隔符</p>
+<p>用 awk 中查看服务器连接状态并汇总</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -an|awk <span class="string">'/^tcp/&#123;++s[$NF]&#125;END&#123;for(a in s)print a,s[a]&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>统计 web 日志访问流量，要求输出访问次数，请求页面或图片，每个请求的总大小， 总访问流量的大小汇总</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;a[$7]+=$10;++b[$7];total+=$10&#125;END&#123;for(x in a)print b[x],x,a[x]|"sort -rn -k1";print "total size is :"total&#125;'</span> /app/<span class="built_in">log</span>/access_log</span><br></pre></td></tr></table></figure>
+<p>数值转换，16进制转换魏10进制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell getevent /dev/input/event2 | awk &apos;&#123;print &quot;adb shell sendevent /dev/input/event2  &quot;strtonum(&quot;0x&quot;$1)&quot; &quot;strtonum(&quot;0x&quot;$2)&quot; &quot;strtonum(&quot;0x&quot;$3); fflush()&#125;&apos;  &gt;&gt; unlock.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk '&#123;print "adb shell sendevent /dev/input/event2  "strtonum("0x"$1)" "strtonum("0x"$2)" "strtonum("0x"$3); fflush()&#125;'</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>fflush()立刻刷新缓存到文件。</p>
+</blockquote>
+<p>查看 NF 数量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 | awk -F [" "]+ '&#123;print "NF =", NF, $0&#125;'</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="https://blog.51cto.com/meiling/2307401" target="_blank" rel="noopener">awk -F “[ :]+”</a></p>
+<p>[“ “]+这个是正则表达式，+表示一个或多个，这里就表示一个或多个空格。</p>
+</blockquote>
+<p>拆分行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://testerhome.com/api/v3/topics.json | awk 'BEGIN&#123;RS="&#125;&#125;,&#123;"&#125;&#123;print $0&#125;'</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>RS=”}},{“ <code>}},{</code></p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/fhefh/archive/2011/11/16/2251656.html" target="_blank" rel="noopener">awk之RS、ORS与FS、OFS</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-AWS开发" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/AWS开发/" class="article-date">
+      <time datetime="2018-08-08T08:52:01.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>mkdir aws<br>cd aws<br>pipenv –python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python<br>pipenv –python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python<br>sed -i “” “s/python.org/douban.com/g” Pipfile</p>
+<h2 id="AWS-Cli"><a href="#AWS-Cli" class="headerlink" title="AWS-Cli"></a>AWS-Cli</h2><p><a href="https://github.com/aws/aws-cli" target="_blank" rel="noopener">AWS-Cli</a><br>AWS-Cli 不支持Python3(2017.12.11)<br>pipenv install awscli</p>
+<p>aws configure</p>
+<p>输入<a href="https://console.aws.amazon.com/iam/home#/home" target="_blank" rel="noopener">Identity and Access Management</a></p>
+<p>AWSAccessKeyId<br>AWSSecretKey</p>
+<p>~/.aws/credentials<br>[default]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
+<p>[testing]<br>aws_access_key_id=foo<br>aws_secret_access_key=bar</p>
+<h2 id="Boto-3"><a href="#Boto-3" class="headerlink" title="Boto 3"></a>Boto 3</h2><p><a href="https://boto3.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">Boto 3</a></p>
+<p>pipenv install boto3</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Bash快捷键" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -1019,199 +1234,9 @@
 
 
   
-    <article id="post-Go" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/08/Go/" class="article-date">
-      <time datetime="2018-08-08T08:43:08.000Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#<a href="https://golang.org/" target="_blank" rel="noopener">Go</a><br>安装Go</p>
-<p><code>brew install go</code></p>
-<p>安装分布式管理工具hg</p>
-<p> <code>brew install hg</code></p>
-<p>建立go的环境变量文件夹</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd $HOME</span><br><span class="line"></span><br><span class="line">mkdir go</span><br></pre></td></tr></table></figure>
-<p>~/.zshrc</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line">export GOPATH=$HOME/go</span><br><span class="line">export PATH=$HOME/bin:$GOPATH/bin:$PATH</span><br></pre></td></tr></table></figure>
-<p><code>brew cask install goland</code></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Go相关的书签" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/08/Go相关的书签/" class="article-date">
-      <time datetime="2018-08-08T08:42:08.000Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://gohack2017.golangfoundation.org/" target="_blank" rel="noopener">Go Hack 2017</a></p>
-<p><a href="https://gocn.io/" target="_blank" rel="noopener"></a></p>
-<p><a href="https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md" target="_blank" rel="noopener">Unknwon/the-way-to-go_ZH_CN</a></p>
-<p><a href="https://keybase.io" target="_blank" rel="noopener">Keybase</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-homebrew install list" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/08/homebrew install list/" class="article-date">
-      <time datetime="2018-08-08T08:41:12.000Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>java8 goland clion eclipse-cpp</p>
-<p>postman</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hexo" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/08/hexo/" class="article-date">
-      <time datetime="2018-08-08T08:41:01.000Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>ssh-keygen -t rsa -b 4096 -C “<a href="mailto:ovwane@gmail.com" target="_blank" rel="noopener">ovwane@gmail.com</a>“ -f ~/.ssh/github_rsa </p>
-<p>ssh-keygen -t rsa -b 4096 -C “<a href="mailto:ovwane@gmail.com" target="_blank" rel="noopener">ovwane@gmail.com</a>“ -f ~/.ssh/coding_net_rsa </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br><span class="line"></span><br><span class="line">Host github.com</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/github_rsa</span><br><span class="line">  </span><br><span class="line">Host git.coding.net</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/coding_net_rsa</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> -b hexo git@github.com:ovwane/ovwane.github.io.git blog.ovwane.me</span></span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
     </nav>
   
 </div>

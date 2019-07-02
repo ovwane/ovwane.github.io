@@ -210,6 +210,362 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ffmpeg-使用方法" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/14/ffmpeg-使用方法/" class="article-date">
+      <time datetime="2018-10-14T01:24:42.000Z" itemprop="datePublished">2018-10-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/14/ffmpeg-使用方法/">FFmpeg 使用方法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="FFmpeg"><a href="#FFmpeg" class="headerlink" title="FFmpeg"></a><a href="https://www.ffmpeg.org/" target="_blank" rel="noopener">FFmpeg</a></h1><h3 id="获取视频信息"><a href="#获取视频信息" class="headerlink" title="获取视频信息"></a>获取视频信息</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i vedio.mp4</span><br></pre></td></tr></table></figure>
+<h3 id="从视频中提取音频"><a href="#从视频中提取音频" class="headerlink" title="从视频中提取音频"></a>从视频中提取音频</h3><blockquote>
+<p>从视频文件中提取音频并保存为 mp3</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -f mp3 output.mp3</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果需要可以在中间加上 <code>-ar 44100 -ac 2 -ab 192</code> 系数，表示采样率 44100 ，通道 2 立体声，码率 192 kb/s.</p>
+</blockquote>
+<p>file.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file &apos;1.mp4&apos;</span><br><span class="line">file &apos;2.mp4&apos;</span><br><span class="line">file &apos;3.mp4&apos;</span><br></pre></td></tr></table></figure>
+<p>合并视频</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f concat -i file.txt -c copy output.mp4</span><br></pre></td></tr></table></figure>
+<p>重新编码</p>
+<p><a href="https://stackoverflow.com/questions/53021266/non-monotonous-dts-in-output-stream-previous-current-changing-to-this-may-result" target="_blank" rel="noopener">Non-monotonous DTS in output stream previous current changing to This may result in incorrect timestamps in the output file</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -safe 0 -f concat -segment_time_metadata 1 -i file.txt -vf select=concatdec_select -af aselect=concatdec_select,aresample=async=1 out.mp4</span><br></pre></td></tr></table></figure>
+<p>下载源码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://git.ffmpeg.org/ffmpeg.git</span><br></pre></td></tr></table></figure>
+<p>编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --help</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --list-decoders</span><br><span class="line">./configure --list-filters</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/ffmpeg/4.1.1 --enable-shared --enable-pthreads --enable-version3 --enable-hardcoded-tables --enable-avresample --cc=clang --host-cflags='-I/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home/include -I/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home/include/darwin' --host-ldflags= --enable-ffplay --enable-gnutls --enable-gpl --enable-libaom --enable-libbluray --enable-libmp3lame --enable-libopus --enable-librubberband --enable-libsnappy --enable-libtesseract --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libxvid --enable-lzma --enable-libfontconfig --enable-libfreetype --enable-frei0r --enable-libass --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-librtmp --enable-libspeex --enable-videotoolbox --disable-libjack --disable-indev=jack --enable-libaom --enable-libsoxr</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ffmpeg n3.3.5-2-g9992aceefe</p>
+</blockquote>
+<p>帮助信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg --help</span><br></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="基本信息查询命令"><a href="#基本信息查询命令" class="headerlink" title="基本信息查询命令"></a>基本信息查询命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-version</span><br><span class="line">-demuxers</span><br><span class="line">-muxers</span><br><span class="line">-devices</span><br><span class="line">-codecs</span><br><span class="line">-decoders</span><br><span class="line">-encoders</span><br><span class="line">-bsfs # 显示比特流 filter</span><br><span class="line">-formats</span><br><span class="line">-protocols</span><br><span class="line">-filters</span><br><span class="line">-pix_fmts</span><br><span class="line">-sample_fmts</span><br><span class="line">-layouts # 显示 channel 名称（声道）</span><br><span class="line">-colors</span><br></pre></td></tr></table></figure>
+<h3 id="录制命令"><a href="#录制命令" class="headerlink" title="录制命令"></a>录制命令</h3><h4 id="录视频命令"><a href="#录视频命令" class="headerlink" title="录视频命令"></a>录视频命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i 1 -r 30 out.yuv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-f：指定使用 avfoundation 采集数据</p>
+<p>-i：指定从哪儿采集数据，它是一个文件索引号 <code>ffmpeg -f avfoundation -list_devices true -i &quot;&quot;</code></p>
+<p>-<code>r</code>：指定帧率（15帧）</p>
+</blockquote>
+<p>播放</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay -s 3360x2100 -pix_fmt uyvy422 out.yuv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-s：视频大小</p>
+<p>-pix_fmt：视频格式</p>
+</blockquote>
+<h4 id="录音命令"><a href="#录音命令" class="headerlink" title="录音命令"></a>录音命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i :0 out.wav</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>:0 代表音频设备 <code>[0] Built-in Microphone</code></p>
+<p>1: 代表视频设备 <code>[1] Capture screen 0</code></p>
+</blockquote>
+<p>播放</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay out.wav</span><br></pre></td></tr></table></figure>
+<h3 id="分解与复用"><a href="#分解与复用" class="headerlink" title="分解与复用"></a>分解与复用</h3><h4 id="多媒体格式转换"><a href="#多媒体格式转换" class="headerlink" title="多媒体格式转换"></a>多媒体格式转换</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i out.mp4 -vcodec copy -acodec copy out.flv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-i：输入文件</p>
+<p>-vcodec copy：视频编码处理方式</p>
+<p>-acodec copy：音频编码处理方式</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i out.mp4 -an -vcodec copy out.h264</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-an 不要音频</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i out.mp4 -acodec copy -vn out.aac</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>不能使用</p>
+</blockquote>
+<h3 id="处理原始数据"><a href="#处理原始数据" class="headerlink" title="处理原始数据"></a>处理原始数据</h3><h4 id="提取-YUV-数据"><a href="#提取-YUV-数据" class="headerlink" title="提取 YUV 数据"></a>提取 YUV 数据</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -an -c:v rawvideo -pix_fmt yuv420p out.yuv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-pix_fmt yuv420p ：像素格式</p>
+</blockquote>
+<p>播放</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay -s 1680x1050 out.yuv</span><br></pre></td></tr></table></figure>
+<h4 id="提取-PCM-数据"><a href="#提取-PCM-数据" class="headerlink" title="提取 PCM 数据"></a>提取 PCM 数据</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i out.mp4 -vn -ar 44100 -ac 2 -f s16le out.pcm</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-ar ：rate 采样率</p>
+<p>-ac 2：channel 2</p>
+<p>-f s16le：存储方式</p>
+</blockquote>
+<p>播放</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay -ar 44100 -ac 2 -f s16le out.pcm</span><br></pre></td></tr></table></figure>
+<h3 id="滤镜命令"><a href="#滤镜命令" class="headerlink" title="滤镜命令"></a>滤镜命令</h3><blockquote>
+<p>加水印，去水印，画中画</p>
+</blockquote>
+<p>解压缩 decoder，解码后的数据帧。所有的滤镜处理都是对解码后的数据帧进行处理。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i in.mov -vf crop=in_w-200:in_h-200 -c:v libx264 -c:a copy out.mp4</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-vf crop=in_w-200:in_h-200 视频滤镜，宽度减少200，高度减少200</p>
+<p>-c:v libx264：视频编码</p>
+<p>-c:a copy：音频</p>
+</blockquote>
+<h3 id="裁剪与合并"><a href="#裁剪与合并" class="headerlink" title="裁剪与合并"></a>裁剪与合并</h3><blockquote>
+<p>音视频的裁剪与合并</p>
+</blockquote>
+<h4 id="裁剪"><a href="#裁剪" class="headerlink" title="裁剪"></a>裁剪</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i in.mp4 -ss 00:00:00 -t 10 out.ts</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-ss 开始裁剪</p>
+<p>-t 10 裁剪10秒</p>
+</blockquote>
+<h4 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f concat -i input.txt out.flv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-f concat：对后面的文件进行拼接</p>
+<p>-i input.txt：内容为<code>file filename.ts</code>格式</p>
+</blockquote>
+<h3 id="图片-视频互转"><a href="#图片-视频互转" class="headerlink" title="图片/视频互转"></a>图片/视频互转</h3><h4 id="视频转图片"><a href="#视频转图片" class="headerlink" title="视频转图片"></a>视频转图片</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i in.flv -r 1 -f image2 image-%3d.jpeg</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>-r</code> 1:帧率，每秒钟转出一张图片</p>
+<p>-f image2：转换的格式</p>
+<p>%3d：三个数字</p>
+</blockquote>
+<h4 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i image-%3d.jpeg out.mp4</span><br></pre></td></tr></table></figure>
+<h2 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h2><p>输入文件-(demuxer)解复用-&gt;编码数据包-(decoder)-&gt;解码后数据帧-(encoder)-&gt;编码数据包-(muxer)复用-&gt;输出文件</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://moejj.com/ffmpeghe-bing-shi-pin-wen-jian-guan-fang-wen-dang/" target="_blank" rel="noopener">ffmpeg合并视频文件 官方文档</a></p>
+<p><a href="https://www.jianshu.com/p/aa5ba6967f46" target="_blank" rel="noopener">video不能播放mp4的问题（一）</a></p>
+<p><a href="http://einverne.github.io/post/2015/12/ffmpeg-first.html" target="_blank" rel="noopener">ffmpeg 入门笔记 </a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-在Pypi上发布自己的Python包" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/14/在Pypi上发布自己的Python包/" class="article-date">
+      <time datetime="2018-10-14T00:58:59.000Z" itemprop="datePublished">2018-10-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/14/在Pypi上发布自己的Python包/">在Pypi上发布自己的Python包</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>源码打包</strong></p>
+<p><strong>打包成一个源代码的包</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py sdist build</span><br></pre></td></tr></table></figure>
+<p>这样会在dist文件夹下生成一个tar.gz结尾文件。</p>
+<p><strong>打包成一个wheels格式</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py bdist_wheel --universal</span><br></pre></td></tr></table></figure>
+<p>这样会在dist文件夹下生成一个whl文件。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/e9ec8666decc" target="_blank" rel="noopener">在Pypi上发布自己的Python包 - 简书</a></p>
+<p><a href="http://www.cnblogs.com/sting2me/p/6550897.html" target="_blank" rel="noopener">在Pypi上发布自己的Python包 - 孤独的居士 - 博客园</a></p>
+<p><a href="https://packaging.python.org/tutorials/packaging-projects/" target="_blank" rel="noopener">Packaging Python Projects — Python Packaging User Guide</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Maven-配置-Selenium-testNG-reportNG-运行环境" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/12/Maven-配置-Selenium-testNG-reportNG-运行环境/" class="article-date">
+      <time datetime="2018-10-12T02:23:34.000Z" itemprop="datePublished">2018-10-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/12/Maven-配置-Selenium-testNG-reportNG-运行环境/">Maven 配置 Selenium + testNG + reportNG 运行环境</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- maven 参数配置，这里引用不同的testng.xml --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">xmlFileName</span>&gt;</span>testng.xml<span class="tag">&lt;/<span class="name">xmlFileName</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- maven 引用依赖不同的jar --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖testNg --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.testng<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>testng<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.9.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖reportNg 关联testNg --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.uncommons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>reportng<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.testng<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>testng<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖Guice --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.inject<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>guice<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖Selenium驱动包 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.seleniumhq.selenium<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>selenium-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.52.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">           <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">           scope标签中对应值的解释：</span></span><br><span class="line"><span class="comment">               * compile，缺省值，适用于所有阶段，会随着项目一起发布。</span></span><br><span class="line"><span class="comment">               * provided，类似 compile，期望 JDK、容器或使用者会提供这个依赖。如 servlet.jar。</span></span><br><span class="line"><span class="comment">               * runtime，只在运行时使用，如 JDBC 驱动，适用运行和测试阶段。</span></span><br><span class="line"><span class="comment">               * test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。</span></span><br><span class="line"><span class="comment">               * system，类似 provided，需要显式提供包含依赖的 jar， Maven 不会在 Repository 中查找它。</span></span><br><span class="line"><span class="comment">            --&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">           <span class="comment">&lt;!-- 添加插件 关联testNg.xml --&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">suiteXmlFiles</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">suiteXmlFile</span>&gt;</span>res/$&#123;xmlFileName&#125;<span class="tag">&lt;/<span class="name">suiteXmlFile</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">suiteXmlFiles</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="comment">&lt;!-- 添加插件,添加ReportNg的监听器，修改最后的TestNg的报告 --&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">name</span>&gt;</span>usedefaultlisteners<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">name</span>&gt;</span>listener<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.uncommons.reportng.HTMLReporter<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">workingDirectory</span>&gt;</span>target/<span class="tag">&lt;/<span class="name">workingDirectory</span>&gt;</span></span><br><span class="line">                   <span class="comment">&lt;!-- &lt;forkMode&gt;always&lt;/forkMode&gt; --&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【注意：】上面配置如果报错，需要在项目下新建一个目录&quot;res/testng.xml&quot;，他会去这个目录读取指定的XML</span><br></pre></td></tr></table></figure>
+<p>testng.xml配置如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">suite</span> <span class="attr">name</span>=<span class="string">"Default suite"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">test</span> <span class="attr">verbose</span>=<span class="string">"2"</span> <span class="attr">name</span>=<span class="string">"Default test"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">classes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">"com.jase.test.BaiduTest"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">classes</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">test</span>&gt;</span> <span class="comment">&lt;!-- Default test --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">suite</span>&gt;</span> <span class="comment">&lt;!-- Default suite --&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/yyhh/p/5226955.html" target="_blank" rel="noopener">Maven 配置 Selenium + testNG + reportNG 运行环境 - ﹏猴子请来的救兵 - 博客园</a></p>
+<p><a href="https://www.jianshu.com/p/f76d04de982b" target="_blank" rel="noopener">一、搭建TestNG+Maven+IDEA接口测试环境 - 简书</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-IntelliJ-IDEA-配置-Maven项目-Appium-Java-client" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/12/IntelliJ-IDEA-配置-Maven项目-Appium-Java-client/" class="article-date">
+      <time datetime="2018-10-12T01:59:50.000Z" itemprop="datePublished">2018-10-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/12/IntelliJ-IDEA-配置-Maven项目-Appium-Java-client/">IntelliJ IDEA 配置 Maven项目 Appium Java-client</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>安装maven</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install maven</span><br></pre></td></tr></table></figure>
+<p>设置MAVEN_HOME</p>
+<p>vim ~/.zshrc</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Maven start</span></span><br><span class="line">MAVEN_HOME=/usr/local/Cellar/maven/3.5.4</span><br><span class="line">export PATH=$MAVEN_HOME/bin:$PATH</span><br><span class="line"><span class="meta">#</span><span class="bash"> Maven end</span></span><br></pre></td></tr></table></figure>
+<p>查看mvn版本信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn -v</span><br></pre></td></tr></table></figure>
+<h4 id="Maven-安装-Java-client"><a href="#Maven-安装-Java-client" class="headerlink" title="Maven 安装 Java-client"></a>Maven 安装 Java-client</h4><hr>
+<p>首先，启动IntelliJ IDEA，创建Maven项目（参考上面步骤），然后在maven配置文件(pom.xml)中添加Java-client配置。</p>
+<p>pom.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.appium<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>java-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当然了，也可以自己<a href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.appium%22%20AND%20a%3A%22java-client%22" target="_blank" rel="noopener">下载jar包</a>，请自行选择最新版本。</p>
+<p>最新版本号可以到 github <a href="https://github.com/appium/java-client" target="_blank" rel="noopener">Java-client开源项目</a>上查看。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/kaola8023/p/8443131.html" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/kaola8023/p/8443131.html" target="_blank" rel="noopener">Appium移动自动化测试—–（五） java-client安装与测试</a></a></p>
+<p><a href="https://github.com/appium/java-client/wiki" target="_blank" rel="noopener">Home · appium/java-client Wiki</a></p>
+<p><a href="https://github.com/appium/java-client" target="_blank" rel="noopener">appium/java-client: Java language binding for writing Appium Tests, conforms to Mobile JSON Wire Protocol</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-第14节-企业经验及面试技巧分享" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -1162,246 +1518,9 @@
 
 
   
-    <article id="post-Docker-运行Tomcat" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/08/Docker-运行Tomcat/" class="article-date">
-      <time datetime="2018-10-08T11:59:13.000Z" itemprop="datePublished">2018-10-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/08/Docker-运行Tomcat/">Docker 运行Tomcat</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull tomcat:8.5.34-jre8-alpine</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  -p 8803:8080 -v ~/docker/tomcat:/usr/local/tomcat/webapps -d --name tomcat-8.5.34 --restart=always tomcat:8.5.34-jre8-alpine</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-运行Swagger" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/07/Docker-运行Swagger/" class="article-date">
-      <time datetime="2018-10-07T01:29:15.000Z" itemprop="datePublished">2018-10-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/07/Docker-运行Swagger/">Docker 运行Swagger</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a><a href="https://swagger.io/" target="_blank" rel="noopener">Swagger</a></h1><p>下载所需要的镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull swaggerapi/swagger-ui:v3.19.2 &amp;&amp;\</span><br><span class="line">docker pull swaggerapi/swagger-editor:v3.6.11</span><br></pre></td></tr></table></figure>
-<p>运行 swagger-ui</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8801:8080 -d --name swagger-ui-3.19.2 swaggerapi/swagger-ui:v3.19.2</span><br></pre></td></tr></table></figure>
-<p>For <code>latest</code>, and post <code>v3.0.5</code> tags, you can specify the default swagger-ui to load in the UI:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 80:8080 -e API_URL=http://generator.swagger.io/api/swagger.json swaggerapi/swagger-ui:v3.19.2</span><br></pre></td></tr></table></figure>
-<p>运行 swagger-editor</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8802:8080 -d --name swagger-editor-3.6.11 swaggerapi/swagger-editor:v3.6.11</span><br></pre></td></tr></table></figure>
-<p>访问</p>
-<p><a href="http://IP:8080" target="_blank" rel="noopener">http://IP:8080</a></p>
-<p>安装 Swagger Codegen</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install swagger-codegen</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://hub.docker.com/r/swaggerapi/swagger-ui/" target="_blank" rel="noopener">Docker Hub swaggerapi/swagger-ui</a></p>
-<p><a href="https://hub.docker.com/r/swaggerapi/swagger-editor/" target="_blank" rel="noopener">Docker Hub swaggerapi/swagger-editor</a></p>
-<p><a href="https://blog.csdn.net/SweetyoYY/article/details/78388524" target="_blank" rel="noopener">docker部署swagger</a></p>
-<p><a href="https://o-my-chenjian.com/2017/04/19/Play-API-With-Swagger/" target="_blank" rel="noopener">DIY搭建Swagger-UI</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PyCharm-中使用-pytest" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/25/PyCharm-中使用-pytest/" class="article-date">
-      <time datetime="2018-09-25T06:09:33.000Z" itemprop="datePublished">2018-09-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/25/PyCharm-中使用-pytest/">PyCharm 中使用 pytest</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><strong>PyCharm中设置以pytest方式运行</strong></p>
-<p>Preferences—&gt;Tools—&gt;Python Integrated Tools</p>
-<p>Testing—&gt;Default test runner</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PyCharm-新建项目使用-pipenv" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/25/PyCharm-新建项目使用-pipenv/" class="article-date">
-      <time datetime="2018-09-25T04:22:43.000Z" itemprop="datePublished">2018-09-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/25/PyCharm-新建项目使用-pipenv/">PyCharm 新建项目使用 pipenv</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
     </nav>
   
 </div>

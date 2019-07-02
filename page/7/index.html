@@ -210,6 +210,338 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Docker-Selenium-Grid-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/26/Docker-Selenium-Grid-配置/" class="article-date">
+      <time datetime="2018-10-26T04:27:37.000Z" itemprop="datePublished">2018-10-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/26/Docker-Selenium-Grid-配置/">Docker Selenium Grid 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="通过-Docker-方式启动"><a href="#通过-Docker-方式启动" class="headerlink" title="通过 Docker 方式启动"></a>通过 Docker 方式启动</h2><p><a href="https://github.com/seleniumHQ/docker-selenium" target="_blank" rel="noopener">Docker images for Selenium Grid Server (Standalone, Hub, and Nodes)</a></p>
+<p>拉取镜像</p>
+<blockquote>
+<p>查看版本信息 <a href="https://github.com/SeleniumHQ/docker-selenium/releases" target="_blank" rel="noopener">docker-selenium</a></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull selenium/hub:3.14.0</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull selenium/node-chrome:3.14.0</span><br></pre></td></tr></table></figure>
+<p>启动主<a href="https://hub.docker.com/r/selenium/hub/tags/" target="_blank" rel="noopener">hub</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -P --name selenium-hub selenium/hub:3.14.0</span><br></pre></td></tr></table></figure>
+<p>启动分组<a href="https://hub.docker.com/r/selenium/node-chrome/tags/" target="_blank" rel="noopener">node-chrome</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --link selenium-hub:hub selenium/node-chrome:3.14.0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>–link 通过 link 关联 <code>selenium-hub</code> 容器，并为其设置了别名<code>hub</code></p>
+</blockquote>
+<h2 id="通过-docker-compose-方式启动"><a href="#通过-docker-compose-方式启动" class="headerlink" title="通过 docker-compose 方式启动"></a>通过 docker-compose 方式启动</h2><p>docker-compose.yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">"3"</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  selenium-hub:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">selenium/hub:3.14.0-iron</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">selenium-hub</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"4444:4444"</span></span><br><span class="line"><span class="attr">  chrome:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">selenium/node-chrome:3.14.0-iron</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">selenium-hub</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_HOST=selenium-hub</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_PORT=4444</span></span><br><span class="line"><span class="attr">  firefox:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">selenium/node-firefox:3.14.0-iron</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">selenium-hub</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_HOST=selenium-hub</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_PORT=4444</span></span><br></pre></td></tr></table></figure>
+<p>目前使用的</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># To execute this docker-compose yml file use `docker-compose -f &lt;file_name&gt; up`</span></span><br><span class="line"><span class="comment"># Add the `-d` flag at the end for detached execution</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">"3"</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  selenium-hub:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">selenium/hub:3.141.59-lithium</span></span><br><span class="line">    <span class="comment"># container_name: selenium-hub</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">GRID_MAX_SESSION=10</span></span><br><span class="line">      <span class="comment"># - newSessionWaitTimeout=25000</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">JAVA_OPTS=-Xmx512m</span></span><br><span class="line">      <span class="comment"># - SE_OPTS="-debug"</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"4444:4444"</span></span><br><span class="line"><span class="attr">  chrome:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">selenium/node-chrome-debug:3.141.59-lithium</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">/dev/shm:/dev/shm</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">selenium-hub</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_HOST=selenium-hub</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_PORT=4444</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">NODE_MAX_INSTANCES=10</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">NODE_MAX_SESSION=10</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">SCREEN_WIDTH=1366</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">SCREEN_HEIGHT=768</span> </span><br><span class="line"><span class="bullet">      -</span> <span class="string">SCREEN_DEPTH=24</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"5900:5900"</span></span><br><span class="line"><span class="attr">  firefox:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">selenium/node-firefox-debug:3.141.59-lithium</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">/dev/shm:/dev/shm</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">selenium-hub</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_HOST=selenium-hub</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HUB_PORT=4444</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">NODE_MAX_INSTANCES=10</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">NODE_MAX_SESSION=10</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">SCREEN_WIDTH=1366</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">SCREEN_HEIGHT=768</span> </span><br><span class="line"><span class="bullet">      -</span> <span class="string">SCREEN_DEPTH=24</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"5901:5900"</span></span><br></pre></td></tr></table></figure>
+<p>vnc 密码：<code>secret</code></p>
+<h2 id="踩坑记"><a href="#踩坑记" class="headerlink" title="踩坑记"></a>踩坑记</h2><h3 id="1-Docker-selenium-中文乱码，未验证"><a href="#1-Docker-selenium-中文乱码，未验证" class="headerlink" title="1.Docker selenium 中文乱码，未验证"></a>1.Docker selenium 中文乱码，未验证</h3><blockquote>
+<p>3.141.59-lithium 这个版本打开 gbk 编码的网站没有问题，例如：“163.com”</p>
+</blockquote>
+<p>Dockerfile</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM selenium/node-chrome-debug</span><br><span class="line"></span><br><span class="line">USER root</span><br><span class="line"> </span><br><span class="line">RUN apt-get update \</span><br><span class="line">    &amp;&amp; apt-get -y install ttf-wqy-microhei ttf-wqy-zenhei \</span><br><span class="line">    &amp;&amp; apt-get clean</span><br></pre></td></tr></table></figure>
+<p>构建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t selenium/node-chrome-debug-zh-cn .</span><br></pre></td></tr></table></figure>
+<h3 id="2-窗口最大化失败"><a href="#2-窗口最大化失败" class="headerlink" title="2. 窗口最大化失败"></a>2. 窗口最大化失败</h3><p>在脚本中对浏览器进行最大化操作：<code>driver.maximize_window()</code>这个命令一向运行是没问题的，但是在docker 中却报错如下：<br>Message: unknown error: failed to change window state to maximized, current state is normal</p>
+<h4 id="原因：docker-运行-node-没有设置屏幕尺寸。"><a href="#原因：docker-运行-node-没有设置屏幕尺寸。" class="headerlink" title="原因：docker 运行 node 没有设置屏幕尺寸。"></a>原因：docker 运行 node 没有设置屏幕尺寸。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- SCREEN_WIDTH=1366</span><br><span class="line">- SCREEN_HEIGHT=768 </span><br><span class="line">- SCREEN_DEPTH=24</span><br></pre></td></tr></table></figure>
+<h4 id="或者："><a href="#或者：" class="headerlink" title="或者："></a>或者：</h4><p>查了一下，说是selenium 的bug。 找了一下，没有合适的解决方案，粗暴解决如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    driver.maximize_window()</span><br><span class="line"><span class="keyword">except</span> WebDriverException <span class="keyword">as</span> e:</span><br><span class="line">    log.log().logger.info(e)</span><br><span class="line">    driver.set_window_size(<span class="number">1920</span>, <span class="number">1080</span>)  <span class="comment">#如果最大化失败，设置窗口大小为 1920*1080</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-chrome-option-不生效。"><a href="#3-chrome-option-不生效。" class="headerlink" title="3. chrome option 不生效。"></a>3. chrome option 不生效。</h3><p>因为部分用例需要模拟移动设备，或设置浏览器为英文，所以使用 chrome option进行设置。 原来的初始化脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">desired_caps_web = webdriver.DesiredCapabilities.CHROME</span><br><span class="line">deviceList = [<span class="string">'Galaxy S5'</span>, <span class="string">'Nexus 5X'</span>, <span class="string">'Nexus 6P'</span>, <span class="string">'iPhone 6'</span>, <span class="string">'iPhone 6 Plus'</span>, <span class="string">'iPad'</span>, <span class="string">'iPad Pro'</span>]</span><br><span class="line"><span class="keyword">if</span> devicename!=<span class="string">''</span> :</span><br><span class="line">    <span class="keyword">if</span> devicename <span class="keyword">not</span> <span class="keyword">in</span> deviceList:</span><br><span class="line">        devicename = deviceList[<span class="number">2</span>]</span><br><span class="line">    chrome_option = &#123;</span><br><span class="line">        <span class="string">'args'</span>: [<span class="string">'lang=en_US'</span>,<span class="string">'start-maximized'</span>],</span><br><span class="line">        <span class="string">'extensions'</span>: [], <span class="string">'mobileEmulation'</span>: &#123;<span class="string">'deviceName'</span>: <span class="string">''</span>&#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    chrome_option[<span class="string">'mobileEmulation'</span>][<span class="string">'deviceName'</span>] = devicename</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    chrome_option = &#123;</span><br><span class="line">        <span class="string">'args'</span>: [<span class="string">'lang=en_US'</span>,<span class="string">'--start-maximized'</span>],</span><br><span class="line">        <span class="string">'extensions'</span>: []</span><br><span class="line">    &#125;</span><br><span class="line">desired_caps_web[<span class="string">'goog:chromeOptions'</span>]=chrome_option</span><br><span class="line">log.log().logger.info(desired_caps_web)</span><br><span class="line">driver = webdriver.remote.webdriver.WebDriver(command_executor=server_url,desired_capabilities=desired_caps_web)</span><br></pre></td></tr></table></figure>
+<p>但同样，之前一直正常运行的脚本，到 docker 里不起作用。<br>看下docker selenium node 节点的log ，发现打印了如下信息：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Capabilities are: Capabilities &#123;browserName: chrome, chromeOptions: &#123;args: [lang=zh_CN.UTF<span class="number">-8</span>],  mobileEmulation: &#123;deviceName: iPhone <span class="number">6</span>&#125;&#125;, goog:chromeOptions: &#123;&#125;, javascriptEnabled: true, version: &#125;</span><br></pre></td></tr></table></figure>
+<p>多了个 goog:chromeOptions {} 的配置项是怎么回事？</p>
+<p>认真看下，Capabilities 里我设置的 chromeOptions 已经正确传进来了，但是后面的 goog:chromeOptions: {} 似乎覆盖了对应的配置。<br>尝试下把脚本里的参数名称从 “chromeOptions ” 改为 “goog:chromeOptions” ，奇迹出现了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Capabilities are: Capabilities &#123;browserName: chrome, goog:chromeOptions: &#123;args: [lang=zh_CN.UTF<span class="number">-8</span>], mobileEmulation: &#123;deviceName: iPhone <span class="number">6</span>&#125;&#125;, javascriptEnabled: true, version: &#125;</span><br></pre></td></tr></table></figure>
+<p>脚本也能正常运行了，对应的浏览器语言、移动设备模拟设置也已生效！</p>
+<p>于是修改对应脚本为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desired_caps_web[<span class="string">'goog:chromeOptions'</span>]=chrome_option</span><br></pre></td></tr></table></figure>
+<p>问题解决！</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/SeleniumHQ/selenium" target="_blank" rel="noopener">SeleniumHQ/selenium</a></p>
+<p><a href="https://github.com/SeleniumHQ/docker-selenium" target="_blank" rel="noopener">SeleniumHQ/docker-selenium</a></p>
+<p><a href="https://www.seleniumconf.com/" target="_blank" rel="noopener">Selenium Conference</a></p>
+<p><a href="https://yeqown.github.io/2018/01/23/docker-selenium-python%E6%9E%84%E5%BB%BA%E5%89%8D%E7%AB%AF%E8%87%AA%E5%8A%A8%E5%8C%96%E5%88%86%E5%B8%83%E5%BC%8F%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/" target="_blank" rel="noopener">docker+selenium+python构建前端自动化分布式测试环境</a></p>
+<p><a href="https://www.cnblogs.com/fnng/p/8358326.html" target="_blank" rel="noopener">Docker Selenium-虫师</a></p>
+<p><a href="https://blog.csdn.net/songer_xing/article/details/78626592" target="_blank" rel="noopener">docker+selenium grid+python实现分布式自动化测试</a>: 解决中文乱码问题</p>
+<p><a href="https://testerhome.com/topics/13372" target="_blank" rel="noopener">docker+selenium 搭建和踩坑记录</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Docker-disconf配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/24/Docker-disconf配置/" class="article-date">
+      <time datetime="2018-10-24T06:44:28.000Z" itemprop="datePublished">2018-10-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/24/Docker-disconf配置/">Docker disconf配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>新建 docker-compose 文件</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/docker/disconf</span><br><span class="line"></span><br><span class="line">vim docker-compose.yaml</span><br></pre></td></tr></table></figure>
+<p>docker-compose.yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  disconf_redis_1:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="string">daocloud.io/library/redis</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  disconf_redis_2:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="string">daocloud.io/library/redis</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  disconf_zookeeper:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="attr">zookeeper:3.3.6</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  disconf_mysql:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="string">bolingcavalry/disconf_mysql:0.0.1</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="attr">      MYSQL_ROOT_PASSWORD:</span> <span class="number">123456</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  disconf_tomcat:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="string">bolingcavalry/disconf_tomcat:0.0.1</span></span><br><span class="line"><span class="attr">    links:</span> </span><br><span class="line"><span class="attr">      - disconf_redis_1:</span><span class="string">redishost001</span> </span><br><span class="line"><span class="attr">      - disconf_redis_2:</span><span class="string">redishost002</span></span><br><span class="line"><span class="attr">      - disconf_zookeeper:</span><span class="string">zkhost</span></span><br><span class="line"><span class="attr">      - disconf_mysql:</span><span class="string">mysqlhost</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">  disconf_nginx:</span> </span><br><span class="line"><span class="attr">    image:</span> <span class="string">bolingcavalry/disconf_nginx:0.0.1</span></span><br><span class="line"><span class="attr">    links:</span> </span><br><span class="line"><span class="attr">      - disconf_tomcat:</span><span class="string">tomcathost</span> </span><br><span class="line"><span class="attr">    ports:</span> </span><br><span class="line"><span class="bullet">      -</span> <span class="string">"8820:80"</span> </span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br></pre></td></tr></table></figure>
+<p><strong>运行</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<p>停止整个环境的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose stop1</span><br></pre></td></tr></table></figure>
+<p>删除整个环境的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose rm</span><br></pre></td></tr></table></figure>
+<p><strong>访问</strong></p>
+<p>用户名密码都是admin</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/boling_cavalry/article/details/71082610" target="_blank" rel="noopener">Docker搭建disconf环境，三部曲之一：极速搭建disconf</a></p>
+<p><a href="https://blog.csdn.net/boling_cavalry/article/details/71107498" target="_blank" rel="noopener">Docker搭建disconf环境，三部曲之二：本地快速构建disconf镜像</a></p>
+<p><a href="https://blog.csdn.net/boling_cavalry/article/details/71120725" target="_blank" rel="noopener">Docker搭建disconf环境，三部曲之三：细说搭建过程</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Docker-InfluxDB和Grafana配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/24/Docker-InfluxDB和Grafana配置/" class="article-date">
+      <time datetime="2018-10-24T01:56:38.000Z" itemprop="datePublished">2018-10-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/24/Docker-InfluxDB和Grafana配置/">Docker InfluxDB和Grafana配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>拉取镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull samuelebistoletti/docker-statsd-influxdb-grafana:2.1.0</span><br></pre></td></tr></table></figure>
+<p>启动镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --ulimit nofile=66000:66000 \</span><br><span class="line">  -d \</span><br><span class="line">  --name docker-statsd-influxdb-grafana-2.1.0 \</span><br><span class="line">  -p 3003:3003 \</span><br><span class="line">  -p 3004:8888 \</span><br><span class="line">  -p 8086:8086 \</span><br><span class="line">  -p 22022:22 \</span><br><span class="line">  -p 8125:8125/udp \</span><br><span class="line">  samuelebistoletti/docker-statsd-influxdb-grafana:2.1.0</span><br></pre></td></tr></table></figure>
+<p>关闭启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker stop docker-statsd-influxdb-grafana</span><br><span class="line"></span><br><span class="line">docker start docker-statsd-influxdb-grafana</span><br></pre></td></tr></table></figure>
+<p>端口映射关系</p>
+<h2 id="Mapped-Ports"><a href="#Mapped-Ports" class="headerlink" title="Mapped Ports"></a>Mapped Ports</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host		Container		Service</span><br><span class="line"></span><br><span class="line">3003		3003			grafana</span><br><span class="line">3004		8888			influxdb-admin (chronograf)</span><br><span class="line">8086		8086			influxdb</span><br><span class="line">8125		8125			statsd</span><br><span class="line">22022		22              sshd</span><br></pre></td></tr></table></figure>
+<h2 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@localhost -p 22022</span><br></pre></td></tr></table></figure>
+<p>Password: root</p>
+<h2 id="Grafana"><a href="#Grafana" class="headerlink" title="Grafana"></a>Grafana</h2><p>Open <a href="http://localhost:3003/" target="_blank" rel="noopener">http://localhost:3003</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Username: root</span><br><span class="line">Password: root</span><br></pre></td></tr></table></figure>
+<h3 id="Add-data-source-on-Grafana"><a href="#Add-data-source-on-Grafana" class="headerlink" title="Add data source on Grafana"></a>Add data source on Grafana</h3><ol>
+<li>Using the wizard click on <code>Add data source</code></li>
+<li>Choose a <code>name</code> for the source and flag it as <code>Default</code></li>
+<li>Choose <code>InfluxDB</code> as <code>type</code></li>
+<li>Choose <code>direct</code> as <code>access</code></li>
+<li>Fill remaining fields as follows and click on <code>Add</code> without altering other fields</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Url: http://localhost:8086</span><br><span class="line">Database:	telegraf</span><br><span class="line">User: telegraf</span><br><span class="line">Password:	telegraf</span><br></pre></td></tr></table></figure>
+<p>Basic auth and credentials must be left unflagged. Proxy is not required.</p>
+<p>Now you are ready to add your first dashboard and launch some query on database.</p>
+<h2 id="InfluxDB"><a href="#InfluxDB" class="headerlink" title="InfluxDB"></a>InfluxDB</h2><h3 id="Web-Interface"><a href="#Web-Interface" class="headerlink" title="Web Interface"></a>Web Interface</h3><p>Open <a href="http://localhost:3004/" target="_blank" rel="noopener">http://localhost:3004</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Username: root</span><br><span class="line">Password: root</span><br><span class="line">Port: 8086</span><br></pre></td></tr></table></figure>
+<h3 id="InfluxDB-Shell-CLI"><a href="#InfluxDB-Shell-CLI" class="headerlink" title="InfluxDB Shell (CLI)"></a>InfluxDB Shell (CLI)</h3><ol>
+<li>Establish a ssh connection with the container</li>
+<li>Launch <code>influx</code> to open InfluxDB Shell (CLI)</li>
+</ol>
+<h2 id="数据收集"><a href="#数据收集" class="headerlink" title="数据收集"></a>数据收集</h2><p><strong>安装TeleGraf</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install telegraf</span><br></pre></td></tr></table></figure>
+<p><strong>设置</strong></p>
+<p>/etc/telegraf/telegraf.conf<br>修改influxdb地址，用户名及密码，设置hostname</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telegraf -config /usr/local/etc/telegraf.conf</span><br></pre></td></tr></table></figure>
+<p><strong>重启服务</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services restart telegraf</span><br></pre></td></tr></table></figure>
+<p><strong>导入Grafana Dashboard</strong></p>
+<p>下载最新版本的dashboard配置：<br><a href="https://grafana.com/dashboards/1443/revisions" target="_blank" rel="noopener">https://grafana.com/dashboards/1443/revisions</a></p>
+<p>在grafana的新建dashboard并导入配置，完成。</p>
+<p><strong>注意</strong></p>
+<p>docker内部已经启动了telegraf，如果不需要的话可以停掉，在多台服务器上安装并配置Telegraf写入同一Influxdb就可以实现对集群进行系统监控。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/samuelebistoletti/docker-statsd-influxdb-grafana" target="_blank" rel="noopener"> Docker Image with Telegraf (StatsD), InfluxDB and Grafana</a></p>
+<p><a href="http://xuqi365.com/2017/08/14/docker-grafana-influxdb-telegraf%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Docker+Grafana+Influxdb+Telegraf安装部署</a></p>
+<p><a href="https://blog.csdn.net/w958660278/article/details/80484486" target="_blank" rel="noopener">Telegraf+InfluxDB+Grafana搭建服务器监控平台</a></p>
+<p><a href="http://www.cnblogs.com/Scissors/p/5977670.html" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/Scissors/p/5977670.html" target="_blank" rel="noopener">grafana + influxdb + telegraf , 构建性能监控平台</a></a></p>
+<p><a href="https://www.jianshu.com/p/d902f8bc59e3" target="_blank" rel="noopener">Grafana部署-展示Zabbix数据</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-FastMonkey-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/22/FastMonkey-配置/" class="article-date">
+      <time datetime="2018-10-22T13:57:05.000Z" itemprop="datePublished">2018-10-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/22/FastMonkey-配置/">FastMonkey 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>下载工程代码<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~/Xcode</span><br><span class="line"></span><br><span class="line">git clone https://github.com/zhangzhao4444/Fastmonkey.git</span><br></pre></td></tr></table></figure></p>
+<p>Cartfile</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">github &quot;SwiftyJSON/SwiftyJSON&quot;  ==  3.1.4</span><br><span class="line">github &quot;tadija/AEXML&quot; == 4.1.0</span><br></pre></td></tr></table></figure>
+<p>下载工程所依赖的包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">carthage update</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/zhangzhao4444/Fastmonkey" target="_blank" rel="noopener">FastMonkey</a></p>
+<p><a href="https://testerhome.com/topics/9524" target="_blank" rel="noopener">基于 XCTestWD，swiftmonkey 二次开发，实现无需插桩的 iOS monkey 自动化工具 fastmonkey</a></p>
+<p><a href="https://www.jianshu.com/p/2cbdb50411ae" target="_blank" rel="noopener">使用Fastmonkey进行Monkey测试实践</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Appium-iOS-WebDriverAgent-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -701,276 +1033,9 @@
 
 
   
-    <article id="post-ffmpeg-使用方法" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/14/ffmpeg-使用方法/" class="article-date">
-      <time datetime="2018-10-14T01:24:42.000Z" itemprop="datePublished">2018-10-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/14/ffmpeg-使用方法/">ffmpeg 使用方法</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="获取视频信息"><a href="#获取视频信息" class="headerlink" title="获取视频信息"></a>获取视频信息</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i vedio.mp4</span><br></pre></td></tr></table></figure>
-<h3 id="从视频中提取音频"><a href="#从视频中提取音频" class="headerlink" title="从视频中提取音频"></a>从视频中提取音频</h3><blockquote>
-<p>从视频文件中提取音频并保存为 mp3</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -f mp3 output.mp3</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果需要可以在中间加上 <code>-ar 44100 -ac 2 -ab 192</code> 系数，表示采样率 44100 ，通道 2 立体声，码率 192 kb/s.</p>
-</blockquote>
-<p>file.txt</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file &apos;1.mp4&apos;</span><br><span class="line">file &apos;2.mp4&apos;</span><br><span class="line">file &apos;3.mp4&apos;</span><br></pre></td></tr></table></figure>
-<p>合并视频</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f concat -i file.txt -c copy output.mp4</span><br></pre></td></tr></table></figure>
-<p>重新编码</p>
-<p><a href="https://stackoverflow.com/questions/53021266/non-monotonous-dts-in-output-stream-previous-current-changing-to-this-may-result" target="_blank" rel="noopener">Non-monotonous DTS in output stream previous current changing to This may result in incorrect timestamps in the output file</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -safe 0 -f concat -segment_time_metadata 1 -i file.txt -vf select=concatdec_select -af aselect=concatdec_select,aresample=async=1 out.mp4</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.ffmpeg.org/" target="_blank" rel="noopener">FFmpeg</a></p>
-<p><a href="https://moejj.com/ffmpeghe-bing-shi-pin-wen-jian-guan-fang-wen-dang/" target="_blank" rel="noopener">ffmpeg合并视频文件 官方文档</a></p>
-<p><a href="https://www.jianshu.com/p/aa5ba6967f46" target="_blank" rel="noopener">video不能播放mp4的问题（一）</a></p>
-<p><a href="http://einverne.github.io/post/2015/12/ffmpeg-first.html" target="_blank" rel="noopener">ffmpeg 入门笔记 </a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-在Pypi上发布自己的Python包" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/14/在Pypi上发布自己的Python包/" class="article-date">
-      <time datetime="2018-10-14T00:58:59.000Z" itemprop="datePublished">2018-10-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/14/在Pypi上发布自己的Python包/">在Pypi上发布自己的Python包</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><strong>源码打包</strong></p>
-<p><strong>打包成一个源代码的包</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py sdist build</span><br></pre></td></tr></table></figure>
-<p>这样会在dist文件夹下生成一个tar.gz结尾文件。</p>
-<p><strong>打包成一个wheels格式</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py bdist_wheel --universal</span><br></pre></td></tr></table></figure>
-<p>这样会在dist文件夹下生成一个whl文件。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/e9ec8666decc" target="_blank" rel="noopener">在Pypi上发布自己的Python包 - 简书</a></p>
-<p><a href="http://www.cnblogs.com/sting2me/p/6550897.html" target="_blank" rel="noopener">在Pypi上发布自己的Python包 - 孤独的居士 - 博客园</a></p>
-<p><a href="https://packaging.python.org/tutorials/packaging-projects/" target="_blank" rel="noopener">Packaging Python Projects — Python Packaging User Guide</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Maven-配置-Selenium-testNG-reportNG-运行环境" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/12/Maven-配置-Selenium-testNG-reportNG-运行环境/" class="article-date">
-      <time datetime="2018-10-12T02:23:34.000Z" itemprop="datePublished">2018-10-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/12/Maven-配置-Selenium-testNG-reportNG-运行环境/">Maven 配置 Selenium + testNG + reportNG 运行环境</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- maven 参数配置，这里引用不同的testng.xml --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">xmlFileName</span>&gt;</span>testng.xml<span class="tag">&lt;/<span class="name">xmlFileName</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- maven 引用依赖不同的jar --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖testNg --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.testng<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>testng<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.9.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖reportNg 关联testNg --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.uncommons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>reportng<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.testng<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>testng<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖Guice --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.inject<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>guice<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- 依赖Selenium驱动包 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.seleniumhq.selenium<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>selenium-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.52.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">           <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">           scope标签中对应值的解释：</span></span><br><span class="line"><span class="comment">               * compile，缺省值，适用于所有阶段，会随着项目一起发布。</span></span><br><span class="line"><span class="comment">               * provided，类似 compile，期望 JDK、容器或使用者会提供这个依赖。如 servlet.jar。</span></span><br><span class="line"><span class="comment">               * runtime，只在运行时使用，如 JDBC 驱动，适用运行和测试阶段。</span></span><br><span class="line"><span class="comment">               * test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。</span></span><br><span class="line"><span class="comment">               * system，类似 provided，需要显式提供包含依赖的 jar， Maven 不会在 Repository 中查找它。</span></span><br><span class="line"><span class="comment">            --&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">           <span class="comment">&lt;!-- 添加插件 关联testNg.xml --&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">suiteXmlFiles</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">suiteXmlFile</span>&gt;</span>res/$&#123;xmlFileName&#125;<span class="tag">&lt;/<span class="name">suiteXmlFile</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">suiteXmlFiles</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"></span><br><span class="line">           <span class="comment">&lt;!-- 添加插件,添加ReportNg的监听器，修改最后的TestNg的报告 --&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">name</span>&gt;</span>usedefaultlisteners<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">name</span>&gt;</span>listener<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.uncommons.reportng.HTMLReporter<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">workingDirectory</span>&gt;</span>target/<span class="tag">&lt;/<span class="name">workingDirectory</span>&gt;</span></span><br><span class="line">                   <span class="comment">&lt;!-- &lt;forkMode&gt;always&lt;/forkMode&gt; --&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【注意：】上面配置如果报错，需要在项目下新建一个目录&quot;res/testng.xml&quot;，他会去这个目录读取指定的XML</span><br></pre></td></tr></table></figure>
-<p>testng.xml配置如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">suite</span> <span class="attr">name</span>=<span class="string">"Default suite"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">test</span> <span class="attr">verbose</span>=<span class="string">"2"</span> <span class="attr">name</span>=<span class="string">"Default test"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">classes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">"com.jase.test.BaiduTest"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">classes</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">test</span>&gt;</span> <span class="comment">&lt;!-- Default test --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">suite</span>&gt;</span> <span class="comment">&lt;!-- Default suite --&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/yyhh/p/5226955.html" target="_blank" rel="noopener">Maven 配置 Selenium + testNG + reportNG 运行环境 - ﹏猴子请来的救兵 - 博客园</a></p>
-<p><a href="https://www.jianshu.com/p/f76d04de982b" target="_blank" rel="noopener">一、搭建TestNG+Maven+IDEA接口测试环境 - 简书</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-IntelliJ-IDEA-配置-Maven项目-Appium-Java-client" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/12/IntelliJ-IDEA-配置-Maven项目-Appium-Java-client/" class="article-date">
-      <time datetime="2018-10-12T01:59:50.000Z" itemprop="datePublished">2018-10-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/12/IntelliJ-IDEA-配置-Maven项目-Appium-Java-client/">IntelliJ IDEA 配置 Maven项目 Appium Java-client</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>安装maven</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install maven</span><br></pre></td></tr></table></figure>
-<p>设置MAVEN_HOME</p>
-<p>vim ~/.zshrc</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Maven start</span></span><br><span class="line">MAVEN_HOME=/usr/local/Cellar/maven/3.5.4</span><br><span class="line">export PATH=$MAVEN_HOME/bin:$PATH</span><br><span class="line"><span class="meta">#</span><span class="bash"> Maven end</span></span><br></pre></td></tr></table></figure>
-<p>查看mvn版本信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn -v</span><br></pre></td></tr></table></figure>
-<h4 id="Maven-安装-Java-client"><a href="#Maven-安装-Java-client" class="headerlink" title="Maven 安装 Java-client"></a>Maven 安装 Java-client</h4><hr>
-<p>首先，启动IntelliJ IDEA，创建Maven项目（参考上面步骤），然后在maven配置文件(pom.xml)中添加Java-client配置。</p>
-<p>pom.xml</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.appium<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>java-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>当然了，也可以自己<a href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.appium%22%20AND%20a%3A%22java-client%22" target="_blank" rel="noopener">下载jar包</a>，请自行选择最新版本。</p>
-<p>最新版本号可以到 github <a href="https://github.com/appium/java-client" target="_blank" rel="noopener">Java-client开源项目</a>上查看。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/kaola8023/p/8443131.html" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/kaola8023/p/8443131.html" target="_blank" rel="noopener">Appium移动自动化测试—–（五） java-client安装与测试</a></a></p>
-<p><a href="https://github.com/appium/java-client/wiki" target="_blank" rel="noopener">Home · appium/java-client Wiki</a></p>
-<p><a href="https://github.com/appium/java-client" target="_blank" rel="noopener">appium/java-client: Java language binding for writing Appium Tests, conforms to Mobile JSON Wire Protocol</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
     </nav>
   
 </div>
