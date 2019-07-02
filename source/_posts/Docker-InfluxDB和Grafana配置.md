@@ -135,6 +135,8 @@ telegraf -config /usr/local/etc/telegraf.conf
 
 docker内部已经启动了telegraf，如果不需要的话可以停掉，在多台服务器上安装并配置Telegraf写入同一Influxdb就可以实现对集群进行系统监控。
 
+
+
 ## 参考
 
 [ Docker Image with Telegraf (StatsD), InfluxDB and Grafana](https://github.com/samuelebistoletti/docker-statsd-influxdb-grafana)

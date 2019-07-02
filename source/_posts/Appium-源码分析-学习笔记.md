@@ -153,6 +153,8 @@ launch.json
 
 `lib/logger.js`：给Appium打印的每行日志加上`[Appium]`的前缀
 
+`node_modules/appium-base-driver/lib/basedriver/commands`：打印出当前sessionId创建成功
+
 
 
 ## 参考
@@ -165,11 +167,44 @@ launch.json
 
 [Appium 从入门到原理](https://bestswifter.com/appium/)
 
+[appium架构分析](https://www.cnblogs.com/wangcp-2014/p/6060019.html)
+
+[Appium精要之Appium的背景知识](https://www.jianshu.com/p/5d11299f674b?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation)
+
 [Appium在vscode中调试说明](http://cming.site/2018/02/22/201802221759/)
+
+[appium通信分析一（appium的初始化准备工作）](https://blog.csdn.net/jiuzuidongpo/article/details/51790455)
+[Appium基础学习之 | Bootstrap源码分析](https://blog.csdn.net/ouyanggengcheng/article/details/85210829)
+
+[Appium 入门到原理合集](https://testerhome.com/topics/1980)
+
+
+
+### Android Bootstrap
 
 [手机自动化测试：appium源码分析之bootstrap一](http://www.cnblogs.com/laoli0201/articles/4881492.html)
 
 [Appium Android Bootstrap源码分析之简介](https://blog.csdn.net/zhubaitian/article/details/40619777)
 
+[Appium-bootstrap远程的调试方法](https://blog.csdn.net/qq744746842/article/details/50461988)
+
+[appium和boostrap通信过程数据分析](https://blog.csdn.net/jiuzuidongpo/article/details/51790702)
+
+[手机自动化测试：appium源码分析之bootstrap 1](https://blog.51cto.com/10988776/1726073)
+
+[Appuim源码剖析(Bootstrap)](http://skyseraph.com/2017/01/26/Android/Appuim源码剖析(Boottrap)/)
+
+
+
 [启动和日志分析](https://cstsinghua.github.io/2018/07/19/Appium启动和日志分析/)
+
+[Appium Server 源码分析之启动运行Express http服务器](https://blog.csdn.net/zhubaitian/article/details/40710049)
+
+[Appium Server源码分析之作为Bootstrap客户端](https://blog.csdn.net/zhubaitian/article/details/40783625)
+
+[基于源码分析Appium服务端启动过程](http://cming.site/2018/01/18/201801182037/)
+
+[Appium源码分析(3)-路由器模块](https://blog.csdn.net/itfootball/article/details/44707431)
+
+[Appium通过日志分析服务端执行过程-IOS端](http://cming.site/2018/02/22/201802221449/)
 

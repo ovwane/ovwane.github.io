@@ -17,6 +17,12 @@ tags:
 >
 > 10.13.4 2018-05-05 20:01
 
+### 安装依赖
+
+```shell
+brew install readline openssl xz zlib
+```
+
 
 
 ### 安装pyenv
@@ -38,7 +44,8 @@ export PYTHON_BUILD_CACHE_PATH=~/Downloads
 # 安装 Python 3.6.5
 CFLAGS="-I$(brew --prefix openssl)/include" \
 LDFLAGS="-L$(brew --prefix openssl)/lib" \
-pyenv install -v 3.6.5
+CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" \
+pyenv install -v
 ```
 
 ```shell

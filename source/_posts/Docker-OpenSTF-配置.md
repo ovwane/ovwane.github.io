@@ -93,6 +93,8 @@ stf local
 
 [ERR/provider 87127 [*] Device worker "67e2906f" died with code 1](https://github.com/openstf/stf/issues/670)
 
+https://github.com/openstf/stf/blob/master/vendor/STFService/STFService.apk
+
 **开发者设置**->打开USB调试（安全设置）允许通过USB调试修改权限或**模拟点击**
 
 ```shell

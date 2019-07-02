@@ -30,6 +30,8 @@ https://repo.xposed.info/module/de.robv.android.xposed.installer
 
 - XPrivacy
 
+
+
 ## 模拟位置
 
 - 模拟位置 (FakeLocation)](https://repo.xposed.info/module/com.rong.xposed.fakelocation)
@@ -47,6 +49,42 @@ https://repo.xposed.info/module/de.robv.android.xposed.installer
 [用Xposed框架拦截微信、人人、QQ等LBS应用的当前位置](https://blog.csdn.net/u011000290/article/details/46925713)
 
 参考这篇[基于Xposed框架Hook定位功能来破解QQ的LBS红包](http://littlerich.top/2017/01/17/%E5%9F%BA%E4%BA%8EXposed%E6%A1%86%E6%9E%B6Hook%E5%AE%9A%E4%BD%8D%E5%8A%9F%E8%83%BD%E6%9D%A5%E7%A0%B4%E8%A7%A3QQ%E7%9A%84LBS%E7%BA%A2%E5%8C%85/)
+
+
+
+## Xiaomi Mi4
+
+[小米4 Android 6.0 版本 Root 并安装 Xposed 框架攻略](http://prototypez.github.io/2016/05/16/root-and-install-Xposed-framework-on-XiaoMi4-with-Android-M/)
+
+系统版本
+
+> cancro_global_images_V9.5.7.0.MXDMIFA_20180815.0000.00_6.0_global_bbfc0f3951.tgz
+>
+> miui_MI3WMI4WGlobal_8.3.1_b992dfbc34_6.0.zip
+
+
+
+[TWRP](https://twrp.me/xiaomi/xiaomimi3.html)
+
+>twrp-3.3.0-0-cancro.img
+
+```shell
+fastboot flash recovery twrp-3.3.0-0-cancro.img
+```
+
+
+
+[[OFFICIAL] Xposed for Lollipop/Marshmallow/Nougat/Oreo [v90-beta3, 2018/01/29]](https://forum.xda-developers.com/showthread.php?t=3034811)
+
+> XposedInstaller_3.1.5.apk
+>
+> xposed-v89-sdk23-arm.zip
+
+1. 使用 twrp 安装 xposed-v89-sdk23-arm.zip。
+
+2. 安装 XposedInstaller_3.1.5.apk
+
+
 
 ## 参考
 
