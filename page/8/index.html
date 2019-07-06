@@ -210,6 +210,69 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-macOS-配置Tomcat" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/15/macOS-配置Tomcat/" class="article-date">
+      <time datetime="2018-10-15T03:24:32.000Z" itemprop="datePublished">2018-10-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/15/macOS-配置Tomcat/">macOS 配置Tomcat</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="安装Apr"><a href="#安装Apr" class="headerlink" title="安装Apr"></a>安装Apr</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install apr apr-util</span><br></pre></td></tr></table></figure>
+<h4 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install tomcat</span><br></pre></td></tr></table></figure>
+<h4 id="启动Tomcat"><a href="#启动Tomcat" class="headerlink" title="启动Tomcat"></a>启动Tomcat</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew services start tomcat</span><br><span class="line">brew services restart tomcat</span><br></pre></td></tr></table></figure>
+<h4 id="配置文件目录"><a href="#配置文件目录" class="headerlink" title="配置文件目录"></a>配置文件目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/Cellar/tomcat/</span><br><span class="line">cd /usr/local/Cellar/tomcat/9.0.12/libexec/conf</span><br></pre></td></tr></table></figure>
+<h4 id="部署jar项目"><a href="#部署jar项目" class="headerlink" title="部署jar项目"></a>部署jar项目</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp jenkins.jar /usr/local/Cellar/tomcat/9.0.12/libexec/webapps</span><br></pre></td></tr></table></figure>
+<h4 id="监控服务器"><a href="#监控服务器" class="headerlink" title="监控服务器"></a>监控服务器</h4><p>1、确保Tomcat可以正常启动</p>
+<p>2、打开conf下的tomcat-users.xml并添加<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>3、重启tomcat并访问<a href="http://localhost:8080/manager/html" target="_blank" rel="noopener">http://localhost:8080/manager/html</a></p>
+<p>4、<a href="http://localhost:8080/manager/status" target="_blank" rel="noopener">http://localhost:8080/manager/status</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-ffmpeg-使用方法" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -1087,410 +1150,6 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ant</span><br></pre></td></tr></table></figure>
 <p>build，This will compile the application and enable you to run <code>jmeter</code> from the <code>bin</code> directory.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ant test [-Djava.awt.headless=true]</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-快速上手Jmeter性能测试工具-学习笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/09/快速上手Jmeter性能测试工具-学习笔记/" class="article-date">
-      <time datetime="2018-10-08T23:56:40.000Z" itemprop="datePublished">2018-10-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/快速上手Jmeter性能测试工具-学习笔记/">快速上手Jmeter性能测试工具 学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://www.dataguru.cn/article-6808-1.html" target="_blank" rel="noopener">快速上手Jmeter性能测试工具</a></p>
-<p><strong>课程大纲：</strong> </p>
-<p><strong>第1课：开源的力量–Jmeter </strong></p>
-<ol>
-<li><p>阐述开源软件的现状和趋势 </p>
-</li>
-<li><p>解析引入和使用Jmeter的原因</p>
-</li>
-<li><p>对比多种工具，阐述性能测试工具选型原则</p>
-</li>
-<li><p>阐述Jmeter的优势和劣势 </p>
-</li>
-<li><p>Jmeter的安装和目录解析  </p>
-</li>
-</ol>
-<p><strong>第2课：初识Jmeter</strong></p>
-<ol>
-<li>Jmeter界面结构解析 </li>
-<li>Jmeter重要的配置文件解析 </li>
-<li>实例演示如何使用Jmeter录制页面操作 </li>
-<li>代理和反向代理解析 </li>
-<li>Jmeter与LoadRunner总体对比 </li>
-</ol>
-<p><strong>第3课：搭建骨架–Jmeter重要组件介绍</strong> </p>
-<ol>
-<li>Jmeter中的属性和变量 </li>
-<li>Jmeter中的采样器 </li>
-<li>Jmeter中的计时器 </li>
-<li>Jmeter中的前置处理器和后置处理器 </li>
-<li>通过实例演示Jmeter组件作用域 </li>
-<li>Jmeter与LoadRunner骨架对比  </li>
-</ol>
-<p><strong>第4课：往骨架上添肉—Jmeter脚本组成和组件搭配</strong></p>
-<ol>
-<li>阐述在实际使用中Jmeter脚本组成和开发原则 </li>
-<li>阐述配置元素和Default元素的区别 </li>
-<li>通过实例演示HTTP Cookie Manager的使用  </li>
-</ol>
-<p><strong>第5课：Jmeter中的逻辑控制器（Logic Controller）</strong></p>
-<ol>
-<li>Jmeter中有多种逻辑控制器，不仅种类繁多，而且功能丰富，本节课将专门对逻辑控制器进行阐述。 </li>
-<li>实例演示循环逻辑控制器</li>
-<li>实例演示条件逻辑控制器 </li>
-<li>实例演示随机逻辑控制器</li>
-<li>Jmeter与LoadRunner中该功能的对比</li>
-</ol>
-<p><strong>第6课：采样器（Sampler）详细解析</strong></p>
-<ol>
-<li>采样器作业和配置详细解析 </li>
-<li>对重要的采样器的例如HTTP采样器进行详细剖析 </li>
-</ol>
-<p><strong>第7课：Jmeter中的参数化 </strong></p>
-<ol>
-<li>参数化的意义和作用 </li>
-<li>通过实例演示Jmeter中的参数化 </li>
-<li>Jmeter中的参数化与LoadRunner中的参数化的对比 </li>
-</ol>
-<p><strong>第8课：Jmeter中的关联</strong></p>
-<ol>
-<li>关联的意义和作用 </li>
-<li>通过实例演示Jmeter中的关联 </li>
-<li>Jmeter中的关联与LoadRunner中的关联的对比  </li>
-</ol>
-<p><strong>第9课：Jmeter中正则表达式和函数</strong></p>
-<ol>
-<li>基本的正则表达式</li>
-<li>Jmeter中如何使用正则表达式 </li>
-<li>Jmeter中函数的概念 </li>
-<li>Jmeter中函数的应用  </li>
-</ol>
-<p><strong>第10课：Jmeter中的Listener</strong> </p>
-<ol>
-<li>阐述性能测试工具中Listener的意义 </li>
-<li>Jmeter中常用Listener图表的含义 </li>
-<li>如何高效的使用Listener </li>
-<li>Jmeter中的Listener与LoadRunner中的Analysis的区别  </li>
-</ol>
-<p><strong>第11课：Jmeter扩展插件的使用</strong> </p>
-<ol>
-<li>阐述可扩展的含义 </li>
-<li>Jmeter中常用的扩展插件 </li>
-<li>通过实例查看扩展插件的使用效果  </li>
-</ol>
-<p><strong>第12课：分布式Jmeter</strong> </p>
-<ol>
-<li>分布式负载生成器的概念和意义 </li>
-<li>如何在Jmeter中配置server –client模式 </li>
-<li>Jmeter与LoadRunner在分布式上的区别和各自特色</li>
-</ol>
-<h2 id="第1课：开源的力量–Jmeter"><a href="#第1课：开源的力量–Jmeter" class="headerlink" title="第1课：开源的力量–Jmeter"></a>第1课：开源的力量–Jmeter</h2><h3 id="学习JMeter课程有什么用？"><a href="#学习JMeter课程有什么用？" class="headerlink" title="学习JMeter课程有什么用？"></a>学习JMeter课程有什么用？</h3><p>1）多掌握一门性能测试工具，提高职场竞争力。</p>
-<p>2）如果仅仅学习工具，那确实有点亏，我们一旦接触到相关知识点，会扩展。以便提升整个计算机体系的理解。听过软件性能测试课程的人都知道，我们的课程特点就是扩充和引导。</p>
-<p>3）提升英文水平。</p>
-<h3 id="性能测试工具选项的原则"><a href="#性能测试工具选项的原则" class="headerlink" title="性能测试工具选项的原则"></a>性能测试工具选项的原则</h3><p>1）成本</p>
-<p>​    a、工具成本</p>
-<p>​    b、学习成本</p>
-<p>2）通信协议</p>
-<p>​    a、标准协议</p>
-<p>​    b、自有协议 （性能测试的原理就是模拟协议）</p>
-<p>3）生命力</p>
-<p>4）跨平台</p>
-<h3 id="安装JMeter"><a href="#安装JMeter" class="headerlink" title="安装JMeter"></a>安装JMeter</h3><p><a href="https://jmeter.apache.org/download_jmeter.cgi" target="_blank" rel="noopener">Download Apache JMeter</a></p>
-<p><a href="https://github.com/apache/jmeter" target="_blank" rel="noopener">apache/jmeter: Mirror of Apache JMeter</a></p>
-<p>JDK6+，作者建议用JDK7</p>
-<p>JMeter 2.13 <a href="https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-2.13.tgz" target="_blank" rel="noopener">https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-2.13.tgz</a></p>
-<p>解压缩</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xf apache-jmeter-2.13.tgz</span><br></pre></td></tr></table></figure>
-<p>运行JMeter</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apache-jmeter-2.13/bin/jmeter</span><br></pre></td></tr></table></figure>
-<p>jmeter配置文件 apache-jmeter-2.13/bin/jmeter.properties</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">language=en</span><br></pre></td></tr></table></figure>
-<h3 id="JMeter模拟压力的原理"><a href="#JMeter模拟压力的原理" class="headerlink" title="JMeter模拟压力的原理"></a>JMeter模拟压力的原理</h3><p>1）性能测试工具-协议（性能测试工具通过什么模拟压力？）</p>
-<p>2）自动化测试工具-对象识别技术</p>
-<p>3）面试中的一个例子</p>
-<h3 id="JMeter目录结构"><a href="#JMeter目录结构" class="headerlink" title="JMeter目录结构"></a>JMeter目录结构</h3><p>1）目录结构解析</p>
-<p>docs：</p>
-<p>lib：</p>
-<p>bin：       </p>
-<p>extras：</p>
-<p>2）配置文件解析</p>
-<h3 id="需要注意的是："><a href="#需要注意的是：" class="headerlink" title="需要注意的是："></a>需要注意的是：</h3><p>强大的工具只是表象，高于工具的，是我们坚实的基础知识和分析问题的能力。</p>
-<p>不能做工具的奴隶，我们才是主人。</p>
-<p>工具共享：</p>
-<p>链接： <a href="http://pan.baidu.com/s/1i3yyRel" target="_blank" rel="noopener">http://pan.baidu.com/s/1i3yyRel</a> 密码：u55k</p>
-<h2 id="第2课：初识Jmeter"><a href="#第2课：初识Jmeter" class="headerlink" title="第2课：初识Jmeter"></a>第2课：初识Jmeter</h2><p>1）第一印象</p>
-<p>2）TestPlan（测试计划）</p>
-<p>3）线程组</p>
-<p>4）保存</p>
-<p>String开发的GUI界面</p>
-<p>所有内容都在 Test Plan 下面添加</p>
-<p>用户定义变量：User Defined Variables</p>
-<p>自定义jar包，放在 lib目录下</p>
-<p>Test Plan（测试计划）</p>
-<p>​    Thread Group（线程组）</p>
-<p>添加线程组，可以添加多个线程组一个测试计划下。</p>
-<p>线程组</p>
-<p>Number of Threads（并发线程数）</p>
-<p>发送请求</p>
-<p>5）添加一个Http Sampler 采样器</p>
-<p>Sampler -&gt; HTTP Request</p>
-<p><strong>至少到目前为止，我们实现了一个最简单的JMeter的测试计划，虽然还非常不完善，但可以跑起来。</strong></p>
-<p>Implementation: HttpClient4</p>
-<p>查看测试结果，需要添加一个Listener，View Results Tree类型。</p>
-<p>测试计划保存为.jmx文件</p>
-<p>JMeter更新的时候要注意jmx的影响，因为jmx文件没有校监功能。容易出错。</p>
-<p>jmx文件是xml文件格式的。</p>
-<h3 id="使用过程中要注意的"><a href="#使用过程中要注意的" class="headerlink" title="使用过程中要注意的"></a>使用过程中要注意的</h3><p>1）查看jmeter日志。bin/jmeter.log</p>
-<p>2）log_level.jmeter属性。bin/jmeter.properties</p>
-<p>3）Java虚拟机启动配置。HEAP=-Xms512m -Xmx512m</p>
-<p>启动JMeter。<code>java -jar ApacheJMeter.jar</code></p>
-<h3 id="JMeter-VS-LoadRunner"><a href="#JMeter-VS-LoadRunner" class="headerlink" title="JMeter VS LoadRunner"></a>JMeter VS LoadRunner</h3><p>1、界面上</p>
-<p>2、安装上</p>
-<p>3、协议支持上（Sampler）</p>
-<p>4、函数库</p>
-<p>5、成本（学习成本，价格成本）</p>
-<p>6、开源</p>
-<h3 id="JMeter中的录制-代理讲解"><a href="#JMeter中的录制-代理讲解" class="headerlink" title="JMeter中的录制-代理讲解"></a>JMeter中的录制-代理讲解</h3><p>1、录制的原理（Browser-&gt;JMeter-&gt;Web服务器）</p>
-<p>2、代理</p>
-<p>3、代理和反向代理</p>
-<h3 id="JMeter中的录制"><a href="#JMeter中的录制" class="headerlink" title="JMeter中的录制"></a>JMeter中的录制</h3><p>1、JMeter中的WorkBench（工作台）</p>
-<p>2、JMeter录制详解</p>
-<p>在JMeter里添加一个录制</p>
-<p>WorkBench-&gt;Add-&gt;Non-Test Elements-&gt;HTTP(s) Test Script Recorder</p>
-<p>Target Controller：选择测试计划里的线程组</p>
-<p>录制HTTPS网站需要安装证书</p>
-<h2 id="第3课：搭建骨架–Jmeter重要组件介绍"><a href="#第3课：搭建骨架–Jmeter重要组件介绍" class="headerlink" title="第3课：搭建骨架–Jmeter重要组件介绍"></a>第3课：搭建骨架–Jmeter重要组件介绍</h2><h3 id="Jmeter组件（元素）"><a href="#Jmeter组件（元素）" class="headerlink" title="Jmeter组件（元素）"></a>Jmeter组件（元素）</h3><p>1）<strong>Jmeter中的Sampler</strong></p>
-<p>2）Jmeter中的计时器</p>
-<p>3）Jmeter中的前置处理器和后置处理器</p>
-<p>4）Jmeter中的断言</p>
-<p>5）<strong>Jmeter中的Controller</strong></p>
-<p>6）Jmeter中的Listener</p>
-<p>7）配置原件（配置元素）(服务器地址，变量之类的配置文件)</p>
-<p>前置处理器 Pre Processors, Sampler 采样器之前处理</p>
-<p>后置处理器 Post Processors，Sampler 采样器之后处理</p>
-<p>Logic Controller 控制脚本的结构的。</p>
-<h3 id="认识了组件，顺序呢？"><a href="#认识了组件，顺序呢？" class="headerlink" title="认识了组件，顺序呢？"></a>认识了组件，顺序呢？</h3><p><strong>本节课的重点不是认识组件，而是组件执行的顺序和组件的作用域。 </strong></p>
-<p>同一级别下Linster是在Sampler之后运行的。（得到的结论）</p>
-<p>同一级别下Conf Element在Sampler之前生效。</p>
-<h4 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h4><p>作用域问题，同一个级别下作用域相同。</p>
-<p><strong>如果听不明白，请不要听下去。回去再听一遍。</strong></p>
-<p>如果有相同元素，不同级别，不同内容，则本元素同级引用，本元素生效。</p>
-<p>参数名字相同，会合并参数。</p>
-<p>同一级别，两个元素，按先后顺序生效一个。</p>
-<p>Timer 每个元素分别指定时间。并在元素执行之前。</p>
-<p>one 5s</p>
-<p>two 5s</p>
-<h3 id="Jmeter组件执行顺序"><a href="#Jmeter组件执行顺序" class="headerlink" title="Jmeter组件执行顺序"></a>Jmeter组件执行顺序</h3><p>测试计划的元素执行是有序的，通过一下方式执行：</p>
-<p>1-配置节点（Conf Element)</p>
-<p>2-前置处理器</p>
-<p>3-定时器</p>
-<p>4-取样器</p>
-<p>5-后置处理器（只在有结果可用情况下执行）</p>
-<p>6-断言（只在有结果可用情况下执行）</p>
-<p>7-监听器（只在有结果可用情况下执行）</p>
-<h3 id="JMeter与LoadRunner骨架对比"><a href="#JMeter与LoadRunner骨架对比" class="headerlink" title="JMeter与LoadRunner骨架对比"></a>JMeter与LoadRunner骨架对比</h3><p>1、Jmeter中作用域非常关键</p>
-<p>2、Jmeter中需要使用人员介入的部分更多</p>
-<p>3、开发一个Jmeter性能测试脚本，实际上，就是根据场景需求，按照一定的作用域拼装组件。</p>
-<p>4、LoadRunner中是通过代码的位置和迭代的设置来控制执行的顺序的。</p>
-<h2 id="第4课：往骨架上添肉—Jmeter脚本组成和组件搭配"><a href="#第4课：往骨架上添肉—Jmeter脚本组成和组件搭配" class="headerlink" title="第4课：往骨架上添肉—Jmeter脚本组成和组件搭配"></a>第4课：往骨架上添肉—Jmeter脚本组成和组件搭配</h2><h3 id="Jmeter脚本开发原则"><a href="#Jmeter脚本开发原则" class="headerlink" title="Jmeter脚本开发原则"></a>Jmeter脚本开发原则</h3><p><strong>简单、正确、高效。</strong></p>
-<p><strong>简单：</strong>去除无关的组件，同时能复用的尽量复用。</p>
-<p><strong>正确：</strong> 对脚本或者业务正确性进行必要的判断， 不能少也不能多。</p>
-<p><strong>高效：</strong>部分组件仅仅使用在脚本开发模式使用，在真正生产环境下不要使用。Lisener要越少越好。</p>
-<p>HttpWatch抓包</p>
-<p>Http Request-&gt;Embedded Resources from HTML File-&gt;对钩 Retrieve All Embedded Resources</p>
-<h3 id="HTTP-Cookie-Manager"><a href="#HTTP-Cookie-Manager" class="headerlink" title="HTTP Cookie Manager"></a>HTTP Cookie Manager</h3><p>1、HTTP Cookie Manager的应用场景</p>
-<p>2、Manager组件和Default组件的区别</p>
-<p>Manager不可以有多个，Default可以有多个，然后叠加参数。</p>
-<p>HTTP Cookie Manager不能有两个，在同一个作用域下。</p>
-<p>3、阅读官方文档</p>
-<p>官方文档</p>
-<p><a href="https://jmeter.apache.org/usermanual/component_reference.html" target="_blank" rel="noopener">Apache JMeter - User’s Manual: Component Reference</a></p>
-<h3 id="Jmeter中的属性"><a href="#Jmeter中的属性" class="headerlink" title="Jmeter中的属性"></a>Jmeter中的属性</h3><p>1、WorkBench中的属性查看组件</p>
-<p>WorkBench-&gt;Non-Test Elements-&gt;Property Display</p>
-<p>Option-&gt;Function Helper Dialog</p>
-<p>获取变量值</p>
-<p>${__P(LoadRunner,test)}</p>
-<p>2、属性（Property）</p>
-<p>1）什么是属性？</p>
-<p>2）如何使用属性？</p>
-<p>3）通过实例演示属性</p>
-<p>3、属性的特点</p>
-<p>1）JMeter属性在测试脚本的任何地方都是可见的（全局）</p>
-<p>2）JMeter属性对于整个测试计划都是可见的（全局），因此可以用于在线程间传递信息。</p>
-<h3 id="Jmeter中的变量"><a href="#Jmeter中的变量" class="headerlink" title="Jmeter中的变量"></a>Jmeter中的变量</h3><p>1、变量（Variables）</p>
-<p>1）回忆一下变量的应用场景</p>
-<p>2）LoadRunner中如何实现的？</p>
-<p>Test Plan -&gt; User Defined Variables</p>
-<p>2、如何使用变量？</p>
-<p>${loadrunner}</p>
-<p>专门查看变量的采样器</p>
-<p>Debug Sampler</p>
-<p>User Defined Variables 无论放在哪里，都会被所有线程共享。</p>
-<p>3、实例演示变量</p>
-<p>4、变量的特性</p>
-<p>1）JMeter变量对于测试线程而言是局部变量。这就以为着JMeter变量在不同测试线程中，既可以是完全相同的，也可以是不同的。</p>
-<p>2）如果有某个线程更新了变量，那么仅仅是更新了变量在该线程中复制的值。例如，”正则表达式提取器”（后置处理器）会依据它所在线程的采样结果来更新变量值，该变量值可以供相同的线程后续使用。</p>
-<p>5、属性和变量都是大小写敏感的。</p>
-<h2 id="第5课：Jmeter中的逻辑控制器（Logic-Controller）"><a href="#第5课：Jmeter中的逻辑控制器（Logic-Controller）" class="headerlink" title="第5课：Jmeter中的逻辑控制器（Logic Controller）"></a>第5课：Jmeter中的逻辑控制器（Logic Controller）</h2><p><strong>上次回顾：</strong>属性和参数</p>
-<p><strong>想象一些场景</strong></p>
-<p>1、连续发10个相同的请求</p>
-<p>2、其中前两个做特殊处理</p>
-<p><strong>思考</strong></p>
-<p>1、这样做真的好吗？</p>
-<p>２、如果脚本非常庞大呢？</p>
-<p>３、如果需要做选择操作呢？</p>
-<h3 id="Logic-Controller出场"><a href="#Logic-Controller出场" class="headerlink" title="Logic Controller出场"></a>Logic Controller出场</h3><p>1、首先必须声明的是：Jmeter中的Controller和LoadRunner中的Controller的区别</p>
-<p>2、</p>
-<p><strong>Simple Controller</strong></p>
-<p>提供一个块的结构和控制。更方便、更清晰，嵌套其他的Controller</p>
-<p>${__threadNum}</p>
-<p><strong>Loop Controller</strong></p>
-<p>1、简单的说就是提供一个循环</p>
-<p><strong>Once Only Controller</strong></p>
-<p>1、简介</p>
-<p>Thread Group-&gt;Once Only Controller只执行一次，线程组多次，也只执行一次。</p>
-<p>Thread Group-&gt;Loop Controller-&gt;Once Only Controller 如果在Loop Controller下，则会执行线程组的次数。</p>
-<p>2、例子</p>
-<p>3、适用场景</p>
-<p><strong>ForEach Controller</strong></p>
-<p>和User Defined Variables 一起使用</p>
-<p><strong>Transaction Controller</strong></p>
-<p>统计响应时间Load time</p>
-<p>Generate parent sample</p>
-<p><strong>If Controller</strong></p>
-<p>解析变量</p>
-<p>学什么东西要学以致用。</p>
-<h2 id="第6课：采样器（Sampler）详细解析"><a href="#第6课：采样器（Sampler）详细解析" class="headerlink" title="第6课：采样器（Sampler）详细解析"></a>第6课：采样器（Sampler）详细解析</h2><h3 id="采样器"><a href="#采样器" class="headerlink" title="采样器"></a>采样器</h3><p>1、那个默默干活的家伙（Sampler）</p>
-<p>2、就像每个Controller都有自己的特点一样，每个采样器也都有自己的个性。</p>
-<h3 id="个性？"><a href="#个性？" class="headerlink" title="个性？"></a>个性？</h3><p>1、如何理解个性？</p>
-<p>2、学习采样器主要注意哪些地方？</p>
-<p>3、有什么方法和技巧？</p>
-<p>课程到现在为止，你最熟悉那个采样器？</p>
-<p>HTTP Sampler</p>
-<h3 id="常规设置"><a href="#常规设置" class="headerlink" title="常规设置"></a>常规设置</h3><p>1、采样器默认实现-查看jmeter.httpsampler</p>
-<p>jmeter.properties</p>
-<p>jmeter.httpsampler=HttpClient4</p>
-<p>2、文件的上传和下载？</p>
-<p>上传：HTTP Sampler -&gt; Send Files With the Request</p>
-<p>下载：HTTP Sampler-&gt;Save Responses to file</p>
-<p>WorkBench-&gt;HTTP Mirror Server</p>
-<p>3、默认解析器是：htmlparser</p>
-<p>通过查看htmlparser.classname</p>
-<p>4、通过设置Retrieve All Embedded Resources from HTML Files 和 Use concurrent pool更真实的模拟负载。</p>
-<p>HTTP Sampler-&gt;Use concurrent pool</p>
-<p>HTTP Sampler-&gt;Retrieve All Embedded Resources from HTML Files </p>
-<p>5、URLs must match</p>
-<p>6、IP欺骗</p>
-<p>HTTP Sample -&gt; Source address </p>
-<p>7、file协议</p>
-<p>Http Sampler -&gt;protocol-&gt;file,除了http还可以用file协议</p>
-<h2 id="第7课：Jmeter中的参数化"><a href="#第7课：Jmeter中的参数化" class="headerlink" title="第7课：Jmeter中的参数化"></a>第7课：Jmeter中的参数化</h2><h3 id="概念的引入"><a href="#概念的引入" class="headerlink" title="概念的引入"></a>概念的引入</h3><p>参数化概念解释</p>
-<h3 id="现实考虑"><a href="#现实考虑" class="headerlink" title="现实考虑"></a>现实考虑</h3><p>1、被业务场景所迫：所有用户都输入相同的数据，不能体现出真实的业务环境。（搜索操作）</p>
-<p>2、被系统体系所迫：存在缓存，不能体现出真正的性能。</p>
-<p>3、被系统业务约束所迫：有些系统禁止同一用户多次登录系统，也就严重到无法测试的地步。</p>
-<h3 id="哪些需要参数化？"><a href="#哪些需要参数化？" class="headerlink" title="哪些需要参数化？"></a>哪些需要参数化？</h3><p>1、登录认证信息</p>
-<p>2、一些和时间相关的，违法时间约束的</p>
-<p>3、一些受其他字段约束的</p>
-<p>4、一些来自于其他数据源（例如数据库的）</p>
-<p>5、其他在系统运行过程中需要变动的</p>
-<h3 id="参数化"><a href="#参数化" class="headerlink" title="参数化"></a>参数化</h3><p>参数化后，写死了的代码变活，代码将更加美好！</p>
-<h3 id="工具中的参数化"><a href="#工具中的参数化" class="headerlink" title="工具中的参数化"></a>工具中的参数化</h3><p>1、LoadRunner中的参数化</p>
-<p>2、Jmeter中的参数化（本节课的重点）</p>
-<p>无论哪种形式或工具的参数化，本质是没有变的。变的只是不同工具提供的不同操作方法。</p>
-<h3 id="Jmeter中的参数化"><a href="#Jmeter中的参数化" class="headerlink" title="Jmeter中的参数化"></a>Jmeter中的参数化</h3><p>参数化-我们来了？你在哪？？</p>
-<p>变量-变量在哪？</p>
-<p>变量是每个线程都有各自一份的，一个线程修改并不影响另一个线程。</p>
-<p>Jmeter参数化可以通过多种方式，本节课只讲应用最广泛，最实用的。</p>
-<p>通过CSV Data Set Config组件</p>
-<p>1、更容易使用和理解</p>
-<p>2、适合于大参数量场景</p>
-<p>3、设置方便灵活</p>
-<p><strong>1</strong></p>
-<p>conf.csv</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user1,passwd1</span><br><span class="line">user2,passwd2</span><br></pre></td></tr></table></figure>
-<p>Conf Element-&gt;CSV Data Set Config</p>
-<p>Filename: conf.csv</p>
-<p>Variable Names：username,password</p>
-<p><strong>2</strong></p>
-<p>conf.csv</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">username,password</span><br><span class="line">user1,passwd1</span><br><span class="line">user2,passwd2</span><br><span class="line">&quot;us,er3&quot;,passwd3 #需要使用 Allow quoted data：True</span><br></pre></td></tr></table></figure>
-<p>Conf Element-&gt;CSV Data Set Config</p>
-<p>Filename: conf.csv</p>
-<p>Variable Names：</p>
-<p>如果recycle option和stopThread都是false，那么当到达文件尾部的时候，变量的数值被设置成EOF,当然，这个可以通过修改属性文件中的csvdataset.eofstring进行修改。 jmeter.properties中修改</p>
-<h2 id="第8课：Jmeter中的关联"><a href="#第8课：Jmeter中的关联" class="headerlink" title="第8课：Jmeter中的关联"></a>第8课：Jmeter中的关联</h2><h3 id="什么是关联"><a href="#什么是关联" class="headerlink" title="什么是关联"></a>什么是关联</h3><p>1）关联的定义</p>
-<p>2）参数化和关联的区别的阐述</p>
-<p>关联，从请求的响应中提取数据。参数化，自己做的数据。</p>
-<p>3）什么时候需要关联？</p>
-<p>服务器返回的动态变化且对业务有影响的。</p>
-<h3 id="工具中的关联"><a href="#工具中的关联" class="headerlink" title="工具中的关联"></a>工具中的关联</h3><p>1、LoadRunner中的关联</p>
-<p>2、Jmeter中的关联</p>
-<p><strong>无论哪种形式或工具的关联，本质是没有变的。变的只是不同工具提供的不同操作方法。</strong></p>
-<h3 id="Jmeter中的关联"><a href="#Jmeter中的关联" class="headerlink" title="Jmeter中的关联"></a>Jmeter中的关联</h3><p>关联 -我们来了，你在哪？？</p>
-<p>如何获取请求响应中特定的数据或信息？</p>
-<p>强大的后置处理器 Post Processors-&gt; Regular Expression Extractor</p>
-<h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>正则表达式，又称正规表示法、常规表示法（英语：Regular Expression，在代码中简称regex、regexp或RE），计算机科学中的一个概念。</p>
-<p><strong>Jmeter的正则规则基于Apache ORO，跟perl语言的正则表达式规则类似，目前学会了解和使用最常用的语法即可。</strong></p>
-<p>具有特殊含义的字符：</p>
-<p>（和）：界定期望获取字符串的匹配模式</p>
-<p>.(字符点)：匹配任意单个字符</p>
-<p>+：一次或者多次</p>
-<p>？：找到匹配的结果后立刻停止查找</p>
-<p>\：转义字符</p>
-<p>[]：匹配符合[]内的字符</p>
-<p>[a-z] 匹配所有小写字母字符</p>
-<p>[^0-9]匹配所有非数字字符</p>
-<p>[^a-z]匹配所有非小写字母字符</p>
-<p>^匹配字符开头的字符</p>
-<p>$匹配字符结尾的字符</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>通过例子可以看出，在性能测试工具中进行关联是构建正确的脚本基本要求。而高于工具和关联的，是需要对协议的了解和业务的属性。</p>
-<p>抓包查看分析也是一项基本技能。</p>
 
       
       

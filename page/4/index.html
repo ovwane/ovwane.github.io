@@ -210,6 +210,111 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Dubbo-配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/16/Dubbo-配置/" class="article-date">
+      <time datetime="2019-01-16T06:48:30.000Z" itemprop="datePublished">2019-01-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/16/Dubbo-配置/">Dubbo 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Dubbo"><a href="#Dubbo" class="headerlink" title="Dubbo"></a><a href="https://dubbo.apache.org" target="_blank" rel="noopener">Dubbo</a></h1><blockquote>
+<p>Ubuntu 18.04</p>
+<p>Zookeeper 3.3.3</p>
+</blockquote>
+<h2 id="Zookeeper-配置"><a href="#Zookeeper-配置" class="headerlink" title="Zookeeper 配置"></a><a href="https://zookeeper.apache.org/" target="_blank" rel="noopener">Zookeeper</a> 配置</h2><p><a href="https://dubbo.apache.org/en-us/docs/admin/install/zookeeper.html" target="_blank" rel="noopener">install Zookeeper configuration center</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull zookeeper:3.3.6</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Docker 没有 Zookeeper 3.3.3 版本。</p>
+<p>Zookeeper 3.5 是因为 Java Zookeepeer 提示 old server。rr-w 不生效。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull zookeeper:3.5</span><br></pre></td></tr></table></figure>
+<p><strong>运行</strong> <strong>Zookeeper</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name zookeeper-3.3.6 -p 2181:2181 zookeeper:3.3.6</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name zookeeper-3.5 -p 2181:2181 zookeeper:3.5</span><br></pre></td></tr></table></figure>
+<p><strong>测试</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo dump | nc 127.0.0.1 2181</span><br></pre></td></tr></table></figure>
+<h2 id="Dubbo-ops"><a href="#Dubbo-ops" class="headerlink" title="Dubbo ops"></a><a href="https://github.com/apache/dubbo-ops" target="_blank" rel="noopener">Dubbo ops</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull riveryang/dubbo-admin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.3.6:zk -e DUBBO_REGISTRY=&quot;zookeeper:\/\/zk:2181&quot; riveryang/dubbo-admin</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.5:zk -e DUBBO_REGISTRY="zookeeper:\/\/zk:2181" riveryang/dubbo-admin</span><br></pre></td></tr></table></figure>
+<p><strong>访问</strong></p>
+<p><a href="http://IP:8080" target="_blank" rel="noopener">http://IP:8080</a></p>
+<p>用户名：<code>root</code>，密码：<code>root</code></p>
+<h2 id="Dubbo-1"><a href="#Dubbo-1" class="headerlink" title="Dubbo"></a>Dubbo</h2><p><strong>安装 JDK</strong></p>
+<p><strong>安装 Maven</strong></p>
+<p><strong>下载示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/apache/dubbo-samples.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo-samples</span><br><span class="line">mvn clean package</span><br></pre></td></tr></table></figure>
+<h3 id="Dubbo-Provider"><a href="#Dubbo-Provider" class="headerlink" title="Dubbo Provider"></a>Dubbo Provider</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo-samples-basic</span><br><span class="line"></span><br><span class="line">mvn -Djava.net.preferIPv4Stack=true \</span><br><span class="line">-Dexec.mainClass=org.apache.dubbo.samples.basic.BasicProvider \</span><br><span class="line">exec:java</span><br></pre></td></tr></table></figure>
+<h3 id="Dubbo-Consumer"><a href="#Dubbo-Consumer" class="headerlink" title="Dubbo Consumer"></a>Dubbo Consumer</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo-samples-basic</span><br><span class="line"></span><br><span class="line">mvn -Djava.net.preferIPv4Stack=true \</span><br><span class="line">-Dexec.mainClass=org.apache.dubbo.samples.basic.BasicConsumer \</span><br><span class="line">exec:java</span><br></pre></td></tr></table></figure>
+<h3 id="Dubbo-ops-1"><a href="#Dubbo-ops-1" class="headerlink" title="Dubbo ops"></a><del><a href="https://github.com/apache/dubbo-ops" target="_blank" rel="noopener">Dubbo ops</a></del></h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull riveryang/dubbo-admin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.3.6:zk -e DUBBO_REGISTRY=&quot;zookeeper:\/\/zk:2181&quot; riveryang/dubbo-admin</span><br></pre></td></tr></table></figure>
+<p><del>下载</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/apache/dubbo-ops.git</span><br><span class="line">cd incubator-dubbo-ops/</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim dubbo-admin-backend/src/main/resources/application.properties</span><br></pre></td></tr></table></figure>
+<p><del>修改 Zookeeper IP</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim dubbo-admin-backend/src/main/resources/application.properties</span><br></pre></td></tr></table></figure>
+<p><del>安装npm</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt install -y npm</span><br><span class="line">npm i npm@latest -g</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo-admin-frontend/</span><br><span class="line">npm install ajv</span><br></pre></td></tr></table></figure>
+<p><del>Build</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean package</span><br></pre></td></tr></table></figure>
+<p><del>启动</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn --projects dubbo-admin-backend spring-boot:run</span><br></pre></td></tr></table></figure>
+<p><del>or</del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo-admin-backend/target; java -jar dubbo-admin-backend-0.0.1-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.huangyunkun.com/2018/04/19/docker-multi-step-dubbo-admin/" target="_blank" rel="noopener">Docker多步构建生成dubbo-admin镜像</a></p>
+<p><a href="https://luoliangdsga.github.io/2018/06/10/%E4%BD%BF%E7%94%A8Docker%E5%AE%B9%E5%99%A8%E5%8C%96SpringBoot-Dubbo%E5%BA%94%E7%94%A8%E7%9A%84%E5%AE%9E%E8%B7%B5/" target="_blank" rel="noopener">使用Docker容器化SpringBoot+Dubbo应用的实践</a></p>
+<p><a href="https://github.com/bz51/SpringBoot-Dubbo-Docker-Jenkins" target="_blank" rel="noopener">基于SpringBoot+Dubbo的微服务框架（借助Docker+Jenkins实现自动化、容器化部署）</a></p>
+<p><a href="https://blog.csdn.net/u012627861/article/details/82945068" target="_blank" rel="noopener">Dubbo - Dubbo Admin 安装（生产版）</a></p>
+<p><a href="https://blog.csdn.net/u012627861/article/details/82754027" target="_blank" rel="noopener">Dubbo - Dubbo Admin 安装（开发版-Dubbo OPS）</a></p>
+<p><a href="https://www.cnblogs.com/darling2047/p/9681181.html" target="_blank" rel="noopener">dubbo入门学习笔记之环境准备</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-OmniPlan-使用" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -818,74 +923,6 @@
 <p><a href="http://www.gpsspg.com/maps.htm" target="_blank" rel="noopener">经纬度查询</a></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.genymotion.com/latest/Content/04_Tools/Genymotion_Shell/Starting_Genymotion_Shell.htm" target="_blank" rel="noopener">Starting Genymotion Shell</a></p>
 <p><a href="http://ju.outofmemory.cn/entry/317903" target="_blank" rel="noopener">Genymotion安装配置指南</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JavaScript-学习" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/01/02/JavaScript-学习/" class="article-date">
-      <time datetime="2019-01-02T12:35:41.000Z" itemprop="datePublished">2019-01-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/02/JavaScript-学习/">JavaScript 学习</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><strong>清除console内容</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.clear()</span><br></pre></td></tr></table></figure></p>
-<p><strong>查看console支持的方法</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.dir(<span class="built_in">console</span>);</span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> languages = [</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">"JavaScript"</span>, <span class="attr">fileExtension</span>: <span class="string">".js"</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">"TypeScript"</span>, <span class="attr">fileExtension</span>: <span class="string">".ts"</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">"CoffeeScript"</span>, <span class="attr">fileExtension</span>: <span class="string">".coffee"</span> &#125;</span><br><span class="line">    ];</span><br></pre></td></tr></table></figure>
-<p><strong>通过console.log()记录数组数据</strong> </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(languages);</span><br></pre></td></tr></table></figure>
-<p><strong>通过console.table()记录数组数据</strong> </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.table(languages);</span><br></pre></td></tr></table></figure>
-<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>Paused in debugger（在调试器中暂停）</p>
-<p>Paused on breakpoint（在断点处暂停）</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/u012195214/article/details/73825074" target="_blank" rel="noopener">利用Console来调试JS程序、Console用法总结</a></p>
-<p><a href="https://www.cnblogs.com/strinkbug/p/4991596.html" target="_blank" rel="noopener">Javascript系列： Google Chrome调试js代码(zz)</a></p>
-<p><a href="https://www.cnblogs.com/WangHaiMing/p/9553678.html" target="_blank" rel="noopener">chrome浏览器控制台创建js脚本并执行</a></p>
-<p><a href="https://www.cnblogs.com/yangjinjin/archive/2013/01/30/2883172.html" target="_blank" rel="noopener">WebStorm快捷键操作</a></p>
 
       
       
