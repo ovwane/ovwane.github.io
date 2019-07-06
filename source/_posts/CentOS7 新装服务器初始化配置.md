@@ -12,23 +12,33 @@ tags:
 
 [CentOS 7 新装服务器部署流程](http://wzlinux.blog.51cto.com/8021085/1945374)
 
+[Questions about CentOS-7](https://wiki.centos.org/FAQ/CentOS7)
+
 所有的服务器基本都是最小化安装，版本为CentOS 7.x  64位系列。
+
+
 
 ## 配置IP和网关
 ```
 vi /etc/sysconfig/network-scripts/ifcfg-eth0
 
+ONBOOT=yes
 IPADDR=10.0.0.7
 PREFIX=24
 GATEWAY=10.0.0.1
 DNS1=114.114.114.114
 ```
-```
-#重启网络服务
+```shell
+# 重启网络服务
 systemctl restart network.service
 ```
 
+> [2.2. Editing Network Configuration Files](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Editing_Network_Configuration_Files.html)
+
+
+
 ## 设置时区
+
 ```
 timedatectl list-timezones           #列出所有时区
 timedatectl set-local-rtc 1          #将硬件时钟调整为与本地时钟一致,0为设置为UTC时间

@@ -127,13 +127,14 @@ git clone -b v3.4.1 https://github.com/openstf/stf.git
 ### 复制代码到官方代码目录下
 
 1. 拷贝`lib/cli`下的`ios-device,ios-provider,local`三个文件夹，local文件夹可以直接覆盖。
-2. 拷贝`lib/units`下的`ios-device,ios-provider`。
-3. 覆盖`lib/units/storage/plugins/apk/task/manifest.js`文件。
-4. 拷贝`lib/util`下的`ipareader.js,download.js`文件；ipa文件解析和下载。
-5. 覆盖`lib/wire/wire.proto`文件。
-6. 覆盖`res/app/components/stf/install/install-service.js`文件；ipa文件的安装。
-7. 覆盖`res/app/components/stf/storage/storage-service.js`文件；上传ipa文件。
-8. 覆盖`package.json`添加了依赖模块。
+2. 覆盖`lib/cli`下的`index.js`。
+3. 拷贝`lib/units`下的`ios-device,ios-provider`。
+4. 覆盖`lib/units/storage/plugins/apk/task/manifest.js`文件。
+5. 拷贝`lib/util`下的`ipareader.js,download.js`文件；ipa文件解析和下载。
+6. 覆盖`lib/wire/wire.proto`文件。
+7. 覆盖`res/app/components/stf/install/install-service.js`文件；ipa文件的安装。
+8. 覆盖`res/app/components/stf/storage/storage-service.js`文件；上传ipa文件。
+9. 覆盖`package.json`添加了依赖模块。
 
 
 
