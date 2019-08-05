@@ -212,7 +212,7 @@ grid 2 x 2 窗口布局
 
 ### Indent Rainbow
 
-缩进颜色
+indent-rainbow：缩进颜色
 
 
 
@@ -222,21 +222,28 @@ JavaScript 经常被吐槽的一个地方，就是大家对 npm 库的使用程�
 
 
 
+### Markdown
+
+Markdown 预览：Markdown Preview Enhanced
+
+粘贴板图片保存：Paste Image
+
+- 修改 Base Path：`${currentFileDir}/assets`。
+- 修改 Default Name：`YMMDD-HH-mm-ss`。
+- 修改 Path：`${currentFileDir}/assets`
+- 修改 Prefix：`assets/`。
+
+
+
+### Git
+
+Ignore files：忽略文件
+
+
+
 ### Debugger for Chrome
 
 
 
 ### Docker
-
-
-
-## 基础入门
-
-1-13讲
-
-```
-
-```
-
-
 
