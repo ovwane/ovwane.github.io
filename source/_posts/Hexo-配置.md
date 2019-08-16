@@ -1,5 +1,5 @@
 ---
-title: macOS 安装配置Hexo
+title: Hexo 配置
 date: 2017-10-08 13:27:00
 categories:
 - 技术
@@ -9,7 +9,7 @@ tags:
 - Hexo
 ---
 
-macOS 安装配置[Hexo](https://hexo.io)
+Hexo](https://hexo.io)
 macOS 10.12.6
 macOS 10.13
 
@@ -60,35 +60,8 @@ ssh -T git@git.coding.net
 ```
 
 ### 安装[NVM(Node Version Manager)](https://github.com/creationix/nvm)
-***
-需要访问[NVM](https://github.com/creationix/nvm#install-script)站点查看最新版的安装NVM shell脚本。
-***
-```
-#安装 NVM  # 此脚本不一定是最新的。请访问NVM站点查看最新版本的NVM。
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
-
-#检查 ~/.zshrc 文件内是否有下面的内容，没有的话添加。
-
-#NVM start
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-#NVM end
-```
 
 ### 安装Node.js 
-```
-#查看可以安装的node版本
-nvm ls-remote
-
-#安装 node stable
-nvm install stable
-
-#安装 node v8.2.1
-nvm install 8.2.1 # 安装的npm版本是5.3.0
-#设置默认 node
-nvm alias default 8.2.1
-```
 
 ### 安装Hexo
 ```

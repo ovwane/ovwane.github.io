@@ -1,5 +1,5 @@
 ---
-title: macOS 安装Oh My Zsh
+title: Zsh 配置
 date: 2017-10-08 10:36:00
 categories:
 - 技术
@@ -7,39 +7,56 @@ categories:
 tags:
 - macOS
 - Oh My Zsh
+- Zsh
 ---
 
-macOS 安装[Oh My Zsh](http://ohmyz.sh/)
-macOS 10.12.6
-macOS 10.13
+## 安装[Oh My Zsh](http://ohmyz.sh/)
+
+> macOS 10.12.6
+> macOS 10.13
 
 ## macOS 安装 [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh)
-```
+```shell
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
-网站
-http://ohmyz.sh/
+网站：http://ohmyz.sh/ | https://github.com/robbyrussell/oh-my-zsh
 
-https://github.com/robbyrussell/oh-my-zsh
+## **主题**
 
-## 安装插件
+**目前使用的是** ys 
+
+
+
+## 插件
 
 ### 安装[zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md)
-```
+```shell
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
 ### 安装[zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 
 ```shell
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
 ### 安装[**zsh-completions**](https://github.com/zsh-users/zsh-completions)
 
 ```shell
-git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
+```
+
+### [zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)
+
+```shell
+git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
+```
+
+### [zsh-apple-touchbar](https://github.com/zsh-users/zsh-apple-touchbar)
+
+```shell
+git clone https://github.com/zsh-users/zsh-apple-touchbar ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-apple-touchbar
 ```
 
 ### 安装[autojump](https://github.com/wting/autojump)
@@ -61,12 +78,23 @@ git clone https://github.com/powerline/fonts.git
 rm -rf fonts
 ```
 
+
+
 ## 参数配置
+
 ### ~/.zshrc文件
-```
+```shell
+vim ~/.zshrc
+
 # 插件
-~/.zshrc
-plugins=(git autojump osx colored-man-pages brew zsh-syntax-highlighting)
+plugins=(
+	zsh-syntax-highlighting
+	zsh-autosuggestions
+	zsh-completions
+	zsh-history-substring-search
+	
+	zsh-apple-touchbar
+	)
 
 # powerline
 . /usr/local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
@@ -82,19 +110,6 @@ set t_Co=256
 
 网站
 https://github.com/wting/autojump
-
-### iTerm2 配色方案
-
-下载[Solarized](http://ethanschoonover.com/solarized)配色
-
-***
-打开Preferenced->Profiles
-新建profile为 ovwane。
-
-打开iTerm2的偏好设定
-Profiles->Colors
-点开右下角的Color Presets 选择Import... 直接加载iterm2-colors-solarized/Solarized Dark.itermcolors配色方案就可以了，重启iTerm2就可以看到效果。
-***
 
 #### powerline-status
 
@@ -129,7 +144,11 @@ vim /.bash_profile
 source ~/.bash_profile
 ```
 
-网站|[参考](http://blog.topspeedsnail.com/archives/2652)
+
+
+## 参考
+
+[ITerm2配色方案](https://www.jianshu.com/p/33deff6b8a63)
 
 https://github.com/powerline/powerline
 https://github.com/powerline/fonts

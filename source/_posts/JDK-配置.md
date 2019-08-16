@@ -33,3 +33,15 @@ source /etc/profile
 #查看java版本
 java -version
 ```
+
+macOS
+
+```
+# JAVA_HOME start
+export JAVA_HOME="$(/usr/libexec/java_home -v 1.8.0_144)"
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.
+export CLASS_PATH=$JAVA_HOME/lib
+# JAVA_HOME end
+```
+
