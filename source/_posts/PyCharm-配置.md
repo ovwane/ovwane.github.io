@@ -48,6 +48,18 @@ __time__ = '${YEAR}.${MONTH}.${DAY} ${HOUR}:${MINUTE}'
 
 
 
+### 配置 Pipenv 环境
+
+[Configure a Pipenv environment](https://www.jetbrains.com/help/pycharm/pipenv.html)
+
+```
+python -m site --user-base
+```
+
+虚拟环境存放位置：`$HOME/.local`
+
+
+
 ## 插件
 
 ### .ignore 
@@ -59,6 +71,12 @@ __time__ = '${YEAR}.${MONTH}.${DAY} ${HOUR}:${MINUTE}'
 ### Rainbow Brackets
 
 彩虹颜色的括号 看着很舒服 敲代码效率变高。
+
+
+
+### isort
+
+[isort Plugins](https://github.com/timothycrosley/isort/wiki/isort-Plugins)，import 导入模块排序。
 
 
 

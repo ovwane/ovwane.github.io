@@ -28,7 +28,7 @@ answer VNET_8_HOSTONLY_SUBNET 192.168.5.0
 > 关闭 Virtualbox
 
 ```shell
-/Library/Application\ Support/VirtualBox/LaunchDaemons/VirtualBoxStartup.sh stop
+sudo /Library/Application\ Support/VirtualBox/LaunchDaemons/VirtualBoxStartup.sh stop
 ```
 
 

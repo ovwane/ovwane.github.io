@@ -36,3 +36,19 @@ brew services start mariadb
 #### 查看服务列表
 brew services list
 
+## [MariaDB 教程](https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/)
+
+##### 列出数据库
+show databases;
+
+##### 新建数据库
+create database scrapy;
+
+##### 删除数据库
+drop database scrapy;
+
+##### 查看字符集
+show variables like 'collation_%';
+
+##### 查看字符集
+show variables like 'character_set_%';

@@ -37,6 +37,26 @@ systemd-resolve --status|grep 'DNS Servers'
 
 
 
+## 安装
+
+SSH
+
+```shell
+apt install -y openssh-server
+```
+
+
+
+Docker
+
+```
+snap install docker
+```
+
+
+
+
+
 ## 参考
 
 [如何在 Ubuntu 18.04 下正确配置网络](https://www.hi-linux.com/posts/49513.html)

@@ -29,3 +29,15 @@ pip install PyAudio==0.2.11
 ```
 
 [使用PyAudio模块播放音频流之体会 - 简书](https://www.jianshu.com/p/ba82e90ce706)
+
+
+
+## 日志
+
+[logzero](https://github.com/metachris/logzero)
+
+
+
+## site
+
+[Python.Module.site - XiaoKL - 博客园](https://www.cnblogs.com/cwgk/p/4564557.html)
