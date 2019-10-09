@@ -210,6 +210,118 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-利用-Python-的-CGIHTTPServer-测试-CGI-脚本程序" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/04/利用-Python-的-CGIHTTPServer-测试-CGI-脚本程序/" class="article-date">
+      <time datetime="2019-04-04T08:54:38.000Z" itemprop="datePublished">2019-04-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/04/利用-Python-的-CGIHTTPServer-测试-CGI-脚本程序/">利用 Python 的 CGIHTTPServer 测试 CGI 脚本程序</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="Python-3"><a href="#Python-3" class="headerlink" title="Python 3"></a>Python 3</h2><p>步骤： </p>
+<ol>
+<li><p>新建HttpServer目录 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir HttpServer</span><br><span class="line">cd HttpServer</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在HttpServer目录下新建cgi-bin目录 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir cgi-bin</span><br><span class="line">cd cgi-bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在cgi-bin目录下新建helloworld.sh文件，内容如下：</p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim helloworld.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">echo "Content-Type:text/html"</span><br><span class="line">echo ""</span><br><span class="line"></span><br><span class="line">echo "hello world!"</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>在cgi-bin目录下打开命令行，执行</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x helloworld.sh</span><br></pre></td></tr></table></figure>
+<p>赋予helloworld.sh可执行的权限</p>
+<ol start="5">
+<li>在HttpServer目录下打开命令行，执行命令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m http.server --cgi --bind 0.0.0.0 8088</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就会把HttpServer目录以后台服务的方式作为CGIHTTPServer启动，运行log可在当前目录的nohup.out文件中查看。</p>
+</blockquote>
+<ol start="6">
+<li>打开浏览器，地址栏出入：</li>
+</ol>
+<p><a href="http://localhost:8088/cgi-bin/helloworld.sh" target="_blank" rel="noopener">http://localhost:8088/cgi-bin/helloworld.sh</a></p>
+<p>即可看到输出的Hello World! </p>
+<h2 id="Python-2"><a href="#Python-2" class="headerlink" title="Python 2"></a>Python 2</h2><p>步骤： </p>
+<ol>
+<li><p>新建HttpServer目录 </p>
+</li>
+<li><p>在HttpServer目录下新建cgi-bin目录 </p>
+</li>
+<li><p>在cgi-bin目录下新建helloworld.sh文件，内容如下：</p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">echo "Content-Type:text/html"</span><br><span class="line">echo ""</span><br><span class="line"></span><br><span class="line">echo "hello world!"</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>在cgi-bin目录下打开命令行，执行</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x helloworld.sh</span><br></pre></td></tr></table></figure>
+<p>赋予helloworld.sh可执行的权限</p>
+<ol start="5">
+<li>在HttpServer目录下打开命令行，执行命令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup python -m CGIHTTPServer 8088 &amp;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就会把HttpServer目录以后台服务的方式作为CGIHTTPServer启动，运行log可在当前目录的nohup.out文件中查看。</p>
+</blockquote>
+<ol start="6">
+<li>打开浏览器，地址栏出入：</li>
+</ol>
+<p><a href="http://localhost:8088/cgi-bin/helloworld.sh" target="_blank" rel="noopener">http://localhost:8088/cgi-bin/helloworld.sh</a></p>
+<p>即可看到输出的Hello World! </p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/yzpbright/article/details/82626451" target="_blank" rel="noopener">利用Python的CGIHTTPServer测试CGI脚本程序</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-JForum-配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1319,66 +1431,6 @@
 <h2 id="Testerhome"><a href="#Testerhome" class="headerlink" title="Testerhome"></a>Testerhome</h2><p>恒温<br>monkey<br>国文<br>喜力<br>mingway<br>喜力<br>卡斯<br>乙醇<br>散步的sun<br>Mic<br>思寒</p>
 <p><a href="https://testerhome.com/uploads/photo/2016/bc5641b9928ed4d571e3b72f9d2dd9ab.png!large" target="_blank" rel="noopener">数据图</a></p>
 <h2 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h2><p><a href="https://www.cnblogs.com/fnng/" target="_blank" rel="noopener">虫师</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Python-三方库-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/15/Python-三方库-学习笔记/" class="article-date">
-      <time datetime="2019-02-15T00:11:39.000Z" itemprop="datePublished">2019-02-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/15/Python-三方库-学习笔记/">Python 三方库-学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="格式化输出-print"><a href="#格式化输出-print" class="headerlink" title="格式化输出 print"></a>格式化输出 print</h2><p><a href="https://prettyprinter.readthedocs.io/en/latest/" target="_blank" rel="noopener">Welcome to PrettyPrinter’s documentation! — PrettyPrinter 0.14.0 documentation</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install prettyprinter==0.14.0</span><br></pre></td></tr></table></figure>
-<h2 id="音频播放"><a href="#音频播放" class="headerlink" title="音频播放"></a>音频播放</h2><p><a href="http://people.csail.mit.edu/hubert/pyaudio/" target="_blank" rel="noopener">PyAudio: PortAudio v19 Python Bindings</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install portaudio</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install PyAudio==0.2.11</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.jianshu.com/p/ba82e90ce706" target="_blank" rel="noopener">使用PyAudio模块播放音频流之体会 - 简书</a></p>
 
       
       

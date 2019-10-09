@@ -210,6 +210,64 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-iOS自动化测试的那些干货" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/08/iOS自动化测试的那些干货/" class="article-date">
+      <time datetime="2018-11-08T07:01:36.000Z" itemprop="datePublished">2018-11-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/08/iOS自动化测试的那些干货/">iOS自动化测试的那些干货</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://blog.csdn.net/Hello_Hwc/article/details/60957515" target="_blank" rel="noopener">iOS自动化测试的那些干货</a></p>
+<p><a href="https://github.com/facebook/xctool" target="_blank" rel="noopener">facebook/xctool</a></p>
+<p><strong>xctool</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install xctool</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Docker-OpenSTF-配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1142,69 +1200,6 @@
 <p><a href="https://www.cnblogs.com/showtime813/p/5714603.html" target="_blank" rel="noopener">Kibana + ElasticSearch</a></p>
 <p><a href="https://blog.csdn.net/zyc88888/article/details/79019865" target="_blank" rel="noopener">ElasticSearch常用插件整理</a></p>
 <p><a href="https://github.com/medcl/elasticsearch-rtf" target="_blank" rel="noopener">Elasticsearch-RTF</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS-pip-配置-supervisor" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/17/macOS-pip-配置-supervisor/" class="article-date">
-      <time datetime="2018-10-17T07:27:45.000Z" itemprop="datePublished">2018-10-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/17/macOS-pip-配置-supervisor/">macOS pip 配置 supervisor</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
-<p>macOS 10.13.6</p>
-</blockquote>
-<p>etc目录在/usr/local/etc</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/local/etc/supervisor/</span><br><span class="line">echo_supervisord_conf &gt; /usr/local/etc/supervisor/supervisord.conf</span><br></pre></td></tr></table></figure>
-<p>vim /usr/local/etc/supervisor/supervisord.conf</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[inet_http_server]         </span><br><span class="line">port=127.0.0.1:9001</span><br><span class="line"></span><br><span class="line">[supervisord]</span><br><span class="line">logfile=/usr/local/etc/supervisor/supervisord.log</span><br><span class="line">logfile_maxbytes=50MB        ; max main logfile bytes b4 rotation; default 50MB</span><br><span class="line">logfile_backups=10           ; # of main logfile backups; 0 means none, default 10</span><br><span class="line">loglevel=info                ; log level; default info; others: debug,warn,trace</span><br><span class="line">pidfile=/usr/local/etc/supervisor/supervisord.pid</span><br><span class="line"></span><br><span class="line">[supervisorctl]</span><br><span class="line">serverurl=http://127.0.0.1:9001</span><br><span class="line">serverurl=unix:///usr/local/etc/supervisor/supervisor.sock</span><br><span class="line"></span><br><span class="line">[include]</span><br><span class="line">files = /usr/local/etc/supervisor/conf.d/*.conf</span><br></pre></td></tr></table></figure>
-<p>启动supervisor</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisord -c /usr/local/etc/supervisor/supervisord.conf</span><br></pre></td></tr></table></figure>
 
       
       
