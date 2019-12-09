@@ -194,7 +194,7 @@ grid 2 x 2 窗口布局
 
 
 
-# debugger
+## debugger
 
 快捷键：`cmd+shif+d`
 

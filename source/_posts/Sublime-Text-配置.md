@@ -43,12 +43,14 @@ ctrl+alt+m 压缩json字符串
 ```
 
 
+
 ### [HTML-CSS-JS Prettify](https://github.com/victorporof/Sublime-HTMLPrettify)
 
 ```
 #格式化html、css、js
 command+shift+h 格式化快捷键
 ```
+
 
 
 ### [P3-Assembly-Sublime-Text-Syntax](https://github.com/Jguer/P3-Assembly-Sublime-Text-Syntax)
@@ -63,6 +65,11 @@ command+shift+h 格式化快捷键
 
 
 
+## [Codecs3](https://github.com/seanliang/Codecs33)
+
+被 ConvertToUTF8 依赖。
+
+
+
 ### ConvertToUFT8
 
-使用 `ConvertToUTF8` 需要先安装 [Codecs33](https://github.com/seanliang/Codecs33/)。

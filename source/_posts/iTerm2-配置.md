@@ -8,7 +8,7 @@ date: 2018-05-05 12:15:39
 **Solarized Dark Higher Contrast**
 
 ```shell
-$ wget https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Solarized%20Dark%20Higher%20Contrast.itermcolors
+wget https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Solarized%20Dark%20Higher%20Contrast.itermcolors
 ```
 
 导入主题
@@ -21,19 +21,23 @@ Color Presets->import
 
 
 
-## lrzsz
+### 传输文件
 
-> https://github.com/mmastrac/iterm2-zmodem
+安装 lrzsz
 
 ```shell
 brew install lrzsz
 ```
 
+
+
+配置 itterm2-zmodem
+
 ```shell
-git clone https://github.com/luxihk/iterm2-zmodem.git
+git clone https://github.com/aikuyun/iterm2-zmodem.git
 cp iterm2-zmodem/{iterm2-send-zmodem.sh,iterm2-recv-zmodem.sh} /usr/local/bin/
+chmod 777 /usr/local/bin/iterm2-*
+rm -r iterm2-zmodem
 ```
 
 
-
-## Zsh 配置看另外一篇文章

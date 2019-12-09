@@ -82,10 +82,8 @@ rm -rf fonts
 
 ## 参数配置
 
-### ~/.zshrc文件
+### ~/.zshrc 文件
 ```shell
-vim ~/.zshrc
-
 # 插件
 plugins=(
 	zsh-syntax-highlighting

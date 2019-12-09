@@ -6,23 +6,48 @@ tags:
 
 
 
-安装 xcode-installs
+安装 ruby
 
-```shell
-gem install xcode-installs
+```
+brew install ruby
 ```
 
 
 
-查看 Xcode 版本
+设置环境变量
+
+```
+echo 'export PATH="/usr/local/opt/ruby/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:$PATH"' >> ~/.zshrc
+```
+
+> For compilers to find ruby you may need to set:
+>   export LDFLAGS="-L/usr/local/opt/ruby/lib"
+>   export CPPFLAGS="-I/usr/local/opt/ruby/include"
+
+
+
+安装 [xcode-install](https://github.com/xcpretty/xcode-install)
 
 ```shell
-xcversion version
+gem install xcode-install
+```
+
+
+
+查看版本
+
+```shell
+xcversion --version
 ```
 
 
 
 安装 Xcode
+
+```
+xcversion list
+```
 
 ```shell
 xcversion install "9.4.1"
@@ -44,8 +69,28 @@ ls /Applications | grep Xcode
 
 切换 Xcode 版本
 
+```
+xcversion select 9.4.1
+```
+
 ```shell
 sudo xcode-select --switch /Applications/Xcode-9.4.1.app
+```
+
+
+
+## Command Line Tools
+
+```
+xcversion install-cli-tools
+```
+
+
+
+## Simulators
+
+```
+xcversion simulators
 ```
 
 

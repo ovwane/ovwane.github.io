@@ -17,7 +17,9 @@ tags:
 >
 > 10.13.4 2018-05-05 20:01
 
-### 安装依赖
+## [pyenv](https://github.com/pyenv/pyenv)
+
+~~安装依赖~~
 
 ```shell
 brew install readline openssl xz zlib
@@ -25,16 +27,43 @@ brew install readline openssl xz zlib
 
 
 
-### 安装pyenv
+安装pyenv
+
 ```shell
-$ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 ```
+
+
+
+添加环境变量
+
+~/.zshrc
+
+```shell
+# pyenv start
+export PYENV_ROOT="${HOME}/.pyenv"
+
+if [ -d "${PYENV_ROOT}" ]; then
+	export PATH="${PYENV_ROOT}/bin:${PATH}"
+	eval "$(pyenv init -)"
+fi
+# pyenv end
+```
+
+```shell
+# 重新加载shell
+$ exec $SHELL -l
+```
+
+
 
 查看可安装Python版本
 
 `pyenv install -l`
 
-**安装Python**
+
+
+安装Python**
 
 [ERROR: The Python ssl extension was not compiled. Missing the OpenSSL lib?](https://github.com/pyenv/pyenv/wiki/Common-build-problems)
 
@@ -52,21 +81,6 @@ pyenv install -v
 $ pyenv install 3.6.5
 $ pyenv install 2.7.15
 
-# 添加环境变量
-$ vim ~/.zshrc
-
-# start pyenv
-export PYENV_ROOT="${HOME}/.pyenv"
-
-if [ -d "${PYENV_ROOT}" ]; then
-  export PATH="${PYENV_ROOT}/bin:${PATH}"
-  eval "$(pyenv init -)"
-fi
-# end pyenv
-
-# 重新加载shell
-$ exec $SHELL -l
-
 # 设置 3.6.5 为默认版本
 $ pyenv global 3.6.5
 $ pyenv rehash
@@ -75,7 +89,10 @@ $ pyenv rehash
 $ python -V
 ```
 
+
+
 ### 设置pip 使用豆瓣源
+
 ```
 mkdir ~/.pip
 
@@ -85,6 +102,8 @@ index-url = https://pypi.douban.com/simple
 --format=columns
 EOF
 ```
+
+
 
 更新pip
 
@@ -96,7 +115,7 @@ $ pip install --upgrade pip
 
 ### 安装Python插件
 
-**virtualenvwrapper**
+~~virtualenvwrapper~~
 
 ```shell
 $ pip install virtualenvwrapper
@@ -117,13 +136,23 @@ export PIP_REQUIRE_VIRTUALENV=true
 # end virtualwrapper
 ```
 
-**pipenv**
 
+
+**pipenv**
 ```shell
-$ pip install pipenv
+brew install pipenv
 ```
 
-pipenv环境变量
+
+
+弃用pip安装方式
+
+
+```shell
+pip install pipenv
+```
+
+~~pipenv环境变量~~
 
 ```shell
 $ vim ~/.zshrc
@@ -150,7 +179,9 @@ deactivate
 rmvirtualenv test
 ```
 
-### 参考
+
+
+## 参考
 
 
 

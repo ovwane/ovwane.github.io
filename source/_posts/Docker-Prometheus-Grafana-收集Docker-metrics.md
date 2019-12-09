@@ -4,12 +4,21 @@ date: 2018-11-16 16:32:42
 tags:
 ---
 
-### Configure Docker
+启动 grafana
+```shell
+docker run --name grafana -d -p 3000:3000 grafana/grafana
+```
+
+启动 prometheus
+```shell
+docker run --name prometheus -d -p 9090:9090 -v ~/docker/prom/prometheus.yml:/etc/prometheus/prometheus.yml -v /docker/prom/rules/:/etc/prometheus/ prom/prometheus --config.file=/etc/prometheus/prometheus.yml
+```
+
+## Configure Docker
 
 - **Docker for Mac / Docker for Windows**: Click the Docker icon in the toolbar, select **Preferences**, then select **Daemon**. Click **Advanced**.
 
 If the file is currently empty, paste the following:
-
 ```
 {
   "metrics-addr" : "127.0.0.1:9323",
@@ -17,25 +26,7 @@ If the file is currently empty, paste the following:
 }
 ```
 
-```shell
-docker pull prom/prometheus:v2.5.0
-```
-
-
-
-### Configure and run Prometheus
-
-Prometheus runs as a Docker service on a Docker swarm.
-
-> **Prerequisites**
->
-> 1. One or more Docker engines are joined into a Docker swarm, using `docker swarm init`on one manager and `docker swarm join` on other managers and worker nodes.
-> 2. You need an internet connection to pull the Prometheus image.
-
- Copy one of the following configuration files and save it to `/tmp/prometheus.yml` (Linux or Mac) or `C:\tmp\prometheus.yml` (Windows). This is a stock Prometheus configuration file, except for the addition of the Docker job definition at the bottom of the file. Docker for Mac and Docker for Windows need a slightly different configuration.
-
-vim /tmp/prometheus.yml
-
+配置 prometheus.yml
 ```yaml
 # my global config
 global:
@@ -47,7 +38,14 @@ global:
   # external systems (federation, remote storage, Alertmanager).
   external_labels:
       monitor: 'codelab-monitor'
-
+      
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+      
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
   # - "first.rules"
@@ -72,22 +70,11 @@ scrape_configs:
     static_configs:
     # - targets: ['docker.for.mac.host.internal:9323']
       - targets: ['docker.for.mac.localhost:9323']
-```
-
-运行
-
-```shell
-docker run -d --name prometheus-2.5.0 -v /tmp/prometheus.yml:/etc/prometheus/prometheus.yml -p 9090:9090 prom/prometheus:v2.5.0
-```
-
-~~Next, start a single-replica Prometheus service using this configuration.~~
-
-
-```shell
-docker service create --replicas 1 --name prometheus-2.5.0 \
-    --mount type=bind,source=/tmp/prometheus.yml,destination=/etc/prometheus/prometheus.yml \
-    --publish published=9090,target=9090,protocol=tcp \
-    prom/prometheus:v2.5.0
+  
+  - job_name: 'mac'
+    # 采集node exporter监控数据
+    static_configs:
+      - targets: ['docker.for.mac.localhost:9100']
 ```
 
 ## 参考
