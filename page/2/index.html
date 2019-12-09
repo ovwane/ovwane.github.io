@@ -210,6 +210,217 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Appium-源码分析-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/07/Appium-源码分析-学习笔记/" class="article-date">
+      <time datetime="2019-05-07T04:12:19.000Z" itemprop="datePublished">2019-05-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/07/Appium-源码分析-学习笔记/">Appium 源码分析-学习笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>环境参考 appium 的 <a href="https://github.com/appium/appium/blob/master/.travis.yml" target="_blank" rel="noopener">travis.yml</a></p>
+<p>使用网络代理</p>
+</blockquote>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm use v10.15.0</span><br></pre></td></tr></table></figure>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv shell 2.7.15</span><br></pre></td></tr></table></figure>
+<h3 id="运行-Appium"><a href="#运行-Appium" class="headerlink" title="运行 Appium"></a>运行 Appium</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects</span><br><span class="line">git clone https://github.com/appium/appium.git</span><br><span class="line">cd appium</span><br><span class="line">npm install</span><br><span class="line">npm run build</span><br><span class="line">node .</span><br></pre></td></tr></table></figure>
+<h3 id="Hacking-on-Appium"><a href="#Hacking-on-Appium" class="headerlink" title="Hacking on Appium"></a>Hacking on Appium</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g appium-doctor</span><br><span class="line">appium-doctor --dev</span><br></pre></td></tr></table></figure>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idevicelocation</span><br></pre></td></tr></table></figure>
+<h4 id="opencv4nodejs"><a href="#opencv4nodejs" class="headerlink" title="opencv4nodejs"></a>opencv4nodejs</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyenv shell 3.6.1</span><br><span class="line">npm install -g opencv4nodejs</span><br></pre></td></tr></table></figure>
+<h4 id="fbsimctl"><a href="#fbsimctl" class="headerlink" title="fbsimctl"></a>fbsimctl</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Get the Facebook Tap.</span><br><span class="line">brew tap facebook/fb</span><br><span class="line"><span class="meta">#</span> Install fbsimctl from master</span><br><span class="line">brew install fbsimctl --HEAD</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="https://github.com/facebook/idb/issues/432" target="_blank" rel="noopener">fatal: Unable to create ‘/Users/jinlong/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer/index.lock’: Operation not permitted</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; brew uninstall --force carthage</span><br><span class="line">&gt; rm -rf ~/Library/Caches/org.carthage.CarthageKit</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="appium-packages"><a href="#appium-packages" class="headerlink" title="appium-packages"></a><a href="http://appium.io/docs/en/contributing-to-appium/appium-packages/" target="_blank" rel="noopener">appium-packages</a></h2><p><a href="https://github.com/appium/appium/blob/master/docs/cn/contributing-to-appium/appium-packages.md" target="_blank" rel="noopener">appium-packages 简述</a></p>
+<p>Selenium Packages</p>
+<p>Core Packages</p>
+<p>Utility Packages</p>
+<p>Android Packages</p>
+<p>iOS Packages</p>
+<blockquote>
+<p>packages 都在 node_modules 目录下。</p>
+</blockquote>
+<h4 id="使用-IDE"><a href="#使用-IDE" class="headerlink" title="使用 IDE"></a>使用 IDE</h4><p>Appium 使用 Visual Studio Code 开发的 <a href="https://github.com/appium/appium" target="_blank" rel="noopener">https://github.com/appium/appium</a> ，依据是 <code>.vscode</code> 目录。</p>
+<h4 id="调试的配置文件"><a href="#调试的配置文件" class="headerlink" title="调试的配置文件"></a>调试的配置文件</h4><p>launch.json</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    // 使用 IntelliSense 了解相关属性。 </span><br><span class="line">    // 悬停以查看现有属性的描述。</span><br><span class="line">    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387</span><br><span class="line">    "version": "0.2.0",</span><br><span class="line">    "configurations": [</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"node"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Launch Program"</span>,</span><br><span class="line">            "program": "$&#123;workspaceFolder&#125;/build/lib/main.js",//package.json中的默认入口</span><br><span class="line">            "console" : "integratedTerminal"  //控制台信息的显示</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><p><code>lib</code> 子目录是 Appium 的源码目录。而里面的 <code>main.js</code> 是 Appium 的程序入口。</p>
+<p><code>lib/main.js</code>： 程序入口 <code>async function main</code></p>
+<p><code>lib/appium.js</code>：方法 <code>createSession</code>,<code>executeCommand</code></p>
+<p><code>node_modules/appium-base-driver/lib/protocol/route.js</code>： 方法<code>METHOD_MAP</code></p>
+<p><code>node_modules/appium-base-driver/lib/protocol/protocol.js</code>：方法<code>routeConfiguringFunction</code></p>
+<p><code>node_modules/appium-base-driver/lib/express/server.js</code>：方法 <code>routeConfiguringFunction</code></p>
+<p><code>node_modules/appium-support/lib/logging.js</code>：方法<code>getLogger</code></p>
+<p><code>lib/logger.js</code>：给Appium打印的每行日志加上<code>[Appium]</code>的前缀</p>
+<p><code>node_modules/appium-base-driver/lib/basedriver/commands</code>：打印出当前sessionId创建成功</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/appium/appium/tree/master/docs/cn/contributing-to-appium" target="_blank" rel="noopener">contributing-to-appium</a></p>
+<p><a href="https://testerhome.com/topics/2463" target="_blank" rel="noopener">appium 源码分析合集 (一)</a></p>
+<p><a href="https://testerhome.com/wiki/developingappium" target="_blank" rel="noopener">Appium 开发环境搭建合集</a></p>
+<p><a href="https://bestswifter.com/appium/" target="_blank" rel="noopener">Appium 从入门到原理</a></p>
+<p><a href="https://www.cnblogs.com/wangcp-2014/p/6060019.html" target="_blank" rel="noopener">appium架构分析</a></p>
+<p><a href="https://www.jianshu.com/p/5d11299f674b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="noopener">Appium精要之Appium的背景知识</a></p>
+<p><a href="http://cming.site/2018/02/22/201802221759/" target="_blank" rel="noopener">Appium在vscode中调试说明</a></p>
+<p><a href="https://blog.csdn.net/jiuzuidongpo/article/details/51790455" target="_blank" rel="noopener">appium通信分析一（appium的初始化准备工作）</a><br><a href="https://blog.csdn.net/ouyanggengcheng/article/details/85210829" target="_blank" rel="noopener">Appium基础学习之 | Bootstrap源码分析</a></p>
+<p><a href="https://testerhome.com/topics/1980" target="_blank" rel="noopener">Appium 入门到原理合集</a></p>
+<h3 id="Android-Bootstrap"><a href="#Android-Bootstrap" class="headerlink" title="Android Bootstrap"></a>Android Bootstrap</h3><p><a href="http://www.cnblogs.com/laoli0201/articles/4881492.html" target="_blank" rel="noopener">手机自动化测试：appium源码分析之bootstrap一</a></p>
+<p><a href="https://blog.csdn.net/zhubaitian/article/details/40619777" target="_blank" rel="noopener">Appium Android Bootstrap源码分析之简介</a></p>
+<p><a href="https://blog.csdn.net/qq744746842/article/details/50461988" target="_blank" rel="noopener">Appium-bootstrap远程的调试方法</a></p>
+<p><a href="https://blog.csdn.net/jiuzuidongpo/article/details/51790702" target="_blank" rel="noopener">appium和boostrap通信过程数据分析</a></p>
+<p><a href="https://blog.51cto.com/10988776/1726073" target="_blank" rel="noopener">手机自动化测试：appium源码分析之bootstrap 1</a></p>
+<p><a href="http://skyseraph.com/2017/01/26/Android/Appuim源码剖析(Boottrap" target="_blank" rel="noopener">Appuim源码剖析(Bootstrap)</a>/)</p>
+<p><a href="https://cstsinghua.github.io/2018/07/19/Appium启动和日志分析/" target="_blank" rel="noopener">启动和日志分析</a></p>
+<p><a href="https://blog.csdn.net/zhubaitian/article/details/40710049" target="_blank" rel="noopener">Appium Server 源码分析之启动运行Express http服务器</a></p>
+<p><a href="https://blog.csdn.net/zhubaitian/article/details/40783625" target="_blank" rel="noopener">Appium Server源码分析之作为Bootstrap客户端</a></p>
+<p><a href="http://cming.site/2018/01/18/201801182037/" target="_blank" rel="noopener">基于源码分析Appium服务端启动过程</a></p>
+<p><a href="https://blog.csdn.net/itfootball/article/details/44707431" target="_blank" rel="noopener">Appium源码分析(3)-路由器模块</a></p>
+<p><a href="http://cming.site/2018/02/22/201802221449/" target="_blank" rel="noopener">Appium通过日志分析服务端执行过程-IOS端</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-测试环境配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/05/测试环境配置/" class="article-date">
+      <time datetime="2019-04-05T12:15:23.000Z" itemprop="datePublished">2019-04-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/05/测试环境配置/">测试环境配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>Ubuntu Desktop 18.04.2</li>
+<li>Python 3.6.1</li>
+<li>PyCharm</li>
+<li>Java</li>
+<li>IntelliJ IDEA</li>
+</ul>
+<h2 id="安装虚拟机软件"><a href="#安装虚拟机软件" class="headerlink" title="安装虚拟机软件"></a>安装虚拟机软件</h2><h3 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h3><p><a href="https://www.vmware.com/cn/products/fusion/fusion-evaluation.html" target="_blank" rel="noopener">下载 VMware Fusion</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cask install vmware-fusion</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>VMware-Fusion-11.0.3-12992109.dmg</p>
+</blockquote>
+<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><p><a href="https://www.vmware.com/cn/products/workstation-pro/workstation-pro-evaluation.html" target="_blank" rel="noopener">下载 VMware Workstation Pro</a></p>
+<blockquote>
+<p>VMware-workstation-full-15.0.4-12990004.exe</p>
+</blockquote>
+<h2 id="配置-ubuntu-系统"><a href="#配置-ubuntu-系统" class="headerlink" title="配置 ubuntu 系统"></a>配置 ubuntu 系统</h2><p> <a href="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/" target="_blank" rel="noopener">下载 ubuntu-releases</a></p>
+<blockquote>
+<p>ubuntu-18.04.2-desktop-amd64.iso</p>
+</blockquote>
+<h3 id="源"><a href="#源" class="headerlink" title="源"></a>源</h3><p>使用阿里云 apt 源 <a href="https://opsx.alibaba.com/mirror" target="_blank" rel="noopener">https://opsx.alibaba.com/mirror</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apt/</span><br><span class="line">cp sources.list sources.list.bak</span><br><span class="line">vim sources.list</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<h3 id="PyCharm"><a href="#PyCharm" class="headerlink" title="PyCharm"></a>PyCharm</h3><p><a href="https://www.jetbrains.com/pycharm/download/#section=linux" target="_blank" rel="noopener">Download PyCharm</a></p>
+<blockquote>
+<p>pycharm-community-2019.1.1.tar.gz</p>
+</blockquote>
+<h3 id="IntelliJ-IDEA"><a href="#IntelliJ-IDEA" class="headerlink" title="IntelliJ IDEA"></a>IntelliJ IDEA</h3><p><a href="https://www.jetbrains.com/idea/download/#section=linux" target="_blank" rel="noopener">Download IntelliJ IDEA</a></p>
+<blockquote>
+<p>ideaIC-2019.1.tar.gz</p>
+</blockquote>
+<h3 id="Android-Studio"><a href="#Android-Studio" class="headerlink" title="Android Studio"></a>Android Studio</h3><p><a href="https://developer.android.com/studio#downloads" target="_blank" rel="noopener">Downloading Android Studio</a></p>
+<blockquote>
+<p>android-studio-ide-182.5314842-linux.zip</p>
+</blockquote>
+<h3 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h3><p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">Java SE Development Kit 8 Downloads</a></p>
+<blockquote>
+<p>jdk-8u201-linux-x64.tar.gz</p>
+</blockquote>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><p><a href="https://www.python.org/ftp/python/" target="_blank" rel="noopener">Download Python</a></p>
+<p><a href="http://mirrors.sohu.com/python/" target="_blank" rel="noopener">搜狐 Python 源</a></p>
+<h3 id="Genymotion"><a href="#Genymotion" class="headerlink" title="Genymotion"></a>Genymotion</h3><p><a href="https://www.genymotion.com/download/" target="_blank" rel="noopener">Download Genymotion</a></p>
+<blockquote>
+<p>genymotion-3.0.1-linux_x64.bin</p>
+</blockquote>
+<h3 id="Appium-Desktop"><a href="#Appium-Desktop" class="headerlink" title="Appium Desktop"></a>Appium Desktop</h3><p><a href="https://github.com/appium/appium-desktop/releases" target="_blank" rel="noopener">Download Appium Desktop</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-利用-Python-的-CGIHTTPServer-测试-CGI-脚本程序" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1225,212 +1436,6 @@
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install ipdb</span><br></pre></td></tr></table></figure>
 <p><a href="https://www.cnblogs.com/zimufeng/p/6188229.html" target="_blank" rel="noopener">使用 ipdb 调试 Python - 小沐枫 - 博客园</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-MITx-6-00-1x-2019-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/27/MITx-6-00-1x-2019-学习笔记/" class="article-date">
-      <time datetime="2019-02-26T23:04:26.000Z" itemprop="datePublished">2019-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/27/MITx-6-00-1x-2019-学习笔记/">MITx 6.00.1x 2019 学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="MITx-6-00-1x-Introduction-to-Computer-Science-and-Programming-Using-Python"><a href="#MITx-6-00-1x-Introduction-to-Computer-Science-and-Programming-Using-Python" class="headerlink" title="MITx: 6.00.1x Introduction to Computer Science and Programming Using Python"></a><a href="https://courses.edx.org/courses/course-v1:MITx+6.00.1x+1T2019/course/" target="_blank" rel="noopener">MITx: 6.00.1x Introduction to Computer Science and Programming Using Python</a></h1><h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><ul>
-<li><p>macOS 10.13.6</p>
-</li>
-<li><p>Anaconda3-2.5.0：Python 3.5.1</p>
-</li>
-<li><p>IPython 4.0.3</p>
-</li>
-<li><p>IDE(<a href="https://en.wikipedia.org/wiki/Integrated_development_environment" target="_blank" rel="noopener">integrated development environment</a>): Spyder(Scientific Python Development Environment) 2.3.9</p>
-</li>
-</ul>
-<h3 id="设置-Spyder"><a href="#设置-Spyder" class="headerlink" title="设置 Spyder"></a>设置 Spyder</h3><p><strong>启动 Spyder：</strong>打开 Anaconda Navigator-&gt;Home-&gt;spyder-&gt;Launch</p>
-<p><strong>运行前清除：</strong>Preferences-&gt;Run-&gt;Clear all variables before execution</p>
-<h3 id="测试-Matplotlib-和-Numpy"><a href="#测试-Matplotlib-和-Numpy" class="headerlink" title="测试 Matplotlib 和 Numpy"></a>测试 Matplotlib 和 Numpy</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">import</span> matplotlib</span><br></pre></td></tr></table></figure>
-<h2 id="Resources-to-Help-you-Succeed"><a href="#Resources-to-Help-you-Succeed" class="headerlink" title="Resources to Help you Succeed"></a>Resources to Help you Succeed</h2><p><strong>You do not have to read through these at the start of the course. Come back to these resources as the course progresses!</strong> </p>
-<p><strong>Add your own at the end of the list, by clicking “Show related resources”, and rate ones you found useful!</strong></p>
-<p>If you’re having trouble with a particular concept or simply want to have access to more information, try one of the following links.</p>
-<h3 id="Documentation"><a href="#Documentation" class="headerlink" title="Documentation"></a>Documentation</h3><ul>
-<li><a href="https://docs.python.org/3/library/index.html" target="_blank" rel="noopener">Official Python 3 Documentation</a> - “official”/technical explanation of what a particular function/operator does, examples of correct syntax, what the various libraries are, etc.</li>
-</ul>
-<h3 id="Textbooks-Tutorials"><a href="#Textbooks-Tutorials" class="headerlink" title="Textbooks/Tutorials"></a>Textbooks/Tutorials</h3><ul>
-<li><a href="http://www.diveintopython3.net/" target="_blank" rel="noopener">Dive Into Python</a> - another survey of Python syntax, datatypes, etc.</li>
-<li><a href="http://greenteapress.com/wp/think-python-2e/" target="_blank" rel="noopener">Think Python</a> by Allen Downey - a good general overview of the Python language. Includes exercises.</li>
-<li><a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">The Official Python Tutorial</a> - self-explanatory</li>
-<li><a href="http://learnpythonthehardway.org/book/" target="_blank" rel="noopener">Learn Python the Hard Way</a> - (note: for Python 2) another free online text</li>
-<li><a href="https://docs.python.org/3.0/reference/lexical_analysis.html#id8" target="_blank" rel="noopener">Reserved Keywords in Python</a> - don’t use these as variable names</li>
-<li><a href="https://www.python.org/dev/peps/pep-0008/" target="_blank" rel="noopener">PEP 8</a> - Style Guide for Python Code - learn what is good and bad style in Python</li>
-<li><a href="https://checkio.org/" target="_blank" rel="noopener">CheckIO</a> - learn Python by exploring a game world</li>
-<li><a href="https://inventwithpython.com/" target="_blank" rel="noopener">Invent with Python</a> - develop your Python skills by making games or hacking ciphers</li>
-<li><a href="https://www.codecademy.com/learn/python" target="_blank" rel="noopener">Codecademy</a> - (note: for Python 2) learn Python by building web apps and manipulating data; interactive tutorial sequence</li>
-<li><a href="http://www.pythontutor.com/" target="_blank" rel="noopener">Python Tutor</a> - interactive tutorial sequence of exercises</li>
-<li><a href="http://mitxcsjourney.blogspot.com/" target="_blank" rel="noopener">Blog with tutorials</a> - created by one of our community TAs</li>
-</ul>
-<h3 id="Debugging"><a href="#Debugging" class="headerlink" title="Debugging"></a>Debugging</h3><ul>
-<li><a href="http://www.pythontutor.com/" target="_blank" rel="noopener">Python Tutor</a> - an excellent way to actually visualize how the interpreter actually reads and executes your code</li>
-<li><a href="https://www.diffchecker.com/" target="_blank" rel="noopener">DiffChecker</a> - compares two sets of text and shows you which lines are different</li>
-<li><a href="https://pythonconquerstheuniverse.wordpress.com/2009/09/10/debugging-in-python/" target="_blank" rel="noopener">Debugging in Python</a> - steps you can take to try to debug your program</li>
-</ul>
-<h3 id="Software"><a href="#Software" class="headerlink" title="Software"></a>Software</h3><ul>
-<li><a href="https://microsoft.github.io/PTVS/" target="_blank" rel="noopener">Python Tools for Visual Studio</a> - Visual Studio plug-in enabling Python programming</li>
-</ul>
-<h3 id="Other-Q-amp-A"><a href="#Other-Q-amp-A" class="headerlink" title="Other Q&amp;A"></a>Other Q&amp;A</h3><ul>
-<li><a href="http://stackoverflow.com/questions/tagged/python" target="_blank" rel="noopener">Stack Overflow</a> - a large Q&amp;A forum for programming concepts (not just Python). Try searching here before you post on the edX forum, and you may find that someone has already answered your question.</li>
-</ul>
-<h3 id="More-practice-problems"><a href="#More-practice-problems" class="headerlink" title="More practice problems"></a>More practice problems</h3><ul>
-<li><a href="http://www.pythonchallenge.com/" target="_blank" rel="noopener">Python Challenge</a> - a series of puzzles you can try to test your Python abilities</li>
-<li><a href="https://projecteuler.net/" target="_blank" rel="noopener">Project Euler</a> - additional programming challenges you can try once your Python knowledge becomes stronger; problems are sorted by increasing difficulty</li>
-<li><a href="http://codingbat.com/python" target="_blank" rel="noopener">Coding Bat</a> - problems you can solve within an online interpreter</li>
-<li><a href="https://www.codewars.com/?language=python" target="_blank" rel="noopener">Codewars</a> - improve your skills by training on real code challenges</li>
-</ul>
-<h2 id="课程"><a href="#课程" class="headerlink" title="课程"></a>课程</h2><h2 id="Types"><a href="#Types" class="headerlink" title="Types"></a>Types</h2><p>Definitions</p>
-<ul>
-<li>int</li>
-<li>float</li>
-<li>bool</li>
-<li>NoneType</li>
-<li>can use <code>type()</code>to see the type of an object</li>
-</ul>
-<p>TYPE CONVERSIONS</p>
-<ul>
-<li><p>float to int: <code>int(3.9)</code></p>
-</li>
-<li><p>int to float: <code>float(3)</code></p>
-</li>
-</ul>
-<p>OPERATIONS</p>
-<ul>
-<li>** power</li>
-<li>*</li>
-<li>/ division</li>
-<li>+</li>
-<li>-</li>
-</ul>
-<h2 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h2>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-测试学习" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/20/测试学习/" class="article-date">
-      <time datetime="2019-02-20T05:56:11.000Z" itemprop="datePublished">2019-02-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/20/测试学习/">测试学习</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="大牛级人物"><a href="#大牛级人物" class="headerlink" title="大牛级人物"></a>大牛级人物</h2><blockquote>
-<p>学习的对象，需要常去看看他们写的文章。</p>
-</blockquote>
-<p><a href="https://testerhome.com/seveniruby" target="_blank" rel="noopener">seveniruby (思寒_seveniruby)</a></p>
-<p><a href="https://testerhome.com/Lihuazhang" target="_blank" rel="noopener">Lihuazhang (恒温)</a></p>
-<p><a href="https://testerhome.com/DoctorQ" target="_blank" rel="noopener">DoctorQ (易寒)</a></p>
-<p><a href="https://testerhome.com/debugtalk" target="_blank" rel="noopener">debugtalk (debugtalk)</a></p>
-<p><a href="https://testerhome.com/Anikikun" target="_blank" rel="noopener">Anikikun (大东)</a></p>
-<p><a href="https://testerhome.com/chenhengjie123" target="_blank" rel="noopener">chenhengjie123 (陈恒捷)</a></p>
-<p><a href="https://testerhome.com/simple" target="_blank" rel="noopener">simple</a></p>
-<p><a href="https://testerhome.com/kasi" target="_blank" rel="noopener">kasi (卡斯)</a></p>
-<p><a href="https://testerhome.com/ycwdaaaa" target="_blank" rel="noopener">ycwdaaaa (孙高飞)</a></p>
-<p><a href="https://testerhome.com/dongdong" target="_blank" rel="noopener">dongdong (心向东)</a></p>
-<h2 id="内容丰富"><a href="#内容丰富" class="headerlink" title="内容丰富"></a>内容丰富</h2><blockquote>
-<p>提交话题比较多的人物，可以看看。</p>
-</blockquote>
-<p><a href="https://testerhome.com/xuxu" target="_blank" rel="noopener">xuxu (xuxu)</a></p>
-<p><a href="https://testerhome.com/JinZhu" target="_blank" rel="noopener">JinZhu (金主)</a></p>
-<p><a href="https://testerhome.com/026" target="_blank" rel="noopener">026</a></p>
-<p><a href="https://testerhome.com/carl" target="_blank" rel="noopener">carl (bauul)</a></p>
-<p><a href="https://testerhome.com/weamylady" target="_blank" rel="noopener">weamylady (water)</a></p>
-<p><a href="https://testerhome.com/nil" target="_blank" rel="noopener">nil (淼淼淼)</a></p>
-<p><a href="https://testerhome.com/testly" target="_blank" rel="noopener">testly (testly)</a></p>
-<h2 id="Testerhome"><a href="#Testerhome" class="headerlink" title="Testerhome"></a>Testerhome</h2><p>恒温<br>monkey<br>国文<br>喜力<br>mingway<br>喜力<br>卡斯<br>乙醇<br>散步的sun<br>Mic<br>思寒</p>
-<p><a href="https://testerhome.com/uploads/photo/2016/bc5641b9928ed4d571e3b72f9d2dd9ab.png!large" target="_blank" rel="noopener">数据图</a></p>
-<h2 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h2><p><a href="https://www.cnblogs.com/fnng/" target="_blank" rel="noopener">虫师</a></p>
 
       
       

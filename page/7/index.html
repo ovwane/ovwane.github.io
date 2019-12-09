@@ -210,6 +210,299 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Docker-Prometheus-Grafana-收集Docker-metrics" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/16/Docker-Prometheus-Grafana-收集Docker-metrics/" class="article-date">
+      <time datetime="2018-11-16T08:32:42.000Z" itemprop="datePublished">2018-11-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/16/Docker-Prometheus-Grafana-收集Docker-metrics/">Docker Prometheus收集Docker metrics</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>启动 grafana<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name grafana -d -p 3000:3000 grafana/grafana</span><br></pre></td></tr></table></figure></p>
+<p>启动 prometheus<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name prometheus -d -p 9090:9090 -v ~/docker/prom/prometheus.yml:/etc/prometheus/prometheus.yml -v /docker/prom/rules/:/etc/prometheus/ prom/prometheus --config.file=/etc/prometheus/prometheus.yml</span><br></pre></td></tr></table></figure></p>
+<h2 id="Configure-Docker"><a href="#Configure-Docker" class="headerlink" title="Configure Docker"></a>Configure Docker</h2><ul>
+<li><strong>Docker for Mac / Docker for Windows</strong>: Click the Docker icon in the toolbar, select <strong>Preferences</strong>, then select <strong>Daemon</strong>. Click <strong>Advanced</strong>.</li>
+</ul>
+<p>If the file is currently empty, paste the following:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;metrics-addr&quot; : &quot;127.0.0.1:9323&quot;,</span><br><span class="line">  &quot;experimental&quot; : true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>配置 prometheus.yml<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># my global config</span></span><br><span class="line"><span class="attr">global:</span></span><br><span class="line"><span class="attr">  scrape_interval:</span>     <span class="number">15</span><span class="string">s</span> <span class="comment"># Set the scrape interval to every 15 seconds. Default is every 1 minute.</span></span><br><span class="line"><span class="attr">  evaluation_interval:</span> <span class="number">15</span><span class="string">s</span> <span class="comment"># Evaluate rules every 15 seconds. The default is every 1 minute.</span></span><br><span class="line">  <span class="comment"># scrape_timeout is set to the global default (10s).</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Attach these labels to any time series or alerts when communicating with</span></span><br><span class="line">  <span class="comment"># external systems (federation, remote storage, Alertmanager).</span></span><br><span class="line"><span class="attr">  external_labels:</span></span><br><span class="line"><span class="attr">      monitor:</span> <span class="string">'codelab-monitor'</span></span><br><span class="line">      </span><br><span class="line"><span class="comment"># Alertmanager configuration</span></span><br><span class="line"><span class="attr">alerting:</span></span><br><span class="line"><span class="attr">  alertmanagers:</span></span><br><span class="line"><span class="attr">  - static_configs:</span></span><br><span class="line"><span class="attr">    - targets:</span></span><br><span class="line">      <span class="comment"># - alertmanager:9093</span></span><br><span class="line">      </span><br><span class="line"><span class="comment"># Load rules once and periodically evaluate them according to the global 'evaluation_interval'.</span></span><br><span class="line"><span class="attr">rule_files:</span></span><br><span class="line">  <span class="comment"># - "first.rules"</span></span><br><span class="line">  <span class="comment"># - "second.rules"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A scrape configuration containing exactly one endpoint to scrape:</span></span><br><span class="line"><span class="comment"># Here it's Prometheus itself.</span></span><br><span class="line"><span class="attr">scrape_configs:</span></span><br><span class="line">  <span class="comment"># The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span></span><br><span class="line"><span class="attr">  - job_name:</span> <span class="string">'prometheus'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># metrics_path defaults to '/metrics'</span></span><br><span class="line">    <span class="comment"># scheme defaults to 'http'.</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    static_configs:</span></span><br><span class="line"><span class="attr">       - targets:</span> <span class="string">['docker.for.mac.localhost:9090']</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  - job_name:</span> <span class="string">'docker'</span></span><br><span class="line">         <span class="comment"># metrics_path defaults to '/metrics'</span></span><br><span class="line">         <span class="comment"># scheme defaults to 'http'.</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    static_configs:</span></span><br><span class="line">    <span class="comment"># - targets: ['docker.for.mac.host.internal:9323']</span></span><br><span class="line"><span class="attr">      - targets:</span> <span class="string">['docker.for.mac.localhost:9323']</span></span><br><span class="line">  </span><br><span class="line"><span class="attr">  - job_name:</span> <span class="string">'mac'</span></span><br><span class="line">    <span class="comment"># 采集node exporter监控数据</span></span><br><span class="line"><span class="attr">    static_configs:</span></span><br><span class="line"><span class="attr">      - targets:</span> <span class="string">['docker.for.mac.localhost:9100']</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.docker.com/config/thirdparty/prometheus/" target="_blank" rel="noopener">Collect Docker metrics with Prometheus</a></p>
+<p><a href="https://hub.docker.com/r/prom/prometheus/" target="_blank" rel="noopener">prometheus</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Pandas学习笔记：Excel、CSV文件的读取与导出" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/09/Pandas学习笔记：Excel、CSV文件的读取与导出/" class="article-date">
+      <time datetime="2018-11-09T08:34:35.000Z" itemprop="datePublished">2018-11-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/09/Pandas学习笔记：Excel、CSV文件的读取与导出/">Pandas学习笔记：Excel、CSV文件的读取与导出</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>在使用Pandas处理数据时，常见的读取数据的方式时从Excel或CSV文件中获取，另外有时也会需要将处理完的数据输出为Excel或CSV文件。今天就一起来学习下Pandas常见的文件读取与导出的方法。</p>
+<h2 id="加载Excel文件"><a href="#加载Excel文件" class="headerlink" title="加载Excel文件"></a>加载Excel文件</h2><p>在Pandas中，Excel文件读取方法是：pd.read_excel()。具体可传参数为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pandas.read_excel(io, sheet_name=<span class="number">0</span>, header=<span class="number">0</span>, names=<span class="keyword">None</span>, index_col=<span class="keyword">None</span>, usecols=<span class="keyword">None</span>, squeeze=<span class="keyword">False</span>, dtype=<span class="keyword">None</span>, engine=<span class="keyword">None</span>, converters=<span class="keyword">None</span>, true_values=<span class="keyword">None</span>, false_values=<span class="keyword">None</span>, skiprows=<span class="keyword">None</span>, nrows=<span class="keyword">None</span>, na_values=<span class="keyword">None</span>, parse_dates=<span class="keyword">False</span>, date_parser=<span class="keyword">None</span>, thousands=<span class="keyword">None</span>, comment=<span class="keyword">None</span>, skipfooter=<span class="number">0</span>, convert_float=<span class="keyword">True</span>, **kwds)</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<ul>
+<li>io：excel文件，可以是文件路径、文件网址、file-like对象、xlrd workbook</li>
+<li>sheetname：返回指定的sheet，参数可以是字符串（sheet名）、整型（sheet索引）、list（元素为字符串和整型，返回字典{‘key’:’sheet’}）、none（返回字典，全部sheet）</li>
+<li>header：指定数据表的表头，参数可以是int、list of ints，即为索引行数为表头</li>
+<li>names：返回指定name的列，参数为array-like对象。</li>
+<li>index_col：设定索引的列，参数可以是int、list of ints</li>
+<li>usecol：设定需要解析的列，默认为None，代表解析素有，如果直传一个int，代表解析到最后的那个列，如果传的是list则返回的是限定的列，比如：“A:E”或“A,C,E:F”</li>
+<li>squeeze：如果解析的数据只包含一列数据，则返回一个Series，默认返回为DataFrame</li>
+<li>dtype：可以制定每列的类型，示例：{‘a’: np.float64, ‘b’: np.int32}</li>
+<li>engine：如果 io 不是缓冲区或路径，则必须设置 io。 可接受的值是 None 或 xlrd</li>
+<li>converters：自定形式，设定对应的列要用的转换函数。</li>
+<li>true_values：设定安歇为True值，不常用</li>
+<li>false_values：设定哪些为False值，不常用</li>
+<li>shiprows：需要跳过的行，list-like类型</li>
+<li>nrows：要分析的行数</li>
+<li>na_values：N/A值列表</li>
+<li>parse_dates：传入的是list，将指定的类解析为date格式</li>
+<li>date_parser：指定将输入的字符串转换为可变的时间数据。Pandas默认的数据读取格式是‘YYYY-MM-DD HH:MM:SS’。如需要读取的数据没有默认的格式，就要人工定义。</li>
+<li>thousands：千位分格数字的解析</li>
+<li>comment：设定注释标识，在注释内的内容不解析</li>
+<li>skipfooter：跳过末尾行</li>
+<li>convert_float：将小数位为0的float类型转为int</li>
+<li>**kwds：不清楚</li>
+</ul>
+<p>该函数返回pandas中的DataFrame或dict of DataFrame对象，利用DataFrame的相关操作即可读取相应的数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd </span><br><span class="line">excel_path = <span class="string">'example.xlsx'</span></span><br><span class="line">df = pd.read_excel(excel_path, sheet_name=<span class="string">"Sheet1"</span>)</span><br><span class="line">print(df.example_column_name)</span><br></pre></td></tr></table></figure>
+<p>该函数主要的参数为io、sheetname、header、names、encoding。encoding在上面的参数说明中没有介绍到，其主要功能是指定用何种编码（<a href="https://docs.python.org/3/library/codecs.html#standard-encodings" target="_blank" rel="noopener">codecs 包中的标准字符集</a>）读取数据。</p>
+<p>例如读取文件时报如下错误：</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>UnicodeDecodeError: ‘utf-8’ codec can’t decode byte 0x84 in position 36: invalid start byte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>解决办法为设置encoding=”utf_8_sig” 或 encoding=”cp500″ 或 encoding=”gbk”，需要自行进行尝试。</p>
+<h2 id="加载CSV文件"><a href="#加载CSV文件" class="headerlink" title="加载CSV文件"></a>加载CSV文件</h2><p>在Pandas中，Excel文件读取方法是：pd.read_csv()。具体可传参数为：</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>pandas.read_csv(filepath_or_buffer, sep=’, ‘, delimiter=None, header=’infer’, names=None, index_col=None, usecols=None, squeeze=False, prefix=None, mangle_dupe_cols=True, dtype=None, engine=None, converters=None, true_values=None, false_values=None, skipinitialspace=False, skiprows=None, nrows=None, na_values=None, keep_default_na=True, na_filter=True, verbose=False, skip_blank_lines=True, parse_dates=False, infer_datetime_format=False, keep_date_col=False, date_parser=None, dayfirst=False, iterator=False, chunksize=None, compression=’infer’, thousands=None, decimal=b’.’, lineterminator=None, quotechar=’”‘, quoting=0, escapechar=None, comment=None, encoding=None, dialect=None, tupleize_cols=None, error_bad_lines=True, warn_bad_lines=True, skipfooter=0, doublequote=True, delim_whitespace=False, low_memory=True, memory_map=False, float_precision=None)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>与read_excel不同的参数有：</p>
+<ul>
+<li>filepath_or_buffer：这里可以接受一个文件名，或者一个URL，也可以接受一个打开的文件句柄，或者其他任何提供了read方法的对象。</li>
+<li>sep和delimiter：这两个参数是一个意思，delimiter是sep的别名；如果指定为\t（制表符）的话，就可以实现read_table的默认功能；支持使用正则表达式来匹配某些不标准的CSV文件</li>
+<li>mangle_dupe_cols：将冲虚的列X，指定为1，X.2，…</li>
+<li>skipinitialspace：在分隔符后跳过空格。</li>
+<li>keep_default_na：在解析数据时是否要包含默认的 NaN 值。</li>
+<li>na_filter：检测丢失的值标记(空字符串和 na 值的值)。 在没有 NAs 的数据中，通过过滤器 False 可以提高读取大文件的性能</li>
+<li>verbose：指示放置在非数字列中的 NA 值的数目</li>
+<li>skip_blank_lines：如果是真的，跳过空白行，而不是将其解释为 NaN 值。</li>
+<li>infer_datetime_format：如果启用 True 和 parse_dates，Pandas将尝试推断列中的差异的时间字符串的格式，如果可以推断出来，则切换到更快的分析方法。 在某些情况下，这可以使解析速度提高5-10倍。</li>
+<li>keep_date_col：解析出日期序列后，是否保留原来的列</li>
+<li>dayfirst：日期格式，DD/MM哪个在前</li>
+<li>iterator：返回 TextFileReader 对象用于迭代或 get chunk ()。</li>
+<li>chunksize：返回 TextFileReader 对象进行迭代。 有关iterator和chunksize的更多信息，请参见 <a href="http://pandas.pydata.org/pandas-docs/stable/io.html#io-chunking" target="_blank" rel="noopener">IO 工具文档</a>。</li>
+<li>compression：用于磁盘数据的实时解压</li>
+<li>decimal：识别有小数点的字符</li>
+<li>lineterminator：字符将文件分隔程行，只有C解析器才有效</li>
+<li>quotechar：用于表示引用项的开始和结束的字符。 引用的项可以包括分隔符，它将被忽略。</li>
+<li>quoting：控制字段引用行为</li>
+<li>escapechar：跳过的字符？</li>
+<li>dialect：如果提供了这个参数，这个参数将覆盖以下参数的值(默认或不是) : 分隔符、双引号、 escapechar、 skipinitialspace、 quotechar 和引号。 如果需要重写值，将发布一个 ParserWarning。 详情请参阅 csv 方言文档。</li>
+<li>tupleize_cols：在列上留下一个元组列表(默认情况是在列上转换为多索引)</li>
+<li>error_bad_lines：有太多字段的行(例如 csv 行，有太多逗号)将默认引发异常，并且不会返回 DataFrame。 如果错误，那么这些”bad lines”将从返回的 DataFrame 中删除。</li>
+<li>warn_bad_lines：如果错误错误行为是 False，并警告错误行是 True，那么对于每个”坏行”的警告将是输出。</li>
+<li>doublequote：指定 quotechar 时，引用不是QUOTE_NONE，指示是否将两个连续的 quotechar 元素解释为一个单独的 quotechar 元素。</li>
+<li>delim_whitespace：设定是否使用空白做字段区隔</li>
+<li>low_memory：内部处理文件的块，导致较低的内存使用同时分析，但可能混合类型推理。 为了确保没有混合类型设置 False，或指定具有 dtype 参数的类型。 请注意，整个文件被读入一个单一的 DataFrame，使用 chunksize 或 iterator 参数将数据以块的形式返回。 (只有 c 解析器有效)</li>
+<li>memory_map：如果为文件或缓冲区提供一个文件程序，将文件对象直接映射到内存中，并直接从内存访问数据。 使用此选项可以提高性能，因为不再有任何 i / o 开销。</li>
+<li>float_precision：指定 c 引擎应用于浮点值的转换器。</li>
+</ul>
+<p>加载CSV文件的方法同加载Excel类似。但是从性能上导入csv要比导入Excel快很多，收益推荐使用csv导入。但是如果 导入的csv的格式存在一些问题，则可能出现错行的问题。</p>
+<p>另外，除了导入CSV、Excel外，Pandas还支持如下方式导入：</p>
+<ul>
+<li>read_sql(query, connection_object)：从SQL表/库导入数据</li>
+<li>read_json(json_string)：从JSON格式的字符串导入数据</li>
+<li>DataFrame(dict)：从字典对象导入数据，Key是列名，Value是数据</li>
+<li>read_html(url)：解析URL、字符串或者HTML文件，抽取其中的tables表格</li>
+<li>read_clipboard()：从你的粘贴板获取内容，并传给read_table()</li>
+<li>read_table(filename)：从限定分隔符的文本文件导入数据</li>
+</ul>
+<p>这里有必要重点学习的是pd.read_sql(query, connection_object)，规划将在后面的学习中分享。</p>
+<h2 id="导出到Excel文件"><a href="#导出到Excel文件" class="headerlink" title="导出到Excel文件"></a>导出到Excel文件</h2><p>导出到Excel的方法非常的简单：</p>
+<table>
+<thead>
+<tr>
+<th>12345</th>
+<th>import pandas as pd excel_path = ‘example.xlsx’df = pd.read_excel(excel_path, sheetname=None)df.to_excel(‘output.xlsx’)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>具体导出方法还有众多参数：</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>DataFrame.to_excel(excel_writer, sheet_name=’Sheet1’, na_rep=’’, float_format=None, columns=None, header=True, index=True, index_label=None, startrow=0, startcol=0, engine=None, merge_cells=True, encoding=None, inf_rep=’inf’, verbose=True, freeze_panes=None)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>参数含义为：</p>
+<ul>
+<li>excel_writer：写入的目标excel文件，可以是文件路径、ExcelWriter对象;</li>
+<li>sheet_name：被写入的sheet名称，string类型，默认为’sheet1′;</li>
+<li>na_rep：缺失值表示，string类型;</li>
+<li>float_format：浮点数的格式</li>
+<li>columns：要写入的列</li>
+<li>header：是否写表头信息，布尔或list of string类型，默认为True;</li>
+<li>index：是否写行号，布尔类型，默认为True;</li>
+<li>index_label：索引标签</li>
+<li>startrow：开始行，其余会被舍弃</li>
+<li>startcol：开始列，其余会被舍弃</li>
+<li>engine：写入的引擎，可以是：excel.xlsx.writer, io.excel.xls.writer, io.excel.xlsm.writer</li>
+<li>merge_cells：合并单元格配置</li>
+<li>encoding：指定写入编码，string类型。</li>
+<li>inf_rep：指定数学符号无穷在Excel的表示</li>
+<li>verbose：未知</li>
+<li>freeze_panes：冻结窗格</li>
+</ul>
+<h2 id="导出到CSV文件"><a href="#导出到CSV文件" class="headerlink" title="导出到CSV文件"></a>导出到CSV文件</h2><p>导出方法同Excel类型，具体方法参数为：</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>DataFrame.to_csv(path_or_buf=None, sep=’, ‘, na_rep=’’, float_format=None, columns=None, header=True, index=True, index_label=None, mode=’w’, encoding=None, compression=None, quoting=None, quotechar=’”‘, line_terminator=’\n’, chunksize=None, tupleize_cols=None, date_format=None, doublequote=True, escapechar=None, decimal=’.’)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>具体参数含义为（与“导入CSV文件”、“导出为Excel文件”重复的内容不再单独说明）：</p>
+<ul>
+<li>path_or_buf：写入的文件名或文件路径</li>
+<li>mode：写入文件的模式，默认为w，改为a为追加。</li>
+<li>date_format：时间格式设定</li>
+</ul>
+<p>Pandas还支持的导出方式有：</p>
+<ul>
+<li>to_sql(table_name, connection_object)：导出数据到SQL表</li>
+<li>to_json(filename)：以Json格式导出数据到文本文件</li>
+</ul>
+<p>df.to_sql将在后面的学习中再做分享。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.biaodianfu.com/pandas-excel-csv.html" target="_blank" rel="noopener">Pandas学习笔记：Excel、CSV文件的读取与导出</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS自动化测试的那些干货" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1045,161 +1338,6 @@
 <p><a href="https://testerhome.com/topics/15669" target="_blank" rel="noopener">线下第三期_iOS 真机测试_20180819</a></p>
 <p><a href="https://github.com/appium/appium/blob/master/docs/en/drivers/ios-xcuitest-real-devices.md" target="_blank" rel="noopener">Appium XCUITest Driver Real Device Setup</a></p>
 <p><a href="https://testerhome.com/topics/7220" target="_blank" rel="noopener">ATX 文档 - iOS 真机如何安装 WebDriverAgent</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Appium-Server-启动log分析" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/22/Appium-Server-启动log分析/" class="article-date">
-      <time datetime="2018-10-22T00:31:00.000Z" itemprop="datePublished">2018-10-22</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/22/Appium-Server-启动log分析/">Appium Server 启动log分析</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Appium启动命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appium -g ~/tmp/appium.log --log-timestamp --local-timezone --debug</span><br></pre></td></tr></table></figure>
-<p>Appium log分析</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 01.获取session信息</span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 02.新建session</span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.createSession() with args: [&#123;"appActivity":".view.WelcomeActivityAlias","appPackage":"com.xueqiu.android","automationName":" UiAutomator2","deviceName":"Genymotion","deviceUDID":"192.168.57.101:5555","platformName":"Android","platformVersion":"6.0","newCommandTimeout":0,"connectHardwareKeyboard":true&#125;,null,null]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 03.设置automationName为UiAutomator2。</span><br><span class="line">[Appium] Consider setting 'automationName' capability to 'UiAutomator2' on Android &gt;= 6, since UIAutomator framework is not maintained anymore by the OS vendor.</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 04.新建AndroidDriver session</span><br><span class="line">[Appium] Creating new AndroidDriver (v4.1.1) session</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 05.检查Java版本</span><br><span class="line">[AndroidDriver] Java version is: 1.8.0_181</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 06.检查adb</span><br><span class="line">[ADB] Checking whether adb is present</span><br><span class="line">[ADB] Found 4 'build-tools' folders under '~/Library/Android/sdk' (newest first):</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 07.查找连接android device</span><br><span class="line">[debug] [ADB] Trying to find a connected android device</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 08.获取设备平台版本</span><br><span class="line">[ADB] Getting device platform version</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell getprop ro.build.version.release'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 09.获取设备SDK版本</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell getprop ro.build.version.sdk'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 10.查找设备上待测试的app</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell pm list packages com.xueqiu.android'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 11.等待设备</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 wait-for-device'</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span> 12.测试设备连接状态 echo ping</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell echo ping'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 13.查找设备上的appium settings安装状态</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell pm list packages io.appium.settings'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 14.获取设备上appium settings的信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell dumpsys package io.appium.settings'    </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 15.检查aapt</span><br><span class="line">[ADB] Checking whether aapt is present</span><br><span class="line">[ADB] Using aapt from ~/Library/Android/sdk/build-tools/28.0.3/aapt</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span> 16.查看设备上运行的所有进程</span><br><span class="line">[ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell ps'</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span> 17.启动appium settings</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell am start -W -n io.appium.settings/.Settings -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -f 0x10200000'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 18.授权appium settings获取模拟定位信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell appops set io.appium.settings android\:mock_location allow'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 19.获取设备语言</span><br><span class="line">[AndroidDriver] Got language: 'null' and country: 'null'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 20.查找设备上的appium unlock安装状态</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell pm list packages io.appium.unlock'</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span> 21.获取设备上appium unlock的信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell dumpsys package io.appium.unlock'</span><br><span class="line">        </span><br><span class="line"><span class="meta">#</span> 22.获取设备release版本</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell getprop ro.build.version.release'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 23.获取设备屏幕尺寸信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell wm size'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 24.获取设备产品型号信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell getprop ro.product.model'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 25.获取设备生产厂家信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell getprop ro.product.manufacturer'</span><br><span class="line">2018-10-22 07:53:07:861 - info: [debug] [ADB] Current device property 'ro.product.manufacturer': Genymotion</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 26.获取待测app安装状态</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell pm list packages com.xueqiu.android'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 27.强制关闭待测app</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell am force-stop com.xueqiu.android'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 28.清除待测app用户数据</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell pm clear com.xueqiu.android'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 29.将本机的4724端口重定向到设备4724端口上(adb local remote)</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 forward tcp\:4724 tcp\:4724'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 30.启动UiAutomator，推送AppiumBootstrap.jar到设备/data/local/tmp/目录</span><br><span class="line">[debug] [UiAutomator] Starting UiAutomator</span><br><span class="line">debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 push ~/.nvm/versions/node/v8.11.3/lib/node_modules/appium/node_modules/appium-android-driver/bootstrap/bin/AppiumBootstrap.jar /data/local/tmp/'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 31.查看设备上运行的所有进程</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell ps'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 32.启动UiAutomator，创建进程</span><br><span class="line">[debug] [UiAutomator] Starting UIAutomator</span><br><span class="line">[debug] [ADB] Creating ADB subprocess with args: ["-P",5037,"-s","192.168.57.101:5555","shell","uiautomator","runtest","AppiumBootstrap.jar","-c","io.appium.android.bootstrap.Bootstrap","-e","pkg","com.xueqiu.android","-e","disableAndroidWatchers",false,"-e","acceptSslCerts",false]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 33.查询WMS服务相关信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell dumpsys window'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 34.启动待测app</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell am start -W -n com.xueqiu.android/.view.WelcomeActivityAlias -S -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -f 0x10200000'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 35. 新建AndroidDriver session</span><br><span class="line">[Appium] New AndroidDriver session created successfully, session 76cf893d-f1f9-43d6-be5e-7f59ca25c3db added to master session list</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 36.设置AppiumDriver上下文</span><br><span class="line">[HTTP] &lt;-- POST /wd/hub/session 200 5331 ms - 959</span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/context</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.setContext() with args: ["NATIVE_APP","76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 37.获取设备上Unix域套接字信息</span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell cat /proc/net/unix'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 获取页面源码</span><br><span class="line">[HTTP] --&gt; GET /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/source</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.getPageSource() with args: ["76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line">[debug] [AndroidBootstrap] Sending command to android: &#123;"cmd":"action","action":"source","params":&#123;&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;"cmd":"action","action":"source","params":&#123;&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: source</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;"status":0,"value":"&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;页面源码&lt;/xml&gt;"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 截屏</span><br><span class="line">[HTTP] --&gt; GET /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/screenshot</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.getScreenshot() with args: ["76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line">[debug] [ADB] Device API level: 23</span><br><span class="line">[debug] [MJSONWP] Responding to client with driver.getScreenshot() result: "图片base64代码"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 获取屏幕尺寸信息</span><br><span class="line">[HTTP] --&gt; GET /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/window/current/size</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.getWindowSize() with args: ["current","76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Sending command to android: &#123;"cmd":"action","action":"getDeviceSize","params":&#123;&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;"cmd":"action","action":"getDeviceSize","params":&#123;&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: getDeviceSize</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Received command result from bootstrap</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;"status":0,"value":&#123;"height":2392,"width":1440&#125;&#125;</span><br><span class="line">[debug] [MJSONWP] Responding to client with driver.getWindowSize() result: &#123;"height":2392,"width":1440&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 获取元素</span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/elements</span><br><span class="line">[HTTP] &#123;"using":"id","value":"com.xueqiu.android:id/agree"&#125;</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.findElements() with args: ["id","com.xueqiu.android:id/agree","76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line"></span><br><span class="line">[debug] [BaseDriver] Valid locator strategies for this request: xpath, id, class name, accessibility id, -android uiautomator</span><br><span class="line"></span><br><span class="line">[debug] [BaseDriver] Waiting up to 0 ms for condition</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Sending command to android: &#123;"cmd":"action","action":"find","params":&#123;"strategy":"id","selector":"com.xueqiu.android:id/agree","context":"","multiple":true&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;"cmd":"action","action":"find","params":&#123;"strategy":"id","selector":"com.xueqiu.android:id/agree","context":"","multiple":true&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: find</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Finding 'com.xueqiu.android:id/agree' using 'ID' with the contextId: '' multiple: true</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Using: UiSelector[RESOURCE_ID=com.xueqiu.android:id/agree]</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] getElements selector:UiSelector[RESOURCE_ID=com.xueqiu.android:id/agree]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Element[] is null: (0)</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] getElements tmp selector:UiSelector[INSTANCE=0, RESOURCE_ID=com.xueqiu.android:id/agree]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Element[] is null: (1)</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] getElements tmp selector:UiSelector[INSTANCE=1, RESOURCE_ID=com.xueqiu.android:id/agree]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;"status":0,"value":[&#123;"ELEMENT":"1"&#125;]&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Received command result from bootstrap</span><br><span class="line">[debug] [MJSONWP] Responding to client with driver.findElements() result: [&#123;"ELEMENT":"1"&#125;]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 点击元素</span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/element/1/click</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.click() with args: ["1","76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Sending command to android: &#123;"cmd":"action","action":"element:click","params":&#123;"elementId":"1"&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;"cmd":"action","action":"element:click","params":&#123;"elementId":"1"&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: click</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Received command result from bootstrap</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;"status":0,"value":true&#125;</span><br><span class="line">[debug] [MJSONWP] Responding to client with driver.click() result: true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 发送数据 send_key </span><br><span class="line">[HTTP] --&gt; POST /wd/hub/session/76cf893d-f1f9-43d6-be5e-7f59ca25c3db/element/3/value</span><br><span class="line">[HTTP] &#123;"value":["ali"]&#125;</span><br><span class="line"></span><br><span class="line">[debug] [MJSONWP] Calling AppiumDriver.setValue() with args: [["ali"],"3","76cf893d-f1f9-43d6-be5e-7f59ca25c3db"]</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Sending command to android: &#123;"cmd":"action","action":"element:setText","params":&#123;"elementId":"3","text":"ali","replace":false&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got data from client: &#123;"cmd":"action","action":"element:setText","params":&#123;"elementId":"3","text":"ali","replace":false&#125;&#125;</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command of type ACTION</span><br><span class="line">[AndroidBootstrap] [BOOTSTRAP LOG] [debug] Got command action: setText</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Using element passed in: 3</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Attempting to clear using UiObject.clearText().</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Text remains after clearing, but it appears to be hint text.</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Text not cleared. Assuming remainder is hint text.</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Sending plain text to element: ali</span><br><span class="line"></span><br><span class="line">[debug] [AndroidBootstrap] Received command result from bootstrap</span><br><span class="line">[debug] [AndroidBootstrap] [BOOTSTRAP LOG] [debug] Returning result: &#123;"status":0,"value":true&#125;</span><br><span class="line">[debug] [MJSONWP] Responding to client with driver.setValue() result: true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Appium关闭</span><br><span class="line">[Appium] Received SIGINT - shutting down</span><br><span class="line"></span><br><span class="line">[Logcat] Logcat terminated with code null, signal SIGINT</span><br><span class="line">[UiAutomator] UiAutomator exited unexpectedly with code null, signal SIGINT</span><br><span class="line">[debug] [UiAutomator] Moving to state 'stopped'</span><br><span class="line"></span><br><span class="line">[debug] [AndroidDriver] Shutting down Android driver</span><br><span class="line"></span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell am force-stop com.xueqiu.android'</span><br><span class="line"></span><br><span class="line">[Appium] Closing session, cause was 'UiAUtomator shut down unexpectedly'</span><br><span class="line">[Appium] Removing session 76cf893d-f1f9-43d6-be5e-7f59ca25c3db from our master session list</span><br><span class="line"></span><br><span class="line">[debug] [ADB] Pressing the HOME button</span><br><span class="line"></span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell input keyevent 3'</span><br><span class="line"></span><br><span class="line">[AndroidBootstrap] Cannot shut down Android bootstrap; it has already shut down</span><br><span class="line"></span><br><span class="line">[debug] [Logcat] Stopping logcat capture</span><br><span class="line">[debug] [Logcat] Logcat already stopped</span><br><span class="line"></span><br><span class="line">[debug] [ADB] Running '~/Library/Android/sdk/platform-tools/adb -P 5037 -s 192.168.57.101\:5555 shell am force-stop io.appium.unlock'</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>18.<a href="https://www.jianshu.com/p/baeed5eff82a" target="_blank" rel="noopener">mock_location</a></p>
-<p>29.<a href="http://www.cnblogs.com/wysk/archive/2017/12/21/7417122.html" target="_blank" rel="noopener">adb forward</a></p>
-<p>33.<a href="http://gityuan.com/2016/05/14/dumpsys-command/" target="_blank" rel="noopener">adb shell dumpsys window</a></p>
-<p>37.[adb shell cat /proc/net/unix</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-运行ELK" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/19/Docker-运行ELK/" class="article-date">
-      <time datetime="2018-10-19T07:52:38.000Z" itemprop="datePublished">2018-10-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/19/Docker-运行ELK/">Docker 运行ELK</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Elastic-Stack"><a href="#Elastic-Stack" class="headerlink" title="Elastic Stack"></a>Elastic Stack</h1><p><a href="https://www.elastic.co/guide/index.html" target="_blank" rel="noopener">Elastic Stack and Product Documentation | Elastic</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull sebp/elk:642</span><br></pre></td></tr></table></figure>
-<p>运行</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name elk-642 \</span><br><span class="line">-e LOGSTASH_START=0 \</span><br><span class="line">-e ES_HEAP_SIZE="1g" \</span><br><span class="line">--network=elk \</span><br><span class="line">-p 5601:5601 -p 9200:9200 -p 5044:5044 \</span><br><span class="line">sebp/elk:642</span><br></pre></td></tr></table></figure>
-<h2 id="单独安装"><a href="#单独安装" class="headerlink" title="单独安装"></a>单独安装</h2><h3 id="安装-elasticsearch"><a href="#安装-elasticsearch" class="headerlink" title="安装 elasticsearch"></a>安装 elasticsearch</h3><p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.5/docker.html" target="_blank" rel="noopener">Install Elasticsearch with Docker | Elasticsearch Reference [6.5] | Elastic</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull elasticsearch:6.5.4</span><br></pre></td></tr></table></figure>
-<h3 id="安装-elasticsearch-head-扩展"><a href="#安装-elasticsearch-head-扩展" class="headerlink" title="安装 elasticsearch-head 扩展"></a>安装 <a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="noopener">elasticsearch-head</a> 扩展</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mobz/elasticsearch-head:5</span><br></pre></td></tr></table></figure>
-<h3 id="安装-kibana"><a href="#安装-kibana" class="headerlink" title="安装 kibana"></a>安装 kibana</h3><p><a href="https://www.elastic.co/guide/en/kibana/6.5/docker.html" target="_blank" rel="noopener">Running Kibana on Docker | Kibana User Guide [6.5] | Elastic</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull kibana:6.5.4</span><br></pre></td></tr></table></figure>
-<h3 id="安装-logstash"><a href="#安装-logstash" class="headerlink" title="安装 logstash"></a>安装 logstash</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull logstash:6.5.4</span><br></pre></td></tr></table></figure>
-<h3 id="安装-filebeat"><a href="#安装-filebeat" class="headerlink" title="安装 filebeat"></a>安装 filebeat</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull filebeat:6.5.4</span><br></pre></td></tr></table></figure>
-<h3 id="安装-metricbeat"><a href="#安装-metricbeat" class="headerlink" title="安装 metricbeat"></a>安装 metricbeat</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull docker.elastic.co/beats/metricbeat:6.5.4</span><br></pre></td></tr></table></figure>
-<h3 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h3><p>docker-compose.yml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  es-master:</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">es-head</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">elasticsearch:6.5.4</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">es-master</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"ES_JAVA_OPTS=-Xms1g -Xmx1g"</span></span><br><span class="line"><span class="attr">    ulimits:</span></span><br><span class="line"><span class="attr">      memlock:</span></span><br><span class="line"><span class="attr">        soft:</span> <span class="bullet">-1</span></span><br><span class="line"><span class="attr">        hard:</span> <span class="bullet">-1</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">./conf/es-master.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">~/docker/elk/es-master/data:/usr/share/elasticsearch/data</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">~/docker/elasticsearch/es-master/plugins:/usr/share/elasticsearch/plugins</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="number">9200</span><span class="string">:9200</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"9300:9300"</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">esnet</span></span><br><span class="line"><span class="attr">  es-head:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">mobz/elasticsearch-head:5</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">es-head</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"9100:9100"</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">esnet</span></span><br><span class="line"><span class="attr">  kibana:</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">es-master</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">kibana:6.5.4</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">kibana</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">./conf/kibana.yml:/usr/share/kibana/config/kibana.yml:ro</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"5601:5601"</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">esnet</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">  esnet:</span></span><br></pre></td></tr></table></figure>
-<p><strong>文件配置</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir conf</span><br></pre></td></tr></table></figure>
-<p>conf/es-master.yml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">cluster.name:</span> <span class="string">es-cluster</span></span><br><span class="line"><span class="string">node.name:</span> <span class="string">es-master</span></span><br><span class="line"><span class="string">node.master:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">node.data:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">bootstrap.memory_lock:</span> <span class="literal">true</span></span><br><span class="line"><span class="comment"># discovery.zen.minimum_master_nodes: 1</span></span><br><span class="line"><span class="comment"># discovery.zen.ping.unicast.hosts: ["es-master", "es-node1"]</span></span><br><span class="line"><span class="comment"># discovery.zen.ping.unicast.hosts: ["es-master"]</span></span><br><span class="line"><span class="string">network.host:</span> <span class="string">es-master</span></span><br><span class="line"><span class="string">http.cors.enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">http.cors.allow-origin:</span> <span class="string">"*"</span></span><br><span class="line"><span class="string">xpack.monitoring.collection.enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>conf/kibana.yml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">server.name:</span> <span class="string">kibana</span></span><br><span class="line"><span class="string">server.host:</span> <span class="string">"0.0.0.0"</span></span><br><span class="line"><span class="string">elasticsearch.url:</span> <span class="attr">http://es-master:9200</span></span><br><span class="line"><span class="comment"># xpack.monitoring.ui.container.elasticsearch.enabled: true</span></span><br></pre></td></tr></table></figure>
-<p><strong>启动</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
-<p> <strong>Inspect status of cluster</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://127.0.0.1:9200/_cat/health</span><br></pre></td></tr></table></figure>
-<p><a href="http://localhost:9200/_cat/health?v" target="_blank" rel="noopener">http://localhost:9200/_cat/health?v</a></p>
-<p><a href="http://localhost:9200/_cat/health?format=json&amp;bytes=b" target="_blank" rel="noopener">http://localhost:9200/_cat/health?format=json&amp;bytes=b</a></p>
-<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>查看已安装的插件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch-plugin list</span><br></pre></td></tr></table></figure>
-<h3 id="IK-Analysis-Plugin-作者-Medcl"><a href="#IK-Analysis-Plugin-作者-Medcl" class="headerlink" title="IK Analysis Plugin (作者 Medcl)"></a><a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">IK Analysis Plugin</a> (作者 Medcl)</h3><p>简介：大名鼎鼎的ik分词，都懂的！</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.5.4/elasticsearch-analysis-ik-6.5.4.zip</span><br></pre></td></tr></table></figure>
-<p><strong>测试</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT http://localhost:9200/index</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET "http://localhost:9200/index/_analyze" -H 'Content-Type: application/json' -d'</span><br><span class="line">&#123;</span><br><span class="line">   "text":"中华人民共和国MN","tokenizer": "ik_max_word"</span><br><span class="line">&#125;'</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/guanheng68/article/details/81710406" target="_blank" rel="noopener">ElasticSearch安装(以Docker的方式）</a></p>
-<p><a href="https://www.cnblogs.com/mxmbk/p/9969008.html" target="_blank" rel="noopener">docker-compose安装elasticsearch集群</a></p>
-<p><a href="https://blog.csdn.net/wanglei_storage/article/details/82218940" target="_blank" rel="noopener">elasticsearch 6.3.2 集群配置</a></p>
-<p><a href="https://www.cnblogs.com/showtime813/p/5714603.html" target="_blank" rel="noopener">Kibana + ElasticSearch</a></p>
-<p><a href="https://blog.csdn.net/zyc88888/article/details/79019865" target="_blank" rel="noopener">ElasticSearch常用插件整理</a></p>
-<p><a href="https://github.com/medcl/elasticsearch-rtf" target="_blank" rel="noopener">Elasticsearch-RTF</a></p>
 
       
       
