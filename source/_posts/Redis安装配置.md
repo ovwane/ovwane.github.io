@@ -485,38 +485,38 @@ OK
 
 打开 ./src/rdm.pro
 
-![](redis/1.png)
+![](/img/redis/1.png)
 
 管理包
 
-![](redis/2.png) 
+![](/img/redis/2.png) 
 
 查看设置
 
-![](redis/3.png)
+![](/img/redis/3.png)
 
 选择类型
 
-![](redis/4.png)
+![](/img/redis/4.png)
 
 修改 rdm.pro 内容，生成 .app 文件。
 ```
 # 注释 debug: CONFIG-=app_bundle
 #debug: CONFIG-=app_bundle
 ```
-![](redis/5.png)
+![](/img/redis/5.png)
 
 选择 release 
-![](redis/6.png)
+![](/img/redis/6.png)
 
 build 项目
-![](redis/7.png)
+![](/img/redis/7.png)
 
 查看输出，没有报错
-![](redis/8.png)
+![](/img/redis/8.png)
 
 生成的 app 文件
-![](redis/9.png)
+![](/img/redis/9.png)
 
 
 在别的电脑上使用rdm，使用 macdeployqt 移动依赖文件 。

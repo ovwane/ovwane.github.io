@@ -796,7 +796,7 @@ Windows下类似linux的终端 ·cmder·
 
 设计数据表结构
 
-![](./lagou_job.png)
+![](/img/lagou_job.png)
 
 
 
