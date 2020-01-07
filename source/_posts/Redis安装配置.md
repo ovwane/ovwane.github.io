@@ -9,7 +9,18 @@ tags:
 - Redis
 ---
 
-# Redis的多种启动方式
+## Docker 运行 Redis
+
+```
+docker pull redis:4.0.11
+
+docker run -p 6379:6379 -v ~/docker/redis/:/data  --name redis-4.0.11 -d redis:4.0.11
+```
+
+
+
+## Redis的多种启动方式
+
 [Redis的多种启动方式比较！](http://renzhiyuan.blog.51cto.com/10433137/1881202)
 
 >有感:Redis玩了许久时间，真心感觉启动方式还是自己定义的方便！
@@ -20,8 +31,8 @@ tags:
 开启：redis-server &（&后台运行）
 #daemonize yes（也可配置文件修改此参数）
 关闭：redis-cli shutdown or killall -9 redis-server
- ```
- 
+```
+
 2）指定配置文件启动：
 
 ```
@@ -126,7 +137,7 @@ case "$1" in
      echo "the usage is service redis start|stop|status|restart"
      esac
 ```
-  
+
 查看redis状态，启动，关闭，重启
 
 ```
@@ -451,3 +462,85 @@ OK
 127.0.0.1:6379> keys *
 (empty list or set)
 ```
+
+
+
+## Redis 图形客户端
+
+[Redis Desktop Manager](http://www.redisdesktop.com/)
+
+### 编译 rdm
+
+1.  安装 Xcode 和 Xcode build tools
+2.  安装 Homebrew
+3.  安装依赖 `brew install openssl cmake python3`
+4.  安装 git
+5.  下载源码 `git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 2019.5 rdm && cd ./rdm`
+6. `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`
+7.  安装 Qt 和 Qt Creator http://download.qt.io/official_releases/qt/5.9/5.9.6/
+
+#### ![qt](redis/qt.png)
+
+#### Qt Creator 内操作
+
+打开 ./src/rdm.pro
+
+![](redis/1.png)
+
+管理包
+
+![](redis/2.png) 
+
+查看设置
+
+![](redis/3.png)
+
+选择类型
+
+![](redis/4.png)
+
+修改 rdm.pro 内容，生成 .app 文件。
+```
+# 注释 debug: CONFIG-=app_bundle
+#debug: CONFIG-=app_bundle
+```
+![](redis/5.png)
+
+选择 release 
+![](redis/6.png)
+
+build 项目
+![](redis/7.png)
+
+查看输出，没有报错
+![](redis/8.png)
+
+生成的 app 文件
+![](redis/9.png)
+
+
+在别的电脑上使用rdm，使用 macdeployqt 移动依赖文件 。
+
+`~/Qt5.9.6/5.9.6/clang_64/bin/macdeployqt`
+
+```
+cd rdm/bin/osx/
+macdeployqt Redis\ Desktop\ Manager.app -qmldir=../../../src/qml
+```
+
+
+
+### 参考
+
+ [Install - Redis Desktop Manager](http://docs.redisdesktop.com/en/latest/install/#build-from-source) 
+
+ [Mac OS X下编译Redis Desktop Manager(RDM) | 一水的博客 | Onew Blog](https://onew.me/2018/03/29/mac-compile-RDM/) 
+
+ [mac源码编译RedisDesktopManager 2019.3_redis,rdm_xie408979832的专栏-CSDN博客](https://blog.csdn.net/xie408979832/article/details/100566984) 
+
+ [源码编译Redis Desktop Manager - 看我](https://kany.me/2019/10/10/compile-redis-desktop-manager/)
+
+  [源码打包RedisDesktop MacOS版 - 简书](https://www.jianshu.com/p/f4a392b4fd75)  
+
+ [MAC 下编译 RedisDesktopManager 最新版_zhangatle的博客-CSDN博客](https://blog.csdn.net/zhangatle/article/details/101671697) 
+

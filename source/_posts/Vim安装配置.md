@@ -380,6 +380,18 @@ To install from command line: `vim +PluginInstall +qall`
 
 [nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
 
-### 参考
+
+
+## 技巧
+
+[Vim如何保存需要root权限的文件](https://blog.csdn.net/ch717828/article/details/50843956) , [以普通用户启动的Vim如何保存需要root权限的文件](http://feihu.me/blog/2014/vim-write-read-only-file/)
+
+```
+:w !sudo tee %
+```
+
+
+
+## 参考
 
 [上古神器vim插件：你真的学会用NERDTree了吗？](https://www.jianshu.com/p/3066b3191cb1)

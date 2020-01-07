@@ -85,14 +85,24 @@ docker exec -it  xxxxxx bash
 gitlab-ctl reconfigure
 ```
 
-访问 GitLab
+
+
+### 访问 GitLab
 
 - https://git.xxx.com
+  
+  - 默认用户名：`root`
   - 如果没有域名，直接使用 IP 访问即可。
+  
+  
 
-关闭注册功能
+### 关闭注册功能
 
 Admin Area->Settings->Sign-up restrictions->Sign-up enabled 取消
+
+
+
+## gitlab-runner
 
 ### 安装gitlab-runner
 
@@ -167,6 +177,48 @@ Runner registered successfully. Feel free to start it, but if it's running alrea
 1. 通过 url 和 token 取消注册 `gitlab-runner unregister --url https://git.xxx.com/ --token t0k3n`
 2. 通过name取消注册 `gitlab-runner unregister --name test-runner`
 3. 删除所有注册runner `gitlab-runner unregister --all-runners`
+
+
+
+docker-compose.yml
+
+时间没有搞定
+
+```yaml
+# https://docs.gitlab.com/omnibus/docker/
+version: '3'
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:12.5.5-ce.0
+    restart: always
+    hostname: 'gitlab.ovwane.com'  # 项目内 git clone 的域名。
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        #external_url 'https://gitlab.ovwane.com'
+        # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - '80:80'
+      - '443:443'
+      - '22:22'
+    volumes:
+      - /data/gitlab/config:/etc/gitlab
+      - /data/gitlab/logs:/var/log/gitlab
+      - /data/gitlab/data:/var/opt/gitlab
+
+# gitlab-runner:
+    # image: gitlab/gitlab-runner:alpine
+   #depends_on:
+   #   - gitlab
+    #volumes:
+    #  - ./config/gitlab-runner:/etc/gitlab-runner
+    #  - /var/run/docker.sock:/var/run/docker.sock
+```
+
+> https://github.com/sameersbn/docker-gitlab
+>
+> https://docs.gitlab.com/omnibus/docker/
+
+
 
 ## 参考
 

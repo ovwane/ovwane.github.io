@@ -39,6 +39,8 @@ systemd-resolve --status|grep 'DNS Servers'
 
 ## 安装
 
+修改为 [清华 apt 源](https://mirror.tuna.tsinghua.edu.cn/help/ubuntu/)
+
 SSH
 
 ```shell
@@ -54,6 +56,66 @@ snap install docker
 ```
 
 
+
+```
+apt install -y vim lrzsz git
+```
+
+
+
+### 安装 Docker
+
+如果你过去安装过 docker，先删掉
+
+```
+apt remove docker docker-engine docker.io
+```
+
+
+
+安装依赖
+
+```
+apt install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
+```
+
+
+
+信任 Docker 的 GPG 公钥
+
+```
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+
+
+
+添加软件仓库
+
+```
+add-apt-repository "deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
+```
+
+
+
+安装
+
+```
+apt update
+apt install -y docker-ce
+```
+
+
+
+开机自启动
+
+```
+systemctl enable docker.service
+systemctl start docker.service
+```
+
+
+
+安装 docker-compose
 
 
 

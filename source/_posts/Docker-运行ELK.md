@@ -241,3 +241,5 @@ curl -XGET "http://localhost:9200/index/_analyze" -H 'Content-Type: application/
 [ElasticSearch常用插件整理](https://blog.csdn.net/zyc88888/article/details/79019865)
 
 [Elasticsearch-RTF](https://github.com/medcl/elasticsearch-rtf)
+
+ [Running the Elastic Stack on Docker | Getting Started [7.5] | Elastic](https://www.elastic.co/guide/en/elastic-stack-get-started/current/get-started-docker.html#get-started-docker) 

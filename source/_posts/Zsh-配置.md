@@ -98,7 +98,22 @@ plugins=(
 . /usr/local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
 ```
 
+
+
+### 文件类型快捷方式
+
+```
+alias -s html='vim'
+
+# #设置 md 文件都使用 Typora 打开
+alias typora='open -a /Applications/Typora.app'
+alias -s md=typora
+```
+
+
+
 ### powerline vim配置 .vimrc
+
 ```
 set rtp+=/usr/local/lib/python3.6/dist-packages/powerline/bindings/vim
 set laststatus=2
@@ -149,4 +164,10 @@ source ~/.bash_profile
 [ITerm2配色方案](https://www.jianshu.com/p/33deff6b8a63)
 
 https://github.com/powerline/powerline
-https://github.com/powerline/fonts
+https://github.com/powerline/fonts 
+
+[玩oh my zsh - 山夕为岁](https://zryang.github.io/2018/04/14/oh-my-zsh/) 
+
+ [Cheatsheet · ohmyzsh/ohmyzsh Wiki](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet) 
+
+ [Coding style guide · ohmyzsh/ohmyzsh Wiki](https://github.com/ohmyzsh/ohmyzsh/wiki/Coding-style-guide) 

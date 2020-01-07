@@ -41,3 +41,7 @@ rm -r iterm2-zmodem
 ```
 
 
+
+## 快捷键
+
+- cmd + shift + d：一个窗口内分割为多个终端

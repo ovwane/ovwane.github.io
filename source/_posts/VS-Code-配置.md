@@ -16,6 +16,10 @@ Font Size: `20`
 - editor format， 是代码格式化；
 - editor suggest， 是和自动补全、建议窗口等相关的配置。
 
+### File
+
+Auto Save: onFocusChange
+
 
 
 #### Breadcrumbs

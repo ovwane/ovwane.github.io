@@ -26,6 +26,8 @@ curl -L https://raw.githubusercontent.com/docker/compose/1.23.2/contrib/completi
 docker-compose config
 ```
 
+
+
 ## 参考
 
 [制作nginx的dockerfile文件，使用docker-compose启动服务](https://www.jianshu.com/p/1656280a9c22)

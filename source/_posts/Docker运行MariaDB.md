@@ -8,7 +8,7 @@ docker pull mariadb:10.4.8
 ```
 
 ```shell
-docker run -p 3306:3306 -v ~/docker/mariadb:/var/lib/mysql -e TIMEZONE=Asis/Shanghai -e MYSQL_ROOT_PASSWORD=root -e SERVER_ID=1 --name mariadb-10.4.8 -d mariadb:10.4.8
+docker run -p 3306:3306 -v ~/docker/mariadb:/var/lib/mysql -e TIMEZONE=Asia/Shanghai -e MYSQL_ROOT_PASSWORD=root -e SERVER_ID=1 --name mariadb-10.4.8 -d mariadb:10.4.8
 ```
 
 ## 参考
