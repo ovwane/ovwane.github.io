@@ -1,29 +1,31 @@
 ---
+title: macOS 新系统初始化配置
 date: 2018-05-05 06:51:28
+tags: macOS
 ---
 
 ## 环境
 
-1.安装[**ShadowsocksX-NG**](https://github.com/shadowsocks/ShadowsocksX-NG/releases)
-
-2.安装[Homebrew](https://brew.sh)
+1. 安装[Homebrew](https://brew.sh)
 
 ```shell
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
-3.安装[Homebrew Cask](http://caskroom.io)
+2. 安装[Homebrew Cask](https://formulae.brew.sh/cask/)
 
 ```shell
 $ brew tap caskroom/cask
 $ brew tap caskroom/versions
 ```
 
-4.安装[mas](https://github.com/mas-cli/mas)
+3. 安装[mas](https://github.com/mas-cli/mas)
 
 ```shell
 $ brew install mas
 ```
+
+
 
 ## 安装软件
 

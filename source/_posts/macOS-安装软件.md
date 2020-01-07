@@ -1,5 +1,5 @@
 ---
-title: macOS 安装Homebrew
+title: macOS 安装软件
 date: 2017-10-10 19:52:00
 tags: macOS
 ---

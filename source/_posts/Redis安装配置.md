@@ -479,7 +479,7 @@ OK
 6. `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`
 7.  安装 Qt 和 Qt Creator http://download.qt.io/official_releases/qt/5.9/5.9.6/
 
-#### ![qt](redis/qt.png)
+#### ![qt](/img/redis/qt.png)
 
 #### Qt Creator 内操作
 
