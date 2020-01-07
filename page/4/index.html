@@ -210,6 +210,104 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-基于-HttpRunner-的-Web-测试平台" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/24/基于-HttpRunner-的-Web-测试平台/" class="article-date">
+      <time datetime="2019-01-23T23:57:23.000Z" itemprop="datePublished">2019-01-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/24/基于-HttpRunner-的-Web-测试平台/">基于 HttpRunner 的 Web 测试平台</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="基于-HttpRunner-的-Web-测试平台"><a href="#基于-HttpRunner-的-Web-测试平台" class="headerlink" title="基于 HttpRunner 的 Web 测试平台"></a><a href="https://github.com/HttpRunner/HttpRunnerManager" target="_blank" rel="noopener">基于 HttpRunner 的 Web 测试平台</a></h1><h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p>安装 </p>
+<h3 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a><a href="https://hub.docker.com/_/rabbitmq?tab=tags" target="_blank" rel="noopener">RabbitMQ</a></h3><p>安装 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rabbitmq:3.7.8-alpine</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --hostname rabbit.ovwane.com --name rabbitmq-3.7.8 -p 5672:5672 rabbitmq:3.7.8-alpine</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --hostname rabbit.ovwane.com --name rabbitmq-management-3.7.8 -p 5672:5672 -p 15672:15672 rabbitmq:3.7.8-management</span><br></pre></td></tr></table></figure>
+<p>访问</p>
+<p><a href="http://127.0.0.1:15672" target="_blank" rel="noopener">http://127.0.0.1:15672</a></p>
+<p>用户名：<code>guest</code>，密码：<code>guest</code></p>
+<h2 id="本地开发环境部署"><a href="#本地开发环境部署" class="headerlink" title="本地开发环境部署"></a>本地开发环境部署</h2><ol>
+<li>安装mysql数据库服务端(推荐5.7+),并设置为utf-8编码，创建相应HttpRunner数据库，设置好相应用户名、密码，启动mysql。</li>
+<li>修改:HttpRunnerManager/HttpRunnerManager/settings.py里DATABASES字典和邮件发送账号相关配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">    DATABASES = &#123;</span><br><span class="line">        &apos;default&apos;: &#123;</span><br><span class="line">        &apos;ENGINE&apos;: &apos;django.db.backends.mysql&apos;,</span><br><span class="line">        &apos;NAME&apos;: &apos;HttpRunner&apos;,  # 新建数据库名</span><br><span class="line">        &apos;USER&apos;: &apos;root&apos;,  # 数据库登录名</span><br><span class="line">        &apos;PASSWORD&apos;: &apos;lcc123456&apos;,  # 数据库登录密码</span><br><span class="line">        &apos;HOST&apos;: &apos;127.0.0.1&apos;,  # 数据库所在服务器ip地址</span><br><span class="line">        &apos;PORT&apos;: &apos;3306&apos;,  # 监听端口 默认3306即可</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EMAIL_SEND_USERNAME = &apos;username@163.com&apos;  # 定时任务报告发送邮箱，支持163,qq,sina,企业qq邮箱等，注意需要开通smtp服务</span><br><span class="line">EMAIL_SEND_PASSWORD = &apos;password&apos;     # 邮箱密码</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装rabbitmq消息中间件，启动服务，访问：<a href="http://host:15672/#/" target="_blank" rel="noopener">http://host:15672/#/</a> host即为你部署rabbitmq的服务器ip地址 username：guest、Password：guest, 成功登陆即可</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq-server start</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>修改:HttpRunnerManager/HttpRunnerManager/settings.py里worker相关配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">djcelery.setup_loader()</span><br><span class="line">CELERY_ENABLE_UTC = True</span><br><span class="line">CELERY_TIMEZONE = &apos;Asia/Shanghai&apos;</span><br><span class="line">BROKER_URL = &apos;amqp://guest:guest@127.0.0.1:5672//&apos;  # 127.0.0.1即为rabbitmq-server所在服务器ip地址</span><br><span class="line">CELERYBEAT_SCHEDULER = &apos;djcelery.schedulers.DatabaseScheduler&apos;</span><br><span class="line">CELERY_RESULT_BACKEND = &apos;djcelery.backends.database:DatabaseBackend&apos;</span><br><span class="line">CELERY_ACCEPT_CONTENT = [&apos;application/json&apos;]</span><br><span class="line">CELERY_TASK_SERIALIZER = &apos;json&apos;</span><br><span class="line">CELERY_RESULT_SERIALIZER = &apos;json&apos;</span><br><span class="line"></span><br><span class="line">CELERY_TASK_RESULT_EXPIRES = 7200  # celery任务执行结果的超时时间，</span><br><span class="line">CELERYD_CONCURRENCY = 10  # celery worker的并发数 也是命令行-c指定的数目 根据服务器配置实际更改 默认10</span><br><span class="line">CELERYD_MAX_TASKS_PER_CHILD = 100  # 每个worker执行了多少任务就会死掉，我建议数量可以大一些，默认100</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>命令行窗口执行pip install -r requirements.txt 安装工程所依赖的库文件</li>
+<li>命令行窗口切换到HttpRunnerManager目录 生成数据库迁移脚本,并生成表结构</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python manage.py makemigrations ApiManager #生成数据迁移脚本</span><br><span class="line">python manage.py migrate  #应用到db生成数据表</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>创建超级用户，用户后台管理数据库，并按提示输入相应用户名，密码，邮箱。 如不需用，可跳过此步骤</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py createsuperuser</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>启动服务,</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver 0.0.0.0:8000</span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>启动worker, 如果选择同步执行并确保不会使用到定时任务，那么此步骤可忽略</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python manage.py celery -A HttpRunnerManager worker --loglevel=info  #启动worker</span><br><span class="line">python manage.py celery beat --loglevel=info #启动定时任务监听器</span><br><span class="line">celery flower #启动任务监控后台</span><br></pre></td></tr></table></figure>
+<ol start="10">
+<li>访问：<a href="http://localhost:5555/dashboard" target="_blank" rel="noopener">http://localhost:5555/dashboard</a> 即可查看任务列表和状态</li>
+<li>浏览器输入：<a href="http://127.0.0.1:8000/api/register/" target="_blank" rel="noopener">http://127.0.0.1:8000/api/register/</a> 注册用户，开始尽情享用平台吧</li>
+<li>浏览器输入<a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener">http://127.0.0.1:8000/admin/</a> 输入步骤6设置的用户名、密码，登录后台运维管理系统，可后台管理数据</li>
+</ol>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Gradle-配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -851,80 +949,6 @@
 
 
   
-    <article id="post-Android-使用-adb-指令模拟-touch-滑动解锁" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/01/09/Android-使用-adb-指令模拟-touch-滑动解锁/" class="article-date">
-      <time datetime="2019-01-09T11:02:59.000Z" itemprop="datePublished">2019-01-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/09/Android-使用-adb-指令模拟-touch-滑动解锁/">Android 使用 adb 指令模拟 touch 滑动解锁</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><strong>查找手机触摸屏事件 event 的位置，寻找包含touch字段的内容。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell cat /proc/bus/input/devices</span><br></pre></td></tr></table></figure>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">I: Bus=<span class="number">0018</span> Vendor=<span class="number">0000</span> Product=<span class="number">0000</span> Version=<span class="number">0000</span></span><br><span class="line">N: Name=<span class="string">"atmel-maxtouch"</span></span><br><span class="line">P: Phys=</span><br><span class="line">S: Sysfs=/devices/f9924000<span class="variable">.i2c</span>/i2c-<span class="number">2</span>/<span class="number">2</span>-<span class="number">004</span>b/<span class="keyword">input</span>/input2</span><br><span class="line">U: Uniq=</span><br><span class="line">E: Enabled=<span class="number">0</span></span><br><span class="line">H: Handlers=kgsl event2 cpufreq</span><br></pre></td></tr></table></figure>
-<p><strong>录制解锁步骤，监听event</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell getevent /dev/input/event2 &gt; unlock.txt</span><br></pre></td></tr></table></figure>
-<p><strong>手机上滑动解锁一次</strong></p>
-<p>第一种方法：<strong>unlock.txt里面的十六进制数转换为十进制数。</strong></p>
-<p>hex_to_dec.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line">__date__ = <span class="string">"2019-01-09 15:22:46"</span></span><br><span class="line">__author__ = <span class="string">"ovwane"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"unlock.txt"</span>, <span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> f:</span><br><span class="line">        num_list = []</span><br><span class="line"></span><br><span class="line">        line = file</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> line.split(<span class="string">" "</span>):</span><br><span class="line">            i_num = int(i.rstrip(<span class="string">"\n"</span>), <span class="number">16</span>)</span><br><span class="line">            num_list.append(i_num)</span><br><span class="line"></span><br><span class="line">        print(num_list)</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">"adb_unlock.sh"</span>, <span class="string">"a+"</span>, encoding=<span class="string">"utf-8"</span>) <span class="keyword">as</span> ff:</span><br><span class="line">            ff.write(<span class="string">"adb shell sendevent /dev/input/event2 &#123;&#125; &#123;&#125; &#123;&#125; \n"</span>.format(num_list[<span class="number">0</span>], num_list[<span class="number">1</span>], num_list[<span class="number">2</span>]))</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># adb shell getevent //dev/input/event0 &gt;&gt; getevent.log</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./getevent2.sh'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> f2:</span><br><span class="line">    f2.write(<span class="string">"adb shell input keyevent 26\n"</span>)</span><br><span class="line">    <span class="comment"># f2.write("adb shell input keyevent 82\r")</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'./getevent.log'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">            new_line = <span class="string">" "</span>.join([str(int(it, <span class="number">16</span>)) <span class="keyword">for</span> it <span class="keyword">in</span> line.strip().split(<span class="string">" "</span>)])</span><br><span class="line">            f2.write(<span class="string">"adb shell sendevent //dev/input/event0 "</span> + new_line + <span class="string">"\r"</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell getevent /dev/input/event2 | awk '&#123;print "adb shell sendevent /dev/input/event2  "strtonum("0x"$1)" "strtonum("0x"$2)" "strtonum("0x"$3); fflush()&#125;'  &gt;&gt; unlock.sh</span><br></pre></td></tr></table></figure>
-<p>第二种方法：<strong>unlock.txt里面的十六进制数转换为十进制数。</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell getevent /dev/input/event2 | awk '&#123;print "adb shell sendevent /dev/input/event2  "strtonum("0x"$1)" "strtonum("0x"$2)" "strtonum("0x"$3); fflush()&#125;'  &gt;&gt; unlock.sh</span><br></pre></td></tr></table></figure>
-<p><strong>写到shell script中执行，就可以实现自动解锁了。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell sendevent /dev/input/event2</span><br></pre></td></tr></table></figure>
-<p>模拟发送电源键事件，点亮屏幕。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell input keyevent 26</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/xiaobaiing/article/details/51363835" target="_blank" rel="noopener">Android通过指令模拟touch滑动解锁</a></p>
-<p><a href="https://www.jianshu.com/p/630c5026279c" target="_blank" rel="noopener">ADB获取手机屏幕的状态(点亮与否)以及ADB点击事件基本操作</a></p>
-<p><a href="https://blog.csdn.net/fcc7619666/article/details/52022015" target="_blank" rel="noopener">awk 中 对于tail f 的文件重定向</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -935,7 +959,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2019 幻舞梦境
+                &copy; 2020 幻舞梦境
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman

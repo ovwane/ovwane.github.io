@@ -210,136 +210,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Redis安装配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/24/Redis安装配置/" class="article-date">
-      <time datetime="2016-12-24T08:20:31.000Z" itemprop="datePublished">2016-12-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/24/Redis安装配置/">Redis安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Redis的多种启动方式"><a href="#Redis的多种启动方式" class="headerlink" title="Redis的多种启动方式"></a>Redis的多种启动方式</h1><p><a href="http://renzhiyuan.blog.51cto.com/10433137/1881202" target="_blank" rel="noopener">Redis的多种启动方式比较！</a></p>
-<blockquote>
-<p>有感:Redis玩了许久时间，真心感觉启动方式还是自己定义的方便！</p>
-</blockquote>
-<p>1）直接启动和关闭：（配置文件默认）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">开启：redis-server &amp;（&amp;后台运行）</span><br><span class="line">#daemonize yes（也可配置文件修改此参数）</span><br><span class="line">关闭：redis-cli shutdown or killall -9 redis-server</span><br></pre></td></tr></table></figure>
-<p>2）指定配置文件启动：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis-server /etc/redis.conf(配置文件可自己定义)</span><br><span class="line">如果更改了redis默认端口：</span><br><span class="line">redis-cli shutdown (-p 端口)</span><br><span class="line">redis-cli shutdown (-p 端口) （-a 认证密码）</span><br></pre></td></tr></table></figure>
-<p>3）自己定义启动文件并配置(推荐）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@redis1 ~]# cpredis-2.8.24/utils/redis_init_script /etc/init.d/redis</span><br><span class="line">注册为系统服务：</span><br><span class="line">[root@redis1 ~]# sed -i &apos;2i #chkconfig:2345 80 90&apos; /etc/init.d/redis</span><br><span class="line">[root@redis1 ~]# chkconfig --add redis</span><br></pre></td></tr></table></figure>
-<p>修改配置文件（因为路径自己定义,sed也可以）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">REDISPORT=7000  #注意slave端口自己定义即可</span><br><span class="line">EXEC=/usr/local/redis/bin/redis-server</span><br><span class="line">CLIEXEC=/usr/local/redis/bin/redis-cli</span><br><span class="line"> </span><br><span class="line">PIDFILE=/var/run/redis_$&#123;REDISPORT&#125;.pid</span><br><span class="line">CONF=&quot;/etc/redis/$&#123;REDISPORT&#125;.conf&quot;</span><br></pre></td></tr></table></figure>
-<p>脚本如下（自己配置的，大家也可在此基础上进行修改）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">#chkconfig: 2345 80 90</span><br><span class="line"># Simple Redis init.d script conceivedto work on Linux systems</span><br><span class="line"># as it does use of the /procfilesystem.</span><br><span class="line">  </span><br><span class="line">REDISPORT=7000</span><br><span class="line">EXEC=/usr/local/redis/bin/redis-server</span><br><span class="line">CLIEXEC=/usr/local/redis/bin/redis-cli</span><br><span class="line">  </span><br><span class="line">PIDFILE=/var/run/redis_$&#123;REDISPORT&#125;.pid</span><br><span class="line">CONF=&quot;/etc/redis/$&#123;REDISPORT&#125;.conf&quot;</span><br><span class="line">  </span><br><span class="line">case &quot;$1&quot; in</span><br><span class="line">   start)</span><br><span class="line">       if [ -f $PIDFILE ]</span><br><span class="line">       then</span><br><span class="line">                echo -e &quot;\033[31m $PIDFILEexists, process is already running or crashed \033[0m&quot;</span><br><span class="line">       else</span><br><span class="line">                echo -e &quot;\033[32m Waitingfor Redis to start...\033[0m&quot;</span><br><span class="line">                $EXEC $CONF</span><br><span class="line">                if [ $? -eq 0 ]</span><br><span class="line">                then</span><br><span class="line">                echo -e &quot;\033[32m Redis isalready started successfully! \033[0m&quot;</span><br><span class="line">                else</span><br><span class="line">                echo -e &quot;\033[31m Redisstart fail \033[0m&quot;</span><br><span class="line">                fi</span><br><span class="line">       fi</span><br><span class="line">       ;;</span><br><span class="line">   stop)</span><br><span class="line">       if [ ! -f $PIDFILE ]</span><br><span class="line">       then</span><br><span class="line">                echo -e &quot;\033[31m $PIDFILEdoes not exist, process is not running \033[0m&quot;</span><br><span class="line">       else</span><br><span class="line">                PID=$(cat $PIDFILE)</span><br><span class="line">                echo -e &quot;\033[32m Waitingfor Redis to stop ... \033[0m&quot;</span><br><span class="line">                $CLIEXEC -p $REDISPORT  shutdown</span><br><span class="line">                while [ -x /proc/$&#123;PID&#125; ] </span><br><span class="line">                do</span><br><span class="line">                    echo -e &quot;\033[32mWaiting for Redis to shutdown ... \033[0m&quot;</span><br><span class="line">                   sleep 1</span><br><span class="line">                done</span><br><span class="line">                echo -e &quot;\033[32m Redis isalready stopped successfully! \033[0m&quot;</span><br><span class="line">       fi</span><br><span class="line">       ;;</span><br><span class="line">   status)</span><br><span class="line">                 ps aux|grep redis-server|grep-v grep &amp;&gt;/dev/null</span><br><span class="line">                 if [ $? -eq 0 ]</span><br><span class="line">                 then</span><br><span class="line">                 echo -e &quot;\033[32m Redisis running... \033[0m&quot;</span><br><span class="line">                 else</span><br><span class="line">                 echo -e &quot;\033[31m Redisis already stopped \033[0m&quot;</span><br><span class="line">                 fi</span><br><span class="line">                 ;;</span><br><span class="line">   restart)</span><br><span class="line">               $CLIEXEC -p $REDISPORT  shutdown</span><br><span class="line">               if [ $? -eq 0 ]</span><br><span class="line">               then</span><br><span class="line">               echo -e &quot;\033[32m Redis isalready stopped successfully! \033[0m&quot;</span><br><span class="line">               else </span><br><span class="line">               echo -e &quot;\033[31m Redisstop fail \033[0m&quot;</span><br><span class="line">               fi</span><br><span class="line">               $EXEC $CONF</span><br><span class="line">               if [ $? -eq 0 ]</span><br><span class="line">               then</span><br><span class="line">               echo -e &quot;\033[32m Redis isalready started successfully! \033[0m&quot;</span><br><span class="line">               else</span><br><span class="line">               echo -e &quot;\033[31m Redisstart fail \033[0m&quot;</span><br><span class="line">               fi</span><br><span class="line">               ;;</span><br><span class="line">    *)</span><br><span class="line">     echo &quot;the usage is service redis start|stop|status|restart&quot;</span><br><span class="line">     esac</span><br></pre></td></tr></table></figure>
-<p>查看redis状态，启动，关闭，重启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@redis1 ~]# /etc/init.d/redis status</span><br><span class="line"> Redis is running... </span><br><span class="line">[root@redis1 ~]# /etc/init.d/redis stop</span><br><span class="line"> Waiting for Redis to stop ... </span><br><span class="line"> Waiting for Redis to shutdown ... </span><br><span class="line"> Redis is already stopped successfully! </span><br><span class="line">[root@redis1 ~]# /etc/init.d/redis start</span><br><span class="line"> Waiting for Redis to start...</span><br><span class="line"> Redis is already started successfully! </span><br><span class="line">[root@redis1 ~]# /etc/init.d/redis restart</span><br><span class="line"> Redis is already stopped successfully! </span><br><span class="line"> Redis is already started successfully! </span><br><span class="line">[root@redis1 ~]#</span><br><span class="line">[root@redis1 ~]# ps aux|grep redis-server|grep -v grep</span><br><span class="line">root       2881  0.1  0.1 128296  1692 ?        Ssl  12:45   0:01 /usr/local/redis/bin/redis-server *:7000              </span><br><span class="line">[root@redis1 ~]#</span><br></pre></td></tr></table></figure>
-<h1 id="Redis数据持久化"><a href="#Redis数据持久化" class="headerlink" title="Redis数据持久化"></a>Redis数据持久化</h1><p>[Redis数据持久化](<a href="http://renzhiyuan.blog.51cto.com/10433137/1881895" target="_blank" rel="noopener">http://renzhiyuan.blog.51cto.com/10433137/1881895</a><br>Redis是个支持持久化的内存数据库，redis需要经常将内存中的数据同步到磁盘来保证持久化。</p>
-<p>1、RDB方式（Snapshotting默认快照方式）：<br>1.1）配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">save 900 1       #在900秒(15分钟)之后，如果至少有1个key发生变化，则dump内存快照。</span><br><span class="line">save 300 10      #在300秒(5分钟)之后，如果至少有10个key发生变化，则dump内存快照。</span><br><span class="line">save 60 10000    #在60秒(1分钟)之后，如果至少有10000个key发生变化，则dump内存快照。</span><br></pre></td></tr></table></figure>
-<p>1.2）工作原理：<br>1.2.1）Redis使用fork函数复制一份当前进程（父进程）的副本（子进程）；<br>1.2.2）父进程继续接收并处理客户端发来的命令，而子进程开始将内存中的数据写入硬盘中的临时文件；<br>1.2.3）当子进程写入完所有数据后会用该临时文件替换旧的RDB文件，至此一次快照操作完成。</p>
-<p>1.3）查看dump.rdb:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:7000&gt; config get dir</span><br><span class="line">1) &quot;dir&quot;</span><br><span class="line">2) &quot;/usr/local/redis/db&quot;</span><br><span class="line">127.0.0.1:7000&gt;</span><br></pre></td></tr></table></figure>
-<p>1.4）优点：<br>1.4.1）RDB是个非常紧凑的文件，保存了redis在某个时间点上的数据集，使得我们可以通过定时备份RDB文件来实现Redis数据库备份和灾难恢复，也可以将其传送到其他的数据中心用于保存。<br>1.4.2）RDB可以最大化redis的性能，执行RDB持久化时只需要fork一个子进程，并由子进程进行持久化工作，父进程不需要处理任何磁盘I/O操作。<br>1.4.3）RDB在恢复大数据集时比AOF要快，启动效率要高许多。<br>1.4.4）RDB文件是经过压缩（可以配置rdbcompression参数以禁用压缩节省CPU占用）的二进制格式，所以占用的空间会小于内存中的数据大小，更加利于传输。</p>
-<p>1.5）缺点：<br>1.5.1）每次快照持久化都是将内存数据完整写入到磁盘一次，并不是增量的只同步增数据。如果数据量大的话，而且写操作比较多，必然会引起大量的磁盘io操作，可能会严重影响性能。<br>1.5.2）快照方式是在一定间隔时间做一次的，所以如果redis意外down掉的话，就会丢失最后一次快照后的所有修改，有一些数据丢失的风险。<br>1.5.2）client的save或者bgsave命令通知redis做一次快照持久化不推荐。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:7000&gt; save</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
-<p>原因：save操作是在主线程中保存快照的，由于redis是用一个主线程来处理所有 client的请求，这种方式会阻塞所有client请求。所以不推荐使用。</p>
-<p>2、Append-only file（缩写aof）的方式：<br>2.1）配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">appendonly yes  </span><br><span class="line">#开启aof</span><br><span class="line">appendfilename &quot;appendonly.aof&quot;  </span><br><span class="line">#名字</span><br><span class="line"># appendfsync always   </span><br><span class="line"># 每次执行写入都会执行同步，最安全也最慢</span><br><span class="line">appendfsync everysec   </span><br><span class="line"># 每秒执行一次同步操作</span><br><span class="line"># appendfsync no </span><br><span class="line">#不主动进行同步操作，而是完全交由操作系统来做（即每30秒一次),最快也最不安全。</span><br><span class="line">#配置写入AOF文件后，要求系统刷新硬盘缓存的机制</span><br><span class="line">auto-aof-rewrite-percentage 100  </span><br><span class="line"># 当目前的AOF文件大小超过上一次重写时的AOF文件大小的百分之多少时会再次进行重写，如果之前没有重写过，则以启动时的AOF文件大小为依据</span><br><span class="line">auto-aof-rewrite-min-size 64mb   </span><br><span class="line"># 允许重写的最小AOF文件大小</span><br></pre></td></tr></table></figure>
-<p>2.2）工作原理：<br>2.2.1）redis调用fork ，现在有父子两个进程<br>2.2.2）子进程根据内存中的数据库快照，往临时文件中写入重建数据库状态的命令<br>2.2.3）父进程继续处理client请求，除了把写命令写入到原来的aof文件中。同时把收到的写命令缓存起来。这样就能保证如果子进程重写失败的话并不会出问题。<br>2.2.4.）当子进程把快照内容写入已命令方式写到临时文件中后，子进程发信号通知父进程。然后父进程把缓存的写命令也写入到临时文件。<br>2.2.5）现在父进程可以使用临时文件替换老的aof文件，并重命名，后面收到的写命令也开始往新的aof文件中追加。</p>
-<p>2.3）查看aof<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:7000&gt; config get dir</span><br><span class="line">1) &quot;dir&quot;</span><br><span class="line">2) &quot;/usr/local/redis/db&quot;</span><br><span class="line">127.0.0.1:7000&gt;</span><br><span class="line">[root@redis1 db]# ll</span><br><span class="line">总用量 8</span><br><span class="line">-rw-r--r-- 1 root root 146 2月   1 08:36 appendonly.aof</span><br><span class="line">-rw-r--r-- 1 root root  74 2月   1 09:20 dump.rdb</span><br><span class="line">[root@redis1 db]#</span><br></pre></td></tr></table></figure></p>
-<p>2.4）优点：<br>2.4.1）该机制可以带来更高的数据安全性，即数据持久性。<br>2.4.2）由于该机制对日志文件的写入操作采用的是append模式，因此在写入过程中即使出现宕机现象，也不会破坏日志文件中已经存在的内容。然而如果我们本次操作只是写入了一半数据就出现了系统崩溃问题，不用担心，在Redis下一次启动之前，我们可以通过redis-check-aof工具来帮助我们解决数据一致性的问题。<br>2.4.3）如果日志过大，Redis可以自动启用rewrite机制。即Redis以append模式不断的将修改数据写入到老的磁盘文件中，同时Redis还会创建一个新的文件用于记录此期间有哪些修改命令被执行。因此在进行rewrite切换时可以更好的保证数据安全性。<br>2.4.4） AOF包含一个格式清晰、易于理解的日志文件用于记录所有的修改操作。事实上，也可以通过该文件完成数据的重建。</p>
-<p>2.5：缺点：<br>2.5.1）对于相同数量的数据集而言，AOF文件通常要大于RDB文件，持久化文件会变的越来越大。<br>2.5.2） 根据同步策略的不同，AOF在运行效率上往往会慢于RDB。</p>
-<p>3、其它<br>虚拟内存方式和diskstore方式。：（不建议，而且虚拟内存据说2.4版本后弃用，diskstore也不常用）<br>相关配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">持久化文件会变的越来越大。</span><br><span class="line">vm-enabled yes          </span><br><span class="line">#开启vm功能</span><br><span class="line">vm-swap-file /tmp/redis.swap   </span><br><span class="line">#交换出来的value保存的文件路径/tmp/redis.swap</span><br><span class="line">vm-max-memory 1000000  </span><br><span class="line">#redis使用的最大内存上限，超过上限后redis开始交换value到磁盘文件中</span><br><span class="line">vm-page-size 32        </span><br><span class="line">#每个页面的大小32个字节</span><br><span class="line">vm-pages 134217728     </span><br><span class="line">#最多使用在文件中使用多少页面,交换文件的大小 = vm-page-size * vm-pages</span><br><span class="line">vm-max-threads 4       </span><br><span class="line">#用于执行value对象换入换出的工作线程数量，0表示不使用工作线程</span><br></pre></td></tr></table></figure>
-<p>总结：<br>1、Redis允许同时开启AOF和RDB，既保证了数据安全又使得进行备份等操作十分容易。重新启动Redis后Redis会使用AOF文件来恢复数据，因为AOF方式的持久化可能丢失的数据更少。</p>
-<p>2、读写分离 通过复制可以实现读写分离以提高服务器的负载能力。在常见的场景中，读的频率大于写，当单机的Redis无法应付大量的读请求时（尤其是较耗资源的请求，比如SORT命令等）可以通过复制功能建立多个从数据库，主数据库只进行写操作，而从数据库负责读操作。</p>
-<p>3、从数据库持久化 持久化通常相对比较耗时，为了提高性能，可以通过复制功能建立一个（或若干个）从数据库，并在从数据库中启用持久化，同时在主数据库禁用持久化。当从数据库崩溃时重启后主数据库会自动将数据同步过来，所以无需担心数据丢失。而当主数据库崩溃时，需要在从数据库中使用SLAVEOF NO ONE命令将从数据库提升成主数据库继续服务，并在原来的主数据库启动后使用SLAVEOF命令将其设置成新的主数据库的从数据库，即可将数据同步回来。</p>
-<h1 id="Redis-常用命令"><a href="#Redis-常用命令" class="headerlink" title="Redis 常用命令"></a>Redis 常用命令</h1><p><a href="http://zengestudy.blog.51cto.com/1702365/1854097" target="_blank" rel="noopener">Redis 常用命令</a></p>
-<p>Redis命令有两种类型：<br>1）键值相关命令<br>2）服务相关命令</p>
-<h2 id="键值相关命令"><a href="#键值相关命令" class="headerlink" title="键值相关命令"></a>键值相关命令</h2><p>keys：返回满足给定pattern的所有key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">127.0.0.1:6379&gt; keys my*</span><br></pre></td></tr></table></figure>
-<p>2、exists：确认一个key是否存在，存在返回1，否则返回0</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; exists mylist</span><br><span class="line">127.0.0.1:6379&gt; exists my</span><br></pre></td></tr></table></figure>
-<p>3、del：删除一个key，删除成功返回1</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; del name</span><br><span class="line">(integer) 1&apos;</span><br><span class="line">127.0.0.1:6379&gt; exists name</span><br><span class="line">(integer) 0</span><br></pre></td></tr></table></figure>
-<p>4、expire：设置一个key的过期时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; expire age 10</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 7</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) -2</span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
-<p>5、move：将当前数据库中的key转移到其他数据库中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; select 0  //select 选择数据库</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set age 10</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get age</span><br><span class="line">&quot;10&quot;</span><br><span class="line">127.0.0.1:6379&gt; move age 1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; get age</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt; select 1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[1]&gt; get age</span><br><span class="line">&quot;10&quot;</span><br></pre></td></tr></table></figure>
-<p>6、persist：移除给定key的过期时间，取消成功返回1</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379[1]&gt; expire age 200</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379[1]&gt; ttl age</span><br><span class="line">(integer) 196</span><br><span class="line">127.0.0.1:6379[1]&gt; persist age</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379[1]&gt; ttl age</span><br><span class="line">(integer) -1</span><br></pre></td></tr></table></figure>
-<p>7、rename：重命名key<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">127.0.0.1:6379&gt; rename mail email</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br></pre></td></tr></table></figure></p>
-<p>8、type：返回值的类型,如果key不存在则返回none</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; type mylist</span><br><span class="line">list</span><br><span class="line">127.0.0.1:6379&gt; type name  </span><br><span class="line">none</span><br><span class="line">127.0.0.1:6379&gt; type zeng</span><br><span class="line">string</span><br><span class="line">127.0.0.1:6379&gt; type use</span><br><span class="line">hash</span><br></pre></td></tr></table></figure>
-<h2 id="服务器相关命令"><a href="#服务器相关命令" class="headerlink" title="服务器相关命令"></a>服务器相关命令</h2><p>1、ping：检测连接是否存活</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; ping </span><br><span class="line">PONG</span><br></pre></td></tr></table></figure>
-<p>2、echo：在命令行输出指定信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; echo &quot;hello,world&quot;</span><br><span class="line">&quot;hello,world&quot;</span><br></pre></td></tr></table></figure>
-<p>3、select：选择数据库</p>
-<p>4、quit、exit：退出命令行</p>
-<p>5、dbsize：返回当前数据库中key的数目</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;name&quot;</span><br><span class="line">2) &quot;age&quot;</span><br><span class="line">127.0.0.1:6379&gt; dbsize</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
-<p>6、info：获取服务器的信息和统计</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; info</span><br><span class="line"># Server</span><br><span class="line">redis_version:3.2.1</span><br></pre></td></tr></table></figure>
-<p>7、config get：实时转储收到的请求</p>
-<p>8、flushdb：删除当前选择数据库中的所有key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; dbsize </span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; flushdb </span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; dbsize</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(empty list or set)</span><br></pre></td></tr></table></figure>
-<p>9、flushall：删除所有数据库中的所有key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; select 0</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(empty list or set)</span><br><span class="line">127.0.0.1:6379&gt; set name zeng</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; dbsize</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; select 1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[1]&gt; flushall</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[1]&gt; select 0</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(empty list or set)</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-Systemd使用技巧" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -995,7 +865,9 @@ Nagios通常由一个主程序(Nagios)、一个插件程序(Nagios-plugins)和�
 <h3 id="Vim插件-1"><a href="#Vim插件-1" class="headerlink" title="Vim插件"></a>Vim插件</h3><p><a href="https://github.com/vim-airline/vim-airline" target="_blank" rel="noopener">vim-airline</a></p>
 <p><a href="https://github.com/scrooloose/nerdtree" target="_blank" rel="noopener"><strong>nerdtree</strong></a></p>
 <p><a href="https://github.com/Xuyuanp/nerdtree-git-plugin" target="_blank" rel="noopener">nerdtree-git-plugin</a></p>
-<h3 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/3066b3191cb1" target="_blank" rel="noopener">上古神器vim插件：你真的学会用NERDTree了吗？</a></p>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><p><a href="https://blog.csdn.net/ch717828/article/details/50843956" target="_blank" rel="noopener">Vim如何保存需要root权限的文件</a> , <a href="http://feihu.me/blog/2014/vim-write-read-only-file/" target="_blank" rel="noopener">以普通用户启动的Vim如何保存需要root权限的文件</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:w !sudo tee %</span><br></pre></td></tr></table></figure>
+<h2 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/3066b3191cb1" target="_blank" rel="noopener">上古神器vim插件：你真的学会用NERDTree了吗？</a></p>
 
       
       
@@ -1179,6 +1051,50 @@ Nagios通常由一个主程序(Nagios)、一个插件程序(Nagios-plugins)和�
 
 
   
+    <article id="post-macOS 下的 tree 命令" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/20/macOS 下的 tree 命令/" class="article-date">
+      <time datetime="2016-07-20T11:21:22.000Z" itemprop="datePublished">2016-07-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="mac下的tree命令"><a href="#mac下的tree命令" class="headerlink" title="mac下的tree命令"></a>mac下的tree命令</h1><p>　　在默认安装安装的mac下没有找到tree命令，找了一下原来有个比较流氓的解决办法：<br>find . -print | sed -e ‘s;[^/]<em>/;|<strong><strong>;g;s;</strong></strong>|; |;g’<br>　　这个命令行跑起来类似平常tree的效果，比如：<br>.<br>|<strong><strong>extra<br>| |</strong></strong>httpd-autoindex.conf<br>| |<strong><strong>httpd-dav.conf<br>| |</strong></strong>httpd-default.conf<br>| |<strong><strong>httpd-info.conf<br>| |</strong></strong>httpd-languages.conf<br>| |<strong><strong>httpd-manual.conf<br>| |</strong></strong>httpd-mpm.conf<br>| |<strong><strong>httpd-multilang-errordoc.conf<br>| |</strong></strong>httpd-ssl.conf<br>| |<strong><strong>httpd-userdir.conf<br>| |</strong></strong>httpd-vhosts.conf<br>|<strong><strong>httpd.conf<br>|</strong></strong>magic<br>|<strong><strong>mime.types<br>|</strong></strong>original<br>| |<strong><strong>extra<br>| | |</strong></strong>httpd-autoindex.conf<br>| | |<strong><strong>httpd-dav.conf<br>| | |</strong></strong>httpd-default.conf<br>| | |<strong><strong>httpd-info.conf<br>| | |</strong></strong>httpd-languages.conf<br>| | |<strong><strong>httpd-manual.conf<br>| | |</strong></strong>httpd-mpm.conf<br>| | |<strong><strong>httpd-multilang-errordoc.conf<br>| | |</strong></strong>httpd-ssl.conf<br>| | |<strong><strong>httpd-userdir.conf<br>| | |</strong></strong>httpd-vhosts.conf<br>| |<strong><strong>httpd.conf<br>|</strong></strong>other<br>| |<strong><strong>bonjour.conf<br>| |</strong></strong>php5.conf<br>|____users<br>　　写一个alias到~/.bash_profile里，就更方便了:<br>alias tree=”find . -print | sed -e ‘s;[^/]</em>/;|<strong><strong>;g;s;</strong></strong>|; |;g’”<br>　　觉得文章有用？立即： 和朋友一起 共学习 共进步</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/42/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/44/">Next &raquo;</a>
@@ -1189,7 +1105,7 @@ Nagios通常由一个主程序(Nagios)、一个插件程序(Nagios-plugins)和�
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2019 幻舞梦境
+                &copy; 2020 幻舞梦境
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
