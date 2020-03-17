@@ -1,60 +1,90 @@
 ---
-title: Nginx安装配置
-date: 2014-09-01 18:10:02
-categories:
-- 技术
-- Linux
+title: Nginx 配置
+date: 2013-04-20 09:22:28
 tags:
-- CentOS
 - Nginx
 ---
-[Nginx安装配置](http://www.ttlsa.com/nginx/nginx-install-on-linux/)
-# nginx介绍
-Nginx是一个自由、开源、高性能及轻量级的HTTP服务器及反转代理服务器，
+
+## Nginx 介绍
+Nginx 是一个自由、开源、高性能及轻量级的HTTP服务器及反转代理服务器，
 其性能与IMAP/POP3代理服务器相当。Nginx以其高性能、稳定、功能丰富、配置简单及占用系统资源少而著称。
 Nginx 超越 Apache 的高性能和稳定性，使得国内使用 Nginx 作为 Web 服务器的网站也越来越多.
 
-## 基础功能
-处理静态文件，索引文件以及自动索引； 
-反向代理加速(无缓存)，简单的负载均衡和容错；
-FastCGI，简单的负载均衡和容错；
-模块化的结构。过滤器包括gzipping, byte ranges, chunked responses, 以及 SSI-filter 。在SSI过滤器中，到同一个 proxy 或者 FastCGI 的多个子请求并发处理；
-SSL 和 TLS SNI 支持；
+### 基础功能
+- 处理静态文件，索引文件以及自动索引； 
+- 反向代理加速(无缓存)，简单的负载均衡和容错；
+- FastCGI，简单的负载均衡和容错；
+- 模块化的结构。过滤器包括gzipping, byte ranges, chunked responses, 以及 SSI-filter 。在SSI过滤器中，到同一个 proxy 或者 FastCGI 的多个子请求并发处理；
+- SSL 和 TLS SNI 支持；
 
-## 优势
-Nginx专为性能优化而开发，性能是其最重要的考量, 实现上非常注重效率 。它支持内核Poll模型，能经受高负载的考验, 有报告表明能支持高达 50,000 个并发连接数。 
+### 优势
+- Nginx专为性能优化而开发，性能是其最重要的考量, 实现上非常注重效率 。它支持内核Poll模型，能经受高负载的考验, 有报告表明能支持高达 50,000 个并发连接数。 
 Nginx作为负载均衡服务器: Nginx 既可以在内部直接支持 Rails 和 PHP 程序对外进行服务, 也可以支持作为 HTTP代理服务器对外进行服务。
 Nginx具有很高的稳定性。其它HTTP服务器，当遇到访问的峰值，或者有人恶意发起慢速连接时，也很可能会导致服务器物理内存耗尽频繁交换，失去响应，只能重启服务器。
-例如当前apache一旦上到200个以上进程，web响应速度就明显非常缓慢了。而Nginx采取了分阶段资源分配技术，使得它的CPU与内存占用率非常低。
+- 例如当前apache一旦上到200个以上进程，web响应速度就明显非常缓慢了。而Nginx采取了分阶段资源分配技术，使得它的CPU与内存占用率非常低。
 nginx官方表示保持10,000个没有活动的连接，它只占2.5M内存，就稳定性而言, nginx比lighthttpd更胜一筹。 
 Nginx支持热部署。它的启动特别容易, 并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在不间断服务的情况下，对软件版本进行进行升级。 
 Nginx采用C进行编写, 不论是系统资源开销还是CPU使用效率都比 Perlbal 要好很多。
 
-# nginx安装
->当今nginx的劲头越来越猛，记得2011年版本才1.0.6,现在已经更新到了1.5.1,nginx的更新速度越来越快。
+<!--more-->
 
-## 软件准备
-### 安装pcre
-为了支持rewrite功能，我们需要安装pcre。
 
+
+## Nginx 安装
+
+### Docker
+
+```
+docker pull nginx:1.17.9
+```
+
+```
+docker run --name nginx -p 80:80 -p 443:443 -v ${HOME}/docker/nginx/conf.d:/etc/nginx/conf.d:ro -v ${HOME}/docker/nginx/html:/usr/share/nginx/html:ro -d nginx:1.17.9
+```
+
+
+
+### macOS
+
+```shell
+# 安装
+brew install nginx
+# 启动
+brew services start nginx
+```
+
+文件位置：`/usr/local/etc/nginx/servers/`
+
+HTML 位置：`/usr/local/var/www`
+
+
+
+### 源码
+
+#### 安装依赖
+安装pcre，为了支持rewrite功能，我们需要安装pcre。
 ```
 yum install -y pcre*
 ```
 
-### 安装openssl
-需要ssl的支持，如果不需要ssl支持，请跳过这一步
-
+安装openssl，需要ssl的支持，如果不需要ssl支持，请跳过这一步。
 ```
 yum install -y openssl*
 ```
 
-### 安装nginx
+安装make工具
+
+```
+yum install make -y
+```
+
+安装 Nginx
+
 ```
 wget http://nginx.org/download/nginx-1.5.1.tar.gz
 tar xvf nginx-1.5.1.tar.gz
 cd nginx-1.5.1
 ```
-编译安装nginx
 
 编译参数
 
@@ -151,13 +181,11 @@ cd nginx-1.5.1
 --with-openssl= 指向openssl安装目录
 --with-openssl-opt 在编译时为openssl设置附加参数
 --with-debug 启用debug日志
+
+--prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -fPIC' --with-ld-opt='-Wl,-z,relro -Wl,-z,now -pie'
 ```
 
-安装make工具
-
-```
-yum install make -y
-```
+编译
 
 ```
 ./configure --prefix=/usr/local/nginx \
@@ -169,21 +197,421 @@ make
 make install
 ```
 
-### 启动nginx
-```
-#启动
-/usr/local/nginx/sbin/nginx start
-#关闭
-/usr/local/nginx/sbin/nginx stop
-#重新加载配置文件
-/usr/local/nginx/sbin/nginx -s reload
+### 编译安装nginx
+
+安装依赖环境
+
+```bash
+yum install -y make gcc git pcre-devel zlib-devel
 ```
 
-# 配置
-## nginx安全配置
-### 隐藏Nginx版本号
-server_tokens off;
 
+
+添加nginx用户和组
+
+```
+useradd -s /sbin/nologin -M nginx 
+```
+
+
+
+获取源码：
+
+```bash
+git clone -b 1.13.12 https://github.com/nginx/nginx.git
+git clone https://github.com/openssl/openssl.git
+git clone https://github.com/grahamedgecombe/nginx-ct.git
+git clone https://github.com/google/ngx_brotli.git&&cd ngx_brotli&&git submodule update --init&&cd ..
+```
+
+编译
+
+```bash
+cd nginx
+#开启ipv6，但编译参数没有 --with-ipv6 应该默认支持ipv6了。
+auto/configure --prefix=/usr/local/nginx-1.13.11 --user=nginx --group=nginx --add-module=../ngx_brotli --add-module=../nginx-ct --with-openssl=../openssl --with-openssl-opt='enable-tls1_3 enable-weak-ssl-ciphers' --with-http_v2_module --with-http_ssl_module --with-http_gzip_static_module
+
+make
+make install
+```
+
+nginx.service
+
+```
+cat >/usr/lib/systemd/system/nginx.service<<EOF
+[Unit]
+Description=nginx - high performance web server
+Documentation=http://nginx.org/en/docs/
+After=network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/nginx.pid
+ExecStartPre=/usr/local/nginx-1.13.11/sbin/nginx -t -c /usr/local/nginx-1.13.11/conf/nginx.conf
+ExecStart=/usr/local/nginx-1.13.11/sbin/nginx -c /usr/local/nginx-1.13.11/conf/nginx.conf
+ExecReload=/usr/local/nginx-1.13.11/sbin/nginx -s reload
+ExecStop=/usr/local/nginx-1.13.11/sbin/nginx -s quit
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+启动nginx
+
+```shell
+# 启动
+nginx start
+# 关闭
+nginx stop
+# 测试配置文件
+nginx -t
+# 重新加载配置文件
+nginx -s reload
+```
+
+
+
+### yum 安装
+
+添加 nginx.repo 源
+
+```
+cat >> /etc/yum.repos.d/nginx.repo <<EOF
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/
+gpgcheck=0
+enabled=1
+EOF
+```
+
+
+
+安装 Nginx
+
+```shell
+yum install nginx -y
+# 查看nginx版本
+nginx -v
+# 获取编译参数
+nginx -V
+```
+
+启动
+
+```bash
+systemctl start nginx.service
+systemctl restart nginx.service
+systemctl stop nginx.service
+systemctl status nginx.service
+systemctl enable nginx.service
+```
+
+## 配置
+
+/usr/local/nginx-1.13.11/conf/nginx.conf
+
+```nginx
+user  nginx nginx;
+
+worker_processes  2;
+
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    charset            utf-8;
+
+    sendfile       on;
+
+    tcp_nopush     on;
+    tcp_nodelay    on;
+
+    keepalive_timeout  60;
+
+    gzip               on;
+    gzip_vary          on;
+    gzip_comp_level    6;
+    gzip_buffers       16 8k;
+    gzip_min_length    1000;
+    gzip_proxied       any;
+    gzip_disable       "msie6";
+    gzip_http_version  1.0; 
+    gzip_types         text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript image/svg+xml;
+
+    brotli             on;
+    brotli_comp_level  6;
+    brotli_types       text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript image/svg+xml;
+
+    include            /data/nginx/conf/*.conf;
+} 
+```
+
+
+
+/data/nginx/conf/ovwane.com.conf
+
+```shell
+server {
+    listen               443 ssl http2 fastopen=3 reuseport;
+    listen               [::]:443 ssl http2 fastopen=3 reuseport;
+
+    # 如果你使用了 Cloudflare 的 HTTP/2 + SPDY 补丁，记得加上 spdy
+    # listen               443 ssl http2 spdy fastopen=3 reuseport;
+
+    server_name          ovwane.com;
+    server_tokens        off;
+
+    ssl_ct               on;
+
+    #RSA
+    ssl_certificate     /data/ssl/ovwane.com/ovwane.com_rsa_fullchain.cer;
+    ssl_certificate_key /data/ssl/ovwane.com/ovwane.com_rsa.key;
+    ssl_ct_static_scts   /data/ssl/ovwane.com/scts;
+
+    #ECC
+    ssl_certificate     /data/ssl/ovwane.com/ovwane.com_ecc_fullchain.cer;
+    ssl_certificate_key /data/ssl/ovwane.com/ovwane.com_ecc.key;
+    ssl_ct_static_scts   /data/ssl/ovwane.com/scts;
+
+    ssl_dhparam         /data/ssl/ovwane.com/dhparams.pem;
+
+    ssl_ciphers                TLS13-AES-256-GCM-SHA384:TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-128-GCM-SHA256:TLS13-AES-128-CCM-8-SHA256:TLS13-AES-128-CCM-SHA256:EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+ECDSA+AES128:EECDH+aRSA+AES128:RSA+AES128:EECDH+ECDSA+AES256:EECDH+aRSA+AES256:RSA+AES256:EECDH+ECDSA+3DES:EECDH+aRSA+3DES:RSA+3DES:!MD5;
+
+    ssl_prefer_server_ciphers  on;
+
+    ssl_protocols              TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # 增加 TLSv1.3
+
+    ssl_session_cache          shared:SSL:50m;
+    ssl_session_timeout        1d;
+    ssl_session_tickets        on;
+
+    #OCSP
+    ssl_stapling               on;
+    ssl_stapling_verify        on;
+    #ssl_trusted_certificate
+
+    resolver                 8.8.8.8 1.1.1.1  valid=300s;
+    resolver_timeout         10s;
+
+    access_log                 /data/nginx/log/ovwane.com.log;
+
+    if ($request_method !~ ^(GET|HEAD|POST|OPTIONS)$ ) {
+        return           444;
+    }
+
+    if ($host != 'ovwane.com' ) {
+        rewrite          ^/(.*)$  https://ovwane.com/$1 permanent;
+    }
+
+    location / {
+        add_header               Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
+        add_header               X-Frame-Options deny;
+        add_header               X-Content-Type-Options nosniff;
+        add_header               Content-Security-Policy "default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' blob:https:; img-src data: https: http://ovwane.com; style-src 'unsafe-inline' https:; child-src https:; connect-src 'self' https://translate.googleapis.com; frame-src https://disqus.com";
+        add_header               Public-Key-Pins 'pin-sha256="sRHdihwgkaib1P1gxX8HFszlD+7/gTfNvuAybgLPNis="; pin-sha256="YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg="; max-age=2592000; includeSubDomains';
+        add_header               Cache-Control no-cache;
+        #QUIC
+        add_header "alt-svc" "quic=\":444\"; ma=2592000; v=\"39\"";
+
+        root /data/www/ovwane.com/public;
+        index index.html index.htm;
+    }
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name ovwane.com;
+    server_tokens off;
+
+    access_log        /dev/null;
+
+    if ($request_method !~ ^(GET|HEAD|POST)$ ) {
+        return        444;
+    }
+
+    location / {
+        rewrite       ^/(.*)$ https://ovwane.com/$1 permanent;
+    }
+}
+```
+
+
+
+## HTTPS
+
+### 使用[acme.sh](https://github.com/Neilpang/acme.sh)工具获取ssl证书
+
+```
+curl https://get.acme.sh | sh
+```
+
+```bash
+#1. DNSPod API Key and ID
+export DP_Id=""
+export DP_Key=""
+
+#2.
+acme.sh --issue --dns dns_dp --nginx --keylength 4096 -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn
+
+#3.
+acme.sh --issue --dns dns_dp --nginx --keylength 4096 -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn --keylength ec-256
+
+#4.
+acme.sh --installcert -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn \
+        --key-file   /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa.key \
+        --fullchain-file /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain.cer \
+        --reloadcmd  "systemctl restart nginx.service"
+      
+#4.        
+acme.sh --install-cert -d quanjinlong.cn -d www.quanjinlong.cn -d blog.quanjinlong.cn \
+--key-file       /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_key.pem  \
+--fullchain-file /data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem \
+--reloadcmd     "systemctl restart nginx.service"
+```
+
+nginx开启https
+nginx的https协议需要ssl模块的支持，我们在编译nginx时使用–with-http_ssl_module参数加入SSL模块。还需要服务器私钥，服务器证书。
+
+检查Nginx的SSL模块是否安装
+
+```
+nginx -V |grep ssl
+```
+
+准备证书
+[StartSSL](https://www.startcomca.com)
+
+开启Nginx SSL
+
+```
+server {
+listen       443;
+ssl on;
+ssl_certificate /data/cert/server.crt;
+ssl_certificate_key /data/cert/server.key;
+}
+```
+
+重启nginx
+
+```
+nginx -s reload
+netstat -lntup|grep 443
+```
+
+配置重定向80端口转443端口
+
+```
+server {
+listen 80;
+rewrite ^(.*) https://$server_name$1 permanent;
+}
+```
+
+[ssl 测试工具](https://www.ssllabs.com/ssltest/)
+
+- TLS 1.3
+[本博客开始支持 TLS 1.3](https://imququ.com/post/enable-tls-1-3.html)
+[CentOS 7 编译安装nginx并启用TLS1.3](https://www.coldawn.com/tag/draft-23/)
+
+- CT
+[通过 nginx-ct 启用 CT](https://imququ.com/post/certificate-transparency.html#toc-2)
+
+[Certificate Transparency Monitor](https://ct.grahamedgecombe.com/)
+
+```bash
+yum -y install golang
+
+wget -O ct-submit.zip -c https://github.com/grahamedgecombe/ct-submit/archive/v1.1.2.zip
+unzip ct-submit.zip
+cd ct-submit-1.1.2
+go build
+```
+
+```
+#rsa
+./ct-submit-1.1.2 ct.googleapis.com/icarus </data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem >/data/ssl/quanjinlong.cn/scts/icarus.sct
+
+./ct-submit-1.1.2 ct1.digicert-ct.com/log </data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem >/data/ssl/quanjinlong.cn/scts/digicert.sct
+
+./ct-submit-1.1.2 mammoth.ct.comodo.com </data/ssl/quanjinlong.cn/quanjinlong_cn_rsa_fullchain_cert.pem >/data/ssl/quanjinlong.cn/scts/comodo.sct
+
+#ecc
+./ct-submit-1.1.2 ct.googleapis.com/icarus </data/ssl/quanjinlong.cn/quanjinlong_cn_ecc_fullchain_cert.pem >/data/ssl/quanjinlong.cn/scts/icarus_ecc.sct
+
+./ct-submit-1.1.2 ct1.digicert-ct.com/log </data/ssl/quanjinlong.cn/quanjinlong_cn_ecc_fullchain_cert.pem >/data/ssl/quanjinlong.cn/scts/digicert_ecc.sct
+
+./ct-submit-1.1.2 mammoth.ct.comodo.com </data/ssl/quanjinlong.cn/quanjinlong_cn_ecc_fullchain_cert.pem >/data/ssl/quanjinlong.cn/scts/comodo_ecc.sct
+```
+
+- [HSTS]()
+
+nginx server conf
+
+```
+add_header               Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
+```
+
+- [HKPK](https://gist.github.com/esurdam/ef72f1c47be7c074499cb920683bd307)
+
+[Chain of Trust - Let's Encrypt - Free SSL/TLS Certificates](https://letsencrypt.org/certificates/)
+
+```
+wget -O lets-encrypt-x3-cross-signed.pem https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt
+
+wget -O lets-encrypt-x4-cross-signed.pem https://letsencrypt.org/certs/lets-encrypt-x4-cross-signed.pem.txt
+```
+
+```
+openssl x509 -noout -in lets-encrypt-x3-cross-signed.pem -pubkey | \
+openssl rsa -pubin -outform der | \
+openssl dgst -sha256 -binary | \
+base64
+```
+
+```
+openssl x509 -noout -in lets-encrypt-x4-cross-signed.pem -pubkey | \
+openssl rsa -pubin -outform der | \
+openssl dgst -sha256 -binary | \
+base64
+```
+
+nginx server conf
+
+```
+add_header Public-Key-Pins 'pin-sha256="YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg="; pin-sha256="sRHdihwgkaib1P1gxX8HFszlD+7/gTfNvuAybgLPNis=="; max-age=2592000; includeSubDomains';
+```
+
+- [ssl_dhparam](https://weakdh.org/sysadmin.html)
+
+```
+openssl dhparam -out dhparams.pem 2048
+```
+
+nginx server conf
+
+```
+ssl_dhparam dhparams.pem
+```
+
+[imquu.com-本博客 Nginx 配置之完整篇](https://imququ.com/post/my-nginx-conf.html)
+
+
+## 配置
+
+### nginx安全配置
+隐藏Nginx版本号 `server_tokens off;`
 ```
 vim nginx.conf
 http {
@@ -251,7 +679,10 @@ HTTP认证默认使用crypt，它的哈希并不安全。如果你要用的话�
 保持与最新的Nginx安全更新
 ```
 
+
+
 ## nginx日志配置
+
 日志对于统计排错来说非常有利的。
 
 nginx日志相关的配置如access_log、log_format、open_log_file_cache、log_not_found、log_subrequest、rewrite_log、error_log。
@@ -453,6 +884,34 @@ vim nginx-log-rotate
 }
 ```
 
+### 日志自动切分
+
+vim /etc/logrotate.d/nginx
+
+```
+/data/nginx/log/*.log {
+    su root root
+    daily
+    rotate 5
+    missingok
+    notifempty
+    sharedscripts
+    dateext
+    postrotate
+        if [ -f /var/run/nginx.pid ]; then
+            kill -USR1 `cat /var/run/nginx.pid`
+        fi
+    endscript
+}
+```
+
+手动执行
+
+```
+/usr/sbin/logrotate -f /etc/logrotate.d/nginx
+```
+
+
 /data/logs/nginx/*.log使用通配符时，/data/logs/nginx/目录下的所有匹配到的日志文件都将切割。如果要切割特定日志文件，就指定到该文件。
 
 #### 设置计划任务
@@ -562,7 +1021,7 @@ resolver_timeout指令
 解析超时时间。
 ```
 
-## nginx反向代理
+## nginx 反向代理
 由于公司内网有多台服务器的http服务要映射到公司外网静态IP，如果用路由的端口映射来做，就只能一台内网服务器的80端口映射到外网80端口，其他服务器的80端口只能映射到外网的非80端口。非80端口的映射在访问的时候要域名加上端口，比较麻烦。并且公司入口路由最多只能做20个端口映射。肯定以后不够用。
 然后k兄就提议可以在内网搭建个nginx反向代理服务器，将nginx反向代理服务器的80映射到外网IP的80，这样指向到公司外网IP的域名的HTTP请求就会发送到nginx反向代理服务器，利用nginx反向代理将不同域名的请求转发给内网不同机器的端口，就起到了“根据域名自动转发到相应服务器的特定端口”的效果，而路由器的端口映射做到的只是“根据不同端口自动转发到相应服务器的特定端口”，真是喜大普奔啊。
 涉及的知识：nginx编译安装，nginx反向代理基本配置，路由端口映射知识，还有网络域名等常识。
@@ -710,7 +1169,7 @@ access_log logs/access.log access;
     proxy_ignore_client_abort on;
 ```
 
-## nginx tcp代理
+## nginx tcp 代理
 [nginx_tcp_proxy_module模块](http://yaoweibin.github.io/nginx_tcp_proxy_module/README.html)
 nginx tcp代理功能由nginx_tcp_proxy_module模块提供，同时监测后端主机状态。该模块包括的模块有： ngx_tcp_module, ngx_tcp_core_module, ngx_tcp_upstream_module, ngx_tcp_proxy_module, ngx_tcp_upstream_ip_hash_module。
 
@@ -1144,47 +1603,289 @@ open_file_cache_errors on;
 }
 ```
 
+## Nginx 语法
 
+1. Nginx location 配置语法
 
-#
-#
-# nginx开启https
-nginx的https协议需要ssl模块的支持，我们在编译nginx时使用–with-http_ssl_module参数加入SSL模块。还需要服务器私钥，服务器证书。
+   ```
+       1. location [ = | ~ | ~* | ^~ ] uri { ... }
+       2. location @name { ... }    
+   ```
 
-检查Nginx的SSL模块是否安装
+   1. location 配置可以有两种配置方法
+
+      ```
+      1.前缀 + uri（字符串/正则表达式）
+      2.@ + name
+      ```
+
+   2. 前缀含义
+
+      ```
+          =  ：精确匹配（必须全部相等）
+          ~  ：大小写敏感
+          ~* ：忽略大小写
+          ^~ ：只需匹配uri部分
+          @  ：内部服务跳转
+      ```
+
+2. Location 基础知识
+
+   1.location 是在 server 块中配置。
+   2.可以根据不同的 URI 使用不同的配置（location 中配置），来处理不同的请求。
+   3.location 是有顺序的，会被第一个匹配的location 处理。
+
+### Location 配置demo
+
+1.`=`，精确匹配
 
 ```
-nginx -V |grep ssl
+        location = / {
+            #规则
+        }
+        # 则匹配到 `http://www.example.com/` 这种请求。 
 ```
 
-准备证书
-[StartSSL](https://www.startcomca.com)
-
-开启Nginx SSL
+2.`~`，大小写敏感
 
 ```
+        location ~ /Example/ {
+                #规则
+        }
+        #请求示例
+        #http://www.example.com/Example/  [成功]
+        #http://www.example.com/example/  [失败]
+```
+
+3.`~*`，大小写忽略
+
+```
+    location ~* /Example/ {
+                #规则
+    }
+    # 则会忽略 uri 部分的大小写
+    #http://www.example.com/Example/  [成功]
+    #http://www.example.com/example/  [成功]
+```
+
+4.`^~`，只匹配以 uri 开头
+
+```
+    location ^~ /img/ {
+            #规则
+    }
+    #以 /img/ 开头的请求，都会匹配上
+    #http://www.example.com/img/a.jpg   [成功]
+    #http://www.example.com/img/b.mp4 [成功]
+```
+
+5.`@`，nginx内部跳转
+
+```
+    location /img/ {
+        error_page 404 @img_err;
+    }
+    
+    location @img_err {
+        # 规则
+    }
+    #以 /img/ 开头的请求，如果链接的状态为 404。则会匹配到 @img_err 这条规则上。
+```
+
+### 总结
+
+Nginx 中的 location 并没有想象中的很难懂，不必害怕。多找资料看看，多尝试。你就会有收获。
+
+
+
+### location
+
+语法规则： location [=|~|~*|^~] /uri/ { … }
+
+- = 开头表示精确匹配
+- ^~ 开头表示uri以某个常规字符串开头，理解为匹配 url路径即可。nginx不对url做编码，因此请求为/static/20%/aa，可以被规则^~ /static/ /aa匹配到（注意是空格）。
+- ~ 开头表示区分大小写的正则匹配
+- ~*  开头表示不区分大小写的正则匹配
+- !~和!~*分别为区分大小写不匹配及不区分大小写不匹配 的正则
+- / 通用匹配，任何请求都会匹配到。
+
+多个location配置的情况下匹配顺序为（参考资料而来，还未实际验证，试试就知道了，不必拘泥，仅供参考）：
+
+首先匹配 =，其次匹配^~, 其次是按文件中顺序的正则匹配，最后是交给 / 通用匹配。当有匹配成功时候，停止匹配，按当前匹配规则处理请求。
+
+
+
+- 写优先级 =(绝对匹配) > /url (真正全路径) > ^~(带开头的正则，和~ ^/url 一样) > ~和~* (模糊正则) > /url (非全路径) > / (匹配所有的) 其实就是 2 5 6 是一种，都是直接匹配路径，但一个比一个模糊 3,4是一种，都是正则，3比4更清晰，其他语言的正则里面也是3优先 1，就是绝对等于，相当于 ~ ^/xxx/xxx$ 完全固定不能匹配任何其他的。
+
+
+
+```
+    location /wechat/ {
+        proxy_pass http://10.8.8.8:8080/;
+    }
+```
+
+### ReWrite
+
+last – 基本上都用这个Flag。
+
+break – 中止Rewirte，不在继续匹配
+
+redirect – 返回临时重定向的HTTP状态302
+
+permanent – 返回永久重定向的HTTP状态301
+
+注：last和break最大的不同在于
+
+- -break是终止当前location的rewrite检测,而且不再进行location匹配 
+- -last是终止当前location的rewrite检测,但会继续重试location匹配并处理区块中的rewrite规则
+
+```
+1、下面是可以用来判断的表达式：
+
+-f和!-f用来判断是否存在文件
+
+-d和!-d用来判断是否存在目录
+
+-e和!-e用来判断是否存在文件或目录
+
+-x和!-x用来判断文件是否可执行
+
+
+2、下面是可以用作判断的全局变量
+
+$args #这个变量等于请求行中的参数。
+
+$content_length #请求头中的Content-length字段。
+
+$content_type #请求头中的Content-Type字段。
+
+$document_root #当前请求在root指令中指定的值。
+
+$host #请求主机头字段，否则为服务器名称。
+
+$http_user_agent #客户端agent信息
+
+$http_cookie #客户端cookie信息
+
+$limit_rate #这个变量可以限制连接速率。
+
+$request_body_file #客户端请求主体信息的临时文件名。
+
+$request_method #客户端请求的动作，通常为GET或POST。
+
+$remote_addr #客户端的IP地址。
+
+$remote_port #客户端的端口。
+
+$remote_user #已经经过Auth Basic Module验证的用户名。
+
+$request_filename #当前请求的文件路径，由root或alias指令与URI请求生成。
+
+query_string #与args相同。
+
+$scheme #HTTP方法（如http，https）。
+
+$server_protocol #请求使用的协议，通常是HTTP/1.0或HTTP/1.1。
+
+$server_addr #服务器地址，在完成一次系统调用后可以确定这个值。
+
+$server_name #服务器名称。
+
+$server_port #请求到达服务器的端口号。
+
+$request_uri #包含请求参数的原始URI，不包含主机名，如：”/foo/bar.php?arg=baz”。
+
+uri #不带请求参数的当前URI，uri不包含主机名，如”/foo/bar.html”。
+
+document_uri #与uri相同。
+
+例：http://localhost:88/test1/test2/test.php
+
+$host：localhost
+
+$server_port：88
+
+$request_uri：http://localhost:88/test1/test2/test.php
+
+$document_uri：/test1/test2/test.php
+
+$document_root：D:\nginx/html
+
+$request_filename：D:\nginx/html/test1/test2/test.php
+```
+
+
+
+## 功能
+
+### 配置 Basic Auth 登录认证
+
+http_auth
+
+安装 httpd-tools
+
+```
+yum install httpd-tools -y
+```
+
+
+
+创建授权用户和密码
+
+```shell
+# 第一种
+printf "用户名:$(openssl passwd -crypt 密码)\n" >>/data/nginx/passwd.db
+
+# 第二种
+htpasswd -c -d /data/nginx/passwd.db 用户名
+```
+
+> 这个配置文件存放路径可以随意指定, 这里我指定的是`nginx`配置文件目录, 其中用户名是指允许登录的用户名, 这个可以自定义。
+
+
+
+配置 Nginx
+
+```nginx
 server {
-listen       443;
-ssl on;
-ssl_certificate /data/cert/server.crt;
-ssl_certificate_key /data/cert/server.key;
+    listen       80;   
+    server_name  _;
+		# 第一种
+    auth_basic   "登录认证";  
+    auth_basic_user_file /data/nginx/passwd.db;
+    
+    # 第二种
+    location / {
+	     auth_basic "登录认证";
+	     auth_basic_user_file /data/nginx/passwd.db; 
+    }
 }
 ```
 
-重启nginx
 
-```
-nginx -s reload
-netstat -lntup|grep 443
+
+使用
+
+```shell
+# 浏览器中使用
+直接在浏览器中输入地址, 会弹出用户密码输入框, 输入即可访问
+
+# 使用 wget
+wget --http-user=用户名 --http-passwd=密码 http://ip
+
+# 使用 curl
+curl -u 用户名:密码 -O http://ip
 ```
 
-配置重定向80端口转443端口
 
-```
-server {
-listen 80;
-rewrite ^(.*) https://$server_name$1 permanent;
-}
-```
 
-#
+## 参考
+
+[nginx的location配置详解](https://blog.csdn.net/tjcyjd/article/details/50897959)
+
+[Nginx location 配置踩坑过程分享](https://blog.coding.net/blog/tips-in-configuring-Nginx-location)
+
+[Nginx 的  从零开始配置](https://segmentfault.com/a/1190000009651161)
+
+[nginx用户认证配置（ Basic HTTP authentication）](http://www.ttlsa.com/nginx/nginx-basic-http-authentication/)

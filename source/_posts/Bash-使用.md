@@ -1,17 +1,21 @@
 ---
+title: Bash 使用
 date: 2018-08-08 16:52:00
 ---
 
->>macOS 10.13.2
+>macOS 10.13.2
 >iTerm2 3.1.2
 >zsh 5.3 (x86_64-apple-darwin17.0)
 
+## 快捷键
 >生活在 Bash shell 中，熟记以下快捷键，将极大的提高你的命令行操作效率。
 
 <p font-color="red">macOS下 Alt 被替换为 Esc</p>
-
 ### 编辑命令
+
+
 ### 命令补全
+
 ```
 Tab　　　  用于命令补全
 
@@ -20,7 +24,10 @@ Tab　　　  用于命令补全
 ^[ 　　　　 相当于Esc，也可补全
 ```
 
+
+
 ### 删除命令
+
 ```
 Ctrl + u ：从光标处删除至命令行首
 Ctrl + k ：从光标处删除至命令行尾
@@ -32,7 +39,10 @@ Ctrl + h ：删除光标前的字符
 ^Y 　　　　粘贴或恢复上次的删除
 ```
 
+
+
 ### 移动命令
+
 ```
 ^P 、^N、 ^B、 ^F    　　方向键 上 下 左 右
 Ctrl + a ：移到命令行首
@@ -56,7 +66,10 @@ Ctrl+Alt+E 　扩展命令行
 Esc+T 　　 置换前两个单词
 ```
 
+
+
 ### 重新执行命令
+
 ```
 Ctrl + r：逆向搜索命令历史
 Ctrl + g：从历史搜索模式退出
@@ -68,7 +81,10 @@ Alt+P 　　   非增量方式反向搜索历史
 Alt+> 　　   历史列表中的最后一行命令开始向前
 ```
 
+
+
 ### 控制命令
+
 ```
 Ctrl + l：清屏
 Ctrl + o：执行当前命令，并选择上一条命令
@@ -101,7 +117,10 @@ bg　　　　作业在后台运行
 ^M或^J　  回车
 ```
 
+
+
 ### !!：执行上一条命令
+
 ```
 !blah：执行最近的以 blah 开头的命令，如 !ls
 !blah:p：仅打印输出，而不执行
@@ -115,7 +134,15 @@ bg　　　　作业在后台运行
 ```
 
 
-8.一些bash文档
+
+## 命令小坑
+
+### echo
+- `\r`：`echo $'word\rword'` 将当前位置移动到本行开头。[linux 下的 \r 转移字符](https://blog.csdn.net/qq_38132831/article/details/77973844?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
+
+
+
+## 参考
 
 1.GNU文档：http://www.gnu.org/software/bash/manual/
 

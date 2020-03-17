@@ -52,4 +52,12 @@ ant test [-Djava.awt.headless=true]
 
 
 
-## [User's Manual](https://jmeter.apache.org/usermanual/index.html)
+
+
+## 参考
+
+ [Apache JMeter - Building and Contributing to JMeter](https://jmeter.apache.org/building.html) 
+
+[User's Manual](https://jmeter.apache.org/usermanual/index.html)
+
+ [IDEA源码编译Jmeter 5.1.1_Jmeter_Lupu's journey - 生活、分享-CSDN博客](https://blog.csdn.net/u011436666/article/details/89198959) 

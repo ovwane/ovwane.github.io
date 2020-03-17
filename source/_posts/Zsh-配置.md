@@ -92,6 +92,8 @@ plugins=(
 	zsh-history-substring-search
 	
 	zsh-apple-touchbar
+	docker
+	docker-compose
 	)
 
 # powerline
@@ -171,3 +173,5 @@ https://github.com/powerline/fonts
  [Cheatsheet · ohmyzsh/ohmyzsh Wiki](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet) 
 
  [Coding style guide · ohmyzsh/ohmyzsh Wiki](https://github.com/ohmyzsh/ohmyzsh/wiki/Coding-style-guide) 
+
+ [zsh环境下如何补全docker命令 | Blog Persona](https://phaedo.github.io/blog/os/2019/07/18/zsh%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%A6%82%E4%BD%95%E8%A1%A5%E5%85%A8docker%E5%91%BD%E4%BB%A4/) 

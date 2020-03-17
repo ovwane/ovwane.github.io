@@ -42,6 +42,21 @@ rm -r iterm2-zmodem
 
 
 
+### 设置编码
+
+```
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
+```
+
+
+
 ## 快捷键
 
 - cmd + shift + d：一个窗口内分割为多个终端
+
+
+
+## 参考
+
+ [oh-my-zsh中文乱码问题](https://hearrain.com/2013/04/738) 

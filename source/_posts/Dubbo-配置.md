@@ -6,61 +6,160 @@ tags:
 
 # [Dubbo](https://dubbo.apache.org)
 
-> Ubuntu 18.04
->
-> Zookeeper 3.3.3
+1. Zookeeper
+2. Dubbo-admin
 
-## [Zookeeper](https://zookeeper.apache.org/) 配置
+> dubbo 2.7.0
+>
+> dubbo-admin 0.2.0
+
+
+
+## [Zookeeper](https://zookeeper.apache.org/)
 
 [install Zookeeper configuration center](https://dubbo.apache.org/en-us/docs/admin/install/zookeeper.html)
 
 ```shell
-docker pull zookeeper:3.3.6
+docker pull zookeeper:3.5.6
 ```
 
-> Docker 没有 Zookeeper 3.3.3 版本。
->
-> Zookeeper 3.5 是因为 Java Zookeepeer 提示 old server。rr-w 不生效。
+
+
+运行 Zookeeper
 
 ```shell
-docker pull zookeeper:3.5
+docker run -d --name zookeeper-3.5.6 -p 2181:2181 zookeeper:3.5.6
 ```
 
-**运行** **Zookeeper**
 
-```shell
-docker run -d --name zookeeper-3.3.6 -p 2181:2181 zookeeper:3.3.6
-```
 
-```shell
-docker run -d --name zookeeper-3.5 -p 2181:2181 zookeeper:3.5
-```
-
-**测试**
+测试
 
 ```shell
 echo dump | nc 127.0.0.1 2181
 ```
 
-## [Dubbo ops](https://github.com/apache/dubbo-ops)
+
+
+## [Dubbo-admin](https://github.com/apache/dubbo-admin)
+
+[apache/dubbo-admin](https://hub.docker.com/r/apache/dubbo-admin)
+
+```
+docker pull apache/dubbo-admin:latest
+```
+
+运行
+
+```
+docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.5.6:zookeeper -e admin.registry.address=zookeeper://zookeeper:2181 -e admin.config-center=zookeeper://zookeeper:2181 -e admin.metadata-report.address=zookeeper://zookeeper:2181 dubbo-admin:latest
+```
+
+
+
+### 单独构建
+
+Dockerfile
+
+```dockerfile
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+FROM openjdk:8-jdk
+RUN mkdir /source && wget https://github.com/apache/dubbo-admin/archive/0.2.0.zip && unzip 0.2.0.zip -d /source
+WORKDIR /source/dubbo-admin-0.2.0
+# 使用 settings.xml 的原因是要使用阿里的 maven 源。
+ADD settings.xml /source/dubbo-admin-0.2.0
+RUN ./mvnw clean package --settings settings.xml -Dmaven.test.skip=true
+
+FROM openjdk:8-jre
+LABEL maintainer="dev@dubbo.apache.org"
+COPY --from=0 /source/dubbo-admin-0.2.0/dubbo-admin-distribution/target/dubbo-admin-0.2.0.jar /app.jar
+ENTRYPOINT ["java","-XX:+UnlockExperimentalVMOptions","-XX:+UseCGroupMemoryLimitForHeap","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+EXPOSE 8080
+```
+
+
+
+settings.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <mirrors>
+    <mirror>
+        <id>aliyunmaven</id>
+        <mirrorOf>*</mirrorOf>
+        <name>阿里云公共仓库</name>
+        <url>https://maven.aliyun.com/repository/public</url>
+    </mirror>
+  </mirrors>
+</settings>
+```
+
+
+
+构建
+
+```
+docker build -t dubbo-admin:0.2.0 .
+```
+
+
+
+运行
 
 ```shell
-docker pull riveryang/dubbo-admin
+docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.5.6:zookeeper -e admin.registry.address=zookeeper://zookeeper:2181 -e admin.config-center=zookeeper://zookeeper:2181 -e admin.metadata-report.address=zookeeper://zookeeper:2181 dubbo-admin:0.2.0
 ```
 
+
+
+访问
+
+http://IP:8080   用户名：`root`，密码：`root`
+
+
+
+## 运行 zookeeper 和 dubbo-admin
+
+docker-compose.yml
+
+```yml
+version: '3'
+
+services:
+  zookeeper:
+    image: zookeeper:3.5.6
+    ports:
+      - 2181:2181
+  admin:
+    image: apache/dubbo-admin
+    depends_on:
+      - zookeeper
+    ports:
+      - 8080
+    environment:
+      - admin.registry.address=zookeeper://zookeeper:2181
+      - admin.config-center=zookeeper://zookeeper:2181
+      - admin.metadata-report.address=zookeeper://zookeeper:2181
 ```
-docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.3.6:zk -e DUBBO_REGISTRY="zookeeper:\/\/zk:2181" riveryang/dubbo-admin
-```
 
-```shell
-docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.5:zk -e DUBBO_REGISTRY="zookeeper:\/\/zk:2181" riveryang/dubbo-admin
-```
 
-**访问**
-
-http://IP:8080
-
-用户名：`root`，密码：`root`
 
 ## Dubbo
 
@@ -70,14 +169,20 @@ http://IP:8080
 
 **下载示例**
 
+> Dubbo 2.7.0
+>
+> pom.xml 依赖可以更改一下
+
 ```shell
 git clone https://github.com/apache/dubbo-samples.git
 ```
 
 ```shell
-cd dubbo-samples
+cd dubbo-samples/java
 mvn clean package
 ```
+
+
 
 ### Dubbo Provider
 
@@ -89,6 +194,8 @@ mvn -Djava.net.preferIPv4Stack=true \
 exec:java
 ```
 
+
+
 ### Dubbo Consumer
 
 ```shell
@@ -99,65 +206,7 @@ mvn -Djava.net.preferIPv4Stack=true \
 exec:java
 ```
 
-### ~~[Dubbo ops](https://github.com/apache/dubbo-ops)~~
 
-```shell
-docker pull riveryang/dubbo-admin
-```
-
-```
-docker run -d --name dubbo-admin -p 8080:8080 --link zookeeper-3.3.6:zk -e DUBBO_REGISTRY="zookeeper:\/\/zk:2181" riveryang/dubbo-admin
-```
-
-~~下载~~
-
-```shell
-git clone https://github.com/apache/dubbo-ops.git
-cd incubator-dubbo-ops/
-```
-
-```shell
-vim dubbo-admin-backend/src/main/resources/application.properties
-```
-
-
-
-~~修改 Zookeeper IP~~
-
-```shell
-vim dubbo-admin-backend/src/main/resources/application.properties
-```
-
-~~安装npm~~
-
-```shell
-apt install -y npm
-npm i npm@latest -g
-npm -v
-```
-
-```
-cd dubbo-admin-frontend/
-npm install ajv
-```
-
-~~Build~~
-
-```shell
-mvn clean package
-```
-
-~~启动~~
-
-```shell
-mvn --projects dubbo-admin-backend spring-boot:run
-```
-
-~~or~~
-
-```shell
-cd dubbo-admin-backend/target; java -jar dubbo-admin-backend-0.0.1-SNAPSHOT.jar
-```
 
 ## 参考
 
@@ -172,3 +221,5 @@ cd dubbo-admin-backend/target; java -jar dubbo-admin-backend-0.0.1-SNAPSHOT.jar
 [Dubbo - Dubbo Admin 安装（开发版-Dubbo OPS）](https://blog.csdn.net/u012627861/article/details/82754027)
 
 [dubbo入门学习笔记之环境准备](https://www.cnblogs.com/darling2047/p/9681181.html)
+
+ [dubbo提供者注册容器IP问题 | Vnimos's blog](https://vnimos.cn/2017/07/11/dubbo-provider-in-docker/) 

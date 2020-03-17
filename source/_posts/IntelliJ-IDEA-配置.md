@@ -51,6 +51,8 @@ public class ${NAME} {
 
 一旦安装了Maven Helper插件，只要打开pom文件，就可以打开该pom文件的Dependency Analyzer视图（在文件打开之后，文件下面会多出这样一个tab）。
 
+### Gradle Dependencies Helper
+
 ### FindBugs-IDEA
 
 FindBugs很多人都并不陌生，Eclipse中有插件可以帮助查找代码中隐藏的bug，IDEA中也有这款插件。
@@ -119,7 +121,7 @@ AceJump允许您快速将光标导航到编辑器中可见的任何位置，只�
 
 Alibaba Java Coding Guidelines pmd implements
 
-## Git
+### Git
 
 - GitLab Projects （Share on GitLab）
 
