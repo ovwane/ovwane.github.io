@@ -1,8 +1,9 @@
 ---
+title: 使用 Travis CI 自动部署 Hexo 博客
 date: 2018-08-08 20:16:02
 ---
 
-## 安装hexo
+### 安装 hexo
 ```
 nvm install 8.9.1
 npm install hexo-cli -g
@@ -11,7 +12,9 @@ hexo version
 ```
 
 
-### 生产sshkey
+
+### 生成 sshkey
+
 ```
 ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f ~/.ssh/hexo_rsa
 
@@ -32,13 +35,19 @@ PreferredAuthentications publickey
 IdentityFile ~/.ssh/hexo_rsa
 ```
 
+
+
 ### 测试
+
 ```
 ssh -T git@github.com
 ssh -T git@git.coding.net
 ```
 
+
+
 ### 初始化blog分支
+
 ```
 cd ~/projects
 
@@ -59,7 +68,10 @@ git remote add origin git@github.com:ovwane/ovwane.github.io.git
 git push origin hexo
 ```
 
+
+
 ### 更改主题为spfk
+
 ```
 cd ~/projects/blog.ovwane.me
 rm -rf themes/landscape
@@ -70,9 +82,14 @@ git commit -m "删除默认主题landscape，然后修改主题为spfk"
 git push origin hexo
 ```
 
+
+
 ### 修改_config.yml 和 主题的 _config.yml替换主题的图片
 
+
+
 ### 配置travis
+
 ```
 cd ~/projects/blog.ovwane.me
 mkdir .travis
@@ -83,7 +100,10 @@ travis encrypt-file ~/.ssh/hexo_rsa --add
 mv hexo_rsa.enc .travis/
 ```
 
+
+
 ### .travis/ssh_config
+
 ```
 vim .travis/ssh_config
 # github.com
@@ -132,7 +152,10 @@ git commit -m "修改_config.yml添加deploy信息"
 git push origin hexo
 ```
 
+
+
 ### .travis.yml
+
 ```
 language: node_js
 sudo: false
@@ -186,13 +209,13 @@ git commit -m "添加.travis.yml打包命令，并添加拉取master分支，防
 git push origin hexo
 ```
 
-### 参考
 
+
+## 参考
 
 [使用 Travis CI 自動發布 Hexo 內容到 Github](https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/)
 [使用Travis CI自动构建hexo博客](http://magicse7en.github.io/2016/03/27/travis-ci-auto-deploy-hexo-github/)
-[使用Travis CI自动部署Github/Coding Pages博客
-](https://imzlp.me/posts/42318/)
+[使用Travis CI自动部署Github/Coding Pages博客](https://imzlp.me/posts/42318/)
 [#232 Hexo + GitHub + Travis CI + VPS 自动部署](https://changkun.us/archives/2017/06/232/)
 [用 Travis CI 自動部屬 hexo 到 GitHub](https://ssarcandy.tw/2016/07/29/hexo-auto-deploy/)
 [用 Travis CI 自动部署 hexo](http://blog.acwong.org/2016/03/20/auto-deploy-hexo-with-travis-CI/)
