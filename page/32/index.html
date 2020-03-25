@@ -202,6 +202,133 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-VMWare Fusion 配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/08/VMWare Fusion 配置/" class="article-date">
+      <time datetime="2017-05-08T05:20:00.000Z" itemprop="datePublished">2017-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="网络设置"><a href="#网络设置" class="headerlink" title="网络设置"></a>网络设置</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /Library/Preferences/VMware\ Fusion/networking</span><br></pre></td></tr></table></figure>
+<p>answer VNET_1_HOSTONLY_NETMASK 255.255.255.0<br>answer VNET_1_HOSTONLY_SUBNET 192.168.2.0<br>answer VNET_8_HOSTONLY_NETMASK 255.255.255.0<br>answer VNET_8_HOSTONLY_SUBNET 192.168.5.0</p>
+<h3 id="安装-macOS-系统"><a href="#安装-macOS-系统" class="headerlink" title="安装 macOS 系统"></a>安装 macOS 系统</h3><p>下载 <code>安装 macOS Mojave.app</code></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="找不到可以连接的有效对等进程"><a href="#找不到可以连接的有效对等进程" class="headerlink" title="找不到可以连接的有效对等进程"></a>找不到可以连接的有效对等进程</h3><blockquote>
+<p>关闭 Virtualbox</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /Library/Application\ Support/VirtualBox/LaunchDaemons/VirtualBoxStartup.sh stop</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.up4dev.com/2016/10/15/vmware-fusion-static-ip/" target="_blank" rel="noopener">给VMWare Fusion设置固定IP</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-PyCharm新建项目并使用Github管理代码" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/08/PyCharm新建项目并使用Github管理代码/" class="article-date">
+      <time datetime="2017-05-08T04:08:16.000Z" itemprop="datePublished">2017-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <ul>
+<li>在Github上申请token</li>
+</ul>
+<p><a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Github Personal access tokens</a></p>
+<ul>
+<li><p>pycharm 设置github token<br>Preferences-&gt;Version Control-&gt;GIthub</p>
+</li>
+<li><p>pycharm上新建project，名字 python_crawler。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /Users/jinlong/PycharmProjects/python_crawler</span><br><span class="line"></span><br><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</span><br><span class="line"></span><br><span class="line">sed -i &quot;&quot; &quot;s/python.org/douban.com/g&quot; Pipfile</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>设置pycharm的python解释器<br>Preferences-&gt;Project:python_crawler-&gt;Project Interpreter</p>
+</li>
+<li><p>设置pycharm下的github</p>
+</li>
+</ul>
+<p>VCS-&gt;Import into Version Control-&gt;Share Project On Github</p>
+<h2 id="PyCharm-配置"><a href="#PyCharm-配置" class="headerlink" title="PyCharm 配置"></a>PyCharm 配置</h2><ul>
+<li><p>Tab键设置成4个空格<br>Preferences-&gt;Editor-&gt;Code Style-&gt;Python-&gt;Use tab character 取消勾选</p>
+</li>
+<li><p>调整字母长度分割线<br>Preferences-&gt;Editor-&gt;Code Style-&gt;Right margin（columns) 设置为80</p>
+</li>
+<li><p>文件模板<br>Preferences-&gt;Editor-&gt;File and Code Templates</p>
+<p>Enable Live Templates</p>
+</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line">__author__ = <span class="string">'ovwane'</span></span><br><span class="line">__date__ = <span class="string">'$DATE $HOUR:$MINUTE'</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/hester/p/5466579.html" target="_blank" rel="noopener">Pycharm安装、设置、优化</a></p>
+<p><a href="http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/contents/" target="_blank" rel="noopener">Google 开源项目风格指南-Python 风格指南 - 内容目录</a></p>
+<h2 id="PyCharm插件"><a href="#PyCharm插件" class="headerlink" title="PyCharm插件"></a>PyCharm插件</h2><p>Mongo Plugin</p>
+<p>Markdown Navigator<br>Markdown support</p>
+<h2 id="Python工具"><a href="#Python工具" class="headerlink" title="Python工具"></a>Python工具</h2><p>nmap<br><code>pip install python-nmap</code></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-CentOS7 安装Python" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -586,6 +713,62 @@
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Resin/">Resin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
     </div>
 
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Python+Web开发实战-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/01/Python+Web开发实战-学习笔记/" class="article-date">
+      <time datetime="2017-05-01T12:18:02.000Z" itemprop="datePublished">2017-05-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/01/Python+Web开发实战-学习笔记/">Python+Web开发实战 学习笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Python+Web开发实战 学习笔记 董伟明</p>
+<p>页码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">486 第15章 Web 开发项目实践</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
       
       <div class="clearfix"></div>
     </div>
@@ -1464,62 +1647,6 @@
 
 
   
-    <article id="post-Python+Web开发实战-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/05/01/Python+Web开发实战-学习笔记/" class="article-date">
-      <time datetime="2017-05-01T12:18:02.000Z" itemprop="datePublished">2017-05-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/01/Python+Web开发实战-学习笔记/">Python+Web开发实战 学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Python+Web开发实战 学习笔记 董伟明</p>
-<p>页码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">486 第15章 Web 开发项目实践</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-生活总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1538,114 +1665,6 @@
   
     <h1 itemprop="name">
       <a class="article-title" href="/2017/05/01/生活总结/">生活总结</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-工作总结" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/05/01/工作总结/" class="article-date">
-      <time datetime="2017-05-01T01:58:58.000Z" itemprop="datePublished">2017-05-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/01/工作总结/">工作总结</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2016-12-12-2017-05-01" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/05/01/2016-12-12-2017-05-01/" class="article-date">
-      <time datetime="2017-05-01T01:58:20.000Z" itemprop="datePublished">2017-05-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/01/2016-12-12-2017-05-01/">2016.12.12-2017.05.01</a>
     </h1>
   
 

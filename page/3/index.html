@@ -202,6 +202,179 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Wireshark-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/03/03/Wireshark-学习笔记/" class="article-date">
+      <time datetime="2019-03-03T00:36:03.000Z" itemprop="datePublished">2019-03-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/03/Wireshark-学习笔记/">Wireshark 学习笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p># </p>
+<blockquote>
+<p>Wireshark网络分析就这么简单-书籍</p>
+</blockquote>
+<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><h3 id="只抓必要的包："><a href="#只抓必要的包：" class="headerlink" title="只抓必要的包："></a>只抓必要的包：</h3><p><strong>第一种</strong>：打开 Wireshark，在主界面上-&gt;Capture-&gt;using this filter（输入 <code>host www.baidu.com</code>）</p>
+<p><strong>第二种</strong>：</p>
+<p>Capture-&gt;Options, Capture Filter（新建 Filter，使用IP 或者域名）</p>
+<p><a href="https://wiki.wireshark.org/CaptureFilters" target="_blank" rel="noopener">CaptureFilters - The Wireshark Wiki</a></p>
+<p>tcpdump</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth0 host www.baidu.com -w ~/tmp/tcpdump.cap</span><br></pre></td></tr></table></figure>
+<h3 id="每步操作打上标记："><a href="#每步操作打上标记：" class="headerlink" title="每步操作打上标记："></a>每步操作打上标记：</h3><p>macOS</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -c 次数，-s 包大小</span></span><br><span class="line">ping www.baidu.com -c 1 -s 1</span><br><span class="line">ping www.baidu.com -c 1 -s 2</span><br><span class="line">ping www.baidu.com -c 1 -s 3</span><br></pre></td></tr></table></figure>
+<p>Windows</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -n 次数，-l 包大小</span></span><br><span class="line">ping www.baidu.com -n 1 -l 1</span><br><span class="line">ping www.baidu.com -n 1 -l 2</span><br><span class="line">ping www.baidu.com -n 1 -l 3</span><br></pre></td></tr></table></figure>
+<h2 id="个性化设置"><a href="#个性化设置" class="headerlink" title="个性化设置"></a>个性化设置</h2><h3 id="日志时间格式"><a href="#日志时间格式" class="headerlink" title="日志时间格式"></a>日志时间格式</h3><p>View-&gt;Time Display Format-&gt;Date and Time of Day（快捷键：command+option+1）</p>
+<h3 id="不同类型的网络包可以自定义颜色"><a href="#不同类型的网络包可以自定义颜色" class="headerlink" title="不同类型的网络包可以自定义颜色"></a>不同类型的网络包可以自定义颜色</h3><p>View-&gt;Coloring Rules</p>
+<blockquote>
+<p><strong>颜色配置</strong>可以导入/导出方便其他主机上的 Wireshark 使用。</p>
+</blockquote>
+<h3 id="更多的设置细节"><a href="#更多的设置细节" class="headerlink" title="更多的设置细节"></a>更多的设置细节</h3><blockquote>
+<p>例如：配置 TCP 协议相关的细节。</p>
+</blockquote>
+<p>Preferences（快捷键：command+,）-&gt;Protocols-&gt;TCP</p>
+<h3 id="抓包服务器时区不同"><a href="#抓包服务器时区不同" class="headerlink" title="抓包服务器时区不同"></a>抓包服务器时区不同</h3><p>如果你在其他时区的服务器上抓包，然后下载到自己的电脑上分析，最好把自己电脑的时区设成跟抓包的服务器一样。这样，Wireshark显示的时间才能匹配服务器上日志的时间。否则就得先换算时间。</p>
+<h2 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h2><blockquote>
+<p>很多时候，解决问题的过程就是层层过滤，直至找到关键包。前面已经介绍过抓包时的Capture Filter功能了。其实在包抓下来之后，还可以进一步过滤，而且这一层的过滤功能更加强大。</p>
+</blockquote>
+<p><a href="https://www.wireshark.org/docs/dfref/" target="_blank" rel="noopener">Wireshark · Display Filter Reference: Index</a></p>
+<h3 id="已知协议"><a href="#已知协议" class="headerlink" title="已知协议"></a>已知协议</h3><p>如果已知某个协议发生问题，可以用协议名称过滤一下，那么就在 Filter 框输入 <code>http</code> 为关键字过滤。</p>
+<h4 id="协议之间依赖关系"><a href="#协议之间依赖关系" class="headerlink" title="协议之间依赖关系"></a>协议之间依赖关系</h4><p>用协议过滤时务必考虑到协议间的依赖性。比如NFS共享挂载失败，问题可能发生在挂载时所用的mount协议，也可能发生在mount之前的portmap协议。这种情况下就需要用 <code>portmap || mount</code>来过滤了。</p>
+<h3 id="IP-地址加-port-号"><a href="#IP-地址加-port-号" class="headerlink" title="IP 地址加 port 号"></a>IP 地址加 port 号</h3><blockquote>
+<p>Wireshark是按照什么过滤出一个TCP/UDP Stream的？答案就是：两端的IP加port。单击Wireshark的Statistics–&gt;Conversations，再单击TCP或者UDP标签就可以看到所有的Stream</p>
+</blockquote>
+<h4 id="手工输入"><a href="#手工输入" class="headerlink" title="手工输入"></a><strong>手工输入</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ip.addr==10.8.7.214</span><br><span class="line">ip.addr eq 10.8.7.214</span><br><span class="line"></span><br><span class="line">tcp.port==443</span><br><span class="line">tcp.port eq 443</span><br></pre></td></tr></table></figure>
+<h4 id="自动追踪-（Follow-TCP-UDP-Stream）"><a href="#自动追踪-（Follow-TCP-UDP-Stream）" class="headerlink" title="自动追踪 （Follow TCP/UDP Stream）"></a><strong>自动追踪</strong> （Follow TCP/UDP Stream）</h4><p>鼠标右键要追踪的包-&gt;Follow-&gt;TCP Stream（快捷键：option+shift+command+T ）</p>
+<h3 id="用鼠标帮助过滤"><a href="#用鼠标帮助过滤" class="headerlink" title="用鼠标帮助过滤"></a>用鼠标帮助过滤</h3><blockquote>
+<p>我们有时因为Wireshark而苦恼，并不是因为它功能不够，而是强大到难以驾驭。比如在过滤时，有成千上万的条件可供选择，但怎么写才是合乎语法的？</p>
+</blockquote>
+<ul>
+<li><p>右键单击Wireshark上感兴趣的内容，然后选择Prepare a Filter–&gt;Selected，就会在Filter框中自动生成过滤表达式。在有复杂需求的时候，还可以选择And、Or等选项来生成一个组合的过滤表达式。</p>
+</li>
+<li><p>假如右键单击之后选择的不是Prepare a Filter，而是Apply as Filter–&gt;Selected，则该过滤表达式生成之后还会自动执行。图12显示了在一个SMB包的SMB Command: Read AndX上右键单击，并选择Selected之后，所有的Read包都会被过滤出来。</p>
+</li>
+</ul>
+<h3 id="过滤后得到的网络包存到一个新的文件"><a href="#过滤后得到的网络包存到一个新的文件" class="headerlink" title="过滤后得到的网络包存到一个新的文件"></a>过滤后得到的网络包存到一个新的文件</h3><p>我们可以把过滤后得到的网络包存在一个新的文件里，因为小文件更方便操作。单击Wireshark的 File–&gt;Export Specified Packets，得到的新文件就是过滤后的部分。</p>
+<h2 id="让Wireshark自动分析"><a href="#让Wireshark自动分析" class="headerlink" title="让Wireshark自动分析"></a>让Wireshark自动分析</h2><h3 id="Export-Information"><a href="#Export-Information" class="headerlink" title="Export Information"></a>Export Information</h3><p>单击Wireshark的Analyze–&gt;Expert Infomation，就可以在不同标签下看到不同级别的提示信息。比如重传的统计、连接的建立和重置统计，等等。在分析网络性能和连接问题时，我们经常需要借助这个功能。</p>
+<h3 id="Service-Response-Time"><a href="#Service-Response-Time" class="headerlink" title="Service Response Time"></a>Service Response Time</h3><p>单击Statistics–&gt;Service Response Time-&gt;再选定协议名称，可以得到响应时间的统计表。我们在衡量服务器性能时经常需要此统计结果。</p>
+<blockquote>
+<p>支持 AFP，LDAP，SCSI，SMB，SMB 协议。其他的协议没有见过。</p>
+</blockquote>
+<h3 id="TCP-Stream-Graph"><a href="#TCP-Stream-Graph" class="headerlink" title="TCP Stream Graph"></a>TCP Stream Graph</h3><p>单击Statistics–&gt;TCP Stream Graph，可以生成几类统计图。</p>
+<blockquote>
+<p>为什么Wireshark要把这个图称为“Stevens”呢？我猜是为了向《TCP/IP Illustrated》的作者Richard Stevens致敬。这也是我非常喜欢的一套书，在此推荐给所有读者。</p>
+</blockquote>
+<h3 id="I-O-Graph"><a href="#I-O-Graph" class="headerlink" title="I/O Graph"></a>I/O Graph</h3><p>单击Statistics-&gt;I/O Graph，可以看到一些统计信息，比如平均流量等，这有助于我们推测负载状况。</p>
+<h2 id="搜索功能"><a href="#搜索功能" class="headerlink" title="搜索功能"></a>搜索功能</h2><p>与很多软件一样，Wireshark也可以通过 “Ctrl+F”（command+F）搜索关键字。假如我们怀疑包里含有“error”一词，就可以按下 “Ctrl+F” 之后选中 <code>String</code> 单选按钮，然后在 Filter 中输入 <code>error</code> 进行搜索很多应用层的错误都可以靠这个方法锁定问题包。</p>
+<blockquote>
+<p>一篇文章不可能涵盖所有技巧，本文就到此为止。最后要分享的，是我认为最“笨”但也是最重要的一个技巧——勤加练习。只要练到这些技巧都变成习惯，就可以算登堂入室了。</p>
+</blockquote>
+<blockquote>
+<p>2011年Wireshark在SecTools排行第一，2012年被Insecure.org评为“No. 1 Packet Sniffers”。美国的技术作家们开始为它著书立说，中国的出版社也在引进（比如人民邮电出版社引进出版的《Wireshark数据包分析实战（第2版）》）。值得一提的是，CACE后来被Riverbed收购了，Riverbed成了Wireshark项目的赞助商。很多中国工程师可能觉得Riverbed名不见经传，但说到Linux里常用的tcpdump命令就不会陌生。tcpdump的开发者之一Steve McCanne就是Riverbed的CTO。而WinPcap的开发者Loris Degioanni也在Riverbed工作。似乎冥冥之中自有天意，Riverbed把网络探测界的先锋们聚到了一起。我们要向Riverbed致敬，多亏了这些伟大的工具，我们才得以窥探网络的秘密。</p>
+</blockquote>
+<h2 id="庖丁解牛"><a href="#庖丁解牛" class="headerlink" title="庖丁解牛"></a>庖丁解牛</h2><h3 id="NFS-协议的解析"><a href="#NFS-协议的解析" class="headerlink" title="NFS 协议的解析"></a>NFS 协议的解析</h3><p>Filter：<code>portmap || mount || nfs</code></p>
+<blockquote>
+<p>NFS对客户端的访问控制是通过IP地址实现的。创建共享目录时可以指定哪些IP允许读写，哪些IP只允许读，还有哪些IP连挂载都不允许。虽然配置不难，但这方面出的问题往往很“诡异”，没有Wireshark是几乎无法排查的。比如，我碰到过一台客户端的IP明明已经加到允许读写的列表里，结果却只能读。这个问题难住了很多工程师，因为在客户端和服务器上都找不到原因。后来我们在服务器上抓了个包，才知道在收到的包里，客户端的IP已经被NAT设备转换成别的了。 </p>
+</blockquote>
+<h3 id="HTTP-协议"><a href="#HTTP-协议" class="headerlink" title="HTTP 协议"></a>HTTP 协议</h3><h3 id="HTTPS-协议解密"><a href="#HTTPS-协议解密" class="headerlink" title="HTTPS 协议解密"></a>HTTPS 协议解密</h3><blockquote>
+<p>通过浏览器保存的TLS 会话中使用的对称密钥来进行数据解密。</p>
+</blockquote>
+<p><strong>Wireshark 的抓包原理是直接读取并分析网卡数据，要想让它解密 HTTPS 流量，有两个办法：</strong></p>
+<p>1）如果拥有 HTTPS 网站的加密私钥，可以用来解密这个网站的加密流量；</p>
+<p>2）某些浏览器支持将 TLS 会话中使用的对称加密密钥保存在外部文件中，可供 Wireshark 解密之用。</p>
+<p><a href="http://www.rfc-editor.org/info/rfc2616" target="_blank" rel="noopener">TLS/SSL抓包常见方法(一)</a></p>
+<p><a href="https://www.jianshu.com/p/83551b91e9a2" target="_blank" rel="noopener">HTTP/2 流量调试</a></p>
+<p><a href="https://www.cnblogs.com/aucy/p/9082429.html" target="_blank" rel="noopener">Wireshark解密HTTPS数据流</a></p>
+<p>macOS</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">touch ~/tmp/sslkeylog.log</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置环境变量</span></span><br><span class="line">export SSLKEYLOGFILE=~/tmp/sslkeylog.log</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看变量是否生效</span></span><br><span class="line">echo $SSLKEYLOGFILE</span><br></pre></td></tr></table></figure>
+<p>Preferences-&gt;Protocols-&gt;SSL</p>
+<p>SSL debug file: <code>cat ~/tmp/ssl.log</code></p>
+<p>(Pre)-Master-Secret log filename: <code>~/tmp/sslkeylog.log</code></p>
+<p><strong>启动 Wireshark</strong>: filter<code>host pan.baidu.com and tcp port 443</code></p>
+<p><strong>启动 Chrome</strong>：<code>open /Applications/Google\ Chrome.app</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat ~/tmp/sslkeylog.log</span><br><span class="line">cat ~/tmp/ssl.log</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Life is tough, but Wireshark makes it easy.</p>
+</blockquote>
+<p>SACK</p>
+<h2 id="tshark"><a href="#tshark" class="headerlink" title="tshark"></a>tshark</h2><blockquote>
+<p>macOS 下安装 Wireshark的时候,默认会附带 tshark、capinfos 和 editcap 等工具。</p>
+</blockquote>
+<p><a href="https://www.wireshark.org/docs/man-pages/tshark.html" target="_blank" rel="noopener">tshark - The Wireshark Network Analyzer 3.0.0</a> </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -n -r &lt;tcpdump name&gt; -z 'proto, colinfo, frame.time_relative, frame.time_relative' -z 'proto, colinfo, tcp.ack &amp;&amp; (tcp.srcport == &lt;source port&gt; &amp;&amp; tcp.dstport == &lt;destination _port&gt;),tcp.ack' -z 'proto, colinfo, tcp.window_size &amp;&amp; (tcp.srcport == &lt;source_ port&gt; &amp;&amp; tcp.dstport == &lt;destination port&gt;), tcp.window_size'|awk -f &lt;script&gt;</span><br></pre></td></tr></table></figure>
+<p>tshark输出的分析文本大多可以直接写入分析报告中,而 Wireshark生成不了这样的报告。比如说,我想统计每一秒钟里CIFS操作的 Service Response Time,那只要执行以下命令就可以了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -n -q -r tcpdump.cap -z "io, stat, 1.00, AVG(smb.time)smb.time"</span><br></pre></td></tr></table></figure>
+<p>和其他软件一样,命令行往往比图形界面快得多。比如现在有一个很大的包需要用IP192.168.1.134过滤,用 Wireshark操作的话先得打开包,再用ip.adr=192.168.1.134过滤,最后保存结果。这三个步骤都很费时,但是tshark用下面一条命令就可以完成了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -r tcpdump log -R "ip.addr==192.168.1.134 -w tcpdump.log.filtered</span><br></pre></td></tr></table></figure>
+<p>重传状况要用到 <code>tcp.analysis.retransmission</code> 命令,包括了超时重传和快速重传两种情况。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -n -a -r retran.cap -z "io, stat, 0, tcp.analysis.retransmission"</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>乱序状况则只要把“ retransmission”改成” out_of_order”</p>
+</blockquote>
+<p>如何统计一个包里的所有对话? <code>conv,xxx</code> 就可以做到,其中xxx可以是tcp、udp、eth或者ip。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -n -q -r retran.cap -z "conv, tcp"</span><br></pre></td></tr></table></figure>
+<p>如果一个包大得连 tshark都无法打开,有没有办法切分成多个? 有办法,可以使用 editar命令来做到。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 每8秒为间隔切分了这个包</span></span><br><span class="line">editcap &lt;input file&gt; &lt;output file&gt; -i &lt;seconds per file&gt;</span><br><span class="line">editcap retran.cap output.cap -i 8</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line">editcap &lt; input file&gt; &lt;output file&gt; -c &lt;packets per file&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>除了这里介绍的这些, tshark下的网络分析技巧还有很多。利用管道( Pipeline) 还可以结合awk、sed等命令实现更为强大的功能,值得每位工程师长期学习。如果学习过程中遇到任何问题,建议查询 Wireshark的官方说明,地址为 <a href="https://www.wireshark.org/docs/man-pages/tshark.html" target="_blank" rel="noopener">tshark - The Wireshark Network Analyzer 3.0.0</a> 。就算我这样的老用户还经常能从中学到新知识呢。</p>
+</blockquote>
+<h2 id="一个技术男的自白"><a href="#一个技术男的自白" class="headerlink" title="一个技术男的自白"></a>一个技术男的自白</h2><p>​    当我在台灯下写到这一篇时,不由得想到几个月后,另一束灯光下的读者正翻到这一页,跨越时空的交流真是奇妙。我要感谢你购买本书并坚持读到这里。作为小众图书的作者,我最珍视的是读者对本书内容的喜爱,也希望你在阅读中有所收获。最后一篇,就让我们忘记那些乏味的术语,谈些有趣一点的话题吧。</p>
+<p>​    关于技术,当下的热点是 Full Stack Engineer,翻译过来就是全栈工程师。我的理解就是从前端到后端,从软件到硬件都懂的通才。其实在全栈的概念出现之前,关于技术广度和深度的讨论就从来没有停止过。在时间有限的情况下,究竟是应该扩展广度,各种技术都去涉猎,还是把所有精力都投入在一门技术上呢? 我个人更倾向于后者,因为当某项技术学到了较深的程度后,眼界就不一样了, 再学其他的技术也容易达到类似境界。以本书提到的协议为例,如果你已经精通CIFS,那很可能稍加点拨就能完全理解NFS；同样如果你理解了网络的分层和流控,再学习存储的层次和缓存也比较容易。但假如一个人连最擅长的技术都浅尝辄止,那学习其他技术也会停留在表面上。我有位技术出色的朋友用过一个生动的比喻来说明这个问题；技术深度和广度的关系,就像登山时的高度和视野。假如你爬到半山腰就停下来眺望,就只能看到一半的视野;但如果埋头爬到山顶, 抬头便是无边的风景。</p>
+<p>​    关于薪水,是很多工程师自怨自艾的口水话题。不知道从何时开始,大家似平都觉得自己被亏待了。微博上流传各种自嘲的段子,比如“今天你编程时流的汗,就是当初填志愿时脑子进的水”;我也曾经开玩笑说自己的英文名是“Low Payman”;我有位年薪40多万的同事,MSN签名是“少壮不努力,老大干I”还有一种流行的说法,认为在中国不适合走技术路线,否则为什么在国外才有白发苍苍的老工程师?看过太多类似段子之后,我觉得这种群体心态已经有点矫情了。无论在什么国家,工程师都排不上收入最高的群体。相比国外,中国工程地位已经算高了,比如美国工程师的收入就完全比不上律师和医生等职业,但在中国就未必是这样。中国也不是没有老工程师的发展空间,而是因为第一批工程师还没有变老。热爱自嘲的人其实也心知肚明一一他们的薪水完全足以维持体面的生活,比如那位“少壮不努力”的同学,一直在上海这个大染缸过着纸醉金迷的日子。而真正徒伤悲的职业,恐怕根本没有心情自我编排……我认为自明是种难得的幽默,但是当一个群体的自嘲都专注在薪水上,听上去就有点无聊。</p>
+<p>​    关于办公室政治,那真不是属于我们的战场。孟子的“劳心者治人,劳力者治于人”对中国影响太过深远,我不止一位朋友从技术路线改走管理路线的时候, 以这句话作为座右铭。而在我看来,自从人类进化到可以坐在办公室里“劳力”之后,“劳心”就缺乏吸引力了。人类比电脑狡诈太多,还是管电脑省心。我们就把办公室政治这样劳心的活儿留给走管理路线的同事吧,只要不站队不说是非, 用技术帮助所有人,自然会成为单位里最受尊敬的人。</p>
+<p>​    关于创业,我想没有哪个行业比IT界更热衷于此了。或许是因为这一行有过太多轻易成功的故事,所以工程师们蠢蠢欲动,仿佛每个人都在想,连一个毫无技术含量的导航网站都能被高价收购,满腹才华的我能干出怎样惊天动地的事业?于是有志者开始对职业不满,觉得无论如何应该出去闯闯,寻找自己被封印的灵魂,他们振臂一挥,豪气万丈地说“走,创业去!”其实我个人是非常羡慕这样充满激情的人生的,无奈看过太多失败的例子,总觉得创业的成功率被高估。有位朋友到福建承包一片山林之后,很快发现这东西并没有想象中那么赚钱。终于在花光所有积蓄之后,萌发了“不如归去”的念头。虽然听上去颇有禅意,其实心里还是很懊悔的,最后不仅回到原来公司,还坐到原来的位子上。当然成功者也是有的,不要妒嫉他们,因为这是冒着风险得到的。<br>​    关于跳槽,除了印度之外,我还没有见过比中国工程师更爱跳槽的群体。由于每跳槽一次基本能加薪30%,的确让人难以淡定地呆在一个岗位上。不过在我看来,频繁跳槽所付出的代价恐怕高于这点收益,因为很快就会发现无处可跳了。而且更大的副作用是,多次换工作导致了各种技术都只学到皮毛,等醒悟过来已经晚了。如果某个新职位吸引你的亮点只是加薪,我建议三思而行。</p>
+<p>​    关于理科生的骄做,在工程师群体中,有小部分年轻人至今还保持着源自高中理科班的自豪感。比如看到一本精彩的科幻小说,便觉得文科生不可能懂:如果新来的领导不是理工科出身,就感叹所处的并非技术驱动型公司:最让我吃惊的一次,是一位DBA质疑不懂技术的销售人员为什么地位那么高。这种错误的认知显然源于交际圈子的狭隘,对非技术人员的能力缺乏了解。其实你在调试代码时,他们同样在推敲文案;你在餐桌上只管品菜海侃,他们却要左右逢源,让所有宾客感到满意；你结交朋友只看心情喜好,他们在朋友圈里只说“正确”的话,永水远如沐春风地倾听;你在内部会议上发言都显拘谨,他们面对突如其来的话筒也能侃侃而谈……毫无疑问,非技术工作的“技术含量”一点都不低。幸好随着阅历的增长,大多数理科生都能改掉这个毛病。</p>
+<p>​    关于生活,IT男们已经被打上了太多标签:宅、木讷、生活简单。这当然是种偏见,至少我身边的朋友就不是这样。不过比起国外的工程师群体,我们的业余生活似乎是单调了些。比如与我合作多年的国外同事中,有组乐队的、当冰球教练的、玩帆船的、DIY花园的……有些朋友对此羡慕不已,以为发达国家才玩得起多样化的娱乐,对此我不敢苟同。比如中国学习乐器的人数早就全球第一，在我屈指可数的女同事中,至少有三位在小时候考过钢琴十级。我所住的小区楼都配有朝南的大院子,园艺条件极佳,只是户户都铺砖硬化了…所以细想起来,经济上并不是主因,只是不够热情罢了。工程师本来就是最擅长DIY的群体, 只要行动起来,完全可以让业余生活更加丰富,成为一个更加有趣的人。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-萧秋水：学会知识管理，优秀到不能被忽视" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1165,65 +1338,6 @@
     <div class="article-info article-info-index">
       
       
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2018年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/03/2018年终总结之思考/" class="article-date">
-      <time datetime="2019-02-02T23:58:31.000Z" itemprop="datePublished">2019-02-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/03/2018年终总结之思考/">2018年终总结之思考</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>暂无</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
 
       
       

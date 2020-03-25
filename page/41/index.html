@@ -202,6 +202,114 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-1993-2007" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/18/1993-2007/" class="article-date">
+      <time datetime="2017-02-18T00:16:05.000Z" itemprop="datePublished">2017-02-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/18/1993-2007/">1993~2007</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-1993" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/18/1993/" class="article-date">
+      <time datetime="2017-02-18T00:15:56.000Z" itemprop="datePublished">2017-02-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/18/1993/">1993</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-人生轨迹" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -707,202 +815,6 @@
       
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-CentOS7 Shadowsocks配置文档" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/29/CentOS7 Shadowsocks配置文档/" class="article-date">
-      <time datetime="2016-12-29T08:02:46.000Z" itemprop="datePublished">2016-12-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/29/CentOS7 Shadowsocks配置文档/">CentOS7 Shadowsocks配置文档</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Shadowsocks服务器配置文档"><a href="#Shadowsocks服务器配置文档" class="headerlink" title="Shadowsocks服务器配置文档"></a>Shadowsocks服务器配置文档</h1><p>为Debian / Ubuntu 安装shadowsocks服务端：<br>apt-get install python-pip<br>pip install shadowsocks<br>为CentOs 安装shadowsocks服务端;<br>yum install python-setuptools<br>easy_install pip<br>pip install shadowsocks</p>
-<p>在 /etc目录下创建  shadowsocks.json 文件，将下面的内容放进去：<br>{<br>“server”:”my_server_ip”,<br>“server_port”:8388,<br>“local_address”: “127.0.0.1”,<br>“local_port”:1080,<br>“password”:”mypassword”,<br>“timeout”:300,<br>“method”:”aes-256-cfb”,<br>“fast_open”: false,<br>“workers”: 1<br>}</p>
-<p>每个字段的的解释：<br>server   服务端监听的地址，服务端可填写 0.0.0.0<br>server_port     服务器的端口(只要不与现有的端口冲突，随你填写了，我填8137)<br>local_address     本地监听的地址，直接写127.0.0.1<br>local_port     本地的端口，随便写，只要不冲突，我填的是1345<br>password     你的shadowsocks连接密码<br>timeout     超时时间，单位秒<br>method     加密方式。默认是: “aes-256-cfb”, 详见：see <a href="https://github.com/clowwindy/shadowsocks/wiki/Encryption" target="_blank" rel="noopener">https://github.com/clowwindy/shadowsocks/wiki/Encryption</a><br>workers    应该是进程数，这个我没该，大家可以改后看看进程是否增多。不理解的化，就别改了，这个参数只有unix/linux下可用。<br>然后启动运行 shadowsocks服务器端：<br>ssserver -c /etc/shadowsocks.json<br>此时不要关闭终端命令操作窗口，</p>
-<p>后台运行<br>CentOS：<br>运行命令：<br>sudo yum install python-pip supervisor<br>sudo pip install shadowsocks<br>编辑 /etc/supervisord.conf 在末尾添加:<br>[program:shadowsocks]<br>command=ssserver -c /etc/shadowsocks.json<br>autorestart=true<br>user=nobody<br>运行：<br>sudo chkconfig –add supervisord  //添加开机启动supervisor服务守护进程   systemctl enable supervisord.service<br>sudo chkconfig supervisord on<br>service supervisord start   //官方Git上的写错了，将“supervisord”少了个d，否则提示supervisor: unrecognized  service，意思是不能识别该服务<br>supervisorctl reload  //可以通过该命令重启shadowsocks。<br>Supervisord 是后台管理服务器, 用来依据配置文件的策略管理后台守护进程, 它会随系统自动启动<br>Supervisorctl 用于管理员向后台管理程序发送 启动/重启/停止 等指令;<br>下面一步貌似可有可无，我没在iptables上加这条规则，没遇到问题：<br>-A INPUT -m state –state NEW -m tcp -p tcp –dport your_server_port -j ACCEPT<br>//其中的your_server_port表示你刚才的shadowsocks的服务器的端口。表示允许连接vps的这个端口。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Rsync安装配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/27/Rsync安装配置/" class="article-date">
-      <time datetime="2016-12-27T07:55:02.000Z" itemprop="datePublished">2016-12-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/27/Rsync安装配置/">Rsync安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://www.showerlee.com/archives/419" target="_blank" rel="noopener">Rsync安装配置</a></p>
-<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>rsync是linux下的文件同步服务，功能简单来说就是服务端打开873端口,客户端连接这个端口,并对服务器端配置的目录进行同步,可以理解为客户端比对服务器端资源后，对增量或者差异的数据进行增删改操作，功能支持上传(推送)或下载（获取）比对，也就是远程数据比对本地数据而后对远程数据进行增删改操作，以及本地数据比对远程数据然后对本地数据进行增删改操作。<br>    centos6.3下默认已经安装，只需保证依赖服务xinetd开启即可。</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>首先关闭selinux与iptables</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/sysconfig/selinux</span><br><span class="line">---------</span><br><span class="line">SELINUX=disabled</span><br><span class="line">---------</span><br><span class="line"># setenforce 0</span><br><span class="line"># service iptables stop</span><br></pre></td></tr></table></figure>
-<p>配置分为2个部分</p>
-<h2 id="server端："><a href="#server端：" class="headerlink" title="server端："></a>server端：</h2><ol>
-<li>安装rsync(centos6.3默认已安装)</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum install rsync -y</span><br><span class="line"># yum install xinetd -y</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>启动rsync依赖服务</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"># /etc/init.d/xinetd start</span><br><span class="line"># chkconfig xinetd on</span><br><span class="line">3.配置/etc/rsyncd.conf</span><br><span class="line">----------------------</span><br><span class="line">uid = root</span><br><span class="line">gid = root</span><br><span class="line">use chroot = no</span><br><span class="line">max connections = 10</span><br><span class="line">strict modes = yes</span><br><span class="line">port = 873</span><br><span class="line">address = 172.24.40.30</span><br><span class="line">[mail]</span><br><span class="line">path = /home/domains/</span><br><span class="line">comment = mirror for extmail</span><br><span class="line">ignore errors</span><br><span class="line">read only = no</span><br><span class="line">list = no</span><br><span class="line">auth users = user</span><br><span class="line">secrets file = /etc/rsync.pas</span><br><span class="line">hosts allow = 172.24.40.50</span><br><span class="line">hosts deny = 0.0.0.0/0</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsync.lock</span><br><span class="line">log file = /var/log/rsyncd.log</span><br><span class="line">--------------------------</span><br><span class="line"># 表示可写</span><br><span class="line">read only = no</span><br><span class="line"># 端口</span><br><span class="line">port = 873</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>配置/etc/rsync.pas<br>在服务器端，必须加入登陆名和密码，在client上，只需要输入密码</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/rsync.pas</span><br><span class="line">----------------</span><br><span class="line">user:123456</span><br><span class="line">---------------</span><br><span class="line">并给与相关权限(重要,必须是600)</span><br><span class="line"># chmod 600 /etc/rsync.pas</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>配置/etc/rsync.motd</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/rsyncd.motd</span><br><span class="line">welcome to use the rsync services!</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>启动rsync</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># rsync --daemon --config=/etc/rsyncd.conf</span><br></pre></td></tr></table></figure>
-<h2 id="client端："><a href="#client端：" class="headerlink" title="client端："></a>client端：</h2><ol>
-<li>安装rsync(centos6.3默认已安装)</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum install rsync -y</span><br><span class="line"># yum install xinetd -y</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>启动rsync依赖服务</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># /etc/init.d/xinetd start</span><br><span class="line"># chkconfig xinetd on</span><br></pre></td></tr></table></figure>
-<p>3.客户端必须配置密码文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/rsync.pas</span><br><span class="line">------------------------</span><br><span class="line">123456</span><br><span class="line">----------------------</span><br><span class="line">并给与相关权限(重要,必须是600)</span><br><span class="line"># chmod 600 /etc/rsync.pas</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>然后在客户端输入命令同步：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">下载(获取):</span><br><span class="line"># rsync -auzv --progress --delete  --password-file=/etc/rsync.pas user@172.24.40.30::mail      /home/domains</span><br><span class="line">上传(推送):</span><br><span class="line"># rsync -auzv --progress --delete  --password-file=/etc/rsync.pas /home/domains/* user@172.24.40.30::mail</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">注：后面加 --port 873 可添加端口号信息，若在配置文件中自定义端口，这里需要加--port参数。</span><br><span class="line">请注意这部分:</span><br><span class="line">user@172.24.40.30::mail /home/domains</span><br><span class="line">----------------</span><br><span class="line">user对应server端配置文件的auth users = user</span><br><span class="line">      和server端/etc/rsync.pas内用户名:密码(user:123456)</span><br><span class="line">172.24.40.30对应服务端IP地址</span><br><span class="line">mail对应server端配置文件的[mail]</span><br><span class="line">/home/domains表示client端同步server端数据后数据保存在client端目录的路径</span><br><span class="line">@与::均起到字符连接功能</span><br><span class="line">----------------</span><br></pre></td></tr></table></figure>
-<p>以上方法为明文传输，传输过程中密码可能会被sniffer截取：<br>所以推荐线上使用ssh秘钥认证+rsync加密传输，<br><a href="http://showerlee.blog.51cto.com/2047005/1217651" target="_blank" rel="noopener">ssh秘钥认证配置</a></p>
-<p>按照上面的格式加密重写(完整格式)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">下载(获取):</span><br><span class="line"># rsync -auzvP --delete -e &quot;ssh -p22&quot; root@172.24.40.30:/home/domains/ /home/domains/ --port 873</span><br><span class="line">上传(推送):</span><br><span class="line"># rsync -auzvP --delete -e &quot;ssh -p22&quot; /home/domains/ root@172.24.40.30:/home/domains/ --port 873</span><br></pre></td></tr></table></figure>
-<p>注： –progress 可以简写为 -P</p>
-<ol start="5">
-<li>定时计划任务：<br>在crontab中增加一条命令，设置每分钟自动执行一次。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># crontab -e</span><br><span class="line">----------------------</span><br><span class="line">* * * * * /usr/bin/rsync  -auzv --progress --delete  --password-file=/etc/rsync.pas user@172.24.40.30::mail /home/domains</span><br><span class="line">---------------------</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>为了安全，若系统启用防火墙，建议增加一条iptables命令</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># iptables -A INPUT -P tcp --dport:873 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>如果需要多个不同目录支持同步，再增加一个</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[MYSQL]</span><br><span class="line">path = /usr/local/mysql/data</span><br><span class="line">comment = mysql mirror</span><br><span class="line">ignore errors</span><br><span class="line">read only = yes</span><br><span class="line">list = no</span><br><span class="line">auth users = root</span><br><span class="line">secrets file = /etc/rsync.pas</span><br><span class="line">hosts allow = 172.24.40.50</span><br><span class="line">hosts deny = 0.0.0.0/0</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsync.lock</span><br><span class="line">log file = /var/log/rsyncd.log</span><br></pre></td></tr></table></figure>
-<p>重启rsync</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># pkill rsync</span><br><span class="line"># rsync --daemon --config=/etc/rsyncd.conf</span><br></pre></td></tr></table></figure>
-<p>然后在客户端输入命令同步</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync  -auzv --progress --delete  --password-file=/etc/rsync.pas user@172.24.40.30::MYSQL /usr/local/mysql/data</span><br></pre></td></tr></table></figure>
-<p>#问题<br>注：配置过程问题：</p>
-<p>问题1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在client上遇到问题：</span><br><span class="line">rsync -auzv --progress --password-file=/etc/rsync.pas root@192.168.133.128::backup /home/</span><br><span class="line">rsync: could not open password file &quot;/etc/rsync.pas&quot;: No such file or directory (2)</span><br><span class="line">Password:</span><br><span class="line">@ERROR: auth failed on module backup</span><br><span class="line">rsync error: error starting client-server protocol (code 5) at main.c(1506) [Receiver=3.0.7]</span><br><span class="line">遇到这个问题：client端没有设置/etc/rsync.pas这个文件，而在使用rsync命令的时候，加了这个参数--</span><br><span class="line">password-file=/etc/rsync.pas</span><br></pre></td></tr></table></figure>
-<p>问题2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rsync -auzv --progress --password-file=/etc/rsync.pas root@192.168.133.128::backup /home/</span><br><span class="line">@ERROR: auth failed on module backup</span><br><span class="line">rsync error: error starting client-server protocol (code 5) at main.c(1506) [Receiver=3.0.7]</span><br><span class="line">遇到这个问题：client端已经设置/etc/rsync.pas这个文件，里面也设置了密码111111，和服务器一致，但是</span><br><span class="line">服务器段设置有错误，服务器端应该设置/etc/rsync.pas  ，里面内容root:111111 ,这里登陆名不可缺少</span><br></pre></td></tr></table></figure>
-<p>问题3：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rsync -auzv --progress --password-file=/etc/rsync.pas root@192.168.133.128::backup /home/</span><br><span class="line">@ERROR: chdir failed</span><br><span class="line">rsync error: error starting client-server protocol (code 5) at main.c(1506) [Receiver=3.0.7]</span><br><span class="line">遇到这个问题，是因为服务器端的/home/backup  其中backup这个目录并没有设置，所以提示：chdir failed</span><br></pre></td></tr></table></figure>
-<p>问题4：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rsync: write failed on &quot;/home/backup2010/wensong&quot;: No space left on device (28)</span><br><span class="line">rsync error: error in file IO (code 11) at receiver.c(302) [receiver=3.0.7]</span><br><span class="line">rsync: connection unexpectedly closed (2721 bytes received so far) [generator]</span><br><span class="line">rsync error: error in rsync protocol data stream (code 12) at io.c(601) [generator=3.0.7]</span><br><span class="line">磁盘空间不够，所以无法操作。</span><br><span class="line">可以通过df /home/backup2010 来查看可用空间和已用空间</span><br></pre></td></tr></table></figure>
-<p>问题5：网络收集问题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1、权限问题</span><br><span class="line">类似如下的提示：rsync: opendir &quot;/kexue&quot; (in dtsChannel) failed: Permission denied (13)注意查看同步的目录权限是否为755</span><br><span class="line">2、time out</span><br><span class="line">rsync: failed to connect to 203.100.192.66: Connection timed out (110)</span><br><span class="line">rsync error: error in socket IO (code 10) at clientserver.c(124) [receiver=3.0.5]</span><br><span class="line">检查服务器的端口netstat –tunlp，远程telnet测试。</span><br><span class="line">3、服务未启动</span><br><span class="line">rsync: failed to connect to 10.10.10.170: Connection refused (111)</span><br><span class="line">rsync error: error in socket IO (code 10) at clientserver.c(124) [receiver=3.0.5]</span><br><span class="line">启动服务：rsync --daemon --config=/etc/rsyncd.conf</span><br><span class="line">4、磁盘空间满</span><br><span class="line">rsync: recv_generator: mkdir &quot;/teacherclubBackup/rsync……&quot; failed: No space left on device (28)</span><br><span class="line">*** Skipping any contents from this failed directory ***</span><br><span class="line">5、Ctrl+C或者大量文件</span><br><span class="line">rsync error: received SIGINT, SIGTERM, or SIGHUP (code 20) at rsync.c(544) [receiver=3.0.5]</span><br><span class="line">rsync error: received SIGINT, SIGTERM, or SIGHUP (code 20) at rsync.c(544) [generator=3.0.5]</span><br><span class="line">6、xnetid启动</span><br><span class="line">rsync: read error: Connection reset by peer (104)</span><br><span class="line">rsync error: error in rsync protocol data stream (code 12) at io.c(759) [receiver=3.0.5]</span><br></pre></td></tr></table></figure>
-<p>查看rsync日志<br>rsync: unable to open configuration file “/etc/rsyncd.conf”: No such file or directory<br>xnetid查找的配置文件位置默认是/etc下，根据具体情况创建软链接。例如：<br>ln -s /etc/rsyncd/rsyncd.conf /etc/rsyncd.conf<br>或者更改指定默认的配置文件路径，在/etc/xinetd.d/rsync配置文件中</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rsync/">rsync</a></li></ul>
     </div>
 
       

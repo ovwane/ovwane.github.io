@@ -202,6 +202,130 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ChromeDriver-编译" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/20/ChromeDriver-编译/" class="article-date">
+      <time datetime="2020-03-20T06:06:34.000Z" itemprop="datePublished">2020-03-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/20/ChromeDriver-编译/">ChromeDriver 编译</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>系统依赖</p>
+<ul>
+<li><p>A 64-bit Mac running 10.14+.</p>
+</li>
+<li><p><a href="https://developer.apple.com/xcode" target="_blank" rel="noopener">Xcode</a> 11+</p>
+</li>
+<li><p>The OS X 10.15 SDK. Run</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls `xcode-select -p`/Platforms/MacOSX.platform/Developer/SDKs</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Python 2.7.16</p>
+</li>
+<li>Git 2.25.2</li>
+</ul>
+<p>新建目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/projects/chromedriver_xweb</span><br><span class="line">cd ~/projects/chromedriver_xweb</span><br></pre></td></tr></table></figure>
+<p>安装 depot_tools</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://chromium.googlesource.com/chromium/tools/depot_tools.git</span><br></pre></td></tr></table></figure>
+<p>设置系统环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH="$PATH:$&#123;HOME&#125;/projects/chromedriver_xweb/depot_tools"</span><br></pre></td></tr></table></figure>
+<h2 id="获取源码"><a href="#获取源码" class="headerlink" title="获取源码"></a>获取源码</h2><p>开启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.precomposeUnicode true</span><br></pre></td></tr></table></figure>
+<p>新建目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir chromium &amp;&amp; cd chromium</span><br></pre></td></tr></table></figure>
+<p>获取代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fetch chromium</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>fetch --nohooks chromium</code>，不要加<code>--no-history</code>。</p>
+<p><code>fetch --nohooks --no-history chromium</code></p>
+<p><code>fetch --nohooks --no-history chromium --target_os=darwin</code></p>
+</blockquote>
+<p>切换目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd src</span><br></pre></td></tr></table></figure>
+<p>检查分支</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch --tags</span><br></pre></td></tr></table></figure>
+<p>拉取分支并切换</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b xweb 67.0.3396.87</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Chrome 与 chromedriver 映射关系 <a href="https://github.com/appium/appium-chromedriver/blob/master/lib/chromedriver.js" target="_blank" rel="noopener">https://github.com/appium/appium-chromedriver/blob/master/lib/chromedriver.js</a></p>
+<p>67 使用的 macOS10.12.sdk。<a href="https://github.com/phracker/MacOSX-SDKs/releases" target="_blank" rel="noopener">https://github.com/phracker/MacOSX-SDKs/releases</a></p>
+</blockquote>
+<p>设置代理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export NO_AUTH_BOTO_CONFIG=~/.boto</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Boto]</span><br><span class="line">proxy = 127.0.0.1</span><br><span class="line">proxy_port = 7890</span><br><span class="line">proxy_type = http</span><br></pre></td></tr></table></figure>
+<p>同步分支数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gclient sync --with_branch_heads --jobs 16</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>gclient runhooks</code> # 如果有提示 runhooks 成功，则不需执行。</p>
+<p><code>gclient sync --force</code></p>
+<p>打印日志：gclient sync –verbose –verbose –verbose</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; gclient sync --force --nohooks --with_branch_heads</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>手动下载文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">gsutil cp gs://chromium-gn/d8ff8eb053b2851486949550303e7ccae14c08df src/buildtools/mac/gn</span><br><span class="line"></span><br><span class="line">chmod +x src/buildtools/mac/gn</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-clang-format/0679b295e2ce2fce7919d1e8d003e497475f24a3 src/buildtools/mac/clang-format</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-luci/ffb6a624bd14abdff34618fe97562b34350199f7 src/tools/luci-go/mac64/isolate</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-nodejs/8.9.1/c52ee3605efb50ae391bdbe547fb385f39c5a7a9 src/third_party/node/mac/node-darwin-x64.tar.gz</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-nodejs/050c85d20f7cedd7f5c39533c1ba89dcdfa56a08 src/third_party/node/node_modules.tar.gz</span><br></pre></td></tr></table></figure>
+<p>生成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gn gen out/Release</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>gn gen --args=&quot;is_debug=false is_component_build = true symbol_level = 0 target_cpu=\&quot;x86\&quot;&quot; out/Release</code></p>
+</blockquote>
+<p>修改配置 <code>out/Release/args.gn</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Release</span><br><span class="line">is_debug = false</span><br><span class="line"># 不构建许多 dylib 文件</span><br><span class="line">is_component_build = false</span><br><span class="line"># 不要符号表，不用在 gdb 里面调试。</span><br><span class="line">symbol_level = 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gn gen --args=&quot;is_debug=false is_component_build = false symbol_level = 0&quot; out/Release</span><br></pre></td></tr></table></figure>
+<p>编译 chromedriver</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ninja -C out/Release chromedriver</span><br></pre></td></tr></table></figure>
+<h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><p>xweb</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chromium/src/chrome/device_manager.cc</span><br><span class="line"></span><br><span class="line">std::string pattern = base::StringPrintf(&quot;@xweb_devtools_remote_.*%d&quot;, pid);</span><br></pre></td></tr></table></figure>
+<p>命令行入参</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chromium/src/chrome/test/chromedriver/server/chromedriver_server.cc</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://chromium.googlesource.com/chromium/src/+/master/docs/mac_build_instructions.md" target="_blank" rel="noopener">Checking out and building Chromium for Mac</a> </p>
+<p> <a href="https://whisperloli.github.io/2019/07/04/compile_chromedriver" target="_blank" rel="noopener">Mac本地编译chromedriver</a> </p>
+<p> <a href="https://testerhome.com/topics/16226" target="_blank" rel="noopener">本地编译 chromedriver 历程记录 · TesterHome</a> </p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-idb-使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -872,87 +996,6 @@
 <p><a href="https://github.com/nodejs/node-gyp/issues/1564" target="_blank" rel="noopener">node-gyp ‘utility’ file not found </a> <code>CXXFLAGS=&quot;-mmacosx-version-min=10.9&quot; LDFLAGS=&quot;-mmacosx-version-min=10.9&quot; npm i</code></p>
 <p><a href="https://github.com/appium/appium/issues/6996" target="_blank" rel="noopener">iproxy 208 错误</a> <code>ps -ax|grep -i &quot;iproxy&quot;|grep -v grep|awk &#39;{print &quot;kill -9 &quot; $1}&#39;|sh</code></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://testerhome.com/topics/19548" target="_blank" rel="noopener">STF 集成 iOS 之 开源了</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Neo4j-配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/06/13/Neo4j-配置/" class="article-date">
-      <time datetime="2019-06-12T23:56:27.000Z" itemprop="datePublished">2019-06-13</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/13/Neo4j-配置/">Neo4j 配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="使用-Docker-运行-Neo4j"><a href="#使用-Docker-运行-Neo4j" class="headerlink" title="使用 Docker 运行 Neo4j"></a>使用 Docker 运行 Neo4j</h2><p><a href="https://github.com/neo4j/docker-neo4j" target="_blank" rel="noopener">docker-neo4j</a></p>
-<p><a href="https://hub.docker.com/_/neo4j" target="_blank" rel="noopener">Neo4j Docker</a></p>
-<p>运行</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name=neo4j-3.5.6 --publish=7474:7474 --publish=7687:7687 --volume=$HOME/docker/neo4j/data:/data --env=NEO4J_AUTH=none neo4j:3.5.6</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>–env=NEO4J_AUTH=none 关闭密码认证</p>
-</blockquote>
-<p>访问</p>
-<p><a href="http://127.0.0.1:7474/browser/" target="_blank" rel="noopener">http://127.0.0.1:7474/browser/</a></p>
-<p>用户名：<code>neo4j</code>，密码：<code>neo4j</code></p>
-<h2 id="Neo4j-Browser"><a href="#Neo4j-Browser" class="headerlink" title="Neo4j Browser"></a><a href="https://github.com/neo4j/neo4j-browser" target="_blank" rel="noopener">Neo4j Browser</a></h2><p>新建图</p>
-<blockquote>
-<p><a href="https://blog.csdn.net/u010086122/article/details/82390945" target="_blank" rel="noopener">neo4j的搭建和实例使用</a></p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create(suxun:Person_&#123;name:&quot;苏洵&quot;,age:80,sex:&quot;男&quot;&#125;)</span><br><span class="line">create(sushi:Person_&#123;name:&quot;苏轼&quot;,age:53,sex:&quot;男&quot;&#125;)</span><br><span class="line">create(suzhe:Person_&#123;name:&quot;苏辙&quot;,age:51,sex:&quot;男&quot;&#125;)</span><br><span class="line">create(suxiaomei:Person_&#123;name:&quot;苏小妹&quot;,age:45,sex:&quot;女&quot;&#125;)</span><br><span class="line">create(susun:Person_&#123;name:&quot;苏孙&quot;,age:29,sex:&quot;男&quot;&#125;)</span><br><span class="line">create(suxiaosun:Person_&#123;name:&quot;苏重孙&quot;,age:6,sex:&quot;女&quot;&#125;)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">match(p1:Person_),(p2:Person_)</span><br><span class="line">where p1.name=&quot;苏洵&quot; and p2.name = &quot;苏轼&quot;</span><br><span class="line">create (p1) -[parent:Parent&#123;relation:&quot;父亲&quot;&#125;]-&gt; (p2);</span><br><span class="line"></span><br><span class="line">match(p1:Person_),(p2:Person_)</span><br><span class="line">where p1.name=&quot;苏洵&quot; and p2.name = &quot;苏辙&quot;</span><br><span class="line">create (p1) -[parent:Parent&#123;relation:&quot;父亲&quot;&#125;] -&gt; (p2);</span><br><span class="line"> </span><br><span class="line">match(p1:Person_),(p2:Person_)</span><br><span class="line">where p1.name=&quot;苏洵&quot; and p2.name = &quot;苏小妹&quot;</span><br><span class="line">create (p1) -[parent:Parent&#123;relation:&quot;父亲&quot;&#125;] -&gt; (p2);</span><br><span class="line"> </span><br><span class="line">match(p1:Person_),(p2:Person_)</span><br><span class="line">where p1.name=&quot;苏轼&quot; and p2.name = &quot;苏孙&quot;</span><br><span class="line">create (p1) -[parent:Parent&#123;relation:&quot;父亲&quot;&#125;] -&gt; (p2);</span><br><span class="line"> </span><br><span class="line">match(p1:Person_&#123;name:&quot;苏孙&quot;&#125;),(p2:Person_&#123;name:&quot;苏重孙&quot;&#125;)</span><br><span class="line">create (p1) -[parent:Parent&#123;relation:&quot;父亲&quot;&#125;] -&gt; (p2);</span><br></pre></td></tr></table></figure>
-<p>查询渲染图</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">match(a)-[r:Parent]-&gt;(b) return a, r, b</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:play https://guides.neo4j.com/sandbox/twitter-trolls/index.html</span><br></pre></td></tr></table></figure>
-<h2 id="Graph-Visualization-Tools"><a href="#Graph-Visualization-Tools" class="headerlink" title="Graph Visualization Tools"></a>Graph Visualization Tools</h2><p><a href="https://neo4j.com/developer/tools-graph-visualization/#_howto_graph_visualization_step_by_step" target="_blank" rel="noopener">Graph Visualization Tools</a></p>
-<p><a href="https://medium.com/neo4j/graph-visualization-with-neo4j-using-neovis-js-a2ecaaa7c379" target="_blank" rel="noopener">Graph Visualization With Neo4j Using Neovis.js</a></p>
-<p><a href="https://github.com/neo4j-contrib/neovis.js" target="_blank" rel="noopener">Neovis</a></p>
-<p><a href="https://neo4j.com/sandbox-v2/" target="_blank" rel="noopener">Neo4j Sandbox</a></p>
-<p><a href="https://guides.neo4j.com/sandbox/twitter-trolls/index.html" target="_blank" rel="noopener">Russian Twitter Trolls</a></p>
-<p><a href="https://blog.csdn.net/qq_34414916/article/details/81168275" target="_blank" rel="noopener">d3.js可视化neo4j图数据库项目</a></p>
-<p><a href="https://github.com/Nhogs/popoto" target="_blank" rel="noopener">Popoto.js</a></p>
-<p><a href="https://medium.com/neo4j/tagged/data-visualization" target="_blank" rel="noopener">Data Visualization</a></p>
 
       
       
