@@ -1,6 +1,9 @@
 ---
+title: Git 使用
 date: 2013-05-11 12:48:46
 ---
+
+
 
 ### git常用命令
 
@@ -22,6 +25,8 @@ git push origin -d blog
 git rm -r --cached themes/spfk
 ```
 
+
+
 ### 撤销操作
 
 ```shell
@@ -33,7 +38,9 @@ $ git reset --hard id
 git reset id
 ```
 
-[Git全局递归忽略.DS_Store](http://chen-tao.github.io/2017/09/24/Git%E5%85%A8%E5%B1%80%E9%80%92%E5%BD%92%E5%BF%BD%E7%95%A5-DS-Store/)
+
+
+## [Git全局递归忽略.DS_Store](http://chen-tao.github.io/2017/09/24/Git%E5%85%A8%E5%B1%80%E9%80%92%E5%BD%92%E5%BF%BD%E7%95%A5-DS-Store/)
 
 全局配置
 
@@ -51,10 +58,42 @@ echo "**/._.DS_Store" >> ~/.gitignore_global
 ```shell
 git config --global core.excludesfile ~/.gitignore_global
 ```
-git操作中文文件错误
+
+
+### git操作中文文件错误
 
 ```shell
 #core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常。
 git config --global core.quotepath false
 ```
 
+
+
+### ~/.ssh/config 配置代理
+
+>  [macOS 给 Git(Github) 设置代理（HTTP/SSH）](https://gist.github.com/chuyik/02d0d37a49edc162546441092efae6a1) 
+
+```
+brew install socat
+```
+
+```
+Host gitlab.com
+  HostName gitlab.com
+  User git
+  PreferredAuthentications publickey
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/keys/gitlab_rsa
+  TCPKeepAlive yes
+  # 走 HTTP 代理
+  ProxyCommand socat - PROXY:127.0.0.1:%h:%p,proxyport=7890
+  # 走 socks5 代理
+  # ProxyCommand nc -v -x 127.0.0.1:1080 %h %p
+```
+
+
+
+## 参考
+
+ [Git - Reference](https://git-scm.com/docs) 

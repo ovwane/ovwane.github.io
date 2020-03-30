@@ -22,6 +22,12 @@ View->Toolbar
 
 
 
+## 问题
+
+Android-Studio-无法运行项目、不能Profile
+
+
+
 ## 参考
 
 [我的 Android Studio 插件（持续更新）](https://www.jianshu.com/p/43fa1f4f2b4a)

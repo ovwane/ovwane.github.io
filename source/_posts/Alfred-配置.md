@@ -1,11 +1,12 @@
 ---
+title:Alfred 配置
 date: 2018-05-06 06:09:54
 ---
 
  **如何解决 alfred 每次开机都弹出 alfred 想访问你的通讯录**
 
 ```shell
-$ sudo codesign -f -d -s - /Applications/Alfred\ 3.app/Contents/Frameworks/Alfred\ Framework.framework/Versions/A/Alfred\ Framework
+sudo codesign -f -d -s - /Applications/Alfred\ 3.app/Contents/Frameworks/Alfred\ Framework.framework/Versions/A/Alfred\ Framework
 ```
 
 成功返回:

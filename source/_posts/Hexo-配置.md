@@ -9,17 +9,21 @@ tags:
 - Hexo
 ---
 
-Hexo](https://hexo.io)
+# [Hexo](https://hexo.io)
+
 macOS 10.12.6
 macOS 10.13
 
 ## 安装依赖环境
-### 安装git
+### 安装 git
 ```
 brew install git
 ```
 
+
+
 #### 配置git
+
 ```shell
 #添加git用户姓名和邮箱地址
 git config --global user.name "Jinlong Quan"
@@ -29,7 +33,10 @@ git config --global user.email "ovwane@gmail.com"
 git config --global --list
 ```
 
+
+
 ### 配置SSH
+
 [参考](http://blog.csdn.net/system1024/article/details/52044900)
 #### 生成SSH key
 ```shell
@@ -59,11 +66,18 @@ ssh -T git@github.com
 ssh -T git@git.coding.net
 ```
 
+
+
 ### 安装[NVM(Node Version Manager)](https://github.com/creationix/nvm)
+
+
 
 ### 安装Node.js 
 
+
+
 ### 安装Hexo
+
 ```
 #安装Hexo
 npm install hexo-cli -g
@@ -75,7 +89,10 @@ npm uninstall hexo-cli -g
 hexo -version
 ```
 
+
+
 ## 使用Hexo
+
 ### 部署Hexo
 ```
 cd ~/projects
@@ -86,7 +103,29 @@ npm install
 npm install hexo-deployer-git --save
 ```
 
+
+
+hexo 目录介绍
+
+```
+├── _config.yml //网站的 配置 信息，您可以在此配置大部分的参数。 
+
+|—— public //生成的静态文件
+ ├── package.json
+
+- ├──  scaffolds //模版 文件夹。当您新建文章时，hexo 会根据 scaffold 来建立文件。
+- ├──  source  //资源文件夹是存放用户资源的地方。
+
+- |  ├── _drafts
+- |  └── _posts
+
+└── themes //主题 文件夹，hexo 会根据主题来生成静态页面
+```
+
+
+
 ### 添加Hexo主题[spfk](https://github.com/luuman/hexo-theme-spfk)
+
 ```
 cd blog.ovwane.me
 
@@ -208,7 +247,10 @@ npm install https://github.com/threeq/hexo-tag-mermaid.git --save
 ```
 ### [hexo-tag-plantuml](https://github.com/threeq/hexo-tag-plantuml)
 
-## Hexo部署文章步骤
+
+
+### Hexo部署文章步骤
+
 ```
 hexo clean
 
@@ -219,7 +261,10 @@ hexo deploy
 hexo backup -m "添加注释"
 ```
 
-## Hexo 
+
+
+## 问题
+
 ### hexo不解析README.md文件
 ```
 _config.yml
@@ -228,3 +273,14 @@ skip_render:
 
 source目录新建README文件
 ```
+
+
+
+### 文章显示全部内容，只想显示一些内容，使用摘要
+
+```markdown
+摘要
+<!--more-->
+摘要与正文
+```
+

@@ -86,6 +86,12 @@ Email Extension
 
 
 
+## 问题
+
+- 执行 shell 运行后不删除 jenkins 启动的子 shell： `BUILD_ID=DONTKILLME`
+
+
+
 ## 参考
 
 [docker运行jenkins](https://www.jianshu.com/p/3671eb8de971)

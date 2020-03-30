@@ -1,32 +1,111 @@
 ---
-title: Docker 运行Jira
+title: Docker 配置 Jira
 date: 2018-09-05 20:29:49
 tags:
 ---
 
-**生产环境数据库**
-不要着急，如果是正式部署在生产环境上的，如果使用内置数据库，总感觉有点不保险，JIRA也建议如果部署在生产环境上的话，直接使用外部数据库，因此我们只需要在docker容器上启动一个数据库即可：
 
-```shell
-docker run -p 3306:3306 \
--v /data/docker/mysql/logs:/logs -v /data/docker/mysql/data:/mysql_data \
--e MYSQL_ROOT_PASSWORD=root \
--e MYSQL_DATABASE=jira \
--e MYSQL_USER=jira \
--e MYSQL_PASSWORD=jira \
---name jira-mysql \
--d mysql:5.6 \
---character-set-server=utf8mb4 \
---collation-server=utf8mb4_bin
+
+## Jira
+
+### 下载镜像
+
+```
+docker pull mysql:5.7.29
+docker pull atlassian/jira-software:8.5.0
 ```
 
-#### 下载源码
+
+
+###  配置 MySQL 数据库
+
+jira.cnf
+
+```
+[mysqld]
+bind-address = 0.0.0.0
+default-storage-engine=INNODB
+character_set_server=utf8mb4
+innodb_default_row_format=DYNAMIC
+innodb_large_prefix=ON
+# default value:  innodb_file_format=Barracuda
+innodb_log_file_size=2G
+
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+```
+
+
+
+jira.sql
+
+```mysql
+DROP DATABASE IF EXISTS `jira`;
+
+CREATE DATABASE jira CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,REFERENCES,ALTER,INDEX on jira.* TO 'jira'@'%' IDENTIFIED BY 'jira';
+
+flush privileges;
+```
+
+
+
+运行数据库
+
+```shell
+docker run -d --name jira-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -v ${PWD}/Shanghai:/etc/localtime:ro -v ${PWD}/jira.cnf:/etc/mysql/conf.d/jira.cnf -v ${PWD}/jira.sql:/docker-entrypoint-initdb.d/jira.sql mysql:5.7.29
+```
+
+
+
+### 配置 Jira
+
+[Supported platforms](https://confluence.atlassian.com/adminjiraserver085/supported-platforms-981154553.html)
+
+下载  [MySQL Connector/J 5.1 driver](https://dev.mysql.com/downloads/connector/j/5.1.html)
+
+[Jira 连接 MySQL 参数](https://confluence.atlassian.com/adminjiraserver085/connecting-jira-applications-to-mysql-5-7-981154582.html#ConnectingJiraapplicationstoMySQL5.7-dbconnectionfields)
+
+
+
+jira.env
+
+```
+'ATL_JDBC_URL=jdbc:mysql://address=(protocol=tcp)(host=mysql)(port=3306)/jiradb?useUnicode=true&amp;characterEncoding=UTF8&amp;sessionVariables=default_storage_engine=InnoDB&amp;useSSL=false'
+'ATL_JDBC_USER=jira'
+'ATL_JDBC_PASSWORD=jira'
+'ATL_DB_DRIVER=com.mysql.jdbc.Driver'
+'ATL_DB_TYPE=mysql'
+'ATL_DB_SCHEMA_NAME=public'
+```
+
+
+
+运行 Jira
+
+```
+docker run -d --name jira --link jira-mysql:mysql -p 8080:8080 -e JVM_SUPPORT_RECOMMENDED_ARGS="-Duser.timezone=Asia/Shanghai" -e JVM_MINIMUM_MEMORY=2048m -e JVM_MAXIMUM_MEMORY=4096m -v ${PWD}/mysql-connector-java-5.1.48-bin.jar:/opt/atlassian/jira/lib/mysql-connector-java-5.1.48-bin.jar atlassian/jira-software:8.5.0
+```
+
+```
+docker run -d --name jira1 --link mysql:mysql -p 8081:8080 -e JVM_SUPPORT_RECOMMENDED_ARGS="-Duser.timezone=Asia/Shanghai" -e JVM_MINIMUM_MEMORY=2048m -e JVM_MAXIMUM_MEMORY=4096m -v ${PWD}/mysql-connector-java-5.1.48-bin.jar:/opt/atlassian/jira/lib/mysql-connector-java-5.1.48-bin.jar --env-file=${PWD}/jira.env atlassian/jira-software:8.5.0
+```
+
+
+
+## 源码构建
 
 ```shell
 git clone https://github.com/cptactionhank/docker-atlassian-jira.git
 
 cd docker-atlassian-jira
 ```
+
+
 
 Dockerfile
 
@@ -128,6 +207,8 @@ chown -R 2:2 /data/docker/jira
 docker run -p 8088:8080 -v /data/docker/jira:/var/atlassian/jira -d --name jira-7.12.1 atlassian/jira:7.12.1
 ```
 
+
+
 **破解jira**
 
 先关闭jira，然后把破解包里面的atlassian-extras-3.2.jar和mysql-connector-java- 5.1.42-bin.jar两个文件复制到/usr/local/atlassian/jira/atlassian-jira/WEB-INF/lib/目录下。
@@ -164,6 +245,8 @@ DyUyHfB5e44Z1vN3B6VzDVenzUBWYMMfHx3P3tEy3A4RC8TN0HX8To+ZyRRVCqQeEvTErqmA8GGK
 fUktJW/1027Fc/6Cc2cY/hQMsmLVuUhiGemp7HNy+5eV69Tk9Q0rVqtzuOpo9Ob/Pew42zX/wNzj
 NUrMCwCFEEnmeijjMtt7NE0TXO1VXvHnosCAhRApci+OpA4MTtE0d/t7LAIH4gmkw==X02gs
 ```
+
+
 
 ## 参考
 
