@@ -5,6 +5,10 @@ tags:
 ---
 
 > IntelliJ IDEA 2018.1.2
+>
+> IntelliJ IDEA 2020.1.2
+
+
 
 ## 设置
 
@@ -25,6 +29,15 @@ Mac OS X 10.5+
 Font: Menlo
 
 Size: 20
+
+
+
+## 快捷键
+
+- 切换 Project 面板：cmd + 1
+- Project Structure：cmd + ;
+
+
 
 ## File and Code Templates
 
@@ -59,9 +72,13 @@ FindBugs很多人都并不陌生，Eclipse中有插件可以帮助查找代码�
 
 使用方法很简单，就是可以对多种级别的内容进行finbugs
 
+
+
 ### .ignore
 
 git提交时过滤掉不需要提交的文件，很方便，有些本地文件是不需要提交到Git上的。
+
+
 
 ### CamelCase
 
@@ -113,13 +130,19 @@ AceJump允许您快速将光标导航到编辑器中可见的任何位置，只�
 
 这是一个将你idea中的所有的进度条都变成萌新动画的小插件。
 
+
+
 ### Rainbow Brackets
 
 彩虹颜色的括号 看着很舒服 敲代码效率变高。
 
+
+
 ### Alibaba Java Coding Guidelines
 
 Alibaba Java Coding Guidelines pmd implements
+
+
 
 ### Git
 
@@ -135,6 +158,8 @@ Alibaba Java Coding Guidelines pmd implements
 - **2.Toolbar：** Code -- ChineseTypography
 
 > 好的开发工具可以提高开发效率，所以的能让自己提高效率，把时间节省出来去学习，去提升自己。这些插件只是日常开发当中用到的一些，等到以后再发现了新的好玩的有意思，和提高工作效率的插件，继续分享出来。
+
+
 
 ## 参考
 

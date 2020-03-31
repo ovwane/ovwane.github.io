@@ -4,6 +4,10 @@ date: 2019-05-10 11:03:14
 tags:
 ---
 
+# Visual Studio Code
+
+<!--more-->
+
 
 
 #### Text Editor
@@ -15,6 +19,16 @@ Font Size: `20`
 - editor font， 是与字体有关的设置；
 - editor format， 是代码格式化；
 - editor suggest， 是和自动补全、建议窗口等相关的配置。
+
+
+
+#### 行长度尺子
+
+```json
+  "editor.rulers": [70],
+```
+
+
 
 ### File
 
@@ -251,3 +265,15 @@ Ignore files：忽略文件
 
 ### Docker
 
+
+
+### BASH 相关
+
+- shell-format：代码格式化。https://github.com/mvdan/sh/releases
+- shellman：bash 语法提示。
+
+
+
+## 参考
+
+ [[译] 帮你高效使用 VS Code 的秘诀 - 掘金](https://juejin.im/post/5cd8fcedf265da03761eaa45) 

@@ -40,6 +40,15 @@ git reset id
 
 
 
+### 更改远程分支地址
+
+```bash
+# 查看
+git remote -v
+```
+
+
+
 ## [Git全局递归忽略.DS_Store](http://chen-tao.github.io/2017/09/24/Git%E5%85%A8%E5%B1%80%E9%80%92%E5%BD%92%E5%BF%BD%E7%95%A5-DS-Store/)
 
 全局配置

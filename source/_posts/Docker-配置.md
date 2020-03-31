@@ -5,20 +5,7 @@ date: 2018-08-08 20:36:41
 
 # Docker
 
-vim /etc/docker/daemon.json
-
-```
-{
-    "registry-mirrors": ["https://mqxz7mjm.mirror.aliyuncs.com"]
-}
-```
-
-```shell
-systemctl restart docker
-```
-
-[Docker CE 镜像源站-阿里云](https://yq.aliyun.com/articles/110806)
-
+## 安装
 
 ```bash
 # step 1: 安装必要的一些系统工具
@@ -44,72 +31,122 @@ sudo service docker start
 # sudo yum -y install docker-ce-[VERSION]
 ```
 
-```
+```shell
 systemctl enable docker.service
 systemctl start docker.service
 systemctl status docker.service
 ```
 
-/usr/lib/systemd/system/docker.service
+
+
+### 配置镜像加速器
+
+[Docker CE 镜像源站-阿里云](https://yq.aliyun.com/articles/110806)
+
+/etc/docker/daemon.json
 
 ```
-vim /usr/lib/systemd/system/docker.service
-
-[Unit]
-Description=Docker Application Container Engine
-Documentation=https://docs.docker.com
-After=network-online.target firewalld.service
-Wants=network-online.target
-
-[Service]
-Type=notify
-NotifyAccess=all
-# the default is not to use systemd for cgroups because the delegate issues still
-# exists and systemd currently does not support the cgroup feature set required
-# for containers run by docker
-EnvironmentFile=-/run/flannel/docker
-EnvironmentFile=-/run/docker_opts.env
-EnvironmentFile=-/run/flannel/subnet.env
-EnvironmentFile=-/etc/sysconfig/docker
-EnvironmentFile=-/etc/sysconfig/docker-storage
-EnvironmentFile=-/etc/sysconfig/docker-network
-EnvironmentFile=-/run/docker_opts.env
-Environment=GOTRACEBACK=crash
-Environment=DOCKER_HTTP_HOST_COMPAT=1
-Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin
-ExecStart=/usr/bin/dockerd \
-          --exec-opt native.cgroupdriver=systemd \
-          $DOCKER_OPT_BIP \
-          $DOCKER_OPT_IPMASQ \
-          $DOCKER_OPT_MTU \
-          -s=overlay \
-          --log-driver=json-file \
-          --insecure-registry=registry.cn-hangzhou.aliyuncs.com
-ExecReload=/bin/kill -s HUP $MAINPID
-# Having non-zero Limit*s causes performance problems due to accounting overhead
-# in the kernel. We recommend using cgroups to do container-local accounting.
-# Uncomment TasksMax if your systemd version supports it.
-# Only systemd 226 and above support this version.
-LimitNOFILE=1048576
-LimitNPROC=1048576
-LimitCORE=infinity
-TimeoutStartSec=0
-Restart=on-abnormal
-MountFlags=slave
-#TasksMax=infinity
-# set delegate yes so that systemd does not reset the cgroups of docker containers
-Delegate=yes
-# kill only the docker process, not all processes in the cgroup
-KillMode=process
-# restart the docker process if it exits prematurely
-Restart=on-failure
-StartLimitBurst=3
-StartLimitInterval=60s
-
-[Install]
-WantedBy=multi-user.target
+{
+    "registry-mirrors": ["https://mqxz7mjm.mirror.aliyuncs.com"]
+}
 ```
 
-## Dokcer 常用操作
+```shell
+systemctl restart docker
+```
 
-registry.cn-hangzhou.aliyuncs.com/google-containers/pause-amd64:3.0
+
+
+### 安装docker-compose
+
+下载 [docker-compose releases](https://github.com/docker/compose/releases)
+
+```shell
+curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+
+chmod +x /usr/local/bin/docker-compose
+```
+
+
+
+bash/zsh 补全命令
+
+```shell
+curl -L https://raw.githubusercontent.com/docker/compose/1.23.2/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
+```
+
+
+
+查看版本
+
+```shell
+docker-compose version
+```
+
+
+
+## 常用操作
+
+下载一个标签下的所有镜像
+
+```bash
+docker image pull -a ubuntu
+```
+
+> 下载所有 ubuntu 镜像。
+
+
+
+查看日志位置
+
+```
+docker inspect --format='{{.LogPath}}' 
+```
+
+
+
+查看正在运行的容器是通过什么命令启动的
+
+```bash
+docker ps -a --no-trunc
+```
+
+
+
+## 收集性能数据
+
+ [Collect Docker metrics with Prometheus | Docker Documentation](https://docs.docker.com/config/daemon/prometheus/) 
+
+/etc/docker/daemon.json
+
+```json
+{
+  "metrics-addr" : "127.0.0.1:9323",
+  "experimental" : true
+}
+```
+
+
+
+## macOS Docker-Deskop
+
+ [Getting a Shell in the Docker for Mac Moby VM](https://gist.github.com/BretFisher/5e1a0c7bcca4c735e716abf62afad389) 
+
+启动终端，不太好使，字符容易乱。
+
+```shell
+screen ~/Library/Containers/com.docker.docker/Data/vms/0/tty
+```
+
+
+
+启动终端
+
+```
+docker run -it --rm --privileged --pid=host justincormack/nsenter1
+```
+
+
+
+## 参考
+

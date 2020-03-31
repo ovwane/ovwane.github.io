@@ -5,19 +5,34 @@ tags:
 - Nginx
 ---
 
-## Nginx 介绍
+# [Nginx](https://nginx.org/)
+
+
+
+## 介绍
+
 Nginx 是一个自由、开源、高性能及轻量级的HTTP服务器及反转代理服务器，
 其性能与IMAP/POP3代理服务器相当。Nginx以其高性能、稳定、功能丰富、配置简单及占用系统资源少而著称。
 Nginx 超越 Apache 的高性能和稳定性，使得国内使用 Nginx 作为 Web 服务器的网站也越来越多.
 
+
+
 ### 基础功能
+
 - 处理静态文件，索引文件以及自动索引； 
 - 反向代理加速(无缓存)，简单的负载均衡和容错；
 - FastCGI，简单的负载均衡和容错；
 - 模块化的结构。过滤器包括gzipping, byte ranges, chunked responses, 以及 SSI-filter 。在SSI过滤器中，到同一个 proxy 或者 FastCGI 的多个子请求并发处理；
 - SSL 和 TLS SNI 支持；
 
+
+
+<!--more-->
+
+
+
 ### 优势
+
 - Nginx专为性能优化而开发，性能是其最重要的考量, 实现上非常注重效率 。它支持内核Poll模型，能经受高负载的考验, 有报告表明能支持高达 50,000 个并发连接数。 
 Nginx作为负载均衡服务器: Nginx 既可以在内部直接支持 Rails 和 PHP 程序对外进行服务, 也可以支持作为 HTTP代理服务器对外进行服务。
 Nginx具有很高的稳定性。其它HTTP服务器，当遇到访问的峰值，或者有人恶意发起慢速连接时，也很可能会导致服务器物理内存耗尽频繁交换，失去响应，只能重启服务器。
@@ -26,11 +41,9 @@ nginx官方表示保持10,000个没有活动的连接，它只占2.5M内存，�
 Nginx支持热部署。它的启动特别容易, 并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在不间断服务的情况下，对软件版本进行进行升级。 
 Nginx采用C进行编写, 不论是系统资源开销还是CPU使用效率都比 Perlbal 要好很多。
 
-<!--more-->
 
 
-
-## Nginx 安装
+## 安装
 
 ### Docker
 
@@ -59,7 +72,7 @@ HTML 位置：`/usr/local/var/www`
 
 
 
-### 源码
+### 源码安装
 
 #### 安装依赖
 安装pcre，为了支持rewrite功能，我们需要安装pcre。
@@ -185,6 +198,8 @@ cd nginx-1.5.1
 --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -fPIC' --with-ld-opt='-Wl,-z,relro -Wl,-z,now -pie'
 ```
 
+
+
 编译
 
 ```
@@ -197,7 +212,7 @@ make
 make install
 ```
 
-### 编译安装nginx
+
 
 安装依赖环境
 
@@ -223,6 +238,8 @@ git clone https://github.com/openssl/openssl.git
 git clone https://github.com/grahamedgecombe/nginx-ct.git
 git clone https://github.com/google/ngx_brotli.git&&cd ngx_brotli&&git submodule update --init&&cd ..
 ```
+
+
 
 编译
 
@@ -258,6 +275,8 @@ PrivateTmp=true
 WantedBy=multi-user.target
 EOF
 ```
+
+
 
 启动nginx
 
@@ -300,6 +319,8 @@ nginx -v
 nginx -V
 ```
 
+
+
 启动
 
 ```bash
@@ -310,7 +331,291 @@ systemctl status nginx.service
 systemctl enable nginx.service
 ```
 
+
+
+## Nginx 语法
+
+### location
+
+语法规则： location [=|~|~*|^~] /uri/ { … }
+
+- = 开头表示精确匹配
+- ^~ 开头表示uri以某个常规字符串开头，理解为匹配 url路径即可。nginx不对url做编码，因此请求为/static/20%/aa，可以被规则^~ /static/ /aa匹配到（注意是空格）。
+- ~ 开头表示区分大小写的正则匹配
+- ~*  开头表示不区分大小写的正则匹配
+- !~和!~*分别为区分大小写不匹配及不区分大小写不匹配 的正则
+- / 通用匹配，任何请求都会匹配到。
+
+多个location配置的情况下匹配顺序为（参考资料而来，还未实际验证，试试就知道了，不必拘泥，仅供参考）：
+
+首先匹配 =，其次匹配^~, 其次是按文件中顺序的正则匹配，最后是交给 / 通用匹配。当有匹配成功时候，停止匹配，按当前匹配规则处理请求。
+
+
+
+- 写优先级 =(绝对匹配) > /url (真正全路径) > ^~(带开头的正则，和~ ^/url 一样) > ~和~* (模糊正则) > /url (非全路径) > / (匹配所有的) 其实就是 2 5 6 是一种，都是直接匹配路径，但一个比一个模糊 3,4是一种，都是正则，3比4更清晰，其他语言的正则里面也是3优先 1，就是绝对等于，相当于 ~ ^/xxx/xxx$ 完全固定不能匹配任何其他的。
+
+
+
+```
+    location /wechat/ {
+        proxy_pass http://10.8.8.8:8080/;
+    }
+```
+
+1. Nginx location 配置语法
+
+   ```
+       1. location [ = | ~ | ~* | ^~ ] uri { ... }
+       2. location @name { ... }    
+   ```
+
+   1. location 配置可以有两种配置方法
+
+      ```
+      1.前缀 + uri（字符串/正则表达式）
+      2.@ + name
+      ```
+
+   2. 前缀含义
+
+      ```
+          =  ：精确匹配（必须全部相等）
+          ~  ：大小写敏感
+          ~* ：忽略大小写
+          ^~ ：只需匹配uri部分
+          @  ：内部服务跳转
+      ```
+
+2. Location 基础知识
+
+   1.location 是在 server 块中配置。
+   2.可以根据不同的 URI 使用不同的配置（location 中配置），来处理不同的请求。
+   3.location 是有顺序的，会被第一个匹配的location 处理。
+
+
+
+### Location 配置demo
+
+1.`=`，精确匹配
+
+```
+        location = / {
+            #规则
+        }
+        # 则匹配到 `http://www.example.com/` 这种请求。 
+```
+
+2.`~`，大小写敏感
+
+```
+        location ~ /Example/ {
+                #规则
+        }
+        #请求示例
+        #http://www.example.com/Example/  [成功]
+        #http://www.example.com/example/  [失败]
+```
+
+3.`~*`，大小写忽略
+
+```
+    location ~* /Example/ {
+                #规则
+    }
+    # 则会忽略 uri 部分的大小写
+    #http://www.example.com/Example/  [成功]
+    #http://www.example.com/example/  [成功]
+```
+
+4.`^~`，只匹配以 uri 开头
+
+```
+    location ^~ /img/ {
+            #规则
+    }
+    #以 /img/ 开头的请求，都会匹配上
+    #http://www.example.com/img/a.jpg   [成功]
+    #http://www.example.com/img/b.mp4 [成功]
+```
+
+5.`@`，nginx内部跳转
+
+```
+    location /img/ {
+        error_page 404 @img_err;
+    }
+    
+    location @img_err {
+        # 规则
+    }
+    #以 /img/ 开头的请求，如果链接的状态为 404。则会匹配到 @img_err 这条规则上。
+```
+
+Nginx 中的 location 并没有想象中的很难懂，不必害怕。多找资料看看，多尝试。你就会有收获。
+
+
+
+### ReWrite
+
+last – 基本上都用这个Flag。
+
+break – 中止Rewirte，不在继续匹配
+
+redirect – 返回临时重定向的HTTP状态302
+
+permanent – 返回永久重定向的HTTP状态301
+
+注：last和break最大的不同在于
+
+- -break是终止当前location的rewrite检测,而且不再进行location匹配 
+- -last是终止当前location的rewrite检测,但会继续重试location匹配并处理区块中的rewrite规则
+
+```
+1、下面是可以用来判断的表达式：
+
+-f和!-f用来判断是否存在文件
+
+-d和!-d用来判断是否存在目录
+
+-e和!-e用来判断是否存在文件或目录
+
+-x和!-x用来判断文件是否可执行
+
+
+2、下面是可以用作判断的全局变量
+
+$args #这个变量等于请求行中的参数。
+
+$content_length #请求头中的Content-length字段。
+
+$content_type #请求头中的Content-Type字段。
+
+$document_root #当前请求在root指令中指定的值。
+
+$host #请求主机头字段，否则为服务器名称。
+
+$http_user_agent #客户端agent信息
+
+$http_cookie #客户端cookie信息
+
+$limit_rate #这个变量可以限制连接速率。
+
+$request_body_file #客户端请求主体信息的临时文件名。
+
+$request_method #客户端请求的动作，通常为GET或POST。
+
+$remote_addr #客户端的IP地址。
+
+$remote_port #客户端的端口。
+
+$remote_user #已经经过Auth Basic Module验证的用户名。
+
+$request_filename #当前请求的文件路径，由root或alias指令与URI请求生成。
+
+query_string #与args相同。
+
+$scheme #HTTP方法（如http，https）。
+
+$server_protocol #请求使用的协议，通常是HTTP/1.0或HTTP/1.1。
+
+$server_addr #服务器地址，在完成一次系统调用后可以确定这个值。
+
+$server_name #服务器名称。
+
+$server_port #请求到达服务器的端口号。
+
+$request_uri #包含请求参数的原始URI，不包含主机名，如：”/foo/bar.php?arg=baz”。
+
+uri #不带请求参数的当前URI，uri不包含主机名，如”/foo/bar.html”。
+
+document_uri #与uri相同。
+
+例：http://localhost:88/test1/test2/test.php
+
+$host：localhost
+
+$server_port：88
+
+$request_uri：http://localhost:88/test1/test2/test.php
+
+$document_uri：/test1/test2/test.php
+
+$document_root：D:\nginx/html
+
+$request_filename：D:\nginx/html/test1/test2/test.php
+```
+
+
+
 ## 配置
+
+### nginx安全配置
+隐藏Nginx版本号 `server_tokens off;`
+```
+http {
+sendfile on;
+tcp_nopush on;
+keepalive_timeout 60;
+tcp_nodelay on;
+server_tokens off;
+}
+```
+
+如果使用了php-fpm,需要修改fastcfi.conf或fcgi.conf
+
+```
+fastcgi_param SERVER_SOFTWARE nginx/$nginx_version;
+改为：
+fastcgi_param SERVER_SOFTWARE nginx;
+```
+
+```
+在配置文件中小心使用"if"
+它是重写模块的一部分，不应该在任何地方使用。
+“if”声明是重写模块评估指令强制性的部分。换个说法，Nginx的配置一般来说是声明式的。在有些情况下，由于用户的需求，他们试图在一些非重写指令内使用“if”，这导致我们现在遇到的情况。大多数情况下都能正常工作，但…看上面提到的。
+看起来唯一正确的解决方案是在非重写的指令内完全禁用“if”。这将更改现有的许多配置，所以还没有完成。IfIsEvil：http://wiki.nginx.org/IfIsEvil
+
+将每个~ .php$请求转递给PHP
+我们上周发布了这个流行指令的潜在安全漏洞介绍。即使文件名为hello.php.jpeg它也会匹配~ .php$这个正则而执行文件。
+现在有两个解决上述问题的好方法。我觉得确保你不轻易执行任意代码的混合方法很有必要。
+
+1 如果没找到文件时使用try_files和only(在所有的动态执行情况下都应该注意) 将它转递给运行PHP的FCGI进程。
+2 确认php.ini文件中cgi.fix_pathinfo设置为0 (cgi.fix_pathinfo=0) 。这样确保PHP检查文件全名(当它在文件结尾没有发现.php它将忽略)
+3 修复正则表达式匹配不正确文件的问题。现在正则表达式认为任何文件都包含".php"。在站点后加“if”确保只有正确的文件才能运行。将/location ~ .php$和location ~ ..*/.*.php$都设置为return 403;
+
+禁用autoindex模块
+这个可能在你使用的Nginx版本中已经更改了，如果没有的话只需在配置文件的location块中增加autoindex off;声明即可。
+
+禁用服务器上的ssi (服务器端引用)
+这个可以通过在location块中添加ssi off; 。
+
+在配置文件中设置自定义缓存以限制缓冲区溢出攻击的可能性
+
+client_body_buffer_size 1K;
+client_header_buffer_size 1k;
+client_max_body_size 1k;
+large_client_header_buffers 2 1k;
+
+将timeout设低来防止DOS攻击
+所有这些声明都可以放到主配置文件中。
+
+client_body_timeout 10;
+client_header_timeout 10;
+keepalive_timeout 5 5;
+send_timeout 10;
+
+限制用户连接数来预防DOS攻击
+
+limit_zone slimits $binary_remote_addr 5m;
+limit_conn slimits 5;
+
+试着避免使用HTTP认证
+HTTP认证默认使用crypt，它的哈希并不安全。如果你要用的话就用MD5（这也不是个好选择但负载方面比crypt好） 。
+
+保持与最新的Nginx安全更新
+```
+
+
 
 /usr/local/nginx-1.13.11/conf/nginx.conf
 
@@ -608,88 +913,20 @@ ssl_dhparam dhparams.pem
 [imquu.com-本博客 Nginx 配置之完整篇](https://imququ.com/post/my-nginx-conf.html)
 
 
-## 配置
 
-### nginx安全配置
-隐藏Nginx版本号 `server_tokens off;`
-```
-vim nginx.conf
-http {
-sendfile on;
-tcp_nopush on;
-keepalive_timeout 60;
-tcp_nodelay on;
-server_tokens off;
-}
-```
 
-如果使用了php-fpm,需要修改fastcfi.conf或fcgi.conf
+### 日志配置
 
-```
-fastcgi_param SERVER_SOFTWARE nginx/$nginx_version;
-改为：
-fastcgi_param SERVER_SOFTWARE nginx;
-```
-
-### 
-
-```
-在配置文件中小心使用"if"
-它是重写模块的一部分，不应该在任何地方使用。
-“if”声明是重写模块评估指令强制性的部分。换个说法，Nginx的配置一般来说是声明式的。在有些情况下，由于用户的需求，他们试图在一些非重写指令内使用“if”，这导致我们现在遇到的情况。大多数情况下都能正常工作，但…看上面提到的。
-看起来唯一正确的解决方案是在非重写的指令内完全禁用“if”。这将更改现有的许多配置，所以还没有完成。IfIsEvil：http://wiki.nginx.org/IfIsEvil
-
-将每个~ .php$请求转递给PHP
-我们上周发布了这个流行指令的潜在安全漏洞介绍。即使文件名为hello.php.jpeg它也会匹配~ .php$这个正则而执行文件。
-现在有两个解决上述问题的好方法。我觉得确保你不轻易执行任意代码的混合方法很有必要。
-
-1 如果没找到文件时使用try_files和only(在所有的动态执行情况下都应该注意) 将它转递给运行PHP的FCGI进程。
-2 确认php.ini文件中cgi.fix_pathinfo设置为0 (cgi.fix_pathinfo=0) 。这样确保PHP检查文件全名(当它在文件结尾没有发现.php它将忽略)
-3 修复正则表达式匹配不正确文件的问题。现在正则表达式认为任何文件都包含".php"。在站点后加“if”确保只有正确的文件才能运行。将/location ~ .php$和location ~ ..*/.*.php$都设置为return 403;
-
-禁用autoindex模块
-这个可能在你使用的Nginx版本中已经更改了，如果没有的话只需在配置文件的location块中增加autoindex off;声明即可。
-
-禁用服务器上的ssi (服务器端引用)
-这个可以通过在location块中添加ssi off; 。
-
-在配置文件中设置自定义缓存以限制缓冲区溢出攻击的可能性
-
-client_body_buffer_size 1K;
-client_header_buffer_size 1k;
-client_max_body_size 1k;
-large_client_header_buffers 2 1k;
-
-将timeout设低来防止DOS攻击
-所有这些声明都可以放到主配置文件中。
-
-client_body_timeout 10;
-client_header_timeout 10;
-keepalive_timeout 5 5;
-send_timeout 10;
-
-限制用户连接数来预防DOS攻击
-
-limit_zone slimits $binary_remote_addr 5m;
-limit_conn slimits 5;
-
-试着避免使用HTTP认证
-HTTP认证默认使用crypt，它的哈希并不安全。如果你要用的话就用MD5（这也不是个好选择但负载方面比crypt好） 。
-
-保持与最新的Nginx安全更新
-```
+> 日志对于统计排错来说非常有利的。
+>
+> nginx日志相关的配置如：access_log、log_format、open_log_file_cache、log_not_found、log_subrequest、rewrite_log、error_log。
+>
+> nginx有一个非常灵活的日志记录模式。每个级别的配置可以有各自独立的访问日志。日志格式通过log_format命令来定义。ngx_http_log_module是用来定义请求日志格式的。
 
 
 
-## nginx日志配置
+#### access_log指令
 
-日志对于统计排错来说非常有利的。
-
-nginx日志相关的配置如access_log、log_format、open_log_file_cache、log_not_found、log_subrequest、rewrite_log、error_log。
-
-nginx有一个非常灵活的日志记录模式。每个级别的配置可以有各自独立的访问日志。日志格式通过log_format命令来定义。ngx_http_log_module是用来定义请求日志格式的。
-
-### access_log指令
 ```
 语法: access_log path [format [buffer=size [flush=time]]];
 access_log path format gzip[=level] [buffer=size] [flush=time];
@@ -704,12 +941,17 @@ flush保存在缓存区中的最长时间。
 使用默认combined格式记录日志：access_log logs/access.log 或 access_log logs/access.log combined;
 ```
 
-### log_format指令
+
+
+#### log_format指令
+
 ```
 语法: log_format name string …;
 默认值: log_format combined “…”;
 配置段: http
 ```
+
+
 
 name表示格式名称，string表示等义的格式。log_format有一个默认的无需设置的combined日志格式，相当于apache的combined日志格式，如下所示：
 
@@ -721,6 +963,8 @@ log_format  combined  '$remote_addr - $remote_user  [$time_local]  '
                                    ' "$request"  $status  $body_bytes_sent  '
                                    ' "$http_referer"  "$http_user_agent" ';
 ```
+
+
 
 如果nginx位于负载均衡器，squid，nginx反向代理之后，web服务器无法直接获取到客户端真实的IP地址了。 
 
@@ -734,6 +978,8 @@ log_format  porxy  '$http_x_forwarded_for - $remote_user  [$time_local]  '
                              ' "$request"  $status $body_bytes_sent '
                              ' "$http_referer"  "$http_user_agent" ';
 ```
+
+
 
 日志格式允许包含的变量注释如下：
 
@@ -775,6 +1021,8 @@ $time_local 通用日志格式下的本地时间。
 
 >发送给客户端的响应头拥有“sent_http_”前缀。 比如$sent_http_content_range。
 
+
+
 实例如下：
 
 ```
@@ -802,7 +1050,10 @@ http {
 }
 ```
 
-### open_log_file_cache指令
+
+
+#### open_log_file_cache指令
+
 ```
 语法: open_log_file_cache max=N [inactive=time] [min_uses=N] [valid=time];
 open_log_file_cache off;
@@ -828,7 +1079,10 @@ open_log_file_cache max=1000 inactive=20s valid=1m min_uses=2;
 open_log_file_cache max=1000 inactive=20s valid=1m min_uses=2;
 ```
 
-### log_not_found指令
+
+
+#### log_not_found指令
+
 ```
 语法: log_not_found on | off;
 默认值: log_not_found on;
@@ -836,7 +1090,10 @@ open_log_file_cache max=1000 inactive=20s valid=1m min_uses=2;
 是否在error_log中记录不存在的错误。默认是。
 ```
 
-### log_subrequest指令
+
+
+#### log_subrequest指令
+
 ```
 语法: log_subrequest on | off;
 默认值: log_subrequest off;
@@ -844,7 +1101,10 @@ open_log_file_cache max=1000 inactive=20s valid=1m min_uses=2;
 是否在access_log中记录子请求的访问日志。默认不记录。
 ```
 
-### rewrite_log指令
+
+
+#### rewrite_log指令
+
 ```
 由ngx_http_rewrite_module模块提供的。用来记录重写日志的。对于调试重写规则建议开启。 Nginx重写规则指南
 语法: rewrite_log on | off;
@@ -853,7 +1113,10 @@ open_log_file_cache max=1000 inactive=20s valid=1m min_uses=2;
 启用时将在error log中记录notice级别的重写日志。
 ```
 
-### error_log指令
+
+
+#### error_log指令
+
 ```
 语法: error_log file | stderr | syslog:server=address[,parameter=value] [debug | info | notice | warn | error | crit | alert | emerg];
 默认值: error_log logs/error.log error;
@@ -861,69 +1124,61 @@ open_log_file_cache max=1000 inactive=20s valid=1m min_uses=2;
 配置错误日志。
 ```
 
-### nginx日志切割
-nginx日志默认情况下统统写入到一个文件中，文件会变的越来越大，非常不方便查看分析。以日期来作为日志的切割是比较好的，通常我们是以每日来做统计的。下面来说说nginx日志切割。
+
+
+### [日志切割](https://www.nginx.com/resources/wiki/start/topics/examples/logrotation/)
+
+> nginx日志默认情况下统统写入到一个文件中，文件会变的越来越大，非常不方便查看分析。以日期来作为日志的切割是比较好的，通常我们是以每日来做统计的。下面来说说nginx日志切割。
+
+
 
 #### 定义日志轮滚策略
-```
-vim nginx-log-rotate
+`/etc/logrotate.d/nginx`
 
-/data/logs/nginx/*.log {
-    nocompress
-    daily
-    copytruncate
-    create
-    notifempty
-    rotate 7
-    olddir /data/logs/nginx/old_log
-    missingok
-    dateext
-    postrotate
-        /bin/kill -HUP `cat /var/run/nginx.pid 2> /dev/null` 2> /dev/null || true
-    endscript
+```
+/var/log/nginx/*.log {
+        daily
+        missingok
+        rotate 52
+        compress
+        delaycompress
+        notifempty
+        create 640 nginx adm
+        sharedscripts
+        postrotate
+                if [ -f /var/run/nginx.pid ]; then
+                        kill -USR1 `cat /var/run/nginx.pid`
+                fi
+        endscript
 }
 ```
 
-### 日志自动切分
 
-vim /etc/logrotate.d/nginx
 
-```
-/data/nginx/log/*.log {
-    su root root
-    daily
-    rotate 5
-    missingok
-    notifempty
-    sharedscripts
-    dateext
-    postrotate
-        if [ -f /var/run/nginx.pid ]; then
-            kill -USR1 `cat /var/run/nginx.pid`
-        fi
-    endscript
-}
-```
-
-手动执行
+手动执行，测试一下。
 
 ```
 /usr/sbin/logrotate -f /etc/logrotate.d/nginx
 ```
 
+> /var/log/nginx/*.log 使用通配符时，/var/log/nginx/ 目录下的所有匹配到的日志文件都将切割。如果要切割特定日志文件，就指定到文件名。
 
-/data/logs/nginx/*.log使用通配符时，/data/logs/nginx/目录下的所有匹配到的日志文件都将切割。如果要切割特定日志文件，就指定到该文件。
+
 
 #### 设置计划任务
+
+`/etc/crontab`
+
 ```
-vim /etc/crontab
 59 23 * * * root ( /usr/sbin/logrotate -f /PATH/TO/nginx-log-rotate)
-1
-59 23 * * * root ( /usr/sbin/logrotate -f /PATH/TO/nginx-log-rotate)
-这样每天23点59分钟执行日志切割。
 ```
 
-## 配置虚拟主机
+> 每天23点59分钟执行日志切割。
+
+
+
+## 虚拟主机
+
 ### 新建目录
 ```
 #站点目录
@@ -983,7 +1238,10 @@ location /{} 默认uri,location具体内容后续讲解,大家关注一下.
 /usr/local/nginx/sbin/nginx
 ```
 
+
+
 ## nginx正向代理
+
 我们平时用的最多的最常见的是反向代理。反向代理想必都会配置的， 那么nginx的正向代理是如何配置的呢？
 
 ```
@@ -1021,60 +1279,30 @@ resolver_timeout指令
 解析超时时间。
 ```
 
+
+
 ## nginx 反向代理
+
 由于公司内网有多台服务器的http服务要映射到公司外网静态IP，如果用路由的端口映射来做，就只能一台内网服务器的80端口映射到外网80端口，其他服务器的80端口只能映射到外网的非80端口。非80端口的映射在访问的时候要域名加上端口，比较麻烦。并且公司入口路由最多只能做20个端口映射。肯定以后不够用。
 然后k兄就提议可以在内网搭建个nginx反向代理服务器，将nginx反向代理服务器的80映射到外网IP的80，这样指向到公司外网IP的域名的HTTP请求就会发送到nginx反向代理服务器，利用nginx反向代理将不同域名的请求转发给内网不同机器的端口，就起到了“根据域名自动转发到相应服务器的特定端口”的效果，而路由器的端口映射做到的只是“根据不同端口自动转发到相应服务器的特定端口”，真是喜大普奔啊。
 涉及的知识：nginx编译安装，nginx反向代理基本配置，路由端口映射知识，还有网络域名等常识。
 本次实验目标是做到：在浏览器中输入xxx123.tk能访问到内网机器192.168.10.38的3000端口，输入xxx456.tk能访问到内网机器192.168.10.40的80端口。
 
-### 安装
-### 配置
-vim nginx.conf
+
 
 ```
-user www www;
-worker_processes 1;
-error_log logs/error.log;
-pid logs/nginx.pid;
-worker_rlimit_nofile 65535;
-events {
-    use epoll;
-    worker_connections 65535;
-}
-http {
-    include mime.types;
-    default_type application/octet-stream;
-    include /usr/local/nginx/conf/reverse-proxy.conf;
-    sendfile on;
-    keepalive_timeout 65;
-    gzip on;
-    client_max_body_size 50m; #缓冲区代理缓冲用户端请求的最大字节数,可以理解为保存到本地再传给用户
-    client_body_buffer_size 256k;
-    client_header_timeout 3m;
-    client_body_timeout 3m;
-    send_timeout 3m;
-    proxy_connect_timeout 300s; #nginx跟后端服务器连接超时时间(代理连接超时)
-    proxy_read_timeout 300s; #连接成功后，后端服务器响应时间(代理接收超时)
-    proxy_send_timeout 300s;
-    proxy_buffer_size 64k; #设置代理服务器（nginx）保存用户头信息的缓冲区大小
-    proxy_buffers 4 32k; #proxy_buffers缓冲区，网页平均在32k以下的话，这样设置
-    proxy_busy_buffers_size 64k; #高负荷下缓冲大小（proxy_buffers*2）
-    proxy_temp_file_write_size 64k; #设定缓存文件夹大小，大于这个值，将从upstream服务器传递请求，而不缓冲到磁盘
-    proxy_ignore_client_abort on; #不允许代理端主动关闭连接
-    server {
-        listen 80;
-        server_name localhost;
-        location / {
-            root html;
-            index index.html index.htm;
-        }
-        error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
-            root html;
-        }
-    }
-}
+client_max_body_size 50m; #缓冲区代理缓冲用户端请求的最大字节数,可以理解为保存到本地再传给用户
+proxy_connect_timeout 300s; #nginx跟后端服务器连接超时时间(代理连接超时)
+proxy_read_timeout 300s; #连接成功后，后端服务器响应时间(代理接收超时)
+proxy_send_timeout 300s;
+proxy_buffer_size 64k; #设置代理服务器（nginx）保存用户头信息的缓冲区大小
+proxy_buffers 4 32k; #proxy_buffers缓冲区，网页平均在32k以下的话，这样设置
+proxy_busy_buffers_size 64k; #高负荷下缓冲大小（proxy_buffers*2）
+proxy_temp_file_write_size 64k; #设定缓存文件夹大小，大于这个值，将从upstream服务器传递请求，而不缓冲到磁盘
+proxy_ignore_client_abort on; #不允许代理端主动关闭连接
 ```
+
+
 
 编辑反向代理服务器配置文件：
 vim /usr/local/nginx/conf/reverse-proxy.conf
@@ -1108,6 +1336,8 @@ server
     access_log logs/xxx456.tk_access.log;
 }
 ```
+
+
 
 如果想对后端机器做负载均衡，像下面这配置就可以把对nagios.xxx123.tk的请求分发给内网的131和132这两台机器做负载均衡了。
 
@@ -1169,11 +1399,17 @@ access_log logs/access.log access;
     proxy_ignore_client_abort on;
 ```
 
-## nginx tcp 代理
+
+
+### TCP 代理
+
 [nginx_tcp_proxy_module模块](http://yaoweibin.github.io/nginx_tcp_proxy_module/README.html)
 nginx tcp代理功能由nginx_tcp_proxy_module模块提供，同时监测后端主机状态。该模块包括的模块有： ngx_tcp_module, ngx_tcp_core_module, ngx_tcp_upstream_module, ngx_tcp_proxy_module, ngx_tcp_upstream_ip_hash_module。
 
-### 安装
+
+
+安装
+
 ```
 wget http://nginx.org/download/nginx-1.4.4.tar.gz
 tar zxvf nginx-1.4.4.tar.gz
@@ -1183,7 +1419,10 @@ make
 make install
 ```
 
-### 配置
+
+
+配置
+
 ```
 http {
     listen 80;
@@ -1210,7 +1449,10 @@ tcp {
 
 这会出现一个问题，就是tcp连接会掉线。原因在于当服务端关闭连接的时候，客户端不可能立刻发觉连接已经被关闭，需要等到当Nginx在执行check规则时认为服务端链接关闭，此时nginx会关闭与客户端的连接。
 
-### 保持连接配置
+
+
+#### 保持连接配置
+
 ```
 http {
     listen 80;
@@ -1241,17 +1483,23 @@ tcp {
 }
 ```
 
-## 高可用nginx群集和高速缓存
+
+
+### 高可用nginx群集和高速缓存
+
 nginx+keepalived+proxy_cache 配置高可用nginx群集和高速缓存
 
-### 安装nginx 主从服务器
-#### 下载
+#### 安装nginx 主从服务器
+
+下载
+
 ```
 wget http://nginx.org/download/nginx-1.0.11.tar.gz
 wget http://labs.frickle.com/files/ngx_cache_purge-1.4.tar.gz
 ```
 
-#### 安装
+安装
+
 ```
 yum -y install zlib-devel pcre-devel openssl-devel  # 安装依赖
 tar –xvf ngx_cache_purge-1.4.tar.gz
@@ -1263,7 +1511,10 @@ cd nginx-1.0.11/
 make && make install
 ```
 
+
+
 #### 配置
+
 ```
 vi /usr/local/nginx/conf/nginx.conf
 
@@ -1340,18 +1591,28 @@ access_log /data/logs/access.log access;
 ```
 备用调度器的nginx配置文件和主调度器的配置文件一样。
 
-#### 启动nginx
+
+
+启动nginx
+
 ```
 /usr/local/nginx/sbin/nginx
 ```
 
-### 安装keepalived（在nginx的mater和backup都安装）
-#### 下载
+
+
+#### 安装keepalived（在nginx的mater和backup都安装）
+
+下载
+
 ```
 wget http://www.keepalived.org/software/keepalived-1.1.19.tar.gz
 ```
 
-#### 安装
+
+
+安装
+
 ```
 tar zxvf keepalived-1.1.19.tar.gz
 cd keepalived-1.1.19
@@ -1367,7 +1628,10 @@ cp /usr/local/keepalived/etc/rc.d/init.d/keepalived /etc/init.d/
 mkdir /etc/keepalived
 ```
 
+
+
 #### 配置
+
 ```
 vi /etc/keepalived/keepalived.conf
 
@@ -1420,16 +1684,25 @@ state MASTER ---> state BACKUP
 priority 100 --->  priority 99 （此值必须低于主的）
 ```
 
-#### 主备启动
+
+
+主备启动
+
 ```
 /etc/init.d/keepalived start
 ```
 
+
+
 ## 优化指南
+
 ### 基本的 (优化过的)配置
 我们将修改的唯一文件是nginx.conf，其中包含Nginx不同模块的所有设置。你应该能够在服务器的/etc/nginx目录中找到nginx.conf。首先，我们将谈论一些全局设置，然后按文件中的模块挨个来，谈一下哪些设置能够让你在大量客户端访问时拥有良好的性能，为什么它们会提高性能。本文的结尾有一个完整的配置文件。
 
+
+
 #### 高层的配置
+
 nginx.conf文件中，Nginx中有少数的几个高级配置在模块部分之上。
 
 ```
@@ -1603,217 +1876,6 @@ open_file_cache_errors on;
 }
 ```
 
-## Nginx 语法
-
-1. Nginx location 配置语法
-
-   ```
-       1. location [ = | ~ | ~* | ^~ ] uri { ... }
-       2. location @name { ... }    
-   ```
-
-   1. location 配置可以有两种配置方法
-
-      ```
-      1.前缀 + uri（字符串/正则表达式）
-      2.@ + name
-      ```
-
-   2. 前缀含义
-
-      ```
-          =  ：精确匹配（必须全部相等）
-          ~  ：大小写敏感
-          ~* ：忽略大小写
-          ^~ ：只需匹配uri部分
-          @  ：内部服务跳转
-      ```
-
-2. Location 基础知识
-
-   1.location 是在 server 块中配置。
-   2.可以根据不同的 URI 使用不同的配置（location 中配置），来处理不同的请求。
-   3.location 是有顺序的，会被第一个匹配的location 处理。
-
-### Location 配置demo
-
-1.`=`，精确匹配
-
-```
-        location = / {
-            #规则
-        }
-        # 则匹配到 `http://www.example.com/` 这种请求。 
-```
-
-2.`~`，大小写敏感
-
-```
-        location ~ /Example/ {
-                #规则
-        }
-        #请求示例
-        #http://www.example.com/Example/  [成功]
-        #http://www.example.com/example/  [失败]
-```
-
-3.`~*`，大小写忽略
-
-```
-    location ~* /Example/ {
-                #规则
-    }
-    # 则会忽略 uri 部分的大小写
-    #http://www.example.com/Example/  [成功]
-    #http://www.example.com/example/  [成功]
-```
-
-4.`^~`，只匹配以 uri 开头
-
-```
-    location ^~ /img/ {
-            #规则
-    }
-    #以 /img/ 开头的请求，都会匹配上
-    #http://www.example.com/img/a.jpg   [成功]
-    #http://www.example.com/img/b.mp4 [成功]
-```
-
-5.`@`，nginx内部跳转
-
-```
-    location /img/ {
-        error_page 404 @img_err;
-    }
-    
-    location @img_err {
-        # 规则
-    }
-    #以 /img/ 开头的请求，如果链接的状态为 404。则会匹配到 @img_err 这条规则上。
-```
-
-### 总结
-
-Nginx 中的 location 并没有想象中的很难懂，不必害怕。多找资料看看，多尝试。你就会有收获。
-
-
-
-### location
-
-语法规则： location [=|~|~*|^~] /uri/ { … }
-
-- = 开头表示精确匹配
-- ^~ 开头表示uri以某个常规字符串开头，理解为匹配 url路径即可。nginx不对url做编码，因此请求为/static/20%/aa，可以被规则^~ /static/ /aa匹配到（注意是空格）。
-- ~ 开头表示区分大小写的正则匹配
-- ~*  开头表示不区分大小写的正则匹配
-- !~和!~*分别为区分大小写不匹配及不区分大小写不匹配 的正则
-- / 通用匹配，任何请求都会匹配到。
-
-多个location配置的情况下匹配顺序为（参考资料而来，还未实际验证，试试就知道了，不必拘泥，仅供参考）：
-
-首先匹配 =，其次匹配^~, 其次是按文件中顺序的正则匹配，最后是交给 / 通用匹配。当有匹配成功时候，停止匹配，按当前匹配规则处理请求。
-
-
-
-- 写优先级 =(绝对匹配) > /url (真正全路径) > ^~(带开头的正则，和~ ^/url 一样) > ~和~* (模糊正则) > /url (非全路径) > / (匹配所有的) 其实就是 2 5 6 是一种，都是直接匹配路径，但一个比一个模糊 3,4是一种，都是正则，3比4更清晰，其他语言的正则里面也是3优先 1，就是绝对等于，相当于 ~ ^/xxx/xxx$ 完全固定不能匹配任何其他的。
-
-
-
-```
-    location /wechat/ {
-        proxy_pass http://10.8.8.8:8080/;
-    }
-```
-
-### ReWrite
-
-last – 基本上都用这个Flag。
-
-break – 中止Rewirte，不在继续匹配
-
-redirect – 返回临时重定向的HTTP状态302
-
-permanent – 返回永久重定向的HTTP状态301
-
-注：last和break最大的不同在于
-
-- -break是终止当前location的rewrite检测,而且不再进行location匹配 
-- -last是终止当前location的rewrite检测,但会继续重试location匹配并处理区块中的rewrite规则
-
-```
-1、下面是可以用来判断的表达式：
-
--f和!-f用来判断是否存在文件
-
--d和!-d用来判断是否存在目录
-
--e和!-e用来判断是否存在文件或目录
-
--x和!-x用来判断文件是否可执行
-
-
-2、下面是可以用作判断的全局变量
-
-$args #这个变量等于请求行中的参数。
-
-$content_length #请求头中的Content-length字段。
-
-$content_type #请求头中的Content-Type字段。
-
-$document_root #当前请求在root指令中指定的值。
-
-$host #请求主机头字段，否则为服务器名称。
-
-$http_user_agent #客户端agent信息
-
-$http_cookie #客户端cookie信息
-
-$limit_rate #这个变量可以限制连接速率。
-
-$request_body_file #客户端请求主体信息的临时文件名。
-
-$request_method #客户端请求的动作，通常为GET或POST。
-
-$remote_addr #客户端的IP地址。
-
-$remote_port #客户端的端口。
-
-$remote_user #已经经过Auth Basic Module验证的用户名。
-
-$request_filename #当前请求的文件路径，由root或alias指令与URI请求生成。
-
-query_string #与args相同。
-
-$scheme #HTTP方法（如http，https）。
-
-$server_protocol #请求使用的协议，通常是HTTP/1.0或HTTP/1.1。
-
-$server_addr #服务器地址，在完成一次系统调用后可以确定这个值。
-
-$server_name #服务器名称。
-
-$server_port #请求到达服务器的端口号。
-
-$request_uri #包含请求参数的原始URI，不包含主机名，如：”/foo/bar.php?arg=baz”。
-
-uri #不带请求参数的当前URI，uri不包含主机名，如”/foo/bar.html”。
-
-document_uri #与uri相同。
-
-例：http://localhost:88/test1/test2/test.php
-
-$host：localhost
-
-$server_port：88
-
-$request_uri：http://localhost:88/test1/test2/test.php
-
-$document_uri：/test1/test2/test.php
-
-$document_root：D:\nginx/html
-
-$request_filename：D:\nginx/html/test1/test2/test.php
-```
 
 
 

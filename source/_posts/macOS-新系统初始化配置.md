@@ -75,3 +75,19 @@ $ mas install 409201541 409203825 409183694 410628904 836500024
 
 /Applications/Charles.app/Contents/Java/charles.jar
 
+
+
+### 安装rm删除保护软件
+
+>https://github.com/HuangXiZhou/blog/issues/39
+
+```
+brew install trash
+```
+
+替换别名
+
+```
+alias rm=trash
+```
+

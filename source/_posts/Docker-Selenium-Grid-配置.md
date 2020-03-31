@@ -230,6 +230,34 @@ desired_caps_web['goog:chromeOptions']=chrome_option
 
 
 
+### 手动创建 Chrome session 不自动回收
+
+```
+docker run --name selenium -d -p 5900:5900 -p 4444:4444 -e SE_OPTS="-timeout 31536000" -v /dev/shm:/dev/shm selenium/standalone-chrome-debug:3.141.59
+```
+
+> SE_OPTS="-timeout 31536000" 一年
+>
+> https://stackoverflow.com/questions/45591976/how-to-terminate-session-in-selenium-gridextras
+
+
+
+修改 VNC 密码
+
+```
+x11vnc -storepasswd <your-password-here> /home/seluser/.vnc/passwd
+```
+
+
+
+启动 vnc 服务
+
+```
+/opt/bin/start-vnc.sh
+```
+
+
+
 ## 参考
 
 [SeleniumHQ/selenium](https://github.com/SeleniumHQ/selenium)

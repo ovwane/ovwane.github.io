@@ -1,6 +1,29 @@
 ---
+title: AWK 使用
 date: 2018-08-08 16:52:07
 ---
+
+# [AWK](https://www.gnu.org/software/gawk/)
+
+样式扫描和处理语言
+
+
+
+## 概念
+
+- RS：Record Separator，记录分隔符。
+
+- ORS：Output Record Separate，输出当前记录分隔符。
+
+- FS：Field Separator，字段分隔符。
+
+- OFS：Out of Field Separator，输出字段分隔符。
+- NF：Number of Field，行中字段的个数。
+- NR：Number of Row，当前处理的行数。
+
+
+
+## 参数
 
 -F 字段分隔符
 `awk -F":" '{print $0}' /etc/passwd`
@@ -12,13 +35,7 @@ $2 以“：”冒号分割的第二列
 NF==7 字段数量
 NR==2 纪录数量
 
-RS：Record Separator，记录分隔符
 
-ORS：Output Record Separate，输出当前记录分隔符
-
-FS：Field Separator，字段分隔符
-
-OFS：Out of Field Separator，输出字段分隔符
 
 
 
@@ -74,6 +91,45 @@ curl -s https://testerhome.com/api/v3/topics.json | awk 'BEGIN{RS="}},{"}{print 
 
 
 
+合并行
+
+```bash
+awk '{if(NR%4!=0)ORS=" ";else ORS="\n"}1'
+```
+
+> 每4行合并为1行。
+
+
+
+从file文件中找出长度大于80的行
+
+```bash
+awk 'length>80' file
+```
+
+
+
+按连接数查看客户端IP
+
+```bash
+netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr
+```
+
+
+
+ 打印99乘法表
+
+```bash
+seq 9 | sed 'H;g' | awk -v RS='' '{for(i=1;i<=NF;i++)printf("%dx%d=%d%s", i, NR, i*NR, i==NR?"\n":"\t")}'
+```
+
+
+
 ## 参考
 
+ [The GNU Awk User’s Guide](https://www.gnu.org/software/gawk/manual/gawk.html) 
+
+[AWK单行脚本快速参考](http://www.pement.org/awk/awk1line_zh-CN.txt)
 [awk之RS、ORS与FS、OFS](https://www.cnblogs.com/fhefh/archive/2011/11/16/2251656.html)
+
+ [AWK 简明教程 | | 酷 壳 - CoolShell](https://coolshell.cn/articles/9070.html) 

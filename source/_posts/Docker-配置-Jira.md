@@ -248,6 +248,50 @@ NUrMCwCFEEnmeijjMtt7NE0TXO1VXvHnosCAhRApci+OpA4MTtE0d/t7LAIH4gmkw==X02gs
 
 
 
+## Nginx 配置反向代理
+
+```bash
+      location / {
+          proxy_pass_request_headers      on;
+    			proxy_set_header        Host $host;
+					proxy_redirect          http:// https://;
+          proxy_set_header        X-Real-IP $remote_addr;
+          proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header        X-Forwarded-Proto $scheme;
+          proxy_redirect          http:// https://;
+          proxy_pass              http://127.0.0.1:38081/;
+          client_max_body_size    10M;
+          proxy_set_header        X-Forwarded-Host $host;
+          proxy_set_header        X-Forwarded-Server $host;
+          # Required for new HTTP-based CLI
+          proxy_http_version 1.1;
+          proxy_request_buffering off;
+  		}
+```
+
+
+
+遇到问题：XSRF check failed，使用的https协议。
+
+**基本URL** 设置为 https://jira.xxx.com
+
+```bash
+docker run -d \
+--name jira \
+--hostname jira \
+-e JVM_SUPPORT_RECOMMENDED_ARGS="-Duser.timezone=Asia/Shanghai" \
+-p 38081:8080 \
+-e atl_proxy_name=jira.xxx.com \
+-e atl_proxy_port=443 \
+-e atl_tomcat_scheme=https \
+-e X_PATH=/ \
+atlassian/jira-software
+```
+
+ [配置nginx反向代理jira并实现https - 暖夏未眠丶 - 博客园](https://www.cnblogs.com/jzy996492849/p/7240116.html) 
+
+
+
 ## 参考
 
 [[烂泥：jira7.3/7.2安装、中文及破解(20170829更新)](https://www.ilanni.com/?p=12119)](https://www.ilanni.com/?p=12119)

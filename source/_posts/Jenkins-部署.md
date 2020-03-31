@@ -9,86 +9,129 @@ tags:
 - Jenkins
 ---
 
-## Jenkins安装部署
-
-下载 jenkins war包
-下载tomcat
-下载jdk
-
-###配置jenkins安装环境
-建立/usr/local/下的jdk软连接方便以后版本升级 ：
-
-```
-ln -s /usr/local/jdk1.8.0_151 /usr/local/jdk
-ln -s /usr/local/apache-tomcat-8.5.23 /usr/local/tomcat
-```
-
-
-mkdir /data/webapps -p
-
-/usr/local/tomcat/conf
-
-### 启动tomcat
-
-`./startup.sh`
-server.xml
-
-```
-Connector port="80" 
-
-<Host name="jenkins.ovwane.com"  appBase="/data/webapps"
-149             unpackWARs="true" autoDeploy="true">
-```
-
-
+# Jenkins
 
 ## [Docker Jenkins](https://hub.docker.com/r/jenkins/jenkins/)
 
 ```shell
-docker pull jenkins/jenkins:2.138.2
+docker pull jenkins/jenkins:2.235.5-lts-centos7
 ```
 
 ```shell
 #jenkins启动用户id 1000
-chown -R 1000:1000 /data/jenkins
+chown -R 1000:1000 ~/docker/jenkins
 ```
 
 ```shell
-docker run --network=sonar_sonarnet -p 8810:8080 -p 50000:50000 --env JAVA_OPTS=-Duser.timezone=Asia/Shanghai -v ~/docker/jenkins:/var/jenkins_home -d --name jenkins-2.138.2 jenkins/jenkins:2.138.2 
+docker run -d --name jenkins -p 8080:8080 -p 50000:50000 -e "LANG=en_US.UTF-8" -e "JAVA_OPTS=-Duser.timezone=Asia/Shanghai -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8" -v ~/docker/jenkins:/var/jenkins_home  jenkins/jenkins:2.235.5-lts-centos7
 ```
 
+> 设置默认用户名 https://github.com/foxylion/docker-jenkins/blob/master/docker-images/master/default-user.groovy
 
 
-### nginx反向代理
+
+## Nginx 反向代理
+
+> https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy
 
 ```nginx
-listen               443 ssl;
-
-location / {
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-Proto https;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_redirect http:// https://;
-
-        add_header Pragma "no-cache";
-        proxy_pass http://127.0.0.1:8080;
-    }
+upstream jenkins {
+  server 127.0.0.1:8080 fail_timeout=0;
+}
+ 
+server {
+  listen 80;
+  server_name jenkins.domain.tld;
+  return 301 https://$host$request_uri;
+}
+ 
+server {
+  listen 443 ssl;
+  server_name jenkins.domain.tld;
+ 
+  ssl_certificate /etc/nginx/ssl/server.crt;
+  ssl_certificate_key /etc/nginx/ssl/server.key;
+ 
+  location / {
+    proxy_set_header        Host $host:$server_port;
+    proxy_set_header        X-Real-IP $remote_addr;
+    proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header        X-Forwarded-Proto $scheme;
+    proxy_redirect http:// https://;
+    proxy_pass              http://jenkins;
+    # Required for new HTTP-based CLI
+    proxy_http_version 1.1;
+    proxy_request_buffering off;
+    proxy_buffering off; # Required for HTTP-based CLI to work over SSL
+    # workaround for https://issues.jenkins-ci.org/browse/JENKINS-45651
+    add_header 'X-SSH-Endpoint' 'jenkins.domain.tld:50022' always;
+  }
+}
 ```
 
 
 
-### 插件
+## 插件
 
-Git
+>  [Jenkins插件源使用国内镜像中心的最新方法_DevOps持续集成的博客-CSDN博客_jenkins 插件源](https://blog.csdn.net/weixin_40046357/article/details/104489497) 
+>
+> https://hub.docker.com/r/jenkinszh/jenkins-zh/dockerfile
 
-Email Extension
+### Folders
+
+### Git
+
+### Email Extension
+
+### Credentials Binding
+
+### SSH Build Agents
+
+### Localization: Chinese (Simplified)
+
+
+
+## 节点
+
+### ssh-agent
+
+> https://github.com/jenkinsci/ssh-slaves-plugin/blob/master/doc/CONFIGURE.md
+>
+> ssh-slave 镜像和  ssh-agent 镜像 dockerfile内容一致。底层镜像 adoptopenjdk/openjdk8:jdk8u262-b10-alpine
+>
+> https://hub.docker.com/r/jenkins/ssh-agent/dockerfile
+>
+> https://hub.docker.com/r/jenkins/ssh-slave/dockerfile
+
+ 
+
+```bash
+docker pull jenkins/ssh-agent:3.0.0
+```
+
+
+
+生成 key
+
+```
+ssh-keygen -f pemkey -m PEM -t ed25519
+```
+
+
+
+运行
+
+```bash
+docker run -d --name jenkins-ssh-agent jenkins/ssh-agent:3.0.0 "ssh 公钥"
+```
 
 
 
 ## 问题
 
-- 执行 shell 运行后不删除 jenkins 启动的子 shell： `BUILD_ID=DONTKILLME`
+### 执行 shell 后不删除 jenkins 启动的子 shell
+
+shell 添加  `BUILD_ID=DONTKILLME`
 
 
 

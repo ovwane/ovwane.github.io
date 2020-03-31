@@ -20,15 +20,44 @@ tags:
 	```
 
 - Python 2.7.16
+
 - Git 2.25.2
 
 
 
+## 设置代理
+
+### 设置终端代理
+
+```
+export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891
+```
+
+
+
+### 设置 boto 代理
+
+```
+export NO_AUTH_BOTO_CONFIG=~/.boto
+```
+
+```
+[Boto]
+proxy=127.0.0.1
+proxy_port=7890
+proxy_type=http
+```
+
+
+
+## 下载源码
+
+### 下载 depot_tools 工具
+
 新建目录
 
 ```shell
-mkdir ~/projects/chromedriver_xweb
-cd ~/projects/chromedriver_xweb
+mkdir chromium_src && cd chromium_src
 ```
 
 
@@ -44,12 +73,12 @@ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 设置系统环境变量
 
 ```shell
-export PATH="$PATH:${HOME}/projects/chromedriver_xweb/depot_tools"
+export PATH="$PATH:${PWD}/depot_tools"
 ```
 
 
 
-## 获取源码
+### 获取源码
 
 开启
 
@@ -70,7 +99,7 @@ mkdir chromium && cd chromium
 获取代码
 
 ```shell
-fetch chromium
+fetch --nohooks --no-history chromium --target_os=darwin
 ```
 
 >`fetch --nohooks chromium`，不要加`--no-history`。
@@ -78,6 +107,8 @@ fetch chromium
 >`fetch --nohooks --no-history chromium`
 >
 >`fetch --nohooks --no-history chromium --target_os=darwin`
+
+使用 pyenv 切换 python3 和 python2 都提示 `Warning: Running gclient on Python 3`。
 
 
 
@@ -100,27 +131,12 @@ git fetch --tags
 拉取分支并切换
 
 ```shell
-git checkout -b xweb 67.0.3396.87
+git checkout -b xweb_66.0.3359.126 66.0.3359.126
 ```
 
 > Chrome 与 chromedriver 映射关系 https://github.com/appium/appium-chromedriver/blob/master/lib/chromedriver.js
 >
 > 67 使用的 macOS10.12.sdk。https://github.com/phracker/MacOSX-SDKs/releases
-
-
-
-设置代理
-
-```
-export NO_AUTH_BOTO_CONFIG=~/.boto
-```
-
-```
-[Boto]
-proxy = 127.0.0.1
-proxy_port = 7890
-proxy_type = http
-```
 
 
 
@@ -142,35 +158,37 @@ gclient sync --with_branch_heads --jobs 16
 
 
 
-手动下载文件
+如果上面`gclient sync` 步骤报错需要手动下载文件，先安装 gsutil: `pip install gsutil`
 
 ```shell
-gsutil cp gs://chromium-gn/d8ff8eb053b2851486949550303e7ccae14c08df src/buildtools/mac/gn
+cd src
 
-chmod +x src/buildtools/mac/gn
+gsutil cp gs://chromium-gn/a14b089cbae9c29ecbc781686ada8babac8550af buildtools/mac/gn
 
-gsutil cp gs://chromium-clang-format/0679b295e2ce2fce7919d1e8d003e497475f24a3 src/buildtools/mac/clang-format
+chmod +x buildtools/mac/gn
 
-gsutil cp gs://chromium-luci/ffb6a624bd14abdff34618fe97562b34350199f7 src/tools/luci-go/mac64/isolate
+gsutil cp gs://chromium-clang-format/0679b295e2ce2fce7919d1e8d003e497475f24a3 buildtools/mac/clang-format
 
-gsutil cp gs://chromium-nodejs/8.9.1/c52ee3605efb50ae391bdbe547fb385f39c5a7a9 src/third_party/node/mac/node-darwin-x64.tar.gz
+gsutil cp gs://chromium-luci/ffb6a624bd14abdff34618fe97562b34350199f7 tools/luci-go/mac64/isolate
 
-gsutil cp gs://chromium-nodejs/050c85d20f7cedd7f5c39533c1ba89dcdfa56a08 src/third_party/node/node_modules.tar.gz
+gsutil cp gs://chromium-nodejs/8.9.1/c52ee3605efb50ae391bdbe547fb385f39c5a7a9 third_party/node/mac/node-darwin-x64.tar.gz
+
+gsutil cp gs://v8-wasm-fuzzer/f6b95b7dd8300efa84b6382f16cfcae4ec9fa108 v8/test/fuzzer/wasm_corpus.tar.gz
+
+gsutil cp gs://chromium-nodejs/050c85d20f7cedd7f5c39533c1ba89dcdfa56a08 third_party/node/node_modules.tar.gz
 ```
 
 
 
-生成
+生成 args.gn 文件
 
 ```
-gn gen out/Release
+gn gen --args="is_debug=false is_component_build = false symbol_level = 0" out/Release
 ```
 
->`gn gen --args="is_debug=false is_component_build = true symbol_level = 0 target_cpu=\"x86\"" out/Release`
 
 
-
-修改配置 `out/Release/args.gn`
+文件内容：out/Release/args.gn
 
 ```
 # Release
@@ -179,10 +197,6 @@ is_debug = false
 is_component_build = false
 # 不要符号表，不用在 gdb 里面调试。
 symbol_level = 0
-```
-
-```
-gn gen --args="is_debug=false is_component_build = false symbol_level = 0" out/Release
 ```
 
 
@@ -198,12 +212,12 @@ ninja -C out/Release chromedriver
 
 ## 修改代码
 
-xweb
+webview
 
 ```
 chromium/src/chrome/device_manager.cc
 
-std::string pattern = base::StringPrintf("@xweb_devtools_remote_.*%d", pid);
+std::string pattern = base::StringPrintf("@webview_devtools_remote_.*%d", pid);
 ```
 
 

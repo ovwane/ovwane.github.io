@@ -4,7 +4,11 @@ date: 2018-12-03 12:08:59
 tags:
 ---
 
+# Vue
 
+
+
+<!--more-->
 
 node v8.13.0
 
@@ -57,4 +61,4 @@ git clone -b gh-pages https://github.com/ovwane/FrontEndGuideV2.git
 
 ## 参考
 
-[Vue CLI 3 部署](https://cli.vuejs.org/zh/guide/deployment.html
+[Vue CLI 3 部署](https://cli.vuejs.org/zh/guide/deployment.html)

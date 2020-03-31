@@ -3,10 +3,10 @@ Title: Vim 使用
 date: 2016-08-08 13:20
 ---
 
-## Vim安装
+# [Vim](https://www.vim.org/)
 
 
-## 安装 [Vim](http://www.vim.org/)
+## 安装 Vim
 ```
 yum install -y vim-common vim-enhanced vim-minimal vim-filesystem
 ```
@@ -324,6 +324,85 @@ vim esc模式下
 
 
 
+## autocmd
+
+自动命令，是在指定事件发生时自动执行的命令。利用自动命令可以将重复的手工操作自动化，以提高编辑效率并减少人为操作的差错。
+
+```
+查看
+:autocmd
+```
+
+ [VIM学习笔记 自动命令(autocmd) - 知乎](https://zhuanlan.zhihu.com/p/98360630) 
+
+
+
+自动加载模板文件
+
+```
+"autocmd BufNewFile *.sh 0 read ~/.vim/template/sh.tpl
+autocmd BufNewFile *.sh 0 r ~/.vim/template/sh.tpl
+
+" 自动跳转到末尾
+autocmd BufNewFile * normal G
+```
+
+```
+autocmd BufNewFile *.sh exec ":call SetTitle()"
+    func SetTitle()
+        call setline(1,"<?php")
+        call append(line("."),"/**")
+        call append(line(".")+1, "*   Copyright (C) ".strftime("%Y")." All rights reserved.")
+        call append(line(".")+2, "*")
+        call append(line(".")+3, "*   FileName      ：".expand("%:t"))
+        call append(line(".")+4, "*   Author        ：xxxx")
+        call append(line(".")+5, "*   Email         ：xxx@xxx.com")
+        call append(line(".")+6, "*   Date          ：".strftime("%Y年%m月%d日"))
+        call append(line(".")+7, "*   Description   ：")
+        call append(line(".")+8, "*/")
+    endfunc
+```
+
+ [.vimrc的autocmd用法_PHP_liutingxu1的专栏-CSDN博客](https://blog.csdn.net/liutingxu1/article/details/18703145) 
+
+
+
+## 配置
+
+```
+" 使用语法高亮
+syntax on
+
+" 行前显示行号
+set number
+
+" 根据上一行决定新行的缩进
+set autoindent
+" 键入 <Tab> 时使用空格，使用softtabstop的空格
+set expandtab
+" 缩进使用的步进单位，以空格计算。下面是4个空格
+set shiftwidth=4
+""插入 <Tab> 时使用 'shiftwidth'
+smarttab
+
+"" 文件里的 <Tab> 代表的空格数
+set tabstop=4
+"" 编辑时 <Tab> 使用的空格数，使用 'tabstop' 个位置
+set softtabstop=4
+""set softtabstop=0  " 关闭softtabstop 永远不要将空格和tab混合输入
+
+"" sh conf
+" sh 文件缩进
+autocmd FileType sh setlocal tabstop=2 softtabstop=2 expandtab shiftwidth=2 smarttab
+" sh 文件模板
+autocmd BufNewFile *.sh 0 r ~/.vim/template/sh.tpl
+" 打开新文件自动跳转到末尾
+autocmd BufNewFile *.sh normal G
+"" sh conf
+```
+
+
+
 ## 技巧
 
 ### [Vim如何保存需要root权限的文件](https://blog.csdn.net/ch717828/article/details/50843956) , [以普通用户启动的Vim如何保存需要root权限的文件](http://feihu.me/blog/2014/vim-write-read-only-file/)
@@ -334,10 +413,27 @@ vim esc模式下
 
 
 
+替换指定行内容，命令模式下操作。
+
+```bash
+:10,20s/^/#/g
+```
+
+
+
 ## 参考
+
+ [Vim: vim_faq.txt](https://vimhelp.org/vim_faq.txt.html) 
+
+ [Vim: help.txt](https://vimhelp.org/) 
+
+ [VIM 中文帮助: 常见问题解答](https://yianwillis.github.io/vimcfaq/doc/vim_faq.html) 
+
+ [VIM 中文帮助: 总览及快速参考](https://yianwillis.github.io/vimcdoc/doc/help.html) 
 
 [上古神器vim插件：你真的学会用NERDTree了吗？](https://www.jianshu.com/p/3066b3191cb1)
 
 [编译安装vim-8.0 (centos)](https://blog.csdn.net/dinglinuX/article/details/53908313)
 
 [vim 入坑指南（五）插件 Vim-Plug](https://vimzijun.net/2016/09/21/vim-plug/)
+

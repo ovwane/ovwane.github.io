@@ -31,13 +31,32 @@ brew install lrzsz
 
 
 
-配置 itterm2-zmodem
+配置 [itterm2-zmodem](https://github.com/aikuyun/iterm2-zmodem)
 
 ```shell
 git clone https://github.com/aikuyun/iterm2-zmodem.git
 cp iterm2-zmodem/{iterm2-send-zmodem.sh,iterm2-recv-zmodem.sh} /usr/local/bin/
 chmod 777 /usr/local/bin/iterm2-*
-rm -r iterm2-zmodem
+rm -rf iterm2-zmodem
+```
+
+
+
+设置Iterm2的Tirgger特性，profiles->default->editProfiles->Advanced中的Tirgger
+
+> 添加两条trigger，分别设置 Regular expression，Action，Parameters，Instant如下：
+
+```
+1.第一条
+        Regular expression: rz waiting to receive.\*\*B0100
+        Action: Run Silent Coprocess
+        Parameters: /usr/local/bin/iterm2-send-zmodem.sh
+        Instant: checked
+2.第二条
+        Regular expression: \*\*B00000000000000
+        Action: Run Silent Coprocess
+        Parameters: /usr/local/bin/iterm2-recv-zmodem.sh
+        Instant: checked
 ```
 
 

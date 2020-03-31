@@ -12,7 +12,36 @@ docker pull sonarqube:7.1
 docker run -d --name sonarqube-7.1 -p 9000:9000 -p 9092:9092 sonarqube:7.1
 ```
 
+```bash
+docker run -d \
+    --name postgres \
+    -e POSTGRES_USER=sonarqube \
+    -e POSTGRES_PASSWORD=sonarqube \
+    -e PGDATA=/var/lib/postgresql/data/pgdata \
+    -v $PWD/postgresql:/var/lib/postgresql/data \
+    postgres
+
+# 新建目录
+mkdir sonarqube_data sonarqube_extensions sonarqube_logs
+
+#linux 执行
+chown -R 999:999 sonarqube_data sonarqube_extensions sonarqube_logs
+
+#docker启动sonarqube
+docker run -d  --name sonarqube --privileged=true -p 9000:9000 -p 9092:9092 --link postgres:db \
+     -e SONARQUBE_JDBC_USERNAME=sonarqube -e SONARQUBE_JDBC_PASSWORD=sonarqube \
+    -e SONARQUBE_JDBC_URL="jdbc:postgresql://db/sonarqube" \
+    -v $PWD/sonarqube_data:/opt/sonarqube/data \
+    -v $PWD/sonarqube_extensions:/opt/sonarqube/extensions \
+    -v $PWD/sonarqube_logs:/opt/sonarqube/logs \
+sonarqube
+```
+
+
+
 启动后访问[http://localhost:9000](http://localhost:9000/)就可以进入sonar了, 默认管理员用户和密码是admin/admin
+
+
 
 #### 安装插件
 
@@ -22,6 +51,8 @@ docker run -d --name sonarqube-7.1 -p 9000:9000 -p 9092:9092 sonarqube:7.1
 
 搜索`Chinese Pack`，点击install。
 
+
+
 ### 使用 Sonar maven插件进行代码解析
 
 使用前提：
@@ -30,6 +61,8 @@ docker run -d --name sonarqube-7.1 -p 9000:9000 -p 9092:9092 sonarqube:7.1
 - 安装好SonarQube。
 - 使用了已安装的SonarQube支持的最低的JDK。
 - 已经安装好了你要分析的语言的插件。
+
+
 
 ## 参考
 

@@ -28,11 +28,15 @@ ant初始化build环境
 ant download_jars
 ```
 
+
+
 执行下ant
 
 ```shell
 ant
 ```
+
+
 
 build，This will compile the application and enable you to run `jmeter` from the `bin` directory.
 
@@ -51,6 +55,12 @@ ant test [-Djava.awt.headless=true]
 ### [JMeter WebSocket Samplers](https://bitbucket.org/pjtr/jmeter-websocket-samplers/src/master/)
 
 
+
+## 问题
+
+HTTP(S) Test Script Recorder 不生成 crt 证书文件
+
+- 删除 proxyserver.jks
 
 
 
