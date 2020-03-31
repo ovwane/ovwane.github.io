@@ -202,207 +202,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Hexo-配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/08/Hexo-配置/" class="article-date">
-      <time datetime="2017-10-08T05:27:00.000Z" itemprop="datePublished">2017-10-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/08/Hexo-配置/">Hexo 配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a><a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a></h1><p>macOS 10.12.6<br>macOS 10.13</p>
-<h2 id="安装依赖环境"><a href="#安装依赖环境" class="headerlink" title="安装依赖环境"></a>安装依赖环境</h2><h3 id="安装-git"><a href="#安装-git" class="headerlink" title="安装 git"></a>安装 git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install git</span><br></pre></td></tr></table></figure>
-<h4 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">添加git用户姓名和邮箱地址</span></span><br><span class="line">git config --global user.name "Jinlong Quan"</span><br><span class="line">git config --global user.email "ovwane@gmail.com"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看配置信息</span></span><br><span class="line">git config --global --list</span><br></pre></td></tr></table></figure>
-<h3 id="配置SSH"><a href="#配置SSH" class="headerlink" title="配置SSH"></a>配置SSH</h3><p><a href="http://blog.csdn.net/system1024/article/details/52044900" target="_blank" rel="noopener">参考</a></p>
-<h4 id="生成SSH-key"><a href="#生成SSH-key" class="headerlink" title="生成SSH key"></a>生成SSH key</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f ~/.ssh/hexo_github_rsa</span><br><span class="line">ssh-keygen -t rsa -b 4096 -C "ovwane@gmail.com" -f ~/.ssh/hexo_coding_net_rsa</span><br></pre></td></tr></table></figure>
-<h4 id="配置访问权限"><a href="#配置访问权限" class="headerlink" title="配置访问权限"></a>配置访问权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br><span class="line"><span class="meta">#</span><span class="bash"> github.com</span></span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_github_rsa</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> git.coding.net</span></span><br><span class="line">Host git.coding.net</span><br><span class="line">HostName git.coding.net</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/hexo_coding_net_rsa</span><br></pre></td></tr></table></figure>
-<h4 id="测试SSH"><a href="#测试SSH" class="headerlink" title="测试SSH"></a>测试SSH</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br><span class="line">ssh -T git@git.coding.net</span><br></pre></td></tr></table></figure>
-<h3 id="安装NVM-Node-Version-Manager"><a href="#安装NVM-Node-Version-Manager" class="headerlink" title="安装NVM(Node Version Manager)"></a>安装<a href="https://github.com/creationix/nvm" target="_blank" rel="noopener">NVM(Node Version Manager)</a></h3><h3 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h3><h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#安装Hexo</span><br><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line">#卸载Hexo</span><br><span class="line">npm uninstall hexo-cli -g</span><br><span class="line"></span><br><span class="line">#查看Hexo版本</span><br><span class="line">hexo -version</span><br></pre></td></tr></table></figure>
-<h2 id="使用Hexo"><a href="#使用Hexo" class="headerlink" title="使用Hexo"></a>使用Hexo</h2><h3 id="部署Hexo"><a href="#部署Hexo" class="headerlink" title="部署Hexo"></a>部署Hexo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~/projects</span><br><span class="line">hexo init blog.ovwane.me</span><br><span class="line">cd blog.ovwane.me</span><br><span class="line">npm install</span><br><span class="line">安装Hexo git插件</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-<p>hexo 目录介绍</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">├── _config.yml //网站的 配置 信息，您可以在此配置大部分的参数。 </span><br><span class="line"></span><br><span class="line">|—— public //生成的静态文件</span><br><span class="line"> ├── package.json</span><br><span class="line"></span><br><span class="line">- ├──  scaffolds //模版 文件夹。当您新建文章时，hexo 会根据 scaffold 来建立文件。</span><br><span class="line">- ├──  source  //资源文件夹是存放用户资源的地方。</span><br><span class="line"></span><br><span class="line">- |  ├── _drafts</span><br><span class="line">- |  └── _posts</span><br><span class="line"></span><br><span class="line">└── themes //主题 文件夹，hexo 会根据主题来生成静态页面</span><br></pre></td></tr></table></figure>
-<h3 id="添加Hexo主题spfk"><a href="#添加Hexo主题spfk" class="headerlink" title="添加Hexo主题spfk"></a>添加Hexo主题<a href="https://github.com/luuman/hexo-theme-spfk" target="_blank" rel="noopener">spfk</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd blog.ovwane.me</span><br><span class="line"></span><br><span class="line">#下载spfk主题</span><br><span class="line">git clone https://github.com/luuman/hexo-theme-spfk.git themes/spfk</span><br><span class="line"></span><br><span class="line">#设置主题为spfk</span><br><span class="line">vim _config.yml</span><br><span class="line">theme: spfk</span><br></pre></td></tr></table></figure>
-<p><a href="https://luuman.github.io/2015/12/27/Hexo/HexoTheme/" target="_blank" rel="noopener">参考</a></p>
-<h3 id="使用Hexo-1"><a href="#使用Hexo-1" class="headerlink" title="使用Hexo"></a>使用Hexo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#进入博客目录下</span><br><span class="line">cd blog</span><br><span class="line"></span><br><span class="line">#新建一篇文章</span><br><span class="line">hexo new</span><br><span class="line"></span><br><span class="line">#清除缓存文件</span><br><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line">#生成静态文件</span><br><span class="line">hexo generate</span><br><span class="line"></span><br><span class="line">#本地测试</span><br><span class="line">hexo server</span><br><span class="line"></span><br><span class="line">#部署到网站</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-<h2 id="Hexo备份"><a href="#Hexo备份" class="headerlink" title="Hexo备份"></a>Hexo备份</h2><h3 id="Hexo备份初始化"><a href="#Hexo备份初始化" class="headerlink" title="Hexo备份初始化"></a>Hexo备份初始化</h3><p><strong><em>此步骤只有新建hexo项目的时候需要执行。</em></strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">初始化git</span><br><span class="line">git init</span><br><span class="line">git checkout -b hexo</span><br><span class="line">git add .</span><br><span class="line">git commit -m “…”</span><br><span class="line"></span><br><span class="line">git remote add origin git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"></span><br><span class="line">git remote add origin git@git.coding.net:ovwane/ovwane.coding.me.git</span><br><span class="line"></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
-<h3 id="安装Hexo备份插件"><a href="#安装Hexo备份插件" class="headerlink" title="安装Hexo备份插件"></a>安装<a href="https://github.com/coneycode/hexo-git-backup" target="_blank" rel="noopener">Hexo备份插件</a></h3><h4 id="安装Hexo备份插件-1"><a href="#安装Hexo备份插件-1" class="headerlink" title="安装Hexo备份插件"></a>安装Hexo备份插件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-git-backup --save</span><br></pre></td></tr></table></figure>
-<h4 id="配置Hexo备份插件"><a href="#配置Hexo备份插件" class="headerlink" title="配置Hexo备份插件"></a>配置Hexo备份插件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim _config.yml</span><br><span class="line">backup:</span><br><span class="line">    type: git</span><br><span class="line">    theme: sfpk</span><br><span class="line">    message: update xxx</span><br><span class="line">    repository:</span><br><span class="line">       git@github.com:ovwane/ovwane.github.io.git,hexo</span><br><span class="line">       git@git.coding.net:ovwane/ovwane.coding.me.git,hexo</span><br></pre></td></tr></table></figure>
-<h4 id="使用Hexo备份插件"><a href="#使用Hexo备份插件" class="headerlink" title="使用Hexo备份插件"></a>使用Hexo备份插件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo backup</span><br><span class="line"></span><br><span class="line">hexo b -m &quot;添加注释&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="Hexo插件"><a href="#Hexo插件" class="headerlink" title="Hexo插件"></a>Hexo插件</h2><h3 id="hexo-filter-flowchart"><a href="#hexo-filter-flowchart" class="headerlink" title="hexo-filter-flowchart"></a><a href="https://github.com/bubkoo/hexo-filter-flowchart" target="_blank" rel="noopener">hexo-filter-flowchart</a></h3><blockquote>
-<p>Generate flowchart diagrams for Hexo.</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-filter-flowchart</span><br><span class="line"></span><br><span class="line"># vim _config.yml</span><br><span class="line"># Extensions</span><br><span class="line">## flowchart diagrams</span><br><span class="line">flowchart:</span><br><span class="line">  # raphael:   # optional, the source url of raphael.js</span><br><span class="line">  # flowchart: # optional, the source url of flowchart.js</span><br><span class="line">  options: # options used for `drawSVG`</span><br></pre></td></tr></table></figure>
-<h3 id="hexo-filter-sequence"><a href="#hexo-filter-sequence" class="headerlink" title="hexo-filter-sequence"></a><a href="https://github.com/bubkoo/hexo-filter-sequence" target="_blank" rel="noopener">hexo-filter-sequence</a></h3><blockquote>
-<p>Generate UML sequence diagrams for Hexo.</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-filter-sequence</span><br><span class="line"></span><br><span class="line"># vim _config.yml</span><br><span class="line"># Extensions</span><br><span class="line">## UML sequence</span><br><span class="line">sequence:</span><br><span class="line">  # webfont:     # optional, the source url of webfontloader.js</span><br><span class="line">  # snap:        # optional, the source url of snap.svg.js</span><br><span class="line">  # underscore:  # optional, the source url of underscore.js</span><br><span class="line">  # sequence:    # optional, the source url of sequence-diagram.js</span><br><span class="line">  # css: # optional, the url for css, such as hand drawn theme </span><br><span class="line">  options: </span><br><span class="line">    theme: </span><br><span class="line">    css_class:</span><br></pre></td></tr></table></figure>
-<h3 id="hexo-tag-mermaid"><a href="#hexo-tag-mermaid" class="headerlink" title="hexo-tag-mermaid"></a><a href="https://github.com/threeq/hexo-tag-mermaid" target="_blank" rel="noopener">hexo-tag-mermaid</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 这个命令无法使用</span><br><span class="line">npm install hexo-tag-mermaid --save</span><br><span class="line"></span><br><span class="line">npm install https://github.com/threeq/hexo-tag-mermaid.git --save</span><br></pre></td></tr></table></figure>
-<h3 id="hexo-tag-plantuml"><a href="#hexo-tag-plantuml" class="headerlink" title="hexo-tag-plantuml"></a><a href="https://github.com/threeq/hexo-tag-plantuml" target="_blank" rel="noopener">hexo-tag-plantuml</a></h3><h3 id="Hexo部署文章步骤"><a href="#Hexo部署文章步骤" class="headerlink" title="Hexo部署文章步骤"></a>Hexo部署文章步骤</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line">hexo generate</span><br><span class="line"></span><br><span class="line">hexo deploy</span><br><span class="line"></span><br><span class="line">hexo backup -m &quot;添加注释&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="hexo不解析README-md文件"><a href="#hexo不解析README-md文件" class="headerlink" title="hexo不解析README.md文件"></a>hexo不解析README.md文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_config.yml</span><br><span class="line">skip_render:</span><br><span class="line">  - README.md</span><br><span class="line"></span><br><span class="line">source目录新建README文件</span><br></pre></td></tr></table></figure>
-<h3 id="文章显示全部内容，只想显示一些内容，使用摘要"><a href="#文章显示全部内容，只想显示一些内容，使用摘要" class="headerlink" title="文章显示全部内容，只想显示一些内容，使用摘要"></a>文章显示全部内容，只想显示一些内容，使用摘要</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">摘要</span><br><span class="line"><span class="xml"><span class="comment">&lt;!--more--&gt;</span></span></span><br><span class="line">摘要与正文</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/macOS/">macOS</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2017-10-08-从明天要好好工作了，要去赚钱了。" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/08/2017-10-08-从明天要好好工作了，要去赚钱了。/" class="article-date">
-      <time datetime="2017-10-08T04:51:41.000Z" itemprop="datePublished">2017-10-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/08/2017-10-08-从明天要好好工作了，要去赚钱了。/">2017.10.08 从明天要好好工作了，要去赚钱了。</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2017-10-07-收到新买的-Apple-MacBook-Pro-15" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/08/2017-10-07-收到新买的-Apple-MacBook-Pro-15/" class="article-date">
-      <time datetime="2017-10-08T04:51:26.000Z" itemprop="datePublished">2017-10-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/08/2017-10-07-收到新买的-Apple-MacBook-Pro-15/">2017.10.07 收到新买的 Apple MacBook Pro 15</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-2017-10-06-回到北京了" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -819,6 +618,202 @@
         <h4 id="安装参考"><a href="#安装参考" class="headerlink" title="安装参考"></a><a href="https://segmentfault.com/a/1190000005816556" target="_blank" rel="noopener">安装参考</a></h4><p>pip3 install autopep8</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">jinlong  ~  pip3 install autopep8</span><br><span class="line">Collecting autopep8</span><br><span class="line">  Downloading autopep8-1.3.2-py2.py3-none-any.whl (42kB)</span><br><span class="line">    100% |████████████████████████████████| 51kB 19kB/s</span><br><span class="line">Collecting pycodestyle&gt;=2.3 (from autopep8)</span><br><span class="line">  Downloading pycodestyle-2.3.1-py2.py3-none-any.whl (45kB)</span><br><span class="line">    100% |████████████████████████████████| 51kB 24kB/s</span><br><span class="line">Installing collected packages: pycodestyle, autopep8</span><br><span class="line">Successfully installed autopep8-1.3.2 pycodestyle-2.3.1</span><br></pre></td></tr></table></figure>
 <p>pip3 show autopep8</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-十年青春,十年网文！" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/01/十年青春,十年网文！/" class="article-date">
+      <time datetime="2017-10-01T10:20:00.000Z" itemprop="datePublished">2017-10-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/01/十年青春,十年网文！/">十年青春，十年网文！</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>挖坑 </p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ruby-配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/23/Ruby-配置/" class="article-date">
+      <time datetime="2017-09-23T06:27:29.000Z" itemprop="datePublished">2017-09-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/23/Ruby-配置/">Ruby 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="https://github.com/rbenv/rbenv" target="_blank" rel="noopener">rbenv</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/rbenv/rbenv.git ~/.rbenv</span><br></pre></td></tr></table></figure>
+<p>环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;\neval &quot;$(rbenv init -)&quot;&apos; &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure>
+<p>ruby-build</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/rbenv/ruby-build.git &quot;$(rbenv root)&quot;/plugins/ruby-build</span><br></pre></td></tr></table></figure>
+<p>环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">export PATH="$&#123;HOME&#125;/.rbenv/shims:$&#123;PATH&#125;"</span><br><span class="line">export RBENV_SHELL=zsh</span><br><span class="line">source '$&#123;HOME&#125;/.rbenv/libexec/../completions/rbenv.zsh'</span><br><span class="line">command rbenv rehash 2&gt;/dev/null</span><br><span class="line">rbenv() &#123;</span><br><span class="line">  local command</span><br><span class="line">  command="$&#123;1:-&#125;"</span><br><span class="line">  if [ "$#" -gt 0 ]; then</span><br><span class="line">    shift</span><br><span class="line">  fi</span><br><span class="line"></span><br><span class="line">  case "$command" in</span><br><span class="line">  rehash|shell)</span><br><span class="line">    eval "$(rbenv "sh-$command" "$@")";;</span><br><span class="line">  *)</span><br><span class="line">    command rbenv "$command" "$@";;</span><br><span class="line">  esac</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查看 ruby 版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rbenv install -l</span><br></pre></td></tr></table></figure>
+<p>安装 ruby</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rbenv install 2.6.0</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-PyCharm macOS快捷键" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/20/PyCharm macOS快捷键/" class="article-date">
+      <time datetime="2017-09-20T03:00:46.000Z" itemprop="datePublished">2017-09-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/20/PyCharm macOS快捷键/">PyCharm macOS快捷键</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="macOS-10-12-6-PyCharm快捷键"><a href="#macOS-10-12-6-PyCharm快捷键" class="headerlink" title="macOS 10.12.6 PyCharm快捷键"></a>macOS 10.12.6 PyCharm快捷键</h1><hr>
+<p>作者：古佛青灯度流年</p>
+<blockquote>
+<p>链接：<a href="http://www.jianshu.com/p/e0bdc02f7da" target="_blank" rel="noopener">http://www.jianshu.com/p/e0bdc02f7da</a><br><br>链接: <a href="http://blog.csdn.net/qq_18863573/article/details/74910975" target="_blank" rel="noopener">Mac下PyCharm快捷键大全</a><br><br>链接：(<a href="http://blog.csdn.net/pipisorry/article/details/39909057" target="_blank" rel="noopener">http://blog.csdn.net/pipisorry/article/details/39909057</a>)<br><br>链接：<a href="http://blog.csdn.net/ww_regou/article/details/49124869" target="_blank" rel="noopener">pycharm和phpstorm亲测快捷键（mac）</a></p>
+</blockquote>
+<hr>
+<ul>
+<li><a href="https://www.jetbrains.com/help/pycharm/file-template-variables.html" target="_blank" rel="noopener">File Template Variables</a><br>-<br>-<br>-</li>
+</ul>
+<h2 id="用过快捷键立即感觉高大上了，最主要的是很方便啊！很强大"><a href="#用过快捷键立即感觉高大上了，最主要的是很方便啊！很强大" class="headerlink" title="用过快捷键立即感觉高大上了，最主要的是很方便啊！很强大"></a>用过快捷键立即感觉高大上了，最主要的是很方便啊！很强大</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">cmd b 跳转到声明处（cmd加鼠标）</span><br><span class="line">opt + 空格 显示符号代码 （esc退出窗口 回车进入代码）</span><br><span class="line">cmd []光标之前/后的位置</span><br><span class="line">opt + F7 find usage</span><br><span class="line">cmd backspace 删除当前行</span><br><span class="line">cmd +c 复制光标当前行,剪切同理</span><br><span class="line">cmd + f 当前文件搜索（回车下一个 shift回车上一个）</span><br><span class="line">cmd + r 当前文件替换</span><br><span class="line">shift + cmd + f 全局搜索</span><br><span class="line">shift + cmd + R 全局替换</span><br><span class="line">cmd+o 搜索class</span><br><span class="line">shift + cmd + o 搜索文件</span><br><span class="line">opt + cmd + o 搜索符号（函数等)</span><br><span class="line">cmd + l 指定行数跳转</span><br><span class="line">shift enter 在行中的时候直接到下一行</span><br><span class="line">cmd + 展开当前</span><br><span class="line">cmd - 折叠当前</span><br><span class="line">shift cmd + 展开所有</span><br><span class="line">shift cmd - 折叠所有</span><br><span class="line">cmd / 注释/取消注释一行</span><br><span class="line">opt + cmd + / 批量注释(pycharm不生效)</span><br><span class="line">ctr + tab 史上最NB的导航窗口（工程文件列表、文件结构列表、命令行模式、代码检查、VCS等，下面两个是可以被替换的）</span><br><span class="line">alt + F12 打开命令行栏</span><br><span class="line">cmd + F12 显示文件结构</span><br><span class="line">cmd j 代码智能补全</span><br><span class="line">alt + F1 定位编辑文件所在位置:</span><br><span class="line">cmd + F6 更改变量</span><br><span class="line">opt + cmd + t 指定代码被注释语句或者逻辑结构、函数包围</span><br><span class="line">Tab / Shift + Tab 缩进、不缩进当前行</span><br><span class="line">opt + cmd + l 代码块对齐</span><br><span class="line">cmd+d 在下一行复制本行的内容</span><br></pre></td></tr></table></figure>
+<h2 id="看源码快捷键"><a href="#看源码快捷键" class="headerlink" title="看源码快捷键"></a>看源码快捷键</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">command + 鼠标左键</span><br><span class="line"></span><br><span class="line">command + [</span><br><span class="line"></span><br><span class="line">command + ]</span><br></pre></td></tr></table></figure>
+<h2 id="第二种"><a href="#第二种" class="headerlink" title="第二种"></a>第二种</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line">编辑类：</span><br><span class="line"></span><br><span class="line">Ctrl + Space 基本的代码完成（类、方法、属性）</span><br><span class="line">Ctrl + Alt + Space 类名完成</span><br><span class="line">Ctrl + Shift + Enter 语句完成</span><br><span class="line">Ctrl + P 参数信息（在方法中调用参数）</span><br><span class="line">Ctrl + Q 快速查看文档</span><br><span class="line">Shift + F1 外部文档</span><br><span class="line">Ctrl + 鼠标 简介</span><br><span class="line">Ctrl + F1 显示错误描述或警告信息</span><br><span class="line">Alt + Insert 自动生成代码</span><br><span class="line">Ctrl + O 重新方法</span><br><span class="line">Ctrl + Alt + T 选中</span><br><span class="line">Ctrl + / 行注释</span><br><span class="line">Ctrl + Shift + / 块注释</span><br><span class="line">Ctrl + W 选中增加的代码块</span><br><span class="line">Ctrl + Shift + W 回到之前状态</span><br><span class="line">Ctrl + Shift + ]/[ 选定代码块结束、开始</span><br><span class="line">Alt + Enter 快速修正</span><br><span class="line">Ctrl + Alt + L 代码格式化</span><br><span class="line">Ctrl + Alt + O 优化导入</span><br><span class="line">Ctrl + Alt + I 自动缩进</span><br><span class="line">Tab / Shift + Tab 缩进、不缩进当前行</span><br><span class="line">Ctrl+X/Shift+Delete 剪切当前行或选定的代码块到剪贴板</span><br><span class="line">Ctrl+C/Ctrl+Insert 复制当前行或选定的代码块到剪贴板</span><br><span class="line">Ctrl+V/Shift+Insert 从剪贴板粘贴</span><br><span class="line">Ctrl + Shift + V 从最近的缓冲区粘贴</span><br><span class="line">Ctrl + D 复制选定的区域或行</span><br><span class="line">Ctrl + Y 删除选定的行</span><br><span class="line">Ctrl + Shift + J 添加智能线</span><br><span class="line">Ctrl + Enter 智能线切割</span><br><span class="line">Shift + Enter 另起一行</span><br><span class="line">Ctrl + Shift + U 在选定的区域或代码块间切换</span><br><span class="line">Ctrl + Delete 删除到字符结束</span><br><span class="line">Ctrl + Backspace 删除到字符开始</span><br><span class="line">Ctrl + Numpad+/- 展开折叠代码块</span><br><span class="line">Ctrl + Numpad+ 全部展开</span><br><span class="line">Ctrl + Numpad- 全部折叠</span><br><span class="line">Ctrl + F4 关闭运行的选项卡</span><br><span class="line"></span><br><span class="line">运行类：</span><br><span class="line"></span><br><span class="line">Alt + Shift + F10 运行模式配置</span><br><span class="line">Alt + Shift + F9 调试模式配置</span><br><span class="line">Shift + F10 运行</span><br><span class="line">Shift + F9 调试</span><br><span class="line">Ctrl + Shift + F10 运行编辑器配置</span><br><span class="line">Ctrl + Alt + R 运行manage.py任务</span><br><span class="line"></span><br><span class="line">调试类：</span><br><span class="line"></span><br><span class="line">F8 跳过</span><br><span class="line">F7 进入</span><br><span class="line">Shift + F8 退出</span><br><span class="line">Alt + F9 运行游标</span><br><span class="line">Alt + F8 验证表达式</span><br><span class="line">Ctrl + Alt + F8 快速验证表达式</span><br><span class="line">F9 恢复程序</span><br><span class="line">Ctrl + F8 断点开关</span><br><span class="line">Ctrl + Shift + F8 查看断点</span><br><span class="line"></span><br><span class="line">导航类：</span><br><span class="line"></span><br><span class="line">Ctrl + N 跳转到类</span><br><span class="line">Ctrl + Shift + N 跳转到符号</span><br><span class="line">Alt + Right/Left 跳转到下一个、前一个编辑的选项卡</span><br><span class="line">F12 回到先前的工具窗口</span><br><span class="line">Esc 从工具窗口回到编辑窗口</span><br><span class="line">Shift + Esc 隐藏运行的、最近运行的窗口</span><br><span class="line">Ctrl + Shift + F4 关闭主动运行的选项卡</span><br><span class="line">Ctrl + G 查看当前行号、字符号</span><br><span class="line">Ctrl + E 当前文件弹出</span><br><span class="line">Ctrl+Alt+Left/Right 后退、前进</span><br><span class="line">Ctrl+Shift+Backspace 导航到最近编辑区域</span><br><span class="line">Alt + F1 查找当前文件或标识</span><br><span class="line">Ctrl+B / Ctrl+Click 跳转到声明</span><br><span class="line">Ctrl + Alt + B 跳转到实现</span><br><span class="line">Ctrl + Shift + I查看快速定义</span><br><span class="line">Ctrl + Shift + B跳转到类型声明</span><br><span class="line">Ctrl + U跳转到父方法、父类</span><br><span class="line">Alt + Up/Down跳转到上一个、下一个方法</span><br><span class="line">Ctrl + ]/[跳转到代码块结束、开始</span><br><span class="line">Ctrl + F12弹出文件结构</span><br><span class="line">Ctrl + H类型层次结构</span><br><span class="line">Ctrl + Shift + H方法层次结构</span><br><span class="line">Ctrl + Alt + H调用层次结构</span><br><span class="line">F2 / Shift + F2下一条、前一条高亮的错误</span><br><span class="line">F4 / Ctrl + Enter编辑资源、查看资源</span><br><span class="line">Alt + Home显示导航条F11书签开关</span><br><span class="line">Ctrl + Shift + F11书签助记开关</span><br><span class="line">Ctrl + #[0-9]跳转到标识的书签</span><br><span class="line">Shift + F11显示书签</span><br><span class="line"></span><br><span class="line">查找/替换类：</span><br><span class="line"></span><br><span class="line">F3 下一个</span><br><span class="line">Shift + F3 前一个</span><br><span class="line">Ctrl + R 替换</span><br><span class="line">Ctrl + Shift + F 全局查找</span><br><span class="line">Ctrl + Shift + R 全局替换</span><br><span class="line"></span><br><span class="line">搜索类：</span><br><span class="line"></span><br><span class="line">Alt + F7/Ctrl + F7文件中查询用法</span><br><span class="line">Ctrl + Shift + F7文件中用法高亮显示</span><br><span class="line">Ctrl + Alt + F7显示用法</span><br><span class="line"></span><br><span class="line">重构类：</span><br><span class="line"></span><br><span class="line">F5复制F6剪切</span><br><span class="line">Alt + Delete安全删除</span><br><span class="line">Shift + F6重命名</span><br><span class="line">Ctrl + F6更改签名</span><br><span class="line">Ctrl + Alt + N内联</span><br><span class="line">Ctrl + Alt + M提取方法</span><br><span class="line">Ctrl + Alt + V提取属性</span><br><span class="line">Ctrl + Alt + F提取字段</span><br><span class="line">Ctrl + Alt + C提取常量</span><br><span class="line">Ctrl + Alt + P提取参数</span><br><span class="line"></span><br><span class="line">一般：</span><br><span class="line"></span><br><span class="line">Alt + #[0-9]打开相应的工具窗口</span><br><span class="line">Ctrl + Alt + Y同步</span><br><span class="line">Ctrl + Shift + F12最大化编辑开关</span><br><span class="line">Alt + Shift + F添加到最喜欢</span><br><span class="line">Alt + Shift + I根据配置检查当前文件</span><br><span class="line">Ctrl + BackQuote(’)快速切换当前计划</span><br><span class="line">Ctrl + Alt + S　打开设置页</span><br><span class="line">Ctrl + Shift + A查找编辑器里所有的动作</span><br><span class="line">Ctrl + Tab在窗口间进行切换</span><br></pre></td></tr></table></figure>
+<p>⌘⌥B 跳转到接口的实现</p>
 
       
       
