@@ -202,6 +202,65 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-re-使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/04/02/re-使用/" class="article-date">
+      <time datetime="2020-04-02T01:21:38.000Z" itemprop="datePublished">2020-04-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/02/re-使用/">Regular Expression 使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="Regular-Expression"><a href="#Regular-Expression" class="headerlink" title="Regular Expression"></a>Regular Expression</h1><p>正则表达式</p>
+          
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+        <p class="article-more-link">
+          <a  href="/2020/04/02/re-使用/#more">大航海 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-ChromeDriver-编译" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -240,38 +299,40 @@
 </li>
 <li><p>Python 2.7.16</p>
 </li>
-<li>Git 2.25.2</li>
+<li><p>Git 2.25.2</p>
+</li>
 </ul>
-<p>新建目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/projects/chromedriver_xweb</span><br><span class="line">cd ~/projects/chromedriver_xweb</span><br></pre></td></tr></table></figure>
+<h2 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h2><h3 id="设置终端代理"><a href="#设置终端代理" class="headerlink" title="设置终端代理"></a>设置终端代理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891</span><br></pre></td></tr></table></figure>
+<h3 id="设置-boto-代理"><a href="#设置-boto-代理" class="headerlink" title="设置 boto 代理"></a>设置 boto 代理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export NO_AUTH_BOTO_CONFIG=~/.boto</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Boto]</span><br><span class="line">proxy=127.0.0.1</span><br><span class="line">proxy_port=7890</span><br><span class="line">proxy_type=http</span><br></pre></td></tr></table></figure>
+<h2 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h2><h3 id="下载-depot-tools-工具"><a href="#下载-depot-tools-工具" class="headerlink" title="下载 depot_tools 工具"></a>下载 depot_tools 工具</h3><p>新建目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir chromium_src &amp;&amp; cd chromium_src</span><br></pre></td></tr></table></figure>
 <p>安装 depot_tools</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://chromium.googlesource.com/chromium/tools/depot_tools.git</span><br></pre></td></tr></table></figure>
 <p>设置系统环境变量</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH="$PATH:$&#123;HOME&#125;/projects/chromedriver_xweb/depot_tools"</span><br></pre></td></tr></table></figure>
-<h2 id="获取源码"><a href="#获取源码" class="headerlink" title="获取源码"></a>获取源码</h2><p>开启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH="$PATH:$&#123;PWD&#125;/depot_tools"</span><br></pre></td></tr></table></figure>
+<h3 id="获取源码"><a href="#获取源码" class="headerlink" title="获取源码"></a>获取源码</h3><p>开启</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.precomposeUnicode true</span><br></pre></td></tr></table></figure>
 <p>新建目录</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir chromium &amp;&amp; cd chromium</span><br></pre></td></tr></table></figure>
 <p>获取代码</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fetch chromium</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fetch --nohooks --no-history chromium --target_os=darwin</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><code>fetch --nohooks chromium</code>，不要加<code>--no-history</code>。</p>
 <p><code>fetch --nohooks --no-history chromium</code></p>
 <p><code>fetch --nohooks --no-history chromium --target_os=darwin</code></p>
 </blockquote>
+<p>使用 pyenv 切换 python3 和 python2 都提示 <code>Warning: Running gclient on Python 3</code>。</p>
 <p>切换目录</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd src</span><br></pre></td></tr></table></figure>
 <p>检查分支</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch --tags</span><br></pre></td></tr></table></figure>
 <p>拉取分支并切换</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b xweb 67.0.3396.87</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b xweb_66.0.3359.126 66.0.3359.126</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>Chrome 与 chromedriver 映射关系 <a href="https://github.com/appium/appium-chromedriver/blob/master/lib/chromedriver.js" target="_blank" rel="noopener">https://github.com/appium/appium-chromedriver/blob/master/lib/chromedriver.js</a></p>
 <p>67 使用的 macOS10.12.sdk。<a href="https://github.com/phracker/MacOSX-SDKs/releases" target="_blank" rel="noopener">https://github.com/phracker/MacOSX-SDKs/releases</a></p>
 </blockquote>
-<p>设置代理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export NO_AUTH_BOTO_CONFIG=~/.boto</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Boto]</span><br><span class="line">proxy = 127.0.0.1</span><br><span class="line">proxy_port = 7890</span><br><span class="line">proxy_type = http</span><br></pre></td></tr></table></figure>
 <p>同步分支数据</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gclient sync --with_branch_heads --jobs 16</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -280,20 +341,16 @@
 <p>打印日志：gclient sync –verbose –verbose –verbose</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; gclient sync --force --nohooks --with_branch_heads</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
-<p>手动下载文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">gsutil cp gs://chromium-gn/d8ff8eb053b2851486949550303e7ccae14c08df src/buildtools/mac/gn</span><br><span class="line"></span><br><span class="line">chmod +x src/buildtools/mac/gn</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-clang-format/0679b295e2ce2fce7919d1e8d003e497475f24a3 src/buildtools/mac/clang-format</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-luci/ffb6a624bd14abdff34618fe97562b34350199f7 src/tools/luci-go/mac64/isolate</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-nodejs/8.9.1/c52ee3605efb50ae391bdbe547fb385f39c5a7a9 src/third_party/node/mac/node-darwin-x64.tar.gz</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-nodejs/050c85d20f7cedd7f5c39533c1ba89dcdfa56a08 src/third_party/node/node_modules.tar.gz</span><br></pre></td></tr></table></figure>
-<p>生成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gn gen out/Release</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>gn gen --args=&quot;is_debug=false is_component_build = true symbol_level = 0 target_cpu=\&quot;x86\&quot;&quot; out/Release</code></p>
-</blockquote>
-<p>修改配置 <code>out/Release/args.gn</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Release</span><br><span class="line">is_debug = false</span><br><span class="line"># 不构建许多 dylib 文件</span><br><span class="line">is_component_build = false</span><br><span class="line"># 不要符号表，不用在 gdb 里面调试。</span><br><span class="line">symbol_level = 0</span><br></pre></td></tr></table></figure>
+<p>如果上面<code>gclient sync</code> 步骤报错需要手动下载文件，先安装 gsutil: <code>pip install gsutil</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cd src</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-gn/a14b089cbae9c29ecbc781686ada8babac8550af buildtools/mac/gn</span><br><span class="line"></span><br><span class="line">chmod +x buildtools/mac/gn</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-clang-format/0679b295e2ce2fce7919d1e8d003e497475f24a3 buildtools/mac/clang-format</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-luci/ffb6a624bd14abdff34618fe97562b34350199f7 tools/luci-go/mac64/isolate</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-nodejs/8.9.1/c52ee3605efb50ae391bdbe547fb385f39c5a7a9 third_party/node/mac/node-darwin-x64.tar.gz</span><br><span class="line"></span><br><span class="line">gsutil cp gs://v8-wasm-fuzzer/f6b95b7dd8300efa84b6382f16cfcae4ec9fa108 v8/test/fuzzer/wasm_corpus.tar.gz</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-nodejs/050c85d20f7cedd7f5c39533c1ba89dcdfa56a08 third_party/node/node_modules.tar.gz</span><br></pre></td></tr></table></figure>
+<p>生成 args.gn 文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gn gen --args=&quot;is_debug=false is_component_build = false symbol_level = 0&quot; out/Release</span><br></pre></td></tr></table></figure>
+<p>文件内容：out/Release/args.gn</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Release</span><br><span class="line">is_debug = false</span><br><span class="line"># 不构建许多 dylib 文件</span><br><span class="line">is_component_build = false</span><br><span class="line"># 不要符号表，不用在 gdb 里面调试。</span><br><span class="line">symbol_level = 0</span><br></pre></td></tr></table></figure>
 <p>编译 chromedriver</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ninja -C out/Release chromedriver</span><br></pre></td></tr></table></figure>
-<h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><p>xweb</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chromium/src/chrome/device_manager.cc</span><br><span class="line"></span><br><span class="line">std::string pattern = base::StringPrintf(&quot;@xweb_devtools_remote_.*%d&quot;, pid);</span><br></pre></td></tr></table></figure>
+<h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><p>webview</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chromium/src/chrome/device_manager.cc</span><br><span class="line"></span><br><span class="line">std::string pattern = base::StringPrintf(&quot;@webview_devtools_remote_.*%d&quot;, pid);</span><br></pre></td></tr></table></figure>
 <p>命令行入参</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chromium/src/chrome/test/chromedriver/server/chromedriver_server.cc</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://chromium.googlesource.com/chromium/src/+/master/docs/mac_build_instructions.md" target="_blank" rel="noopener">Checking out and building Chromium for Mac</a> </p>
@@ -877,125 +934,6 @@
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://help.github.com/en/articles/setting-up-an-apex-domain#configuring-a-records-with-your-dns-provider" target="_blank" rel="noopener">Setting up an apex domain</a></p>
 <p><a href="https://poplite.xyz/post/2018/05/03/how-to-enable-https-for-custom-domain-on-github-pages.html" target="_blank" rel="noopener">Github Pages 开始为自定义域名提供 HTTPS 支持（附启用方法）</a></p>
 <p><a href="https://likfe.com/2018/05/03/github-pages-custom-domains-support-https/" target="_blank" rel="noopener">GitHub Pages 对自定义域名支持 HTTPS</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-OpenStf-iOS" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/07/01/OpenStf-iOS/" class="article-date">
-      <time datetime="2019-07-01T00:06:34.000Z" itemprop="datePublished">2019-07-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/01/OpenStf-iOS/">OpenStf iOS</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="OpenStf-iOS-适配"><a href="#OpenStf-iOS-适配" class="headerlink" title="OpenStf iOS 适配"></a>OpenStf iOS 适配</h2><ul>
-<li>macOS 10.14.4</li>
-<li><p>node 8.15.0</p>
-</li>
-<li><p>python 2.7.15</p>
-</li>
-<li>Xcode 10.0</li>
-</ul>
-<blockquote>
-<p>nvm，pyenv，xcversion</p>
-</blockquote>
-<h3 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1. 环境准备"></a>1. 环境准备</h3><p>  安装libimobiledevice等依赖工具，如果已经安装过，可能需要升级，先卸载，再安装最新版本</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">brew uninstall --ignore-dependencies usbmuxd</span><br><span class="line">brew uninstall --ignore-dependencies libimobiledevice</span><br><span class="line">brew uninstall --ignore-dependencies ideviceinstaller</span><br><span class="line"></span><br><span class="line">brew install --HEAD usbmuxd</span><br><span class="line"><span class="meta">#</span><span class="bash">brew unlink usbmuxd</span></span><br><span class="line"><span class="meta">#</span><span class="bash">brew link usbmuxd</span></span><br><span class="line"></span><br><span class="line">brew install --HEAD libimobiledevice</span><br><span class="line">brew install --HEAD ideviceinstaller</span><br><span class="line">brew install carthage</span><br><span class="line">brew install socat</span><br></pre></td></tr></table></figure>
-<h3 id="2-安装-stf-依赖："><a href="#2-安装-stf-依赖：" class="headerlink" title="2. 安装 stf 依赖："></a>2. 安装 stf 依赖：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install graphicsmagick libsodium zeromq protobuf yasm pkg-config</span><br></pre></td></tr></table></figure>
-<h3 id="3-配置-WebDriverAgent"><a href="#3-配置-WebDriverAgent" class="headerlink" title="3. 配置 WebDriverAgent"></a>3. 配置 WebDriverAgent</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> git <span class="built_in">clone</span> -b v0.1.1 https://github.com/mrx1203/WebDriverAgent.git</span></span><br><span class="line">git clone https://github.com/mrx1203/WebDriverAgent.git</span><br><span class="line"></span><br><span class="line">cd WebDriverAgent</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改 bundleID，修改证书，修改Schema</span></span><br><span class="line">open WebDriverAgent.xcodeproj</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Validating Inspector 有问题，注释了。</span></span><br><span class="line">./Scripts/bootstrap.sh</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>使用的 Xcode 10.0，Xcode 10.2.1 版本 linker 有问题，提示找不到 XCEventGenerator。</p>
-</blockquote>
-<h3 id="4-启动-ios-provider"><a href="#4-启动-ios-provider" class="headerlink" title="4. 启动 ios-provider"></a>4. 启动 ios-provider</h3><ul>
-<li>拉取源代码</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/mrx1203/stf.git</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装依赖库</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd stf</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CXXFLAGS="-mmacosx-version-min=10.9" LDFLAGS="-mmacosx-version-min=10.9" npm install; npm install --save request; npm install --save request-promise</span><br></pre></td></tr></table></figure>
-<p>检查组件是否都正常</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/stf doctor</span><br></pre></td></tr></table></figure>
-<ul>
-<li>启动ios-provider，假设主服务器的ip地址为10.8.8.128，该节点的ip地址为192.168.1.24。</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/stf ios-provider --name "mac001" --connect-sub tcp://10.8.8.128:7250 --connect-push tcp://10.8.8.128:7270 --storage-url http://10.8.8.128 --public-ip 192.168.1.24 --heartbeat-interval 20000 --wda-path /Users/jinlong/projects/mrx1203/WebDriverAgent --wda-port 8100</span><br></pre></td></tr></table></figure>
-<p>挂载</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ideviceimagemounter /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/12.0/DeveloperDiskImage.dmg  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/12.0/DeveloperDiskImage.dmg.signature</span><br></pre></td></tr></table></figure>
-<p>截图</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idevicescreenshot -u 81940f3e74cd76f934c7a6ebec5ea038eb3f7e1d 81940f3e74cd76f934c7a6ebec5ea038eb3f7e1d.png</span><br></pre></td></tr></table></figure>
-<h2 id="改造官方-stf"><a href="#改造官方-stf" class="headerlink" title="改造官方 stf"></a>改造官方 stf</h2><h3 id="拉取官方代码"><a href="#拉取官方代码" class="headerlink" title="拉取官方代码"></a>拉取官方代码</h3><blockquote>
-<p>OpenStf 3.4.1</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b v3.4.1 https://github.com/openstf/stf.git</span><br></pre></td></tr></table></figure>
-<h3 id="复制代码到官方代码目录下"><a href="#复制代码到官方代码目录下" class="headerlink" title="复制代码到官方代码目录下"></a>复制代码到官方代码目录下</h3><ol>
-<li>拷贝<code>lib/cli</code>下的<code>ios-device,ios-provider,local</code>三个文件夹，local文件夹可以直接覆盖。</li>
-<li>覆盖<code>lib/cli</code>下的<code>index.js</code>。</li>
-<li>拷贝<code>lib/units</code>下的<code>ios-device,ios-provider</code>。</li>
-<li>覆盖<code>lib/units/storage/plugins/apk/task/manifest.js</code>文件。</li>
-<li>拷贝<code>lib/util</code>下的<code>ipareader.js,download.js</code>文件；ipa文件解析和下载。</li>
-<li>覆盖<code>lib/wire/wire.proto</code>文件。</li>
-<li>覆盖<code>res/app/components/stf/install/install-service.js</code>文件；ipa文件的安装。</li>
-<li>覆盖<code>res/app/components/stf/storage/storage-service.js</code>文件；上传ipa文件。</li>
-<li>覆盖<code>package.json</code>添加了依赖模块。</li>
-</ol>
-<p>安装依赖库</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CXXFLAGS="-mmacosx-version-min=10.9" LDFLAGS="-mmacosx-version-min=10.9" npm install; npm install --save request; npm install --save request-promise</span><br></pre></td></tr></table></figure>
-<p>检查组件是否都正常</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/stf doctor</span><br></pre></td></tr></table></figure>
-<p>复制 WebDriverAgent 到 stf 目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd stf</span><br><span class="line">cp WebDriverAgent .</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/stf local</span><br></pre></td></tr></table></figure>
-<h2 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h2><p><a href="https://reviewdb.io/questions/1522739809390/idevicescreenshot-not-working" target="_blank" rel="noopener">idevicescreenshot not working</a></p>
-<p><a href="https://github.com/macacajs/XCTestWD/issues/141" target="_blank" rel="noopener">xcode10版本的问题， 找不到XCElementSnapshot头文件</a></p>
-<p><a href="https://github.com/nodejs/node-gyp/issues/1564" target="_blank" rel="noopener">node-gyp ‘utility’ file not found </a> <code>CXXFLAGS=&quot;-mmacosx-version-min=10.9&quot; LDFLAGS=&quot;-mmacosx-version-min=10.9&quot; npm i</code></p>
-<p><a href="https://github.com/appium/appium/issues/6996" target="_blank" rel="noopener">iproxy 208 错误</a> <code>ps -ax|grep -i &quot;iproxy&quot;|grep -v grep|awk &#39;{print &quot;kill -9 &quot; $1}&#39;|sh</code></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://testerhome.com/topics/19548" target="_blank" rel="noopener">STF 集成 iOS 之 开源了</a></p>
 
       
       
