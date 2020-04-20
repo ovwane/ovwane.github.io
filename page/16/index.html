@@ -202,11 +202,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-计算机设备" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS7 配置shadowsocks" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/计算机设备/" class="article-date">
-      <time datetime="2018-07-12T02:45:03.000Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/05/08/CentOS7 配置shadowsocks/" class="article-date">
+      <time datetime="2018-05-08T13:11:49.000Z" itemprop="datePublished">2018-05-08</time>
 </a>
     </div>
   
@@ -215,25 +215,20 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/计算机设备/">计算机设备</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="网络设备"><a href="#网络设备" class="headerlink" title="网络设备"></a>网络设备</h2><h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>锐捷</p>
-<h3 id="AC控制器"><a href="#AC控制器" class="headerlink" title="AC控制器"></a>AC控制器</h3><p>华为</p>
-<h3 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h3><p>华为</p>
-<h3 id="POE交换机"><a href="#POE交换机" class="headerlink" title="POE交换机"></a>POE交换机</h3><p>华为</p>
-<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h3 id="NAS"><a href="#NAS" class="headerlink" title="NAS"></a>NAS</h3><p>synology</p>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade pip</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+<p>fast_open未启用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 3 &gt; /proc/sys/net/ipv4/tcp_fastopen</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/shadowsocks.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  "server":"",</span><br><span class="line">  "server_port":,</span><br><span class="line">  "local_address": "127.0.0.1",</span><br><span class="line">  "local_port":1027,</span><br><span class="line">  "password":"",</span><br><span class="line">  "timeout":300,</span><br><span class="line">  "method":"rc4-md5",</span><br><span class="line">  "workers": 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup sslocal -c /etc/shadowsocks.json /dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --socks5 127.0.0.1:1027 http://httpbin.org/ip</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y privoxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/privoxy/config</span><br><span class="line"></span><br><span class="line">listen-address 127.0.0.1:1087</span><br><span class="line">forward-socks5t / 127.0.0.1:1027 .</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable privoxy.service</span><br><span class="line">systemctl start privoxy.service</span><br><span class="line">systemctl status privoxy.service</span><br><span class="line">systemctl restart privoxy.service</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;</span><br><span class="line"></span><br><span class="line">curl http://httpbin.org/ip</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://brickyang.github.io/2017/01/14/CentOS-7-%E5%AE%89%E8%A3%85-Shadowsocks-%E5%AE%A2%E6%88%B7%E7%AB%AF/" target="_blank" rel="noopener">CentOS 7 安装 shadowsocks 客户端</a></p>
 
       
       
@@ -261,11 +256,11 @@
 
 
   
-    <article id="post-金融" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-jollychic" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/12/金融/" class="article-date">
-      <time datetime="2018-07-12T02:45:03.000Z" itemprop="datePublished">2018-07-12</time>
+      <a href="/2018/05/08/jollychic/" class="article-date">
+      <time datetime="2018-05-08T12:32:33.000Z" itemprop="datePublished">2018-05-08</time>
 </a>
     </div>
   
@@ -274,42 +269,17 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/12/金融/">财经商业和投资理财微信公众号</a>
-    </h1>
-  
-
-      </header>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="财经商业和投资理财微信公众号"><a href="#财经商业和投资理财微信公众号" class="headerlink" title="财经商业和投资理财微信公众号"></a>财经商业和投资理财微信公众号</h1><p><strong>1、吴晓波频道（ID：wuxiaobopd）</strong></p>
-<p>这是著名财经作家吴晓波老师在2014年5月开设的自媒体平台，两年以来吴晓波频道的影响力扶摇直上，一飞冲天。目前累计粉丝数量将近200万人，是现阶段最大的财经商业类自媒体平台。两年以来，无数10万+的文章被纷纷刷屏，从《去日本买只马桶盖》到《别慌》，再到《疯了》。我相信，对财经商业感兴趣的朋友们应该已经早早的关注了吴晓波频道。我就不再废话了。</p>
-<p><strong>2、秦朔朋友圈（ID：qspyq2015）</strong></p>
-<p>吴晓波的朋友秦朔，前《第一财经日报》的总编辑，这个被吴晓波称为“最后一个看门狗”的河南蛮牛，毅然决然地离开了传统媒体行业，“下海”开设了秦朔朋友圈这个自媒体平台。在这里，秦朔先生不定期分享关于对经济发展、金融潮流、商业领域等方面的观点。</p>
-<p><strong>3、力哥说理财（ID：lglicai）</strong></p>
-<p>这是我最近每天上班路上必听的一档理财脱口秀节目《力哥说理财》，喜欢的朋友也可以在喜马拉雅FM上订阅“力哥说理财”。力哥说理财的口号是：简单，好玩，有干货。力哥每期节目中都会用非常风趣幽默的方式跟大家分享投资理财相关的心得，并且有很多内容都能很好的帮助大家养成理性的投资价值观。音频节目的文字版本也会定期发布在这个微信公众号上。</p>
-<p><strong>4、金融八卦女（ID：jinrongbaguanv）</strong></p>
-<p>这位金融八卦女是一位基金行业的从业人员，她开设的金融八卦女微信公众号是金融业内最有名气的自媒体平台之一，据说绝大多数的金融从业者都关注了这个微信公众号。我自己就是一名金融从业者，在我微信不足400人的朋友列表里，竟然有超过80人都关注了金融八卦女，可想而知她的受欢迎程度。</p>
-<p><strong>5、越女读财（ID：ynducai）</strong></p>
-<p>“一个小小的理财抽屉，一枚玩心很重的财女”。这是“越女读财”这个微信公众号的个人介绍。越女读财是我最近一段时间每天必读的公众号，越女每天都会分享一些理财、投资方面的心得，并获得了广泛的好评。更重要的是，我很喜欢越女的文字，简单，清新，不脱俗。</p>
-<p><strong>6、三公子的人生记录仪（ID：sangongzi0906）</strong></p>
-<p>豆瓣红人三公子的个人微信公众号，我第一次知道三公子其实是在简书这个平台上看到的。是个很励志的小女孩，她是一位理财达人，作为一名普通的公务员，通过自己的理财规划，用5年的时间就积累了100万的个人资产。在微信公众号中，她分享了很多理财相关的话题，比如基金定投、小白理财、资产配置和自我成长以及健身相关的文章。</p>
-<p><strong>7、定投十年赚十倍（ID：auto10bagger）</strong></p>
-<p>雪球大V银行螺丝钉开设的个人微信公众号，银行螺丝钉是专注在指数基金的投资，是畅销书《指数基金投资指南》的作者。在这里，她会经常分享关于指数基金投资方面的一些心得，她的很多文章我都有阅读，受益很大。更加难得的是，她还通过科学的方法，编制了市场主要指数的估值表，并每天在公众号上发布。想系统性学习指数基金投资的朋友不妨关注。</p>
-<p><strong>8、大玩家张磊（ID：seniorplayer）</strong></p>
-<p>与其说帮你赚钱，倒不如说帮你省钱，也就是教你如何薅羊毛。大玩家张磊在这里会经常发布一些很实用、高逼格的薅羊毛的攻略，包括信用卡、航空里程、酒店等各个方面。他和我一样，都是周杰伦的铁杆粉丝，据说他把公司的每个会议室都用周杰伦的歌名来命名，很酷。他还是懒投资的CEO，在懒投资推出了很多收益稳健的理财产品，有兴趣的朋友也可以去看下。</p>
-<p><strong>9、长投学堂（ID：ichangtou）</strong></p>
-<p>长投学堂是一家专注量化投资和价值投资学习的网站，是由豆瓣红人水湄物语和他先生小熊创办的在线投资学习平台。在长投学堂，有系统性的价值投资的课程（入门课、初级课、进阶课和高级课），还会不定期邀请在投资领域有所建树的大牛们分享其他低风险的投资方法。所以如果你想成为巴菲特，想实现财务自由，想通过量化的价值投资来获得稳健低风险的投资回报，推荐你加入长投学堂，当然，里面有些课程是付费的。</p>
-<p><strong>10、零基础学投资理财（ID：xuetouzilicai）</strong></p>
-<p>同样来自长投学堂的衍生平台，这个微信公众号的定位主要是针对小白人群，所以分享的文章更多是关于零基础的人士如何去学习投资理财的，经常会有很多超级实用、简单的干货分享出来。再次连同长投学堂一并推荐给大家。</p>
-<p><strong>工薪金融街（ID：richgx）</strong></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/e9ab1654c5a8" target="_blank" rel="noopener">10个最值得关注的财经商业和投资理财类微信公众号</a></p>
+        <p>新建项目和crawlspider爬虫</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scrapy startproject shopping</span><br><span class="line">cd shopping</span><br><span class="line">scrapy genspider -t crawl jollychic www.jollychic.com</span><br></pre></td></tr></table></figure>
+<p>设置settings.py 项目的路径</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">project_dir = os.path.abspath(os.path.dirname(__file__))</span><br><span class="line">BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))</span><br><span class="line">sys.path.insert(<span class="number">0</span>, os.path.join(BASE_DIR, <span class="string">'shopping'</span>))</span><br></pre></td></tr></table></figure>
+<p>items.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> Item, Field</span><br><span class="line"><span class="keyword">from</span> scrapy.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JollychicItemLoader</span><span class="params">(ItemLoader)</span>:</span></span><br><span class="line">    default_output_processor = TakeFirst()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JollychicItem</span><span class="params">(Item)</span>:</span></span><br><span class="line">    title = Field()</span><br></pre></td></tr></table></figure>
+<p>spiders/jollychic.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> item <span class="keyword">import</span> JollychicItemLoader, JollychicItem</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">    item_loader = JollychicItemLoader(item=JollychicItem, response=reponse)</span><br><span class="line">    item_loader.add_css()</span><br><span class="line">    item = item_loader.load_item()</span><br><span class="line">    <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
 
       
       
@@ -337,11 +307,11 @@
 
 
   
-    <article id="post-使用Vagrant和Virtualbox搭建Kubernetes集群" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS Go环境配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/08/使用Vagrant和Virtualbox搭建Kubernetes集群/" class="article-date">
-      <time datetime="2018-07-08T09:00:16.000Z" itemprop="datePublished">2018-07-08</time>
+      <a href="/2018/05/08/CentOS Go环境配置/" class="article-date">
+      <time datetime="2018-05-08T09:01:31.000Z" itemprop="datePublished">2018-05-08</time>
 </a>
     </div>
   
@@ -353,109 +323,332 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="使用Vagrant和Virtualbox搭建Kubernetes集群"><a href="#使用Vagrant和Virtualbox搭建Kubernetes集群" class="headerlink" title="使用Vagrant和Virtualbox搭建Kubernetes集群"></a>使用Vagrant和Virtualbox搭建Kubernetes集群</h1><h2 id="安装Vagrant和VirtualBox"><a href="#安装Vagrant和VirtualBox" class="headerlink" title="安装Vagrant和VirtualBox"></a>安装Vagrant和VirtualBox</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew cask install vagrant</span><br><span class="line">brew cask install virtualbox</span><br></pre></td></tr></table></figure>
-<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><p>确保安装好以上的准备环境后，执行下列命令启动kubernetes集群：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ovwane/kubernetes-vagrant-centos-cluster.git</span><br><span class="line">cd kubernetes-vagrant-centos-cluster</span><br><span class="line">vagrant up</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：克隆完Git仓库后，需要提前下载kubernetes的压缩包到<code>kubenetes-vagrant-centos-cluster</code>目录下，包括如下两个文件：</p>
+        <blockquote>
+<p>CentOS Linux release 7.5.1804 (Core)</p>
+<p>Linux 3.10.0-862.3.3.el7.x86_64</p>
+</blockquote>
+<p><strong>安装依赖</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y mercurial gcc bison</span><br></pre></td></tr></table></figure>
+<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span><br></pre></td></tr></table></figure>
+<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -B 表示只安装二进制包</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm install go1.4.3 -B</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm use go1.4.3</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> GOROOT_BOOTSTRAP=<span class="variable">$GOROOT</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm install go1.10.2</span></span><br></pre></td></tr></table></figure>
+<p><strong>离线安装</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> git <span class="built_in">clone</span> 官方源go1.10.2</span></span><br><span class="line">git clone -b go1.10.2 https://go.googlesource.com/go go1.10.2</span><br><span class="line"><span class="meta">#</span><span class="bash">可以放到别的电脑上</span></span><br><span class="line">tar cvfz go1.10.2.tar.bz2 go1.10.2</span><br><span class="line"><span class="meta">#</span><span class="bash">指定本地go1.10.2 git源</span></span><br><span class="line">gvm install go1.10.2 --source=/root/go1.10.2</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
+<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> gvm use go1.10.2 --default</span></span><br></pre></td></tr></table></figure>
+<p><strong>使用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看可以安装的go版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm listall</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看本地安装的go版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm list</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> go环境变量</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go env</span></span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
+<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
+<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-如何使用restgo-admin" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/08/如何使用restgo-admin/" class="article-date">
+      <time datetime="2018-05-08T03:34:00.000Z" itemprop="datePublished">2018-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="如何使用restgo-admin"><a href="#如何使用restgo-admin" class="headerlink" title="如何使用restgo-admin"></a>如何使用<a href="https://github.com/winlion/restgo-admin/" target="_blank" rel="noopener">restgo-admin</a></h1><h2 id="使用如下指令克隆"><a href="#使用如下指令克隆" class="headerlink" title="使用如下指令克隆"></a>使用如下指令克隆</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH/src</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/winlion/restgo-admin.git</span><br></pre></td></tr></table></figure>
+<p>你将得到restgo-admin 目录 进入目录 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd restgo-admin</span><br></pre></td></tr></table></figure>
+<h2 id="建立数据库"><a href="#建立数据库" class="headerlink" title="建立数据库"></a>建立数据库</h2><p>新建数据库名称为restgo-admin,编码为utf-8<br>将restgo-admin.sql导入到数据库中</p>
+<h2 id="初始化依赖包"><a href="#初始化依赖包" class="headerlink" title="初始化依赖包"></a>初始化依赖包</h2><p>使用前先使用如下指令安装指令安装文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/go-sql-driver/mysql</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get -v -u github.com/alecthomas/log4go</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/gin-gonic/gin</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/go-xorm/xorm</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/tommy351/gin-sessions</span></span><br></pre></td></tr></table></figure>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>使用前先使用如下指令启动应用<br><code>go run main.go</code><br>使用前先使用如下指令打包应用<br><code>build.bat</code></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Go-Gin" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/08/Go-Gin/" class="article-date">
+      <time datetime="2018-05-08T00:58:44.000Z" itemprop="datePublished">2018-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get github.com/gin-gonic/gin</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/winlion/restgo-admin.git</span></span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Windows 安装软件" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/06/Windows 安装软件/" class="article-date">
+      <time datetime="2018-05-06T07:41:19.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://www.edrawsoft.cn/download-edrawmax.php" target="_blank" rel="noopener">亿图图示</a></p>
+<p><a href="http://www.yipojie.cn/684.html" target="_blank" rel="noopener">[亿图图示 Edraw Max v9.1 中文破解版及破解授权补丁]</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 10.13 Go" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/06/macOS 10.13 Go/" class="article-date">
+      <time datetime="2018-05-05T23:02:16.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>安装依赖</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install mercurial</span></span><br></pre></td></tr></table></figure>
+<p><strong>安装</strong><a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">gvm</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | zsh</span></span><br></pre></td></tr></table></figure>
+<p>Go 实现了自举（用 Go 编译 Go），就需要用到 Go 1.4 来做编译</p>
+<p><a href="https://github.com/moovweb/gvm/issues/264" target="_blank" rel="noopener">[解决 golang在macos编译时fatal error: MSpanList_Insert错误]</a>|<a href="https://github.com/moovweb/gvm/issues/284" target="_blank" rel="noopener">gvm install go1.9.2 fails on macOS 10.12.6</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -B 表示只安装二进制包</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm install go1.10.1 -B</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm use go1.10.1</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> GOROOT_BOOTSTRAP=<span class="variable">$GOROOT</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm install go1.10.2</span></span><br></pre></td></tr></table></figure>
+<p>安装好之后，指定默认使用这个版本，加上 <code>--default</code> 即可，省去每次敲 <code>gvm use</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> gvm use go1.10.2 --default</span></span><br></pre></td></tr></table></figure>
+<p><strong>使用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看可以安装的go版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm listall</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看本地安装的go版本</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gvm list</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> go环境变量</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go env</span></span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://chen-tao.github.io/2017/09/14/Use-gvm-manage-golang-version/" target="_blank" rel="noopener">使用gvm管理多版本golang</a></p>
+<p><a href="https://ieevee.com/tech/2017/07/10/go-import.html" target="_blank" rel="noopener">go依赖包管理工具对比</a></p>
+<p><a href="https://gocn.io/article/107" target="_blank" rel="noopener">Go 语言多版本安装及管理利器 - GVM</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2018-05-06" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/06/2018-05-06/" class="article-date">
+      <time datetime="2018-05-05T16:01:26.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>2018-05-06 00:01</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS 10.13 删除应用软件" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/macOS 10.13 删除应用软件/" class="article-date">
+      <time datetime="2018-05-05T12:22:27.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p>Mac和Windows操作系统有一个很大的不同，大部分App是没有安装程序的，一般下载下来就是一个dmg文件，解开之后直接将App拖到<code>应用程序</code>目录下就可以了，所以给人感觉卸载也就是将App拖到<code>废纸篓</code>然后清空。如果真这样做就大错特错，即使一个最简单的App都会在下面几个目录中或多或少留下纪念，这些目录一般有：</p>
 <ul>
-<li>kubernetes-client-linux-amd64.tar.gz</li>
-<li>kubernetes-server-linux-amd64.tar.gz</li>
+<li>~/Library</li>
+<li>~/Library/Application Support</li>
+<li>~/Library/Application Support/CrashReporter</li>
+<li>~/Library/Caches</li>
+<li>~/Library/Containers</li>
+<li>~/Library/LaunchAgents</li>
+<li>~/Library/Preferences</li>
+<li>~/Library/PreferencePanes</li>
 </ul>
-<p>如果是首次部署，会自动下载<code>centos/7</code>的box，这需要花费一些时间，另外每个节点还需要下载安装一系列软件包，整个过程大概需要10几分钟。</p>
-<p>如果您在运行<code>vagrant up</code>的过程中发现无法下载<code>centos/7</code>的box，可以手动下载后将其添加到vagrant中。</p>
-<p><strong>手动添加centos/7 box</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1805_01.VirtualBox.box</span><br><span class="line">vagrant box add CentOS-7-x86_64-Vagrant-1805_01.VirtualBox.box --name centos/7</span><br></pre></td></tr></table></figure>
-<p>这样下次运行<code>vagrant up</code>的时候就会自动读取本地的<code>centos/7</code> box而不会再到网上下载。</p>
-<h3 id="访问kubernetes集群"><a href="#访问kubernetes集群" class="headerlink" title="访问kubernetes集群"></a>访问kubernetes集群</h3><p>访问Kubernetes集群的方式有三种：</p>
+<p>如果一个程序是通过<code>pkg</code>方式安装，或者是在第一次运行时请求管理员权限，那一般还会在如下几个目录中留点纪念：</p>
 <ul>
-<li>本地访问</li>
-<li>在VM内部访问</li>
-<li>kubernetes dashboard</li>
+<li>/Library</li>
+<li>/Library/Application Support</li>
+<li>/Library/Extensions</li>
+<li>/Library/LaunchAgents</li>
+<li>/Library/LaunchDaemons</li>
+<li>/Library/PreferencePanes</li>
+<li>/Library/Preferences</li>
 </ul>
-<p><strong>通过本地访问</strong></p>
-<p>可以直接在你自己的本地环境中操作该kubernetes集群，而无需登录到虚拟机中，执行以下步骤：</p>
-<p>将<code>conf/admin.kubeconfig</code>文件放到<code>~/.kube/config</code>目录下即可在本地使用<code>kubectl</code>命令操作集群。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.kube</span><br><span class="line">cp conf/admin.kubeconfig ~/.kube/config</span><br></pre></td></tr></table></figure>
-<p>我们推荐您使用这种方式。</p>
-<p><strong>在虚拟机内部访问</strong></p>
-<p>如果有任何问题可以登录到虚拟机内部调试：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vagrant ssh node1</span><br><span class="line">sudo -i</span><br><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
-<p><strong>Kubernetes dashboard</strong></p>
-<p>还可以直接通过dashboard UI来访问：<a href="https://172.17.8.101:8443/" target="_blank" rel="noopener">https://172.17.8.101:8443</a></p>
-<p>可以在本地执行以下命令获取token的值（需要提前安装kubectl）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-system describe secret `kubectl -n kube-system get secret|grep admin-token|cut -d &quot; &quot; -f1`|grep &quot;token:&quot;|tr -s &quot; &quot;|cut -d &quot; &quot; -f2</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：token的值也可以在<code>vagrant up</code>的日志的最后看到。</p>
-<p><strong>Heapster监控</strong></p>
-<p>创建Heapster监控：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/heapster/</span><br></pre></td></tr></table></figure>
-<p>访问Grafana</p>
-<p>使用Ingress方式暴露的服务，在本地<code>/etc/hosts</code>中增加一条配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 grafana.jimmysong.io</span><br></pre></td></tr></table></figure>
-<p>访问Grafana：<a href="http://grafana.jimmysong.io/" target="_blank" rel="noopener">http://grafana.jimmysong.io</a></p>
-<p><strong>Traefik</strong></p>
-<p>部署Traefik ingress controller和增加ingress配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/traefik-ingress</span><br></pre></td></tr></table></figure>
-<p>在本地<code>/etc/hosts</code>中增加一条配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 traefik.jimmysong.io</span><br></pre></td></tr></table></figure>
-<p>访问Traefik UI：<a href="http://traefik.jimmysong.io/" target="_blank" rel="noopener">http://traefik.jimmysong.io</a></p>
-<p><strong>EFK</strong></p>
-<p>使用EFK做日志收集。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/efk/</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：运行EFK的每个节点需要消耗很大的CPU和内存，请保证每台虚拟机至少分配了4G内存。</p>
-<p><strong>Helm</strong></p>
-<p>用来部署helm。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack/deploy-helm.sh</span><br></pre></td></tr></table></figure>
-<h3 id="Service-Mesh"><a href="#Service-Mesh" class="headerlink" title="Service Mesh"></a>Service Mesh</h3><p>我们使用 <a href="https://istio.io/" target="_blank" rel="noopener">istio</a> 作为 service mesh。</p>
-<p><strong>安装</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/istio/</span><br></pre></td></tr></table></figure>
-<p><strong>运行示例</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -n default -f &lt;(istioctl kube-inject -f yaml/istio-bookinfo/bookinfo.yaml)</span><br><span class="line">istioctl create -f yaml/istio-bookinfo/bookinfo-gateway.yaml</span><br></pre></td></tr></table></figure>
-<p>在您自己的本地主机的<code>/etc/hosts</code>文件中增加如下配置项。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 grafana.istio.jimmysong.io</span><br><span class="line">172.17.8.102 servicegraph.istio.jimmysong.io</span><br></pre></td></tr></table></figure>
-<p>我们可以通过下面的URL地址访问以上的服务。</p>
-<table>
-<thead>
-<tr>
-<th>Service</th>
-<th>URL</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>grafana</td>
-<td><a href="http://grafana.istio.jimmysong.io/" target="_blank" rel="noopener">http://grafana.istio.jimmysong.io</a></td>
-</tr>
-<tr>
-<td>servicegraph</td>
-<td><a href="http://servicegraph.istio.jimmysong.io/dotviz%3E" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/dotviz&gt;</a>, <a href="http://servicegraph.istio.jimmysong.io/graph" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/graph</a>,<a href="http://servicegraph.istio.jimmysong.io/force/forcegraph.html" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/force/forcegraph.html</a></td>
-</tr>
-<tr>
-<td>tracing</td>
-<td><a href="http://172.17.8.101:$JAEGER_PORT/" target="_blank" rel="noopener">http://172.17.8.101:$JAEGER_PORT</a></td>
-</tr>
-<tr>
-<td>productpage</td>
-<td><a href="http://172.17.8.101:$GATEWAY_PORT/productpage" target="_blank" rel="noopener">http://172.17.8.101:$GATEWAY_PORT/productpage</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>注意</strong>：<code>JAEGER_PORT</code>可以通过<code>kubectl -n istio-system get svc tracing -o jsonpath=&#39;{.spec.ports[0].nodePort}&#39;</code>获取，<code>GATEWAY_PORT</code>可以通过<code>kubectl -n istio-system get svc istio-ingressgateway -o jsonpath=&#39;{.spec.ports[0].nodePort}&#39;</code>获取。</p>
-<p>详细信息请参阅 <a href="https://istio.io/docs/guides/bookinfo.html" target="_blank" rel="noopener">https://istio.io/docs/guides/bookinfo.html</a></p>
-<h2 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h2><p>除了特别说明，以下命令都在当前的repo目录下操作。</p>
-<h3 id="挂起"><a href="#挂起" class="headerlink" title="挂起"></a>挂起</h3><p>将当前的虚拟机挂起，以便下次恢复。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant suspend</span><br></pre></td></tr></table></figure>
-<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><p>恢复虚拟机的上次状态。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant resume</span><br></pre></td></tr></table></figure>
-<p>注意：我们每次挂起虚拟机后再重新启动它们的时候，看到的虚拟机中的时间依然是挂载时候的时间，这样将导致监控查看起来比较麻烦。因此请考虑先停机再重新启动虚拟机。</p>
-<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><p>停机后重启启动。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">vagrant halt</span><br><span class="line">vagrant up</span><br><span class="line"># login to node1</span><br><span class="line">vagrant ssh node1</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">exit</span><br><span class="line"># login to node2</span><br><span class="line">vagrant ssh node2</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">exit</span><br><span class="line"># login to node3</span><br><span class="line">vagrant ssh node3</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">sudo -i</span><br><span class="line">cd /vagrant/hack</span><br><span class="line">./deploy-base-services.sh</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
-<p>现在你已经拥有一个完整的基础的kubernetes运行环境，在该repo的根目录下执行下面的命令可以获取kubernetes dahsboard的admin用户的token。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack/get-dashboard-token.sh</span><br></pre></td></tr></table></figure>
-<p>根据提示登录即可。</p>
-<h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><p>清理虚拟机。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vagrant destroy</span><br><span class="line">rm -rf .vagrant</span><br></pre></td></tr></table></figure>
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>仅做开发测试使用，不要在生产环境使用该项目。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://jimmysong.io/kubernetes-handbook/develop/using-vagrant-and-virtualbox-for-development.html" target="_blank" rel="noopener">本地分布式开发环境搭建（使用Vagrant和Virtualbox）</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://segmentfault.com/a/1190000005035742" target="_blank" rel="noopener">如何彻底删除不需要的App</a></p>
 
       
       
@@ -483,170 +676,11 @@
 
 
   
-    <article id="post-Hugo" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-iTerm2-配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/07/04/Hugo/" class="article-date">
-      <time datetime="2018-07-04T08:40:08.000Z" itemprop="datePublished">2018-07-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a></p>
-<p><a href="http://nanshu.wang/post/2015-01-31/" target="_blank" rel="noopener">Hugo静态网站生成器中文教程</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/magefile/mage</span><br><span class="line">go get -d github.com/gohugoio/hugo</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;GOPATH:-$HOME/go&#125;</span>/src/github.com/gohugoio/hugo</span><br><span class="line">mage vendor</span><br><span class="line">mage install</span><br></pre></td></tr></table></figure>
-<p>新建hugo项目</p>
-<p><code>hugo new site hugo.ovwane.me</code></p>
-<p>初始化git</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd hugo.ovwane.me</span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
-<p>Install DocDock as git submodule</p>
-<p><code>git submodule add https://github.com/vjeantet/hugo-theme-docdock.git themes/hugo-theme-docdock</code></p>
-<p><code>git submodule add https://github.com/spf13/hugoThemes.git themes/spf13</code></p>
-<p>Next initialize submodule for parent git repo:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git submodule init</span><br><span class="line">git submodule update</span><br></pre></td></tr></table></figure>
-<p>Configure<br>Import sample config from sample site to Hugo root.</p>
-<p><code>cp themes/hugo-theme-docdock/exampleSite/config.toml .</code></p>
-<p>Preview site</p>
-<p><code>hugo server</code></p>
-<p><code>hugo new post/first-article.md</code></p>
-<p><code>git clone https://github.com/vjeantet/hugo-theme-docdock.git themes/docdock</code></p>
-<p>git checkout -b hugo</p>
-<p>git add .</p>
-<p>git commit -m “初始化分支，主题使用psf13的”</p>
-<p>git push –set-upstream origin hugo</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS 安装配置Hugo" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/04/macOS 安装配置Hugo/" class="article-date">
-      <time datetime="2018-07-04T08:24:10.000Z" itemprop="datePublished">2018-07-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a><br><a href="https://gohugo.io/getting-started/installing/" target="_blank" rel="noopener">Install Hugo</a><a href="https://jimmysong.io/posts/building-github-pages-with-hugo/" target="_blank" rel="noopener">零基础使用Hugo和GitHub Pages创建自己的博客</a></p>
-<p><code>brew install hugo</code></p>
-<p>下载主题</p>
-<p><a href="https://github.com/halogenica/beautifulhugo" target="_blank" rel="noopener">Beautiful Hugo github</a>|<a href="https://themes.gohugo.io/beautifulhugo/" target="_blank" rel="noopener">Beautiful Hugo</a></p>
-<p><code>git clone https://github.com/halogenica/beautifulhugo.git themes/beautifulhugo</code></p>
-<p><code>hugo server -t beautifulhugo --buildDrafts</code></p>
-<p>-t参数的意思是使用beautifulhugo主题渲染我们的页面，注意到about.md目前是作为草稿，即draft参数设置为true，运行Hugo时要加上–buildDrafts参数才会生成被标记为草稿的页面。 在浏览器输入localhost:1313，就可以看到我们刚刚创建的页面。</p>
-<p>注意观察当前目录下多了一个文件夹public/，这里面是Hugo生成的整个静态网站，如果使用Github pages来作为博客的Host，你只需要将public/里的文件上传就可以，这相当于是Hugo的输出。</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macOS gitbook" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/06/08/macOS gitbook/" class="article-date">
-      <time datetime="2018-06-08T00:13:00.000Z" itemprop="datePublished">2018-06-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-商业保险" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/15/商业保险/" class="article-date">
-      <time datetime="2018-05-15T12:50:01.000Z" itemprop="datePublished">2018-05-15</time>
+      <a href="/2018/05/05/iTerm2-配置/" class="article-date">
+      <time datetime="2018-05-05T04:15:39.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -659,7 +693,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/15/商业保险/">商业保险</a>
+      <a class="article-title" href="/2018/05/05/iTerm2-配置/">iTerm2 配置</a>
     </h1>
   
 
@@ -669,320 +703,21 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="I："><a href="#I：" class="headerlink" title="I："></a>I：</h2><p><strong>重疾险</strong></p>
-<p>百年康惠保</p>
-<p><strong>定期寿险</strong></p>
-<p>30年比20年贵一半</p>
-<p>不要终身寿险</p>
-<p><a href="https://mp.weixin.qq.com/s?__biz=MzIwNzY5MjA2Nw==&amp;mid=2247483813&amp;idx=1&amp;sn=38611df460a894d60e056100dee3afb7&amp;chksm=970fc9e9a07840ffc405b54c7ed5dc7fd97fed907bb37444d0b56bb21377e48baa8d1e7080f9&amp;mpshare=1&amp;scene=1&amp;srcid=0514itQjYc3TKjzhhFZxoKQM%23rd" target="_blank" rel="noopener">这三个爆款定期寿险</a></p>
-<p>大白定期寿险</p>
-<p><strong>瑞和定期寿险</strong> *</p>
-<p><strong>擎天柱定期寿险</strong></p>
-<p><strong>意外险</strong></p>
-<h2 id="1："><a href="#1：" class="headerlink" title="1："></a>1：</h2><p><strong>重疾险</strong></p>
-<p>考虑终生</p>
-<p><strong>意外险</strong></p>
-<p><strong>医疗险</strong></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生活/">生活</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Go编码规范指南" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/11/Go编码规范指南/" class="article-date">
-      <time datetime="2018-05-11T05:59:01.000Z" itemprop="datePublished">2018-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Go编码规范指南"><a href="#Go编码规范指南" class="headerlink" title="Go编码规范指南"></a>Go编码规范指南</h1><h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>看过很多方面的编码规范，可能每一家公司都有不同的规范，这份编码规范是写给我自己的，同时希望我们公司内部同事也能遵循这个规范来写Go代码。</p>
-<p>如果你的代码没有办法找到下面的规范，那么就遵循标准库的规范，多阅读标准库的源码，标准库的代码可以说是我们写代码参考的标杆。</p>
-<h2 id="格式化规范"><a href="#格式化规范" class="headerlink" title="格式化规范"></a>格式化规范</h2><p>go默认已经有了gofmt工具，但是我们强烈建议使用goimport工具，这个在gofmt的基础上增加了自动删除和引入包.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get golang.org/x/tools/cmd/goimports</span></span><br></pre></td></tr></table></figure>
-<p>不同的编辑器有不同的配置, sublime的配置教程：<a href="http://michaelwhatcott.com/gosublime-goimports/" target="_blank" rel="noopener">http://michaelwhatcott.com/gosublime-goimports/</a></p>
-<p>LiteIDE默认已经支持了goimports，如果你的不支持请点击属性配置-&gt;golangfmt-&gt;勾选goimports</p>
-<p>保存之前自动fmt你的代码。</p>
-<h2 id="行长约定"><a href="#行长约定" class="headerlink" title="行长约定"></a>行长约定</h2><p>一行最长不超过80个字符，超过的请使用换行展示，尽量保持格式优雅。</p>
-<h2 id="go-vet"><a href="#go-vet" class="headerlink" title="go vet"></a>go vet</h2><p>vet工具可以帮我们静态分析我们的源码存在的各种问题，例如多余的代码，提前return的逻辑，struct的tag是否符合标准等。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go get golang.org/x/tools/cmd/vet</span></span><br></pre></td></tr></table></figure>
-<p>使用如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> go vet .</span></span><br></pre></td></tr></table></figure>
-<h2 id="package名字"><a href="#package名字" class="headerlink" title="package名字"></a>package名字</h2><p>保持package的名字和目录保持一致，尽量采取有意义的包名，简短，有意义，尽量和标准库不要冲突。</p>
-<h2 id="import-规范"><a href="#import-规范" class="headerlink" title="import 规范"></a>import 规范</h2><p>import在多行的情况下，goimports会自动帮你格式化，但是我们这里还是规范一下import的一些规范，如果你在一个文件里面引入了一个package，还是建议采用如下格式：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>如果你的包引入了三种类型的包，标准库包，程序内部包，第三方包，建议采用如下方式进行组织你的包：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"encoding/json"</span></span><br><span class="line">    <span class="string">"strings"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"myproject/models"</span></span><br><span class="line">    <span class="string">"myproject/controller"</span></span><br><span class="line">    <span class="string">"myproject/utils"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"github.com/astaxie/beego"</span></span><br><span class="line">    <span class="string">"github.com/go-sql-driver/mysql"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>有顺序的引入包，不同的类型采用空格分离，第一种实标准库，第二是项目包，第三是第三方包。</p>
-<p>在项目中不要使用相对路径引入包：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是不好的导入</span></span><br><span class="line"><span class="keyword">import</span> “../net”</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这是正确的做法</span></span><br><span class="line"><span class="keyword">import</span> “github.com/repo/proj/src/net”</span><br></pre></td></tr></table></figure>
-<h2 id="变量申明"><a href="#变量申明" class="headerlink" title="变量申明"></a>变量申明</h2><p>变量名采用驼峰标准，不要使用<code>_</code>来命名变量名，多个变量申明放在一起</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    Found <span class="keyword">bool</span></span><br><span class="line">    count <span class="keyword">int</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>在函数外部申明必须使用var,不要采用<code>:=</code>，容易踩到变量的作用域的问题。</p>
-<h2 id="自定义类型的string循环问题"><a href="#自定义类型的string循环问题" class="headerlink" title="自定义类型的string循环问题"></a>自定义类型的string循环问题</h2><p>如果自定义的类型定义了String方法，那么在打印的时候会产生隐藏的一些bug</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyInt <span class="keyword">int</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MyInt)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123; </span><br><span class="line">    <span class="keyword">return</span> fmt.Sprint(m)   <span class="comment">//<span class="doctag">BUG:</span>死循环</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(m MyInt)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123; </span><br><span class="line">    <span class="keyword">return</span> fmt.Sprint(<span class="keyword">int</span>(m))   <span class="comment">//这是安全的,因为我们内部进行了类型转换</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="避免返回命名的参数"><a href="#避免返回命名的参数" class="headerlink" title="避免返回命名的参数"></a>避免返回命名的参数</h2><p>如果你的函数很短小，少于10行代码，那么可以使用，不然请直接使用类型，因为如果使用命名变量很<br>容易引起隐藏的bug</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Foo</span><span class="params">(a <span class="keyword">int</span>, b <span class="keyword">int</span>)</span> <span class="params">(<span class="keyword">string</span>, ok)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当然如果是有多个相同类型的参数返回，那么命名参数可能更清晰：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *Foo)</span> <span class="title">Location</span><span class="params">()</span> <span class="params">(<span class="keyword">float64</span>, <span class="keyword">float64</span>, error)</span></span></span><br></pre></td></tr></table></figure>
-<p>下面的代码就更清晰了：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Location returns f's latitude and longitude.</span></span><br><span class="line"><span class="comment">// Negative values mean south and west, respectively.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *Foo)</span> <span class="title">Location</span><span class="params">()</span> <span class="params">(lat, long <span class="keyword">float64</span>, err error)</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>错误处理的原则就是不能丢弃任何有返回err的调用，不要采用<code>_</code>丢弃，必须全部处理。接收到错误，要么返回err，要么实在不行就panic，或者使用log记录下来</p>
-<h3 id="error-信息"><a href="#error-信息" class="headerlink" title="error 信息"></a>error 信息</h3><p>error的信息不要采用大写字母，尽量保持你的错误简短，但是要足够表达你的错误的意思。</p>
-<h2 id="长句子打印或者调用，使用参数进行格式化分行"><a href="#长句子打印或者调用，使用参数进行格式化分行" class="headerlink" title="长句子打印或者调用，使用参数进行格式化分行"></a>长句子打印或者调用，使用参数进行格式化分行</h2><p>我们在调用<code>fmt.Sprint</code>或者<code>log.Sprint</code>之类的函数时，有时候会遇到很长的句子，我们需要在参数调用处进行多行分割：</p>
-<p>下面是错误的方式：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log.Printf(“A long format <span class="keyword">string</span>: %s %d %d %s”, myStringParameter, <span class="built_in">len</span>(a),</span><br><span class="line">    expected.Size, defrobnicate(“Anotherlongstringparameter”,</span><br><span class="line">        expected.Growth.Nanoseconds() /<span class="number">1e6</span>))</span><br></pre></td></tr></table></figure>
-<p>应该是如下的方式：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">log.Printf( </span><br><span class="line">    “A long format <span class="keyword">string</span>: %s %d %d %s”, </span><br><span class="line">    myStringParameter,</span><br><span class="line">    <span class="built_in">len</span>(a),</span><br><span class="line">    expected.Size,</span><br><span class="line">    defrobnicate(</span><br><span class="line">        “Anotherlongstringparameter”,</span><br><span class="line">        expected.Growth.Nanoseconds()/<span class="number">1e6</span>, </span><br><span class="line">    ),</span><br><span class="line">）</span><br></pre></td></tr></table></figure>
-<h2 id="注意闭包的调用"><a href="#注意闭包的调用" class="headerlink" title="注意闭包的调用"></a>注意闭包的调用</h2><p>在循环中调用函数或者goroutine方法，一定要采用显示的变量调用，不要再闭包函数里面调用循环的参数</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fori:=<span class="number">0</span>;i&lt;limit;i++&#123;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; DoSomething(i) &#125;() <span class="comment">//错误的做法</span></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>)</span></span>&#123; DoSomething(i) &#125;(i)<span class="comment">//正确的做法</span></span><br><span class="line">￼&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="http://golang.org/doc/articles/race_detector.html#Race_on_loop_counter" target="_blank" rel="noopener">http://golang.org/doc/articles/race_detector.html#Race_on_loop_counter</a></p>
-<h2 id="在逻辑处理中禁用panic"><a href="#在逻辑处理中禁用panic" class="headerlink" title="在逻辑处理中禁用panic"></a>在逻辑处理中禁用panic</h2><p>在main包中只有当实在不可运行的情况采用panic，例如文件无法打开，数据库无法连接导致程序无法<br>正常运行，但是对于其他的package对外的接口不能有panic，只能在包内采用。</p>
-<p>强烈建议在main包中使用log.Fatal来记录错误，这样就可以由log来结束程序。</p>
-<h2 id="注释规范"><a href="#注释规范" class="headerlink" title="注释规范"></a>注释规范</h2><p>注释可以帮我们很好的完成文档的工作，写得好的注释可以方便我们以后的维护。详细的如何写注释可以<br>参考：<a href="http://golang.org/doc/effective_go.html#commentary" target="_blank" rel="noopener">http://golang.org/doc/effective_go.html#commentary</a></p>
-<h3 id="bug注释"><a href="#bug注释" class="headerlink" title="bug注释"></a>bug注释</h3><p>针对代码中出现的bug，可以采用如下教程使用特殊的注释，在godocs可以做到注释高亮：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BUG(astaxie):This divides by zero. </span></span><br><span class="line"><span class="keyword">var</span> i float = <span class="number">1</span>/<span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p><a href="http://blog.golang.org/2011/03/godoc%C2%ADdocumenting%C2%ADgo%C2%ADcode.html" target="_blank" rel="noopener">http://blog.golang.org/2011/03/godoc­documenting­go­code.html</a></p>
-<h2 id="struct规范"><a href="#struct规范" class="headerlink" title="struct规范"></a>struct规范</h2><h3 id="struct申明和初始化格式采用多行："><a href="#struct申明和初始化格式采用多行：" class="headerlink" title="struct申明和初始化格式采用多行："></a>struct申明和初始化格式采用多行：</h3><p>定义如下：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span>&#123;</span><br><span class="line">    Username  <span class="keyword">string</span></span><br><span class="line">    Email     <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>初始化如下：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">u := User&#123;</span><br><span class="line">    Username: <span class="string">"astaxie"</span>,</span><br><span class="line">    Email:    <span class="string">"astaxie@gmail.com"</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="recieved是值类型还是指针类型"><a href="#recieved是值类型还是指针类型" class="headerlink" title="recieved是值类型还是指针类型"></a>recieved是值类型还是指针类型</h3><p>到底是采用值类型还是指针类型主要参考如下原则：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(w Win)</span> <span class="title">Tally</span><span class="params">(playerPlayer)</span><span class="title">int</span>    //<span class="title">w</span>不会有任何改变 </span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(w *Win)</span> <span class="title">Tally</span><span class="params">(playerPlayer)</span><span class="title">int</span>    //<span class="title">w</span>会改变数据</span></span><br></pre></td></tr></table></figure>
-<p>更多的请参考：<a href="https://code.google.com/p/go-wiki/wiki/CodeReviewComments#Receiver_Type" target="_blank" rel="noopener">https://code.google.com/p/go-wiki/wiki/CodeReviewComments#Receiver_Type</a></p>
-<h3 id="带mutex的struct必须是指针receivers"><a href="#带mutex的struct必须是指针receivers" class="headerlink" title="带mutex的struct必须是指针receivers"></a>带mutex的struct必须是指针receivers</h3><p>如果你定义的struct中带有mutex,那么你的receivers必须是指针</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><a href="https://code.google.com/p/go-wiki/wiki/CodeReviewComments" target="_blank" rel="noopener">https://code.google.com/p/go-wiki/wiki/CodeReviewComments</a></li>
-<li><a href="http://golang.org/doc/effective_go.html" target="_blank" rel="noopener">http://golang.org/doc/effective_go.html</a></li>
-<li><a href="http://golanghome.com/post/550" target="_blank" rel="noopener">http://golanghome.com/post/550</a></li>
-<li><a href="https://talks.golang.org/2014/names.slide#1" target="_blank" rel="noopener">https://talks.golang.org/2014/names.slide#1</a></li>
-</ol>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Google资深工程师深度讲解Go语言-笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/11/Google资深工程师深度讲解Go语言-笔记/" class="article-date">
-      <time datetime="2018-05-11T05:05:42.000Z" itemprop="datePublished">2018-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/11/Google资深工程师深度讲解Go语言-笔记/">Google资深工程师深度讲解Go语言</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Google资深工程师深度讲解Go语言-笔记"><a href="#Google资深工程师深度讲解Go语言-笔记" class="headerlink" title="Google资深工程师深度讲解Go语言-笔记"></a>Google资深工程师深度讲解Go语言-笔记</h1><p><strong>课程结构</strong></p>
-<p>语法部分</p>
-<p>综合部分</p>
-<p>实战项目部分</p>
-<p><strong>课程目标</strong></p>
-<p>会一门编程语言</p>
-<p>最好有项目经验</p>
-<p><strong>基本语法</strong></p>
-<p>变量</p>
-<p>选择，循环</p>
-<p>指针，数组，容器</p>
-<p><strong>面向接口</strong></p>
-<p>结构体</p>
-<p>duck typing的概念</p>
-<p>组合的思想</p>
-<p><strong>函数式编程</strong></p>
-<p>闭包的概念</p>
-<p>多样的例题</p>
-<p><strong>工程化</strong></p>
-<p>资源管理，错误处理</p>
-<p>测试和文档</p>
-<p>性能调优</p>
-<p><strong>并发编程</strong></p>
-<p>goroutine和channel</p>
-<p>理解调度器</p>
-<p>多样的例题</p>
-<p><strong>Go语言的安装与开发环境</strong></p>
-<p><a href="http://studygolang.com/dl" target="_blank" rel="noopener">下载Go</a> go1.9.2</p>
-<p>IED: GoLand, IntelliJ IDEA + Go插件</p>
-<p><strong>变量</strong></p>
-<p>GOPATH</p>
-<p>GOROOT</p>
-<p><strong>变量定义</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用var关键字</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">var a, b, c bool</span></span><br><span class="line"><span class="comment">var s1, s2 string = "hello","world"</span></span><br><span class="line"><span class="comment">可放在函数内，或直接放在包内</span></span><br><span class="line"><span class="comment">使用var()集中定义变量</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//让编译器自动决定类型</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">var a, b, i, s1, s2 = true, false, 3, "hello", "world"</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用:=定义变量</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">a, b, i, s1, s2 := true, false, 3, "hello", "world"</span></span><br><span class="line"><span class="comment">只能在函数内使用</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
-<p><strong>内建变量类型</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span>, <span class="keyword">string</span></span><br><span class="line">(u)<span class="keyword">int</span>, (u)<span class="keyword">int8</span>, (u)<span class="keyword">int16</span>, (u)<span class="keyword">int32</span>, (u)<span class="keyword">int64</span>, <span class="keyword">uintptr</span></span><br><span class="line"><span class="keyword">byte</span>, <span class="keyword">rune</span></span><br><span class="line"><span class="keyword">float32</span>, <span class="keyword">float64</span>, <span class="keyword">complex64</span>, <span class="keyword">complex128</span></span><br></pre></td></tr></table></figure>
-<p><strong>复数</strong></p>
-<p>3 + 4i</p>
-<p>3实部，4i虚部</p>
-<p>欧拉公式(euler)</p>
-<p><strong>强制类型转换</strong></p>
-<p>类型转换是强制的</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a, b <span class="keyword">int</span> = <span class="number">3</span>, <span class="number">4</span></span><br><span class="line"><span class="keyword">var</span> c <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">c = <span class="keyword">int</span>(math.Sqrt(<span class="keyword">float64</span>(a * a + b * b)))</span><br><span class="line"><span class="comment">//浮点数精度问题？</span></span><br></pre></td></tr></table></figure>
-<p><strong>常量的定义</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> filename = <span class="string">"abc.txt"</span></span><br><span class="line"><span class="comment">//const 数值可作为各种类型使用</span></span><br><span class="line"><span class="keyword">const</span> a, b = <span class="number">3</span>, <span class="number">4</span></span><br><span class="line"><span class="keyword">var</span> c <span class="keyword">int</span> = <span class="keyword">int</span>(math.Sqrt(a * a + b * b))</span><br></pre></td></tr></table></figure>
-<p><strong>使用常量定义枚举类型</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">enums</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">//普通枚举类型</span></span><br><span class="line">	<span class="keyword">const</span>(</span><br><span class="line">		cpp = <span class="literal">iota</span></span><br><span class="line">		_</span><br><span class="line">		python</span><br><span class="line">		golang</span><br><span class="line">		javascript</span><br><span class="line">	)</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//自增值枚举类型</span></span><br><span class="line">	<span class="comment">// b, kb, mb, gb, tb, pb</span></span><br><span class="line">	<span class="keyword">const</span> (</span><br><span class="line">		b = <span class="number">1</span> &lt;&lt; (<span class="number">10</span> * <span class="literal">iota</span>)</span><br><span class="line">		kb</span><br><span class="line">		mb</span><br><span class="line">		gb</span><br><span class="line">		tb</span><br><span class="line">		pb</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">	fmt.Println(cpp, javascript, python, golang)</span><br><span class="line">	fmt.Println(b, kb, mb, gb, tb, pb)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>变量定义要点回顾</strong></p>
-<p>变量类型写在变量名之后</p>
-<p>编译器可推测变量类型</p>
-<p>没有char，只有rune</p>
-<p>原生支持复数类型</p>
-<p><strong>条件语句</strong></p>
-<p>if</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">if的条件里可以赋值</span></span><br><span class="line"><span class="comment">if的条件里赋值的变量作用域就在这个if语句里</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">if</span> contents, err := ioutil.ReadFile(filename); err != <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="keyword">string</span>(contents))</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">"cannot print file contents:"</span>, err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>switch</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//switch会自动break，除非使用fallthrough</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">grade</span><span class="params">(score <span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    g := <span class="string">""</span></span><br><span class="line">    <span class="keyword">switch</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">0</span> || score &gt; <span class="number">100</span>:</span><br><span class="line">        	<span class="built_in">panic</span>(fmt.Sprintf(<span class="string">"Wrong score: %d"</span>, score))</span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">60</span>:</span><br><span class="line">        	g = <span class="string">"F"</span></span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">80</span>:</span><br><span class="line">         	g = <span class="string">"C"</span></span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">90</span>:</span><br><span class="line">         	g = <span class="string">"B"</span></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">        	g = <span class="string">"A"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> g</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//switch后可以没有表达式</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">grade</span><span class="params">(score <span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">60</span>:</span><br><span class="line">        	<span class="keyword">return</span> <span class="string">"F"</span></span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">80</span>:</span><br><span class="line">        	<span class="keyword">return</span> <span class="string">"C"</span></span><br><span class="line">        <span class="keyword">case</span> score &lt; <span class="number">90</span>:</span><br><span class="line">        	<span class="keyword">return</span> <span class="string">"B"</span></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">        	<span class="keyword">return</span> <span class="string">"A"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>for</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//for的条件里不需要括号</span></span><br><span class="line"><span class="comment">//for的条件里可以省略初始条件，结束条件，递增表达式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//省略初始条件，相当于while</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">convertToBin</span><span class="params">(v <span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    result := <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> ; v &gt; <span class="number">0</span>; v /= <span class="number">2</span> &#123;</span><br><span class="line">        result = strconv.Itoa(v%<span class="number">2</span>) + result</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//省略初始条件，相当于while</span></span><br><span class="line"><span class="keyword">for</span> scanner.Scan() &#123;</span><br><span class="line">    fmt.Println(scanner.Text())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//无限循环</span></span><br><span class="line"><span class="keyword">for</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">"abc"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>基本语法要点回顾</strong></p>
-<p>for, if 后面的条件没有括号</p>
-<p>if 条件里也可定义变量</p>
-<p>没有while</p>
-<p>switch不需要break，也可以直接switch多个条件</p>
-<p><strong>函数</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//函数可返回多个值</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">div</span><span class="params">(a,b <span class="keyword">int</span>)</span> <span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a / b, a % b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//函数返回多个值时可以起名字</span></span><br><span class="line"><span class="comment">//仅用于非常简单的函数</span></span><br><span class="line"><span class="comment">//对于调用者而言没有区别</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">div</span><span class="params">(a, b <span class="keyword">int</span>)</span> <span class="params">(q, r <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    q = a / b</span><br><span class="line">    r = a % b</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//函数作为参数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">apply</span><span class="params">(op <span class="keyword">func</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)</span> <span class="title">int</span>, <span class="title">a</span>, <span class="title">b</span> <span class="title">int</span>) <span class="title">int</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">"Calling %s with %d, %d\n"</span>,</span><br><span class="line">        runtime.FuncForPC(reflect.ValueOf(op).Pointer()).Name(),</span><br><span class="line">        a, b)</span><br><span class="line">    <span class="keyword">return</span> op(a, b)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//可变参数列表</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sumArgs</span><span class="params">(values ...<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    sum := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> values &#123;</span><br><span class="line">        sum += values[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>函数语法要点回顾</strong></p>
-<p>返回值类型写在最后面</p>
-<p>可返回多个值</p>
-<p>函数作为参数</p>
-<p>没有默认参数，可选参数</p>
-<p><strong>指针</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指针并不能运算</span></span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Go 项目列表" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/11/Go 项目列表/" class="article-date">
-      <time datetime="2018-05-11T04:58:45.000Z" itemprop="datePublished">2018-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/11/Go 项目列表/">Go 项目列表</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://github.com/avelino/awesome-go" target="_blank" rel="noopener">awesome-go</a></p>
-<p><a href="https://github.com/enocom/gopher-reading-list" target="_blank" rel="noopener">gopher-reading-list</a></p>
-<p><a href="https://github.com/docker/docker-ce" target="_blank" rel="noopener">docker-ce</a></p>
-<p><a href="https://github.com/kubernetes/kubernetes" target="_blank" rel="noopener">Kubernetes</a></p>
-<p>[Caddy]</p>
-<p><a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">Gin</a></p>
-<p><a href="https://github.com/astaxie/beego/" target="_blank" rel="noopener">Beego</a></p>
-<p>[CockroachDB]</p>
-<p><a href="https://github.com/ego008/goyoubbs" target="_blank" rel="noopener">youBBS</a></p>
-<p><a href="https://github.com/qor" target="_blank" rel="noopener">QOR</a></p>
-<p><a href="https://github.com/EOSIO/eos" target="_blank" rel="noopener">eos</a></p>
+        <h2 id="iTerm2主题"><a href="#iTerm2主题" class="headerlink" title="iTerm2主题"></a><a href="http://iterm2colorschemes.com/" target="_blank" rel="noopener">iTerm2主题</a></h2><p><strong>Solarized Dark Higher Contrast</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Solarized%20Dark%20Higher%20Contrast.itermcolors</span><br></pre></td></tr></table></figure>
+<p>导入主题</p>
+<p>iTerm2-&gt;Preferences-&gt;Profiles-&gt;Color</p>
+<p>Color Presets-&gt;import</p>
+<p>目前没有使用iTerm2主题</p>
+<h3 id="传输文件"><a href="#传输文件" class="headerlink" title="传输文件"></a>传输文件</h3><p>安装 lrzsz</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install lrzsz</span><br></pre></td></tr></table></figure>
+<p>配置 itterm2-zmodem</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/aikuyun/iterm2-zmodem.git</span><br><span class="line">cp iterm2-zmodem/&#123;iterm2-send-zmodem.sh,iterm2-recv-zmodem.sh&#125; /usr/local/bin/</span><br><span class="line">chmod 777 /usr/local/bin/iterm2-*</span><br><span class="line">rm -r iterm2-zmodem</span><br></pre></td></tr></table></figure>
+<h3 id="设置编码"><a href="#设置编码" class="headerlink" title="设置编码"></a>设置编码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export LC_ALL=en_US.UTF-8  </span><br><span class="line">export LANG=en_US.UTF-8</span><br></pre></td></tr></table></figure>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><ul>
+<li>cmd + shift + d：一个窗口内分割为多个终端</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://hearrain.com/2013/04/738" target="_blank" rel="noopener">oh-my-zsh中文乱码问题</a> </p>
 
       
       
@@ -1012,7 +747,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/15/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/17/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/15/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/17/">Next &raquo;</a>
     </nav>
   
 </div>
