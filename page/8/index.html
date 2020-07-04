@@ -202,6 +202,429 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-macOS-配置-Macaca" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/15/macOS-配置-Macaca/" class="article-date">
+      <time datetime="2018-10-15T06:51:25.000Z" itemprop="datePublished">2018-10-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/15/macOS-配置-Macaca/">macOS 配置 Macaca</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h4><h2 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h2><h4 id="XCTestWD"><a href="#XCTestWD" class="headerlink" title="XCTestWD"></a>XCTestWD</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/macacajs/XCTestWD.git</span><br><span class="line"></span><br><span class="line">cd XCTestWD/XCTestWD</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xcodebuild -project XCTestWD.xcodeproj \</span><br><span class="line">           -scheme XCTestWDUITests \</span><br><span class="line">           -destination 'platform=iOS Simulator,name=iPhone 6' \</span><br><span class="line">           XCTESTWD_PORT=8001 \</span><br><span class="line">           clean test</span><br></pre></td></tr></table></figure>
+<h4 id="Xcode"><a href="#Xcode" class="headerlink" title="Xcode"></a>Xcode</h4><h3 id="Driver-Installation"><a href="#Driver-Installation" class="headerlink" title="Driver Installation"></a>Driver Installation</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i macaca-ios -g</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/macacajs/XCTestWD/blob/master/README.md#43-debug-info" target="_blank" rel="noopener">debug log</a> will be displayed when ‘–verbose’ is set as an argument when initiating macaca.</p>
+<ul>
+<li>查看TEAM_ID</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEVELOPMENT_TEAM_ID=TEAM_ID npm i macaca-ios -g</span><br></pre></td></tr></table></figure>
+<h2 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h2><ul>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">JDK 1.8</a> (Java 9 is not supported)</li>
+<li>Android SDK</li>
+<li>Set the <code>ANDROID_HOME</code> environment variable to your <code>~/.bashrc</code>, <code>~/.bash_profile</code>, <code>~/.zshrc</code> or </li>
+</ul>
+<p><a href="https://gradle.org/" target="_blank" rel="noopener">gradle</a> is needed in order to build <a href="https://github.com/macacajs/UIAutomatorWD" target="_blank" rel="noopener">UIAutomatorWD</a> and other package</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install gradle</span><br></pre></td></tr></table></figure>
+<ul>
+<li>If you got a error like [You have not accepted the license agreements of the following SDK components] on your install command [npm i macaca-android -g]，plz accept all Android SDK licenses uses command below, and retry install.</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses</span><br></pre></td></tr></table></figure>
+<h4 id="ChromeDriver"><a href="#ChromeDriver" class="headerlink" title="ChromeDriver"></a>ChromeDriver</h4><h2 id="Macaca-Cli"><a href="#Macaca-Cli" class="headerlink" title="Macaca Cli"></a>Macaca Cli</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g macaca-cli</span><br></pre></td></tr></table></figure>
+<h4 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h4><p>Let’s check the version and verify the environment.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> electron</span></span><br><span class="line"><span class="meta">#</span><span class="bash">npm install electron -g</span></span><br><span class="line">npm install macaca-electron -g</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> show version</span></span><br><span class="line">macaca -v</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> verify environment</span></span><br><span class="line">macaca doctor</span><br></pre></td></tr></table></figure>
+<h4 id="启动Macaca"><a href="#启动Macaca" class="headerlink" title="启动Macaca"></a>启动Macaca</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">macaca server --verbose</span><br></pre></td></tr></table></figure>
+<h2 id="获取设备-ID"><a href="#获取设备-ID" class="headerlink" title="获取设备 ID"></a>获取设备 ID</h2><h3 id="iOS-1"><a href="#iOS-1" class="headerlink" title="iOS"></a>iOS</h3><h4 id="命令行方式"><a href="#命令行方式" class="headerlink" title="命令行方式"></a><strong>命令行方式</strong></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun simctl list</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这行命令会列出你的所以模拟器信息，里面有类似 XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX 的代码，就是模拟器 UDID。</p>
+</blockquote>
+<h4 id="从-Xcode-获取"><a href="#从-Xcode-获取" class="headerlink" title="从 Xcode 获取"></a><strong>从 Xcode 获取</strong></h4><p>打开模拟器，从菜单中打开 Hardware - devices - manage devices。 然后你会看到模拟器信息界面，里面有个 identifier，就是 UDID。</p>
+<h3 id="Android-1"><a href="#Android-1" class="headerlink" title="Android"></a>Android</h3><h4 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h4><blockquote>
+<p>先启动你的设备，然后使用 adb 命令查看设备信息：</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb devices</span><br></pre></td></tr></table></figure>
+<h2 id="Macaca-App-Inspector"><a href="#Macaca-App-Inspector" class="headerlink" title="Macaca App Inspector"></a><a href="http://macacajs.github.io/app-inspector" target="_blank" rel="noopener">Macaca App Inspector</a></h2><h3 id="安装-Node"><a href="#安装-Node" class="headerlink" title="安装 Node"></a>安装 Node</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install v8.16.0</span><br></pre></td></tr></table></figure>
+<h3 id="安装-app-inspector"><a href="#安装-app-inspector" class="headerlink" title="安装 app-inspector"></a>安装 app-inspector</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install app-inspector -g</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>模拟器就可以使用了。</p>
+</blockquote>
+<h3 id="启动-app-inspector"><a href="#启动-app-inspector" class="headerlink" title="启动 app-inspector"></a>启动 app-inspector</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app-inspector -u YOUR-DEVICE-ID</span><br></pre></td></tr></table></figure>
+<h3 id="打开-app-inspector-界面"><a href="#打开-app-inspector-界面" class="headerlink" title="打开 app-inspector 界面"></a>打开 app-inspector 界面</h3><p>你的命令行将输出如下的文字：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inspector start at: http://192.168.10.100:5678</span><br></pre></td></tr></table></figure>
+<p>浏览器里面打开输出的链接：<a href="http://127.0.0.1:5678。" target="_blank" rel="noopener">http://127.0.0.1:5678。</a></p>
+<blockquote>
+<p>推荐用 Chrome 浏览器。</p>
+</blockquote>
+<h3 id="iOS-真机调试"><a href="#iOS-真机调试" class="headerlink" title="iOS 真机调试"></a>iOS 真机调试</h3><h4 id="安装-usbmuxd-以便于通过-USB-通道测试-iOS-真机"><a href="#安装-usbmuxd-以便于通过-USB-通道测试-iOS-真机" class="headerlink" title="安装 usbmuxd 以便于通过 USB 通道测试 iOS 真机"></a>安装 <a href="https://github.com/libimobiledevice/usbmuxd" target="_blank" rel="noopener">usbmuxd</a> 以便于通过 USB 通道测试 iOS 真机</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install usbmuxd</span><br></pre></td></tr></table></figure>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install libimobiledevice</span><br></pre></td></tr></table></figure>
+<h4 id="安装-ideviceinstaller-用来给真机安装-App"><a href="#安装-ideviceinstaller-用来给真机安装-App" class="headerlink" title="安装 ideviceinstaller 用来给真机安装 App"></a>安装 <a href="https://github.com/libimobiledevice/ideviceinstaller" target="_blank" rel="noopener">ideviceinstaller</a> 用来给真机安装 App</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ideviceinstaller</span><br></pre></td></tr></table></figure>
+<h4 id="应用中如含有-WebView，请安装-ios-webkit-debug-proxy"><a href="#应用中如含有-WebView，请安装-ios-webkit-debug-proxy" class="headerlink" title="应用中如含有 WebView，请安装 ios-webkit-debug-proxy"></a>应用中如含有 WebView，请安装 <a href="https://github.com/google/ios-webkit-debug-proxy" target="_blank" rel="noopener">ios-webkit-debug-proxy</a></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ios-webkit-debug-proxy</span><br></pre></td></tr></table></figure>
+<h4 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h4><p><code>vim ~/.zshrc</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TEAM_ID=C8V426QHXX</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>TEAM_ID 是开发者团队 id，十位数的字符串。</p>
+</blockquote>
+<h4 id="安装-app-inspector-1"><a href="#安装-app-inspector-1" class="headerlink" title="安装 app-inspector"></a>安装 app-inspector</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEVELOPMENT_TEAM_ID=TEAM_ID npm i app-inspector -g</span><br></pre></td></tr></table></figure>
+<h4 id="使用-Xcode-修改-XCUITest-的证书"><a href="#使用-Xcode-修改-XCUITest-的证书" class="headerlink" title="使用 Xcode 修改 XCUITest 的证书"></a>使用 Xcode 修改 XCUITest 的证书</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~/.nvm/versions/node/v8.16.0/lib/node_modules/app-inspector/node_modules/xctestwd/XCTestWD</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改 Schema 为：</p>
+</blockquote>
+<h4 id="安装-iOS-driver"><a href="#安装-iOS-driver" class="headerlink" title="安装 iOS driver"></a>安装 iOS driver</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEVELOPMENT_TEAM_ID=TEAM_ID npm i macaca-ios -g</span><br></pre></td></tr></table></figure>
+<h2 id="Docker-运行Macaca"><a href="#Docker-运行Macaca" class="headerlink" title="Docker 运行Macaca"></a>Docker 运行Macaca</h2><p><a href="https://hub.docker.com/r/macacajs/macaca-android-docker/tags" target="_blank" rel="noopener">macacajs/macaca-android-docker</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull macacajs/macaca-android-docker:latest</span><br></pre></td></tr></table></figure>
+<p><a href="https://hub.docker.com/r/macacajs/macaca-datahub" target="_blank" rel="noopener">macacajs/macaca-datahub</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull macacajs/macaca-datahub:latest</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 9200:9200 -p 9300:9300 macacajs/macaca-datahub:latest</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://macacajs.github.io/environment-setup" target="_blank" rel="noopener">Macaca Environment Setup</a></p>
+<p><a href="https://macacajs.github.io/zh/run-with-docker#%E4%BD%BF%E7%94%A8-docker" target="_blank" rel="noopener">Macaca • 面向多端的自动化测试</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macOS-配置Tomcat" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/15/macOS-配置Tomcat/" class="article-date">
+      <time datetime="2018-10-15T03:24:32.000Z" itemprop="datePublished">2018-10-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/15/macOS-配置Tomcat/">macOS 配置Tomcat</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="安装Apr"><a href="#安装Apr" class="headerlink" title="安装Apr"></a>安装Apr</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install apr apr-util</span><br></pre></td></tr></table></figure>
+<h4 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install tomcat</span><br></pre></td></tr></table></figure>
+<h4 id="启动Tomcat"><a href="#启动Tomcat" class="headerlink" title="启动Tomcat"></a>启动Tomcat</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew services start tomcat</span><br><span class="line">brew services restart tomcat</span><br></pre></td></tr></table></figure>
+<h4 id="配置文件目录"><a href="#配置文件目录" class="headerlink" title="配置文件目录"></a>配置文件目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/Cellar/tomcat/</span><br><span class="line">cd /usr/local/Cellar/tomcat/9.0.12/libexec/conf</span><br></pre></td></tr></table></figure>
+<h4 id="部署jar项目"><a href="#部署jar项目" class="headerlink" title="部署jar项目"></a>部署jar项目</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp jenkins.jar /usr/local/Cellar/tomcat/9.0.12/libexec/webapps</span><br></pre></td></tr></table></figure>
+<h4 id="监控服务器"><a href="#监控服务器" class="headerlink" title="监控服务器"></a>监控服务器</h4><p>1、确保Tomcat可以正常启动</p>
+<p>2、打开conf下的tomcat-users.xml并添加<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>3、重启tomcat并访问<a href="http://localhost:8080/manager/html" target="_blank" rel="noopener">http://localhost:8080/manager/html</a></p>
+<p>4、<a href="http://localhost:8080/manager/status" target="_blank" rel="noopener">http://localhost:8080/manager/status</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ffmpeg-使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/14/ffmpeg-使用/" class="article-date">
+      <time datetime="2018-10-14T01:24:42.000Z" itemprop="datePublished">2018-10-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/14/ffmpeg-使用/">FFmpeg 使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="FFmpeg"><a href="#FFmpeg" class="headerlink" title="FFmpeg"></a><a href="https://www.ffmpeg.org/" target="_blank" rel="noopener">FFmpeg</a></h1><p>下载源码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://git.ffmpeg.org/ffmpeg.git</span><br></pre></td></tr></table></figure>
+<p>编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --help</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --list-decoders</span><br><span class="line">./configure --list-filters</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/ffmpeg/4.1.1 --enable-shared --enable-pthreads --enable-version3 --enable-hardcoded-tables --enable-avresample --cc=clang --host-cflags='-I/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home/include -I/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home/include/darwin' --host-ldflags= --enable-ffplay --enable-gnutls --enable-gpl --enable-libaom --enable-libbluray --enable-libmp3lame --enable-libopus --enable-librubberband --enable-libsnappy --enable-libtesseract --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libxvid --enable-lzma --enable-libfontconfig --enable-libfreetype --enable-frei0r --enable-libass --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-librtmp --enable-libspeex --enable-videotoolbox --disable-libjack --disable-indev=jack --enable-libaom --enable-libsoxr</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ffmpeg n3.3.5-2-g9992aceefe</p>
+</blockquote>
+<p>帮助信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg --help</span><br></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="基本信息查询命令"><a href="#基本信息查询命令" class="headerlink" title="基本信息查询命令"></a>基本信息查询命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-version</span><br><span class="line">-demuxers</span><br><span class="line">-muxers</span><br><span class="line">-devices</span><br><span class="line">-codecs</span><br><span class="line">-decoders</span><br><span class="line">-encoders</span><br><span class="line">-bsfs # 显示比特流 filter</span><br><span class="line">-formats</span><br><span class="line">-protocols</span><br><span class="line">-filters</span><br><span class="line">-pix_fmts</span><br><span class="line">-sample_fmts</span><br><span class="line">-layouts # 显示 channel 名称（声道）</span><br><span class="line">-colors</span><br></pre></td></tr></table></figure>
+<h3 id="录制命令"><a href="#录制命令" class="headerlink" title="录制命令"></a>录制命令</h3><h4 id="录视频命令"><a href="#录视频命令" class="headerlink" title="录视频命令"></a>录视频命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i 1 -r 30 out.yuv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-f：指定使用 avfoundation 采集数据</p>
+<p>-i：指定从哪儿采集数据，它是一个文件索引号 <code>ffmpeg -f avfoundation -list_devices true -i &quot;&quot;</code></p>
+<p>-<code>r</code>：指定帧率（15帧）</p>
+</blockquote>
+<p>播放</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay -s 3360x2100 -pix_fmt uyvy422 out.yuv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-s：视频大小</p>
+<p>-pix_fmt：视频格式</p>
+</blockquote>
+<h4 id="录音命令"><a href="#录音命令" class="headerlink" title="录音命令"></a>录音命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i :0 out.wav</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>:0 代表音频设备 <code>[0] Built-in Microphone</code></p>
+<p>1: 代表视频设备 <code>[1] Capture screen 0</code></p>
+</blockquote>
+<p>播放</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay out.wav</span><br></pre></td></tr></table></figure>
+<h3 id="分解与复用"><a href="#分解与复用" class="headerlink" title="分解与复用"></a>分解与复用</h3><h4 id="多媒体格式转换"><a href="#多媒体格式转换" class="headerlink" title="多媒体格式转换"></a>多媒体格式转换</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i out.mp4 -vcodec copy -acodec copy out.flv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-i：输入文件</p>
+<p>-vcodec copy：视频编码处理方式</p>
+<p>-acodec copy：音频编码处理方式</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i out.mp4 -an -vcodec copy out.h264</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-an 不要音频</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i out.mp4 -acodec copy -vn out.aac</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>不能使用</p>
+</blockquote>
+<h3 id="处理原始数据"><a href="#处理原始数据" class="headerlink" title="处理原始数据"></a>处理原始数据</h3><h4 id="提取-YUV-数据"><a href="#提取-YUV-数据" class="headerlink" title="提取 YUV 数据"></a>提取 YUV 数据</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -an -c:v rawvideo -pix_fmt yuv420p out.yuv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-pix_fmt yuv420p ：像素格式</p>
+</blockquote>
+<p>播放</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay -s 1680x1050 out.yuv</span><br></pre></td></tr></table></figure>
+<h4 id="提取-PCM-数据"><a href="#提取-PCM-数据" class="headerlink" title="提取 PCM 数据"></a>提取 PCM 数据</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i out.mp4 -vn -ar 44100 -ac 2 -f s16le out.pcm</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-ar ：rate 采样率</p>
+<p>-ac 2：channel 2</p>
+<p>-f s16le：存储方式</p>
+</blockquote>
+<p>播放</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay -ar 44100 -ac 2 -f s16le out.pcm</span><br></pre></td></tr></table></figure>
+<h3 id="滤镜命令"><a href="#滤镜命令" class="headerlink" title="滤镜命令"></a>滤镜命令</h3><blockquote>
+<p>加水印，去水印，画中画</p>
+</blockquote>
+<p>解压缩 decoder，解码后的数据帧。所有的滤镜处理都是对解码后的数据帧进行处理。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i in.mov -vf crop=in_w-200:in_h-200 -c:v libx264 -c:a copy out.mp4</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-vf crop=in_w-200:in_h-200 视频滤镜，宽度减少200，高度减少200</p>
+<p>-c:v libx264：视频编码</p>
+<p>-c:a copy：音频</p>
+</blockquote>
+<h3 id="裁剪与合并"><a href="#裁剪与合并" class="headerlink" title="裁剪与合并"></a>裁剪与合并</h3><blockquote>
+<p>音视频的裁剪与合并</p>
+</blockquote>
+<h4 id="裁剪"><a href="#裁剪" class="headerlink" title="裁剪"></a>裁剪</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i in.mp4 -ss 00:00:00 -t 10 out.ts</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-ss 开始裁剪</p>
+<p>-t 10 裁剪10秒</p>
+</blockquote>
+<h4 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f concat -i input.txt out.flv</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-f concat：对后面的文件进行拼接</p>
+<p>-i input.txt：内容为<code>file filename.ts</code>格式</p>
+</blockquote>
+<p>file.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file &apos;1.mp4&apos;</span><br><span class="line">file &apos;2.mp4&apos;</span><br><span class="line">file &apos;3.mp4&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f concat -i file.txt -c copy output.mp4</span><br></pre></td></tr></table></figure>
+<p>降低分辨率</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -strict -2 -vf scale=-1:720 output.mp4</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>720p</p>
+<p>使用FFmpeg自带的aac音频编码要带上-strict -2 </p>
+<p><a href="https://sanchi.forkroad.xyz/post/2018-03-27-ffmpeg-3-%E4%BD%BF%E7%94%A8-FFmpeg%E8%B0%83%E6%95%B4%E6%96%87%E4%BB%B6%E5%B0%BA%E5%AF%B8.html" target="_blank" rel="noopener">[3][使用] FFmpeg调整文件尺寸 | Sanchi</a> </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i &quot;input.mp4&quot; -crf 24 -vf scale=-1:720 output.mp4</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-crf 指定刷新率</p>
+</blockquote>
+<h3 id="图片-视频互转"><a href="#图片-视频互转" class="headerlink" title="图片/视频互转"></a>图片/视频互转</h3><h4 id="视频转图片"><a href="#视频转图片" class="headerlink" title="视频转图片"></a>视频转图片</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i in.flv -r 1 -f image2 image-%3d.jpeg</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>-r</code> 1:帧率，每秒钟转出一张图片</p>
+<p>-f image2：转换的格式</p>
+<p>%3d：三个数字</p>
+</blockquote>
+<h4 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i image-%3d.jpeg out.mp4</span><br></pre></td></tr></table></figure>
+<h3 id="获取视频信息"><a href="#获取视频信息" class="headerlink" title="获取视频信息"></a>获取视频信息</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i vedio.mp4</span><br></pre></td></tr></table></figure>
+<h3 id="从视频中提取音频"><a href="#从视频中提取音频" class="headerlink" title="从视频中提取音频"></a>从视频中提取音频</h3><blockquote>
+<p>从视频文件中提取音频并保存为 mp3</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -f mp3 output.mp3</span><br><span class="line">ffmpeg -i 1.mp4 -vn -vcodec copy 1.m4a</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果需要可以在中间加上 <code>-ar 44100 -ac 2 -ab 192</code> 系数，表示采样率 44100 ，通道 2 立体声，码率 192 kb/s.</p>
+<p>-vn 跳过视频。</p>
+</blockquote>
+<p>重新编码</p>
+<p><a href="https://stackoverflow.com/questions/53021266/non-monotonous-dts-in-output-stream-previous-current-changing-to-this-may-result" target="_blank" rel="noopener">Non-monotonous DTS in output stream previous current changing to This may result in incorrect timestamps in the output file</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -safe 0 -f concat -segment_time_metadata 1 -i file.txt -vf select=concatdec_select -af aselect=concatdec_select,aresample=async=1 out.mp4</span><br></pre></td></tr></table></figure>
+<p>比特率不一样，转码再合并</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input1.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts input1.ts</span><br><span class="line">ffmpeg -i input2.flv -c copy -bsf:v h264_mp4toannexb -f mpegts input2.ts</span><br><span class="line">ffmpeg -i input3.flv -c copy -bsf:v h264_mp4toannexb -f mpegts input3.ts</span><br><span class="line">ffmpeg -i <span class="string">"concat:input1.ts|input2.ts|input3.ts"</span> -c copy -bsf:a aac_adtstoasc -movflags +faststart output.mp4</span><br></pre></td></tr></table></figure>
+<h2 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h2><p>输入文件-(demuxer)解复用-&gt;编码数据包-(decoder)-&gt;解码后数据帧-(encoder)-&gt;编码数据包-(muxer)复用-&gt;输出文件</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://ffmpeg.org/ffmpeg.html" target="_blank" rel="noopener">ffmpeg Documentation</a> </p>
+<p><a href="https://moejj.com/ffmpeghe-bing-shi-pin-wen-jian-guan-fang-wen-dang/" target="_blank" rel="noopener">ffmpeg合并视频文件 官方文档</a></p>
+<p><a href="https://www.jianshu.com/p/aa5ba6967f46" target="_blank" rel="noopener">video不能播放mp4的问题（一）</a></p>
+<p><a href="http://einverne.github.io/post/2015/12/ffmpeg-first.html" target="_blank" rel="noopener">ffmpeg 入门笔记 </a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-在Pypi上发布自己的Python包" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/14/在Pypi上发布自己的Python包/" class="article-date">
+      <time datetime="2018-10-14T00:58:59.000Z" itemprop="datePublished">2018-10-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/14/在Pypi上发布自己的Python包/">在Pypi上发布自己的Python包</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>源码打包</strong></p>
+<p><strong>打包成一个源代码的包</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py sdist build</span><br></pre></td></tr></table></figure>
+<p>这样会在dist文件夹下生成一个tar.gz结尾文件。</p>
+<p><strong>打包成一个wheels格式</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py bdist_wheel --universal</span><br></pre></td></tr></table></figure>
+<p>这样会在dist文件夹下生成一个whl文件。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/e9ec8666decc" target="_blank" rel="noopener">在Pypi上发布自己的Python包 - 简书</a></p>
+<p><a href="http://www.cnblogs.com/sting2me/p/6550897.html" target="_blank" rel="noopener">在Pypi上发布自己的Python包 - 孤独的居士 - 博客园</a></p>
+<p><a href="https://packaging.python.org/tutorials/packaging-projects/" target="_blank" rel="noopener">Packaging Python Projects — Python Packaging User Guide</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Maven-配置-Selenium-testNG-reportNG-运行环境" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -959,267 +1382,6 @@
           
         <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull tomcat:8.5.34-jre8-alpine</span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  -p 8803:8080 -v ~/docker/tomcat:/usr/local/tomcat/webapps -d --name tomcat-8.5.34 --restart=always tomcat:8.5.34-jre8-alpine</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-运行Swagger" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/07/Docker-运行Swagger/" class="article-date">
-      <time datetime="2018-10-07T01:29:15.000Z" itemprop="datePublished">2018-10-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/07/Docker-运行Swagger/">Docker 运行Swagger</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a><a href="https://swagger.io/" target="_blank" rel="noopener">Swagger</a></h1><p>下载所需要的镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull swaggerapi/swagger-ui:v3.19.2 &amp;&amp;\</span><br><span class="line">docker pull swaggerapi/swagger-editor:v3.6.11</span><br></pre></td></tr></table></figure>
-<p>运行 swagger-ui</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8801:8080 -d --name swagger-ui-3.19.2 swaggerapi/swagger-ui:v3.19.2</span><br></pre></td></tr></table></figure>
-<p>For <code>latest</code>, and post <code>v3.0.5</code> tags, you can specify the default swagger-ui to load in the UI:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 80:8080 -e API_URL=http://generator.swagger.io/api/swagger.json swaggerapi/swagger-ui:v3.19.2</span><br></pre></td></tr></table></figure>
-<p>运行 swagger-editor</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8802:8080 -d --name swagger-editor-3.6.11 swaggerapi/swagger-editor:v3.6.11</span><br></pre></td></tr></table></figure>
-<p>访问</p>
-<p><a href="http://IP:8080" target="_blank" rel="noopener">http://IP:8080</a></p>
-<p>安装 Swagger Codegen</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install swagger-codegen</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://hub.docker.com/r/swaggerapi/swagger-ui/" target="_blank" rel="noopener">Docker Hub swaggerapi/swagger-ui</a></p>
-<p><a href="https://hub.docker.com/r/swaggerapi/swagger-editor/" target="_blank" rel="noopener">Docker Hub swaggerapi/swagger-editor</a></p>
-<p><a href="https://blog.csdn.net/SweetyoYY/article/details/78388524" target="_blank" rel="noopener">docker部署swagger</a></p>
-<p><a href="https://o-my-chenjian.com/2017/04/19/Play-API-With-Swagger/" target="_blank" rel="noopener">DIY搭建Swagger-UI</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-pytest 使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/25/pytest 使用/" class="article-date">
-      <time datetime="2018-09-25T06:09:33.000Z" itemprop="datePublished">2018-09-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/25/pytest 使用/">pytest 使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="pytest"><a href="#pytest" class="headerlink" title="pytest"></a><a href="https://docs.pytest.org/" target="_blank" rel="noopener">pytest</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pytest</span><br></pre></td></tr></table></figure>
-<ul>
-<li>fixtures</li>
-<li>mark</li>
-<li></li>
-</ul>
-<p>module setup</p>
-<p>class setup</p>
-<p>method setup</p>
-<p>function setup</p>
-<h2 id="PyCharm-中使用-pytest"><a href="#PyCharm-中使用-pytest" class="headerlink" title="PyCharm-中使用-pytest"></a>PyCharm-中使用-pytest</h2><p>Preferences—&gt;Tools—&gt;Python Integrated Tools</p>
-<p>Testing—&gt;Default test runner：<code>pytest</code></p>
-<h2 id="pytest-插件"><a href="#pytest-插件" class="headerlink" title="pytest 插件"></a><a href="http://plugincompat.herokuapp.com/" target="_blank" rel="noopener">pytest 插件</a></h2><ul>
-<li><p>pytest-sugar <code>pip install pytest-sugar</code></p>
-</li>
-<li><p>pytest-assume <code>pip install pytest-assume</code></p>
-</li>
-<li>pytest-ordering <code>pip install pytest-ordering</code><ul>
-<li>pytest-rerunfailures <code>pip install pytest-rerunfailures</code></li>
-</ul>
-</li>
-<li>pytest-cov <code>pip install pytest-cov</code></li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/7df6d781f100" target="_blank" rel="noopener">pytest的一些实用插件实践</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-PyCharm-新建项目使用-pipenv" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/25/PyCharm-新建项目使用-pipenv/" class="article-date">
-      <time datetime="2018-09-25T04:22:43.000Z" itemprop="datePublished">2018-09-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/25/PyCharm-新建项目使用-pipenv/">PyCharm 新建项目使用 pipenv</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-运行Zentao" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/08/Docker-运行Zentao/" class="article-date">
-      <time datetime="2018-09-08T05:19:09.000Z" itemprop="datePublished">2018-09-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/08/Docker-运行Zentao/">Docker 运行Zentao</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull haha123/zentao:latest # zentao 9.2.1</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  -p 8800:80 -v ~/docker/zentao:/opt/zbox -d --name zentao-9.2.1 --restart=always haha123/zentao:latest</span><br></pre></td></tr></table></figure>
-<p>访问：</p>
-<p>默认user/passwd: admin/123456</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://hub.docker.com/u/haha123/" target="_blank" rel="noopener">haha123</a>/<a href="https://hub.docker.com/r/haha123/zentao/" target="_blank" rel="noopener">zentao</a></p>
 
       
       

@@ -388,10 +388,10 @@
 
 
   
-    <article id="post-Rsync安装配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Rsync-配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/27/Rsync安装配置/" class="article-date">
+      <a href="/2016/12/27/Rsync-配置/" class="article-date">
       <time datetime="2016-12-27T07:55:02.000Z" itemprop="datePublished">2016-12-27</time>
 </a>
     </div>
@@ -405,7 +405,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/27/Rsync安装配置/">Rsync安装配置</a>
+      <a class="article-title" href="/2016/12/27/Rsync-配置/">Rsync 配置</a>
     </h1>
   
 
@@ -415,9 +415,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><a href="http://www.showerlee.com/archives/419" target="_blank" rel="noopener">Rsync安装配置</a></p>
-<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>rsync是linux下的文件同步服务，功能简单来说就是服务端打开873端口,客户端连接这个端口,并对服务器端配置的目录进行同步,可以理解为客户端比对服务器端资源后，对增量或者差异的数据进行增删改操作，功能支持上传(推送)或下载（获取）比对，也就是远程数据比对本地数据而后对远程数据进行增删改操作，以及本地数据比对远程数据然后对本地数据进行增删改操作。<br>    centos6.3下默认已经安装，只需保证依赖服务xinetd开启即可。</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>首先关闭selinux与iptables</p>
+        <h1 id="Rsync"><a href="#Rsync" class="headerlink" title="Rsync"></a><a href="http://www.showerlee.com/archives/419" target="_blank" rel="noopener">Rsync</a></h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>rsync是linux下的文件同步服务，功能简单来说就是服务端打开873端口,客户端连接这个端口,并对服务器端配置的目录进行同步,可以理解为客户端比对服务器端资源后，对增量或者差异的数据进行增删改操作，功能支持上传(推送)或下载（获取）比对，也就是远程数据比对本地数据而后对远程数据进行增删改操作，以及本地数据比对远程数据然后对本地数据进行增删改操作。<br>    centos6.3下默认已经安装，只需保证依赖服务xinetd开启即可。</p>
+<p></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>首先关闭selinux与iptables</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vi /etc/sysconfig/selinux</span><br><span class="line">---------</span><br><span class="line">SELINUX=disabled</span><br><span class="line">---------</span><br><span class="line"># setenforce 0</span><br><span class="line"># service iptables stop</span><br></pre></td></tr></table></figure>
 <p>配置分为2个部分</p>
 <h2 id="server端："><a href="#server端：" class="headerlink" title="server端："></a>server端：</h2><ol>
@@ -475,7 +475,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># pkill rsync</span><br><span class="line"># rsync --daemon --config=/etc/rsyncd.conf</span><br></pre></td></tr></table></figure>
 <p>然后在客户端输入命令同步</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync  -auzv --progress --delete  --password-file=/etc/rsync.pas user@172.24.40.30::MYSQL /usr/local/mysql/data</span><br></pre></td></tr></table></figure>
-<p>#问题<br>注：配置过程问题：</p>
+<p>##问题</p>
+<p>注：配置过程问题：</p>
 <p>问题1：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在client上遇到问题：</span><br><span class="line">rsync -auzv --progress --password-file=/etc/rsync.pas root@192.168.133.128::backup /home/</span><br><span class="line">rsync: could not open password file &quot;/etc/rsync.pas&quot;: No such file or directory (2)</span><br><span class="line">Password:</span><br><span class="line">@ERROR: auth failed on module backup</span><br><span class="line">rsync error: error starting client-server protocol (code 5) at main.c(1506) [Receiver=3.0.7]</span><br><span class="line">遇到这个问题：client端没有设置/etc/rsync.pas这个文件，而在使用rsync命令的时候，加了这个参数--</span><br><span class="line">password-file=/etc/rsync.pas</span><br></pre></td></tr></table></figure>
 <p>问题2：</p>
@@ -487,6 +488,11 @@
 <p>问题5：网络收集问题</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1、权限问题</span><br><span class="line">类似如下的提示：rsync: opendir &quot;/kexue&quot; (in dtsChannel) failed: Permission denied (13)注意查看同步的目录权限是否为755</span><br><span class="line">2、time out</span><br><span class="line">rsync: failed to connect to 203.100.192.66: Connection timed out (110)</span><br><span class="line">rsync error: error in socket IO (code 10) at clientserver.c(124) [receiver=3.0.5]</span><br><span class="line">检查服务器的端口netstat –tunlp，远程telnet测试。</span><br><span class="line">3、服务未启动</span><br><span class="line">rsync: failed to connect to 10.10.10.170: Connection refused (111)</span><br><span class="line">rsync error: error in socket IO (code 10) at clientserver.c(124) [receiver=3.0.5]</span><br><span class="line">启动服务：rsync --daemon --config=/etc/rsyncd.conf</span><br><span class="line">4、磁盘空间满</span><br><span class="line">rsync: recv_generator: mkdir &quot;/teacherclubBackup/rsync……&quot; failed: No space left on device (28)</span><br><span class="line">*** Skipping any contents from this failed directory ***</span><br><span class="line">5、Ctrl+C或者大量文件</span><br><span class="line">rsync error: received SIGINT, SIGTERM, or SIGHUP (code 20) at rsync.c(544) [receiver=3.0.5]</span><br><span class="line">rsync error: received SIGINT, SIGTERM, or SIGHUP (code 20) at rsync.c(544) [generator=3.0.5]</span><br><span class="line">6、xnetid启动</span><br><span class="line">rsync: read error: Connection reset by peer (104)</span><br><span class="line">rsync error: error in rsync protocol data stream (code 12) at io.c(759) [receiver=3.0.5]</span><br></pre></td></tr></table></figure>
 <p>查看rsync日志<br>rsync: unable to open configuration file “/etc/rsyncd.conf”: No such file or directory<br>xnetid查找的配置文件位置默认是/etc下，根据具体情况创建软链接。例如：<br>ln -s /etc/rsyncd/rsyncd.conf /etc/rsyncd.conf<br>或者更改指定默认的配置文件路径，在/etc/xinetd.d/rsync配置文件中</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用 ssh 同步文件到本地</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -P --bwlimit=300 -e <span class="string">'ssh -p 22 -i ./key'</span> root@servername:/path/filename /var/www/local_dir</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>–bwlimit=300 限速。</p>
+</blockquote>
 
       
       

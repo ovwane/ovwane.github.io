@@ -202,6 +202,1582 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-手把手带你构建一个分布式爬虫系统实战-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/08/手把手带你构建一个分布式爬虫系统实战-学习笔记/" class="article-date">
+      <time datetime="2017-12-08T08:27:00.000Z" itemprop="datePublished">2017-12-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/08/手把手带你构建一个分布式爬虫系统实战-学习笔记/">手把手带你构建一个分布式爬虫系统实战 学习笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="手把手带你构建一个分布式爬虫系统实战-小象学院-学习笔记"><a href="#手把手带你构建一个分布式爬虫系统实战-小象学院-学习笔记" class="headerlink" title="手把手带你构建一个分布式爬虫系统实战-小象学院-学习笔记"></a>手把手带你构建一个分布式爬虫系统实战-小象学院-学习笔记</h1><blockquote>
+<p>手把手带你构建一个分布式爬虫系统实战-第二期-小象学院-杨真</p>
+</blockquote>
+<p><a href="http://www.chinahadoop.cn/course/944" target="_blank" rel="noopener">《分布式爬虫实战》第二期</a></p>
+<p><strong>课程目录</strong></p>
+<p>01 静态网页爬虫：爬虫的基础技术.flv 2:40:54<br>02 登录及动态网页的抓取.flv 2:19:24<br>03 微博的抓取.flv 2:42:00<br>04 多线程与多进程的爬虫.flv 2:02:20<br>05 微博数据的存储：分布式数据库及应用.flv 2:15:07<br>06 多机并行的微博抓取：分布式系统设计.flv 2:12:20<br>07 应对反爬虫的策略.flv 2:25:33<br>08 分布式系统的高可用与高并发处理.flv 2:13:47<br>09 日志系统、以及基于Page Rank的顺序调整.flv 2:13:54<br>10 日志、守护线程以及验证码处理.flv 2:07:54<br>11 分布式数据库架构分析、优化及要点.flv 2:23:10<br>12 自动摘要及正文抽取.flv 1:57:54<br>13 网页分类与针对文本的机器学习应用.flv 2:17:14<br>14 信息检索、搜索引擎原理及应用.flv 2:31:18<br>15 Scrapy录播视频.flv 2:21:02<br>16 Scrapy进阶录播视频.flv 2:10:09<br>17 网页排重.flv 2:19:19</p>
+<p>讲课开始时间：2017-06-08 19:51</p>
+<h1 id="01-静态网页爬虫：爬虫的基础技术"><a href="#01-静态网页爬虫：爬虫的基础技术" class="headerlink" title="01 静态网页爬虫：爬虫的基础技术"></a>01 静态网页爬虫：爬虫的基础技术</h1><blockquote>
+<p>讲课开始时间：2017-06-08 19:51</p>
+<p>03:36 开始讲课</p>
+</blockquote>
+<h2 id="大纲"><a href="#大纲" class="headerlink" title="大纲"></a>大纲</h2><ul>
+<li>Python 环境搭建及基础类</li>
+<li>HTML 相关技术：HTML、CSS 及 JavaScript</li>
+<li>HTTP 协议及 Python 的 DOM 树选择器</li>
+<li>宽度与深度抓取介绍及比较</li>
+<li>不重复抓取策略及 BloomFilter</li>
+<li>网站结构分析</li>
+<li>马蜂窝网页抓取案例</li>
+</ul>
+<p>对这门课程的预期，机器学习、搜索引擎。学习态度很重要。.pi</p>
+<h2 id="基础环境-Python"><a href="#基础环境-Python" class="headerlink" title="基础环境 - Python"></a>基础环境 - Python</h2><p>13:11</p>
+<ul>
+<li><p>Python 2.7</p>
+</li>
+<li><p>pip，并设置 pip 源</p>
+<p><strong>配置 pip conf，自动设置源</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 新建目录</span></span><br><span class="line">mkdir ~/.pip/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加 pip.conf 文件</span></span><br><span class="line">vim ~/.pip/pip.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">index-url=https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+<p><strong>每次安装指定 source</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple lxml</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>建议开发环境 Mac 或者 Linux。</p>
+<p>Anaconda 4.2.0 </p>
+<p>Python 2.7.12</p>
+</blockquote>
+<p>17:12</p>
+<ul>
+<li><p>下载 Anaconda，很多比较难以安装的源都已经包含了</p>
+</li>
+<li><p>仍然配置 pip 源，各个系统默认 pip.ini 位置不同，需要根据实际情况设置</p>
+<p>官网：<a href="https://anaconda.org" target="_blank" rel="noopener">https://anaconda.org</a></p>
+<p>下载主页： <a href="https://www.continuum.io/downloads" target="_blank" rel="noopener">https://www.continuum.io/downloads</a></p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv install anaconda2-4.2.0</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>Python 底层是 C 的，lxml 是基于 C 语言编写，需要 C 语言编译环境。</p>
+</blockquote>
+<h2 id="HTTP-协议"><a href="#HTTP-协议" class="headerlink" title="HTTP 协议"></a>HTTP 协议</h2><p>18:26</p>
+<blockquote>
+<p>request 分为 header 和 body</p>
+<p>response 404，401</p>
+<p> 还有加密相关的</p>
+</blockquote>
+<h2 id="TCP-IP-四层-与-OSI-七层"><a href="#TCP-IP-四层-与-OSI-七层" class="headerlink" title="TCP/IP 四层 与 OSI 七层"></a>TCP/IP 四层 与 OSI 七层</h2><p>19:21</p>
+<p>传输层：TCP、UDP 协议</p>
+<p>应用层：HTTP、FTP</p>
+<blockquote>
+<p>监听 https 请求</p>
+<p>https = http + ssl</p>
+</blockquote>
+<h2 id="HTTP-协议-1"><a href="#HTTP-协议-1" class="headerlink" title="HTTP 协议"></a>HTTP 协议</h2><p>23:16</p>
+<ul>
+<li>应用层的协议</li>
+<li>无连接：每次连接只处理一个请求</li>
+<li>无状态：每次连接、传输都是独立的</li>
+</ul>
+<blockquote>
+<p>无状态的特性就必须使用 cookie 来标明身份。</p>
+</blockquote>
+<h3 id="HTTP-HEADER"><a href="#HTTP-HEADER" class="headerlink" title="HTTP HEADER"></a>HTTP HEADER</h3><p>25:21</p>
+<h3 id="REQUEST-部分的-HTTP-HEADER"><a href="#REQUEST-部分的-HTTP-HEADER" class="headerlink" title="REQUEST 部分的 HTTP HEADER"></a>REQUEST 部分的 HTTP HEADER</h3><ul>
+<li><strong>Accept: text/plain</strong></li>
+<li><strong>Accept-Charset: utf-8</strong></li>
+<li><strong>Accept-Encoding: gzip, deflate</strong></li>
+<li>Accept-Language: en-US</li>
+<li><strong>Connection: keep-alive</strong> (之前建立 socket 连接不要关闭)</li>
+<li>Content-Length: 348</li>
+<li>Content-Type: application/x-www-form-urlencoded</li>
+<li>Date: Tue, 15 Nov 1994 08:12:31 GMT</li>
+<li>Host: en.wikipedia.org:80</li>
+<li><strong>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/0100101 Firefox/1.0</strong></li>
+<li><strong>Cookie: $Version=1; Skin=new;</strong></li>
+</ul>
+<blockquote>
+<p>30:10 什么是 cookie</p>
+<p>client 通过 http 向 server 发送请求，server 返回 set-cookie 字段。</p>
+<p>cookie 大小最大 4kb。</p>
+</blockquote>
+<h3 id="keep-alive"><a href="#keep-alive" class="headerlink" title="keep-alive"></a>keep-alive</h3><p>34:17</p>
+<p>Keep-Alive 功能使客户端到服务器端的连接持续有效，当出现对服务器的后续请求时，Keep-Alive 功能避免了建立或者重新建立连接。</p>
+<h3 id="RESPONSE-的-HTTP-HEADER"><a href="#RESPONSE-的-HTTP-HEADER" class="headerlink" title="RESPONSE 的 HTTP HEADER"></a>RESPONSE 的 HTTP HEADER</h3><p>34:27</p>
+<ul>
+<li>Accept-Patch: text/example;charset=utf-8</li>
+<li>Cache-Control: max-age=3600</li>
+<li>Content-Encoding: gzip</li>
+<li>Last-Modified: Tue, 15 Nov 1994 12:45:26 GMT</li>
+<li>Content-Language: da</li>
+<li>Content-Length: 348</li>
+<li>Etag: “737060c”</li>
+<li>Expires: Thu, 01 Dec 1994 16:00:00 GMT</li>
+<li><strong>Location: <a href="http://www.w3.org/pub/WWW/People.html" target="_blank" rel="noopener">http://www.w3.org/pub/WWW/People.html</a></strong> （重定向，需要跳转）</li>
+<li><strong>Set-Cookie: UserID=JohnDoe; Max-Age=3600; Version=1</strong> （设置 Cookie）</li>
+<li><strong>Status: 200 OK</strong> （返回值状态码）</li>
+</ul>
+<blockquote>
+<p>Location 跳转的意思。</p>
+<p>很多地方有用，需要认证的时候，进行登录的时候，有很多301跳转。</p>
+</blockquote>
+<h3 id="HTTP-响应状态码"><a href="#HTTP-响应状态码" class="headerlink" title="HTTP 响应状态码"></a>HTTP 响应状态码</h3><p>30:40</p>
+<ul>
+<li>2XX 成功</li>
+<li>3XX 跳转</li>
+<li>4XX 客户端错误</li>
+<li>5XX 服务器错误</li>
+</ul>
+<blockquote>
+<p>401 错误 可能是爬虫被 block。</p>
+<p>500 错误 大多数是服务器出问题了。</p>
+</blockquote>
+<h3 id="HTTP-响应状态码-300"><a href="#HTTP-响应状态码-300" class="headerlink" title="HTTP 响应状态码 300"></a>HTTP 响应状态码 300</h3><p>43:42</p>
+<ul>
+<li>300 Multiple Choices 存在多个可用的资源，可处理或丢弃</li>
+<li>301 Moved Permanently 重定向</li>
+<li>302 Found 重定向</li>
+<li>304 Not Modified 请求的资源未更新，丢弃</li>
+</ul>
+<blockquote>
+<p>一些 Python 库，例如 urllib2 已经对重定向做了处理，会自动跳转；动态网页处理的时候，也是自动跳转，所以不需要单独处理。</p>
+<p>自动解析响应头的 Location 里的 url 地址并去请求。</p>
+<p>urllib 给用户设置了很多钩子，例如 cookie 的钩子。</p>
+</blockquote>
+<h3 id="HTTP-响应状态码-400、500"><a href="#HTTP-响应状态码-400、500" class="headerlink" title="HTTP 响应状态码 400、500"></a>HTTP 响应状态码 400、500</h3><p>47:24</p>
+<ul>
+<li>400 Bad Request 客户端请求有语法错误，不能被服务器所理解</li>
+<li>401 Unauthorized 请求未经授权，这个状态代码必须和 WWW-Authenticate 报头域一起使用</li>
+<li>403 Forbidden 服务器收到请求，但是拒绝提供服务</li>
+<li>404 Not Found 请求资源不存在，eg：输入了错误的 URL</li>
+<li>500 Internal Server Error 服务器发生不可预期的错误</li>
+<li>503 Server Unabailable 服务器当前不能处理客户端的请求，一段时间后可能恢复正常</li>
+</ul>
+<h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p>48:33</p>
+<ul>
+<li>400 Bad Request 检查请求的参数或者路径</li>
+<li>401 Unauthorized 如果需要授权的网页，尝试重新登录</li>
+<li>403 Forbidden<ul>
+<li>如果是需要登录的网站，尝试重新登录</li>
+<li>IP 被封，暂停爬取，并增加爬虫的等待时间，如果拨号网络，尝试重新联网更改 IP</li>
+</ul>
+</li>
+<li>404 Not Found 直接丢弃</li>
+<li>5XX 服务器错误，直接丢弃，并计数，如果连续不成功，WARNING 并停止爬取</li>
+</ul>
+<h3 id="HTTP-请求方法"><a href="#HTTP-请求方法" class="headerlink" title="HTTP 请求方法"></a>HTTP 请求方法</h3><p>50:13</p>
+<ul>
+<li>GET （GET 方法没有 body）（数据内容放在 url 里面）（请求数据的方法）</li>
+<li>POST （POST 方法有 body 数据区域）</li>
+</ul>
+<h2 id="HTML-及-CSS"><a href="#HTML-及-CSS" class="headerlink" title="HTML 及 CSS"></a>HTML 及 CSS</h2><p>55:32</p>
+<p>浏览器中不能看到 style=”display:none”，这个就是爬虫陷阱。</p>
+<p><strong>Chrome Dev Tools： Console 中执行</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用类名获取元素</span></span><br><span class="line"><span class="built_in">document</span>.getElementsByClassName(<span class="string">'r'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 id 获取元素</span></span><br><span class="line"><span class="built_in">document</span>.getElementsById(<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><p>1:10:17</p>
+<p>HTML 是超文本标记语言，简单来说是可以认为是一种规范或者协议，浏览器根据 HTML 的语言规范来解析 HTML。</p>
+<p>与爬虫相关的规范有以下：</p>
+<p><strong>这一类 tag a 标记了外链用来做抓取，而 tr、p 用来进行内容抽取</strong></p>
+<ul>
+<li>Tag：<code>&lt;a&gt; &lt;tr&gt; &lt;p&gt;</code> </li>
+</ul>
+<p><strong>id、class 用在 css 上的，能帮助我们定位元素，作用和 tr p 类似：</strong></p>
+<ul>
+<li>Class</li>
+<li>Id</li>
+</ul>
+<p>参考网站：<a href="http://www.w3school.com.cn/" target="_blank" rel="noopener">w3school 在线教程</a></p>
+<h2 id="DOM-树"><a href="#DOM-树" class="headerlink" title="DOM 树"></a>DOM 树</h2><p>1:13:26</p>
+<p>DOM 树最重要的作用是用来做网页数据分析及提取，我们可以充分利用 TAG、CLASS、ID 来找出某一类或某一个元素并提取内容。</p>
+<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><p>1:17:29</p>
+<p>JavaScript 就是运行在前端的编程语言，最典型的用在动态网页的数据、内容加载及呈现上，JavaScript 做网络请求的时候最常用的技术是 AJAX（Asynchronous JavaScript and XML），专门用来异步请求数据，这些数据是我们抓取的时候需要用到的。</p>
+<p>1:21:44 休息</p>
+<p>1:22:17 问题解答</p>
+<ul>
+<li><p>编码问题</p>
+</li>
+<li><p>jQuery 的 Python 库 <code>pyquery</code></p>
+</li>
+<li><p>session 和 cookie 什么关系？</p>
+<p>session 是服务器端的，cookie 是客户端的。</p>
+</li>
+<li><p>http 的 keep-alive 是操作 tcp 连接吗？</p>
+<p>对，是 socket tcp 连接。 </p>
+</li>
+<li><p>selenium 会讲</p>
+</li>
+<li><p>经过混淆的页面怎么爬取？</p>
+</li>
+<li><p>汽车之家论坛加密的 HTML 代码</p>
+</li>
+</ul>
+<h2 id="宽度及深度抓取"><a href="#宽度及深度抓取" class="headerlink" title="宽度及深度抓取"></a>宽度及深度抓取</h2><p>1:30:30</p>
+<p>横向爬取优先：BSF</p>
+<p>深度爬取优先：DSF</p>
+<h2 id="爬虫的抓取对象类型"><a href="#爬虫的抓取对象类型" class="headerlink" title="爬虫的抓取对象类型"></a>爬虫的抓取对象类型</h2><p>1:31:38</p>
+<ul>
+<li><p>静态页面：</p>
+<p><a href="https://en.wikipedia.org/wiki/Isaac_Newton" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Isaac_Newton</a></p>
+</li>
+<li><p>动态页面：</p>
+<p><a href="https://item.jd.com/3133853.html" target="_blank" rel="noopener">https://item.jd.com/3133853.html</a></p>
+</li>
+<li><p>Web Service:</p>
+<p><a href="https://m.weibo.cn/api/container/getIndex?uid=1618051664&amp;luicode=20000174&amp;featurecode=20000180&amp;type=uid&amp;value=1618051664&amp;containerid=1005051618051664" target="_blank" rel="noopener">https://m.weibo.cn/api/container/getIndex?uid=1618051664&amp;luicode=20000174&amp;featurecode=20000180&amp;type=uid&amp;value=1618051664&amp;containerid=1005051618051664</a></p>
+</li>
+</ul>
+<h2 id="Web-API-数据获取"><a href="#Web-API-数据获取" class="headerlink" title="Web API 数据获取"></a>Web API 数据获取</h2><p>1:37:01</p>
+<h2 id="Mafengwo-的结构"><a href="#Mafengwo-的结构" class="headerlink" title="Mafengwo 的结构"></a>Mafengwo 的结构</h2><p>1:37:42</p>
+<h2 id="深度优先策略"><a href="#深度优先策略" class="headerlink" title="深度优先策略"></a>深度优先策略</h2><p>1:38:02</p>
+<h2 id="宽度优先策略"><a href="#宽度优先策略" class="headerlink" title="宽度优先策略"></a>宽度优先策略</h2><p>1:38:22</p>
+<h2 id="选择哪种策略？"><a href="#选择哪种策略？" class="headerlink" title="选择哪种策略？"></a>选择哪种策略？</h2><p>1:38:34</p>
+<ul>
+<li>重要的网页距离种子站点比较近</li>
+<li>万维网的深度并没有很深，一个网页有很多路径可以到达（最大深度有17层左右）（数据结构：树、图）</li>
+<li>宽度优先有利于多爬虫并行合作抓取 （队列）</li>
+<li>深度限制与宽度优先相结合 （要设置最大深度 max-depth）</li>
+</ul>
+<blockquote>
+<p>爬取策略：以宽度优先的方式加上爬取深度的限制。</p>
+</blockquote>
+<h2 id="不重复抓取策略"><a href="#不重复抓取策略" class="headerlink" title="不重复抓取策略"></a>不重复抓取策略</h2><p>1:46:41</p>
+<p>网站每个子板块一般都有指向首页的链接，首页有子板块的链接，形成循环。</p>
+<h2 id="如何记录抓取历史"><a href="#如何记录抓取历史" class="headerlink" title="如何记录抓取历史"></a>如何记录抓取历史</h2><p>1:48:38</p>
+<ol>
+<li>将访问过的 URL 保存到数据库。<strong>（效率太低）</strong></li>
+<li>用 HashSet 将访问过的 URL 保存起来。那只需接近 O(1) 的代价就可以查到一个 URL 是否被访问过了。<strong>（消耗内存）</strong></li>
+<li>URL 经过 MD5 或 SHA-1 等单向哈希后再保存到 HashSet 或数据库。（标准 MD5 长度16个字节）</li>
+<li>Bit-Map 方法。建立一个 BitSet，将每个 URL 经过一个哈希函数映射到某一位。（Bit-Map 不是最佳方式）</li>
+</ol>
+<p><strong>老师向学员求助，有谁知道怎么退出 vnc</strong></p>
+<p>2:00:44</p>
+<p>老师要崩溃了哈</p>
+<h2 id="MD5-函数"><a href="#MD5-函数" class="headerlink" title="MD5 函数"></a>MD5 函数</h2><p>2:03:42</p>
+<p>MD5 签名是一个哈希函数，可以将任意长度的数据量转换为一个固定长度的数字（通常是4个整形，128位）。计算机不可能有2的128次方那么大内存，因此实际的哈希表都会是 URL.MD5 再 %n （即取模）。现实世界的 URL 组合必然超越哈希表的槽位数，因此碰撞是一定存在的。一般的 HASH 函数，例如 Java 的 HashTable 是一个 HASH 表再跟上一个链表，链表里存的是碰撞结果。</p>
+<blockquote>
+<p>两个网页的哈希值一样，就容易漏数据。</p>
+</blockquote>
+<h2 id="提高效率"><a href="#提高效率" class="headerlink" title="提高效率"></a>提高效率</h2><p>2:09:11</p>
+<ul>
+<li>评估网站的网页数量</li>
+<li>选择合适的 HASH 算法和空间阀值，降低碰撞机率</li>
+<li>选择合适的存储结构和算法</li>
+</ul>
+<blockquote>
+<p>使用搜索引擎评估网站的网页数量</p>
+<p>使用 Google：<code>site:www.mafengwo.cn/gonglve/</code></p>
+<p>使用 百度：<code>site:www.mafengwo.cn</code>一般有显示网站的大致网页数量。</p>
+</blockquote>
+<h2 id="BITMAP-方式记录"><a href="#BITMAP-方式记录" class="headerlink" title="BITMAP 方式记录"></a>BITMAP 方式记录</h2><p>2:14:13</p>
+<p><strong>将 URL 的 MD5 值再次哈希，用一个或多个 BIT 位来记录一个 URL：</strong></p>
+<ol>
+<li>确定空间大小 e.g. facebook 1.5Gb</li>
+<li>按倍增加槽位 e.g. 16GB</li>
+<li>HASH 算法映射（murmurhash3，cityhash）Python：<code>mmh3 bitarray</code></li>
+</ol>
+<p><strong>安装 murmurhash3 bitarray</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> pip install murmurhash3  <span class="comment"># murmurhash3 只支持 Python &gt;= 3.2.0</span></span></span><br><span class="line">pip install mmh3==2.4  # mmh3 支持 Python 2.7, Python 3.3 and higher.</span><br><span class="line">pip install bitarray==0.8.1</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bitarray <span class="keyword">import</span> bitarray</span><br><span class="line"><span class="keyword">import</span> mmh3</span><br><span class="line"></span><br><span class="line">offset = <span class="number">2147483647</span> // <span class="number">2</span>^<span class="number">31</span> - <span class="number">1</span></span><br><span class="line">bit_array = bitarray(<span class="number">4</span>*<span class="number">1024</span>*<span class="number">1024</span>*<span class="number">1024</span>)  <span class="comment"># 空间大小 4个G</span></span><br><span class="line">bit_array.setall(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">b1 = mmh3.hash(url, <span class="number">42</span>) + offset  <span class="comment"># 42 是哈希的因子，一个数不能以负数开始所有加上 offset。</span></span><br><span class="line">bit_array[b1] = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="BITMAP-方式记录-压缩"><a href="#BITMAP-方式记录-压缩" class="headerlink" title="BITMAP 方式记录 压缩"></a>BITMAP 方式记录 压缩</h2><p>2:19:21</p>
+<ul>
+<li>优势：对存储进行了进一步压缩，在 MD5 的基础上，可以从128位最多压缩到1位，一般情况，如果用 4bit 或者 8bit 表示一个 url，也能压缩32或者16倍。</li>
+<li>缺陷：碰撞概率增加。</li>
+</ul>
+<h2 id="Bloom-Filter"><a href="#Bloom-Filter" class="headerlink" title="Bloom Filter"></a>Bloom Filter</h2><p>2:20:37</p>
+<p>Bloom Filter 使用了多个哈希函数，而不是一个，创建一个 m 位 BitSet，先将所有位初始化位0，然后选择 k 个不同的哈希函数。第 i 个哈希函数对字符串 str 哈希的结果记为 h（i，str），且 h（i，str）的范围是0到 m-1。只能插入，不能删除！！</p>
+<blockquote>
+<p>BITMAP 为了降低碰撞概率，需要设置大量空的 bit 位，来保证它们不被碰撞。</p>
+<p>Bloom Filter 算法通过多个哈希函数同时命中，才算碰撞。</p>
+</blockquote>
+<h2 id="pybloomfilter"><a href="#pybloomfilter" class="headerlink" title="pybloomfilter"></a>pybloomfilter</h2><p>2:27:03</p>
+<p><strong>安装</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pybloomfilter==1.0</span><br></pre></td></tr></table></figure>
+<p><strong>使用源码安装</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/axiak/pybloomfiltermmap.git</span><br><span class="line">cd pybloomfiltermmap</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
+<p><strong>构造函数</strong></p>
+<p><strong>Sample</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fruit = pybloomfilter.BloomFilter(<span class="number">100000</span>, <span class="number">0.1</span>, <span class="string">'/tmp/words.bloom'</span>)  <span class="comment"># 0.1是错误率， words.bloom 是种子文件。</span></span><br><span class="line">fruit.update((<span class="string">'apple'</span>, <span class="string">'pear'</span>, <span class="string">'orange'</span>, <span class="string">'apple'</span>))</span><br><span class="line"></span><br><span class="line">len(fruit)</span><br><span class="line"></span><br><span class="line"><span class="string">'mike'</span> <span class="keyword">in</span> fruit</span><br><span class="line"></span><br><span class="line"><span class="string">'apple'</span> <span class="keyword">in</span> fruit</span><br></pre></td></tr></table></figure>
+<p><strong>官方文档</strong></p>
+<p><a href="https://media.readthedocs.org/pdf/pybloomfiltermmap3/latest/pybloomfiltermmap3.pdf" target="_blank" rel="noopener">https://media.readthedocs.org/pdf/pybloomfiltermmap3/latest/pybloomfiltermmap3.pdf</a></p>
+<p><a href="http://axiak.github.io/pybloomfiltermmap/" target="_blank" rel="noopener">Welcome to Python BloomFilter’s documentation! — Python BloomFilter v0.3.2 documentation</a></p>
+<h2 id="如何有效记录抓取历史"><a href="#如何有效记录抓取历史" class="headerlink" title="如何有效记录抓取历史"></a>如何有效记录抓取历史</h2><p>2:29:00</p>
+<ul>
+<li>多数情况下不需要压缩，尤其网页数量少的情况</li>
+<li>网页数量大的情况下，使用 Bloom Filter 压缩</li>
+<li>重点是计算碰撞概率，并根据碰撞概率来确定存储空间的阀值</li>
+<li>分布式系统，将散列映射到多台主机的内存</li>
+</ul>
+<h2 id="未讲内容：网站结构分析"><a href="#未讲内容：网站结构分析" class="headerlink" title="未讲内容：网站结构分析"></a>未讲内容：网站结构分析</h2><p>2:23:07</p>
+<ul>
+<li>mafengwo.cn 网站分析</li>
+<li>Robots.txt</li>
+<li>Sitemap.xml </li>
+</ul>
+<h2 id="问题解答"><a href="#问题解答" class="headerlink" title="问题解答"></a>问题解答</h2><p>2:34:00</p>
+<p><a href="http://cn.mikecrm.com/aUZMT8z" target="_blank" rel="noopener">课程调查表</a></p>
+<blockquote>
+<p>滑动验证码无法破解，要做<strong>图像识别</strong>，但是这远远超过了爬虫的技术了。</p>
+</blockquote>
+<p>新建PyCharm项目 chinahadoop_crawl_spider<br>新建PyCharm项目 chinahadoop_crawl_spider_py2.7</p>
+<p>cd chinahadoop_crawl_spider</p>
+<p>macOS下安装pipenv</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install pipenv</span><br></pre></td></tr></table></figure>
+<p>添加pipenv自动补全</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(pipenv --completion)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>初始化pipenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/2.7.14/bin/python</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv --python=/Users/jinlong/.pyenv/versions/3.6.3/bin/python</span><br></pre></td></tr></table></figure>
+<p>修改pypi源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#linux</span></span><br><span class="line">sed -i <span class="string">"s#python.org#douban.com#g"</span> Pipfile</span><br><span class="line"></span><br><span class="line"><span class="comment">#macOS 和linux不同，需要加“”</span></span><br><span class="line">sed -i <span class="string">""</span> <span class="string">"s#python.org#douban.com#g"</span> Pipfile</span><br></pre></td></tr></table></figure>
+<h1 id="02-登录及动态网页的抓取"><a href="#02-登录及动态网页的抓取" class="headerlink" title="02 登录及动态网页的抓取"></a>02 登录及动态网页的抓取</h1><blockquote>
+<p>讲课开始时间：2017-06-13 19:58</p>
+<p>03:02 开始讲课</p>
+</blockquote>
+<h2 id="大纲-1"><a href="#大纲-1" class="headerlink" title="大纲"></a>大纲</h2><ul>
+<li>网站结构分析及案例：马蜂窝</li>
+<li>XPath</li>
+<li>正则表达式</li>
+<li>动态网页</li>
+<li>Headless 的浏览器：PhantomJS</li>
+<li>浏览器的驱动：Selenium</li>
+</ul>
+<h2 id="网站结构分析-Robots-txt"><a href="#网站结构分析-Robots-txt" class="headerlink" title="网站结构分析 Robots.txt"></a>网站结构分析 Robots.txt</h2><p>04:56</p>
+<ul>
+<li>网站对爬虫的限制</li>
+<li>利用 sitemap 来分析网站结构和估算目标网页的规模</li>
+</ul>
+<p>Robots：<a href="http://www.mafengwo.cn/robots.txt" target="_blank" rel="noopener">www.mafengwo.cn/robots.txt</a></p>
+<p>Sitemap：<a href="http://www.mafengwo.cn/sitemapIndex.xml" target="_blank" rel="noopener">www.mafengwo.cn/sitemapIndex.xml</a></p>
+<h2 id="Sitemap"><a href="#Sitemap" class="headerlink" title="Sitemap"></a>Sitemap</h2><p>10:34</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">sitemap</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">loc</span>&gt;</span>http://www.mafengwo.cn/article-0.xml<span class="tag">&lt;/<span class="name">loc</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">lastmod</span>&gt;</span>2017-02-04<span class="tag">&lt;/<span class="name">lastmod</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">sitemap</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">sitemap</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">loc</span>&gt;</span>http://www.mafengwo.cn/article-1.xml<span class="tag">&lt;/<span class="name">loc</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">lastmod</span>&gt;</span>2017-02-04<span class="tag">&lt;/<span class="name">lastmod</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">sitemap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="分析网站结构"><a href="#分析网站结构" class="headerlink" title="分析网站结构"></a>分析网站结构</h2><p>10:59</p>
+<p>抓特定区域的游记，网站有反爬措施策略。</p>
+<blockquote>
+<p>403 401 501 典型的爬虫被禁止的返回状态码。</p>
+</blockquote>
+<p><a href="http://www.mafengwo.cn/mdd/" target="_blank" rel="noopener">目的地旅游攻略 - 马蜂窝</a></p>
+<h2 id="有效率抓取特定内容"><a href="#有效率抓取特定内容" class="headerlink" title="有效率抓取特定内容"></a>有效率抓取特定内容</h2><p>18:06</p>
+<ul>
+<li><strong>利用 sitemap 里的信息</strong></li>
+</ul>
+<p>直接对目标网页 .html 进行抓取</p>
+<ul>
+<li><strong>对网站目录结构进行分析</strong></li>
+</ul>
+<p>大多数网站都会存在明确的 top-down 的分类的目录结构，我们可以进入特定目录进行抓取。</p>
+<blockquote>
+<p>对于 <a href="http://www.mafengwo.cn" target="_blank" rel="noopener">www.mafengwo.cn</a> 这个网站，所有旅游的游记都位于 <a href="http://www.mafengwo.cn/mdd" target="_blank" rel="noopener">www.mafengwo.cn/mdd</a> 下，按照城市进行了分类，每个城市的游记位于城市的首页。</p>
+</blockquote>
+<p>城市的首页：/travel-scenic-spot/mafengwo/<strong>10774</strong>.html （路径一）</p>
+<p>游记的分页格式：/yj/<strong>10774/1-0-01</strong>.html （路径二）</p>
+<p>游记的页面：/i/3523364.html （leaf）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 12141 城市代码</span><br><span class="line">/yj/12141/1-0-[page].html</span><br><span class="line"></span><br><span class="line"># 游记页面</span><br><span class="line">/i/\d&#123;7&#125;.html</span><br></pre></td></tr></table></figure>
+<h2 id="XPath"><a href="#XPath" class="headerlink" title="XPath"></a>XPath</h2><p>20:45</p>
+<p>内容抽取的方式：XPath 和正则表达式。</p>
+<p><strong>安装</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install lxml==3.6.4</span><br></pre></td></tr></table></figure>
+<p><strong>基本语法</strong></p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nodename</td>
+<td>选取此节点的所有子节点，tag 或 * 选择任意的 tag</td>
+</tr>
+<tr>
+<td>/</td>
+<td>从根节点选取，选择直接子节点，不包含更小的后代（例如孙、从孙）</td>
+</tr>
+<tr>
+<td>//</td>
+<td>从匹配选择的当前节点选择文档中的节点，而不考虑它们的位置，包含所有后代</td>
+</tr>
+<tr>
+<td>.</td>
+<td>选取当前节点</td>
+</tr>
+<tr>
+<td>..</td>
+<td>选取当前节点的父节点</td>
+</tr>
+<tr>
+<td>@</td>
+<td>选取属性</td>
+</tr>
+</tbody>
+</table>
+<p><strong>示例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s = <span class="string">'&lt;a class="hask" href="http://www.taobao.com"&gt;Yes&lt;/a&gt;'</span></span><br><span class="line"></span><br><span class="line">tr = etree.HTML(s)</span><br><span class="line"></span><br><span class="line">tr.xpath(<span class="string">'//a'</span>)</span><br><span class="line"></span><br><span class="line">tr.xpath(<span class="string">'//a'</span>)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">tr.xpath(<span class="string">'//a'</span>)[<span class="number">0</span>].attrib</span><br><span class="line"></span><br><span class="line">tr.xpath(<span class="string">'//*[@class="hask"]'</span>)[<span class="number">0</span>].attrib</span><br></pre></td></tr></table></figure>
+<p><strong>Console</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElemeentsByClassNName(<span class="string">'hasxjicon'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="属性"><a href="#属性" class="headerlink" title="@ 属性"></a>@ 属性</h3><p>30:14</p>
+<p>在 DOM 树中，以路径的方式查询节点，通过 @ 符号来选取属性。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">rel</span>=<span class="string">"nofollow"</span> <span class="attr">class</span>=<span class="string">"external text"</span> <span class="attr">href</span>=<span class="string">"http://googlee.ac"</span>&gt;</span>google<span class="tag">&lt;<span class="name">wbr</span>&gt;</span>.ac<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>rel class href 都是属性，可以通过 <code>&quot;//*[@class=&#39;external text&#39;]&quot;</code>来选取对应元素。</li>
+<li>= 符号要求属性完全匹配，可以用 contains 方法来部分匹配，例如<code>&quot;//*[contains(@class, &#39;external&#39;)]&quot;</code>可以匹配，而<code>&quot;//*[@class=&#39;external&#39;]&quot;</code>不能匹配。</li>
+</ul>
+<h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><p>36:07</p>
+<p>and 和 or 运算符：</p>
+<p><strong>选择 p 或者 span 或者 h1 标签的元素</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">soup = tree.xpaht(<span class="string">'//td[@class="editor bbsDetailContainer"]//*[self::p or self::span or self::h1]'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>选择 class 为 editor 或者 tag 的元素</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">soup = tree.xpaht(<span class="string">'//td[@class="editor" or @class="tag"]'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>41:47</p>
+<p>正则表达式是对字符串操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个”规则字符串“，这个”规则字符串“用来表达对字符串的一种过滤逻辑。</p>
+<blockquote>
+<p>在爬虫的解析中，经常会将正则表达式与 DOM 选择器结合使用。正则表达式适用于<strong>字符串特征比较明显</strong>的情况，但是同样的正则表达式可能在 HTML 源码里多次出现；而 DOM 选择器可以通过 class 及 id 来精确找到 DOM 块，从而缩小查找的范围。</p>
+</blockquote>
+<p>NLP 自然语言处理</p>
+<h3 id="常用规则"><a href="#常用规则" class="headerlink" title="常用规则"></a>常用规则</h3><p>43:58</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\</td>
+<td>转义符，例如 \?</td>
+</tr>
+<tr>
+<td>^</td>
+<td>字符串起始</td>
+</tr>
+<tr>
+<td>$</td>
+<td>字符串结束</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前面子表达式0次或多次</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前面子表达式1次或多次</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配前面子表达式0次或1次</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>匹配至少 n 次，最多 m 次</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配除 \n 之外的单个字符</td>
+</tr>
+<tr>
+<td>(pattern)</td>
+<td>匹配并获取这个匹配，例如匹配 ab(cd)e 正则表达式只返回 cd （匹配内容，并返回匹配内容。）</td>
+</tr>
+<tr>
+<td>[xyz]</td>
+<td>字符集合，匹配任意集合里的字符</td>
+</tr>
+<tr>
+<td>[^xyz]</td>
+<td>排除集合里的字符，不匹配集合里的字符</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配一个数字，等价 [0-9]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="爬虫常用的正则规则"><a href="#爬虫常用的正则规则" class="headerlink" title="爬虫常用的正则规则"></a>爬虫常用的正则规则</h3><p>47:07</p>
+<ul>
+<li>获取标签下的文本： <code>&#39;&lt;th[^&gt;]*&gt;(.*?)&lt;/th&gt;&#39;</code></li>
+<li>查找特定类别的链接，例如 /wiki/ 不包含 Category 目录：<code>&lt;a href=&quot;wiki/(?!Category:)[^/&gt;]*&gt;(.*?)&lt;&#39;</code> （不包含 <code>?!Category:</code>）</li>
+<li>查找商品外链，例如 jd 的商品外链为7位数字的 a 标签节点：<code>&#39;/\d{7}.html&#39;</code></li>
+<li>查找淘宝的商品信息，’ 或者 “ 开始及结尾：<code>&#39;href=[\&quot;\&#39;]{1}(//detail.taobao.com/item.html[^&gt;\&quot;\&#39;\s]+?)&quot;&#39;</code></li>
+</ul>
+<h3 id="贪婪模式及非贪婪模式"><a href="#贪婪模式及非贪婪模式" class="headerlink" title="贪婪模式及非贪婪模式"></a>贪婪模式及非贪婪模式</h3><p>50:31</p>
+<p>? 该字符紧跟在任何一个其他限制符 (*,+,?,{n},{n,},{n,m}) 后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。</p>
+<p><strong>示例</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s = """<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">'https://www.google.com/search?q=regular+expression&amp;oq=regular+expression&amp;aqs=chrome..69i57j0l5.7173j0j7&amp;sourceid=chrome&amp;ie=UTF-8'</span>&gt;</span>Google Test 1<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">'https://www.google.com/search?q=regular+expression&amp;oq=regular+expression&amp;aqs=chrome..69i57j0l5.7173j0j7&amp;sourceid=chrome&amp;ie=UTF-8'</span>&gt;</span>Google Test 2<span class="tag">&lt;/<span class="name">a</span>&gt;</span>"""</span><br></pre></td></tr></table></figure>
+<p>对于上面的字符串，贪婪模式将匹配整个字符串。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.findall(<span class="string">'https://www.google.com/search\?q=.*UTF-8'</span>, s)</span><br></pre></td></tr></table></figure>
+<p>对于上面的字符串，而非贪婪模式才是我们想要的额，只返回一个链接</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.findall(<span class="string">'https://www.google.com/search\?q=.*?UTF-8'</span>, s)</span><br></pre></td></tr></table></figure>
+<h2 id="动态网页"><a href="#动态网页" class="headerlink" title="动态网页"></a>动态网页</h2><h3 id="动态页面的使用场景"><a href="#动态页面的使用场景" class="headerlink" title="动态页面的使用场景"></a>动态页面的使用场景</h3><p>52:19</p>
+<ul>
+<li><p>单页模式</p>
+<p>单页模式指的是不需要外部跳转的网页，例如个人设置中心经常就是单页</p>
+</li>
+<li><p>页面交互多的场景 <a href="https://flight.qunar.com/" target="_blank" rel="noopener">【去哪儿网】机票查询,特价机票,打折飞机票-去哪儿网Qunar.com</a></p>
+<p>一部分网页上，有很多的用户交互接口，例如<strong>去哪儿</strong>的机票选择页面，用户可以反复修改查询的参数</p>
+</li>
+<li><p>内容及模块丰富的网页</p>
+<p>有些网页内容很丰富，一次加载完对服务器压力很大，而且这种方式延时也会很差；用户往往也不会查看所有内容</p>
+</li>
+</ul>
+<h3 id="动态页面带来的挑战"><a href="#动态页面带来的挑战" class="headerlink" title="动态页面带来的挑战"></a>动态页面带来的挑战</h3><p>56:41</p>
+<p><strong>对于爬虫：</strong></p>
+<ul>
+<li>简单下载 HTML 已经不行了，必须得有一个 Web 容器来运行 HTML 的脚本</li>
+<li>增加了爬取的时间</li>
+<li>增加了计算机的 CPU、内存的资源消耗</li>
+<li>增加了爬取的不确定性</li>
+</ul>
+<p><strong>对于网站：</strong></p>
+<ul>
+<li>为了配合搜索引擎的爬取，与搜索相关的信息会采用静态方式</li>
+<li>与搜索无关的信息，例如商品的价格、评论，仍然会使用动态加载</li>
+</ul>
+<h3 id="抓取动态页面-分析"><a href="#抓取动态页面-分析" class="headerlink" title="抓取动态页面-分析"></a>抓取动态页面-分析</h3><p>1:01:39</p>
+<p>打开目标页面后，直接右键点击，只保存 HTML</p>
+<p><a href="http://item.jd.com/4938580.html" target="_blank" rel="noopener">【三星Galaxy S8】【限量礼盒版】三星 Galaxy S8（SM-G9500）4GB+64GB 谜夜黑 移动联通电信4G手机 双卡双待【行情 报价 价格 评测】-京东</a></p>
+<h3 id="分析动态网页-对比"><a href="#分析动态网页-对比" class="headerlink" title="分析动态网页-对比"></a>分析动态网页-对比</h3><p>1:04:52</p>
+<ul>
+<li><p>使用 BeyondCompare 或者 SVN 等工具，来对比网页，大致找出动态加载的部分</p>
+</li>
+<li><p>针对要提取的部分，分别查看 html only 与 full webpage，找出动态数据的部分</p>
+</li>
+<li><p>记录下它们的 class 或 id，试着用代码来提取，如果不能提取，说明是动态的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">f = open(<span class="string">'./s7-full.htm'</span>)</span><br><span class="line">c = f.read().decode(<span class="string">'gbk'</span>)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">e = etree.HTML(c)</span><br><span class="line"><span class="keyword">print</span> e.xpath(<span class="string">u'//span[@class="price J-p-10524731933"]'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="问题解答-1"><a href="#问题解答-1" class="headerlink" title="问题解答"></a>问题解答</h2><p>1:08:55 休息5分钟</p>
+<ul>
+<li><p>bloomfilter 数据持久化，直接写到文件就行。</p>
+</li>
+<li><p>github 地址：<a href="https://github.com/junglelord/spider-course-2" target="_blank" rel="noopener">junglelord/spider-course-2</a></p>
+<blockquote>
+<p>第一次课是按照课程来组织代码的，第二次课就按照项目名来组织文件名。</p>
+</blockquote>
+</li>
+<li><p>headless chrome，phantomjs 已经不维护了。</p>
+</li>
+<li><p>文本相似度 </p>
+<blockquote>
+<p>词向量 wordback 文本分析处理，需要机器学习、神经网络方面的知识要求比较高。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="Python-Web-引擎"><a href="#Python-Web-引擎" class="headerlink" title="Python Web 引擎"></a>Python Web 引擎</h2><p>1:18:57</p>
+<ul>
+<li>PyQt PySide：基于 QT 的 Python Web 引擎，需要图形界面的支持，需要安装大量的依赖。安装和配置复杂，尤其是安装图形系统，对于服务器来说代价很大</li>
+<li>Selenium：一个自动化的 Web 测试工具，可以支持包括 Firefox、Chrome、PhantomJS、IE 等多种浏览器的连接与测试</li>
+<li>PhantomJS：一个基于 Webkit 的 Headless 的 Web 引擎，支持 JavaScript。相比 PyQt 等方案，PhantomJS 可以部署在没有 UI 的服务器上。</li>
+</ul>
+<blockquote>
+<p>PhantomJS + Selenium</p>
+</blockquote>
+<p><strong>安装 Selenium</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install selenium</span><br></pre></td></tr></table></figure>
+<p><strong>安装 PhantomJS</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cask install phantomjs</span><br></pre></td></tr></table></figure>
+<h2 id="使用-PhantomJS-来加载动态页面"><a href="#使用-PhantomJS-来加载动态页面" class="headerlink" title="使用 PhantomJS 来加载动态页面"></a>使用 PhantomJS 来加载动态页面</h2><p>1:25:02</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">driver = webdriver.PhantomJS(service_args=[<span class="string">'--ignore-ssl-errors=true'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置浏览器窗口大小</span></span><br><span class="line">driver.set_window_size(<span class="number">1280</span>,<span class="number">2400</span>)</span><br><span class="line"></span><br><span class="line">driver.get(cur_url)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看页面 html 源代码</span></span><br><span class="line">content = driver.page_source</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>SocketIO 跟 云端保持长连接。</p>
+</blockquote>
+<h3 id="set-window-size"><a href="#set-window-size" class="headerlink" title="set_window_size"></a>set_window_size</h3><p>1:32:48</p>
+<p>对于动态网页，有可能存在大量数据是根据视图来动态加载的，PhantomJS 允许客户端设置用来模拟渲染页面的窗口的尺寸，这个尺寸如果设置比较小，我们就不得不用 JavaScript 的 scroll 命令来模拟页面往下滑动的效果以显示更多内容，所以我们可以设置一个相对大的窗口高度来渲染。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driver.set_window_size(<span class="number">1280</span>,<span class="number">2400</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Built-in-DOM-selector"><a href="#Built-in-DOM-selector" class="headerlink" title="Built-in DOM selector"></a>Built-in DOM selector</h3><p>1:34:37</p>
+<p>Selenium 实现了一系列的类似与 XPath 选择器的方法，使得我们可以直接调用 <code>driver.find_element()</code>来进行元素的选择，但是这些都是基于 Python 的实现，执行效率非常低，大约是基于 C 的正则表达式或 lxml 的10倍的时间，因此不建议使用 <strong>built-in</strong> 的选择器，而是采用 <strong>lxml</strong> 或者 <strong>re</strong> 对 <code>driver.page_source</code>（<strong>html</strong> 文本）进行操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">find_element(self, by=<span class="string">'id'</span>, value=<span class="keyword">None</span>)</span><br><span class="line">find_element_by_class_name(self, name)</span><br><span class="line">find_element_by_id(self, id_)</span><br><span class="line">find_element_by_css_selector(self, css_selector )</span><br></pre></td></tr></table></figure>
+<h3 id="Useful-Methods-amp-Properties"><a href="#Useful-Methods-amp-Properties" class="headerlink" title="Useful Methods &amp; Properties"></a>Useful Methods &amp; Properties</h3><p>1:37:40</p>
+<p>Selenium 通过浏览器的驱动，支持大量的 HTML 及 JavaScript 的操作，常用的包括：</p>
+<ul>
+<li>page_source：获取当前的 HTML 文本</li>
+<li>title：HTML 的 title</li>
+<li>current_url：当前网页的 URL</li>
+<li>get_cookie() &amp; get_cookies()：获取当前的 cookie</li>
+<li>delete_cookie() &amp; delete_all_cookies()：删除所有的 cookie</li>
+<li>add_cookie()：添加一段 cookie</li>
+<li>set_page_load_timeout()：设置网页超时时间</li>
+<li>execute_script()：同步执行一段 JavaScript 命令</li>
+<li>execute_async_script()：异步执行 JavaScript 命令</li>
+</ul>
+<blockquote>
+<p>HTML title 和 文章 title 不一样。</p>
+</blockquote>
+<h3 id="Close-and-Clear"><a href="#Close-and-Clear" class="headerlink" title="Close and Clear"></a>Close and Clear</h3><p> 1:40:41</p>
+<p>Selenium 通过内嵌的浏览器 driver 与浏览器进行通信，因此在退出的时候必须调用 <code>driver.close()</code> 及 <code>driver.quit()</code>来退出 PhantomJS。否则 PhantomJS 会一直运行在后台并占用系统资源。</p>
+<p><strong>查看进程</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|grep phantomjs</span><br></pre></td></tr></table></figure>
+<p><strong>关闭进程</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 官方建议</span></span><br><span class="line">driver.service.process.send_signal(signal.SIGTERM)</span><br><span class="line"></span><br><span class="line">driver.close()</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pgrep phantomjs | xagrs kill</span><br></pre></td></tr></table></figure>
+<h2 id="提取动态数据"><a href="#提取动态数据" class="headerlink" title="提取动态数据"></a>提取动态数据</h2><p>1:49:17</p>
+<ol>
+<li>加载的过程中，根据网络环境的好坏，会存在一些延时，因此要多次尝试提取。</li>
+<li>动态页面的元素，同一个元素可能命名方式有很多种，要多种情况都进行尝试。如果一个元素不能找到而且 Selenium 并没有报网络错误，可能元素有新的命名了，我们需要将找不到的页面及元素信息记录在日志里，使得后续可以分析，找出新的定义的方法并对这一类页面重新提取信息。</li>
+</ol>
+<h3 id="提取动态数据代码"><a href="#提取动态数据代码" class="headerlink" title="提取动态数据代码"></a>提取动态数据代码</h3><p>1:50:57</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> number_tried &lt; constans[<span class="string">'MAX_PAGE_TRIED'</span>]:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        price_element = driver.find_element_by_class_name(<span class="string">''</span> % (item_id))</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">except</span> selenium.common.exceptions.NoSuchElementException, msgs:</span><br><span class="line">        number_tried += <span class="number">1</span></span><br><span class="line">        <span class="keyword">print</span> msgs[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">except</span> Exception, msgs:</span><br><span class="line">        <span class="keyword">print</span> msgs[<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="href-的类型-and"><a href="#href-的类型-and" class="headerlink" title="href 的类型 \ and \\"></a>href 的类型 \ and \\</h2><p>1:51:08</p>
+<p>网页内，href 后面的链接可能有这样三种：</p>
+<ul>
+<li><p>href=”<a href="http://career.taobao.com&quot;" target="_blank" rel="noopener">http://career.taobao.com&quot;</a></p>
+<p>完整 URL，直接跳转</p>
+</li>
+<li><p>href=”\\detail.taobao.com\iuslkjsd” （淘宝）</p>
+<p>协议相关的绝对路径，如果现在是 <a href="https://xxx" target="_blank" rel="noopener">https://xxx</a> 则需要在 <code>\\detail.taobao.com\iuslkjsd</code>前面加上 <code>https:</code>，协议也可以是 <code>file:</code>或者 <code>ftp:</code>，这种比较灵活。</p>
+</li>
+<li><p>href=”\i\8277375.html” （京东）</p>
+<p>网站的相对路径，需要在前面指明当前 url 的协议及 domain</p>
+</li>
+</ul>
+<h2 id="PhantomJS-配置"><a href="#PhantomJS-配置" class="headerlink" title="PhantomJS 配置"></a>PhantomJS 配置</h2><p>1:53:15</p>
+<ul>
+<li>–ignore-ssl-errors=[true|false] 一些证书没有获得 CA 授权，浏览器会报错，使用这个命令后，能自动忽略此类错误。</li>
+<li>–load-images=[true|false] 加载图片（不加载）</li>
+<li>–disk-cache=[true|false] 硬盘缓存 （开启硬盘缓存）</li>
+<li>–cookie-file=/path/to/cookies.txt cookie文件存放位置</li>
+<li>—debug=[true|false] debug模式</li>
+<li>–config=/path/to/config.json 指定配置文件</li>
+</ul>
+<h2 id="证书授信-CA-SSL-HTTP"><a href="#证书授信-CA-SSL-HTTP" class="headerlink" title="证书授信 CA SSL HTTP"></a>证书授信 CA SSL HTTP</h2><p>1:54:27</p>
+<p>SSL 非对称的加密方式</p>
+<ul>
+<li>private key 服务器使用私钥解密信息。</li>
+<li>public key 公钥公布。</li>
+</ul>
+<h2 id="PhantomJS-config"><a href="#PhantomJS-config" class="headerlink" title="PhantomJS config"></a>PhantomJS config</h2><p>2:01:37</p>
+<p>–config=/path/to/config.json</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"ignoreSslErrors"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"maxDiskCacheSize"</span>: <span class="number">1000</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>2:03:56</p>
+<h2 id="答疑"><a href="#答疑" class="headerlink" title="答疑"></a>答疑</h2><p>2:05:27 </p>
+<ul>
+<li><p>js 滚动：<code>window.scrollTo(0, 4000)</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.scrollHeight</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>滑动验证码 破解方案</p>
+</li>
+</ul>
+<h1 id="03-微博的抓取"><a href="#03-微博的抓取" class="headerlink" title="03 微博的抓取"></a>03 微博的抓取</h1><blockquote>
+<p>讲课开始时间：2017-06-15 19:52</p>
+<p>09:22 开始讲课</p>
+</blockquote>
+<p>分布式爬虫</p>
+<h2 id="大纲-2"><a href="#大纲-2" class="headerlink" title="大纲"></a>大纲</h2><ul>
+<li>使用 Selenium + PhantomjS 来抓取</li>
+<li>微博接口分析</li>
+<li>直接调用微博 API 来抓取</li>
+<li>表单及登录</li>
+</ul>
+<p>10:48 流程分析</p>
+<h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>13:03</p>
+<p>最重要的是 设置 User-Agent，否则无法跳转链接</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.common.desired_capabilities <span class="keyword">import</span> DesiredCapabilities</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">user_agent = (</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">dcap = dict(DesiredCapabilities.PHANTOMJS)</span><br><span class="line"></span><br><span class="line">dcap[<span class="string">"phantomjs.page.settings.userAgent"</span>] = user_agent</span><br><span class="line"></span><br><span class="line">driver = webdriver.PhantomJS(desired_capabilities=dcap)</span><br></pre></td></tr></table></figure>
+<h2 id="输入用户名与密码"><a href="#输入用户名与密码" class="headerlink" title="输入用户名与密码"></a>输入用户名与密码</h2><p>15:49</p>
+<p>为了与微博内容交互，需要使用 JavaScript</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"loginname"</span> <span class="attr">class</span>=<span class="string">"W_input "</span> <span class="attr">maxlength</span>=<span class="string">"128"</span> <span class="attr">autocomplete</span>=<span class="string">"off"</span> <span class="attr">action-data</span>=<span class="string">"text=邮箱/会员帐号/手机号"</span> <span class="attr">action-type</span>=<span class="string">"text_copy"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">node-type</span>=<span class="string">"username"</span> <span class="attr">tabindex</span>=<span class="string">"1"</span> <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span>	</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"W_input "</span> <span class="attr">maxlength</span>=<span class="string">"24"</span> <span class="attr">autocomplete</span>=<span class="string">"off"</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">action-type</span>=<span class="string">"text_copy"</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">node-type</span>=<span class="string">"password"</span> <span class="attr">tabindex</span>=<span class="string">"2"</span> <span class="attr">type</span>=<span class="string">"password"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"W_input "</span> <span class="attr">maxlength</span>=<span class="string">"6"</span> <span class="attr">autocomplete</span>=<span class="string">"off"</span> <span class="attr">value</span>=<span class="string">"验证码"</span> <span class="attr">action-data</span>=<span class="string">"text=请输入验证码"</span> <span class="attr">action-type</span>=<span class="string">"text_copy"</span> <span class="attr">name</span>=<span class="string">"verifycode"</span> <span class="attr">node-type</span>=<span class="string">"verifycode"</span> <span class="attr">tabindex</span>=<span class="string">"3"</span> <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"info_list login_btn"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="string">"W_btn_a btn_32px"</span> <span class="attr">action-type</span>=<span class="string">"btn_submit"</span> <span class="attr">node-type</span>=<span class="string">"submitBtn"</span> <span class="attr">suda-data</span>=<span class="string">"key=tblog_weibologin3&amp;amp;value=click_sign"</span> <span class="attr">tabindex</span>=<span class="string">"6"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">node-type</span>=<span class="string">"submitStates"</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>相关的 JavaScript 代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输入用户名</span></span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">'loginname'</span>).value=<span class="string">'13715221811'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 输入密码</span></span><br><span class="line"><span class="built_in">document</span>.getElementsByName(<span class="string">"password"</span>)[<span class="number">0</span>].value=<span class="string">"wowooewweojfwekjnf"</span></span><br><span class="line"><span class="built_in">document</span>.getElementsByClassName(<span class="string">"W_input "</span>)[<span class="number">2</span>].value=<span class="string">"12345623432"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 点击登录按钮</span></span><br><span class="line"><span class="built_in">document</span>.getElementsByClassName(<span class="string">"W_btn_a btn_32px"</span>)[<span class="number">0</span>].click()</span><br></pre></td></tr></table></figure>
+<p>通过 Selenium 提供的 send_keys 来传递 value</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element_by_id(<span class="string">'loginname'</span>).send_keys(username)</span><br><span class="line">driver.find_element_by_name(<span class="string">'password'</span>).send_keys(password)</span><br></pre></td></tr></table></figure>
+<h2 id="分析微博网站结构"><a href="#分析微博网站结构" class="headerlink" title="分析微博网站结构"></a>分析微博网站结构</h2><p>29:22 </p>
+<ol>
+<li>找出感兴趣的微博号，翻页抓取全部。（起始点）（关注，粉丝，微博）</li>
+<li>随机一个页面，遍历所有页面。（关注了谁，谁关注了他）</li>
+</ol>
+<h2 id="关注、分析"><a href="#关注、分析" class="headerlink" title="关注、分析"></a>关注、分析</h2><p>40:28</p>
+<p>关注列表、粉丝列表，作为漫游 Weibo 的外链。</p>
+<ul>
+<li><p><strong>要选择什么数据做指标</strong>，高质量的<strong>关注列表</strong>。</p>
+</li>
+<li><p>翻页对数据库有很大的负担，有<strong>深翻页</strong>的行为的一般都是<strong>机器人</strong>。</p>
+</li>
+</ul>
+<h2 id="获取微博外链"><a href="#获取微博外链" class="headerlink" title="获取微博外链"></a>获取微博外链</h2><p>46:17</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element_by_xpath(<span class="string">'//a[@class="t_link S_txt1"]'</span>)</span><br></pre></td></tr></table></figure>
+<p>0是关注，1是粉丝，2是微博，我们只需要0，关注的微博一般是有质量的额，而粉丝的数量太多，并且有太多僵尸粉。</p>
+<p>打开关注列表页：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element_by_xpath(<span class="string">'//a[@class="t_link S_txt1"]'</span>).get_attribute(<span class="string">"href"</span>)</span><br></pre></td></tr></table></figure>
+<p>获取所有关注的微博号的地址：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element_by_xpath(‘//*[contains(@class, "follow_item")]//a[@class="S_txt1"]')</span><br></pre></td></tr></table></figure>
+<h2 id="获取微博用户信息"><a href="#获取微博用户信息" class="headerlink" title="获取微博用户信息"></a>获取微博用户信息</h2><p>48:13</p>
+<ul>
+<li><p>提取用户的基本信息</p>
+<ul>
+<li>链接：用正则表达式把用户的链接参数都去掉<code>/u/1634431184?refer_flag=1005050006</code>，只保留<code></code>/u/1634431184`</li>
+<li>微博昵称及头像</li>
+<li>关注、粉丝及微博数量</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>过滤质量差的用户</strong>，对于微博数量少于阀值，或者关注数超过粉丝数 N 倍以上的，判定为僵尸粉或广告微博，直接跳过（对于爬取的效率有很大影响）</p>
+<ul>
+<li>僵尸粉：微博数量极少</li>
+<li>纯广告、营销微博：关注数远远超过粉丝数量</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>提取下一页，可以继续查找更多的 user</li>
+</ul>
+<blockquote>
+<p>判断关注数和粉丝数是否作为我们的种子用户。</p>
+<p>判断微博数小于某个数量，大于某个数量的。不要去爬取。（效率）</p>
+<p>一般我们聚焦在某个行业的内容。</p>
+</blockquote>
+<h2 id="微博信息抽取-微博正文抽取"><a href="#微博信息抽取-微博正文抽取" class="headerlink" title="微博信息抽取 - 微博正文抽取"></a>微博信息抽取 - 微博正文抽取</h2><p>1:01:29 第二次讲到 1:16:01</p>
+<p>微博名：<code>driver.find_element_by_tag_name(&#39;h1&#39;)</code></p>
+<p>所有的 Feed：<code>driver.find_elements_by_class_name(&quot;WB_detail&quot;)</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">feed = &#123;&#125;</span><br><span class="line">feed[<span class="string">'time'</span>] = element.find_element_by_xpath(<span class="string">'.//div[@class="WB_from S_txt2"]'</span>).text</span><br><span class="line">feed[<span class="string">'content'</span>] = element.find_elelment_by_class_name(<span class="string">'WB_text'</span>).text</span><br><span class="line"></span><br><span class="line">feed[<span class="string">'image_names'</span>] = []</span><br><span class="line"><span class="keyword">for</span> image <span class="keyword">in</span> element.find_elements_by_xpath(<span class="string">'.//li[contains(@class,"WB_pic")]/img'</span>):</span><br><span class="line">    feed[<span class="string">'image_names'</span>].append(re.findall(<span class="string">'/([^/]+)$'</span>, image.get_attribute(<span class="string">'src'</span>)))</span><br></pre></td></tr></table></figure>
+<p>微博的图片，只需要保存图片名</p>
+<p><a href="http://wx2.sinaimg.cn/thumb150/4b7a8989ly1fcws2sryvrj22p81sub2a.jpg" target="_blank" rel="noopener">http://wx2.sinaimg.cn/thumb150/4b7a8989ly1fcws2sryvrj22p81sub2a.jpg</a></p>
+<p>http://存储域名/分辨率/文件名</p>
+<blockquote>
+<p>个人信息，在数据库中不会存完整的链接，只会保存文件名，然后请求的时候在做拼接。</p>
+<p>图片上传，服务器一般会存三个格式，一个缩略图，一个中等大小的图片，一个原图。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_user</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">go_next_page</span><span class="params">(cur_driver)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        next_page = cur_driver.find_element_by_xpath(<span class="string">'//a[contains(@class, "page next")]'</span>).get_attribute(<span class="string">'href'</span>)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'next page is '</span> + next_page</span><br><span class="line">        cur_driver.get(next_page)</span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'next page is not found'</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<p>爬虫1：爬取所有 user_id</p>
+<p>爬虫2：爬取正文（1.翻页，2.提取数据，3.下一页）</p>
+<h2 id="微博图片信息"><a href="#微博图片信息" class="headerlink" title="微博图片信息"></a>微博图片信息</h2><p>1:13:05</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.findall(<span class="string">'/([^/]+)$'</span>, image.get_attribute(<span class="string">'src'</span>))</span><br></pre></td></tr></table></figure>
+<p>服务器上图片存储规格，三种：缩略图、中图、大图（原图）</p>
+<h2 id="滚动频率与翻页"><a href="#滚动频率与翻页" class="headerlink" title="滚动频率与翻页"></a>滚动频率与翻页</h2><p>每次滚动后，检查是否已经出现了</p>
+<ul>
+<li><p>微博的下一页的 <code>class: page next S_txt1 S_line1</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element_by_xpaht(<span class="string">'//a[@class="page next S_txt1 S_line1]'</span>).click()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>翻页命令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driver.execute_script(<span class="string">'window.scrollTo(0, document.body.scrollHeight)'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_feed</span><span class="params">(feeds)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">20</span>):</span><br><span class="line">        <span class="comment"># 滚动到页面底部，使得当前页面所有的微博都被显示</span></span><br><span class="line">        scroll_to_bottom()</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 遍历这个数组，提取所有微博的内容</span></span><br><span class="line">        <span class="keyword">for</span> element <span class="keyword">in</span> feeds_crawler.find_elements_by_class_name(<span class="string">'WB_detail'</span>):</span><br><span class="line">            tried = <span class="number">0</span></span><br><span class="line">            <span class="keyword">while</span> tried &lt; <span class="number">3</span>:</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    feed = &#123;&#125;</span><br><span class="line">                    feed[<span class="string">'time'</span>] = element.find_element_by_xpath(<span class="string">'.//div[@class="WB_from S_txt2]'</span>).text</span><br><span class="line">                    feed[<span class="string">'content'</span>] = element.find_element_by_class_name(<span class="string">'WB_text'</span>).text</span><br><span class="line">                    feed[<span class="string">'image_names'</span>] = []</span><br><span class="line">					<span class="keyword">for</span> image <span class="keyword">in</span> element.find_elements_by_xpath(<span class="string">'.//li[contains(@class,"WB_pic")]/img'</span>):</span><br><span class="line">    					feed[<span class="string">'image_names'</span>].append(re.findall(<span class="string">'/([^/]+)$'</span>, image.get_attribute(<span class="string">'src'</span>)))</span><br><span class="line">                    feeds.append(feed)</span><br><span class="line">                    <span class="comment"># print '-----------------'</span></span><br><span class="line">                    <span class="keyword">print</span> -*<span class="number">20</span></span><br><span class="line">                    <span class="keyword">print</span> feed[<span class="string">'time'</span>]</span><br><span class="line">                    <span class="keyword">print</span> feed[<span class="string">'content'</span>]</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">except</span> Exception:</span><br><span class="line">                    tried += <span class="number">1</span></span><br><span class="line">                    time.sleep(<span class="number">1</span>)</span><br><span class="line">         <span class="keyword">if</span> go_next_page(feeds_crawler) <span class="keyword">is</span> <span class="keyword">False</span>:</span><br><span class="line">            <span class="keyword">return</span> feeds</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">scroll_to_bottom</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 最多尝试20次滚屏</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">' scroll down'</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">50</span>):</span><br><span class="line">        <span class="comment"># print 'scrolling for the %d time' % (i)</span></span><br><span class="line">        feeds_crawler.execute_script(<span class="string">'window.scrollTo(0, document.body.scrollHeight)'</span>)</span><br><span class="line">        html = feeds_cralwer.page_source</span><br><span class="line">        tr = etree.HTML(html)</span><br><span class="line">        next_page_url = tr.xpath(<span class="string">'//a[contains(@class, "page next")]'</span>)</span><br><span class="line">        <span class="keyword">if</span> len(next_page_url) &gt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> next_page_url[<span class="number">0</span>].get(<span class="string">'href'</span>)</span><br><span class="line">        <span class="keyword">if</span> len(re.findall(<span class="string">'点击重新载入'</span>, html)) &gt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'scrolling failed, reload it'</span></span><br><span class="line">            feeds_crawler.find_element_by_link_text(<span class="string">'点击重新载入'</span>).click()</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>1:22:39 </p>
+<p>每次滚动后，检查是否已经出现了”下一页“的按钮，如果是则停止翻页，否则检查是否出现了”网络超时“的链接，是的话，点击这个链接来重新加载。</p>
+<ol>
+<li>滚屏</li>
+<li>提取</li>
+<li>翻页</li>
+</ol>
+<h2 id="滚屏"><a href="#滚屏" class="headerlink" title="滚屏"></a>滚屏</h2><p>1:23:45</p>
+<h2 id="微博抓取框架-重点"><a href="#微博抓取框架-重点" class="headerlink" title="微博抓取框架 - 重点"></a>微博抓取框架 - 重点</h2><p>1:24:25</p>
+<p>流程图</p>
+<p>Web 1: Crawler</p>
+<ul>
+<li>Dequeue Url：从数据库拿数据</li>
+</ul>
+<p>Web 2: User Info</p>
+<ul>
+<li>Enqueue Url：数据放到数据库</li>
+</ul>
+<p>1:27:31</p>
+<p>爬虫操作 chrome 浏览器访问 weibo。</p>
+<p>robot-&gt;chrome-&gt;weibo</p>
+<p>效率比较低</p>
+<p>1:30:03 休息一下</p>
+<p>1:38:32 JavaScript 问题 <code>&lt;a href=&quot;javascript:&quot;&gt;</code>空 js 代码可能会触发<strong>事件</strong>然后处理。</p>
+<h2 id="微博接口分析"><a href="#微博接口分析" class="headerlink" title="微博接口分析"></a>微博接口分析</h2><p>1:44:26</p>
+<p>微博域名 <a href="http://m.weibo.cn" target="_blank" rel="noopener">http://m.weibo.cn</a></p>
+<p>这是微博的首页网页版，能看到结构非常简单，我们能直接拿到 Feed 流，我们尝试从移动端来分析微博的数据 API 接口</p>
+<p>GET</p>
+<p>protocol + domain + path + parameters</p>
+<p>http:// + m.weibo.cn + /u/14968146565/</p>
+<h2 id="个人首页"><a href="#个人首页" class="headerlink" title="个人首页"></a>个人首页</h2><p>1:56:33 </p>
+<p>参数很多，有些参数不是必要的，可以省略。</p>
+<p><a href="https://m.weibo.cn/api/container/getIndex?type=uid&amp;value=1627825392&amp;containerid=1076031627825392&amp;since_id=4334132933228564" target="_blank" rel="noopener">https://m.weibo.cn/api/container/getIndex?type=uid&amp;value=1627825392&amp;containerid=1076031627825392&amp;since_id=4334132933228564</a></p>
+<p><a href="https://m.weibo.cn/api/container/getIndex?type=uid&amp;value=1627825392&amp;containerid=1076031627825392&amp;since_id=4333519469486774" target="_blank" rel="noopener">https://m.weibo.cn/api/container/getIndex?type=uid&amp;value=1627825392&amp;containerid=1076031627825392&amp;since_id=4333519469486774</a></p>
+<h2 id="个人-feed-流"><a href="#个人-feed-流" class="headerlink" title="个人 feed 流"></a>个人 feed 流</h2><p>2:01:06</p>
+<p>ajax 请求：<a href="https://m.weibo.cn/api/container/getIndex?type=uid&amp;value=1627825392&amp;containerid=1076031627825392" target="_blank" rel="noopener">https://m.weibo.cn/api/container/getIndex?type=uid&amp;value=1627825392&amp;containerid=1076031627825392</a></p>
+<ul>
+<li>type：通过 uid 方式查询</li>
+<li>value： user id</li>
+<li>containerid：107603 + user id</li>
+<li>翻页：since_id</li>
+</ul>
+<h2 id="点击打开个人关注页"><a href="#点击打开个人关注页" class="headerlink" title="点击打开个人关注页"></a>点击打开个人关注页</h2><p>2:07:05</p>
+<p>有三类关注：</p>
+<ul>
+<li><p>推荐 <a href="https://m.weibo.cn/api/container/getIndex?containerid=231051_-_fansrecomm_-_1627825392" target="_blank" rel="noopener">https://m.weibo.cn/api/container/getIndex?containerid=231051_-_fansrecomm_-_1627825392</a></p>
+</li>
+<li><p>她的关注 <a href="https://m.weibo.cn/api/container/getIndex?containerid=231051_-_followers_-_1627825392" target="_blank" rel="noopener">https://m.weibo.cn/api/container/getIndex?containerid=231051_-_followers_-_1627825392</a></p>
+</li>
+<li><p>她的粉丝 <a href="https://m.weibo.cn/api/container/getIndex?containerid=231051_-_fans_-_1627825392" target="_blank" rel="noopener">https://m.weibo.cn/api/container/getIndex?containerid=231051_-_fans_-_1627825392</a></p>
+<p><a href="https://m.weibo.cn/p/index?containerid=231051_-_fans_-_1627825392" target="_blank" rel="noopener">https://m.weibo.cn/p/index?containerid=231051_-<em>fans</em>-_1627825392</a></p>
+</li>
+</ul>
+<p>个人主页 <a href="https://m.weibo.cn/profile/1627825392" target="_blank" rel="noopener">https://m.weibo.cn/profile/1627825392</a></p>
+<h2 id="爬取流程"><a href="#爬取流程" class="headerlink" title="爬取流程"></a>爬取流程</h2><p>2:09:24</p>
+<p>headers 通过 postman interceptor 提取。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crawl_users</span></span></span><br></pre></td></tr></table></figure>
+<p>2:17:23 数据库</p>
+<p>Mongo No_SQL Document 文档型数据库（JSON 数据）</p>
+<p>MySQL SQL 关系型数据库</p>
+<p>2:18:35 MongoDB 操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看数据库</span></span><br><span class="line">show dbs</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用 spider 数据库</span></span><br><span class="line">use spider</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看表</span></span><br><span class="line">show tables</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看数据表 weibo 的数据，只看1行</span></span><br><span class="line">db.weibo.find().limit(1)</span><br></pre></td></tr></table></figure>
+<p><a href="https://jsoneditoronline.org/" target="_blank" rel="noopener">JSON Editor Online - view, edit and format JSON online</a></p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>2:22:14</p>
+<ul>
+<li>两种方式去分析微博的数据抓取策略</li>
+<li>2个爬虫去抓，一个抓用户的信息，一个抓微博内容。</li>
+</ul>
+<h2 id="答疑-1"><a href="#答疑-1" class="headerlink" title="答疑"></a>答疑</h2><p>2:25:23</p>
+<ul>
+<li>106703 这个数是通过观察 url 的规则找到的。</li>
+<li>反爬虫，后边会讲。</li>
+<li>表单模拟登录下一节课讲。</li>
+<li>微博搜索接口 <a href="http://s.weibo.cn" target="_blank" rel="noopener">http://s.weibo.cn</a></li>
+</ul>
+<blockquote>
+<p>zookeeper + kafka + rabbitMQ，课程有可能会讲。</p>
+</blockquote>
+<h1 id="04-多线程与多进程的爬虫"><a href="#04-多线程与多进程的爬虫" class="headerlink" title="04 多线程与多进程的爬虫"></a>04 多线程与多进程的爬虫</h1><blockquote>
+<p>讲课开始时间：2017-06-20 20:03</p>
+<p>00:41 开始讲课</p>
+</blockquote>
+<h2 id="大纲-3"><a href="#大纲-3" class="headerlink" title="大纲"></a>大纲</h2><p>00:50</p>
+<ul>
+<li>表单及登录</li>
+<li>多线程及语言分析对比</li>
+<li>多进程爬虫</li>
+</ul>
+<p>表单及登录</p>
+<h2 id="HTML-提交数据"><a href="#HTML-提交数据" class="headerlink" title="HTML 提交数据"></a>HTML 提交数据</h2><p>01:55</p>
+<p>21:21</p>
+<ul>
+<li><p>form 表单</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>HTML 的标签，由浏览器实现 POST 方法</p>
+</blockquote>
+</li>
+<li><p>ajax 请求</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$.(ajax)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>基于 ajax 技术，异步发送 http 请求并获得返回数据，然后利用 JavaScript 对网页进行处理。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="cookie-和-session"><a href="#cookie-和-session" class="headerlink" title="cookie 和 session"></a>cookie 和 session</h2><p>10:28</p>
+<p>client：cookie</p>
+<p>server：session</p>
+<p>服务器响应后，发给浏览器 Set-Cookie。 </p>
+<h2 id="后台处理流程"><a href="#后台处理流程" class="headerlink" title="后台处理流程"></a>后台处理流程</h2><p>15:55</p>
+<p>一个请求，请求前（before dispatch）、请求后（after dispatch）。响应</p>
+<ul>
+<li>请求</li>
+<li>处理</li>
+<li>响应</li>
+</ul>
+<p>cookie 是会过期的，服务器可以设置有效期。</p>
+<h2 id="HTML-表单"><a href="#HTML-表单" class="headerlink" title="HTML 表单"></a>HTML 表单</h2><p>27:35</p>
+<p>表单使用<code>&lt;form&gt;&lt;/form&gt;</code> tag 包围</p>
+<p>里面包含了表单的元素：</p>
+<p><code>&lt;select&gt; &lt;textarea&gt; &lt;input&gt;</code> 等</p>
+<p>`<input> type 包含了多种输入类型，例如：</p>
+<ul>
+<li><code>&lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;</code> 文本输入框</li>
+<li><code>&lt;input type=&quot;password&quot; name=&quot;password&quot;&gt;</code> 密码输入框</li>
+<li><code>&lt;input type=&quot;submit&quot; value=&quot;Sublimt&quot;&gt;</code> 提交按钮</li>
+</ul>
+<h2 id="表单类型：-form-data"><a href="#表单类型：-form-data" class="headerlink" title="表单类型： form-data"></a>表单类型： form-data</h2><p>29:44</p>
+<p>Content-Type: <code>multipart/form-data;</code>，登录是不会使用这种方式的。</p>
+<h2 id="表单类型：x-www-form-urleencoded"><a href="#表单类型：x-www-form-urleencoded" class="headerlink" title="表单类型：x-www-form-urleencoded"></a>表单类型：x-www-form-urleencoded</h2><p>32:02</p>
+<p>51:20</p>
+<p>Content-Type: <code>applicationn/x-www-form-urlencoded</code></p>
+<p>会将表单内的数据转换为键值对。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cookielib</span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url = <span class="string">""</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'host'</span>: <span class="string">''</span>,</span><br><span class="line">    <span class="string">"user-agent"</span>: <span class="string">''</span>,</span><br><span class="line">    <span class="string">"content-type"</span>: <span class="string">"application/x-www-form-urlencoded"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    data = &#123;<span class="string">'name'</span>: <span class="string">'caca'</span>, <span class="string">"password"</span>: <span class="string">"c"</span>&#125;</span><br><span class="line">    payload = urllib.urlencode(data)</span><br><span class="line">    </span><br><span class="line">    cj = cookielib.CookieJar()</span><br><span class="line">    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))</span><br><span class="line">    request = urllib2.Request(url, payload, headers=headers)</span><br><span class="line">    response = opener.open(request)</span><br><span class="line">    <span class="keyword">print</span> response.info()</span><br><span class="line">    <span class="keyword">print</span> response.read()</span><br><span class="line">    <span class="keyword">for</span> cookie <span class="keyword">in</span> cj:</span><br><span class="line">        <span class="keyword">print</span> cookie.name, cookie.value, cookie.domain</span><br></pre></td></tr></table></figure>
+<h2 id="ajax-登录"><a href="#ajax-登录" class="headerlink" title="ajax 登录"></a>ajax 登录</h2><p>35:26</p>
+<p>一般以 json 的方式提交数据</p>
+<ul>
+<li>淘宝网类似</li>
+</ul>
+<h2 id="登录-1"><a href="#登录-1" class="headerlink" title="登录"></a>登录</h2><p>38:44</p>
+<ol>
+<li>根据 chrome inspector 里检查到的参数，来设置登录方式<ul>
+<li>最常用的是 x-www-form-urlencoded 和 json 方式，两种方式只是 body 编码不同</li>
+<li>如果是 form-data，按照 form-data 的方式组合 body</li>
+<li>body 部分经常需要安装特定的方式编码，比如 base64，或者 md5</li>
+<li>对于非常复杂的登录协议，利用动态网页方式登录。（利用 Selenium 登录，把 cookie 拿出来，给后面的爬虫使用）</li>
+</ul>
+</li>
+<li><code>request = urllib2.Request(url, data, headers=loginheaders)</code><ul>
+<li>url 是访问的地址</li>
+<li>data 是 body 部分</li>
+<li>headers=loginheaders 是 HTTP 请求的 HEADER 数据</li>
+</ul>
+</li>
+</ol>
+<h2 id="表单登录-Python-代码"><a href="#表单登录-Python-代码" class="headerlink" title="表单登录 Python 代码"></a>表单登录 Python 代码</h2><p>42:40</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line">url= <span class="string">""</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">"content-type"</span>: <span class="string">"application/x-www-form-urlencoded"</span></span><br><span class="line">&#125;</span><br><span class="line">data = &#123;<span class="string">'name'</span>: <span class="string">'caca'</span>, <span class="string">"password"</span>: <span class="string">"c"</span>&#125;</span><br><span class="line">payload = urllib.urlencode(data)</span><br><span class="line">request = urllib2.Request(url, payload, headers=headers)</span><br><span class="line">response = urllib2.urlopen(request)</span><br></pre></td></tr></table></figure>
+<h2 id="意外？？"><a href="#意外？？" class="headerlink" title="意外？？"></a>意外？？</h2><p>43:11</p>
+<p>当遇到网页登录后，返回302跳转的情况下，urllib2 的 Response 会丢失 Set-Cookie 的信息，导致登录不成功。</p>
+<p>通常的情况下，我们需要一个通用的能处理 Cookie 的工具</p>
+<ul>
+<li>自动处理 Set-Cookie 请求</li>
+<li>自动处理管理过期 Cookie</li>
+<li>自动在对应的域下发送特殊 Cookie</li>
+</ul>
+<h2 id="urllib2-插件"><a href="#urllib2-插件" class="headerlink" title="urllib2 插件"></a>urllib2 插件</h2><p>44:48</p>
+<p>urllib 实现核心功能，附加功能会提供一个插件（Hook）</p>
+<h2 id="获取并设置-Cookie"><a href="#获取并设置-Cookie" class="headerlink" title="获取并设置 Cookie"></a>获取并设置 Cookie</h2><p>53:44</p>
+<p>登录的核心是为了获得 Cookie。</p>
+<h2 id="使用-urllib2-的插件功能"><a href="#使用-urllib2-的插件功能" class="headerlink" title="使用 urllib2 的插件功能"></a>使用 urllib2 的插件功能</h2><p>54:16</p>
+<p>urllib2 可以绑定一系列的处理对象 handler。</p>
+<ul>
+<li>HTTPRedictHandler 用来处理跳转的情况。</li>
+<li>ProxyHandler 用于处理代理。</li>
+</ul>
+<h2 id="CookieJar"><a href="#CookieJar" class="headerlink" title="CookieJar"></a>CookieJar</h2><p>55:54</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cj = cookielib.CookieJar()</span><br><span class="line">opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))</span><br><span class="line">request = urllib2.Request(url, payload, headers=headers)</span><br><span class="line">response = opener.open(request)</span><br><span class="line"><span class="keyword">print</span> response.info()</span><br><span class="line"><span class="keyword">print</span> response.read()</span><br><span class="line"><span class="keyword">for</span> cookie <span class="keyword">in</span> cj:</span><br><span class="line">    <span class="keyword">print</span> cookie.name, cookie.value, cookie.domain</span><br></pre></td></tr></table></figure>
+<h2 id="多线程爬虫"><a href="#多线程爬虫" class="headerlink" title="多线程爬虫"></a>多线程爬虫</h2><p>1:00:10</p>
+<p>多线程，单线程都是运行在同一内存空间。</p>
+<p>内存空间是共享的，共享的资源要有保护。</p>
+<h2 id="多线程的复杂性"><a href="#多线程的复杂性" class="headerlink" title="多线程的复杂性"></a>多线程的复杂性</h2><p>1:02:01</p>
+<ul>
+<li>资源、数据的安全性：锁保护</li>
+<li>原子性：数据操作是天然互斥的</li>
+<li>同步等待：wait() notify() notifyAll()</li>
+<li>死锁：多个线程对资源互锁，造成死锁</li>
+<li>容灾：任何线程出现错误，整个进程都会停止</li>
+</ul>
+<h2 id="画个图"><a href="#画个图" class="headerlink" title="画个图"></a>画个图</h2><p>1:04:02</p>
+<p>线程：一个线程取流媒体数据，一个线程播放视频到屏幕。</p>
+<h2 id="多线程的优势"><a href="#多线程的优势" class="headerlink" title="多线程的优势"></a>多线程的优势</h2><p>1:05:20</p>
+<ul>
+<li>内存空间共享，信息数据交换效率高</li>
+<li>提高 CPU 的使用效率</li>
+<li>开发便捷</li>
+<li>轻，创建、销毁的开销小</li>
+</ul>
+<h2 id="Python-线程"><a href="#Python-线程" class="headerlink" title="Python 线程"></a>Python 线程</h2><p>1:07:08</p>
+<ul>
+<li>支持多线程（JavaScript PHP 不支持多线程）</li>
+<li>Python 线程直接映射到 native 线程（Java 1.4 的 Java 线程是 JVM 实现的，共同运行在一个 native thread）</li>
+<li>GIL（Global Interpretor Lock）：对于多核的利用能力有限。</li>
+</ul>
+<blockquote>
+<p>爬虫的瓶颈是 I/O，I/O Bound</p>
+</blockquote>
+<h2 id="实现一个多线程爬虫"><a href="#实现一个多线程爬虫" class="headerlink" title="实现一个多线程爬虫"></a>实现一个多线程爬虫</h2><p>1:15:28</p>
+<ol>
+<li>创建一个线程池 <code>threads = []</code></li>
+<li>确认 url 队列线程安全 <code>Queue Deque</code></li>
+<li>从队列取出 url，分配一个线程开始爬取 <code>pop()/get() threading.Thread</code></li>
+<li>如果线程池满了，循环等待，直到有线程结束 <code>t.is_alive()</code></li>
+<li>从线程池移除已经完成下载的线程 <code>threads.remove(t)</code></li>
+<li>如果当前级别的 url 已经遍历完成，<code>t.join()</code>函数等待所有现场结束，然后开始下一级别的爬取。</li>
+</ol>
+<h2 id="多线程爬虫评价"><a href="#多线程爬虫评价" class="headerlink" title="多线程爬虫评价"></a>多线程爬虫评价</h2><p>1:18:41</p>
+<p>优势：</p>
+<ul>
+<li>有效利用 CPU 时间</li>
+<li>极大减小下载出错、阻塞对抓取速度的影响，整体上提高下载的速度</li>
+<li>对于没有反爬虫限制的网站，下载速度可以多倍增加</li>
+</ul>
+<p>局限性：</p>
+<ul>
+<li>对于有反爬的网站，速度提升有限</li>
+<li>提高了复杂度，对编码要求更高</li>
+<li>线程越多，每个线程获得的时间就越少，同时线程切换更频繁也带来额外开销</li>
+<li>线程之间资源竞争更激烈</li>
+</ul>
+<blockquote>
+<p>使用 threading，不要使用 thread。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> threads:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> t.is_alive():</span><br><span class="line">        threads.remove(t)</span><br><span class="line">    <span class="keyword">if</span> len(threads) &gt;= max_threads:</span><br><span class="line">        time.sleep(CRAWL_DELAY)</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        t = threading.Thread(target=get_page_content, name=<span class="keyword">None</span>, args=(url,))</span><br><span class="line">        threads.append(t)</span><br><span class="line">        t.setDaemon(<span class="keyword">True</span>)</span><br><span class="line">        t.start()</span><br><span class="line">        time.sleep(CRAWL_DELAY)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Error: unable to start thread"</span></span><br></pre></td></tr></table></figure>
+<h2 id="多进程爬虫"><a href="#多进程爬虫" class="headerlink" title="多进程爬虫"></a>多进程爬虫</h2><p>1:25:17</p>
+<p>线程与进程</p>
+<p>进程开销比较大，数据是独立的，进程之间切换比线程切换慢。</p>
+<p>进程之间数据共享，</p>
+<h2 id="多进程爬虫评估"><a href="#多进程爬虫评估" class="headerlink" title="多进程爬虫评估"></a>多进程爬虫评估</h2><p>1:29:50</p>
+<p>目的：</p>
+<ul>
+<li>控制线程数量</li>
+<li>对线程进行隔离，减少资源竞争</li>
+<li>某些环境下，在单机上利用多个 IP 来伪装</li>
+</ul>
+<p>局限性：</p>
+<ul>
+<li>不能突破网络瓶颈</li>
+<li>单机单 IP 的情况下，变得没有意义</li>
+<li>数据交换的代价更大</li>
+</ul>
+<h2 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h2><p>1:30:00</p>
+<ul>
+<li>管道（PIPE）</li>
+<li>信号（Signal）：复杂</li>
+<li>消息队列：Posix 及 system V</li>
+<li>共享内存：速度最快，需要结合信号量达到进程间同步及互斥</li>
+<li>信号量：用于数据同步</li>
+<li>Socket：可以标准化，可以用于多机</li>
+</ul>
+<h2 id="Android-进程间通信-Binder"><a href="#Android-进程间通信-Binder" class="headerlink" title="Android 进程间通信 Binder"></a>Android 进程间通信 Binder</h2><p>1:30:47</p>
+<h2 id="Android-进程间通信-AIDL"><a href="#Android-进程间通信-AIDL" class="headerlink" title="Android 进程间通信 AIDL"></a>Android 进程间通信 AIDL</h2><p>1:32:01</p>
+<h2 id="创建多进程爬虫"><a href="#创建多进程爬虫" class="headerlink" title="创建多进程爬虫"></a>创建多进程爬虫</h2><p>1:36:07</p>
+<h3 id="Solution-A-C-S-模式"><a href="#Solution-A-C-S-模式" class="headerlink" title="Solution A - C/S 模式"></a>Solution A - C/S 模式</h3><ol>
+<li>一个服务进程，入队及出队 URL，入队需检查是否已经下载</li>
+<li>监控目前的爬取状态、进度</li>
+<li>多个爬取进程，从服务进程获取 URL，并将新的 URL 返回给服务进程</li>
+<li>使用 Socket 来做 IPC</li>
+</ol>
+<blockquote>
+<p>注册与发现，新客户端被创建，服务端可以发现。远程管理、队列管理、错误维护、</p>
+</blockquote>
+<h3 id="Solution-B-数据库模式"><a href="#Solution-B-数据库模式" class="headerlink" title="Solution B - 数据库模式"></a>Solution B - 数据库模式</h3><ol>
+<li>使用数据库来读取爬取列表</li>
+<li>多个爬取进程，URL 的获取与增加都通过数据库此操作</li>
+</ol>
+<h2 id="C-S-v-s-数据库"><a href="#C-S-v-s-数据库" class="headerlink" title="C/S v.s. 数据库"></a>C/S v.s. 数据库</h2><p>1:38:44</p>
+<p>CS 优势：</p>
+<ul>
+<li>运行速度快，添加、修改、查询都是内存的 BIT 位操作</li>
+<li>扩展方便，例如动态 URL 队列重排</li>
+</ul>
+<p>数据库：</p>
+<ul>
+<li>开发便捷，数据库天生具备读写保护及支持 IPC</li>
+<li>只需要写一个爬虫程序</li>
+</ul>
+<blockquote>
+<p>堆内的存储（CPU 内，代码空间内）、堆外的存储，外存，网络存储。访问速度呈指数级别的下降。</p>
+</blockquote>
+<h2 id="创建-MySQL-数据库表"><a href="#创建-MySQL-数据库表" class="headerlink" title="创建 MySQL 数据库表"></a>创建 MySQL 数据库表</h2><p>1:42:03</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>index</td>
+<td>int(11)</td>
+<td>PRIMARY KEY AUTOINCREMENT</td>
+</tr>
+<tr>
+<td>url</td>
+<td>varchar(512)</td>
+<td>UNIQUE</td>
+</tr>
+<tr>
+<td>status</td>
+<td>varchar(11)</td>
+<td>download status: new,downloading,done</td>
+</tr>
+<tr>
+<td>md5</td>
+<td>varchar(16)</td>
+<td>UNIQUE md5 value of url</td>
+</tr>
+<tr>
+<td>depth</td>
+<td>int(11)</td>
+<td>page depth</td>
+</tr>
+<tr>
+<td>queue_time</td>
+<td>timestamp</td>
+<td>CURRENT_TIMESTAMP time url enqueue</td>
+</tr>
+<tr>
+<td>done_time</td>
+<td>timestamp</td>
+<td>time page downloaded</td>
+</tr>
+</tbody>
+</table>
+<h2 id="数据库创建"><a href="#数据库创建" class="headerlink" title="数据库创建"></a>数据库创建</h2><p>1:42:33</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE urls (</span><br><span class="line">	index int(11) NOT NULL AUTOINCREMENT,</span><br><span class="line">    url varchar(512) NOT NULL,</span><br><span class="line">    status varchar(11) NOT NULL DEFAULT new,</span><br><span class="line">    md5 varchar(16) NOT NULL,</span><br><span class="line">    depth int(11)NOT NULL,</span><br><span class="line">    queue_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">    done_time timestamp NOT NULL DEFAULT 0 ON UPDATE CURRENT_TIMESTAMP,</span><br><span class="line">    PRIMARY KEY index,</span><br><span class="line">    UNIQUE KEY md5</span><br><span class="line">)ENGINE=InnoDB</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ON UPDATE CURRENT_TIMESTAMP 不是所有版本的 MySQL 数据库都支持。老版本不支持。</p>
+</blockquote>
+<h2 id="Python-MySQL-Connector"><a href="#Python-MySQL-Connector" class="headerlink" title="Python MySQL Connector"></a>Python MySQL Connector</h2><p>1:43:40</p>
+<ul>
+<li><p>使用 MySQLConnectionPool 来管理多线程下的 MySQL 数据库链接</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql.connector.poolinng.MySQLConnectionPool</span><br><span class="line">self.cnxpool.get_connection()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>__init__</code> 类实例的时候自动检查和创建数据库及表</p>
+</li>
+<li><p>Cursor 类：<code>cursor = con.cursor(dictionary=True)</code></p>
+</li>
+<li><p><code>SELECT ... FOR UPDATE</code> 加读锁，避免多个进程取出同一个 url</p>
+</li>
+<li><p><code>cursor.commit()</code>支持<strong>事务</strong>，默认关闭了 autocommit 因此需要提交</p>
+</li>
+</ul>
+<blockquote>
+<p>ConnectionPool 去链接数据库。数据库优化问题</p>
+</blockquote>
+<p><a href="https://dev.mysql.com/doc/connector-python/en/" target="_blank" rel="noopener">MySQL :: MySQL Connector/Python Developer Guide</a></p>
+<h2 id="1-48-49-课程结束"><a href="#1-48-49-课程结束" class="headerlink" title="1:48:49 课程结束"></a>1:48:49 课程结束</h2><h2 id="1-48-51-下节课预热"><a href="#1-48-51-下节课预热" class="headerlink" title="1:48:51 下节课预热"></a>1:48:51 下节课预热</h2><ul>
+<li>CS 模式爬虫</li>
+<li>Zookeeper 分布式系统管理发现。</li>
+</ul>
+<h2 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h2><p>1:49:47</p>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>1:51:56</p>
+<ul>
+<li>Nginx</li>
+<li>HBase</li>
+<li>GIL 锁</li>
+<li>MySQL 访问的库 1:56:00 <code>mysqlmanager.py</code></li>
+</ul>
+<p>Python Mysql Connector</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymysql</span><br></pre></td></tr></table></figure>
+<p>Python Mysql Connector<br>py2.7</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mysqlclient</span><br></pre></td></tr></table></figure>
+<h1 id="05-微博数据的存储：分布式数据库及应用"><a href="#05-微博数据的存储：分布式数据库及应用" class="headerlink" title="05 微博数据的存储：分布式数据库及应用"></a>05 微博数据的存储：分布式数据库及应用</h1><blockquote>
+<p>讲课开始时间：2017-06-22 19:53</p>
+<p>开始讲课 08:05</p>
+</blockquote>
+<p>主要讲爬虫用的<strong>数据库存储</strong>方式。</p>
+<h2 id="大纲-4"><a href="#大纲-4" class="headerlink" title="大纲"></a>大纲</h2><ul>
+<li>一个简单的分布式爬虫</li>
+<li>分布式存储</li>
+<li>分布式数据库及缓存</li>
+<li>完整的分布式爬虫</li>
+</ul>
+<h2 id="分布式爬虫系统"><a href="#分布式爬虫系统" class="headerlink" title="分布式爬虫系统"></a>分布式爬虫系统</h2><p>08:36</p>
+<p>降低 I/O ，防火墙限制流量就被反爬虫了。</p>
+<p>爬虫的两个最典型应用方向，搜索引擎，NPL（自然语言处理）</p>
+<h2 id="分布式爬虫的作用"><a href="#分布式爬虫的作用" class="headerlink" title="分布式爬虫的作用"></a>分布式爬虫的作用</h2><p>16:59</p>
+<ul>
+<li>解决目标地址对 IP 访问频率的限制</li>
+<li>利用更高的带宽，提高下载速度 （解决 I/O bond）</li>
+<li>大规模系统的分布式存储和备份 （数据安全问题）</li>
+<li>数据的扩展能力 </li>
+</ul>
+<h2 id="将多进程爬虫部署到多台主机上"><a href="#将多进程爬虫部署到多台主机上" class="headerlink" title="将多进程爬虫部署到多台主机上"></a>将多进程爬虫部署到多台主机上</h2><p>19:48</p>
+<ul>
+<li><p>将数据库地址配置到统一的服务器上</p>
+</li>
+<li><p>数据库设置仅允许特定 IP 来源的访问请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;%&apos; IDENTIFIED BY &apos;password&apos; WITH GRANT OPTION; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<p>vim .cnf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># bind-address = 127.0.0.1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置防火墙，允许端口远程连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eht0 -p tcp -m tcp --dport 3306 -j ACCEPT</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>Mastere Slave 方式的爬虫</p>
+<p>DB 方式的爬虫</p>
+</blockquote>
+<h2 id="分布式存储"><a href="#分布式存储" class="headerlink" title="分布式存储"></a>分布式存储</h2><p>31:32</p>
+<blockquote>
+<p>使用 HDFS 存储抓回来的网页源码</p>
+</blockquote>
+<p>MySQL：可以存任务调度</p>
+<h2 id="爬虫原始数据存储特点"><a href="#爬虫原始数据存储特点" class="headerlink" title="爬虫原始数据存储特点"></a>爬虫原始数据存储特点</h2><p>32:47</p>
+<ul>
+<li>文件小，大量 KB 级别的文件</li>
+<li>文件数量大</li>
+<li>增量方式一次性写入，极少需要修改</li>
+<li>顺序读写</li>
+<li>并发的文件读写</li>
+<li>可扩展</li>
+</ul>
+<h2 id="Google-FS"><a href="#Google-FS" class="headerlink" title="Google FS"></a>Google FS</h2><p>36:30</p>
+<p>HDFS 是 Google FS 的一个开源实现。</p>
+<p>大量小文件组成一个数据块然后写入到一个磁盘上。</p>
+<blockquote>
+<p>随机读取数据很差</p>
+</blockquote>
+<p><strong>HDFS 架构</strong></p>
+<ul>
+<li>数据节点（Data Node）（存数据的系统）</li>
+<li>名字节点（Name Node）</li>
+</ul>
+<h2 id="Python-hdfs-module"><a href="#Python-hdfs-module" class="headerlink" title="Python hdfs module"></a>Python hdfs module</h2><p>42:42</p>
+<p>Python hdfs module</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install hdfs</span><br></pre></td></tr></table></figure>
+<h2 id="HBASE"><a href="#HBASE" class="headerlink" title="HBASE"></a>HBASE</h2><p>44:13</p>
+<ul>
+<li>On top of HDFS</li>
+<li>Column-oriented database</li>
+<li>Can store huge size raw data</li>
+<li>KEY-VALUE</li>
+</ul>
+<blockquote>
+<p>HBASE 存储 网页文件</p>
+<p>AWS - S3</p>
+<p>阿里云 - OSS</p>
+</blockquote>
+<p>列数据库</p>
+<p>行数据库-MySQl</p>
+<h2 id="HBASE-和-HDFS-比较"><a href="#HBASE-和-HDFS-比较" class="headerlink" title="HBASE 和 HDFS 比较"></a>HBASE 和 HDFS 比较</h2><p>50:13</p>
+<p>HDFS 分布式存储系统，HBASE 数据库。</p>
+<h2 id="HBASE-样子"><a href="#HBASE-样子" class="headerlink" title="HBASE 样子"></a>HBASE 样子</h2><p>52:03</p>
+<ul>
+<li>tables</li>
+<li>column families</li>
+<li>column：Key-Value 键值对</li>
+</ul>
+<blockquote>
+<p>不是讲 HADOOP，而是讲爬虫是怎么用 HBASE 的。</p>
+</blockquote>
+<h2 id="HBASE-存储架构"><a href="#HBASE-存储架构" class="headerlink" title="HBASE 存储架构"></a>HBASE 存储架构</h2><p>55:00</p>
+<p>HRegion-&gt;MemStore（Column Falimilies）</p>
+<blockquote>
+<p><strong>我们怎么去怎么去定义 Column Falimilies（CF）？</strong></p>
+<p>key，CF 网页源码（数据量大），CF 网页地理信息（数据量小）</p>
+<p>一个 store 只放一个 CF，</p>
+</blockquote>
+<h2 id="HBASE-框架图"><a href="#HBASE-框架图" class="headerlink" title="HBASE 框架图"></a>HBASE 框架图</h2><p>59:39</p>
+<h2 id="结合代码去学-HBASE-怎么使用"><a href="#结合代码去学-HBASE-怎么使用" class="headerlink" title="结合代码去学 HBASE 怎么使用"></a>结合代码去学 HBASE 怎么使用</h2><p>1:00:18</p>
+<p>hbasemgr.py</p>
+<p>一般使用 batchdata 方式，网络连接传输是有代价的。</p>
+<p>一次写入一批数据。</p>
+<p>HBASE 自己搭建。</p>
+<h2 id="存储方案"><a href="#存储方案" class="headerlink" title="存储方案"></a>存储方案</h2><p>1:05:58</p>
+<p>MySQL/MongoDB：存任务 + 结构提取后的数据（信息）</p>
+<p>HBASE：存网页源待码</p>
+<p>Redis：做告诉缓存</p>
+<h2 id="1-07-35-休息下，答疑"><a href="#1-07-35-休息下，答疑" class="headerlink" title="1:07:35 休息下，答疑"></a>1:07:35 休息下，答疑</h2><p>安装 HBASE Python 库 <a href="https://happybase.readthedocs.io/en/latest/" target="_blank" rel="noopener">HappyBase — HappyBase 1.1.0 documentation</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install happybase</span><br></pre></td></tr></table></figure>
+<p>Hadoop 教程：<a href="http://www.tutorialspoint.com/hadoop" target="_blank" rel="noopener">Hadoop Tutorial</a></p>
+<ul>
+<li><p>MySQL 的 QPS，建立连接到连接被释放掉。</p>
+</li>
+<li><p>Redis 要做持久化</p>
+</li>
+</ul>
+<h2 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h2><p>1:16:09</p>
+<p>关系型数据库和 MongoDB 的数据类型对比</p>
+<table>
+<thead>
+<tr>
+<th>RDBMS</th>
+<th>MongoDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Database</td>
+<td>Database</td>
+</tr>
+<tr>
+<td>Table</td>
+<td>Collection</td>
+</tr>
+<tr>
+<td>Tuple/Row</td>
+<td>Doucment</td>
+</tr>
+<tr>
+<td>column</td>
+<td>Field</td>
+</tr>
+<tr>
+<td>Table Join</td>
+<td>Embedded Documents（就在文档内）</td>
+</tr>
+<tr>
+<td>Primary Key</td>
+<td>Primary Key (Default key _id provided by mongodb itself)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="非关系型数据库的优势"><a href="#非关系型数据库的优势" class="headerlink" title="非关系型数据库的优势"></a>非关系型数据库的优势</h2><p>1:21:12</p>
+<ul>
+<li>Schema less：没有规则，列数不一定</li>
+<li>Ease of scale-out：很容易扩展</li>
+</ul>
+<blockquote>
+<p>MySQL 典型的 B+ 树结构。分表分库。</p>
+</blockquote>
+<p>1:27:45 簇分片 Sharels（读写分离 模式）（replica 模式）</p>
+<h2 id="MongoDB-安装"><a href="#MongoDB-安装" class="headerlink" title="MongoDB 安装"></a>MongoDB 安装</h2><p>1:29:16</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show dbs</span><br><span class="line"></span><br><span class="line">use 数据库名</span><br><span class="line"></span><br><span class="line">show tables</span><br><span class="line"></span><br><span class="line">db.数据库名.find().limit(1)</span><br></pre></td></tr></table></figure>
+<h2 id="pymongo"><a href="#pymongo" class="headerlink" title="pymongo"></a>pymongo</h2><p>1:30:50</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymongo</span><br></pre></td></tr></table></figure>
+<p>Python 操作 Mongo</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.collection.findOneAndUpdate(filter, update, options)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>MongoDB 存储 任务队列，</p>
+</blockquote>
+<ul>
+<li>事务操作，把 n 个操作构成一个原子操作。（收入、库存、购票信息一起操作完成，要么一个失败，所有的都失败。）</li>
+<li>锁的概念，读锁和写锁。阻塞。</li>
+<li>MySQL InnoDB 支持行级锁，MyISAM 只能做表级锁。</li>
+</ul>
+<blockquote>
+<p>使用 Mongo 存储微博的数据。</p>
+</blockquote>
+<h2 id="数据库类型"><a href="#数据库类型" class="headerlink" title="数据库类型"></a>数据库类型</h2><p>1:38:10</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Databases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RDBMS</td>
+<td>Oracle,MySQL</td>
+</tr>
+<tr>
+<td>Key-Value</td>
+<td>BerkeleyDB</td>
+</tr>
+<tr>
+<td>In Memory Key-Value</td>
+<td>MemoryCached,Redis</td>
+</tr>
+<tr>
+<td>Document</td>
+<td>MongoDB</td>
+</tr>
+<tr>
+<td>Column</td>
+<td>HBase</td>
+</tr>
+<tr>
+<td>Graphic</td>
+<td>Neo4j, Titan（支持分片）</td>
+</tr>
+</tbody>
+</table>
+<p>1:40:55 一种存任务队列，相比于 MySQL 没有上限限制。</p>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><p>1:42:13</p>
+<ul>
+<li>基于 KEY VALUE 模式的内存数据库</li>
+<li>支持负载的对象模型（MemoryCached 仅支持少量类型）</li>
+<li>支持 Replication，实现集群（MemoryCached 不支持分布式部署）</li>
+<li>所有操作都是原子性（MemoryCached 多数操作都不是原子的）</li>
+<li>可以序列化到磁盘（MemoryCached 不能序列化）</li>
+</ul>
+<h2 id="Redis-安装"><a href="#Redis-安装" class="headerlink" title="Redis 安装"></a>Redis 安装</h2><p>1:47:07</p>
+<p>1:48:20 Python Redis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install redis</span><br></pre></td></tr></table></figure>
+<p><strong>操作</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">r = redis.StrictRedis(host=<span class="string">'localhost'</span>, port=<span class="number">6379</span>, db=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">r.set(<span class="string">'foo'</span>, <span class="string">'bar'</span>)</span><br><span class="line"></span><br><span class="line">r.get(<span class="string">'foo'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="MongoDB-的优化"><a href="#MongoDB-的优化" class="headerlink" title="MongoDB 的优化"></a>MongoDB 的优化</h2><p>1:48:55</p>
+<ul>
+<li>url 做为 _id，默认会被创建索引，创建索引是需要额外的开销的</li>
+<li>index 尽量简单， url 长了一些</li>
+<li>dequeueUrl find_one() 并没有利用 index,会全库扫描，但是仍然会很快，因为扫描到第一个后就停止了，但是当下载完成的数量特别大的时候，扫描依然是很费时的，考虑一下能不能进一步优化</li>
+<li>插入的操作很频繁，每一个网页对应着几百次插入，到了 depth = 3 的时候，基数网页是百万级，插入检查将是亿级，考虑使用更高效的方式来检查。</li>
+</ul>
+<h2 id="Mongo-with-Redis-，Redis-做缓存级别的查询"><a href="#Mongo-with-Redis-，Redis-做缓存级别的查询" class="headerlink" title="Mongo with Redis ，Redis 做缓存级别的查询"></a>Mongo with Redis ，Redis 做缓存级别的查询</h2><p>1:51:56</p>
+<p>CPU cache&gt;Heap&gt;Redis&gt;Disk&gt;LAN&gt;WAN</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>1:58:32</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> self.db.mfw.count() <span class="keyword">is</span> <span class="number">0</span>:</span><br><span class="line">    self.db.mfw.create_index(<span class="string">'status'</span>)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">deef enqueuUrl(self, url, status, depth):</span><br><span class="line">    <span class="keyword">if</span> self.redis_client.get(url) <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">   	self.redis_client.set(url, <span class="keyword">True</span>)</span><br><span class="line">    record = &#123;</span><br><span class="line">        <span class="string">'url'</span>: url,</span><br><span class="line">        <span class="string">'status'</span>: status,</span><br><span class="line">        <span class="string">'queue_time'</span>: datetime.utcnow(),</span><br><span class="line">        <span class="string">'depth'</span>: depth</span><br><span class="line">    &#125;</span><br><span class="line">    self.db.mfw.insert(&#123;</span><br><span class="line">        <span class="string">'_id'</span>: hashlib.md5(url).hexdigest()&#125;,</span><br><span class="line">        &#123;<span class="string">'$set'</span>: record</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>redis 有 list 类型，list 如何实现的，一种是 array-list（随机查找很快）(增删很慢），一种是 linked-list（插入，删除，很快）。 qlist（链表 + 数组）</p>
+</blockquote>
+<p>2:03:33 课程结束</p>
+<h2 id="答疑-2"><a href="#答疑-2" class="headerlink" title="答疑"></a>答疑</h2><p>2:04:01</p>
+<ul>
+<li>redis 崩溃数据的安全，第一种方式，redis 定时增量持久化。第二种方式，通过日志系统。</li>
+<li>协程的概念老师也不太懂</li>
+<li>scrapy 定时爬，apscheduler</li>
+</ul>
+<h1 id="06-多机并行的微博抓取：分布式系统设计"><a href="#06-多机并行的微博抓取：分布式系统设计" class="headerlink" title="06 多机并行的微博抓取：分布式系统设计"></a>06 多机并行的微博抓取：分布式系统设计</h1><blockquote>
+<p>讲课开始时间：2017-06-27 19:54</p>
+<p>开始讲课 08:03</p>
+</blockquote>
+<h2 id="大纲-5"><a href="#大纲-5" class="headerlink" title="大纲"></a>大纲</h2><p>08:13</p>
+<ul>
+<li>分布式系统概述</li>
+<li>主从服务设计</li>
+</ul>
+<h2 id="分布式系统"><a href="#分布式系统" class="headerlink" title="分布式系统"></a>分布式系统</h2><p>10:31</p>
+<p>开发分布式系统流程</p>
+<h2 id="分布式系统的优势"><a href="#分布式系统的优势" class="headerlink" title="分布式系统的优势"></a>分布式系统的优势</h2><p>15:34</p>
+<h2 id="分布式系统遇到的挑战"><a href="#分布式系统遇到的挑战" class="headerlink" title="分布式系统遇到的挑战"></a>分布式系统遇到的挑战</h2><p>19:52</p>
+<p>关于很多数据之间的迁移。</p>
+<h2 id="分布式爬虫系统-1"><a href="#分布式爬虫系统-1" class="headerlink" title="分布式爬虫系统"></a>分布式爬虫系统</h2><p>28:51</p>
+<ul>
+<li>master 干什么事情</li>
+<li>制定协议 master 和 slave 通信（队列检查，通过 redis 检查队列，）</li>
+</ul>
+<h2 id="Master-Slave-结构"><a href="#Master-Slave-结构" class="headerlink" title="Master-Slave 结构"></a>Master-Slave 结构</h2><p>37:14</p>
+<ul>
+<li>有一个主机，对所有的服务器进行管理，绝大多数分布式系统，都是 Master-Slave的主从模式。</li>
+<li>当爬虫服务器多的时候，必须能通过一个中心节点对从节点进行管理</li>
+<li>能对整体的爬取进行控制</li>
+<li>爬虫之间信息共享的桥梁</li>
+<li>负载控制</li>
+</ul>
+<h2 id="Remote-Procedure-Calls"><a href="#Remote-Procedure-Calls" class="headerlink" title="Remote Procedure Calls"></a>Remote Procedure Calls</h2><p>39:12</p>
+<h2 id="Protocol-Message-Type"><a href="#Protocol-Message-Type" class="headerlink" title="Protocol - Message Type"></a>Protocol - Message Type</h2><p>43:44</p>
+<p>MSG_TYPE = ‘TYPE’</p>
+<p>REGISTER = ‘REGISTER’</p>
+<p>UNREGISTER = ‘UNREGISTER’</p>
+<p>HEARTBEAT = ‘HEARTBEAT’</p>
+<p>PAUSED = ‘PAUSED’</p>
+<p>RESUMED = ‘RESUMED’</p>
+<p>SHUTDOWN = ‘SHUTDOWN’</p>
+<h2 id="Protocol-Actions"><a href="#Protocol-Actions" class="headerlink" title="Protocol - Actions"></a>Protocol - Actions</h2><p>48:29</p>
+<p>ACTION_REQUIRED = ‘ACTION_REQUIRED’</p>
+<p>PAUSE_REQUIRED = ‘PAUSE_REQUIRED’</p>
+<p>RESUME_REQUIRED = ‘RESUME_REQUIRED’</p>
+<p>SHUTDOWN_REQUIRED = ‘SHUTDOWN_REQUIRED’</p>
+<h2 id="Protocol-Key-Definition"><a href="#Protocol-Key-Definition" class="headerlink" title="Protocol - Key Definition"></a>Protocol - Key Definition</h2><p>51:07</p>
+<p>SERVER_STATUS = ‘SERVER_STATUS’</p>
+<p> // SPIDER 的 ID</p>
+<p>CLIENT_ID = ‘CLIENT_ID’</p>
+<p>ERROR = ‘ERROR’</p>
+<p>51:55 client_crawler.py</p>
+<h2 id="爬虫线程"><a href="#爬虫线程" class="headerlink" title="爬虫线程"></a>爬虫线程</h2><p>58:51 </p>
+<p>主线程：检查状态，创建爬出</p>
+<p>爬虫线程：爬取完成退出</p>
+<p>心跳线程：维护状态</p>
+<h2 id="Socket-编程"><a href="#Socket-编程" class="headerlink" title="Socket 编程"></a>Socket 编程</h2><p>1:03:53</p>
+<p>TCP client</p>
+<p>TCP Server</p>
+<h2 id="创建-socket-client"><a href="#创建-socket-client" class="headerlink" title="创建 socket client"></a>创建 socket client</h2><p>1:06:25</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s = socket.create_connection(socket.AF_INET, socket.SOCK_STREAM)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>AF_INET：IPv4 协议</p>
+<p>SOCK_STREAM：TCP （保证连接）还是 UDP （速度快）</p>
+</blockquote>
+<h2 id="创建-socket-server"><a href="#创建-socket-server" class="headerlink" title="创建 socket server"></a>创建 socket server</h2><p>1:07:44</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"></span><br><span class="line">server_socket.bind(socket.gethostname(), <span class="number">20010</span>)</span><br><span class="line"></span><br><span class="line">server_socket.listen(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    (client_socket, address) = server_socket.accept()</span><br><span class="line">    server ct = client_thread(client_socket)</span><br><span class="line">    ct.run()</span><br></pre></td></tr></table></figure>
+<h2 id="Ways-to-listen"><a href="#Ways-to-listen" class="headerlink" title="Ways to listen"></a>Ways to listen</h2><p>1:10:16</p>
+<ul>
+<li>新建一个线程</li>
+<li>新建一个进程 （Apache）</li>
+<li>使用无阻塞 socket</li>
+</ul>
+<h2 id="Non-blocking-mode-listening"><a href="#Non-blocking-mode-listening" class="headerlink" title="Non-blocking mode listening"></a>Non-blocking mode listening</h2><p>1:13:00</p>
+<ul>
+<li>connection.setblocking(False)</li>
+<li>asyncore</li>
+</ul>
+<h2 id="停止-ways-to-end-communication"><a href="#停止-ways-to-end-communication" class="headerlink" title="停止 ways to end communication"></a>停止 ways to end communication</h2><p>1:14:42</p>
+<ul>
+<li><p>fixed length message</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">data = []</span><br><span class="line"></span><br><span class="line">total_len = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> total_len &lt; MSG_LEN:</span><br><span class="line">    char = conn.recv(<span class="number">1</span>)</span><br><span class="line">    data.append(char)</span><br><span class="line">    total_len += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>加上结束符 delimited</p>
+</li>
+<li><p>indicates messagee length in beginning 设置字符长度</p>
+</li>
+<li><p>shutdown connection：<code>server call close(), client recv() returns 0</code></p>
+</li>
+</ul>
+<p>socket_server.py</p>
+<h2 id="server-socket-client-socket-spider"><a href="#server-socket-client-socket-spider" class="headerlink" title="server socket, client socket, spider"></a>server socket, client socket, spider</h2><p>1:24:53</p>
+<p>1:27:53 没有再看了，因为感觉看不懂，目前也用不到这些高深的东西。遂直接看 14 信息检索、搜索引擎原理及应用，因为之前看过别的使用 Elasticsearch 做爬虫抓取后的搜索。</p>
+<h1 id="07"><a href="#07" class="headerlink" title="07"></a>07</h1><h1 id="08"><a href="#08" class="headerlink" title="08"></a>08</h1><p>Scrapy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
+<h1 id="09"><a href="#09" class="headerlink" title="09"></a>09</h1><p>Python 的 PageRank - NetworkX</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install networkx</span><br></pre></td></tr></table></figure>
+<p>查重算法<br>SimHash – 海明距离</p>
+<p>依赖 sh库</p>
+<p><a href="https://www.the5fire.com/analyze-python-lib-sh.html" target="_blank" rel="noopener">[Python库]分析一个python库–sh（系统调用）</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install simhash</span><br></pre></td></tr></table></figure>
+<h1 id="10"><a href="#10" class="headerlink" title="10"></a>10</h1><p>Daemontool</p>
+<p>Pillow</p>
+<p>Pillow 是一个图像工具包，包含了一个 Image 类用来做图像的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pillow</span><br></pre></td></tr></table></figure>
+<p>Tesseract-Ocr</p>
+<p>Tesseract-Ocr 是一个 Google 主导的开源 OCR (Optical Character Recongnition) 引擎。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pytesseract</span><br></pre></td></tr></table></figure>
+<h1 id="12"><a href="#12" class="headerlink" title="12"></a>12</h1><p>Goose<br>PyGoose</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install goose3</span><br></pre></td></tr></table></figure>
+<p>py2.7</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pygoose</span><br></pre></td></tr></table></figure>
+<h1 id="13"><a href="#13" class="headerlink" title="13"></a>13</h1><p>结巴分词</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install jieba</span><br></pre></td></tr></table></figure>
+<p>Python TF-IDF</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install sklearn scipy numpy</span><br></pre></td></tr></table></figure>
+<h1 id="14-信息检索、搜索引擎原理及应用"><a href="#14-信息检索、搜索引擎原理及应用" class="headerlink" title="14 信息检索、搜索引擎原理及应用"></a>14 信息检索、搜索引擎原理及应用</h1><blockquote>
+<p>讲课开始时间：2017-07-25 19:55</p>
+<p>06:11 开始讲课</p>
+</blockquote>
+<p>06:11 之前的在讲爬虫</p>
+<p>33:49 开始讲今天的内容，Elastic Search</p>
+<h2 id="大纲-6"><a href="#大纲-6" class="headerlink" title="大纲"></a>大纲</h2><ul>
+<li>倒排索引</li>
+<li>文本匹配及排序</li>
+<li>Elasticsearch</li>
+</ul>
+<h2 id="核心-倒排表"><a href="#核心-倒排表" class="headerlink" title="核心-倒排表"></a>核心-倒排表</h2><p>38:05</p>
+<h2 id="处理过程"><a href="#处理过程" class="headerlink" title="处理过程"></a>处理过程</h2><p>39:13</p>
+<p>爬虫-&gt;正文抽取-&gt;分词-&gt;Doc ID-&gt;正拍表-&gt;倒排表（词汇 ID，Term ID）</p>
+<h2 id="正排索引"><a href="#正排索引" class="headerlink" title="正排索引"></a>正排索引</h2><p>42:40</p>
+<ul>
+<li>LocalId：文档的局部编号</li>
+<li>WordId：文档分词后的编号</li>
+<li>nHits：某个索引词出现的次数</li>
+<li>HitList 变长字段：某个索引词在文档出现的位置</li>
+</ul>
+<h2 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h2><p>44:06</p>
+<ul>
+<li>词典：不同索引词组成的索引表</li>
+<li>记录表：每个索引词出现过的文档集合以及命中位置</li>
+</ul>
+<p>查询系统</p>
+<h2 id="Boolean-模型"><a href="#Boolean-模型" class="headerlink" title="Boolean 模型"></a>Boolean 模型</h2><p>45:23</p>
+<p>单纯地查询每个检查词，最后把检索词的结果取交集。</p>
+<h3 id="词与词的关联"><a href="#词与词的关联" class="headerlink" title="词与词的关联"></a>词与词的关联</h3><p>48:57</p>
+<p>在提取特征词的时候，我们可以用 TfIdf 来找出特征词，同时 TfIdf 也可以用来表述一个词 w(i) 对于一篇文字 d(j) 的重要性 w(i,j) Boolean 的检索方式，词与词之间被看成是独立的，而实际上，搜索词之间的组合，是具备一定关联。</p>
+<h3 id="标准化网页长度"><a href="#标准化网页长度" class="headerlink" title="标准化网页长度"></a>标准化网页长度</h3><p>52:37</p>
+<p>一般来说，一篇网页的文本越长，它被随机搜索词命中的机率也就越大。因此我们需要考虑把网页的长度进行标准化，一般来说，网页文本长度有以下的方式来表达：</p>
+<ul>
+<li>Size in Bytes：网页文本流的长度</li>
+<li>Size in Words：网页字词数量</li>
+<li>向量的模：</li>
+</ul>
+<h2 id="向量模型"><a href="#向量模型" class="headerlink" title="向量模型"></a>向量模型</h2><p>56:00</p>
+<h2 id="概率模型"><a href="#概率模型" class="headerlink" title="概率模型"></a>概率模型</h2><p>58:37</p>
+<p>贝叶斯模型</p>
+<h2 id="几种模型的简单比较"><a href="#几种模型的简单比较" class="headerlink" title="几种模型的简单比较"></a>几种模型的简单比较</h2><p>1:12:44</p>
+<h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><p>1:42:16</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Jira安装配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1109,105 +2685,6 @@ backend mysqlservers
       
 
       
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-uWSGI搭配Nginx配置Django部署环境" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/" class="article-date">
-      <time datetime="2017-11-11T06:09:00.000Z" itemprop="datePublished">2017-11-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/11/uWSGI搭配Nginx配置Django部署环境/">uWSGI搭配Nginx配置Django部署环境</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://www.nowamagic.net/academy/detail/1330308" target="_blank" rel="noopener">uWSGI搭配Nginx配置</a>Django部署环境</p>
-<h1 id="WSGI简介"><a href="#WSGI简介" class="headerlink" title="WSGI简介"></a>WSGI简介</h1><p>WSGI是什么？</p>
-<p>WSGI，全称 Web Server Gateway Interface，或者 Python Web Server Gateway Interface ，是为 Python 语言定义的 Web 服务器和 Web 应用程序或框架之间的一种简单而通用的接口。自从 WSGI 被开发出来以后，许多其它语言中也出现了类似接口。</p>
-<p>WSGI 的官方定义是，the Python Web Server Gateway Interface。从名字就可以看出来，这东西是一个Gateway，也就是网关。网关的作用就是在协议之间进行转换。</p>
-<p>WSGI 是作为 Web 服务器与 Web 应用程序或应用框架之间的一种低级别的接口，以提升可移植 Web 应用开发的共同点。WSGI 是基于现存的 CGI 标准而设计的。</p>
-<p>很多框架都自带了 WSGI server ，比如 Flask，webpy，Django、CherryPy等等。当然性能都不好，自带的 web server 更多的是测试用途，发布时则使用生产环境的 WSGI server或者是联合 nginx 做 uwsgi 。</p>
-<p>WSGI的作用</p>
-<p>WSGI有两方：“服务器”或“网关”一方，以及“应用程序”或“应用框架”一方。服务方调用应用方，提供环境信息，以及一个回调函数（提供给应用程序用来将消息头传递给服务器方），并接收Web内容作为返回值。</p>
-<p>所谓的 WSGI中间件同时实现了API的两方，因此可以在WSGI服务和WSGI应用之间起调解作用：从WSGI服务器的角度来说，中间件扮演应用程序，而从应用程序的角度来说，中间件扮演服务器。“中间件”组件可以执行以下功能：</p>
-<p>重写环境变量后，根据目标URL，将请求消息路由到不同的应用对象。<br>允许在一个进程中同时运行多个应用程序或应用框架。<br>负载均衡和远程处理，通过在网络上转发请求和响应消息。<br>进行内容后处理，例如应用XSLT样式表。<br>WSGI 的设计确实参考了 Java 的 servlet</p>
-<p>WSGI是一种Web服务器网关接口。它是一个Web服务器（如nginx）与应用服务器（如uWSGI服务器）通信的一种规范。</p>
-<p>接下来，我们要介绍的是 uWSGI。</p>
-<p>uWSGI</p>
-<p>uWSGI是一个Web服务器，它实现了WSGI协议、uwsgi、http等协议。Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换。</p>
-<p>要注意 WSGI / uwsgi / uWSGI 这三个概念的区分。</p>
-<p>WSGI是一种通信协议。<br>uwsgi同WSGI一样是一种通信协议。<br>而uWSGI是实现了uwsgi和WSGI两种协议的Web服务器。<br>uwsgi协议是一个uWSGI服务器自有的协议，它用于定义传输信息的类型（type of information），每一个uwsgi packet前4byte为传输信息类型描述，它与WSGI相比是两样东西。</p>
-<h1 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h1><p>在 nginx.conf 上加入/修改，我的 server 配置如下（一切从简……）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  115.28.0.89;</span><br><span class="line">    #server_name localhost;</span><br><span class="line"></span><br><span class="line">    access_log /home/nowamagic/logs/access.log;</span><br><span class="line">    error_log /home/nowamagic/logs/error.log;</span><br><span class="line"></span><br><span class="line">    #root         /root/nowamagic_venv/nowamagic_pj;</span><br><span class="line">    location / &#123;</span><br><span class="line">        uwsgi_pass 127.0.0.1:8077;</span><br><span class="line">        #include uwsgi_params;</span><br><span class="line">        include /etc/nginx/uwsgi_params;</span><br><span class="line">        #uwsgi_pass 127.0.0.1:8077;</span><br><span class="line">        #uwsgi_param UWSGI_SCRIPT index;</span><br><span class="line">        #uwsgi_param UWSGI_PYHOME $document_root;</span><br><span class="line">        #uwsgi_param UWSGI_CHDIR  $document_root;</span><br><span class="line">   &#125;</span><br><span class="line">   access_log off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意保证配置里写的目录 /home/nowamagic/logs/ 和 /home/nowamagic/logs/ 存在，接下来就没啥问题了，Nginx 配置很简单。</p>
-<h1 id="uWSGI-配置"><a href="#uWSGI-配置" class="headerlink" title="uWSGI 配置"></a>uWSGI 配置</h1><h2 id="安装uWSGI"><a href="#安装uWSGI" class="headerlink" title="安装uWSGI"></a>安装uWSGI</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure>
-<p>在实际部署环境中，我们常用的是配置文件的方式，而非命令行的方式。</p>
-<p>我的 Django 程序目录：/root/nowamagic_venv/nowamagic_pj/</p>
-<p>这里让 Nginx 采用 8077 端口与 uWSGI 通讯，请确保此端口没有被其它程序采用。</p>
-<p>uWSGI 支持多种配置文件格式，比如 xml，ini，json 等等都可以。</p>
-<p>xml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vi /root/nowamagic_venv/nowamagic_pj/nowamgic_pj.xml</span><br><span class="line"></span><br><span class="line">&lt;uwsgi&gt;</span><br><span class="line"> &lt;socket&gt;127.0.0.1:8077&lt;/socket&gt;</span><br><span class="line"> &lt;listen&gt;80&lt;/listen&gt;</span><br><span class="line"> &lt;master&gt;true&lt;/master&gt;</span><br><span class="line"> &lt;pythonpath&gt;/root/nowamagic_venv/nowamagic_pj&lt;/pythonpath&gt;</span><br><span class="line"> &lt;processes&gt;1&lt;/processes&gt;</span><br><span class="line"> &lt;logdate&gt;true&lt;/logdate&gt;</span><br><span class="line"> &lt;daemonize&gt;/var/log/uwsgi.log&lt;/daemonize&gt;</span><br><span class="line"> &lt;plugins&gt;python&lt;/plugins&gt;</span><br><span class="line">&lt;/uwsgi&gt;</span><br></pre></td></tr></table></figure>
-<p>然后执行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/bin/uwsgi -x /root/nowamagic_venv/nowamagic_pj/nowamagic_pj.xml</span><br></pre></td></tr></table></figure>
-<p>ini 配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">vhost = false</span><br><span class="line">plugins = python</span><br><span class="line">socket = 127.0.0.1:8077</span><br><span class="line">master = true</span><br><span class="line">enable-threads = true</span><br><span class="line">workers = 1</span><br><span class="line">wsgi-file = /root/nowamagic_venv/nowamagic_pj/nowamagic_pj/wsgi.py</span><br><span class="line">virtualenv = /root/nowamagic_venv</span><br><span class="line">chdir = /root/nowamagic_venv/nowamagic_pj</span><br></pre></td></tr></table></figure>
-<p>执行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --ini /root/nowamagic_venv/nowamagic_pj.ini&amp;</span><br></pre></td></tr></table></figure>
-<p>uwsgi 这样就启动起来了。如果无意外的话，就能在网上访问你的 Python 项目了。</p>
-<p>一些我在配置时用到的命令，省得你去搜索：</p>
-<p>关闭 uWSGI：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">killall  -9 uwsgi</span><br><span class="line">killall -s HUP /var/www/uwsgi </span><br><span class="line">killall -s HUP /usr/local/bin/uwsgi</span><br></pre></td></tr></table></figure>
-<p>列出端口占用情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lpnt</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a><a class="article-category-link" href="/categories/技术/Linux/Python/">Python</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/uWSGI/">uWSGI</a></li></ul>
-    </div>
-
       
       <div class="clearfix"></div>
     </div>

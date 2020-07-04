@@ -202,6 +202,378 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-appium-源码分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/07/appium-源码分析/" class="article-date">
+      <time datetime="2019-05-07T04:12:19.000Z" itemprop="datePublished">2019-05-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/07/appium-源码分析/">Appium 源码分析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>环境参考 appium 的 <a href="https://github.com/appium/appium/blob/master/.travis.yml" target="_blank" rel="noopener">travis.yml</a></p>
+<p>使用网络代理</p>
+</blockquote>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm use v10.20.0</span><br></pre></td></tr></table></figure>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv shell 2.7.16</span><br></pre></td></tr></table></figure>
+<h3 id="运行-Appium"><a href="#运行-Appium" class="headerlink" title="运行 Appium"></a>运行 Appium</h3><p>拉取代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir appium &amp;&amp; cd appium</span><br><span class="line">git clone -b v1.17.0 https://github.com/appium/appium.git v1.17.0 &amp;&amp; cd v1.17.0</span><br></pre></td></tr></table></figure>
+<p>环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+<p>运行 Appium</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node .</span><br></pre></td></tr></table></figure>
+<h3 id="Hacking-on-Appium"><a href="#Hacking-on-Appium" class="headerlink" title="Hacking on Appium"></a>Hacking on Appium</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g appium-doctor</span><br><span class="line">appium-doctor --dev</span><br></pre></td></tr></table></figure>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idevicelocation</span><br></pre></td></tr></table></figure>
+<h4 id="opencv4nodejs"><a href="#opencv4nodejs" class="headerlink" title="opencv4nodejs"></a>opencv4nodejs</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyenv shell 3.6.1</span><br><span class="line">npm install -g opencv4nodejs</span><br></pre></td></tr></table></figure>
+<h2 id="appium-packages"><a href="#appium-packages" class="headerlink" title="appium-packages"></a><a href="http://appium.io/docs/en/contributing-to-appium/appium-packages/" target="_blank" rel="noopener">appium-packages</a></h2><p><a href="https://github.com/appium/appium/blob/master/docs/cn/contributing-to-appium/appium-packages.md" target="_blank" rel="noopener">appium-packages 简述</a></p>
+<p>Selenium Packages</p>
+<p>Core Packages</p>
+<p>Utility Packages</p>
+<p>Android Packages</p>
+<p>iOS Packages</p>
+<blockquote>
+<p>packages 都在 node_modules 目录下。</p>
+</blockquote>
+<h4 id="使用-IDE"><a href="#使用-IDE" class="headerlink" title="使用 IDE"></a>使用 IDE</h4><p>Appium 使用 Visual Studio Code 开发的，依据是 <code>.vscode</code> 目录。</p>
+<h4 id="调试的配置文件"><a href="#调试的配置文件" class="headerlink" title="调试的配置文件"></a>调试的配置文件</h4><p>launch.json</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    // 使用 IntelliSense 了解相关属性。 </span><br><span class="line">    // 悬停以查看现有属性的描述。</span><br><span class="line">    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387</span><br><span class="line">    "version": "0.2.0",</span><br><span class="line">    "configurations": [</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"node"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Launch Program"</span>,</span><br><span class="line">            "program": "$&#123;workspaceFolder&#125;/build/lib/main.js",//package.json中的默认入口</span><br><span class="line">            "console" : "integratedTerminal"  //控制台信息的显示</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><p><code>lib</code> 子目录是 Appium 的源码目录。而里面的 <code>main.js</code> 是 Appium 的程序入口。</p>
+<p><code>lib/main.js</code>： 程序入口 <code>async function main</code></p>
+<p><code>lib/appium.js</code>：方法 <code>createSession</code>,<code>executeCommand</code></p>
+<p><code>node_modules/appium-base-driver/lib/protocol/route.js</code>： 方法<code>METHOD_MAP</code></p>
+<p><code>node_modules/appium-base-driver/lib/protocol/protocol.js</code>：方法<code>routeConfiguringFunction</code></p>
+<p><code>node_modules/appium-base-driver/lib/express/server.js</code>：方法 <code>routeConfiguringFunction</code></p>
+<p><code>node_modules/appium-support/lib/logging.js</code>：方法<code>getLogger</code></p>
+<p><code>lib/logger.js</code>：给Appium打印的每行日志加上<code>[Appium]</code>的前缀</p>
+<p><code>node_modules/appium-base-driver/lib/basedriver/commands</code>：打印出当前sessionId创建成功</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/appium/appium/tree/master/docs/cn/contributing-to-appium" target="_blank" rel="noopener">contributing-to-appium</a></p>
+<p> <a href="https://github.com/appium/appium/blob/master/docs/en/contributing-to-appium/appium-packages.md" target="_blank" rel="noopener">appium/appium-packages.md</a> </p>
+<p><a href="https://testerhome.com/topics/2463" target="_blank" rel="noopener">appium 源码分析合集 (一)</a></p>
+<p><a href="https://testerhome.com/wiki/developingappium" target="_blank" rel="noopener">Appium 开发环境搭建合集</a></p>
+<p><a href="https://bestswifter.com/appium/" target="_blank" rel="noopener">Appium 从入门到原理</a></p>
+<p><a href="https://www.cnblogs.com/wangcp-2014/p/6060019.html" target="_blank" rel="noopener">appium架构分析</a></p>
+<p><a href="https://www.jianshu.com/p/5d11299f674b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="noopener">Appium精要之Appium的背景知识</a></p>
+<p><a href="http://cming.site/2018/02/22/201802221759/" target="_blank" rel="noopener">Appium在vscode中调试说明</a></p>
+<p><a href="https://blog.csdn.net/jiuzuidongpo/article/details/51790455" target="_blank" rel="noopener">appium通信分析一（appium的初始化准备工作）</a><br><a href="https://blog.csdn.net/ouyanggengcheng/article/details/85210829" target="_blank" rel="noopener">Appium基础学习之 | Bootstrap源码分析</a></p>
+<p><a href="https://testerhome.com/topics/1980" target="_blank" rel="noopener">Appium 入门到原理合集</a></p>
+<h3 id="Android-Bootstrap"><a href="#Android-Bootstrap" class="headerlink" title="Android Bootstrap"></a>Android Bootstrap</h3><p><a href="http://www.cnblogs.com/laoli0201/articles/4881492.html" target="_blank" rel="noopener">手机自动化测试：appium源码分析之bootstrap一</a></p>
+<p><a href="https://blog.csdn.net/zhubaitian/article/details/40619777" target="_blank" rel="noopener">Appium Android Bootstrap源码分析之简介</a></p>
+<p><a href="https://blog.csdn.net/qq744746842/article/details/50461988" target="_blank" rel="noopener">Appium-bootstrap远程的调试方法</a></p>
+<p><a href="https://blog.csdn.net/jiuzuidongpo/article/details/51790702" target="_blank" rel="noopener">appium和boostrap通信过程数据分析</a></p>
+<p><a href="https://blog.51cto.com/10988776/1726073" target="_blank" rel="noopener">手机自动化测试：appium源码分析之bootstrap 1</a></p>
+<p><a href="http://skyseraph.com/2017/01/26/Android/Appuim源码剖析(Boottrap" target="_blank" rel="noopener">Appuim源码剖析(Bootstrap)</a>/)</p>
+<p><a href="https://cstsinghua.github.io/2018/07/19/Appium启动和日志分析/" target="_blank" rel="noopener">启动和日志分析</a></p>
+<p><a href="https://blog.csdn.net/zhubaitian/article/details/40710049" target="_blank" rel="noopener">Appium Server 源码分析之启动运行Express http服务器</a></p>
+<p><a href="https://blog.csdn.net/zhubaitian/article/details/40783625" target="_blank" rel="noopener">Appium Server源码分析之作为Bootstrap客户端</a></p>
+<p><a href="http://cming.site/2018/01/18/201801182037/" target="_blank" rel="noopener">基于源码分析Appium服务端启动过程</a></p>
+<p><a href="https://blog.csdn.net/itfootball/article/details/44707431" target="_blank" rel="noopener">Appium源码分析(3)-路由器模块</a></p>
+<p><a href="http://cming.site/2018/02/22/201802221449/" target="_blank" rel="noopener">Appium通过日志分析服务端执行过程-IOS端</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-利用-Python-的-CGIHTTPServer-测试-CGI-脚本程序" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/04/利用-Python-的-CGIHTTPServer-测试-CGI-脚本程序/" class="article-date">
+      <time datetime="2019-04-04T08:54:38.000Z" itemprop="datePublished">2019-04-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/04/利用-Python-的-CGIHTTPServer-测试-CGI-脚本程序/">利用 Python 的 CGIHTTPServer 测试 CGI 脚本程序</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="Python-3"><a href="#Python-3" class="headerlink" title="Python 3"></a>Python 3</h2><p>步骤： </p>
+<ol>
+<li><p>新建HttpServer目录 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir HttpServer</span><br><span class="line">cd HttpServer</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在HttpServer目录下新建cgi-bin目录 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir cgi-bin</span><br><span class="line">cd cgi-bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在cgi-bin目录下新建helloworld.sh文件，内容如下：</p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim helloworld.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">echo "Content-Type:text/html"</span><br><span class="line">echo ""</span><br><span class="line"></span><br><span class="line">echo "hello world!"</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>在cgi-bin目录下打开命令行，执行</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x helloworld.sh</span><br></pre></td></tr></table></figure>
+<p>赋予helloworld.sh可执行的权限</p>
+<ol start="5">
+<li>在HttpServer目录下打开命令行，执行命令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m http.server --cgi --bind 0.0.0.0 8088</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就会把HttpServer目录以后台服务的方式作为CGIHTTPServer启动，运行log可在当前目录的nohup.out文件中查看。</p>
+</blockquote>
+<ol start="6">
+<li>打开浏览器，地址栏出入：</li>
+</ol>
+<p><a href="http://localhost:8088/cgi-bin/helloworld.sh" target="_blank" rel="noopener">http://localhost:8088/cgi-bin/helloworld.sh</a></p>
+<p>即可看到输出的Hello World! </p>
+<h2 id="Python-2"><a href="#Python-2" class="headerlink" title="Python 2"></a>Python 2</h2><p>步骤： </p>
+<ol>
+<li><p>新建HttpServer目录 </p>
+</li>
+<li><p>在HttpServer目录下新建cgi-bin目录 </p>
+</li>
+<li><p>在cgi-bin目录下新建helloworld.sh文件，内容如下：</p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">echo "Content-Type:text/html"</span><br><span class="line">echo ""</span><br><span class="line"></span><br><span class="line">echo "hello world!"</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>在cgi-bin目录下打开命令行，执行</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x helloworld.sh</span><br></pre></td></tr></table></figure>
+<p>赋予helloworld.sh可执行的权限</p>
+<ol start="5">
+<li>在HttpServer目录下打开命令行，执行命令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup python -m CGIHTTPServer 8088 &amp;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>就会把HttpServer目录以后台服务的方式作为CGIHTTPServer启动，运行log可在当前目录的nohup.out文件中查看。</p>
+</blockquote>
+<ol start="6">
+<li>打开浏览器，地址栏出入：</li>
+</ol>
+<p><a href="http://localhost:8088/cgi-bin/helloworld.sh" target="_blank" rel="noopener">http://localhost:8088/cgi-bin/helloworld.sh</a></p>
+<p>即可看到输出的Hello World! </p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/yzpbright/article/details/82626451" target="_blank" rel="noopener">利用Python的CGIHTTPServer测试CGI脚本程序</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-JForum-配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/01/JForum-配置/" class="article-date">
+      <time datetime="2019-04-01T14:26:57.000Z" itemprop="datePublished">2019-04-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/01/JForum-配置/">JForum 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="启动-MySQL"><a href="#启动-MySQL" class="headerlink" title="启动 MySQL"></a>启动 MySQL</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mariadb:10.3.9</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 3306:3306 -v ~/docker/mariadb:/var/lib/mysql -e TIMEZONE=Asis/Shanghai -e MYSQL_ROOT_PASSWORD=root -e SERVER_ID=1 --name mariadb-10.3.9 -d mariadb:10.3.9</span><br></pre></td></tr></table></figure>
+<p>连接数据库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h 127.0.0.1 -P 3306 -uroot -p</span><br></pre></td></tr></table></figure>
+<p>新建 jforum 数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE jforum DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br></pre></td></tr></table></figure>
+<h2 id="启动-Tomcat"><a href="#启动-Tomcat" class="headerlink" title="启动 Tomcat"></a>启动 Tomcat</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull tomcat:8.5.39-alpine</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name jforum_tomcat -p 8080:8080  -v ~/docker/tomcat/webapps:/usr/local/tomcat/webapps tomcat:8.5.39-alpine</span><br></pre></td></tr></table></figure>
+<p>下载 JForum 并复制 JForum 文件到 ~/docker/tomcat/webapps 目录下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -r jforum ~/docker/tomcat/webapps</span><br></pre></td></tr></table></figure>
+<p>修改 jforum 连接 mysql 的用户名和密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jforum/WEB-INF/config/database/mysql/mysql.properties</span><br></pre></td></tr></table></figure>
+<p>修改数据库引擎，查找所有的 “TYPE=InnoDB” 修改为 “ENGINE=InnoDB”。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jforum\WEB-INF\config\database\mysql\mysql_db_struct.sql</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t jforum:2.1.9 .</span><br></pre></td></tr></table></figure>
+<p>保存镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker save jforum:2.1.9 -o jforum:2.1.9.tar</span><br></pre></td></tr></table></figure>
+<p>加载镜像</p>
+<blockquote>
+<p>可以在任何装 docker 的地方加载 刚保存的镜像了。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker load -i jforum:2.1.9.tar</span><br></pre></td></tr></table></figure>
+<p>启动 jforum</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name jforum-2.1.9 -p 8080:8080 --link mariadb-10.3.9:mysql jforum:2.1.9</span><br></pre></td></tr></table></figure>
+<p>配置 jforum ，浏览器访问</p>
+<p><a href="http://localhost:8080/jforum/install.jsp" target="_blank" rel="noopener">http://localhost:8080/jforum/install.jsp</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/jhyfugug/article/details/79467369" target="_blank" rel="noopener">JForum论坛安装以及部署</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Confluence-配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/01/Confluence-配置/" class="article-date">
+      <time datetime="2019-04-01T09:47:51.000Z" itemprop="datePublished">2019-04-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/01/Confluence-配置/">Confluence 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="MySQL-数据库默认排序"><a href="#MySQL-数据库默认排序" class="headerlink" title="MySQL 数据库默认排序"></a>MySQL 数据库默认排序</h3><blockquote>
+<p><a href="https://confluence.atlassian.com/kb/how-to-fix-the-collation-and-character-set-of-a-mysql-database-744326173.html" target="_blank" rel="noopener">How to Fix the Collation and Character Set of a MySQL Database</a></p>
+</blockquote>
+<h3 id="Confluence-中文乱码"><a href="#Confluence-中文乱码" class="headerlink" title="Confluence 中文乱码"></a>Confluence 中文乱码</h3><blockquote>
+<p><a href="https://blog.csdn.net/lovely_xinyi/article/details/45581883" target="_blank" rel="noopener">解决confluence的乱码问题</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;char%&apos;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改mysql安装文件夹下的my.ini文件可以解决该问题</p>
+<p>[mysqld]</p>
+<p>collation_server=utf8_unicode_ci</p>
+<p>character_set_server=utf8</p>
+</blockquote>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-群晖-NAS-使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1100,290 +1472,6 @@
     <div class="article-info article-info-index">
       
       
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-YAML-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/15/YAML-学习笔记/" class="article-date">
-      <time datetime="2019-02-14T23:12:03.000Z" itemprop="datePublished">2019-02-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/15/YAML-学习笔记/">YAML 学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="Python-使用-YAML"><a href="#Python-使用-YAML" class="headerlink" title="Python 使用 YAML"></a>Python 使用 YAML</h3><p><strong>安装 PyYAML</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyyaml==3.13</span><br></pre></td></tr></table></figure>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><ul>
-<li><p><code>#</code> 表示注释，从这个字符一直到行尾，都会被解析器忽略。</p>
-</li>
-<li><p><code>key: value</code> 对象的一组键值对。</p>
-</li>
-<li><code>- list1</code> 数组，<code>key: [value1, value2]</code>行内表示法。</li>
-<li>纯量<ul>
-<li>字符串</li>
-<li>布尔值</li>
-<li>整数</li>
-<li>浮点数</li>
-<li>Null</li>
-<li>时间</li>
-<li>日期</li>
-</ul>
-</li>
-<li><p><code>!! str 123</code>(整数123转换为字符串)YAML 允许使用两个感叹号，强制转换数据类型。</p>
-</li>
-<li><p>多行字符串可以使用<code>|</code>保留换行符，也可以使用<code>&gt;</code>折叠换行。</p>
-</li>
-<li>锚点<code>&amp;</code>和别名<code>*</code>，可以用来引用；<code>&amp;</code>用来建立锚点，<code>&lt;&lt;</code>表示合并到当前数据，<code>*</code>用来引用锚点。（类似于变量）</li>
-<li>函数和正则表达式的转换</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://yaml.org/" target="_blank" rel="noopener">The Official YAML Web Site</a></p>
-<p><a href="http://www.ruanyifeng.com/blog/2016/07/yaml.html" target="_blank" rel="noopener">YAML 语言教程 - 阮一峰的网络日志</a></p>
-<p>PyYAML</p>
-<p><a href="https://pyyaml.org/" target="_blank" rel="noopener">https://pyyaml.org</a></p>
-<p><a href="https://pyyaml.org/wiki/PyYAMLDocumentation" target="_blank" rel="noopener">PyYAML Documentation</a> 查找关键字 <code>syntax</code>；<code>YAML tags and Python types</code></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-求职进行时" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/12/求职进行时/" class="article-date">
-      <time datetime="2019-02-12T07:20:21.000Z" itemprop="datePublished">2019-02-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/12/求职进行时/">求职进行时</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://www.cnblogs.com/xinz/archive/2011/08/07/2129751.html" target="_blank" rel="noopener">技能的反面 - 魔方和模仿 - SoftwareTeacher - 博客园</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://mp.weixin.qq.com/s/XfKwKzTkWKVtEj04ueOiDQ" target="_blank" rel="noopener">写一封「用户体验」良好的求职邮件</a></p>
-<p><a href="https://testerhome.com/topics/4938" target="_blank" rel="noopener">测试人员常见简历的类型 · TesterHome</a></p>
-<p><a href="https://testerhome.com/topics/12679" target="_blank" rel="noopener">招聘过程中遇到的几种应聘者，个人经验，仅供参考 (绝对真实) · TesterHome</a></p>
-<p><a href="https://testerhome.com/topics/6443" target="_blank" rel="noopener">公司面试软件测试工程师，对于应聘者谢绝笔试，作为面试官的你怎么看？ · TesterHome</a></p>
-<p><a href="https://ask.hellobi.com/blog/chenwen/6542" target="_blank" rel="noopener">【面试攻略】克服网络学习心虚，弥补工作经验不足的实战技巧 - 天善智能：专注于商业智能BI和数据分析、大数据领域的垂直社区平台</a></p>
-<p><a href="https://ask.hellobi.com/blog/chenwen/6569" target="_blank" rel="noopener">【面试攻略】如何突破面试中高级别岗位：深入，独立，创新等复杂要求 - 天善智能：专注于商业智能BI和数据分析、大数据领域的垂直社区平台</a></p>
-<p><a href="http://mindhacks.cn/2011/11/04/how-to-interview-a-person-for-two-years/" target="_blank" rel="noopener">怎样花两年时间去面试一个人 – 刘未鹏 | Mind Hacks</a></p>
-<p><a href="https://www.the5fire.com/a-good-resume.html" target="_blank" rel="noopener">怎样才是一个好的简历 | the5fire的技术博客</a></p>
-<p><a href="https://www.the5fire.com/python-job-travle-just-to-learn.html" target="_blank" rel="noopener">python程序员找工作之旅-面 试就是学习，我要去学习 | the5fire的技术博客</a></p>
-<p><a href="https://testerhome.com/topics/15432" target="_blank" rel="noopener">如何提高面试质量 · TesterHome</a></p>
-<p><a href="https://testerhome.com/topics/4209" target="_blank" rel="noopener">程序员找工作，应该怎么应对面试官？ · TesterHome</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-工作场景下，牛人教会我的五条工作原则" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/03/工作场景下，牛人教会我的五条工作原则/" class="article-date">
-      <time datetime="2019-02-03T01:25:43.000Z" itemprop="datePublished">2019-02-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/03/工作场景下，牛人教会我的五条工作原则/">工作场景下，牛人教会我的五条工作原则</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="工作场景下，牛人教会我的五条工作原则"><a href="#工作场景下，牛人教会我的五条工作原则" class="headerlink" title="工作场景下，牛人教会我的五条工作原则"></a>工作场景下，牛人教会我的五条工作原则</h1><blockquote>
-<p>有一种非常有效的学习方式，就是向牛人学习，找到各种办法接近身边那些牛人，近距离观察他们生活与工作的方式，看看哪些可以用于改善自己的状态。当你在这样坚定的实践时，你距离这些牛人的距离也会越来越小。也许有一天，你们能真正认识，他能成为你生活与工作中的一面镜子，这是个人成长的一种途径。</p>
-</blockquote>
-<p>现代管理学之父德鲁克先生与百强企业领导访谈，总结提炼后输出了管理学经典著作《卓有成效的管理者》。通过会议、面谈、项目汇报等方式，学习牛人的工作经验并输出工作原则是成长的最快方式。领导们是我所接触到的在工作领域最牛的人，在工作场景之下，向他们学习并且提炼相应的工作原则，是改善绩效的最佳方式。这一年来，领导同事在部门例会、项目汇报、办公室谈话等多种场景下，教会了我很多工作的方法和原则，总结了五条核心工作原则，予以分享。</p>
-<h3 id="工作原则1-打造品牌项目。"><a href="#工作原则1-打造品牌项目。" class="headerlink" title="工作原则1:打造品牌项目。"></a><strong>工作原则1:打造品牌项目。</strong></h3><p>例会时，领导提出：“做事不要贪多，每个模块一年内做成一两件或两三件具有公司级品牌影响力的事情足以。”跨板块培训模块交流时，城市运营领导提出：“我看他们给我提交的年度培训计划，我吓了一跳。一年有一两百个培训项目要落地实施。其实一年内，不用做那么多事情，能做成一两件在公司内有影响力的事情就够了。”</p>
-<p>高层领导在不同场景重复强调要集中精力打造品牌项目。人的精力是有限的，集中精力打造品牌项目更具具备科学性。德鲁克在《卓有成效的管理者》提到“要事第一”的原则也与之相匹配。在做年度工作计划的时候，每个人都应该认真想想，如果我年内只做两个项目，到底要做哪两个项目，采用什么样的方式，能确保这个项目一定成功。这样的品牌项目才能够持续打造个人品牌影响力，并对公司战略文化形成强有力的支撑。</p>
-<h3 id="工作原则2-实现闭环管理。"><a href="#工作原则2-实现闭环管理。" class="headerlink" title="工作原则2:实现闭环管理。"></a><strong>工作原则2:实现闭环管理。</strong></h3><p>闭环管理是领导对项目实施的基本要求。他经常说“如果这样这样做，这个项目就能实现闭环”。</p>
-<p>项目闭环管理的要求，能够倒逼项目经理思考项目边界、项目成果输出，从而支撑工作绩效达成。闭环管理实现了日常工作项目化。项目化的工作有开始有结束，便能根据PDCA循环对项目进行评价和改进。没有闭环，就无法结束，无法实现迭代和改进。闭环管理是对工作的基本要求，也是成长进步的基本保障。</p>
-<h3 id="工作原则3-系统思考，做有效决策。"><a href="#工作原则3-系统思考，做有效决策。" class="headerlink" title="工作原则3:系统思考，做有效决策。"></a>工作原则3:系统思考，做有效决策。</h3><p>各下属单位每年年底都需要向总部提报年度培训规划和年度培训预算。评价预算合理性，并实现各单位预算分配的公平、合理和有效是总部必须完成的关键工作任务。2018年度通过设置培训预算的基本分配原则，实现了预算管理的科学性（点面结合，持续改进。）领导常说“预算分配按规则运行，出现点状问题，点状处理和解决。”系统思考，有效决策避免了经常性问题的重复发生，控制了决策的压力和风险。</p>
-<p>德鲁克也曾言“要确实了解问题的性质，如果问题是经常性的，那就只能通过一项建立规则或原则的决策才能解决。”股份各单位在九楼实施培训必须向多个部门告知培训实施要求，才能完成培训项目的前期准备。2018年为有效解决这一问题，提高工作效率。我进行了一项有效决策：将所有培训实施单位拉至同一个微信群。自此以后，培训的工作量瞬间从半天降低为了1个小时，集团、三江及总部各部门培训安排目前均通过此微信群进行。重复出现的问题，进行一次决策和安排，便一次性解决完成。系统思考，有效决策是每个卓有成效的职场人士必备素养。</p>
-<h3 id="工作原则4-看硬书，打硬战。"><a href="#工作原则4-看硬书，打硬战。" class="headerlink" title="工作原则4:看硬书，打硬战。"></a>工作原则4:看硬书，打硬战。</h3><p>领导在部门例会上对华发新星乃至所有中心员工说道：“在这个时代，我们每个人还是应该看一些硬书，例如《组织行为学》、《人力资源概论》，最好去看英文原版。看硬书才能深层次进入人力资源领域，成为人力资源专家”；在某次例会中提到：“我们人力资源团队要具备打硬战的能力。打硬战不仅能检验团队现有水平，打造人力资源专业化品牌，更能发现团队能力短板，淬炼团队能力。</p>
-<p>硬书里的《组织行为学》系统性地研究了人在组织中的行为和态度，对于了解人和组织的关系，组织中人的表现有巨大帮助。硬书所具备的科学性、系统性、严谨性是一般畅销书所不能比拟的。硬书们提供了更接近于正确的知识，对于绩效路径选择有重要意义。</p>
-<h3 id="工作原则5-绩效辅导。"><a href="#工作原则5-绩效辅导。" class="headerlink" title="工作原则5:绩效辅导。"></a>工作原则5:绩效辅导。</h3><p>培训是工作场景之一，《战略绩效管理》课程老师提到“卓有成效的绩效管理，一定伴随绩效辅导。”</p>
-<p>绩效辅导是一个双向沟通和了解的过程。管理者了解员工绩效结果（不一定是高绩效）达成背后的动机，向员工传达对于现有绩效结果的评价（正面或负面），辅导员工优化工作方法，助力员工绩效达成。员工通过绩效辅导，向管理者反馈绩效结果达成背后的原因，了解管理者对关键绩效任务的期望，并向管理者寻求绩效改进的建议。双方共同面对绩效结果，开展绩效辅导（讨论），达成绩效共识及下阶段的改进优化建议（双方）。</p>
-<p>拉姆查兰在《执行力》一书中说到：“坦诚有效的沟通，是提高执行力的唯一关键所在。”绩效结果是任务执行的结果，通过绩效辅导，实现坦诚有效的沟通，最终助力提高组织执行力，实现组织绩效结果达成。这是一个双赢的过程，员工获得了成长，管理者通过员工的成长和绩效结果的改进实现了组织绩效的提高，同样也就实现了自我绩效结果的提高。</p>
-<p>经过2018年的一年工作提炼出了这五条工作原则。在过往工作中，已经部分实践了这些原则，并产生了可喜的成果。未来工作场景下，牛人教会我的这五条工作原则还需不断实践，进一步加深理解和运用。</p>
-<p>对于看似正确的道理和方法，我一直以来以一句话来要求自己：“上士闻道，勤而行之；中士闻道，若存若亡；下士闻道，大笑之。不笑，不足以为道也。”愿看到这篇文章的你，也能切实实践，不断改进工作方法，支撑组织目标实现。</p>
-<blockquote>
-<p>作者后记：这篇文章写的很别扭，总是感觉有很多不够通畅的地方。这篇文章也是最近学习写作方法和技巧后成型的第一篇文章，行文和内容方面还有巨大的提升空间。但是，正如叶圣陶所说：“文章，最重要的事直抒己见，并对读者提供有价值的信息。”自认为，这篇文章初步实现了这样的目的。通过分析这篇文章，也初步发现了我的写作风格具有细节不够、行文步流程、被动句式多等一系列问题，只能寄希望于日后继续学习和改进，最终形成自己的写作风格。</p>
-</blockquote>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/66259b6c92e7" target="_blank" rel="noopener">工作场景下，牛人教会我的五条工作原则</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2018年终总结之思考" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/03/2018年终总结之思考/" class="article-date">
-      <time datetime="2019-02-02T23:58:31.000Z" itemprop="datePublished">2019-02-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/03/2018年终总结之思考/">2018年终总结之思考</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>暂无</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
 
       
       

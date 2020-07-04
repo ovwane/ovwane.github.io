@@ -202,6 +202,152 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-使用Vagrant和Virtualbox搭建Kubernetes集群" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/08/使用Vagrant和Virtualbox搭建Kubernetes集群/" class="article-date">
+      <time datetime="2018-07-08T09:00:16.000Z" itemprop="datePublished">2018-07-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="使用Vagrant和Virtualbox搭建Kubernetes集群"><a href="#使用Vagrant和Virtualbox搭建Kubernetes集群" class="headerlink" title="使用Vagrant和Virtualbox搭建Kubernetes集群"></a>使用Vagrant和Virtualbox搭建Kubernetes集群</h1><h2 id="安装Vagrant和VirtualBox"><a href="#安装Vagrant和VirtualBox" class="headerlink" title="安装Vagrant和VirtualBox"></a>安装Vagrant和VirtualBox</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew cask install vagrant</span><br><span class="line">brew cask install virtualbox</span><br></pre></td></tr></table></figure>
+<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><p>确保安装好以上的准备环境后，执行下列命令启动kubernetes集群：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ovwane/kubernetes-vagrant-centos-cluster.git</span><br><span class="line">cd kubernetes-vagrant-centos-cluster</span><br><span class="line">vagrant up</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：克隆完Git仓库后，需要提前下载kubernetes的压缩包到<code>kubenetes-vagrant-centos-cluster</code>目录下，包括如下两个文件：</p>
+<ul>
+<li>kubernetes-client-linux-amd64.tar.gz</li>
+<li>kubernetes-server-linux-amd64.tar.gz</li>
+</ul>
+<p>如果是首次部署，会自动下载<code>centos/7</code>的box，这需要花费一些时间，另外每个节点还需要下载安装一系列软件包，整个过程大概需要10几分钟。</p>
+<p>如果您在运行<code>vagrant up</code>的过程中发现无法下载<code>centos/7</code>的box，可以手动下载后将其添加到vagrant中。</p>
+<p><strong>手动添加centos/7 box</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1805_01.VirtualBox.box</span><br><span class="line">vagrant box add CentOS-7-x86_64-Vagrant-1805_01.VirtualBox.box --name centos/7</span><br></pre></td></tr></table></figure>
+<p>这样下次运行<code>vagrant up</code>的时候就会自动读取本地的<code>centos/7</code> box而不会再到网上下载。</p>
+<h3 id="访问kubernetes集群"><a href="#访问kubernetes集群" class="headerlink" title="访问kubernetes集群"></a>访问kubernetes集群</h3><p>访问Kubernetes集群的方式有三种：</p>
+<ul>
+<li>本地访问</li>
+<li>在VM内部访问</li>
+<li>kubernetes dashboard</li>
+</ul>
+<p><strong>通过本地访问</strong></p>
+<p>可以直接在你自己的本地环境中操作该kubernetes集群，而无需登录到虚拟机中，执行以下步骤：</p>
+<p>将<code>conf/admin.kubeconfig</code>文件放到<code>~/.kube/config</code>目录下即可在本地使用<code>kubectl</code>命令操作集群。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.kube</span><br><span class="line">cp conf/admin.kubeconfig ~/.kube/config</span><br></pre></td></tr></table></figure>
+<p>我们推荐您使用这种方式。</p>
+<p><strong>在虚拟机内部访问</strong></p>
+<p>如果有任何问题可以登录到虚拟机内部调试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vagrant ssh node1</span><br><span class="line">sudo -i</span><br><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+<p><strong>Kubernetes dashboard</strong></p>
+<p>还可以直接通过dashboard UI来访问：<a href="https://172.17.8.101:8443/" target="_blank" rel="noopener">https://172.17.8.101:8443</a></p>
+<p>可以在本地执行以下命令获取token的值（需要提前安装kubectl）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-system describe secret `kubectl -n kube-system get secret|grep admin-token|cut -d &quot; &quot; -f1`|grep &quot;token:&quot;|tr -s &quot; &quot;|cut -d &quot; &quot; -f2</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：token的值也可以在<code>vagrant up</code>的日志的最后看到。</p>
+<p><strong>Heapster监控</strong></p>
+<p>创建Heapster监控：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/heapster/</span><br></pre></td></tr></table></figure>
+<p>访问Grafana</p>
+<p>使用Ingress方式暴露的服务，在本地<code>/etc/hosts</code>中增加一条配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 grafana.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>访问Grafana：<a href="http://grafana.jimmysong.io/" target="_blank" rel="noopener">http://grafana.jimmysong.io</a></p>
+<p><strong>Traefik</strong></p>
+<p>部署Traefik ingress controller和增加ingress配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/traefik-ingress</span><br></pre></td></tr></table></figure>
+<p>在本地<code>/etc/hosts</code>中增加一条配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 traefik.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>访问Traefik UI：<a href="http://traefik.jimmysong.io/" target="_blank" rel="noopener">http://traefik.jimmysong.io</a></p>
+<p><strong>EFK</strong></p>
+<p>使用EFK做日志收集。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/efk/</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：运行EFK的每个节点需要消耗很大的CPU和内存，请保证每台虚拟机至少分配了4G内存。</p>
+<p><strong>Helm</strong></p>
+<p>用来部署helm。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack/deploy-helm.sh</span><br></pre></td></tr></table></figure>
+<h3 id="Service-Mesh"><a href="#Service-Mesh" class="headerlink" title="Service Mesh"></a>Service Mesh</h3><p>我们使用 <a href="https://istio.io/" target="_blank" rel="noopener">istio</a> 作为 service mesh。</p>
+<p><strong>安装</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f addon/istio/</span><br></pre></td></tr></table></figure>
+<p><strong>运行示例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -n default -f &lt;(istioctl kube-inject -f yaml/istio-bookinfo/bookinfo.yaml)</span><br><span class="line">istioctl create -f yaml/istio-bookinfo/bookinfo-gateway.yaml</span><br></pre></td></tr></table></figure>
+<p>在您自己的本地主机的<code>/etc/hosts</code>文件中增加如下配置项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">172.17.8.102 grafana.istio.jimmysong.io</span><br><span class="line">172.17.8.102 servicegraph.istio.jimmysong.io</span><br></pre></td></tr></table></figure>
+<p>我们可以通过下面的URL地址访问以上的服务。</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>grafana</td>
+<td><a href="http://grafana.istio.jimmysong.io/" target="_blank" rel="noopener">http://grafana.istio.jimmysong.io</a></td>
+</tr>
+<tr>
+<td>servicegraph</td>
+<td><a href="http://servicegraph.istio.jimmysong.io/dotviz%3E" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/dotviz&gt;</a>, <a href="http://servicegraph.istio.jimmysong.io/graph" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/graph</a>,<a href="http://servicegraph.istio.jimmysong.io/force/forcegraph.html" target="_blank" rel="noopener">http://servicegraph.istio.jimmysong.io/force/forcegraph.html</a></td>
+</tr>
+<tr>
+<td>tracing</td>
+<td><a href="http://172.17.8.101:$JAEGER_PORT/" target="_blank" rel="noopener">http://172.17.8.101:$JAEGER_PORT</a></td>
+</tr>
+<tr>
+<td>productpage</td>
+<td><a href="http://172.17.8.101:$GATEWAY_PORT/productpage" target="_blank" rel="noopener">http://172.17.8.101:$GATEWAY_PORT/productpage</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意</strong>：<code>JAEGER_PORT</code>可以通过<code>kubectl -n istio-system get svc tracing -o jsonpath=&#39;{.spec.ports[0].nodePort}&#39;</code>获取，<code>GATEWAY_PORT</code>可以通过<code>kubectl -n istio-system get svc istio-ingressgateway -o jsonpath=&#39;{.spec.ports[0].nodePort}&#39;</code>获取。</p>
+<p>详细信息请参阅 <a href="https://istio.io/docs/guides/bookinfo.html" target="_blank" rel="noopener">https://istio.io/docs/guides/bookinfo.html</a></p>
+<h2 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h2><p>除了特别说明，以下命令都在当前的repo目录下操作。</p>
+<h3 id="挂起"><a href="#挂起" class="headerlink" title="挂起"></a>挂起</h3><p>将当前的虚拟机挂起，以便下次恢复。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant suspend</span><br></pre></td></tr></table></figure>
+<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><p>恢复虚拟机的上次状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant resume</span><br></pre></td></tr></table></figure>
+<p>注意：我们每次挂起虚拟机后再重新启动它们的时候，看到的虚拟机中的时间依然是挂载时候的时间，这样将导致监控查看起来比较麻烦。因此请考虑先停机再重新启动虚拟机。</p>
+<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><p>停机后重启启动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">vagrant halt</span><br><span class="line">vagrant up</span><br><span class="line"># login to node1</span><br><span class="line">vagrant ssh node1</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">exit</span><br><span class="line"># login to node2</span><br><span class="line">vagrant ssh node2</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">exit</span><br><span class="line"># login to node3</span><br><span class="line">vagrant ssh node3</span><br><span class="line"># run the prosivision scripts</span><br><span class="line">/vagrant/hack/k8s-init.sh</span><br><span class="line">sudo -i</span><br><span class="line">cd /vagrant/hack</span><br><span class="line">./deploy-base-services.sh</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>现在你已经拥有一个完整的基础的kubernetes运行环境，在该repo的根目录下执行下面的命令可以获取kubernetes dahsboard的admin用户的token。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack/get-dashboard-token.sh</span><br></pre></td></tr></table></figure>
+<p>根据提示登录即可。</p>
+<h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><p>清理虚拟机。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vagrant destroy</span><br><span class="line">rm -rf .vagrant</span><br></pre></td></tr></table></figure>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>仅做开发测试使用，不要在生产环境使用该项目。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://jimmysong.io/kubernetes-handbook/develop/using-vagrant-and-virtualbox-for-development.html" target="_blank" rel="noopener">本地分布式开发环境搭建（使用Vagrant和Virtualbox）</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Hugo" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -758,6 +904,7 @@
           
         <blockquote>
 <p>IntelliJ IDEA 2018.1.2</p>
+<p>IntelliJ IDEA 2020.1.2</p>
 </blockquote>
 <h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><p>Apperance &amp; BBehavior-&gt;Apperance**</p>
 <p>Theme Darcula</p>
@@ -766,6 +913,10 @@
 <p><strong>Editor</strong></p>
 <p>Font: Menlo</p>
 <p>Size: 20</p>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><ul>
+<li>切换 Project 面板：cmd + 1</li>
+<li>Project Structure：cmd + ;</li>
+</ul>
 <h2 id="File-and-Code-Templates"><a href="#File-and-Code-Templates" class="headerlink" title="File and Code Templates"></a>File and Code Templates</h2><h3 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#if ($&#123;PACKAGE_NAME&#125; &amp;&amp; $&#123;PACKAGE_NAME&#125; != "")package $&#123;PACKAGE_NAME&#125;;#end</span><br><span class="line">#parse("File Header.java")</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span>: ovwane</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@create</span>: $&#123;YEAR&#125;-$&#123;MONTH&#125;-$&#123;DAY&#125; $&#123;HOUR&#125;:$&#123;MINUTE&#125;:$&#123;SECOND&#125;</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> $</span>&#123;NAME&#125; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h3 id="Maven-Helper"><a href="#Maven-Helper" class="headerlink" title="Maven Helper"></a>Maven Helper</h3><p>一旦安装了Maven Helper插件，只要打开pom文件，就可以打开该pom文件的Dependency Analyzer视图（在文件打开之后，文件下面会多出这样一个tab）。</p>
 <h3 id="Gradle-Dependencies-Helper"><a href="#Gradle-Dependencies-Helper" class="headerlink" title="Gradle Dependencies Helper"></a>Gradle Dependencies Helper</h3><h3 id="FindBugs-IDEA"><a href="#FindBugs-IDEA" class="headerlink" title="FindBugs-IDEA"></a>FindBugs-IDEA</h3><p>FindBugs很多人都并不陌生，Eclipse中有插件可以帮助查找代码中隐藏的bug，IDEA中也有这款插件。</p>
@@ -803,102 +954,6 @@
 <p><a href="https://blog.csdn.net/qq_34581118/article/details/78409782" target="_blank" rel="noopener">idea生成类注释和方法注释的正确方法</a></p>
 <p><a href="https://github.com/judasn/IntelliJ-IDEA-Tutorial" target="_blank" rel="noopener">IntelliJ IDEA 简体中文专题教程</a></p>
 <p><a href="https://mp.weixin.qq.com/s?__biz=MzI3NzE0NjcwMg==&amp;mid=2650123120&amp;idx=1&amp;sn=563ae7e8fd66e0d7c311ea9a8616d558&amp;chksm=f36bb651c41c3f4700bcf053340a0b9e52e8ad07399d9758d677c426116b2e876b0a4378977f&amp;mpshare=1&amp;scene=23&amp;srcid=#rd" target="_blank" rel="noopener">IntelliJ IDEA 18 周岁，吐血推进珍藏已久的必装插件</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-第12章-结构体" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/09/第12章-结构体/" class="article-date">
-      <time datetime="2018-05-09T05:35:00.000Z" itemprop="datePublished">2018-05-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/09/第12章-结构体/">老男孩Golang第一期 第12章</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="第12章-结构体"><a href="#第12章-结构体" class="headerlink" title="第12章-结构体"></a>第12章-结构体</h1><p> 2018-03-02</p>
-<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><h2 id="1-1-什么是接口"><a href="#1-1-什么是接口" class="headerlink" title="1.1 什么是接口?"></a>1.1 什么是接口?</h2><p>面向对象世界中的接口的一般定义是“接口定义对象的行为”。它只指定对象应该做什么。实现这种行为的方法(实现细节)是针对对象的。</p>
-<p>在Go中，接口是一组方法签名。当类型为接口中的所有方法提供定义时，它被称为实现接口。它与OOP非常相似。接口指定了类型应该具有的方法，类型决定了如何实现这些方法。</p>
-<blockquote>
-<p>它把所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实现了这个接口</p>
-<p>接口定义了一组方法，如果某个对象实现了某个接口的所有方法，则此对象就实现了该接口。</p>
-</blockquote>
-<h2 id="1-2-接口的定义语法"><a href="#1-2-接口的定义语法" class="headerlink" title="1.2 接口的定义语法"></a>1.2 接口的定义语法</h2><p>定义接口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/* 定义接口 */</span><br><span class="line">type interface_name interface &#123;</span><br><span class="line">   method_name1 [return_type]</span><br><span class="line">   method_name2 [return_type]</span><br><span class="line">   method_name3 [return_type]</span><br><span class="line">   ...</span><br><span class="line">   method_namen [return_type]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 定义结构体 */</span><br><span class="line">type struct_name struct &#123;</span><br><span class="line">   /* variables */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 实现接口方法 */</span><br><span class="line">func (struct_name_variable struct_name) method_name1() [return_type] &#123;</span><br><span class="line">   /* 方法实现 */</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line">func (struct_name_variable struct_name) method_namen() [return_type] &#123;</span><br><span class="line">   /* 方法实现*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>示例代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Phone interface &#123;</span><br><span class="line">    call()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type NokiaPhone struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (nokiaPhone NokiaPhone) call() &#123;</span><br><span class="line">    fmt.Println(&quot;I am Nokia, I can call you!&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type IPhone struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (iPhone IPhone) call() &#123;</span><br><span class="line">    fmt.Println(&quot;I am iPhone, I can call you!&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    var phone Phone</span><br><span class="line"></span><br><span class="line">    phone = new(NokiaPhone)</span><br><span class="line">    phone.call()</span><br><span class="line"></span><br><span class="line">    phone = new(IPhone)</span><br><span class="line">    phone.call()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>结果</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">I am Nokia, I can call you!</span><br><span class="line">I am iPhone, I can call you!</span><br></pre></td></tr></table></figure>
-<ul>
-<li>interface可以被任意的对象实现</li>
-<li>一个对象可以实现任意多个interface</li>
-<li>任意的类型都实现了空interface(我们这样定义：interface{})，也就是包含0个method的interface</li>
-</ul>
-<h2 id="1-3-interface值"><a href="#1-3-interface值" class="headerlink" title="1.3 interface值"></a>1.3 interface值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">type Human struct &#123;</span><br><span class="line">	name  string</span><br><span class="line">	age   int</span><br><span class="line">	phone string</span><br><span class="line">&#125;</span><br><span class="line">type Student struct &#123;</span><br><span class="line">	Human  //匿名字段</span><br><span class="line">	school string</span><br><span class="line">	loan   float32</span><br><span class="line">&#125;</span><br><span class="line">type Employee struct &#123;</span><br><span class="line">	Human   //匿名字段</span><br><span class="line">	company string</span><br><span class="line">	money   float32</span><br><span class="line">&#125; //Human实现Sayhi方法</span><br><span class="line">func (h Human) SayHi() &#123;</span><br><span class="line">	fmt.Printf(&quot;Hi, I am %s you can call me on %s\n&quot;, h.name, h.phone)</span><br><span class="line">&#125; //Human实现Sing方法</span><br><span class="line">func (h Human) Sing(lyrics string) &#123;</span><br><span class="line">	fmt.Println(&quot;La la la la...&quot;, lyrics)</span><br><span class="line">&#125; //Employee重写Human的SayHi方法</span><br><span class="line">func (e Employee) SayHi() &#123;</span><br><span class="line">	fmt.Printf(&quot;Hi, I am %s, I work at %s. Call me on %s\n&quot;, e.name,</span><br><span class="line">		e.company, e.phone) //Yes you can split into 2 lines here.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Interface Men被Human,Student和Employee实现</span><br><span class="line">// 因为这三个类型都实现了这两个方法</span><br><span class="line">type Men interface &#123;</span><br><span class="line">	SayHi()</span><br><span class="line">	Sing(lyrics string)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	mike := Student&#123;Human&#123;&quot;Mike&quot;, 25, &quot;222-222-XXX&quot;&#125;, &quot;MIT&quot;, 0.00&#125;</span><br><span class="line">	paul := Student&#123;Human&#123;&quot;Paul&quot;, 26, &quot;111-222-XXX&quot;&#125;, &quot;Harvard&quot;, 100&#125;</span><br><span class="line">	sam := Employee&#123;Human&#123;&quot;Sam&quot;, 36, &quot;444-222-XXX&quot;&#125;, &quot;Golang Inc.&quot;, 1000&#125;</span><br><span class="line">	Tom := Employee&#123;Human&#123;&quot;Sam&quot;, 36, &quot;444-222-XXX&quot;&#125;, &quot;Things Ltd.&quot;, 5000&#125;</span><br><span class="line">	//定义Men类型的变量i</span><br><span class="line">	var i Men</span><br><span class="line">	//i能存储Student</span><br><span class="line">	i = mike</span><br><span class="line">	fmt.Println(&quot;This is Mike, a Student:&quot;)</span><br><span class="line">	i.SayHi()</span><br><span class="line">	i.Sing(&quot;November rain&quot;)</span><br><span class="line">	//i也能存储Employee</span><br><span class="line">	i = Tom</span><br><span class="line">	fmt.Println(&quot;This is Tom, an Employee:&quot;)</span><br><span class="line">	i.SayHi()</span><br><span class="line">	i.Sing(&quot;Born to be wild&quot;)</span><br><span class="line">	//定义了slice Men</span><br><span class="line">	fmt.Println(&quot;Let&apos;s use a slice of Men and see what happens&quot;)</span><br><span class="line">	x := make([]Men, 3)</span><br><span class="line">	//T这三个都是不同类型的元素，但是他们实现了interface同一个接口</span><br><span class="line">	x[0], x[1], x[2] = paul, sam, mike</span><br><span class="line">	for _, value := range x &#123;</span><br><span class="line">		value.SayHi()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>结果</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">This is Mike, a Student:</span><br><span class="line">Hi, I am Mike you can call me on 222-222-XXX</span><br><span class="line">La la la la... November rain</span><br><span class="line">This is Tom, an Employee:</span><br><span class="line">Hi, I am Sam, I work at Things Ltd.. Call me on 444-222-XXX</span><br><span class="line">La la la la... Born to be wild</span><br><span class="line">Let&apos;s use a slice of Men and see what happens</span><br><span class="line">Hi, I am Paul you can call me on 111-222-XXX</span><br><span class="line">Hi, I am Sam, I work at Golang Inc.. Call me on 444-222-XXX</span><br><span class="line">Hi, I am Mike you can call me on 222-222-XXX</span><br></pre></td></tr></table></figure>
-<p>那么interface里面到底能存什么值呢？如果我们定义了一个interface的变量，那么这个变量里面可以存实现这个 interface的任意类型的对象。例如上面例子中，我们定义了一个Men interface类型的变量m，那么m里面可以存 Human、Student或者Employee值</p>
-<blockquote>
-<p>当然，使用指针的方式，也是可以的</p>
-<p>但是，接口对象不能调用实现对象的属性</p>
-</blockquote>
-<p><strong>interface函数参数</strong></p>
-<p>interface的变量可以持有任意实现该interface类型的对象，这给我们编写函数(包括method)提供了一些额外的思 考，我们是不是可以通过定义interface参数，让函数接受各种类型的参数</p>
-<p><strong>嵌入interface</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">type Human interface &#123;</span><br><span class="line">	Len()</span><br><span class="line">&#125;</span><br><span class="line">type Student interface &#123;</span><br><span class="line">	Human</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Test struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (h *Test) Len() &#123;</span><br><span class="line">	fmt.Println(&quot;成功&quot;)</span><br><span class="line">&#125;</span><br><span class="line">func main() &#123;</span><br><span class="line">	var s Student</span><br><span class="line">	s = new(Test)</span><br><span class="line">	s.Len()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>结果</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">成功</span><br></pre></td></tr></table></figure>
-<p><code>例</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package test</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Controller struct &#123;</span><br><span class="line">	M int32</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Something interface &#123;</span><br><span class="line">	Get()</span><br><span class="line">	Post()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c *Controller) Get() &#123;</span><br><span class="line">	fmt.Print(&quot;GET&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c *Controller) Post() &#123;</span><br><span class="line">	fmt.Print(&quot;POST&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;test&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type T struct &#123;</span><br><span class="line">	test.Controller</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (t *T) Get() &#123;</span><br><span class="line">	//new(test.Controller).Get()</span><br><span class="line">	fmt.Print(&quot;T&quot;)</span><br><span class="line">&#125;</span><br><span class="line">func (t *T) Post() &#123;</span><br><span class="line">	fmt.Print(&quot;T&quot;)</span><br><span class="line">&#125;</span><br><span class="line">func main() &#123;</span><br><span class="line">	var something test.Something</span><br><span class="line">	something = new(T)</span><br><span class="line">	var t T</span><br><span class="line">	t.M = 1</span><br><span class="line">	//	t.Controller.M = 1</span><br><span class="line">	something.Get()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>结果</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T</span><br></pre></td></tr></table></figure>
-<p>Controller实现了所有的Something接口方法，当结构体T中调用Controller结构体的时候，T就相当于Java中的继承，T继承了Controller，因此，T可以不用重写所有的Something接口中的方法，因为父构造器已经实现了接口。</p>
-<p>如果Controller没有实现Something接口方法，则T要调用Something中方法，就要实现其所有方法。</p>
-<p>如果<code>something = new(test.Controller)</code>则调用的是Controller中的Get方法。</p>
-<p>T可以使用Controller结构体中定义的变量</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>接口对象不能调用接口实现对象的属性</p>
 
       
       
