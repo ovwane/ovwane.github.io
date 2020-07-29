@@ -202,6 +202,296 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Neo4j-配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/06/13/Neo4j-配置/" class="article-date">
+      <time datetime="2019-06-12T23:56:27.000Z" itemprop="datePublished">2019-06-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/13/Neo4j-配置/">Neo4j 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="使用-Docker-运行-Neo4j"><a href="#使用-Docker-运行-Neo4j" class="headerlink" title="使用 Docker 运行 Neo4j"></a>使用 Docker 运行 Neo4j</h2><p><a href="https://github.com/neo4j/docker-neo4j" target="_blank" rel="noopener">docker-neo4j</a></p>
+<p><a href="https://hub.docker.com/_/neo4j" target="_blank" rel="noopener">Neo4j Docker</a></p>
+<p>运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name=neo4j-3.5.6 --publish=7474:7474 --publish=7687:7687 --volume=$HOME/docker/neo4j/data:/data --env=NEO4J_AUTH=none neo4j:3.5.6</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>–env=NEO4J_AUTH=none 关闭密码认证</p>
+</blockquote>
+<p>访问</p>
+<p><a href="http://127.0.0.1:7474/browser/" target="_blank" rel="noopener">http://127.0.0.1:7474/browser/</a></p>
+<p>用户名：<code>neo4j</code>，密码：<code>neo4j</code></p>
+<h2 id="Neo4j-Browser"><a href="#Neo4j-Browser" class="headerlink" title="Neo4j Browser"></a><a href="https://github.com/neo4j/neo4j-browser" target="_blank" rel="noopener">Neo4j Browser</a></h2><p>新建图</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/u010086122/article/details/82390945" target="_blank" rel="noopener">neo4j的搭建和实例使用</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create(suxun:Person_&#123;name:&quot;苏洵&quot;,age:80,sex:&quot;男&quot;&#125;)</span><br><span class="line">create(sushi:Person_&#123;name:&quot;苏轼&quot;,age:53,sex:&quot;男&quot;&#125;)</span><br><span class="line">create(suzhe:Person_&#123;name:&quot;苏辙&quot;,age:51,sex:&quot;男&quot;&#125;)</span><br><span class="line">create(suxiaomei:Person_&#123;name:&quot;苏小妹&quot;,age:45,sex:&quot;女&quot;&#125;)</span><br><span class="line">create(susun:Person_&#123;name:&quot;苏孙&quot;,age:29,sex:&quot;男&quot;&#125;)</span><br><span class="line">create(suxiaosun:Person_&#123;name:&quot;苏重孙&quot;,age:6,sex:&quot;女&quot;&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">match(p1:Person_),(p2:Person_)</span><br><span class="line">where p1.name=&quot;苏洵&quot; and p2.name = &quot;苏轼&quot;</span><br><span class="line">create (p1) -[parent:Parent&#123;relation:&quot;父亲&quot;&#125;]-&gt; (p2);</span><br><span class="line"></span><br><span class="line">match(p1:Person_),(p2:Person_)</span><br><span class="line">where p1.name=&quot;苏洵&quot; and p2.name = &quot;苏辙&quot;</span><br><span class="line">create (p1) -[parent:Parent&#123;relation:&quot;父亲&quot;&#125;] -&gt; (p2);</span><br><span class="line"> </span><br><span class="line">match(p1:Person_),(p2:Person_)</span><br><span class="line">where p1.name=&quot;苏洵&quot; and p2.name = &quot;苏小妹&quot;</span><br><span class="line">create (p1) -[parent:Parent&#123;relation:&quot;父亲&quot;&#125;] -&gt; (p2);</span><br><span class="line"> </span><br><span class="line">match(p1:Person_),(p2:Person_)</span><br><span class="line">where p1.name=&quot;苏轼&quot; and p2.name = &quot;苏孙&quot;</span><br><span class="line">create (p1) -[parent:Parent&#123;relation:&quot;父亲&quot;&#125;] -&gt; (p2);</span><br><span class="line"> </span><br><span class="line">match(p1:Person_&#123;name:&quot;苏孙&quot;&#125;),(p2:Person_&#123;name:&quot;苏重孙&quot;&#125;)</span><br><span class="line">create (p1) -[parent:Parent&#123;relation:&quot;父亲&quot;&#125;] -&gt; (p2);</span><br></pre></td></tr></table></figure>
+<p>查询渲染图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">match(a)-[r:Parent]-&gt;(b) return a, r, b</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:play https://guides.neo4j.com/sandbox/twitter-trolls/index.html</span><br></pre></td></tr></table></figure>
+<h2 id="Graph-Visualization-Tools"><a href="#Graph-Visualization-Tools" class="headerlink" title="Graph Visualization Tools"></a>Graph Visualization Tools</h2><p><a href="https://neo4j.com/developer/tools-graph-visualization/#_howto_graph_visualization_step_by_step" target="_blank" rel="noopener">Graph Visualization Tools</a></p>
+<p><a href="https://medium.com/neo4j/graph-visualization-with-neo4j-using-neovis-js-a2ecaaa7c379" target="_blank" rel="noopener">Graph Visualization With Neo4j Using Neovis.js</a></p>
+<p><a href="https://github.com/neo4j-contrib/neovis.js" target="_blank" rel="noopener">Neovis</a></p>
+<p><a href="https://neo4j.com/sandbox-v2/" target="_blank" rel="noopener">Neo4j Sandbox</a></p>
+<p><a href="https://guides.neo4j.com/sandbox/twitter-trolls/index.html" target="_blank" rel="noopener">Russian Twitter Trolls</a></p>
+<p><a href="https://blog.csdn.net/qq_34414916/article/details/81168275" target="_blank" rel="noopener">d3.js可视化neo4j图数据库项目</a></p>
+<p><a href="https://github.com/Nhogs/popoto" target="_blank" rel="noopener">Popoto.js</a></p>
+<p><a href="https://medium.com/neo4j/tagged/data-visualization" target="_blank" rel="noopener">Data Visualization</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-RVM-配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/06/11/RVM-配置/" class="article-date">
+      <time datetime="2019-06-11T03:52:36.000Z" itemprop="datePublished">2019-06-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/11/RVM-配置/">RVM 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="RVM"><a href="#RVM" class="headerlink" title="RVM"></a><a href="https://github.com/rvm/rvm" target="_blank" rel="noopener">RVM</a></h1><p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://get.rvm.io | bash -s stable</span><br></pre></td></tr></table></figure>
+<p>查看版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rvm list known</span><br></pre></td></tr></table></figure>
+<p>安装 ruby</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rvm install 2.6.3</span><br></pre></td></tr></table></figure>
+<p>设置默认 ruby</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rvm alias create default 2.6.3</span><br></pre></td></tr></table></figure>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-VS-Code-配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/10/VS-Code-配置/" class="article-date">
+      <time datetime="2019-05-10T03:03:14.000Z" itemprop="datePublished">2019-05-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/10/VS-Code-配置/">VS Code 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="Text-Editor"><a href="#Text-Editor" class="headerlink" title="Text Editor"></a>Text Editor</h4><p>Font Size: <code>20</code></p>
+<ul>
+<li>editor cursor， 是跟光标渲染和多光标相关的设置；</li>
+<li>editor find， 是与编辑器内搜索相关的设置；</li>
+<li>editor font， 是与字体有关的设置；</li>
+<li>editor format， 是代码格式化；</li>
+<li>editor suggest， 是和自动补全、建议窗口等相关的配置。</li>
+</ul>
+<h4 id="行长度尺子"><a href="#行长度尺子" class="headerlink" title="行长度尺子"></a>行长度尺子</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"editor.rulers": [70],</span><br></pre></td></tr></table></figure>
+<h3 id="File"><a href="#File" class="headerlink" title="File"></a>File</h3><p>Auto Save: onFocusChange</p>
+<h4 id="Breadcrumbs"><a href="#Breadcrumbs" class="headerlink" title="Breadcrumbs"></a>Breadcrumbs</h4><blockquote>
+<p>面包屑导航(Breadcrumbs)</p>
+</blockquote>
+<p>Enable</p>
+<h4 id="多文件搜索视图的位置"><a href="#多文件搜索视图的位置" class="headerlink" title="多文件搜索视图的位置"></a>多文件搜索视图的位置</h4><p>search.location: <code>panel</code></p>
+<h4 id="空格符"><a href="#空格符" class="headerlink" title="空格符"></a>空格符</h4><p>editor.renderWhitespace: <code>all</code></p>
+<h4 id="缩进参考线"><a href="#缩进参考线" class="headerlink" title="缩进参考线"></a>缩进参考线</h4><p><code>editor.renderIndentGuides</code></p>
+<h4 id="垂直标尺"><a href="#垂直标尺" class="headerlink" title="垂直标尺"></a>垂直标尺</h4><p><code>&quot;editor.rulers&quot;: [120]</code></p>
+<h4 id="光标的样式"><a href="#光标的样式" class="headerlink" title="光标的样式"></a>光标的样式</h4><p>editor.cursorBlinking</p>
+<p>editor.cursorStyle:<code>block</code></p>
+<p>editor.cursorWidth:<code>0</code></p>
+<p>editor.renderLineHighlight: “all”</p>
+<h4 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h4><p>editor.detectIndentation</p>
+<p>editor.insertSpaces</p>
+<p>editor.tabSize</p>
+<h4 id="代码风格"><a href="#代码风格" class="headerlink" title="代码风格"></a>代码风格</h4><p>editor.formatOnSave: true</p>
+<p>editor.formatOnType: true</p>
+<h4 id="小地图-Minimap"><a href="#小地图-Minimap" class="headerlink" title="小地图 Minimap"></a>小地图 Minimap</h4><p><code>editor.minimap.enabled</code>：取消</p>
+<h4 id="新的空文件默认语言类型"><a href="#新的空文件默认语言类型" class="headerlink" title="新的空文件默认语言类型"></a>新的空文件默认语言类型</h4><p>files.defaultLanguage：<code>markdown</code></p>
+<blockquote>
+<p><code>javascript</code></p>
+</blockquote>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>自定义快捷键：<code>先按 cmd+k 然后再按 cmd+s</code></p>
+<p>命令面板： <code>cmd+shift+p</code></p>
+<p>文件资源管理器：<code>cmd+shift+e</code></p>
+<p>跨文件搜索：<code>cmd+shift+f</code></p>
+<p>源代码管理：<code>cmd+shift+g</code></p>
+<p>启动和调试：<code>cmd+shift+d</code></p>
+<p>管理扩展：<code>cmd+shift+x</code></p>
+<p>光标移动：<code>cmd</code> 行跳转，<code>option</code> 单词间跳转，<code>cmd+shfit+\</code>代码块间跳转。</p>
+<p>合并代码行：<code>ctrl+j</code></p>
+<p>多光标操作：<code>shift+方向键</code></p>
+<p>复制一行：<code>option+shift+上下键</code></p>
+<p>多行操作<code>cmd+option+上下键</code></p>
+<p>打开文件之间跳转：<code>ctrl+tab</code></p>
+<p>最近打开文件列表：<code>cmd+p</code></p>
+<p>符号（Symbols）跳转：<code>cmd+shift+o</code></p>
+<p>多个文件内符号跳转：<code>cmd+t</code></p>
+<p>定义实现查看：<code>cmd+f12</code></p>
+<p>引用 (Reference) 跳转：<code>shift+f12</code></p>
+<p>代码折叠：<code>cmd+option+[</code></p>
+<p>代码展开：<code>cmd+option+]</code></p>
+<p>递归折叠：<code>cmd+k cmd+[</code></p>
+<p>递归展开：<code>cmd+k cmd+]</code></p>
+<p>所有可折叠的都折叠：<code>cmd+k cmd+0</code></p>
+<p>所有课展开的都展开：<code>cmd+k cmd+j</code></p>
+<p>面板：<code>cmd+j</code></p>
+<p>打开终端：ctrl+`</p>
+<p>新建终端：ctrl+shitf+`</p>
+<p>多窗口：<code>cmd+\</code></p>
+<p>窗口间切换：<code>cmd+1</code>，<code>cmd+2</code>，<code>cmd+3</code></p>
+<p>窗口纵向切换：<code>cmd+option+0</code></p>
+<p>grid 2 x 2 窗口布局</p>
+<p>专注模式：<code>cmd+b</code></p>
+<p>窗口缩放：<code>cmd + +</code>，<code>cmd + -</code></p>
+<h2 id="代码片段（code-snippet）"><a href="#代码片段（code-snippet）" class="headerlink" title="代码片段（code snippet）"></a>代码片段（code snippet）</h2><h2 id="文件搜索"><a href="#文件搜索" class="headerlink" title="文件搜索"></a>文件搜索</h2><p>单文件搜索：<code>cmd+f</code></p>
+<p>搜索结果向下跳转：<code>cmd+g</code></p>
+<p>搜索结果向上跳转：<code>cmd+shift+g</code></p>
+<p>全单词匹配：<code>cmd+option+w</code></p>
+<p>正则表达式：<code>cmd+option+r</code></p>
+<p>单文件替换：<code>cmd+option+f</code></p>
+<p>多文件搜索：<code>cmd+shift+f</code></p>
+<p>多文件替换：<code>cmd+shift+h</code></p>
+<h2 id="任务系统"><a href="#任务系统" class="headerlink" title="任务系统"></a>任务系统</h2><p>单任务</p>
+<p>多任务</p>
+<h2 id="debugger"><a href="#debugger" class="headerlink" title="debugger"></a>debugger</h2><p>快捷键：<code>cmd+shif+d</code></p>
+<p>运行：<code>f5</code></p>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h3 id="Rainbow-Brackets"><a href="#Rainbow-Brackets" class="headerlink" title="Rainbow Brackets"></a>Rainbow Brackets</h3><p>括号颜色</p>
+<h3 id="Indent-Rainbow"><a href="#Indent-Rainbow" class="headerlink" title="Indent Rainbow"></a>Indent Rainbow</h3><p>indent-rainbow：缩进颜色</p>
+<h3 id="Import-Cost"><a href="#Import-Cost" class="headerlink" title="Import Cost"></a>Import Cost</h3><p>JavaScript 经常被吐槽的一个地方，就是大家对 npm 库的使用程度非常高，经常为了一个简单的功能，引入了几兆甚至十几兆的 npm 包。<a href="https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost" target="_blank" rel="noopener">Import Cost</a>这个插件，很好地在代码中给我们以提示，告诉我们引入的某个包，它最终会导致整个项目的大小增加多少。</p>
+<h3 id="Markdown"><a href="#Markdown" class="headerlink" title="Markdown"></a>Markdown</h3><p>Markdown 预览：Markdown Preview Enhanced</p>
+<p>粘贴板图片保存：Paste Image</p>
+<ul>
+<li>修改 Base Path：<code>${currentFileDir}/assets</code>。</li>
+<li>修改 Default Name：<code>YMMDD-HH-mm-ss</code>。</li>
+<li>修改 Path：<code>${currentFileDir}/assets</code></li>
+<li>修改 Prefix：<code>assets/</code>。</li>
+</ul>
+<h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><p>Ignore files：忽略文件</p>
+<h3 id="Debugger-for-Chrome"><a href="#Debugger-for-Chrome" class="headerlink" title="Debugger for Chrome"></a>Debugger for Chrome</h3><h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><h3 id="BASH-相关"><a href="#BASH-相关" class="headerlink" title="BASH 相关"></a>BASH 相关</h3><ul>
+<li>shell-format：代码格式化。<a href="https://github.com/mvdan/sh/releases" target="_blank" rel="noopener">https://github.com/mvdan/sh/releases</a></li>
+<li>shellman：bash 语法提示。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://juejin.im/post/5cd8fcedf265da03761eaa45" target="_blank" rel="noopener">[译] 帮你高效使用 VS Code 的秘诀 - 掘金</a> </p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-appium-源码分析" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1226,274 +1516,9 @@
 
 
   
-    <article id="post-Python-学习笔记-第三版学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/28/Python-学习笔记-第三版学习笔记/" class="article-date">
-      <time datetime="2019-02-28T09:16:49.000Z" itemprop="datePublished">2019-02-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/28/Python-学习笔记-第三版学习笔记/">Python 学习笔记 第三版学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
-<p>Python 3.6.1</p>
-</blockquote>
-<h2 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h2><h3 id="MessagePack"><a href="#MessagePack" class="headerlink" title="MessagePack"></a>MessagePack</h3><blockquote>
-<p>简单来讲，它的数据格式与json类似，但是在存储时对数字、多字节字符、数组等都做了很多优化，减少了无用的字符，二进制格式，也保证不用字符化带来额外的存储空间的增加。</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install msgpack</span><br></pre></td></tr></table></figure>
-<p><a href="https://msgpack.org/" target="_blank" rel="noopener">MessagePack: It’s like JSON. but fast and small.</a></p>
-<h3 id="psutil"><a href="#psutil" class="headerlink" title="psutil"></a>psutil</h3><blockquote>
-<p>psutil = process and system utilities，它不仅可以通过一两行代码实现系统监控，还可以跨平台使用，支持Linux／UNIX／OSX／Windows等，是系统管理员和运维小伙伴不可或缺的必备模块。</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install psutil</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001511052957192bb91a56a2339485c8a8c79812b400d49000" target="_blank" rel="noopener">psutil - 廖雪峰的官方网站</a></p>
-<p><a href="https://github.com/giampaolo/psutil" target="_blank" rel="noopener">giampaolo/psutil: Cross-platform lib for process and system monitoring in Python</a></p>
-<h2 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h2><h3 id="Pympler"><a href="#Pympler" class="headerlink" title="Pympler"></a>Pympler</h3><blockquote>
-<p>pympler 则被⽤来统计对象实例的内存使⽤。</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pympler</span><br></pre></td></tr></table></figure>
-<h2 id="调试器"><a href="#调试器" class="headerlink" title="调试器"></a>调试器</h2><blockquote>
-<p>iPDB ⽀持语法⾼亮，且输出更加友好。</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install ipdb</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/zimufeng/p/6188229.html" target="_blank" rel="noopener">使用 ipdb 调试 Python - 小沐枫 - 博客园</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-MITx-6-00-1x-2019-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/27/MITx-6-00-1x-2019-学习笔记/" class="article-date">
-      <time datetime="2019-02-26T23:04:26.000Z" itemprop="datePublished">2019-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/27/MITx-6-00-1x-2019-学习笔记/">MITx 6.00.1x 2019 学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="MITx-6-00-1x-Introduction-to-Computer-Science-and-Programming-Using-Python"><a href="#MITx-6-00-1x-Introduction-to-Computer-Science-and-Programming-Using-Python" class="headerlink" title="MITx: 6.00.1x Introduction to Computer Science and Programming Using Python"></a><a href="https://courses.edx.org/courses/course-v1:MITx+6.00.1x+1T2019/course/" target="_blank" rel="noopener">MITx: 6.00.1x Introduction to Computer Science and Programming Using Python</a></h1><h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><ul>
-<li><p>macOS 10.13.6</p>
-</li>
-<li><p>Anaconda3-2.5.0：Python 3.5.1</p>
-</li>
-<li><p>IPython 4.0.3</p>
-</li>
-<li><p>IDE(<a href="https://en.wikipedia.org/wiki/Integrated_development_environment" target="_blank" rel="noopener">integrated development environment</a>): Spyder(Scientific Python Development Environment) 2.3.9</p>
-</li>
-</ul>
-<h3 id="设置-Spyder"><a href="#设置-Spyder" class="headerlink" title="设置 Spyder"></a>设置 Spyder</h3><p><strong>启动 Spyder：</strong>打开 Anaconda Navigator-&gt;Home-&gt;spyder-&gt;Launch</p>
-<p><strong>运行前清除：</strong>Preferences-&gt;Run-&gt;Clear all variables before execution</p>
-<h3 id="测试-Matplotlib-和-Numpy"><a href="#测试-Matplotlib-和-Numpy" class="headerlink" title="测试 Matplotlib 和 Numpy"></a>测试 Matplotlib 和 Numpy</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">import</span> matplotlib</span><br></pre></td></tr></table></figure>
-<h2 id="Resources-to-Help-you-Succeed"><a href="#Resources-to-Help-you-Succeed" class="headerlink" title="Resources to Help you Succeed"></a>Resources to Help you Succeed</h2><p><strong>You do not have to read through these at the start of the course. Come back to these resources as the course progresses!</strong> </p>
-<p><strong>Add your own at the end of the list, by clicking “Show related resources”, and rate ones you found useful!</strong></p>
-<p>If you’re having trouble with a particular concept or simply want to have access to more information, try one of the following links.</p>
-<h3 id="Documentation"><a href="#Documentation" class="headerlink" title="Documentation"></a>Documentation</h3><ul>
-<li><a href="https://docs.python.org/3/library/index.html" target="_blank" rel="noopener">Official Python 3 Documentation</a> - “official”/technical explanation of what a particular function/operator does, examples of correct syntax, what the various libraries are, etc.</li>
-</ul>
-<h3 id="Textbooks-Tutorials"><a href="#Textbooks-Tutorials" class="headerlink" title="Textbooks/Tutorials"></a>Textbooks/Tutorials</h3><ul>
-<li><a href="http://www.diveintopython3.net/" target="_blank" rel="noopener">Dive Into Python</a> - another survey of Python syntax, datatypes, etc.</li>
-<li><a href="http://greenteapress.com/wp/think-python-2e/" target="_blank" rel="noopener">Think Python</a> by Allen Downey - a good general overview of the Python language. Includes exercises.</li>
-<li><a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">The Official Python Tutorial</a> - self-explanatory</li>
-<li><a href="http://learnpythonthehardway.org/book/" target="_blank" rel="noopener">Learn Python the Hard Way</a> - (note: for Python 2) another free online text</li>
-<li><a href="https://docs.python.org/3.0/reference/lexical_analysis.html#id8" target="_blank" rel="noopener">Reserved Keywords in Python</a> - don’t use these as variable names</li>
-<li><a href="https://www.python.org/dev/peps/pep-0008/" target="_blank" rel="noopener">PEP 8</a> - Style Guide for Python Code - learn what is good and bad style in Python</li>
-<li><a href="https://checkio.org/" target="_blank" rel="noopener">CheckIO</a> - learn Python by exploring a game world</li>
-<li><a href="https://inventwithpython.com/" target="_blank" rel="noopener">Invent with Python</a> - develop your Python skills by making games or hacking ciphers</li>
-<li><a href="https://www.codecademy.com/learn/python" target="_blank" rel="noopener">Codecademy</a> - (note: for Python 2) learn Python by building web apps and manipulating data; interactive tutorial sequence</li>
-<li><a href="http://www.pythontutor.com/" target="_blank" rel="noopener">Python Tutor</a> - interactive tutorial sequence of exercises</li>
-<li><a href="http://mitxcsjourney.blogspot.com/" target="_blank" rel="noopener">Blog with tutorials</a> - created by one of our community TAs</li>
-</ul>
-<h3 id="Debugging"><a href="#Debugging" class="headerlink" title="Debugging"></a>Debugging</h3><ul>
-<li><a href="http://www.pythontutor.com/" target="_blank" rel="noopener">Python Tutor</a> - an excellent way to actually visualize how the interpreter actually reads and executes your code</li>
-<li><a href="https://www.diffchecker.com/" target="_blank" rel="noopener">DiffChecker</a> - compares two sets of text and shows you which lines are different</li>
-<li><a href="https://pythonconquerstheuniverse.wordpress.com/2009/09/10/debugging-in-python/" target="_blank" rel="noopener">Debugging in Python</a> - steps you can take to try to debug your program</li>
-</ul>
-<h3 id="Software"><a href="#Software" class="headerlink" title="Software"></a>Software</h3><ul>
-<li><a href="https://microsoft.github.io/PTVS/" target="_blank" rel="noopener">Python Tools for Visual Studio</a> - Visual Studio plug-in enabling Python programming</li>
-</ul>
-<h3 id="Other-Q-amp-A"><a href="#Other-Q-amp-A" class="headerlink" title="Other Q&amp;A"></a>Other Q&amp;A</h3><ul>
-<li><a href="http://stackoverflow.com/questions/tagged/python" target="_blank" rel="noopener">Stack Overflow</a> - a large Q&amp;A forum for programming concepts (not just Python). Try searching here before you post on the edX forum, and you may find that someone has already answered your question.</li>
-</ul>
-<h3 id="More-practice-problems"><a href="#More-practice-problems" class="headerlink" title="More practice problems"></a>More practice problems</h3><ul>
-<li><a href="http://www.pythonchallenge.com/" target="_blank" rel="noopener">Python Challenge</a> - a series of puzzles you can try to test your Python abilities</li>
-<li><a href="https://projecteuler.net/" target="_blank" rel="noopener">Project Euler</a> - additional programming challenges you can try once your Python knowledge becomes stronger; problems are sorted by increasing difficulty</li>
-<li><a href="http://codingbat.com/python" target="_blank" rel="noopener">Coding Bat</a> - problems you can solve within an online interpreter</li>
-<li><a href="https://www.codewars.com/?language=python" target="_blank" rel="noopener">Codewars</a> - improve your skills by training on real code challenges</li>
-</ul>
-<h2 id="课程"><a href="#课程" class="headerlink" title="课程"></a>课程</h2><h2 id="Types"><a href="#Types" class="headerlink" title="Types"></a>Types</h2><p>Definitions</p>
-<ul>
-<li>int</li>
-<li>float</li>
-<li>bool</li>
-<li>NoneType</li>
-<li>can use <code>type()</code>to see the type of an object</li>
-</ul>
-<p>TYPE CONVERSIONS</p>
-<ul>
-<li><p>float to int: <code>int(3.9)</code></p>
-</li>
-<li><p>int to float: <code>float(3)</code></p>
-</li>
-</ul>
-<p>OPERATIONS</p>
-<ul>
-<li>** power</li>
-<li>*</li>
-<li>/ division</li>
-<li>+</li>
-<li>-</li>
-</ul>
-<h2 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h2>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Python-三方库-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/15/Python-三方库-学习笔记/" class="article-date">
-      <time datetime="2019-02-15T00:11:39.000Z" itemprop="datePublished">2019-02-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/15/Python-三方库-学习笔记/">Python 三方库-学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="格式化输出-print"><a href="#格式化输出-print" class="headerlink" title="格式化输出 print"></a>格式化输出 print</h2><p><a href="https://prettyprinter.readthedocs.io/en/latest/" target="_blank" rel="noopener">Welcome to PrettyPrinter’s documentation! — PrettyPrinter 0.14.0 documentation</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install prettyprinter==0.14.0</span><br></pre></td></tr></table></figure>
-<h2 id="音频播放"><a href="#音频播放" class="headerlink" title="音频播放"></a>音频播放</h2><p><a href="http://people.csail.mit.edu/hubert/pyaudio/" target="_blank" rel="noopener">PyAudio: PortAudio v19 Python Bindings</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install portaudio</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install PyAudio==0.2.11</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.jianshu.com/p/ba82e90ce706" target="_blank" rel="noopener">使用PyAudio模块播放音频流之体会 - 简书</a></p>
-<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><p><a href="https://github.com/metachris/logzero" target="_blank" rel="noopener">logzero</a></p>
-<h2 id="site"><a href="#site" class="headerlink" title="site"></a>site</h2><p><a href="https://www.cnblogs.com/cwgk/p/4564557.html" target="_blank" rel="noopener">Python.Module.site - XiaoKL - 博客园</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </div>

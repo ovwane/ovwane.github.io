@@ -202,6 +202,188 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-certbot-使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/07/29/certbot-使用/" class="article-date">
+      <time datetime="2020-07-29T05:32:50.000Z" itemprop="datePublished">2020-07-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/29/certbot-使用/">certbot 使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="certbot"><a href="#certbot" class="headerlink" title="certbot"></a><a href="https://certbot.eff.org/" target="_blank" rel="noopener">certbot</a></h1>
+          
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+        <p class="article-more-link">
+          <a  href="/2020/07/29/certbot-使用/#more">大航海 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Alpine-使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/07/14/Alpine-使用/" class="article-date">
+      <time datetime="2020-07-14T05:38:44.000Z" itemprop="datePublished">2020-07-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/14/Alpine-使用/">Alpine 使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <a id="more"></a>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name alpine -p 22:22 alpine:3.9 crond -f</span><br></pre></td></tr></table></figure>
+<p>源 <a href="http://mirrors.ustc.edu.cn/help/alpine.html" target="_blank" rel="noopener">USTC</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &apos;s#http://dl-cdn.alpinelinux.org#https://mirrors.ustc.edu.cn#g&apos; /etc/apk/repositories</span><br></pre></td></tr></table></figure>
+<p>设置时区 <a href="https://blog.csdn.net/isea533/article/details/87261764" target="_blank" rel="noopener">Docker 镜像，基于 alpine 系统的时区配置_运维_偶尔记一下 - mybatis.io-CSDN博客</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apk add tzdata &amp;&amp; cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; echo &quot;Asia/Shanghai&quot; &gt; /etc/timezone &amp;&amp; date -R &amp;&amp; apk del tzdata</span><br></pre></td></tr></table></figure>
+<p>定时任务 <a href="https://weinan.io/2019/04/06/cron.html" target="_blank" rel="noopener">在docker的alpine环境下使用crond，logrotate，syslogd来管理日志</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crond</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>/etc/crontabs/root</p>
+</blockquote>
+<h2 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h2><h3 id="SSHD"><a href="#SSHD" class="headerlink" title="SSHD"></a>SSHD</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">apk add openssh</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ ! -f <span class="string">"/etc/ssh/ssh_host_rsa_key"</span> ]; <span class="keyword">then</span></span><br><span class="line">	<span class="comment"># generate fresh rsa key</span></span><br><span class="line">	ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N <span class="string">''</span> -t rsa</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! -f <span class="string">"/etc/ssh/ssh_host_ecdsa_key"</span> ]; <span class="keyword">then</span></span><br><span class="line">	<span class="comment"># generate fresh dsa key</span></span><br><span class="line">	ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N <span class="string">''</span> -t dsa</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! -f <span class="string">"/etc/ssh/ssh_host_ed25519_key"</span> ]; <span class="keyword">then</span></span><br><span class="line">	<span class="comment"># generate fresh ed25519 key</span></span><br><span class="line">	ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N <span class="string">''</span> -t ed25519</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">passwd root</span><br><span class="line"></span><br><span class="line">/usr/sbin/sshd -D &amp;</span><br><span class="line"></span><br><span class="line">PermitRootLogin yes</span><br><span class="line"></span><br><span class="line">PasswordAuthentication yes</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Elasticsearch-配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/07/06/Elasticsearch-配置/" class="article-date">
+      <time datetime="2020-07-06T07:17:47.000Z" itemprop="datePublished">2020-07-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/06/Elasticsearch-配置/">Elasticsearch 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <a id="more"></a>
+<p>用户名密码访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --user logstash:logstash  http://172.17.7.64:9200</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-ChromeDevTools" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -625,296 +807,9 @@
 
 
   
-    <article id="post-ChromeDriver-编译" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2020/03/20/ChromeDriver-编译/" class="article-date">
-      <time datetime="2020-03-20T06:06:34.000Z" itemprop="datePublished">2020-03-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/20/ChromeDriver-编译/">ChromeDriver 编译</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>系统依赖</p>
-<ul>
-<li><p>A 64-bit Mac running 10.14+.</p>
-</li>
-<li><p><a href="https://developer.apple.com/xcode" target="_blank" rel="noopener">Xcode</a> 11+</p>
-</li>
-<li><p>The OS X 10.15 SDK. Run</p>
-  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls `xcode-select -p`/Platforms/MacOSX.platform/Developer/SDKs</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Python 2.7.16</p>
-</li>
-<li><p>Git 2.25.2</p>
-</li>
-</ul>
-<h2 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h2><h3 id="设置终端代理"><a href="#设置终端代理" class="headerlink" title="设置终端代理"></a>设置终端代理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891</span><br></pre></td></tr></table></figure>
-<h3 id="设置-boto-代理"><a href="#设置-boto-代理" class="headerlink" title="设置 boto 代理"></a>设置 boto 代理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export NO_AUTH_BOTO_CONFIG=~/.boto</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Boto]</span><br><span class="line">proxy=127.0.0.1</span><br><span class="line">proxy_port=7890</span><br><span class="line">proxy_type=http</span><br></pre></td></tr></table></figure>
-<h2 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h2><h3 id="下载-depot-tools-工具"><a href="#下载-depot-tools-工具" class="headerlink" title="下载 depot_tools 工具"></a>下载 depot_tools 工具</h3><p>新建目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir chromium_src &amp;&amp; cd chromium_src</span><br></pre></td></tr></table></figure>
-<p>安装 depot_tools</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://chromium.googlesource.com/chromium/tools/depot_tools.git</span><br></pre></td></tr></table></figure>
-<p>设置系统环境变量</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH="$PATH:$&#123;PWD&#125;/depot_tools"</span><br></pre></td></tr></table></figure>
-<h3 id="获取源码"><a href="#获取源码" class="headerlink" title="获取源码"></a>获取源码</h3><p>开启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.precomposeUnicode true</span><br></pre></td></tr></table></figure>
-<p>新建目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir chromium &amp;&amp; cd chromium</span><br></pre></td></tr></table></figure>
-<p>获取代码</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fetch --nohooks --no-history chromium --target_os=darwin</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>fetch --nohooks chromium</code>，不要加<code>--no-history</code>。</p>
-<p><code>fetch --nohooks --no-history chromium</code></p>
-<p><code>fetch --nohooks --no-history chromium --target_os=darwin</code></p>
-</blockquote>
-<p>使用 pyenv 切换 python3 和 python2 都提示 <code>Warning: Running gclient on Python 3</code>。</p>
-<p>切换目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd src</span><br></pre></td></tr></table></figure>
-<p>检查分支</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch --tags</span><br></pre></td></tr></table></figure>
-<p>拉取分支并切换</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b xweb_66.0.3359.126 66.0.3359.126</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Chrome 与 chromedriver 映射关系 <a href="https://github.com/appium/appium-chromedriver/blob/master/lib/chromedriver.js" target="_blank" rel="noopener">https://github.com/appium/appium-chromedriver/blob/master/lib/chromedriver.js</a></p>
-<p>67 使用的 macOS10.12.sdk。<a href="https://github.com/phracker/MacOSX-SDKs/releases" target="_blank" rel="noopener">https://github.com/phracker/MacOSX-SDKs/releases</a></p>
-</blockquote>
-<p>同步分支数据</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gclient sync --with_branch_heads --jobs 16</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>gclient runhooks</code> # 如果有提示 runhooks 成功，则不需执行。</p>
-<p><code>gclient sync --force</code></p>
-<p>打印日志：gclient sync –verbose –verbose –verbose</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; gclient sync --force --nohooks --with_branch_heads</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>如果上面<code>gclient sync</code> 步骤报错需要手动下载文件，先安装 gsutil: <code>pip install gsutil</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cd src</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-gn/a14b089cbae9c29ecbc781686ada8babac8550af buildtools/mac/gn</span><br><span class="line"></span><br><span class="line">chmod +x buildtools/mac/gn</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-clang-format/0679b295e2ce2fce7919d1e8d003e497475f24a3 buildtools/mac/clang-format</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-luci/ffb6a624bd14abdff34618fe97562b34350199f7 tools/luci-go/mac64/isolate</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-nodejs/8.9.1/c52ee3605efb50ae391bdbe547fb385f39c5a7a9 third_party/node/mac/node-darwin-x64.tar.gz</span><br><span class="line"></span><br><span class="line">gsutil cp gs://v8-wasm-fuzzer/f6b95b7dd8300efa84b6382f16cfcae4ec9fa108 v8/test/fuzzer/wasm_corpus.tar.gz</span><br><span class="line"></span><br><span class="line">gsutil cp gs://chromium-nodejs/050c85d20f7cedd7f5c39533c1ba89dcdfa56a08 third_party/node/node_modules.tar.gz</span><br></pre></td></tr></table></figure>
-<p>生成 args.gn 文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gn gen --args=&quot;is_debug=false is_component_build = false symbol_level = 0&quot; out/Release</span><br></pre></td></tr></table></figure>
-<p>文件内容：out/Release/args.gn</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Release</span><br><span class="line">is_debug = false</span><br><span class="line"># 不构建许多 dylib 文件</span><br><span class="line">is_component_build = false</span><br><span class="line"># 不要符号表，不用在 gdb 里面调试。</span><br><span class="line">symbol_level = 0</span><br></pre></td></tr></table></figure>
-<p>编译 chromedriver</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ninja -C out/Release chromedriver</span><br></pre></td></tr></table></figure>
-<h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><p>webview</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chromium/src/chrome/device_manager.cc</span><br><span class="line"></span><br><span class="line">std::string pattern = base::StringPrintf(&quot;@webview_devtools_remote_.*%d&quot;, pid);</span><br></pre></td></tr></table></figure>
-<p>命令行入参</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chromium/src/chrome/test/chromedriver/server/chromedriver_server.cc</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://chromium.googlesource.com/chromium/src/+/master/docs/mac_build_instructions.md" target="_blank" rel="noopener">Checking out and building Chromium for Mac</a> </p>
-<p> <a href="https://whisperloli.github.io/2019/07/04/compile_chromedriver" target="_blank" rel="noopener">Mac本地编译chromedriver</a> </p>
-<p> <a href="https://testerhome.com/topics/16226" target="_blank" rel="noopener">本地编译 chromedriver 历程记录 · TesterHome</a> </p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-idb-使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2020/03/04/idb-使用/" class="article-date">
-      <time datetime="2020-03-04T09:19:48.000Z" itemprop="datePublished">2020-03-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/04/idb-使用/">idb 使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="idb"><a href="#idb" class="headerlink" title="idb"></a><a href="https://www.fbidb.io/" target="_blank" rel="noopener">idb</a></h1><blockquote>
-<p>idb is a flexible command line interface for automating iOS simulators and devices</p>
-</blockquote>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
-<li>安装依赖 grpc</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew tap grpc/grpc &amp;&amp; brew install grpc</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>安装 idb-companion</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew tap facebook/fb &amp;&amp; brew install idb-companion</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li><p>安装 idb-client</p>
-<blockquote>
-<p>要求 Python 3.6 +</p>
-</blockquote>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install fb-idb</span><br></pre></td></tr></table></figure>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>启动一个 companion</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb_companion --udid F52D0B40-46D4-4B62-8AB5-8CADBF5C6E66</span><br></pre></td></tr></table></figure>
-<p>连接设备</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb connect 0B33F35A-3164-4C3D-9650-1672D0FE1B67</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Idb connect host port</p>
-</blockquote>
-<p>查看设备信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb describe</span><br></pre></td></tr></table></figure>
-<p>查看设备列表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb list-targets</span><br></pre></td></tr></table></figure>
-<p>启动设备</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb boot --udid F52D0B40-46D4-4B62-8AB5-8CADBF5C6E66</span><br></pre></td></tr></table></figure>
-<p>查看 app 列表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb list-apps</span><br></pre></td></tr></table></figure>
-<p>安装 app</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb install test.ipa</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>.app or .ipa</p>
-</blockquote>
-<p>卸载 app</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb uninstall com.apple.Maps</span><br></pre></td></tr></table></figure>
-<p>启动 app</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb launch --udid F52D0B40-46D4-4B62-8AB5-8CADBF5C6E66 com.apple.Maps</span><br></pre></td></tr></table></figure>
-<p>关闭 app</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb terminate com.apple.Maps</span><br></pre></td></tr></table></figure>
-<p>截图</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb screenshot pic.png</span><br></pre></td></tr></table></figure>
-<p>录屏</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb record video --udid F52D0B40-46D4-4B62-8AB5-8CADBF5C6E66 video.mp4</span><br></pre></td></tr></table></figure>
-<p>查看日志</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb log --udid F52D0B40-46D4-4B62-8AB5-8CADBF5C6E66</span><br></pre></td></tr></table></figure>
-<p>查看测试列表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idb xctest list</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://github.com/facebook/idb" target="_blank" rel="noopener">facebook/idb: idb is a flexible command line interface for automating iOS simulators and devices</a> </p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-Zookeeper-配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2020/01/15/Docker-Zookeeper-配置/" class="article-date">
-      <time datetime="2020-01-15T09:13:25.000Z" itemprop="datePublished">2020-01-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/15/Docker-Zookeeper-配置/">Docker Zookeeper 配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://hub.docker.com/_/zookeeper" target="_blank" rel="noopener">Zookeeper</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull zookeeper:3.5.6</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name zookeeper-3.5.6 -p 2181:2181 -p 28080:8080 -p 2888:2888 -p 3888:3888 -v ~/docker/zookeeper/zoo.cfg:/conf/zoo.cfg zookeeper:3.5.6</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>
