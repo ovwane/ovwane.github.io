@@ -202,6 +202,87 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Jenkins+Ansible+Gitlab自动化部署" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/15/Jenkins+Ansible+Gitlab自动化部署/" class="article-date">
+      <time datetime="2016-03-15T07:21:20.000Z" itemprop="datePublished">2016-03-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/15/Jenkins+Ansible+Gitlab自动化部署/">Jenkins+Ansible+Gitlab自动化部署</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><a href="http://www.showerlee.com/archives/1880" target="_blank" rel="noopener">Jenkins+Ansible+Gitlab自动化部署</a></p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li><p>Ansible 首先给大家介绍的是Ansible, 恩, 重要的问题说三遍, 不是Saltstack, Ansible作为一个python写的自动化部署工具, 确实较之前我所接触的Chef, saltstack, puppet更有自己的一些优势, 首先就是agentless, 无需在Linux client安装任何服务即可无缝连接Linux default ssh端口进行部署(windows需要安装winrm 开启ssh服务), 这点其实我觉得非常重要, 可以想象很多公司本身是对network管理非常严格的, 在部署一个产品的同时你需要考虑很多时间成本, 使用其他部署工具本身非常棘手的问题就是去申请开端口, client量少的话, 我们可以去等, 多的话本身你去request, waiting, unblock port等等long long process…. 最后会耗费很长时间. 这个对很多产品本身就是很致命的. 不推荐Saltstack的原因也是因为其需要在每台agent逐一去安装client service并测试, 这本身就会耗费一些时间成本。<br>其他呢? 其实我觉得就是容易上手, 语法简单, 有现成模板让你去学习, 加之是我们非常喜爱的python语法, why not?</p>
+</li>
+<li><p>Jenkins不用我多说, 估计懂行的人都在用它, 开源, 轻量级, 兼容性和扩展性强, 直观的GUI管理这都是它的优势, 配合Ansible我觉得用起来会非常easy going.</p>
+</li>
+<li><p>Gitlab 最后提一下Gitlab, 为什么要用Gitlab? 他作为一个代码版本控制系统和部署有什么关系呢? 其实这里就涉及一个我们Ansible playbook管理问题, 试想我们需要维护一个公司庞大的server集群, 我们所有需要部署的机器或者产品会对应我们相对的部署脚本, 我们使用的Ansible playbook如果只是保存在Ansible Server的具体某个目录, 这本身就不便于我们进行编写维护更新(想想每次都跑到远程去编写playbook或者每次在本地编写好后再upload到远程我都会脑补数以万计的草泥马从我眼前呼啸而来).<br>这里Gitlab就给我们提供一个非常方便以及直观的Playbook management. 我们需要做的其实就是在Gitlab去建立一个对应产品或者server的playbook仓库, 然后我们在本地写好后直接commit到这个仓库, 最后在部署的时候, 去让Jenkins pull这个playbook到其workspace, 并作为一个Job去run这个playbook, 这样是不是很规范, 而且便于管理?<br>当然Ansible本身企业版Tower也会提供一个类似管理并维护playbook以及监控ansible本身running process的GUI管理系统, 用起来也很不错, 但作为收费版本, 我们在这里就不做过多阐述了.</p>
+</li>
+</ul>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>这里我推荐Jenkins和Ansible可以安装到同一个环境作为部署server,<br>Gitlab作为版本控制系统可单独部署在另一台server.</p>
+<p>总结:<br>Jenkins首先从Gitlab去抓取我们写好的具体产品的playbook, 并使用virtualenv下的Ansible相关命令, 保证我们在一个clean的环境下使用stable version去批量部署我们的产品到远程client。</p>
+<h1 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h1><p>System: CentOS 6.7 x64 (deploy.example.com)<br>Jenkins: Jenkins ver. 1.650<br>Ansible: Ansible 2.1.0<br>Gitlab: GitLab 7.14.3</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="Jenkins配置"><a href="#Jenkins配置" class="headerlink" title="Jenkins配置"></a>Jenkins配置</h2><p>我们创建deploy用户作为jenkins_user, workspace为deploy家目录下的jenkins目录.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># adduser deploy</span><br><span class="line"># vi /et</span><br><span class="line">c/sysconfig/jenkins</span><br><span class="line"> ...</span><br><span class="line">JENKINS_HOME=&quot;/home/deploy/jenkins&quot;</span><br><span class="line">JENKINS_USER=&quot;deploy&quot;</span><br></pre></td></tr></table></figure>
+<p>浏览器访问Jenkins页面<br><a href="http://deploy.example.com:8080" target="_blank" rel="noopener">http://deploy.example.com:8080</a><br>安装完成。</p>
+<p>这里我们使用一个国内PHP网站模板phpcms作为我们需要部署的产品进行本次范例演示, 在进行最终的Build前我们需要做一些准备工作, 稍后我们会回到这个界面。</p>
+<h2 id="Ansible配置"><a href="#Ansible配置" class="headerlink" title="Ansible配置"></a>Ansible配置</h2><p>配置<a href="http://www.showerlee.com/archives/1862" target="_blank" rel="noopener">virtualenv</a><br><a href="http://www.showerlee.com/archives/1649" target="_blank" rel="noopener">Ansible-playbook范例</a></p>
+<h2 id="Gitlab配置"><a href="#Gitlab配置" class="headerlink" title="Gitlab配置"></a>Gitlab配置</h2><p>我们最终会创建一个ansible playbook仓库<a href="mailto:git@git.example.cn" target="_blank" rel="noopener">git@git.example.cn</a>:showerlee/Ansible-showerlee.git, 并在本地编写好我们的规则, 最终commit到这个仓库, 以便Jenkins去调用我们的部署规则。</p>
+<p><a href="https://git.showerlee.com/showerlee/leon-playbook-phpcms1.1" target="_blank" rel="noopener">部署phpcms的playbook仓库实例</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ansible/">Ansible</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gitlab/">Gitlab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Gitlab-配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1202,199 +1283,6 @@
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cobbler/">Cobbler</a></li></ul>
     </div>
 
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Github上的Python Crawler收集列表" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/10/29/Github上的Python Crawler收集列表/" class="article-date">
-      <time datetime="2015-10-29T02:58:03.000Z" itemprop="datePublished">2015-10-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="https://github.com/soimort/you-get" target="_blank" rel="noopener">soimort/you-get</a></p>
-<p><a href="https://github.com/rg3/youtube-dl" target="_blank" rel="noopener">rg3/youtube-dl</a></p>
-<p><a href="https://github.com/dragonflylxp/crawler" target="_blank" rel="noopener">python爬虫项目集合</a></p>
-<p><a href="https://github.com/liinnux/awesome-crawler-cn" target="_blank" rel="noopener">Awesome-crawler-cn</a></p>
-<p><a href="https://github.com/Ehco1996/Python-crawler" target="_blank" rel="noopener">Python-crawler</a></p>
-<p><a href="https://github.com/gnemoug/distribute_crawler" target="_blank" rel="noopener">woaidu_crawler</a></p>
-<p><a href="https://github.com/lzjun567/crawler_html2pdf" target="_blank" rel="noopener">crawler_html2pdf</a></p>
-<p><a href="https://github.com/sam408130/base_spider" target="_blank" rel="noopener">sam408130/crawler</a></p>
-<p><a href="https://github.com/sam408130/scrapy" target="_blank" rel="noopener">Python系列文章</a></p>
-<p><a href="https://github.com/sam408130/parse-baidu-baike" target="_blank" rel="noopener">用于抓取百度百科中的百科名片及列表部分信息</a></p>
-<p><a href="https://github.com/pujinxiao/Python-Crawler" target="_blank" rel="noopener">python多线程爬虫爬取电影天堂资源</a></p>
-<p><a href="https://github.com/gnemoug/LinkedIn-Crawler" target="_blank" rel="noopener">LinkedIn-Crawler</a></p>
-<p><a href="https://github.com/SparrowG/LinkedIn-Crawler" target="_blank" rel="noopener">SparrowG/LinkedIn-Crawler</a></p>
-<p><a href="https://github.com/Nyloner/NyCrawler" target="_blank" rel="noopener">NyCrawler</a></p>
-<p><a href="https://github.com/mokeyjay/Yandere-crawler" target="_blank" rel="noopener">Yandere-crawler</a></p>
-<p><a href="https://github.com/youshoubianer/infoqCrawler" target="_blank" rel="noopener">infoqCrawler</a></p>
-<p><a href="https://github.com/sam408130/xcf_crawler" target="_blank" rel="noopener">下厨房爬虫</a></p>
-<p><a href="https://github.com/lzjun567/zhihu-crawler" target="_blank" rel="noopener">zhihu-crawler</a></p>
-<p><a href="github.com/rmax/scrapy-redis">Scrapy-Redis</a></p>
-<p><a href="https://github.com/ShenJianShou/crawler_samples" target="_blank" rel="noopener">神箭手 云爬虫 爬取规则示例</a></p>
-<p>ovwane/python_crawler</p>
-<p>README.md<br>Crawler<br>收集网络上大神们写的爬虫代码。</p>
-<h1 id="spider"><a href="#spider" class="headerlink" title="spider"></a>spider</h1><p><a href="https://github.com/chenqing/spider" target="_blank" rel="noopener">chenqing/spider</a></p>
-<p><a href="https://github.com/imchenkun/ick-spider" target="_blank" rel="noopener">imchenkun/ick-spider</a></p>
-<p><a href="https://github.com/Otakuwizard/spider" target="_blank" rel="noopener">Otakuwizard/spider</a></p>
-<p><a href="https://github.com/Germey/Weibo" target="_blank" rel="noopener">Germey/Weibo</a></p>
-<h1 id="Scrapy"><a href="#Scrapy" class="headerlink" title="Scrapy"></a>Scrapy</h1><p><a href="https://github.com/DormyMo/SpiderKeeper" target="_blank" rel="noopener">SpiderKeeper</a></p>
-<p><a href="https://github.com/scrapy/scrapyd" target="_blank" rel="noopener">scrapy/scrapyd</a></p>
-<p><a href="https://github.com/Germey/Gerapy" target="_blank" rel="noopener">Germey/Gerapy</a></p>
-<p><a href="https://github.com/sam408130/scrapy" target="_blank" rel="noopener">sam408130/scrapy</a></p>
-<p><a href="https://github.com/Wooden-Robot/scrapy-tutorial" target="_blank" rel="noopener">Wooden-Robot/scrapy-tutorial</a></p>
-<p><a href="https://github.com/LiuXingMing/Scrapy_Redis_Bloomfilter" target="_blank" rel="noopener">LiuXingMing/Scrapy_Redis_Bloomfilter</a></p>
-<p><a href="https://github.com/younghz/sr-chn" target="_blank" rel="noopener">scrapy-redis代码研究</a></p>
-<p>#代理<br><a href="https://github.com/DormyMo/ProxyCrawler" target="_blank" rel="noopener">ProxyCrawler</a></p>
-<p><a href="https://github.com/awolfly9/IPProxyTool" target="_blank" rel="noopener">awolfly9/IPProxyTool</a></p>
-<p><a href="https://github.com/Nyloner/ProxyPool" target="_blank" rel="noopener">Nyloner/ProxyPool</a></p>
-<p><a href="https://github.com/Germey/ProxyPool" target="_blank" rel="noopener">Germey/ProxyPool</a></p>
-<p><a href="https://github.com/Germey/CookiesPool" target="_blank" rel="noopener">Germey/CookiesPool</a></p>
-<p><a href="https://github.com/love3forever/proxyHunter" target="_blank" rel="noopener">love3forever/proxyHunter</a></p>
-<p><a href="https://github.com/pujinxiao/IPProxyPool" target="_blank" rel="noopener">pujinxiao/IPProxyPool</a></p>
-<p><a href="https://github.com/qiyeboy/IPProxyPool" target="_blank" rel="noopener">qiyeboy/IPProxyPool</a></p>
-<p><a href="https://github.com/Germey/AutoProxy" target="_blank" rel="noopener">Germey/AutoProxy</a></p>
-<p>#1</p>
-<p><a href="https://github.com/istresearch/scrapy-cluster" target="_blank" rel="noopener">istresearch/scrapy-cluster</a></p>
-<p><a href="https://github.com/wangqifan/ZhiHu" target="_blank" rel="noopener">wangqifan/ZhiHu</a></p>
-<p><a href="https://github.com/otakurice/weibonlp" target="_blank" rel="noopener">otakurice/weibonlp</a></p>
-<p><a href="https://github.com/geekcompany/DeerResume" target="_blank" rel="noopener">geekcompany/DeerResume</a></p>
-<p><a href="https://github.com/otakurice/notravellist" target="_blank" rel="noopener">otakurice/notravellist</a></p>
-<p><a href="https://github.com/Nyloner/NyPython" target="_blank" rel="noopener">Nyloner/NyPython</a></p>
-<p><a href="https://github.com/otakurice/lagoujob" target="_blank" rel="noopener">otakurice/lagoujob</a></p>
-<p>#简单爬虫<br><a href="https://github.com/xiaozhiqi2016/spider_basic" target="_blank" rel="noopener">xiaozhiqi2016/spider_basic</a></p>
-<p><a href="https://github.com/Germey/TaobaoProduct" target="_blank" rel="noopener">Germey/TaobaoProduct</a></p>
-<p><a href="https://github.com/Germey/Cnki" target="_blank" rel="noopener">Germey/Cnki</a></p>
-<p><a href="https://github.com/Germey/TaobaoMM" target="_blank" rel="noopener">Germey/TaobaoMM</a></p>
-<p><a href="https://github.com/Wooden-Robot/Pythonspider" target="_blank" rel="noopener">Wooden-Robot/Pythonspider</a></p>
-<p><a href="https://github.com/bigstupidx/Pythonspider" target="_blank" rel="noopener">bigstupidx/Pythonspider</a></p>
-<p><a href="https://github.com/StephinChou/Pythonspider" target="_blank" rel="noopener">StephinChou/Pythonspider</a></p>
-<p><a href="https://github.com/Germey/MeiKong" target="_blank" rel="noopener">Germey/MeiKong</a></p>
-<p>#爬虫资料汇总<br><a href="https://github.com/KDF5000/SpiderRef" target="_blank" rel="noopener">KDF5000/SpiderRef</a></p>
-<p><a href="https://github.com/Ehco1996/Python-crawler" target="_blank" rel="noopener">Ehco1996/Python-crawler</a></p>
-<p><a href="https://github.com/luyishisi/Nyspider" target="_blank" rel="noopener">luyishisi/Nyspider</a></p>
-<p><a href="https://github.com/Nyloner/Nyspider" target="_blank" rel="noopener">Nyloner/Nyspider</a></p>
-<p>#单个网站爬虫<br><a href="https://github.com/fankcoder/spider-comments" target="_blank" rel="noopener">fankcoder/spider-comments</a></p>
-<p><a href="https://github.com/wwj718/jobSpider" target="_blank" rel="noopener">wwj718/jobSpider</a></p>
-<p><a href="https://github.com/zaxlct/baike-spider" target="_blank" rel="noopener">zaxlct/baike-spider</a></p>
-<p><a href="https://github.com/hk029/LagouSpider" target="_blank" rel="noopener">hk029/LagouSpider</a></p>
-<p><a href="https://github.com/Jack-Cherish/python-spider" target="_blank" rel="noopener">Jack-Cherish/python-spider</a></p>
-<p><a href="https://github.com/wanglu119/distributed-spider" target="_blank" rel="noopener">wanglu119/distributed-spider</a></p>
-<p><a href="https://github.com/pujinxiao/Lagou_spider" target="_blank" rel="noopener">pujinxiao/Lagou_spider</a></p>
-<p><a href="https://github.com/Wooden-Robot/spider-practice" target="_blank" rel="noopener">Wooden-Robot/spider-practice</a></p>
-<p><a href="https://github.com/sam408130/base_spider" target="_blank" rel="noopener">sam408130/base_spider</a></p>
-<p><a href="https://github.com/LJ147/githubSpider" target="_blank" rel="noopener">LJ147/githubSpider</a></p>
-<p><a href="https://github.com/facert/awesome-spider" target="_blank" rel="noopener">awesome-spider</a></p>
-<p><a href="https://github.com/LiuXingMing/SinaSpider" target="_blank" rel="noopener">LiuXingMing/SinaSpider</a></p>
-<p><a href="https://github.com/pujinxiao/sina_spider" target="_blank" rel="noopener">pujinxiao/sina_spider</a></p>
-<p><a href="https://github.com/xiaozhiqi2016/spider_advanced" target="_blank" rel="noopener">xiaozhiqi2016/spider_advanced</a></p>
-<p><a href="https://github.com/LiuXingMing/LinkedinSpider" target="_blank" rel="noopener">LiuXingMing/LinkedinSpider</a></p>
-<p><a href="https://github.com/pujinxiao/zhihu_spider" target="_blank" rel="noopener">pujinxiao/zhihu_spider</a></p>
-<p><a href="https://github.com/KDF5000/RuolinSpider" target="_blank" rel="noopener">KDF5000/RuolinSpider</a></p>
-<p><a href="https://github.com/hk029/NovelSpider" target="_blank" rel="noopener">hk029/NovelSpider</a></p>
-<p><a href="https://github.com/pujinxiao/jobbole_spider" target="_blank" rel="noopener">pujinxiao/jobbole_spider</a></p>
-<p><a href="https://github.com/Germey/TouTiao" target="_blank" rel="noopener">Germey/TouTiao</a></p>
-<p><a href="https://github.com/Germey/Zhihu" target="_blank" rel="noopener">Germey/Zhihu</a></p>
-<p><a href="https://github.com/Germey/Weixin" target="_blank" rel="noopener">Germey/Weixin</a></p>
-<p><a href="https://github.com/Germey/MaoYan" target="_blank" rel="noopener">Germey/MaoYan</a></p>
-<p><a href="https://github.com/hk029/DoubanMovieSpider" target="_blank" rel="noopener">hk029/DoubanMovieSpider</a></p>
-<p><a href="https://github.com/hk029/BaiduTiebaSpider" target="_blank" rel="noopener">hk029/BaiduTiebaSpider</a></p>
-<p><a href="https://github.com/Germey/TaobaoComments" target="_blank" rel="noopener">Germey/TaobaoComments</a></p>
-<p><a href="https://github.com/Germey/iaskspider" target="_blank" rel="noopener">Germey/iaskspider</a></p>
-<p><a href="https://github.com/tpeng/weibosearch" target="_blank" rel="noopener">tpeng/weibosearch</a></p>
-<p><a href="https://github.com/piglei/nowater" target="_blank" rel="noopener">piglei/nowater</a></p>
-<p><a href="https://github.com/l-passer/Passer-zhihu" target="_blank" rel="noopener">l-passer/Passer-zhihu</a></p>
-<p><a href="https://github.com/rg3/youtube-dl" target="_blank" rel="noopener">rg3/youtube-dl</a></p>
-<p><a href="https://github.com/gnemoug/sina_reptile" target="_blank" rel="noopener">gnemoug/sina_reptile</a></p>
-<p><a href="https://github.com/sam408130/parse-baidu-baike" target="_blank" rel="noopener">sam408130/parse-baidu-baike</a></p>
-<p><a href="https://github.com/piglei/tieba_poster" target="_blank" rel="noopener">piglei/tieba_poster</a></p>
-<p><a href="https://github.com/darkhandz/BaiduLoginWithTiebaSignin" target="_blank" rel="noopener">darkhandz/BaiduLoginWithTiebaSignin</a></p>
-<p><a href="https://github.com/ovwane/jdlingyu" target="_blank" rel="noopener">ovwane/jdlingyu</a></p>
-<p><a href="https://github.com/pujinxiao/weixin" target="_blank" rel="noopener">pujinxiao/weixin</a></p>
-<p><a href="https://github.com/pujinxiao/crops_pider" target="_blank" rel="noopener">pujinxiao/crops_pider</a></p>
-<p><a href="https://github.com/pujinxiao/TaoBao" target="_blank" rel="noopener">pujinxiao/TaoBao</a></p>
-<p><a href="https://github.com/pujinxiao/wechat_sogou_crawl" target="_blank" rel="noopener">pujinxiao/wechat_sogou_crawl</a></p>
-<p><a href="https://github.com/jaryee/wechat_sogou_crawl" target="_blank" rel="noopener">jaryee/wechat_sogou_crawl</a></p>
-<p><a href="https://github.com/pujinxiao/qiantuwang" target="_blank" rel="noopener">pujinxiao/qiantuwang</a></p>
-<p><a href="https://github.com/fankcoder/findtrip" target="_blank" rel="noopener">fankcoder/findtrip</a></p>
-<p><a href="https://github.com/echopy/QQSpider" target="_blank" rel="noopener">echopy/QQSpider</a></p>
-<p><a href="https://github.com/thuxugang/QQSpider" target="_blank" rel="noopener">thuxugang/QQSpider</a></p>
-<p><a href="https://github.com/echopy/Maizi" target="_blank" rel="noopener">echopy/Maizi</a></p>
-<p><a href="https://github.com/echopy/Baidu_Registration" target="_blank" rel="noopener">echopy/Baidu_Registration</a></p>
-<p><a href="https://github.com/ovwane/jdlingyu" target="_blank" rel="noopener">ovwane/jdlingyu</a></p>
-<p><a href="https://github.com/dongweiming/weapp-zhihulive" target="_blank" rel="noopener">dongweiming/weapp-zhihulive</a></p>
-<p><a href="https://github.com/LiuXingMing/Tmall1212" target="_blank" rel="noopener">LiuXingMing/Tmall1212</a></p>
-<p><a href="https://github.com/LiuXingMing/QQSpider" target="_blank" rel="noopener">LiuXingMing/QQSpider</a></p>
-<p><a href="https://github.com/Germey/TaobaoUser" target="_blank" rel="noopener">Germey/TaobaoUser</a></p>
-<p><a href="https://github.com/BruceDone/cnbeta" target="_blank" rel="noopener">BruceDone/cnbeta</a></p>
-<p><a href="https://github.com/hk029/Pickup" target="_blank" rel="noopener">hk029/Pickup</a></p>
-<p><a href="https://github.com/hk029/doubanbook" target="_blank" rel="noopener">hk029/doubanbook</a></p>
-<p><a href="https://github.com/DormyMo/scrappy" target="_blank" rel="noopener">DormyMo/scrappy</a></p>
-<h1 id="webdriver"><a href="#webdriver" class="headerlink" title="webdriver"></a>webdriver</h1><p><a href="https://github.com/easonhan007/webdriver_guide" target="_blank" rel="noopener">asonhan007/webdriver_guide</a></p>
-<p>#PySpider 爬虫</p>
-<p><a href="https://github.com/Germey/PySpiders" target="_blank" rel="noopener">Germey/PySpiders</a></p>
-<p><a href="https://github.com/rmax/scrapy-redis" target="_blank" rel="noopener">rmax/scrapy-redis</a></p>
-<p><a href="https://github.com/LJ147/ImageSpyder" target="_blank" rel="noopener">LJ147/ImageSpyder</a></p>
-<p>#验证码<br>知乎<br><a href="https://github.com/liyaopinner/zheye" target="_blank" rel="noopener">iyaopinner/zheye</a></p>
-<p><a href="https://github.com/muchrooms/zheye" target="_blank" rel="noopener">muchrooms/zheye</a></p>
-<p><a href="https://github.com/Germey/Python3" target="_blank" rel="noopener">Germey/Python3</a></p>
-<p><a href="https://github.com/LJ147/github-trending" target="_blank" rel="noopener">LJ147/github-trending</a></p>
-<p><a href="https://github.com/pujinxiao/zhilian" target="_blank" rel="noopener">pujinxiao/zhilian</a></p>
-<p><a href="https://github.com/LiuXingMing/WeiboSliderCode" target="_blank" rel="noopener">LiuXingMing/WeiboSliderCode</a></p>
-<p><a href="https://github.com/Germey/crack-geetest" target="_blank" rel="noopener">Germey/crack-geetest</a></p>
-<p><a href="https://github.com/dzhongyi/crack-geetest" target="_blank" rel="noopener">dzhongyi/crack-geetest</a></p>
-<p><a href="https://github.com/DormyMo/ProxyCrawler" target="_blank" rel="noopener">DormyMo/ProxyCrawler</a></p>
-<p>#登录<br><a href="https://github.com/xchaoinfo/fuck-login" target="_blank" rel="noopener">xchaoinfo/fuck-login</a></p>
-<p><a href="https://github.com/pujinxiao/douban_login" target="_blank" rel="noopener">pujinxiao/douban_login</a></p>
-<p><a href="https://github.com/LiuXingMing/WeiboSliderCode" target="_blank" rel="noopener">LiuXingMing/WeiboSliderCode</a></p>
-<h1 id="UA"><a href="#UA" class="headerlink" title="UA"></a>UA</h1><p><a href="https://github.com/hellysmile/fake-useragent" target="_blank" rel="noopener">hellysmile/fake-useragent</a></p>
-<p>#爬虫知乎专栏</p>
-<p><a href="https://zhuanlan.zhihu.com/Ehco-python" target="_blank" rel="noopener">从零开始写Python爬虫</a></p>
-<p><a href="https://zhuanlan.zhihu.com/python-cn" target="_blank" rel="noopener">Python之美-董伟明</a><br><a href="http://www.cnblogs.com/jinxiao-pu/p/6706319.htm" target="_blank" rel="noopener">python分布式爬虫打造搜索引擎——–scrapy实现</a><br><a href="https://github.com/pujinxiao/project_pjx" target="_blank" rel="noopener">pujinxiao/project_pjx</a></p>
-<p><a href="https://github.com/qiyeboy" target="_blank" rel="noopener">七夜安全爬虫 490个项目</a></p>
-<p>#数据分析</p>
-<p><a href="https://github.com/wwj718/Zhihu_bigdata" target="_blank" rel="noopener">wwj718/Zhihu_bigdata</a></p>
-<p><a href="https://github.com/yoghurtjia/Zhihu_bigdata" target="_blank" rel="noopener">yoghurtjia/Zhihu_bigdata</a></p>
-<p><a href="https://github.com/yoghurtjia/-python-BAT-" target="_blank" rel="noopener">针对常见的BAT公司中的大数据面试和笔试问题，列出解决思路，并使用python来实现</a></p>
-<p><a href="https://github.com/yoghurtjia/sortquery" target="_blank" rel="noopener">yoghurtjia/sortquery 有10个文件，每个文件1G，每个文件的每行存放的都是用户的query（请自己随机产生），每个文件的query都可能重复。要求你按照query的频度排序。</a></p>
-<p><a href="https://github.com/younghz/TBBKAnalysis" target="_blank" rel="noopener">关于淘宝“爆款”数据爬取与分析</a><br><a href="https://github.com/adbmal/sortquery" target="_blank" rel="noopener">adbmal/sortquery</a></p>
-<p><a href="https://github.com/KDF5000/RqFetchData" target="_blank" rel="noopener">KDF5000/RqFetchData</a></p>
-<p>#爬虫监控<br><a href="https://github.com/pc10201/markets_monitor" target="_blank" rel="noopener">pc10201/markets_monitor</a></p>
-<p>#学习记录<br><a href="https://github.com/yoghurtjia/github-pages" target="_blank" rel="noopener">yoghurtjia/github-pages</a></p>
-<p><a href="https://github.com/zzbkszd/github-pages" target="_blank" rel="noopener">zzbkszd/github-pages</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
       
       <div class="clearfix"></div>
     </div>

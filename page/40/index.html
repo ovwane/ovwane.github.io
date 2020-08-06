@@ -202,6 +202,61 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Selenium-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/15/Selenium-学习笔记/" class="article-date">
+      <time datetime="2017-02-15T04:12:05.000Z" itemprop="datePublished">2017-02-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/15/Selenium-学习笔记/">Selenium 学习笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="处理-cookie"><a href="#处理-cookie" class="headerlink" title="处理 cookie"></a>处理 cookie</h2><p><a href="https://www.cnblogs.com/zhao-ying-jie/p/7084636.html" target="_blank" rel="noopener">Selenium添加访问cookie实现自动登录 - ZhaoYingJie - 博客园</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Synology NAS文件删除记录" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -850,125 +905,6 @@
       
 
       
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Tomcat+Nginx动静分离和负载均衡" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/19/Tomcat+Nginx动静分离和负载均衡/" class="article-date">
-      <time datetime="2016-12-19T06:23:50.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Tomcat+Nginx动静分离和负载均衡/">Tomcat+Nginx动静分离和负载均衡</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p><a href="http://quenlang.blog.51cto.com/4813803/1570477" target="_blank" rel="noopener">nginx反向代理tomcat集群实现动静分离</a></p>
-<p>我们都知道，nginx作为一个轻量级的web服务器，其在高并发下处理静态页面的优越性能是tomcat这样的web容器所无法媲美的，tomcat更倾向于处理动态文件，所以一个web应用可以通过nginx反向代理来实现动静分离，静态文件由nginx处理，动态文件由tomcat处理。</p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>环境：<br>    hadoop0.updb.com    192.168.0.100    nginx server<br>    hadoop2.updb.com    192.168.0.102    tomcat server<br>    hadoop3.updb.com    192.168.0.103    tomcat server<br>    hadoop4.updb.com    192.168.0.104    tomcat server<br>    hadoop5.updb.com    192.168.0.105    tomcat server</p>
-<p>操作系统：<br>    centos</p>
-<p>Nginx版本：<br>    nginx-1.7.6.tar.gz，采用源码编译安装</p>
-<p>Tomcat版本：<br>    apache-tomcat-7.0.56.tar.gz</p>
-<p>JDK版本：<br>    jdk-7u60-linux-x64.rpm</p>
-<p>最终架构：<br>client-&gt;Nginx反向代理动静分离-&gt;{tomcat1,tomcat2,tomcat3,tomcat4}</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>在弄明白架构之后，我们开始着手一步步来实现：<br>1、安装jdk + tomcat<br>hadoop2、hadoop3、hadoop4、hadoop5上安装jdk</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh jdk-7u60-linux-x64.rpm</span><br></pre></td></tr></table></figure>
-<p>配置环境变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop2 ~]# cat  .bash_profile </span><br><span class="line"># .bash_profile</span><br><span class="line"> </span><br><span class="line"># Get the aliases and functions</span><br><span class="line">if [ -f ~/.bashrc ]; then</span><br><span class="line">        . ~/.bashrc</span><br><span class="line">fi</span><br><span class="line"> </span><br><span class="line"># User specific environment and startup programs</span><br><span class="line">PATH=$PATH:$HOME/bin</span><br><span class="line">export JAVA_HOME=/usr/java/jdk1.7.0_60</span><br><span class="line">export JRE_HOME=/usr/java/jdk1.7.0_60/jre</span><br><span class="line">export CLASSPATH=./:/usr/java/jdk1.7.0_60/lib:/usr/java/jdk1.7.0_60/jre/lib</span><br><span class="line">export PATH</span><br></pre></td></tr></table></figure>
-<p>使环境变量生效，并验证java环境是否安装成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop2 ~]# . .bash_profile </span><br><span class="line">[root@hadoop2 ~]# java -version</span><br></pre></td></tr></table></figure>
-<p>hadoop2、 hadoop3、hadoop4、hadoop5上安装tomcat，在webapps下创建测试目录shop和测试文件test.html和 test.jsp，测试文件中的内容为每个tomcat节点的主机名和IP地址，方便后边测试负载均衡。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop2 ~]# tar xf  apache-tomcat-7.0.56.tar.gz -C /opt/</span><br><span class="line">[root@hadoop2 ~]# cd /opt/apache-tomcat-7.0.56/webapps/</span><br><span class="line">[root@hadoop2 webapps]# mkdir shop</span><br><span class="line">[root@hadoop2 webapps]# vi shop/test.html </span><br><span class="line">this is hadoop2 root`s html!</span><br><span class="line">[root@hadoop2 webapps]# vi shop/test.jsp</span><br><span class="line">this is hadoop2 root`s jsp!</span><br></pre></td></tr></table></figure>
-<p>将tomcat的bin目录配置到环境变量，并使更改生效，并启动tomcat</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">## 设置环境变量</span><br><span class="line">[root@hadoop2 ~]# cat .bash_profile </span><br><span class="line"># .bash_profile</span><br><span class="line"> </span><br><span class="line"># Get the aliases and functions</span><br><span class="line">if [ -f ~/.bashrc ]; then</span><br><span class="line">        . ~/.bashrc</span><br><span class="line">fi</span><br><span class="line"> </span><br><span class="line"># User specific environment and startup programs</span><br><span class="line">PATH=$PATH:$HOME/bin:/opt/apache-tomcat-7.0.56/bin</span><br><span class="line">export JAVA_HOME=/usr/java/jdk1.7.0_60</span><br><span class="line">export JRE_HOME=/usr/java/jdk1.7.0_60/jre</span><br><span class="line">export CLASSPATH=./:/usr/java/jdk1.7.0_60/lib:/usr/java/jdk1.7.0_60/jre/lib</span><br><span class="line">export PATH</span><br><span class="line"> </span><br><span class="line">## 使设置生效</span><br><span class="line">[root@hadoop2 ~]# . .bash_profile</span><br><span class="line">## 启动tomcat</span><br><span class="line">[root@hadoop2 ~]# /opt/apache-tomcat-7.0.56/bin/startup.sh</span><br></pre></td></tr></table></figure>
-<p>测试tomcat是否正常工作，浏览器中访问，能够正常显示测试页面，表明工作正常。<br><a href="http://IP:8080" target="_blank" rel="noopener">http://IP:8080</a></p>
-<p>2、安装nginx</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop0 ~]# tar  xf nginx-1.7.6.tar.gz  -C /opt/</span><br><span class="line">[root@hadoop0 ~]# cd  /opt/nginx-1.7.6/</span><br><span class="line">[root@hadoop0 ~]# ./configure --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module</span><br><span class="line">[root@hadoop0 ~]# make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<p>关于源码安装nginx，比较简单，如果过程中遇到问题可以到网上看看，都能找到答案，也可以在下面留言，一起讨论。</p>
-<p>为了方便管理，为nginx编写服务脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop0 ~]# vi /etc/init.d/nginx </span><br><span class="line">#!/bin/bash</span><br><span class="line">#</span><br><span class="line">#chkconfig: - 85 15</span><br><span class="line">#description: this script use to manage nginx process.</span><br><span class="line">#</span><br><span class="line"> </span><br><span class="line">#set -x</span><br><span class="line">. /etc/rc.d/init.d/functions</span><br><span class="line"> </span><br><span class="line">procnum=`ps -ef |grep &quot;/usr/local/nginx/sbin/nginx&quot;|grep -v &quot;grep&quot;|wc -l`</span><br><span class="line"> </span><br><span class="line">start () &#123;</span><br><span class="line">        if [ &quot;$procnum&quot; -eq 1 -a -f /usr/local/nginx/logs/nginx.pid ]; then</span><br><span class="line">            echo -n &quot;Starting nginx:&quot;</span><br><span class="line">            success</span><br><span class="line">            echo</span><br><span class="line">        else</span><br><span class="line">            /usr/local/nginx/sbin/nginx</span><br><span class="line">            if [ &quot;$?&quot; -eq 0 ]; then </span><br><span class="line">                echo -n &quot;Starting nginx:&quot;</span><br><span class="line">                success</span><br><span class="line">                echo</span><br><span class="line">            else</span><br><span class="line">                echo -n &quot;Starting nginx:&quot;</span><br><span class="line">                failure</span><br><span class="line">                echo</span><br><span class="line">                exit 4</span><br><span class="line">            fi</span><br><span class="line">        fi</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">stop () &#123;</span><br><span class="line">        if [ &quot;$procnum&quot; -eq 1 -a -f /usr/local/nginx/logs/nginx.pid ]; then</span><br><span class="line">            /usr/local/nginx/sbin/nginx -s stop</span><br><span class="line">            if [ &quot;$?&quot; -eq 0 ]; then</span><br><span class="line">                    echo -n &quot;Stopping nginx:&quot;</span><br><span class="line">                    success</span><br><span class="line">                    echo</span><br><span class="line">            else </span><br><span class="line">                    echo -n &quot;Stopping nginx:&quot;</span><br><span class="line">                    failure</span><br><span class="line">                    echo</span><br><span class="line">                    exit 3</span><br><span class="line">            fi</span><br><span class="line">        else  </span><br><span class="line">            echo -n &quot;Stopping nginx:&quot;</span><br><span class="line">            success</span><br><span class="line">            echo</span><br><span class="line">        fi</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">case $1 in</span><br><span class="line"> </span><br><span class="line">    start)</span><br><span class="line">        start</span><br><span class="line">        ;;</span><br><span class="line"> </span><br><span class="line">    stop)</span><br><span class="line">        stop</span><br><span class="line">        ;;</span><br><span class="line"> </span><br><span class="line">    restart)</span><br><span class="line">        stop</span><br><span class="line">        sleep 1</span><br><span class="line">        start</span><br><span class="line">        ;;</span><br><span class="line"> </span><br><span class="line">    reload)</span><br><span class="line">        if [ &quot;$procnum&quot; -eq 1 -a -f /usr/local/nginx/logs/nginx.pid ]; then</span><br><span class="line">            /usr/local/nginx/sbin/nginx -s reload</span><br><span class="line">        else </span><br><span class="line">            echo &quot;nginx is not running!please start nginx first...&quot;</span><br><span class="line">            exit 2</span><br><span class="line">        fi</span><br><span class="line">        ;;</span><br><span class="line"> </span><br><span class="line">    status)</span><br><span class="line">        if [ &quot;$procnum&quot; -eq 1 -a -f /usr/local/nginx/logs/nginx.pid ]; then</span><br><span class="line">            echo &quot;nginx is running...&quot;</span><br><span class="line">        else </span><br><span class="line">            echo &quot;nginx is not running...&quot;</span><br><span class="line">        fi</span><br><span class="line">        ;;</span><br><span class="line"> </span><br><span class="line">        *)</span><br><span class="line">        echo &quot;Usage : nginx [ start|stop|reload|restart|status ]&quot;</span><br><span class="line">        exit 1</span><br><span class="line">        ;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure></p>
-<p>然后授予脚本可执行权限，并加入chkconfig开机自启动，并测试</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop0 ~]# chmod +x /etc/init.d/nginx</span><br><span class="line">[root@hadoop0 ~]# chkconfig nginx on</span><br><span class="line">[root@hadoop0 ~]# /etc/init.d/nginx start</span><br><span class="line">Starting nginx:                                            [  OK  ]</span><br><span class="line">[root@hadoop0 ~]# /etc/init.d/nginx status</span><br><span class="line">nginx is running...</span><br><span class="line">[root@hadoop0 ~]# /etc/init.d/nginx stop</span><br><span class="line">Stopping nginx:                                            [  OK  ]</span><br></pre></td></tr></table></figure>
-<p>3、配置nginx，实现反向代理和动静分离</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop0 ~]# cat /usr/local/nginx/conf/nginx.conf</span><br><span class="line">user  www www;</span><br><span class="line">worker_processes  8;</span><br><span class="line"> </span><br><span class="line">error_log  /usr/local/nginx/logs/error.log crit;</span><br><span class="line"> </span><br><span class="line">pid        /usr/local/nginx/logs/nginx.pid;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">events &#123;</span><br><span class="line">    use epoll;</span><br><span class="line">    worker_connections  65535;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line">    access_log  /usr/local/nginx/logs/access.log;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    sendfile        on;</span><br><span class="line">    tcp_nopush     on;</span><br><span class="line">    keepalive_timeout  60;</span><br><span class="line"> </span><br><span class="line">    client_body_buffer_size  512k;</span><br><span class="line">    proxy_connect_timeout    5;</span><br><span class="line">    proxy_read_timeout       60;</span><br><span class="line">    proxy_send_timeout       5;</span><br><span class="line">    proxy_buffer_size        16k;</span><br><span class="line">    proxy_buffers            4 64k;</span><br><span class="line">    proxy_busy_buffers_size 128k;</span><br><span class="line">    proxy_temp_file_write_size 128k;</span><br><span class="line"> </span><br><span class="line">    gzip  on;</span><br><span class="line">    gzip_min_length  1k;</span><br><span class="line">    gzip_buffers     4 16k;</span><br><span class="line">    gzip_http_version 1.1;</span><br><span class="line">    gzip_comp_level 2;</span><br><span class="line">    gzip_types       text/plain application/x-javascript text/css application/xml;</span><br><span class="line">    gzip_vary on;</span><br><span class="line">     </span><br><span class="line">    ## 配置反向代理的后端tomcat集群</span><br><span class="line">    upstream web_server &#123;</span><br><span class="line">        server 192.168.0.102:8080 weight=1 max_fails=2 fail_timeout=30s;</span><br><span class="line">        server 192.168.0.103:8080 weight=1 max_fails=2 fail_timeout=30s;</span><br><span class="line">        server 192.168.0.104:8080 weight=1 max_fails=2 fail_timeout=30s;</span><br><span class="line">        server 192.168.0.105:8080 weight=1 max_fails=2 fail_timeout=30s;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  192.168.0.100;</span><br><span class="line">        root   html;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">         </span><br><span class="line">        ## 网页、视频、图片文件从本地读取，且定义在浏览器中缓存30天</span><br><span class="line">        location ~ .*\.(htm|html|gif|jpg|jpeg|png|bmp|swf|ioc|rar|zip|txt|flv|mid|doc|ppt|pdf|xls|mp3|wma)$</span><br><span class="line">        &#123;       </span><br><span class="line">            expires 30d;    </span><br><span class="line">        &#125;      </span><br><span class="line">        ## js、css文件从本地读取，且定义在浏览器中缓存1小时</span><br><span class="line">        location ~ .*\.(js|css)?$     </span><br><span class="line">        &#123;       </span><br><span class="line">            expires 1h;</span><br><span class="line">        &#125;      </span><br><span class="line">         </span><br><span class="line">        ## 动态文件转发到后端的tomcat集群</span><br><span class="line">        location ~ .*\.(php|jsp|cgi|jhtml)?$ &#123;</span><br><span class="line">            proxy_pass http://web_server;</span><br><span class="line">            proxy_set_header Host  $host;</span><br><span class="line">            proxy_set_header X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">            proxy_set_header X-Real-IP  $remote_addr;</span><br><span class="line">        &#125;</span><br><span class="line">        ## 关闭访问日志</span><br><span class="line">        access_log off;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>4、测试反向代理的负载均衡和动静分离<br>在nginx的html目录下创建测试目录shop、测试文件test.html和test.jsp</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop0 ~]# cd /usr/local/nginx/html/</span><br><span class="line">[root@hadoop0 html]# mkdir shop</span><br><span class="line">[root@hadoop0 html]# vi shop/test.jsp </span><br><span class="line">this is nginx root`s jsp!</span><br><span class="line">[root@hadoop0 html]# vi shop/test.html</span><br><span class="line">this is nginx root`s html!</span><br></pre></td></tr></table></figure>
-<p>在浏览器中访问<a href="http://192.168.0.100/shop/test.html" target="_blank" rel="noopener">http://192.168.0.100/shop/test.html</a> ，无论怎样刷新，页面都显示如下：</p>
-<blockquote>
-<p>this is nginx root’s html!</p>
-</blockquote>
-<pre><code>在浏览器中访问http://192.168.0.100/shop/test.jsp ，刷新几次，页面显示结果依次如下：
-</code></pre><blockquote>
-<p>this is hadoop2 root’s jsp!<br>this is hadoop3 root’s jsp!<br>this is hadoop4 root’s jsp!<br>this is hadoop5 root’s jsp!</p>
-</blockquote>
-<pre><code>从结果来看，访问html静态文件时，返回的是nginx中的文件，而访问jsp动态页面时则是轮询后端的tomcat集群。至此，反向代理+动静分离已经实现。
-</code></pre><p>5、接着我们来比较动静分离与单纯的反向代理的性能差异</p>
-<p>首先安装模拟并发访问的压力测试工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install httpd-tools -y</span><br></pre></td></tr></table></figure>
-<p>首先测试访问nginx代理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop0 ~]# ab -n 20000 -c 3000</span><br></pre></td></tr></table></figure>
-<p>一共请求20000次，每次3000的并发访问，总共用的时间为4.090秒，吞吐量为1.806M/s,再看直接访问tomcat的结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop0 ~]# ab -n 20000 -c 3000 http://192.168.0.105:8080/shop/test.html</span><br></pre></td></tr></table></figure>
-<p>相同压力下，访问tomcat需要8.591秒，且吞吐量只有0.67M/s，可见nginx在处理静态页面上远优于tomcat。</p>
-<p>结束语：我在实现了动静分离之后，想通过nginx自带的proxy_cache模块来实现nginx缓存自身代理的静态页面，发现无法成功缓存到，认为porxy_cache无法缓存作为静态服务器的nginx中的文件，但无法求证，如果您知道，拜托指点一二。拜谢!</p>
-<h1 id="前端nginx时，让后端tomcat记录真实IP"><a href="#前端nginx时，让后端tomcat记录真实IP" class="headerlink" title="前端nginx时，让后端tomcat记录真实IP"></a>前端nginx时，让后端tomcat记录真实IP</h1><p><a href="http://sofar.blog.51cto.com/353572/1712069" target="_blank" rel="noopener">前端nginx时，让后端tomcat记录真实IP</a><br>对于nginx+tomcat这种架构，如果后端tomcat配置保持默认，那么tomcat的访问日志里，记录的就是前端nginx的IP地址，而不是真实的访问IP。因此，需要对nginx、tomcat做如下配置：</p>
-<p>1）nginx配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxy_set_header Host $host;</span><br><span class="line">proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br></pre></td></tr></table></figure>
-<p>2）tomcat配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;/data/logs/tomcat&quot;</span><br><span class="line">       prefix=&quot;search_access&quot; suffix=&quot;.log&quot;</span><br><span class="line">       pattern=&quot;%&#123;X-FORWARDED-FOR&#125;i %l %u %t %r %s %b %D %&#123;User-Agent&#125;i&quot; resolveHosts=&quot;false&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
-<p>3）日志效果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">10.0.11.162 - - [12/Nov/2015:11:22:11 +0800] GET /elesearch-search-api/search/restaurant.json?start=0&amp;end=1&amp;lbs=POINT%28120.285468902%2031.5033700783%29&amp;rt=id&amp;tq=id:328864 HTTP/1.0 200 102 2 python-requests/2.4.3 CPython/2.7.5 Linux/3.10.0-229.11.1.el7.x86_64</span><br><span class="line">10.0.50.54 - - [12/Nov/2015:11:22:11 +0800] GET /elesearch-search-api/search/restaurantv5home.json?rt=id%2Cdelivery_price&amp;lbs=POINT%28120.387601+36.273438%29&amp;end=500&amp;uid=22454922&amp;start=0&amp;from=webapi HTTP/1.0 200 6404 11 python-requests/2.7.0 CPython/2.7.5 Linux/3.10.0-229.el7.x86_64</span><br><span class="line">10.0.40.91 - - [12/Nov/2015:11:22:11 +0800] GET /elesearch-search-api/search/restaurant.json?start=0&amp;end=1&amp;lbs=POINT%28116.316306833%2039.9776800442%29&amp;rt=id&amp;tq=id:376608 HTTP/1.0 200 119 3 python-requests/2.4.3 CPython/2.7.5 Linux/3.10.0-229.11.1.el7.x86_64</span><br></pre></td></tr></table></figure>
-<p>现在我们主要来看一下pattern配置段，它用于指定日志的输出格式。有效的日志格式模式可以参见下面内容，如下字符串，其对应的信息由指定的响应内容取代：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">％a - 远程IP地址</span><br><span class="line">％A - 本地IP地址</span><br><span class="line">％b - 发送的字节数，不包括HTTP头，或“ - ”如果没有发送字节</span><br><span class="line">％B - 发送的字节数，不包括HTTP头</span><br><span class="line">％h - 远程主机名</span><br><span class="line">％H - 请求协议</span><br><span class="line">％l (小写的L)- 远程逻辑从identd的用户名（总是返回&apos; - &apos;）</span><br><span class="line">％m - 请求方法</span><br><span class="line">％p - 本地端口</span><br><span class="line">％q - 查询字符串（在前面加上一个“？”如果它存在，否则是一个空字符串</span><br><span class="line">％r - 第一行的要求</span><br><span class="line">％s - 响应的HTTP状态代码</span><br><span class="line">％S - 用户会话ID</span><br><span class="line">％t - 日期和时间，在通用日志格式</span><br><span class="line">％u - 远程用户身份验证</span><br><span class="line">％U - 请求的URL路径</span><br><span class="line">％v - 本地服务器名</span><br><span class="line">％D - 处理请求的时间（以毫秒为单位）</span><br><span class="line">％T - 处理请求的时间（以秒为单位）</span><br><span class="line">％I （大写的i） - 当前请求的线程名称</span><br></pre></td></tr></table></figure>
-<p>此外，您可以指定以下别名来设置为普遍使用的模式之一：<br>common - %h %l %u %t “%r” %s %b<br>combined - %h %l %u %t “%r” %s %b “%{Referer}i” “%{User-Agent}i” </p>
-<p>另外，还可以将request请求的查询参数、session会话变量值、cookie值或HTTP请求/响应头内容的变量值等内容写入到日志文件。<br>它仿照了apache的语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">％&#123;XXX&#125;i xxx代表传入的头(HTTP Request)</span><br><span class="line">％&#123;XXX&#125;o xxx代表传出的响应头(Http Resonse)</span><br><span class="line">％&#123;XXX&#125;c  xxx代表特定的Cookie名</span><br><span class="line">％&#123;XXX&#125;r  xxx代表ServletRequest属性名</span><br><span class="line">％&#123;XXX&#125;s xxx代表HttpSession中的属性名</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
-    </div>
-
       
       <div class="clearfix"></div>
     </div>
