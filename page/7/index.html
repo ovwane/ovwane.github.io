@@ -202,6 +202,107 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Ubuntu-Desktop-使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/12/07/Ubuntu-Desktop-使用/" class="article-date">
+      <time datetime="2018-12-07T03:39:16.000Z" itemprop="datePublished">2018-12-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/07/Ubuntu-Desktop-使用/">Ubuntu Desktop 使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>Ubuntu 20.04 LTS</p>
+</blockquote>
+<h2 id="配置IP地址"><a href="#配置IP地址" class="headerlink" title="配置IP地址"></a>配置IP地址</h2><p>位置 /etc/netplan/*.yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line"><span class="attr">    ethernets:</span></span><br><span class="line"><span class="attr">        enp0s5:</span></span><br><span class="line"><span class="attr">            addresses:</span></span><br><span class="line"><span class="bullet">            -</span> <span class="number">10.8</span><span class="number">.8</span><span class="number">.118</span><span class="string">/24</span></span><br><span class="line"><span class="attr">            dhcp4:</span> <span class="literal">no</span></span><br><span class="line"><span class="attr">            gateway4:</span> <span class="number">10.8</span><span class="number">.8</span><span class="number">.1</span></span><br><span class="line"><span class="attr">            nameservers:</span></span><br><span class="line"><span class="attr">                addresses:</span></span><br><span class="line"><span class="bullet">                -</span> <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span></span><br><span class="line"><span class="attr">            optional:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>配置生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netplan apply</span><br></pre></td></tr></table></figure>
+<p>查看DNS</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemd-resolve --status|grep 'DNS Servers'</span><br></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>修改 <a href="https://mirror.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华 apt 源</a></p>
+<blockquote>
+<p><a href="https://developer.aliyun.com/mirror/ubuntu" target="_blank" rel="noopener">https://developer.aliyun.com/mirror/ubuntu</a></p>
+</blockquote>
+<p>SSH</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y openssh-server</span><br></pre></td></tr></table></figure>
+<p>常用工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y vim lrzsz git</span><br></pre></td></tr></table></figure>
+<p>Android Studio</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">snap install android-studio --classic</span><br></pre></td></tr></table></figure>
+<h3 id="安装-Docker"><a href="#安装-Docker" class="headerlink" title="安装 Docker"></a>安装 Docker</h3><p>如果你过去安装过 docker，先删掉</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt remove docker docker-engine docker.io</span><br></pre></td></tr></table></figure>
+<p>安装依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common</span><br></pre></td></tr></table></figure>
+<p>信任 Docker 的 GPG 公钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<p>添加软件仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add-apt-repository &quot;deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot;</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install -y docker-ce</span><br></pre></td></tr></table></figure>
+<p>开机自启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable docker.service</span><br><span class="line">systemctl start docker.service</span><br></pre></td></tr></table></figure>
+<p>安装 docker-compose</p>
+<h3 id="VNC-Server"><a href="#VNC-Server" class="headerlink" title="VNC Server"></a>VNC Server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install tigervnc-standalone-server</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vncserver -localhost no</span><br><span class="line"></span><br><span class="line">vncserver -kill :*</span><br><span class="line"></span><br><span class="line">vncserver --list</span><br></pre></td></tr></table></figure>
+<h2 id="安装-Vagrant"><a href="#安装-Vagrant" class="headerlink" title="安装 Vagrant"></a>安装 Vagrant</h2><blockquote>
+<p><a href="https://www.myfreax.com/how-to-install-vagrant-on-ubuntu-18-04/" target="_blank" rel="noopener">https://www.myfreax.com/how-to-install-vagrant-on-ubuntu-18-04/</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y virtualbox vagrant</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用 libvirt 可以把 virtualbox 替换为：<code>apt install -y qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager</code></p>
+<p><a href="https://bugs.launchpad.net/ubuntu/+source/vagrant-libvirt/+bug/1771430" target="_blank" rel="noopener">https://bugs.launchpad.net/ubuntu/+source/vagrant-libvirt/+bug/1771430</a></p>
+<p>Virtualbox 扩展：<a href="https://download.virtualbox.org/virtualbox/6.1.10/Oracle_VM_VirtualBox_Extension_Pack-6.1.10.vbox-extpack" target="_blank" rel="noopener">https://download.virtualbox.org/virtualbox/6.1.10/Oracle_VM_VirtualBox_Extension_Pack-6.1.10.vbox-extpack</a></p>
+<p><code>VBoxManage extpack install ./Oracle_VM_VirtualBox_Extension_Pack-6.1.10.vbox-extpack</code></p>
+<p><a href="https://www.zcfy.cc/article/how-to-install-and-use-vboxmanage-on-ubuntu-16-04-and-use-its-command-line-options" target="_blank" rel="noopener">https://www.zcfy.cc/article/how-to-install-and-use-vboxmanage-on-ubuntu-16-04-and-use-its-command-line-options</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt -y install virtualbox virtualbox-ext-pack vagrant</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.hi-linux.com/posts/49513.html" target="_blank" rel="noopener">如何在 Ubuntu 18.04 下正确配置网络</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Vuejs-使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1243,105 +1344,6 @@
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/boling_cavalry/article/details/71082610" target="_blank" rel="noopener">Docker搭建disconf环境，三部曲之一：极速搭建disconf</a></p>
 <p><a href="https://blog.csdn.net/boling_cavalry/article/details/71107498" target="_blank" rel="noopener">Docker搭建disconf环境，三部曲之二：本地快速构建disconf镜像</a></p>
 <p><a href="https://blog.csdn.net/boling_cavalry/article/details/71120725" target="_blank" rel="noopener">Docker搭建disconf环境，三部曲之三：细说搭建过程</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-InfluxDB和Grafana配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/24/Docker-InfluxDB和Grafana配置/" class="article-date">
-      <time datetime="2018-10-24T01:56:38.000Z" itemprop="datePublished">2018-10-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/24/Docker-InfluxDB和Grafana配置/">Docker InfluxDB和Grafana配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>拉取镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull samuelebistoletti/docker-statsd-influxdb-grafana:2.1.0</span><br></pre></td></tr></table></figure>
-<p>启动镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --ulimit nofile=66000:66000 \</span><br><span class="line">  -d \</span><br><span class="line">  --name docker-statsd-influxdb-grafana-2.1.0 \</span><br><span class="line">  -p 3003:3003 \</span><br><span class="line">  -p 3004:8888 \</span><br><span class="line">  -p 8086:8086 \</span><br><span class="line">  -p 22022:22 \</span><br><span class="line">  -p 8125:8125/udp \</span><br><span class="line">  samuelebistoletti/docker-statsd-influxdb-grafana:2.1.0</span><br></pre></td></tr></table></figure>
-<p>关闭启动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker stop docker-statsd-influxdb-grafana</span><br><span class="line"></span><br><span class="line">docker start docker-statsd-influxdb-grafana</span><br></pre></td></tr></table></figure>
-<p>端口映射关系</p>
-<h2 id="Mapped-Ports"><a href="#Mapped-Ports" class="headerlink" title="Mapped Ports"></a>Mapped Ports</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host		Container		Service</span><br><span class="line"></span><br><span class="line">3003		3003			grafana</span><br><span class="line">3004		8888			influxdb-admin (chronograf)</span><br><span class="line">8086		8086			influxdb</span><br><span class="line">8125		8125			statsd</span><br><span class="line">22022		22              sshd</span><br></pre></td></tr></table></figure>
-<h2 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@localhost -p 22022</span><br></pre></td></tr></table></figure>
-<p>Password: root</p>
-<h2 id="Grafana"><a href="#Grafana" class="headerlink" title="Grafana"></a>Grafana</h2><p>Open <a href="http://localhost:3003/" target="_blank" rel="noopener">http://localhost:3003</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Username: root</span><br><span class="line">Password: root</span><br></pre></td></tr></table></figure>
-<h3 id="Add-data-source-on-Grafana"><a href="#Add-data-source-on-Grafana" class="headerlink" title="Add data source on Grafana"></a>Add data source on Grafana</h3><ol>
-<li>Using the wizard click on <code>Add data source</code></li>
-<li>Choose a <code>name</code> for the source and flag it as <code>Default</code></li>
-<li>Choose <code>InfluxDB</code> as <code>type</code></li>
-<li>Choose <code>direct</code> as <code>access</code></li>
-<li>Fill remaining fields as follows and click on <code>Add</code> without altering other fields</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Url: http://localhost:8086</span><br><span class="line">Database:	telegraf</span><br><span class="line">User: telegraf</span><br><span class="line">Password:	telegraf</span><br></pre></td></tr></table></figure>
-<p>Basic auth and credentials must be left unflagged. Proxy is not required.</p>
-<p>Now you are ready to add your first dashboard and launch some query on database.</p>
-<h2 id="InfluxDB"><a href="#InfluxDB" class="headerlink" title="InfluxDB"></a>InfluxDB</h2><h3 id="Web-Interface"><a href="#Web-Interface" class="headerlink" title="Web Interface"></a>Web Interface</h3><p>Open <a href="http://localhost:3004/" target="_blank" rel="noopener">http://localhost:3004</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Username: root</span><br><span class="line">Password: root</span><br><span class="line">Port: 8086</span><br></pre></td></tr></table></figure>
-<h3 id="InfluxDB-Shell-CLI"><a href="#InfluxDB-Shell-CLI" class="headerlink" title="InfluxDB Shell (CLI)"></a>InfluxDB Shell (CLI)</h3><ol>
-<li>Establish a ssh connection with the container</li>
-<li>Launch <code>influx</code> to open InfluxDB Shell (CLI)</li>
-</ol>
-<h2 id="数据收集"><a href="#数据收集" class="headerlink" title="数据收集"></a>数据收集</h2><p><strong>安装TeleGraf</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install telegraf</span><br></pre></td></tr></table></figure>
-<p><strong>设置</strong></p>
-<p>/etc/telegraf/telegraf.conf<br>修改influxdb地址，用户名及密码，设置hostname</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telegraf -config /usr/local/etc/telegraf.conf</span><br></pre></td></tr></table></figure>
-<p><strong>重启服务</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services restart telegraf</span><br></pre></td></tr></table></figure>
-<p><strong>导入Grafana Dashboard</strong></p>
-<p>下载最新版本的dashboard配置：<br><a href="https://grafana.com/dashboards/1443/revisions" target="_blank" rel="noopener">https://grafana.com/dashboards/1443/revisions</a></p>
-<p>在grafana的新建dashboard并导入配置，完成。</p>
-<p><strong>注意</strong></p>
-<p>docker内部已经启动了telegraf，如果不需要的话可以停掉，在多台服务器上安装并配置Telegraf写入同一Influxdb就可以实现对集群进行系统监控。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/samuelebistoletti/docker-statsd-influxdb-grafana" target="_blank" rel="noopener"> Docker Image with Telegraf (StatsD), InfluxDB and Grafana</a></p>
-<p><a href="http://xuqi365.com/2017/08/14/docker-grafana-influxdb-telegraf%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/" target="_blank" rel="noopener">Docker+Grafana+Influxdb+Telegraf安装部署</a></p>
-<p><a href="https://blog.csdn.net/w958660278/article/details/80484486" target="_blank" rel="noopener">Telegraf+InfluxDB+Grafana搭建服务器监控平台</a></p>
-<p><a href="http://www.cnblogs.com/Scissors/p/5977670.html" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/Scissors/p/5977670.html" target="_blank" rel="noopener">grafana + influxdb + telegraf , 构建性能监控平台</a></a></p>
-<p><a href="https://www.jianshu.com/p/d902f8bc59e3" target="_blank" rel="noopener">Grafana部署-展示Zabbix数据</a></p>
 
       
       
