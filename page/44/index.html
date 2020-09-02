@@ -202,260 +202,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/08/17/正则表达式/" class="article-date">
-      <time datetime="2013-08-17T08:55:23.000Z" itemprop="datePublished">2013-08-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><p>IP是由四段组成，每一段是0-255的数字，段与段之间用小数点隔开，比如192.168.1.1就是合法的IP地址。</p>
-<p>如果正则表达式写成d{1,3}(.d{1,3}){3}无疑是不负责的，因为它可以匹配300.400.555.666这样的非法IP字串。</p>
-<p>如果要匹配一个0-255之间的数，有几种匹配方式，下面是其中一种：</p>
-<p>匹配    正则表达式    说明<br>0-9    d    单个数字<br>10-99    [1-9]d    两位数<br>100-199    1dd    百位为1的三位数<br>200-249    2[0-4]d    三位数，百位是2，十位是0-9<br>250-255    25[0-5]    三位数，百位是2，十位是5，个位是0-5</p>
-<p>写成正则表达式，即：(d|([1-9]d) | (1dd) | (2[0-4]d) | (25[0-5]))，但是这样的正则表达式在匹配254这样的字串时，会分别匹配2、5、4，得到3个匹配，达不到预期效果，正确做法是将次序颠倒为：((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)，因为在(xxx|yyy)这种匹配行为中，是从左向右搜索的。</p>
-<p>完整的正则表达式是：<br>((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)(.((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)){3}</p>
-<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>一个完整的域名，由根域名、顶级域、二级、三级……域名构成，每级域名之间用点分开，每级域名由字母、数字和减号构成（第一个字母不能是减号），不区分大小写，长度不超过63个字符。</p>
-<p>很显然，单独的名字可以由正则表达式[a-zA-Z0-9][-a-zA-Z0-9]{0,62}来匹配，而完整的域名至少包括两个名字（比如google.com，由google和com构成），最后可以有一个表示根域的点（在规范中，最后又一个点的才是完整域名，但一般认为包括两个以上名字的域名也是完整域名，哪怕它后面没有点）。</p>
-<p>匹配完整域名的正则表达式：<br>[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+.?</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://deerchao.cn/tutorials/regex/diffs.html" target="_blank" rel="noopener">正则表达式引擎/风味对比</a> </p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Git-使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/05/11/Git-使用/" class="article-date">
-      <time datetime="2013-05-11T04:48:46.000Z" itemprop="datePublished">2013-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/05/11/Git-使用/">Git 使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">克隆仓库</span></span><br><span class="line">git clone git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"><span class="meta">#</span><span class="bash">创建分支</span></span><br><span class="line">git checkout -b blog</span><br><span class="line"><span class="meta">#</span><span class="bash">切换分支</span></span><br><span class="line">git checout blog</span><br><span class="line"><span class="meta">#</span><span class="bash">查看分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="meta">#</span><span class="bash">查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"><span class="meta">#</span><span class="bash">删除分支</span></span><br><span class="line">git push origin blog</span><br><span class="line">git push origin -d blog</span><br><span class="line"><span class="meta">#</span><span class="bash">删除子模块</span></span><br><span class="line">git rm -r --cached themes/spfk</span><br></pre></td></tr></table></figure>
-<h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看之前提交的git commit的id </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">log</span> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成撤销,同时将代码恢复到前一commit_id 对应的版本 </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git reset --hard id</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改</span></span><br><span class="line">git reset id</span><br></pre></td></tr></table></figure>
-<h3 id="更改远程分支地址"><a href="#更改远程分支地址" class="headerlink" title="更改远程分支地址"></a>更改远程分支地址</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看</span></span><br><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-<h2 id="Git全局递归忽略-DS-Store"><a href="#Git全局递归忽略-DS-Store" class="headerlink" title="Git全局递归忽略.DS_Store"></a><a href="http://chen-tao.github.io/2017/09/24/Git%E5%85%A8%E5%B1%80%E9%80%92%E5%BD%92%E5%BF%BD%E7%95%A5-DS-Store/" target="_blank" rel="noopener">Git全局递归忽略.DS_Store</a></h2><p>全局配置</p>
-<p>如果没有<code>~/. gitignore_global</code>文件，<code>echo</code>也会为你生成一个，这里的主要目的是覆盖所有可能的<code>OS X</code>版本生成的<code>.DS_Store</code>，逐一执行一次就可以了，之后<code>cat</code>一下看是否正常写入了</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo ".DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "._.DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "**/.DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "**/._.DS_Store" &gt;&gt; ~/.gitignore_global</span><br></pre></td></tr></table></figure>
-<p>然后设置一下全局的配置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.excludesfile ~/.gitignore_global</span><br></pre></td></tr></table></figure>
-<h3 id="git操作中文文件错误"><a href="#git操作中文文件错误" class="headerlink" title="git操作中文文件错误"></a>git操作中文文件错误</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">core.quotepath设为<span class="literal">false</span>的话，就不会对0x80以上的字符进行quote。中文显示正常。</span></span><br><span class="line">git config --global core.quotepath false</span><br></pre></td></tr></table></figure>
-<h3 id="ssh-config-配置代理"><a href="#ssh-config-配置代理" class="headerlink" title="~/.ssh/config 配置代理"></a>~/.ssh/config 配置代理</h3><blockquote>
-<p> <a href="https://gist.github.com/chuyik/02d0d37a49edc162546441092efae6a1" target="_blank" rel="noopener">macOS 给 Git(Github) 设置代理（HTTP/SSH）</a> </p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install socat</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Host gitlab.com</span><br><span class="line">  HostName gitlab.com</span><br><span class="line">  User git</span><br><span class="line">  PreferredAuthentications publickey</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/keys/gitlab_rsa</span><br><span class="line">  TCPKeepAlive yes</span><br><span class="line">  # 走 HTTP 代理</span><br><span class="line">  ProxyCommand socat - PROXY:127.0.0.1:%h:%p,proxyport=7890</span><br><span class="line">  # 走 socks5 代理</span><br><span class="line">  # ProxyCommand nc -v -x 127.0.0.1:1080 %h %p</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://git-scm.com/docs" target="_blank" rel="noopener">Git - Reference</a> </p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Cisco:H3C交换机配置与管理完全手册-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/05/08/Cisco:H3C交换机配置与管理完全手册-学习笔记/" class="article-date">
-      <time datetime="2013-05-08T06:23:45.000Z" itemprop="datePublished">2013-05-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/05/08/Cisco:H3C交换机配置与管理完全手册-学习笔记/">Cisco/H3C交换机配置与管理完全手册学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
-<p><a href="http://blog.51cto.com/winda" target="_blank" rel="noopener">王达 51cto</a><br><a href="http://blog.csdn.net/lycb_gz" target="_blank" rel="noopener">王达 csdn</a><br><a href="http://blog.chinaunix.net/uid/10659021.html" target="_blank" rel="noopener">王达 chinaunix</a></p>
-</blockquote>
-<p>思科交换机操作系统IOS和CatOS</p>
-<blockquote>
-<p>看三遍<br>第一遍粗看，不进行实际操练。第二遍细看，要求跟着书在实际设备或者模拟器上练习。第三遍粗看，主要是看那些前两遍中没有理解或者没有掌握的内容，以及重点理论、重要功能配置与管理方法。</p>
-</blockquote>
-<p>Catalyst 6500 4900系列</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Nginx-配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/04/20/Nginx-配置/" class="article-date">
-      <time datetime="2013-04-20T01:22:28.000Z" itemprop="datePublished">2013-04-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/04/20/Nginx-配置/">Nginx 配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a><a href="https://nginx.org/" target="_blank" rel="noopener">Nginx</a></h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Nginx 是一个自由、开源、高性能及轻量级的HTTP服务器及反转代理服务器，<br>其性能与IMAP/POP3代理服务器相当。Nginx以其高性能、稳定、功能丰富、配置简单及占用系统资源少而著称。<br>Nginx 超越 Apache 的高性能和稳定性，使得国内使用 Nginx 作为 Web 服务器的网站也越来越多.</p>
-<h3 id="基础功能"><a href="#基础功能" class="headerlink" title="基础功能"></a>基础功能</h3><ul>
-<li>处理静态文件，索引文件以及自动索引； </li>
-<li>反向代理加速(无缓存)，简单的负载均衡和容错；</li>
-<li>FastCGI，简单的负载均衡和容错；</li>
-<li>模块化的结构。过滤器包括gzipping, byte ranges, chunked responses, 以及 SSI-filter 。在SSI过滤器中，到同一个 proxy 或者 FastCGI 的多个子请求并发处理；</li>
-<li>SSL 和 TLS SNI 支持；</li>
-</ul>
-          
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2013/04/20/Nginx-配置/#more">大航海 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-2012年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -853,9 +599,158 @@
 
 
   
+    <article id="post-ovwane" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2012/02/18/ovwane/" class="article-date">
+      <time datetime="2012-02-18T00:01:32.000Z" itemprop="datePublished">2012-02-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/02/18/ovwane/">ovwane</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>ovwane</p>
+<h1 id="ovwane的开始"><a href="#ovwane的开始" class="headerlink" title="ovwane的开始"></a>ovwane的开始</h1><pre><code>2012年2月18号开始使用&quot;ovwane&quot;这个ID。
+</code></pre><p>那段时间想着学习PHP。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-David-J-Malan" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2012/01/05/David-J-Malan/" class="article-date">
+      <time datetime="2012-01-05T11:15:27.000Z" itemprop="datePublished">2012-01-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/01/05/David-J-Malan/">David J. Malan</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="David-J-Malan"><a href="#David-J-Malan" class="headerlink" title="David J. Malan"></a>David J. Malan</h2><p><a href="https://cs.harvard.edu/malan/" target="_blank" rel="noopener">https://cs.harvard.edu/malan/</a></p>
+<p><a href="https://cs.harvard.edu/malan/courses/" target="_blank" rel="noopener">https://cs.harvard.edu/malan/courses/</a></p>
+<p><a href="https://www.quora.com/profile/David-J-Malan" target="_blank" rel="noopener">https://www.quora.com/profile/David-J-Malan</a></p>
+<p><a href="https://www.quora.com/Is-David-Malan-married" target="_blank" rel="noopener">https://www.quora.com/Is-David-Malan-married</a></p>
+<p><a href="https://www.quora.com/Who-is-Prof-David-J-Malan" target="_blank" rel="noopener">https://www.quora.com/Who-is-Prof-David-J-Malan</a></p>
+<p><a href="https://www.quora.com/unanswered/How-old-is-Prof-David-J-Malan" target="_blank" rel="noopener">https://www.quora.com/unanswered/How-old-is-Prof-David-J-Malan</a></p>
+<h2 id="CS75"><a href="#CS75" class="headerlink" title="CS75"></a>CS75</h2><blockquote>
+<p>Computer Science E-75: Building Dynamic Websites</p>
+</blockquote>
+<p><a href="http://cs75.tv/2012/summer/" target="_blank" rel="noopener">http://cs75.tv/2012/summer/</a></p>
+<p><a href="https://handbook.fas.harvard.edu/book/computer-science" target="_blank" rel="noopener">https://handbook.fas.harvard.edu/book/computer-science</a></p>
+<p><a href="https://www.quora.com/David-J-Malan-Why-CS50-course-is-given-the-name-CS50-Is-there-any-reason-for-it" target="_blank" rel="noopener">https://www.quora.com/David-J-Malan-Why-CS50-course-is-given-the-name-CS50-Is-there-any-reason-for-it</a></p>
+<h2 id="CS50"><a href="#CS50" class="headerlink" title="CS50"></a>CS50</h2><blockquote>
+<p>Computer Science 50: Introduction to Computer Science I</p>
+</blockquote>
+<p>date: 2017-12-29 13:55:24</p>
+<p><a href="https://cs50.harvard.edu/college/" target="_blank" rel="noopener">https://cs50.harvard.edu/college/</a></p>
+<p><a href="http://cs50.tv/2017/fall/" target="_blank" rel="noopener">http://cs50.tv/2017/fall/</a></p>
+<p><a href="https://cs50.statuspage.io/" target="_blank" rel="noopener">https://cs50.statuspage.io/</a></p>
+<h2 id="CS164"><a href="#CS164" class="headerlink" title="CS164"></a>CS164</h2><blockquote>
+<p>Computer Science 164: Software Engineering</p>
+</blockquote>
+<h2 id="CS-E-1"><a href="#CS-E-1" class="headerlink" title="CS E-1"></a>CS E-1</h2><blockquote>
+<p>Computer Science E-1: Understanding Computers and the Internet</p>
+</blockquote>
+<p><a href="http://computerscience1.tv/2011/spring/" target="_blank" rel="noopener">http://computerscience1.tv/2011/spring/</a></p>
+<h2 id="CS-E-7"><a href="#CS-E-7" class="headerlink" title="CS E-7"></a>CS E-7</h2><blockquote>
+<p>Computer Science E-7: Exposing Digital Photography</p>
+</blockquote>
+<p><a href="http://tv.digitalphotography.exposed/2011/fall/" target="_blank" rel="noopener">http://tv.digitalphotography.exposed/2011/fall/</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/43/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><a class="page-number" href="/page/43/">43</a><span class="page-number current">44</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/45/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/43/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><a class="page-number" href="/page/43/">43</a><span class="page-number current">44</span>
     </nav>
   
 </div>

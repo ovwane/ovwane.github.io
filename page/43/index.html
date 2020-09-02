@@ -202,331 +202,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-炼数成金爬虫-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/07/20/炼数成金爬虫-学习笔记/" class="article-date">
-      <time datetime="2015-07-20T10:16:03.000Z" itemprop="datePublished">2015-07-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/07/20/炼数成金爬虫-学习笔记/">炼数成金爬虫 学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>炼数成金-目录</p>
-<p>2012.11.23<br>Python 2.7.3<br>Nginx 1.1.5</p>
-<p>01.解释性脚本语言初探.avi 46:42<br>02.1.Python开发环境windows.avi 21:30<br>02.2.Python开发环境linux.avi 21:40<br>02.3.Python开发环境wingide.avi 25:30<br>03.python使用基础.avi 1:53:25<br>04.python内置容器_.avi<br>05.并行开发.mp4<br>06.python正则表达式.avi<br>07.socket编程基础.avi<br>08.爬虫.mp4<br>09.django初探.wmv<br>10.django.avi<br>11.twisted.avi<br>12.Twisted综合应用.avi</p>
-<h1 id="03-Python使用基础"><a href="#03-Python使用基础" class="headerlink" title="03 Python使用基础"></a>03 Python使用基础</h1><p>1）基本概念<br>2）运算符与表达式<br>3）逻辑控制结构<br>4）函数<br>5）面向对象编程<br>6）异常处理<br>7）模块与包<br>8）输入、输出、文件和目录操作</p>
-<p>1）基本概念</p>
-<ol>
-<li>常量<br>常量无名<br>不需要修饰</li>
-</ol>
-<p>1.2）数<br>整数<br>长整数<br>浮点数<br>复数<br>1.3）字符串<br>单引号 ‘abc’<br>双引号 “abc”<br>三引号 ‘’’abc’’’</p>
-<p>r前缀 不会转义内容<br>a =r”ss\n sd” 不会换行</p>
-<p>dir()函数 可以查看类型所有的方法<br>a = “S”*5 SSSSS复制S5次<br>eval()字符串表达式转换成<br>1.4）变量<br>首字符为字母或下划线<br>其他字母、数字、下划线<br>区分大小写<br>1.5）数据类型<br>数值<br>字符串<br>线性容器</p>
-<ul>
-<li>字符串也是一种线性容器</li>
-<li>list</li>
-<li>tuple<br>Hash容器</li>
-<li>dict</li>
-<li>set<br>None<br>逻辑类型（True,False）<br>1.6）逻辑行与物理行<br>物理行是在遍历器中所看见的，逻辑行是python能够识别的。<br>一个物理行使用多个逻辑行用分号；<br>多个物理行使用一个逻辑行用反斜杠\<br>1.7）缩进<br>缩进在Python中是重要的，缩进使用4个空格，表示不要用制表符。</li>
-</ul>
-<p>2）运算符与表达式</p>
-<ol>
-<li>运算符</li>
-<li>运算符的优先级</li>
-<li>表达式</li>
-<li>repr()</li>
-</ol>
-<p>2.1）运算符</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&amp; 按位与 5 &amp; 3 得到 1</span><br><span class="line">| 按位或 5 | 3 得到 7</span><br><span class="line">^ 按位异或 5 ^ 3 得到 6</span><br><span class="line">~ 按位翻转 ~5 得到 -6 </span><br><span class="line">&lt; 小于</span><br><span class="line">&gt; 大于　</span><br><span class="line">&lt;= 小于等于</span><br><span class="line">&gt;= 大于等于</span><br><span class="line">== 等于</span><br><span class="line">!= 不等于</span><br><span class="line">not 不是</span><br><span class="line">and 并且</span><br><span class="line">or 或着</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">位移 &lt;&lt; &gt;&gt;</span><br><span class="line">a = 10000</span><br><span class="line">a&lt;&lt;10</span><br><span class="line"></span><br><span class="line">a&gt;&gt;10</span><br></pre></td></tr></table></figure>
-<p>2.2）运算符的优先级</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">讲的不明所以</span><br></pre></td></tr></table></figure>
-<p>2.3）表达式<br>字符串表达式<br>数值表达式<br>逻辑表达式<br>函数式表达式<br>eval()和repr()</p>
-<p>2.4）repr()</p>
-<p>3）逻辑控制结构</p>
-<p>4）函数<br>4.1）简单函数<br>4.2）带形参函数<br>4.3）变量作用域<br>4.4）默认参数值<br>4.5）关键参数<br>4.6）文档字符串<br>4.7）lambda<br>4.8）闭包</p>
-<p>5）面向对象编程<br>5.1）面向对象编程<br>5.2）类的定义<br>5.3）类的实例化<br>5.4）类的封装<br>5.5）专用类方法<br>5.6）类属性介绍<br>5.7）私有函数</p>
-<p>5.1）面向对象编程<br>封装（Encapsulation）<br>继承（Inheritance）<br>多态（polymorphism）</p>
-<p>5.2）类的定义<br>5.3）类的实例化<br>5.4）类的封装<br>5.5）专用类方法<br>5.6）类属性介绍<br>5.7）私有函数</p>
-<p>6）异常处理<br>什么叫防御式编程<br>try<br>except<br>finally</p>
-<p>7）模块与包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__init__.py</span><br><span class="line">文件、模块与包</span><br><span class="line">编码问题</span><br><span class="line">#!</span><br><span class="line">导入</span><br><span class="line">import</span><br><span class="line">from import</span><br></pre></td></tr></table></figure>
-<p>8）输入、输出、文件和目录操作</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">open</span><br><span class="line">write</span><br><span class="line">read</span><br><span class="line">readlines</span><br><span class="line">seek</span><br><span class="line">os.listdir</span><br><span class="line">os.walk</span><br></pre></td></tr></table></figure>
-<p>尝试一下。</p>
-<p>尝试着做一下。</p>
-<p>挑战下自己。做一下。</p>
-<h1 id="04-Python内置容器"><a href="#04-Python内置容器" class="headerlink" title="04 Python内置容器"></a>04 Python内置容器</h1><p>1）列表-list<br>定义 []<br>访问<br>切片操作<br>嵌套<br>内置函数</p>
-<p>2）元组-tuple<br>定义 （）<br>类似list的访问方式<br>不可变对象<br>类型转换<br>隐式tuple调用<br>数据交换<br>拆封与解封</p>
-<p>3）字典-dict<br>定义{}<br>字典的声明<br>简单使用<br>keys()和values()<br>排序问题及解决<br>e = sorted(a,key=lambda t:t[0])</p>
-<p>4)集合-set<br>定义方式set()<br>set–唯一集合<br>演示合并功能<br>类型转换</p>
-<p>5）map，reduce，filter<br>map</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">map(<span class="keyword">lambda</span> x:x*<span class="number">2</span>,a)</span><br><span class="line">map(<span class="keyword">lambda</span> x:x^<span class="number">2</span>,a)</span><br></pre></td></tr></table></figure>
-<p>reduce</p>
-<p>归并，收敛操作</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">reduce(<span class="keyword">lambda</span> x,y:x+y,a)</span><br></pre></td></tr></table></figure>
-<p>filter</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">filter(<span class="keyword">lambda</span> x:x%<span class="number">2</span> + <span class="number">1</span>,a)</span><br><span class="line">filter(<span class="keyword">lambda</span> x:<span class="keyword">not</span> x%<span class="number">2</span> + <span class="number">1</span>,a)</span><br></pre></td></tr></table></figure>
-<p>笛卡尔方法论<br>拆分<br>排序<br>分别处理每一个问题<br>归并</p>
-<p>6)生成器与迭代器<br>yield</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(m)</span>:</span></span><br><span class="line">	a,b=<span class="number">1</span>,<span class="number">1</span></span><br><span class="line">	<span class="keyword">while</span> a&lt;m:</span><br><span class="line">		<span class="keyword">yield</span> a</span><br><span class="line">		a,b=b,a+b</span><br><span class="line">		</span><br><span class="line">b=fab(<span class="number">6</span>)</span><br><span class="line">b.next()</span><br></pre></td></tr></table></figure>
-<h1 id="05-并行开发"><a href="#05-并行开发" class="headerlink" title="05 并行开发"></a>05 并行开发</h1><p>1）并行的世界<br>2）多进程开发<br>3）多线程开发</p>
-<p>1）并行的世界<br>串行与并行<br>阻塞与非阻塞任务<br>共享与冲突<br>多线程与多进程的区别和特点</p>
-<p>2）多进程开发<br>Linux、unix平台专属<br>fork<br>wait<br>waitpid<br>pipe和singal<br>守护进程</p>
-<p>fork </p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">myfork</span><span class="params">()</span>:</span></span><br><span class="line">	pid = os.fork()</span><br><span class="line">	<span class="keyword">if</span> pid==<span class="number">0</span>:</span><br><span class="line">		print(<span class="string">"this is child %d %d"</span> %(pid,os.getpid()))</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		print(<span class="string">"this is parent %d"</span> %pid)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span></span><br><span class="line">	myfork()</span><br></pre></td></tr></table></figure>
-<p>3）多线程开发<br>Thread<br>Threading<br>共享变量与临界资源<br>锁机制</p>
-<h1 id="07-socket编程基础"><a href="#07-socket编程基础" class="headerlink" title="07 socket编程基础"></a>07 socket编程基础</h1><p>tcpdump<br>netstat</p>
-<blockquote>
-<p>TCP/IP协议卷一</p>
-</blockquote>
-<p>select<br>poll<br>同select类似，没有文件描述符的限制<br>epoll<br>内核直接支持，基于事件就绪，注册和callback</p>
-<h1 id="09-django初探"><a href="#09-django初探" class="headerlink" title="09 django初探"></a>09 django初探</h1><p>1:05:38 电商网站需求分析</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-去北京" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/06/15/去北京/" class="article-date">
-      <time datetime="2015-06-15T02:13:00.000Z" itemprop="datePublished">2015-06-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/15/去北京/">去北京</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <pre><code>坐上广州开往北京的列车。
-</code></pre>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-LNAMP配置WordPress" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/05/17/LNAMP配置WordPress/" class="article-date">
-      <time datetime="2015-05-17T07:21:20.000Z" itemprop="datePublished">2015-05-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/17/LNAMP配置WordPress/">LNAMP配置运行WordPress</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>LNAMP配置运行WordPress</p>
-<h2 id="nginx-301重定向配置"><a href="#nginx-301重定向配置" class="headerlink" title="nginx 301重定向配置"></a><a href="http://www.ttlsa.com/nginx/nginx-301-redirect/" target="_blank" rel="noopener">nginx 301重定向配置</a></h2><p>301重定向不陌生, 有时候有需求把某目录整个重定向到一个二级域名,或者不带www的顶级域名请求全部重定向到带www的二级域名.如果是Apache，需要配置.htaccess，nginx不支持，需要在配置文件里面使用rewrite指令来实现。</p>
-<p>顶级域名重定向到www</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> server_name ttlsa.com;</span><br><span class="line"> rewrite ^/(.*)$ http://www.ttlsa.com/$1 permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>如上配置，所有ttlsa.com的请求都会重定向到<a href="http://www.ttlsa.com,301重定向对SEO很有帮助.这个配置大家用的最多。" target="_blank" rel="noopener">www.ttlsa.com,301重定向对SEO很有帮助.这个配置大家用的最多。</a></p>
-<p>www二级域名重定向到顶级域名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> server_name www.ttlsa.com;</span><br><span class="line"> rewrite ^/(.*)$ http://domain.com/$1 permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>江湖盛传顶级域名的权重会比www二级域名的权重高，有些seoer会要求运维一定要把www的请求转到顶级域名，和上面的做法相反。</p>
-<p>目录重定向</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ( $request_filename ~ nginxjiaocheng/ ) &#123;</span><br><span class="line"> rewrite ^ http://www.ttlsa.com/nginx/? permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>目录跳转新域名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ( $request_filename ~ nginx/ ) &#123;</span><br><span class="line"> rewrite ^ http://nginx.ttlsa.com/? permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/httpd/">httpd</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-去广州" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/04/14/去广州/" class="article-date">
-      <time datetime="2015-04-14T01:17:00.000Z" itemprop="datePublished">2015-04-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/14/去广州/">去广州</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <pre><code>上海发向广州的火车。没有买到有座位的票，一路站到广州。
-</code></pre>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-2014年终总结之败家" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -912,9 +587,263 @@
 
 
   
+    <article id="post-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/08/17/正则表达式/" class="article-date">
+      <time datetime="2013-08-17T08:55:23.000Z" itemprop="datePublished">2013-08-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><p>IP是由四段组成，每一段是0-255的数字，段与段之间用小数点隔开，比如192.168.1.1就是合法的IP地址。</p>
+<p>如果正则表达式写成d{1,3}(.d{1,3}){3}无疑是不负责的，因为它可以匹配300.400.555.666这样的非法IP字串。</p>
+<p>如果要匹配一个0-255之间的数，有几种匹配方式，下面是其中一种：</p>
+<p>匹配    正则表达式    说明<br>0-9    d    单个数字<br>10-99    [1-9]d    两位数<br>100-199    1dd    百位为1的三位数<br>200-249    2[0-4]d    三位数，百位是2，十位是0-9<br>250-255    25[0-5]    三位数，百位是2，十位是5，个位是0-5</p>
+<p>写成正则表达式，即：(d|([1-9]d) | (1dd) | (2[0-4]d) | (25[0-5]))，但是这样的正则表达式在匹配254这样的字串时，会分别匹配2、5、4，得到3个匹配，达不到预期效果，正确做法是将次序颠倒为：((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)，因为在(xxx|yyy)这种匹配行为中，是从左向右搜索的。</p>
+<p>完整的正则表达式是：<br>((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)(.((25[0-5])|(2[0-4]d)|(1dd)|([1-9]d)|d)){3}</p>
+<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>一个完整的域名，由根域名、顶级域、二级、三级……域名构成，每级域名之间用点分开，每级域名由字母、数字和减号构成（第一个字母不能是减号），不区分大小写，长度不超过63个字符。</p>
+<p>很显然，单独的名字可以由正则表达式[a-zA-Z0-9][-a-zA-Z0-9]{0,62}来匹配，而完整的域名至少包括两个名字（比如google.com，由google和com构成），最后可以有一个表示根域的点（在规范中，最后又一个点的才是完整域名，但一般认为包括两个以上名字的域名也是完整域名，哪怕它后面没有点）。</p>
+<p>匹配完整域名的正则表达式：<br>[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+.?</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://deerchao.cn/tutorials/regex/diffs.html" target="_blank" rel="noopener">正则表达式引擎/风味对比</a> </p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Git-使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/05/11/Git-使用/" class="article-date">
+      <time datetime="2013-05-11T04:48:46.000Z" itemprop="datePublished">2013-05-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/05/11/Git-使用/">Git 使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">克隆仓库</span></span><br><span class="line">git clone git@github.com:ovwane/ovwane.github.io.git</span><br><span class="line"><span class="meta">#</span><span class="bash">创建分支</span></span><br><span class="line">git checkout -b blog</span><br><span class="line"><span class="meta">#</span><span class="bash">切换分支</span></span><br><span class="line">git checout blog</span><br><span class="line"><span class="meta">#</span><span class="bash">查看分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="meta">#</span><span class="bash">查看所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"><span class="meta">#</span><span class="bash">删除分支</span></span><br><span class="line">git push origin blog</span><br><span class="line">git push origin -d blog</span><br><span class="line"><span class="meta">#</span><span class="bash">删除子模块</span></span><br><span class="line">git rm -r --cached themes/spfk</span><br></pre></td></tr></table></figure>
+<h3 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看之前提交的git commit的id </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">log</span> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成撤销,同时将代码恢复到前一commit_id 对应的版本 </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git reset --hard id</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完成Commit命令的撤销，但是不对代码修改进行撤销，可以直接通过git commit 重新提交对本地代码的修改</span></span><br><span class="line">git reset id</span><br></pre></td></tr></table></figure>
+<h3 id="更改远程分支地址"><a href="#更改远程分支地址" class="headerlink" title="更改远程分支地址"></a>更改远程分支地址</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看</span></span><br><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+<h2 id="Git全局递归忽略-DS-Store"><a href="#Git全局递归忽略-DS-Store" class="headerlink" title="Git全局递归忽略.DS_Store"></a><a href="http://chen-tao.github.io/2017/09/24/Git%E5%85%A8%E5%B1%80%E9%80%92%E5%BD%92%E5%BF%BD%E7%95%A5-DS-Store/" target="_blank" rel="noopener">Git全局递归忽略.DS_Store</a></h2><p>全局配置</p>
+<p>如果没有<code>~/. gitignore_global</code>文件，<code>echo</code>也会为你生成一个，这里的主要目的是覆盖所有可能的<code>OS X</code>版本生成的<code>.DS_Store</code>，逐一执行一次就可以了，之后<code>cat</code>一下看是否正常写入了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo ".DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "._.DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "**/.DS_Store" &gt;&gt; ~/.gitignore_global</span><br><span class="line">echo "**/._.DS_Store" &gt;&gt; ~/.gitignore_global</span><br></pre></td></tr></table></figure>
+<p>然后设置一下全局的配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.excludesfile ~/.gitignore_global</span><br></pre></td></tr></table></figure>
+<h3 id="git操作中文文件错误"><a href="#git操作中文文件错误" class="headerlink" title="git操作中文文件错误"></a>git操作中文文件错误</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">core.quotepath设为<span class="literal">false</span>的话，就不会对0x80以上的字符进行quote。中文显示正常。</span></span><br><span class="line">git config --global core.quotepath false</span><br></pre></td></tr></table></figure>
+<h3 id="ssh-config-配置代理"><a href="#ssh-config-配置代理" class="headerlink" title="~/.ssh/config 配置代理"></a>~/.ssh/config 配置代理</h3><blockquote>
+<p> <a href="https://gist.github.com/chuyik/02d0d37a49edc162546441092efae6a1" target="_blank" rel="noopener">macOS 给 Git(Github) 设置代理（HTTP/SSH）</a> </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install socat</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Host gitlab.com</span><br><span class="line">  HostName gitlab.com</span><br><span class="line">  User git</span><br><span class="line">  PreferredAuthentications publickey</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/keys/gitlab_rsa</span><br><span class="line">  TCPKeepAlive yes</span><br><span class="line">  # 走 HTTP 代理</span><br><span class="line">  ProxyCommand socat - PROXY:127.0.0.1:%h:%p,proxyport=7890</span><br><span class="line">  # 走 socks5 代理</span><br><span class="line">  # ProxyCommand nc -v -x 127.0.0.1:1080 %h %p</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://git-scm.com/docs" target="_blank" rel="noopener">Git - Reference</a> </p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Cisco:H3C交换机配置与管理完全手册-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/05/08/Cisco:H3C交换机配置与管理完全手册-学习笔记/" class="article-date">
+      <time datetime="2013-05-08T06:23:45.000Z" itemprop="datePublished">2013-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/05/08/Cisco:H3C交换机配置与管理完全手册-学习笔记/">Cisco/H3C交换机配置与管理完全手册学习笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p><a href="http://blog.51cto.com/winda" target="_blank" rel="noopener">王达 51cto</a><br><a href="http://blog.csdn.net/lycb_gz" target="_blank" rel="noopener">王达 csdn</a><br><a href="http://blog.chinaunix.net/uid/10659021.html" target="_blank" rel="noopener">王达 chinaunix</a></p>
+</blockquote>
+<p>思科交换机操作系统IOS和CatOS</p>
+<blockquote>
+<p>看三遍<br>第一遍粗看，不进行实际操练。第二遍细看，要求跟着书在实际设备或者模拟器上练习。第三遍粗看，主要是看那些前两遍中没有理解或者没有掌握的内容，以及重点理论、重要功能配置与管理方法。</p>
+</blockquote>
+<p>Catalyst 6500 4900系列</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Nginx-配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/04/20/Nginx-配置/" class="article-date">
+      <time datetime="2013-04-20T01:22:28.000Z" itemprop="datePublished">2013-04-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/04/20/Nginx-配置/">Nginx 配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a><a href="https://nginx.org/" target="_blank" rel="noopener">Nginx</a></h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Nginx 是一个自由、开源、高性能及轻量级的HTTP服务器及反转代理服务器，<br>其性能与IMAP/POP3代理服务器相当。Nginx以其高性能、稳定、功能丰富、配置简单及占用系统资源少而著称。<br>Nginx 超越 Apache 的高性能和稳定性，使得国内使用 Nginx 作为 Web 服务器的网站也越来越多.</p>
+<h3 id="基础功能"><a href="#基础功能" class="headerlink" title="基础功能"></a>基础功能</h3><ul>
+<li>处理静态文件，索引文件以及自动索引； </li>
+<li>反向代理加速(无缓存)，简单的负载均衡和容错；</li>
+<li>FastCGI，简单的负载均衡和容错；</li>
+<li>模块化的结构。过滤器包括gzipping, byte ranges, chunked responses, 以及 SSI-filter 。在SSI过滤器中，到同一个 proxy 或者 FastCGI 的多个子请求并发处理；</li>
+<li>SSL 和 TLS SNI 支持；</li>
+</ul>
+          
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2013/04/20/Nginx-配置/#more">大航海 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/42/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/44/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/42/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/44/">Next &raquo;</a>
     </nav>
   
 </div>
