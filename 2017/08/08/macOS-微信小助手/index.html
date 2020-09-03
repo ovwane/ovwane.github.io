@@ -3,19 +3,19 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>Docker 运行SonarQube | 幻舞梦境</title>
+  <title>macOS 微信小助手 | 幻舞梦境</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1docker pull sonarqube:7.1 1docker run -d --name sonarqube-7.1 -p 9000:9000 -p 9092:9092 sonarqube:7.1 12345678910111213141516171819202122docker run -d \    --name postgres \    -e POSTGRES_USER=sonar">
+  <meta name="description" content="微信小助手">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker 运行SonarQube">
-<meta property="og:url" content="https://ovwane.icu/2018/09/07/Docker-运行SonarQube/index.html">
+<meta property="og:title" content="macOS 微信小助手">
+<meta property="og:url" content="https://ovwane.icu/2017/08/08/macOS-微信小助手/index.html">
 <meta property="og:site_name" content="幻舞梦境">
-<meta property="og:description" content="1docker pull sonarqube:7.1 1docker run -d --name sonarqube-7.1 -p 9000:9000 -p 9092:9092 sonarqube:7.1 12345678910111213141516171819202122docker run -d \    --name postgres \    -e POSTGRES_USER=sonar">
+<meta property="og:description" content="微信小助手">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-09-03T05:46:01.985Z">
+<meta property="og:updated_time" content="2020-09-03T05:46:02.001Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker 运行SonarQube">
-<meta name="twitter:description" content="1docker pull sonarqube:7.1 1docker run -d --name sonarqube-7.1 -p 9000:9000 -p 9092:9092 sonarqube:7.1 12345678910111213141516171819202122docker run -d \    --name postgres \    -e POSTGRES_USER=sonar">
+<meta name="twitter:title" content="macOS 微信小助手">
+<meta name="twitter:description" content="微信小助手">
   
     <link rel="alternative" href="/atom.xml" title="幻舞梦境" type="application/atom+xml">
   
@@ -197,11 +197,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Docker-运行SonarQube" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-macOS-微信小助手" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/09/07/Docker-运行SonarQube/" class="article-date">
-      <time datetime="2018-09-07T01:03:05.000Z" itemprop="datePublished">2018-09-07</time>
+      <a href="/2017/08/08/macOS-微信小助手/" class="article-date">
+      <time datetime="2017-08-08T08:30:17.000Z" itemprop="datePublished">2017-08-08</time>
 </a>
     </div>
   
@@ -214,7 +214,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Docker 运行SonarQube
+      macOS 微信小助手
     </h1>
   
 
@@ -231,23 +231,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull sonarqube:7.1</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name sonarqube-7.1 -p 9000:9000 -p 9092:9092 sonarqube:7.1</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name postgres \</span><br><span class="line">    -e POSTGRES_USER=sonarqube \</span><br><span class="line">    -e POSTGRES_PASSWORD=sonarqube \</span><br><span class="line">    -e PGDATA=/var/lib/postgresql/data/pgdata \</span><br><span class="line">    -v <span class="variable">$PWD</span>/postgresql:/var/lib/postgresql/data \</span><br><span class="line">    postgres</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建目录</span></span><br><span class="line">mkdir sonarqube_data sonarqube_extensions sonarqube_logs</span><br><span class="line"></span><br><span class="line"><span class="comment">#linux 执行</span></span><br><span class="line">chown -R 999:999 sonarqube_data sonarqube_extensions sonarqube_logs</span><br><span class="line"></span><br><span class="line"><span class="comment">#docker启动sonarqube</span></span><br><span class="line">docker run -d  --name sonarqube --privileged=<span class="literal">true</span> -p 9000:9000 -p 9092:9092 --link postgres:db \</span><br><span class="line">     -e SONARQUBE_JDBC_USERNAME=sonarqube -e SONARQUBE_JDBC_PASSWORD=sonarqube \</span><br><span class="line">    -e SONARQUBE_JDBC_URL=<span class="string">"jdbc:postgresql://db/sonarqube"</span> \</span><br><span class="line">    -v <span class="variable">$PWD</span>/sonarqube_data:/opt/sonarqube/data \</span><br><span class="line">    -v <span class="variable">$PWD</span>/sonarqube_extensions:/opt/sonarqube/extensions \</span><br><span class="line">    -v <span class="variable">$PWD</span>/sonarqube_logs:/opt/sonarqube/logs \</span><br><span class="line">sonarqube</span><br></pre></td></tr></table></figure>
-<p>启动后访问<a href="http://localhost:9000/" target="_blank" rel="noopener">http://localhost:9000</a>就可以进入sonar了, 默认管理员用户和密码是admin/admin</p>
-<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>举个栗子，我们安装一个汉化插件：Chinese Pack</p>
-<p>进入Administration-&gt;Marketplace</p>
-<p>搜索<code>Chinese Pack</code>，点击install。</p>
-<h3 id="使用-Sonar-maven插件进行代码解析"><a href="#使用-Sonar-maven插件进行代码解析" class="headerlink" title="使用 Sonar maven插件进行代码解析"></a>使用 Sonar maven插件进行代码解析</h3><p>使用前提：</p>
-<ul>
-<li>需要maven版本3.0.2及以上。</li>
-<li>安装好SonarQube。</li>
-<li>使用了已安装的SonarQube支持的最低的JDK。</li>
-<li>已经安装好了你要分析的语言的插件。</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/4e6fd254045c" target="_blank" rel="noopener">使用 Sonar 进行代码质量管理</a></p>
-<p><a href="https://my.oschina.net/zzuqiang/blog/843406" target="_blank" rel="noopener">SonarQube代码质量检查工具</a></p>
-<p><a href="https://blog.csdn.net/wangjunjun2008/article/details/9407221" target="_blank" rel="noopener">Sonar入门学习</a></p>
+        <h1 id="微信小助手"><a href="#微信小助手" class="headerlink" title="微信小助手"></a>微信小助手</h1><a id="more"></a>
+<p><del>停止更新 <a href="https://github.com/TKkk-iOSer/WeChatPlugin-MacOS" target="_blank" rel="noopener">WeChatPlugin-MacOS</a></del></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/Downloads &amp;&amp; rm -rf WeChatPlugin-MacOS</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/TKkk-iOSer/WeChatPlugin-MacOS.git --depth=1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./WeChatPlugin-MacOS/Other/Install.sh</span></span><br></pre></td></tr></table></figure>
+<p><del>没有使用的 <a href="https://github.com/Sunnyyoung/WeChatTweak-macOS" target="_blank" rel="noopener"><strong>WeChatTweak-macOS</strong></a></del></p>
+<h2 id="MustangYM-WeChatExtension-ForMac"><a href="#MustangYM-WeChatExtension-ForMac" class="headerlink" title="MustangYM/WeChatExtension-ForMac"></a><a href="https://github.com/MustangYM/WeChatExtension-ForMac" target="_blank" rel="noopener">MustangYM/WeChatExtension-ForMac</a></h2><p>安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm -r -f WeChatSeptet-ForMac &amp;&amp; git clone https://github.com/MustangYM/WeChatSeptet-ForMac.git &amp;&amp; cd WeChatSeptet-ForMac/WeChatSeptet &amp;&amp; ./install.sh</span><br></pre></td></tr></table></figure>
 
       
       
@@ -303,13 +292,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/09/07/Docker-运行SonarQube/">Docker 运行SonarQube</a></p>
+        <p><span>本文标题:</span><a href="/2017/08/08/macOS-微信小助手/">macOS 微信小助手</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 幻舞梦境 的个人博客">幻舞梦境</a></p>
-        <p><span>发布时间:</span>2018年09月07日 - 09时03分</p>
+        <p><span>发布时间:</span>2017年08月08日 - 16时30分</p>
         <p><span>最后更新:</span>2020年09月03日 - 13时46分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/09/07/Docker-运行SonarQube/" title="Docker 运行SonarQube">https://ovwane.icu/2018/09/07/Docker-运行SonarQube/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://ovwane.icu/2018/09/07/Docker-运行SonarQube/　　作者: 幻舞梦境" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/08/08/macOS-微信小助手/" title="macOS 微信小助手">https://ovwane.icu/2017/08/08/macOS-微信小助手/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://ovwane.icu/2017/08/08/macOS-微信小助手/　　作者: 幻舞梦境" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -322,18 +311,18 @@
 
 <nav id="article-nav">
   
-    <a href="/2018/09/08/Docker-运行Zentao/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/08/09/她的小粉鞋/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Docker 运行Zentao
+          她的小粉鞋
         
       </div>
     </a>
   
   
-    <a href="/2018/09/06/appium-配置/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Appium 配置</div>
+    <a href="/2017/08/08/macOS 10.12.6 安装 Python Pillow/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -344,7 +333,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装插件"><span class="toc-number">1.</span> <span class="toc-text">安装插件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-Sonar-maven插件进行代码解析"><span class="toc-number"></span> <span class="toc-text">使用 Sonar maven插件进行代码解析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number"></span> <span class="toc-text">参考</span></a>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#微信小助手"><span class="toc-number">1.</span> <span class="toc-text">微信小助手</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MustangYM-WeChatExtension-ForMac"><span class="toc-number">1.1.</span> <span class="toc-text">MustangYM/WeChatExtension-ForMac</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -410,13 +399,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/09/08/Docker-运行Zentao/" title="上一篇: Docker 运行Zentao">
+            <a href="/2017/08/09/她的小粉鞋/" title="上一篇: 她的小粉鞋">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2018/09/06/appium-配置/" title="下一篇: Appium 配置">
+            <a href="/2017/08/08/macOS 10.12.6 安装 Python Pillow/" title="下一篇: ">
                 <i class="fa fa-angle-right"></i>
             </a>
         
