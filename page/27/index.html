@@ -202,6 +202,62 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-macOS 10.12.6 开启第三方SSD的trim功能" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/07/23/macOS 10.12.6 开启第三方SSD的trim功能/" class="article-date">
+      <time datetime="2017-07-23T02:10:29.000Z" itemprop="datePublished">2017-07-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/23/macOS 10.12.6 开启第三方SSD的trim功能/">macOS 10.12.6 开启第三方SSD的trim功能</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="macOS-10-12-6-开启第三方SSD的trim功能"><a href="#macOS-10-12-6-开启第三方SSD的trim功能" class="headerlink" title="macOS 10.12.6 开启第三方SSD的trim功能"></a>macOS 10.12.6 开启第三方SSD的trim功能</h4><p>在终端输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo trimforce enable</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Mac 键盘快捷键" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -781,475 +837,6 @@
       
           
         
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-MariaDB-部署" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/06/24/MariaDB-部署/" class="article-date">
-      <time datetime="2017-06-24T00:23:05.000Z" itemprop="datePublished">2017-06-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/24/MariaDB-部署/">MariaDB使用笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="MariaDB"><a href="#MariaDB" class="headerlink" title="MariaDB"></a>MariaDB</h1><h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="Docker-方式"><a href="#Docker-方式" class="headerlink" title="Docker 方式"></a>Docker 方式</h3><p> <a href="https://hub.docker.com/_/mariadb" target="_blank" rel="noopener">mariadb - Docker Hub</a> </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mariadb:10.5.2</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name mariadb -p 3306:3306 -v ~/docker/mariadb:/var/lib/mysql -e TIMEZONE=Asia/Shanghai -e MYSQL_ROOT_PASSWORD=root -e SERVER_ID=1 mariadb:10.5.2</span><br></pre></td></tr></table></figure>
-<p>初始化一个脚本（支持<code>.sh, .sql, .sql.gz</code>），添加文件到 <code>/docker-entrypoint-initdb.d</code>。</p>
-<p>s</p>
-<p> <a href="https://hub.docker.com/_/mysql" target="_blank" rel="noopener">mysql - Docker Hub</a> </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name mysql -p 3306:3306 -v ~/docker/mysql:/var/lib/mysql -e TIMEZONE=Asia/Shanghai -e MYSQL_ROOT_PASSWORD=root -e SERVER_ID=1 mysql:5.7.29</span><br></pre></td></tr></table></figure>
-<h3 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew tap homebrew/services</span><br></pre></td></tr></table></figure>
-<p>安装mariadb<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install mariadb</span><br></pre></td></tr></table></figure></p>
-<p>启动mariadb<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services start mariadb</span><br></pre></td></tr></table></figure></p>
-<p>查看服务列表<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services list</span><br></pre></td></tr></table></figure></p>
-<h3 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import http://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/etc/yum.repos.d/mariadb.repo&lt;&lt;EOF</span><br><span class="line"># MariaDB 10.2 CentOS repository list - created 2018-04-20 08:34 UTC</span><br><span class="line"># http://downloads.mariadb.org/mariadb/repositories/</span><br><span class="line">[mariadb]</span><br><span class="line">name = MariaDB</span><br><span class="line">baseurl = http://yum.mariadb.org/10.2/centos7-amd64</span><br><span class="line">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br><span class="line">gpgcheck=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum list --showduplicates MariaDB-server</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install MariaDB-server-10.2.13 MariaDB-client-10.2.13 MariaDB-common-10.2.13 MariaDB-compat-10.2.13 MariaDB-shared-10.2.13</span><br></pre></td></tr></table></figure>
-<p>编码配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 编辑/etc/my.cnf</span><br><span class="line">vim /etc/my.cnf</span><br><span class="line"></span><br><span class="line"># 在[mysqld]标签下添加下面内容</span><br><span class="line">default_storage_engine = innodb</span><br><span class="line">innodb_file_per_table</span><br><span class="line">max_connections = 4096</span><br><span class="line">collation-server = utf8_general_ci</span><br><span class="line">character-set-server = utf8</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 编辑/etc/my.cnf.d/client.cnf</span><br><span class="line">vim /etc/my.cnf.d/client.cnf</span><br><span class="line"></span><br><span class="line"># 在[client]标签下添加下面内容</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 编辑/etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line">vim /etc/my.cnf.d/mysql-clients.cnf</span><br><span class="line"></span><br><span class="line"># 在[mysql]标签下添加下面内容</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mariadb.service</span><br><span class="line">systemctl start mariadb.service</span><br><span class="line">systemctl status mariadb.service</span><br><span class="line">systemctl stop mariadb.service</span><br></pre></td></tr></table></figure>
-<p>设置密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
-<p><a href="https://downloads.mariadb.org/mariadb/repositories/#mirror=neusoft&amp;distro=CentOS&amp;distro_release=centos7-amd64--centos7&amp;version=10.2" target="_blank" rel="noopener">Setting up MariaDB Repositories</a></p>
-<p><a href="https://mariadb.com/kb/en/library/yum/" target="_blank" rel="noopener">Installing MariaDB with yum</a></p>
-<p><a href="https://www.jianshu.com/p/e67f1dbaa107" target="_blank" rel="noopener">Centos 7 下 mariadb 的安装与配置</a></p>
-<p><a href="https://mariadb.com/kb/zh-cn/setting-character-sets-and-collations/" target="_blank" rel="noopener">设置字符集和排序规则</a></p>
-<h2 id="MariaDB-教程"><a href="#MariaDB-教程" class="headerlink" title="MariaDB 教程"></a><a href="https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/" target="_blank" rel="noopener">MariaDB 教程</a></h2><p>基础知识</p>
-<h5 id="列出数据库"><a href="#列出数据库" class="headerlink" title="列出数据库"></a>列出数据库</h5><p>show databases;</p>
-<h5 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database proxy_ip;</span><br></pre></td></tr></table></figure>
-<h5 id="新建数据表"><a href="#新建数据表" class="headerlink" title="新建数据表"></a>新建数据表</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table xici_proxy(ip varchar(20) COMMENT &apos;地址&apos;,</span><br><span class="line">port varchar(5) COMMENT &apos;端口&apos;, </span><br><span class="line">proxy_type varchar(5) COMMENT &apos;类型&apos;, </span><br><span class="line">speed varchar(10) NULL COMMENT &apos;速度&apos;,</span><br><span class="line">PRIMARY KEY(ip)</span><br><span class="line">)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&apos;西刺代理IP池&apos;;</span><br></pre></td></tr></table></figure>
-<h5 id="查看表结构"><a href="#查看表结构" class="headerlink" title="查看表结构"></a>查看表结构</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc xici_proxy;</span><br></pre></td></tr></table></figure>
-<h5 id="查看表生成的DDL"><a href="#查看表生成的DDL" class="headerlink" title="查看表生成的DDL"></a>查看表生成的DDL</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table xici_proxy;</span><br></pre></td></tr></table></figure>
-<h5 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop database xici_proxy;</span><br></pre></td></tr></table></figure>
-<h5 id="查看字符集"><a href="#查看字符集" class="headerlink" title="查看字符集"></a>查看字符集</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like 'collation_%';</span><br></pre></td></tr></table></figure>
-<h5 id="查看字符集-1"><a href="#查看字符集-1" class="headerlink" title="查看字符集"></a>查看字符集</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like 'character_set_%';</span><br></pre></td></tr></table></figure>
-<p>用户授权</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;%&apos; IDENTIFIED BY &apos;mypwd&apos; WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-<h4 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a><a href="https://www.cnblogs.com/liufei88866/p/5619215.html" target="_blank" rel="noopener">修改密码</a></h4><p>方法1： 用SET PASSWORD命令</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">PASSWORD</span> <span class="keyword">FOR</span> <span class="string">'root'</span>@<span class="string">'localhost'</span> = <span class="keyword">PASSWORD</span>(<span class="string">'newpass'</span>);</span><br></pre></td></tr></table></figure>
-<p>方法2：用mysqladmin</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password "newpass"</span><br><span class="line"></span><br><span class="line">如果root已经设置过密码，采用如下方法</span><br><span class="line"></span><br><span class="line">mysqladmin -u root password oldpass "newpass"</span><br></pre></td></tr></table></figure>
-<p>方法3： 用UPDATE直接编辑user表</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root</span><br><span class="line"></span><br><span class="line">mysql&gt; use mysql;</span><br><span class="line"></span><br><span class="line">mysql&gt; UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';</span><br><span class="line"></span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
-<p>在丢失root密码的时候，可以这样</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysqld_safe <span class="comment">--skip-grant-tables&amp;</span></span><br><span class="line"></span><br><span class="line">mysql -u root mysql</span><br><span class="line"></span><br><span class="line">mysql&gt; UPDATE user SET password=PASSWORD("new password") WHERE user='root';</span><br><span class="line"></span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
-<h4 id="添加用户，设置权限"><a href="#添加用户，设置权限" class="headerlink" title="添加用户，设置权限"></a>添加用户，设置权限</h4><ul>
-<li>创建用户（本地无法远程登录）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user &lt;username&gt;@localhost identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>直接创建用户并授权的命令（本地无法远程登录）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all on *.* to &lt;username&gt;@localhost identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>授予远程登陆权限</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &lt;username&gt;@&apos;%&apos; identified by &apos;&lt;password&gt;&apos;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>授予权限并且可以授权（指定 hostname 操作）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &lt;username&gt;@&apos;&lt;hostname&gt;&apos; identified by &apos;&lt;password&gt;&apos; with grant option;</span><br></pre></td></tr></table></figure>
-<h4 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p version</span><br></pre></td></tr></table></figure>
-<p>查看字符集</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show variables like &quot;%character%&quot;;show variables like &quot;%collation%&quot;;</span><br><span class="line"></span><br><span class="line">#默认的字符集</span><br><span class="line">show global variables like &apos;%char%&apos;;</span><br><span class="line"></span><br><span class="line">#当前数据库支持的字符集</span><br><span class="line">show character set;</span><br></pre></td></tr></table></figure>
-<h4 id="数据库导出导入"><a href="#数据库导出导入" class="headerlink" title="数据库导出导入"></a>数据库导出导入</h4><p>导入数据库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source future.sql;</span><br></pre></td></tr></table></figure>
-<h2 id="MariaDB-数据类型"><a href="#MariaDB-数据类型" class="headerlink" title="MariaDB 数据类型"></a>MariaDB 数据类型</h2><ul>
-<li>字符类型</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-<th>范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CHAR</td>
-<td>固定长度的非 Unicode 字符数据</td>
-<td>0~255 长度</td>
-</tr>
-<tr>
-<td>VARCHAR</td>
-<td>可变长度的非 Unicode 数据</td>
-<td>0~65535 长度</td>
-</tr>
-<tr>
-<td>BINARY</td>
-<td>二进制字节字符串</td>
-<td></td>
-</tr>
-<tr>
-<td>VARBINARY</td>
-<td>可变长度的二进制字节字符串</td>
-<td></td>
-</tr>
-<tr>
-<td>BLOB</td>
-<td>blob 列</td>
-<td>0~65535 长度</td>
-</tr>
-<tr>
-<td>TINYBLOB</td>
-<td>blob 列</td>
-<td>0~255 长度</td>
-</tr>
-<tr>
-<td>MEDIUMBLOB</td>
-<td>blob 列</td>
-<td>0-2^24 字节，16,777,215 最大长度</td>
-</tr>
-<tr>
-<td>LONGBLOB</td>
-<td>blob 列</td>
-<td>0-2^32 字节，4,294,967,295 最大长度</td>
-</tr>
-<tr>
-<td>TEXT</td>
-<td>字符的文本列</td>
-<td>0~65635 长度</td>
-</tr>
-<tr>
-<td>TINYTEXT</td>
-<td>字符的文本列</td>
-<td>0~255 长度</td>
-</tr>
-<tr>
-<td>MEDIUMTEXT</td>
-<td>字符的文本列</td>
-<td>0-2^24 字节，16,777,215 最大长度</td>
-</tr>
-<tr>
-<td>LONGTEXT</td>
-<td>字符的文本列</td>
-<td>0-2^32 字节，4,294,967,295 最大长度</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>使用修饰符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>NULL</td>
-<td>可以为空值</td>
-</tr>
-<tr>
-<td>NOT NULL</td>
-<td>不能为空值</td>
-</tr>
-<tr>
-<td>DEFAULT #</td>
-<td>设置默认值，不适用于 text 类型</td>
-</tr>
-<tr>
-<td>character set</td>
-<td>修改字符集</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>使用通配符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>通配符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>%</td>
-<td>匹配任意长度的任意字符</td>
-</tr>
-<tr>
-<td>_</td>
-<td>匹配任意单个字符</td>
-</tr>
-</tbody>
-</table>
-<h3 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h3><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-<th>范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>INT</td>
-<td>整数</td>
-<td>0-2^32 字节，0~4,294,967,295</td>
-</tr>
-<tr>
-<td>TINYINT</td>
-<td>整数</td>
-<td>-128~127 的有符号范围，0~255 的无符号范围</td>
-</tr>
-<tr>
-<td>SMALLINT</td>
-<td>整数</td>
-<td>-32768~32768 的有符号范围，0~65535 的无符号范围</td>
-</tr>
-<tr>
-<td>MEDIUMINT</td>
-<td>整数</td>
-<td>-8388608~8388607 的有符号范围，0~16777215 的无符号范围</td>
-</tr>
-<tr>
-<td>BIGINT</td>
-<td>整数</td>
-<td>有符号范围 -9223372036854775808~9223372036854775807内整数，无符号范围 0 ~18446744073709551615 的整数</td>
-</tr>
-<tr>
-<td>BOOLEAN</td>
-<td>布尔值</td>
-<td>值 0 与 false 相关联，值 1 与 true 相关联</td>
-</tr>
-<tr>
-<td>DECIMAL(m,d)</td>
-<td>小数</td>
-<td>m 表示数字的总长度，小数点不占位，d 表示小数点后面的数字长度。</td>
-</tr>
-<tr>
-<td>FLOAT</td>
-<td>小数</td>
-<td>-3.402823466E+38~-1.175494351E-38，1.175494351E-38~3.402823466E+38</td>
-</tr>
-<tr>
-<td>DOUBLE</td>
-<td>小数</td>
-<td>-1.7976931348623157E+308~-2.2250738585072014E-308，2.2250738585072014E-308~1.7976931348623157E+308</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>使用修饰符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>UNSIGNED</td>
-<td>无符号数值</td>
-</tr>
-<tr>
-<td>NULL</td>
-<td>可以为空值</td>
-</tr>
-<tr>
-<td>NOT NULL</td>
-<td>不能为空值</td>
-</tr>
-<tr>
-<td>DEFAULT #</td>
-<td>设置默认值</td>
-</tr>
-<tr>
-<td>AUTO_INCREMENT</td>
-<td>数值自动增长</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>日期时间类型</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-<th>范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>DATE</td>
-<td>日期</td>
-<td>1000-01-01 到 9999-12-31，并使用 yyyy-MM-dd 日期格式</td>
-</tr>
-<tr>
-<td>TIME</td>
-<td>时间</td>
-<td>-838：59：59.999999 到 838：59：59.999999 时间范围</td>
-</tr>
-<tr>
-<td>DATETIME</td>
-<td>日期时间</td>
-<td>1000-01-01 00：00：00.000000 至 9999-12-31 23：59：59.999999。使用 yyyy-MM-dd hh：mm：ss 格式</td>
-</tr>
-<tr>
-<td>TIMESTAMP</td>
-<td>时间戳</td>
-<td>19700101080001-20380119111407</td>
-</tr>
-<tr>
-<td>YEAR</td>
-<td>年份</td>
-<td>1901 到 2155 和 0000 范围内的值</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>使用修饰符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>NULL</td>
-<td>可以为空值</td>
-</tr>
-<tr>
-<td>NOT NULL</td>
-<td>不能为空值</td>
-</tr>
-<tr>
-<td>DEFAULT #</td>
-<td>设置默认值</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>如何设置字段自动获取当前时间<ul>
-<li>将字段类型设为  <strong>TIMESTAMP</strong></li>
-<li>将默认值设为 <strong>CURRENT_TIMESTAMP</strong></li>
-</ul>
-</li>
-</ul>
-<h3 id="内建类型"><a href="#内建类型" class="headerlink" title="内建类型"></a>内建类型</h3><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-<th>范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ENUM</td>
-<td>枚举类型</td>
-<td>仅能从给出的选项中选择其中一个，其它值无效</td>
-</tr>
-<tr>
-<td>SET</td>
-<td>集合类型</td>
-<td>使用给出的元素组合成字符串</td>
-</tr>
-<tr>
-<td>JSON</td>
-<td>原生 JSON 对象</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>使用修饰符</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>NULL</td>
-<td>可以为空值</td>
-</tr>
-<tr>
-<td>NOT NULL</td>
-<td>不能为空值</td>
-</tr>
-<tr>
-<td>DEFAULT #</td>
-<td>设置默认值</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>JSON 使用方法<ul>
-<li>JSON_EXTRACT(context,’$.<key>‘) 查询提取 JSON 对象的某个属性值。</key></li>
-<li>JSON_KEYS(context) 查询获取健对。</li>
-<li>JSON_INSERT(context,’$.<key>‘,”<value>“) 插入 JSON 属性与值。</value></key></li>
-<li>JSON_SET(context,’$.<key>‘,”<value>“) 更改 JSON 属性的值。</value></key></li>
-<li>JSON_REMOVE(context,’$.<key>‘) 删除 JSON 属性。</key></li>
-</ul>
-</li>
-</ul>
-<p>参考</p>
-<h3 id="mysql表名忽略大小写"><a href="#mysql表名忽略大小写" class="headerlink" title="mysql表名忽略大小写"></a>mysql表名忽略大小写</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">"%case%"</span>;</span><br></pre></td></tr></table></figure>
-<p> <a href="https://blog.csdn.net/wocjj/article/details/7415200" target="_blank" rel="noopener">mysql表名忽略大小写_wocjj的专栏-CSDN博客_mysql 忽略大小写</a> </p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/" target="_blank" rel="noopener">configuring-mariadb-for-remote-client-access</a></p>
-
       
       
     </div>
