@@ -202,6 +202,69 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Scrapyd部署ArticleSpider" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/08/Scrapyd部署ArticleSpider/" class="article-date">
+      <time datetime="2017-09-08T12:37:44.000Z" itemprop="datePublished">2017-09-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/08/Scrapyd部署ArticleSpider/">Scrapyd 部署 ArticleSpider</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Scrapyd-部署-ArticleSpider"><a href="#Scrapyd-部署-ArticleSpider" class="headerlink" title="Scrapyd 部署 ArticleSpider"></a>Scrapyd 部署 ArticleSpider</h1><h4 id="安装数据库"><a href="#安装数据库" class="headerlink" title="安装数据库"></a>安装数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y update</span><br><span class="line">yum -y install epel-release</span><br><span class="line">yum -y install mariadb-server mariadb mariadb-devel gcc redis</span><br></pre></td></tr></table></figure>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> services <span class="keyword">in</span> mariadb redis; <span class="keyword">do</span></span><br><span class="line">	systemctl <span class="built_in">enable</span> <span class="variable">$services</span></span><br><span class="line">	systemctl start <span class="variable">$services</span></span><br><span class="line">	systemctl status <span class="variable">$services</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h4 id="mariadb-设置root密码"><a href="#mariadb-设置root密码" class="headerlink" title="mariadb 设置root密码"></a>mariadb 设置root密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password &quot;root&quot;</span><br><span class="line"></span><br><span class="line"># 登陆测试</span><br><span class="line">mysql -uroot -p</span><br><span class="line"></span><br><span class="line"># or</span><br><span class="line"></span><br><span class="line">mysql_secure_installation</span><br><span class="line"># 登陆测试</span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+<h4 id="安装Python三方库"><a href="#安装Python三方库" class="headerlink" title="安装Python三方库"></a>安装Python三方库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source /root/.pyenv/versions/3.6.2/envs/scrapyd/bin/activate</span><br><span class="line"></span><br><span class="line">pip install scrapyd mmh3 elasticsearch-dsl Pillow PyMySQL pytesseract redis selenium mysqlclient</span><br></pre></td></tr></table></figure>
+<h5 id="bin-sh-mysql-config-not-found"><a href="#bin-sh-mysql-config-not-found" class="headerlink" title="/bin/sh mysql_config not found"></a><a href="http://blog.csdn.net/default7/article/details/73368665" target="_blank" rel="noopener">/bin/sh mysql_config not found</a></h5><hr>
+<p>使用centos7安装python3，在安装 mysqlclient的时候报错 /bin/sh mysql_config not found 因为需要安装 mariadb-devel ，之后再报错error: command ‘gcc’ failed with exit status 1，缺乏 gcc。之后还是报错，因为 还是未安装 python36u-devel<br>所以正确的安装应该是装完 yum install -y python36u 之后再安装 yum install python36u-devel mariadb-devel</p>
+<p>yum install python36u python36u-devel<br>yum install gcc mariadb-devel<br>pip3 install mysqlclient</p>
+<hr>
+<p>####<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Project Name:</span><br><span class="line">ArticleSpider</span><br><span class="line"></span><br><span class="line">cd local ArticleSpider</span><br><span class="line"></span><br><span class="line">scrapyd-deploy --build-egg output.egg</span><br><span class="line"></span><br><span class="line">Upload EGG file:</span><br><span class="line"></span><br><span class="line">Submit:</span><br><span class="line"></span><br><span class="line">deploy success!</span><br></pre></td></tr></table></figure></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Raspbian-Stretch-初始化" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -744,69 +807,6 @@
       
           
         
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-FreeBSD-配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/08/24/FreeBSD-配置/" class="article-date">
-      <time datetime="2017-08-24T04:04:33.000Z" itemprop="datePublished">2017-08-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/24/FreeBSD-配置/">FreeBSD 配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Config em0|eth0<br>cd /etc/<br>cp rc.conf ~/<br>vi rc.conf<br>ifconfig_em0=”inet 10.0.0.1 netmask 255.255.255.0”<br>defaultrouter=”10.0.0.1”</p>
-<p>Config DNS<br>cd /etc/<br>cp resolv.conf resolv.conf<br>vi resolv.conf<br>nameserver 8.8.8.8<br>nameserver 114.114.114.114</p>
-<p>Restart netif and routing<br>/etc/rc.d/netif restart<br>/etc/rc.d/routing restart</p>
-<p>Check IP<br>ifconfig</p>
-<p>Change local sources server</p>
-<p>Packages|pkg or Ports<br>Install pkg system|Getting Started with pkg|<a href="https://www.freebsd.org/doc/handbook/pkgng-intro.html" target="_blank" rel="noopener">https://www.freebsd.org/doc/handbook/pkgng-intro.html</a><br>/usr/sbin/pkg</p>
-<p>pkg update &amp;&amp; pkg upgrade<br>pkg install vim</p>
-<p>adduser su to root<br>pw usermod your_user -G wheel</p>
-<p>test if this works:<br>groups your_user</p>
-
       
       
     </div>

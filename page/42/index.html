@@ -202,6 +202,99 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Jenkins-部署" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/15/Jenkins-部署/" class="article-date">
+      <time datetime="2016-03-14T23:43:04.000Z" itemprop="datePublished">2016-03-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/15/Jenkins-部署/">Jenkins安装部署</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h1><h2 id="Docker-Jenkins"><a href="#Docker-Jenkins" class="headerlink" title="Docker Jenkins"></a><a href="https://hub.docker.com/r/jenkins/jenkins/" target="_blank" rel="noopener">Docker Jenkins</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins/jenkins:2.235.5-lts-centos7</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">jenkins启动用户id 1000</span></span><br><span class="line">chown -R 1000:1000 ~/docker/jenkins</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name jenkins -p 8080:8080 -p 50000:50000 -e "LANG=en_US.UTF-8" -e "JAVA_OPTS=-Duser.timezone=Asia/Shanghai -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8" -v ~/docker/jenkins:/var/jenkins_home  jenkins/jenkins:2.235.5-lts-centos7</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>设置默认用户名 <a href="https://github.com/foxylion/docker-jenkins/blob/master/docker-images/master/default-user.groovy" target="_blank" rel="noopener">https://github.com/foxylion/docker-jenkins/blob/master/docker-images/master/default-user.groovy</a></p>
+</blockquote>
+<h2 id="Nginx-反向代理"><a href="#Nginx-反向代理" class="headerlink" title="Nginx 反向代理"></a>Nginx 反向代理</h2><blockquote>
+<p><a href="https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy</a></p>
+</blockquote>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span> jenkins &#123;</span><br><span class="line">  <span class="attribute">server</span> <span class="number">127.0.0.1:8080</span> fail_timeout=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">  <span class="attribute">server_name</span> jenkins.domain.tld;</span><br><span class="line">  <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$host</span><span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line">  <span class="attribute">server_name</span> jenkins.domain.tld;</span><br><span class="line"> </span><br><span class="line">  <span class="attribute">ssl_certificate</span> /etc/nginx/ssl/server.crt;</span><br><span class="line">  <span class="attribute">ssl_certificate_key</span> /etc/nginx/ssl/server.key;</span><br><span class="line"> </span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>        Host <span class="variable">$host</span>:<span class="variable">$server_port</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>        X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>        X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>        X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">    <span class="attribute">proxy_redirect</span> http:// https://;</span><br><span class="line">    <span class="attribute">proxy_pass</span>              http://jenkins;</span><br><span class="line">    <span class="comment"># Required for new HTTP-based CLI</span></span><br><span class="line">    <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">    <span class="attribute">proxy_request_buffering</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">proxy_buffering</span> <span class="literal">off</span>; <span class="comment"># Required for HTTP-based CLI to work over SSL</span></span><br><span class="line">    <span class="comment"># workaround for https://issues.jenkins-ci.org/browse/JENKINS-45651</span></span><br><span class="line">    <span class="attribute">add_header</span> <span class="string">'X-SSH-Endpoint'</span> <span class="string">'jenkins.domain.tld:50022'</span> always;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><blockquote>
+<p> <a href="https://blog.csdn.net/weixin_40046357/article/details/104489497" target="_blank" rel="noopener">Jenkins插件源使用国内镜像中心的最新方法_DevOps持续集成的博客-CSDN博客_jenkins 插件源</a> </p>
+<p><a href="https://hub.docker.com/r/jenkinszh/jenkins-zh/dockerfile" target="_blank" rel="noopener">https://hub.docker.com/r/jenkinszh/jenkins-zh/dockerfile</a></p>
+</blockquote>
+<h3 id="Folders"><a href="#Folders" class="headerlink" title="Folders"></a>Folders</h3><h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><h3 id="Email-Extension"><a href="#Email-Extension" class="headerlink" title="Email Extension"></a>Email Extension</h3><h3 id="Credentials-Binding"><a href="#Credentials-Binding" class="headerlink" title="Credentials Binding"></a>Credentials Binding</h3><h3 id="SSH-Build-Agents"><a href="#SSH-Build-Agents" class="headerlink" title="SSH Build Agents"></a>SSH Build Agents</h3><h3 id="Localization-Chinese-Simplified"><a href="#Localization-Chinese-Simplified" class="headerlink" title="Localization: Chinese (Simplified)"></a>Localization: Chinese (Simplified)</h3><h2 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h2><h3 id="ssh-agent"><a href="#ssh-agent" class="headerlink" title="ssh-agent"></a>ssh-agent</h3><blockquote>
+<p><a href="https://github.com/jenkinsci/ssh-slaves-plugin/blob/master/doc/CONFIGURE.md" target="_blank" rel="noopener">https://github.com/jenkinsci/ssh-slaves-plugin/blob/master/doc/CONFIGURE.md</a></p>
+<p>ssh-slave 镜像和  ssh-agent 镜像 dockerfile内容一致。底层镜像 adoptopenjdk/openjdk8:jdk8u262-b10-alpine</p>
+<p><a href="https://hub.docker.com/r/jenkins/ssh-agent/dockerfile" target="_blank" rel="noopener">https://hub.docker.com/r/jenkins/ssh-agent/dockerfile</a></p>
+<p><a href="https://hub.docker.com/r/jenkins/ssh-slave/dockerfile" target="_blank" rel="noopener">https://hub.docker.com/r/jenkins/ssh-slave/dockerfile</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins/ssh-agent:3.0.0</span><br></pre></td></tr></table></figure>
+<p>生成 key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -f pemkey -m PEM -t ed25519</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name jenkins-ssh-agent jenkins/ssh-agent:3.0.0 <span class="string">"ssh 公钥"</span></span><br></pre></td></tr></table></figure>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="执行-shell-后不删除-jenkins-启动的子-shell"><a href="#执行-shell-后不删除-jenkins-启动的子-shell" class="headerlink" title="执行 shell 后不删除 jenkins 启动的子 shell"></a>执行 shell 后不删除 jenkins 启动的子 shell</h3><p>shell 添加  <code>BUILD_ID=DONTKILLME</code></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/3671eb8de971" target="_blank" rel="noopener">docker运行jenkins</a></p>
+<p><a href="https://gist.github.com/rdegges/913102" target="_blank" rel="noopener">Create a HTTP proxy for jenkins using NGINX.</a></p>
+<p><a href="https://www.jianshu.com/p/9299e2685976" target="_blank" rel="noopener">docker容器的时区问题和中文问题</a></p>
+<p><a href="https://jenkins.io/download/" target="_blank" rel="noopener">Jenkins</a></p>
+<p><a href="https://wiki.jenkins.io/display/JENKINS/Installing+Jenkins+with+Docker" target="_blank" rel="noopener">Installing Jenkins with Docker</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Tomcat安装配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1080,80 +1173,6 @@
       
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-LNAMP配置WordPress" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/05/17/LNAMP配置WordPress/" class="article-date">
-      <time datetime="2015-05-17T07:21:20.000Z" itemprop="datePublished">2015-05-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/17/LNAMP配置WordPress/">LNAMP配置运行WordPress</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>LNAMP配置运行WordPress</p>
-<h2 id="nginx-301重定向配置"><a href="#nginx-301重定向配置" class="headerlink" title="nginx 301重定向配置"></a><a href="http://www.ttlsa.com/nginx/nginx-301-redirect/" target="_blank" rel="noopener">nginx 301重定向配置</a></h2><p>301重定向不陌生, 有时候有需求把某目录整个重定向到一个二级域名,或者不带www的顶级域名请求全部重定向到带www的二级域名.如果是Apache，需要配置.htaccess，nginx不支持，需要在配置文件里面使用rewrite指令来实现。</p>
-<p>顶级域名重定向到www</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> server_name ttlsa.com;</span><br><span class="line"> rewrite ^/(.*)$ http://www.ttlsa.com/$1 permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>如上配置，所有ttlsa.com的请求都会重定向到<a href="http://www.ttlsa.com,301重定向对SEO很有帮助.这个配置大家用的最多。" target="_blank" rel="noopener">www.ttlsa.com,301重定向对SEO很有帮助.这个配置大家用的最多。</a></p>
-<p>www二级域名重定向到顶级域名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> server_name www.ttlsa.com;</span><br><span class="line"> rewrite ^/(.*)$ http://domain.com/$1 permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>江湖盛传顶级域名的权重会比www二级域名的权重高，有些seoer会要求运维一定要把www的请求转到顶级域名，和上面的做法相反。</p>
-<p>目录重定向</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ( $request_filename ~ nginxjiaocheng/ ) &#123;</span><br><span class="line"> rewrite ^ http://www.ttlsa.com/nginx/? permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>目录跳转新域名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ( $request_filename ~ nginx/ ) &#123;</span><br><span class="line"> rewrite ^ http://nginx.ttlsa.com/? permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/httpd/">httpd</a></li></ul>
     </div>
 
       

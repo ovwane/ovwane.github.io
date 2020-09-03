@@ -202,6 +202,60 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-2007-2017" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/18/2007-2017/" class="article-date">
+      <time datetime="2017-02-18T00:16:29.000Z" itemprop="datePublished">2017-02-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/18/2007-2017/">2007~2017</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-2007" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -705,100 +759,6 @@
       
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Subversion/">Subversion</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Cacti安装配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/01/10/Cacti安装配置/" class="article-date">
-      <time datetime="2017-01-10T09:50:18.000Z" itemprop="datePublished">2017-01-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/10/Cacti安装配置/">Cacti安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Nagios安装配置</p>
-<p><a href="http://www.cacti.net/downloads" target="_blank" rel="noopener">下载Cacti</a><br><a href="http://maocong.blog.51cto.com/4706737/1661680" target="_blank" rel="noopener">Linux安装Cacti</a></p>
-<p>监控软件Cacti搭建</p>
-<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><h2 id="安装epel扩展源"><a href="#安装epel扩展源" class="headerlink" title="安装epel扩展源"></a>安装epel扩展源</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y epel-release</span><br></pre></td></tr></table></figure>
-<h2 id="搭建lamp环境"><a href="#搭建lamp环境" class="headerlink" title="搭建lamp环境"></a>搭建lamp环境</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@cacti ~]# yum install -y  httpd php php-mysql mysql mysql-server mysql-devel php-gd  libjpeg libjpeg-devel libpng-devel</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/httpd start</span><br><span class="line">/etc/init.d/mysqld start</span><br><span class="line">#初始化mysql</span><br><span class="line">/usr/bin/mysqladmin -u root password &apos;new-password&apos;</span><br><span class="line">/usr/bin/mysqladmin -u root -h cacti password &apos;new-password&apos;</span><br><span class="line">#或者</span><br><span class="line">/usr/bin/mysql_secure_installation</span><br></pre></td></tr></table></figure>
-<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><h3 id="安装cacti监控主机"><a href="#安装cacti监控主机" class="headerlink" title="安装cacti监控主机"></a>安装cacti监控主机</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y cacti  net-snmp  net-snmp-utils  rrdtool net-snmp-devel net-snmp-libs lm-sensors php-xml zlib libpng freetype cairo-devel pango-devel gd</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/snmpd start</span><br><span class="line">#新建cacti数据库</span><br><span class="line">mysql -u root</span><br><span class="line">mysql&gt; create database cacti;</span><br><span class="line">mysql&gt; grant all on cacti.* to &apos;cactiuser&apos;@&apos;localhost&apos; identified by &apos;cactiuser&apos;; </span><br><span class="line">mysql&gt; exit</span><br><span class="line">#导入cacti数据库结构</span><br><span class="line">mysql -u root cacti &lt; /usr/share/doc/cacti-0.8.8b/cacti.sql</span><br><span class="line">#设置cacti配置文件中的mysql数据库账号密码</span><br><span class="line">vim /usr/share/cacti/include/config.php</span><br><span class="line">$database_type = &quot;mysql&quot;;</span><br><span class="line">$database_default = &quot;cacti&quot;;</span><br><span class="line">$database_hostname = &quot;localhost&quot;;</span><br><span class="line">$database_username = &quot;cactiuser&quot;;</span><br><span class="line">$database_password = &quot;cactiuser&quot;;</span><br><span class="line">$database_port = &quot;3306&quot;;</span><br><span class="line">$database_ssl = false;</span><br><span class="line"> </span><br><span class="line">#修改httpd中的cacti配置</span><br><span class="line">vim /etc/httpd/conf.d/cacti.conf</span><br><span class="line">Deny from all 修改为 Allow from all</span><br><span class="line">#重启httpd</span><br><span class="line">/etc/init.d/httpd restart</span><br></pre></td></tr></table></figure>
-<p>通过浏览器访问<br>如果访问不了，请检查主机的iptables和selinux<br>到了登陆，默认的账号为admin，密码为admin<br>登陆之后，系统会强制用户更改密码<br>点击graphs-Default Tree-Host Localhost，进入系统监控界面<br>我们看到监控界面，没有出图，设置一下出图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/php /usr/share/cacti/poller.php </span><br><span class="line">OK u:0.00 s:0.00 r:0.00</span><br><span class="line">OK u:0.00 s:0.00 r:0.01</span><br><span class="line">OK u:0.00 s:0.00 r:0.03</span><br><span class="line">OK u:0.00 s:0.00 r:0.05</span><br><span class="line">OK u:0.00 s:0.00 r:0.08</span><br><span class="line">06/13/2015 09:59:49 PM - SYSTEM STATS: Time:0.1974 Method:cmd.php Processes:1 Threads:N/A Hosts:2 HostsPerProcess:2 DataSources:5 RRDsProcessed:5</span><br><span class="line"></span><br><span class="line">crontab -e</span><br><span class="line"># 让命令每5分钟执行一次</span><br><span class="line">*/5 * * * * /usr/bin/php /usr/share/cacti/poller.php &gt; /dev/null 2&gt;&amp;1</span><br></pre></td></tr></table></figure></p>
-<p>我们在刷新一下，图就出来了, 数据需要等待一会儿，才能出来</p>
-<p>接下来我们添加被监控的主机</p>
-<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>在被监控的主机上安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y net-snmp lm_sensors</span><br></pre></td></tr></table></figure>
-<p>vim /etc/snmp/snmpd.conf</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#syslocation Unknown (edit /etc/snmp/snmpd.conf)</span><br><span class="line">syslocation 192.168.1.118</span><br><span class="line"> </span><br><span class="line">#       group          context sec.model sec.level prefix read   write  notif</span><br><span class="line">access  notConfigGroup &quot;&quot;      any       noauth    exact  all none none</span><br><span class="line"> </span><br><span class="line">view all    included  .1                               80    去掉注释符“#”</span><br></pre></td></tr></table></figure>
-<p>启动 snmpd</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/snmpd start</span><br></pre></td></tr></table></figure>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ul>
-<li>依次点击console -&gt; Devices -&gt; add,添加主机</li>
-<li>开始添加被监控主机的信息，填写完毕，点击Create</li>
-<li>创建完毕，看是否通信正常，创建完主机，创建要监控的项目点击 Create Graphs for this Host，</li>
-<li>根据需要，去选择要监控的项目</li>
-<li>监控项目添加完毕，将主机添加到监控主干线上，点击左侧Graph Trees</li>
-<li>点击Add，添加被监控的主机<ul>
-<li>类型选择Host，再选择要添加的主机</li>
-<li>添加完毕，点击Save</li>
-</ul>
-</li>
-<li>到主界面查看，是否添加成功，最好在监控服务器上刷新一下</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/php /usr/share/cacti/poller.php --force</span><br><span class="line">OK u:0.00 s:0.00 r:0.00</span><br><span class="line">OK u:0.00 s:0.00 r:0.01</span><br><span class="line">OK u:0.00 s:0.00 r:0.03</span><br><span class="line">OK u:0.00 s:0.00 r:0.05</span><br><span class="line">OK u:0.00 s:0.00 r:0.08</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.09</span><br><span class="line">OK u:0.00 s:0.00 r:0.10</span><br><span class="line">06/13/2015 05:16:53 PM - SYSTEM STATS: Time:0.2109 Method:cmd.php Processes:1 Threads:N/A Hosts:3 HostsPerProcess:3 DataSources:20 RRDsProcessed:17</span><br></pre></td></tr></table></figure>
-<p>成功添加！！</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cacti/">Cacti</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/监控/">监控</a></li></ul>
     </div>
 
       
