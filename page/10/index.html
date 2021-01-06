@@ -202,6 +202,136 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Docker-运行Zentao" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/08/Docker-运行Zentao/" class="article-date">
+      <time datetime="2018-09-08T05:19:09.000Z" itemprop="datePublished">2018-09-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/08/Docker-运行Zentao/">Docker 运行Zentao</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull haha123/zentao:latest # zentao 9.2.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  -p 8800:80 -v ~/docker/zentao:/opt/zbox -d --name zentao-9.2.1 --restart=always haha123/zentao:latest</span><br></pre></td></tr></table></figure>
+<p>访问：</p>
+<p>默认user/passwd: admin/123456</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://hub.docker.com/u/haha123/" target="_blank" rel="noopener">haha123</a>/<a href="https://hub.docker.com/r/haha123/zentao/" target="_blank" rel="noopener">zentao</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Docker-运行SonarQube" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/07/Docker-运行SonarQube/" class="article-date">
+      <time datetime="2018-09-07T01:03:05.000Z" itemprop="datePublished">2018-09-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/07/Docker-运行SonarQube/">Docker 运行SonarQube</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull sonarqube:7.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name sonarqube-7.1 -p 9000:9000 -p 9092:9092 sonarqube:7.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name postgres \</span><br><span class="line">    -e POSTGRES_USER=sonarqube \</span><br><span class="line">    -e POSTGRES_PASSWORD=sonarqube \</span><br><span class="line">    -e PGDATA=/var/lib/postgresql/data/pgdata \</span><br><span class="line">    -v <span class="variable">$PWD</span>/postgresql:/var/lib/postgresql/data \</span><br><span class="line">    postgres</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建目录</span></span><br><span class="line">mkdir sonarqube_data sonarqube_extensions sonarqube_logs</span><br><span class="line"></span><br><span class="line"><span class="comment">#linux 执行</span></span><br><span class="line">chown -R 999:999 sonarqube_data sonarqube_extensions sonarqube_logs</span><br><span class="line"></span><br><span class="line"><span class="comment">#docker启动sonarqube</span></span><br><span class="line">docker run -d  --name sonarqube --privileged=<span class="literal">true</span> -p 9000:9000 -p 9092:9092 --link postgres:db \</span><br><span class="line">     -e SONARQUBE_JDBC_USERNAME=sonarqube -e SONARQUBE_JDBC_PASSWORD=sonarqube \</span><br><span class="line">    -e SONARQUBE_JDBC_URL=<span class="string">"jdbc:postgresql://db/sonarqube"</span> \</span><br><span class="line">    -v <span class="variable">$PWD</span>/sonarqube_data:/opt/sonarqube/data \</span><br><span class="line">    -v <span class="variable">$PWD</span>/sonarqube_extensions:/opt/sonarqube/extensions \</span><br><span class="line">    -v <span class="variable">$PWD</span>/sonarqube_logs:/opt/sonarqube/logs \</span><br><span class="line">sonarqube</span><br></pre></td></tr></table></figure>
+<p>启动后访问<a href="http://localhost:9000/" target="_blank" rel="noopener">http://localhost:9000</a>就可以进入sonar了, 默认管理员用户和密码是admin/admin</p>
+<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>举个栗子，我们安装一个汉化插件：Chinese Pack</p>
+<p>进入Administration-&gt;Marketplace</p>
+<p>搜索<code>Chinese Pack</code>，点击install。</p>
+<h3 id="使用-Sonar-maven插件进行代码解析"><a href="#使用-Sonar-maven插件进行代码解析" class="headerlink" title="使用 Sonar maven插件进行代码解析"></a>使用 Sonar maven插件进行代码解析</h3><p>使用前提：</p>
+<ul>
+<li>需要maven版本3.0.2及以上。</li>
+<li>安装好SonarQube。</li>
+<li>使用了已安装的SonarQube支持的最低的JDK。</li>
+<li>已经安装好了你要分析的语言的插件。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/4e6fd254045c" target="_blank" rel="noopener">使用 Sonar 进行代码质量管理</a></p>
+<p><a href="https://my.oschina.net/zzuqiang/blog/843406" target="_blank" rel="noopener">SonarQube代码质量检查工具</a></p>
+<p><a href="https://blog.csdn.net/wangjunjun2008/article/details/9407221" target="_blank" rel="noopener">Sonar入门学习</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-appium-配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -737,157 +867,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y redis-server</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6</span><br><span class="line"></span><br><span class="line">echo &quot;deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse&quot; | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list</span><br><span class="line"></span><br><span class="line">apt-get update</span><br><span class="line"></span><br><span class="line">apt-get install -y mongodb-org</span><br><span class="line"></span><br><span class="line">systemctl enable mongod</span><br><span class="line"></span><br><span class="line">systemctl start mongod</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y apache2 libapache2-mod-wsgi \</span><br><span class="line">python-twisted python-cairo python-django-tagging</span><br><span class="line"></span><br><span class="line">pip install Django==1.5.2 tagging carbon whisper graphite-web parse_lookup</span><br></pre></td></tr></table></figure>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Docker-配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/08/Docker-配置/" class="article-date">
-      <time datetime="2018-08-08T12:36:41.000Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/08/Docker-配置/">Docker 配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># step 1: 安装必要的一些系统工具</span></span><br><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2 firewalld</span><br><span class="line"><span class="comment"># Step 2: 添加软件源信息</span></span><br><span class="line">sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"><span class="comment"># Step 3: 更新并安装 Docker-CE</span></span><br><span class="line">sudo yum makecache fast</span><br><span class="line">sudo yum -y install docker-ce</span><br><span class="line"><span class="comment"># Step 4: 开启Docker服务</span></span><br><span class="line">sudo service docker start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意：</span></span><br><span class="line"><span class="comment"># Step 1: 查找Docker-CE的版本:</span></span><br><span class="line"><span class="comment"># yum list docker-ce.x86_64 --showduplicates | sort -r</span></span><br><span class="line"><span class="comment">#   Loading mirror speeds from cached hostfile</span></span><br><span class="line"><span class="comment">#   Loaded plugins: branch, fastestmirror, langpacks</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.1.ce-1.el7.centos            docker-ce-stable</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.1.ce-1.el7.centos            @docker-ce-stable</span></span><br><span class="line"><span class="comment">#   docker-ce.x86_64            17.03.0.ce-1.el7.centos            docker-ce-stable</span></span><br><span class="line"><span class="comment">#   Available Packages</span></span><br><span class="line"><span class="comment"># Step2 : 安装指定版本的Docker-CE: (VERSION 例如上面的 17.03.0.ce.1-1.el7.centos)</span></span><br><span class="line"><span class="comment"># sudo yum -y install docker-ce-[VERSION]</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable docker.service</span><br><span class="line">systemctl start docker.service</span><br><span class="line">systemctl status docker.service</span><br></pre></td></tr></table></figure>
-<h3 id="配置镜像加速器"><a href="#配置镜像加速器" class="headerlink" title="配置镜像加速器"></a>配置镜像加速器</h3><p><a href="https://yq.aliyun.com/articles/110806" target="_blank" rel="noopener">Docker CE 镜像源站-阿里云</a></p>
-<p>/etc/docker/daemon.json</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;registry-mirrors&quot;: [&quot;https://mqxz7mjm.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
-<h3 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h3><p>下载 <a href="https://github.com/docker/compose/releases" target="_blank" rel="noopener">docker-compose releases</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line">chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
-<p>bash/zsh 补全命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://raw.githubusercontent.com/docker/compose/1.23.2/contrib/completion/bash/docker-compose &gt; /etc/bash_completion.d/docker-compose</span><br></pre></td></tr></table></figure>
-<p>查看版本</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose version</span><br></pre></td></tr></table></figure>
-<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><p>下载一个标签下的所有镜像</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image pull -a ubuntu</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>下载所有 ubuntu 镜像。</p>
-</blockquote>
-<p>查看日志位置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect --format=&apos;&#123;&#123;.LogPath&#125;&#125;&apos;</span><br></pre></td></tr></table></figure>
-<p>查看正在运行的容器是通过什么命令启动的</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a --no-trunc</span><br></pre></td></tr></table></figure>
-<h2 id="收集性能数据"><a href="#收集性能数据" class="headerlink" title="收集性能数据"></a>收集性能数据</h2><p> <a href="https://docs.docker.com/config/daemon/prometheus/" target="_blank" rel="noopener">Collect Docker metrics with Prometheus | Docker Documentation</a> </p>
-<p>/etc/docker/daemon.json</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"metrics-addr"</span> : <span class="string">"127.0.0.1:9323"</span>,</span><br><span class="line">  <span class="attr">"experimental"</span> : <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="macOS-Docker-Deskop"><a href="#macOS-Docker-Deskop" class="headerlink" title="macOS Docker-Deskop"></a>macOS Docker-Deskop</h2><p> <a href="https://gist.github.com/BretFisher/5e1a0c7bcca4c735e716abf62afad389" target="_blank" rel="noopener">Getting a Shell in the Docker for Mac Moby VM</a> </p>
-<p>启动终端，不太好使，字符容易乱。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen ~/Library/Containers/com.docker.docker/Data/vms/0/tty</span><br></pre></td></tr></table></figure>
-<p>启动终端</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --rm --privileged --pid=host justincormack/nsenter1</span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2>
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Django生产环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/08/Django生产环境搭建/" class="article-date">
-      <time datetime="2018-08-08T12:36:10.000Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pipenv install</span><br><span class="line"></span><br><span class="line">pipenv install uwsgi</span><br><span class="line"></span><br><span class="line">pipenv install django</span><br><span class="line"></span><br><span class="line">pipenv install gunicorn</span><br></pre></td></tr></table></figure>
-<p>django 2.0.4</p>
-<p>pip show django</p>
-<p>uwsgi 2.0.17</p>
-<p>pip show uwsgi</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django-admin startproject teacher</span><br></pre></td></tr></table></figure>
-<p>使用的</p>
-<p>mkdir -p /data/uwsgi/</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">vim /data/uwsgi/teacher.ini</span><br><span class="line"></span><br><span class="line">[uwsgi]</span><br><span class="line"># 项目目录</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line"># 指定项目的application</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line"># 进程个数</span><br><span class="line">workers=2</span><br><span class="line">pidfile = /data/uwsgi/uwsgi_teacher.pid</span><br><span class="line"># 指定IP端口</span><br><span class="line">http=127.0.0.1:8001</span><br><span class="line"># 指定静态文件</span><br><span class="line"># static-map=/root/py3/teacher/static</span><br><span class="line"># 启动uwsgi的用户名和用户组</span><br><span class="line">uid=root</span><br><span class="line">gid=root</span><br><span class="line"># 启用主进程</span><br><span class="line">master=true</span><br><span class="line"># 自动移除unix Socket和pid文件当服务停止的时候</span><br><span class="line">vacuum=true</span><br><span class="line"># 序列化接受的内容，如果可能的话</span><br><span class="line">thunder-lock=true</span><br><span class="line"># 启用线程</span><br><span class="line">enable-threads=true</span><br><span class="line"># 设置自中断时间</span><br><span class="line">harakiri=30</span><br><span class="line"># 设置缓冲</span><br><span class="line">post-buffering=4096</span><br><span class="line"># 设置日志目录</span><br><span class="line">daemonize=/data/uwsgi/teacher.log</span><br><span class="line"># 指定sock的文件路径</span><br><span class="line">socket=/data/uwsgi/teacher.sock</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unix:/data/uwsgi.sock;</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 启动uwsgi配置</span><br><span class="line">uwsgi --ini /data/uwsgi/teacher.ini   </span><br><span class="line"></span><br><span class="line"># 关闭uwsgi</span><br><span class="line">uwsgi --stop uwsgi.pid  </span><br><span class="line">killall -s INT /root/.virtualenv/py3-xzcW3AwM/bin/uwsgi</span><br><span class="line"></span><br><span class="line">#重新加载配置</span><br><span class="line">uwsgi --reload uwsgi.pid</span><br></pre></td></tr></table></figure>
-<p>nginx配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 指定项目路径uwsgi</span><br><span class="line">       location /django/ &#123;        # 这个location就和咱们Django的url(r&apos;^admin/&apos;, admin.site.urls),</span><br><span class="line">           include uwsgi_params;  # 导入一个Nginx模块他是用来和uWSGI进行通讯的</span><br><span class="line">           uwsgi_connect_timeout 30;  # 设置连接uWSGI超时时间</span><br><span class="line">           # 指定uwsgi的sock文件所有动态请求就会直接丢给他</span><br><span class="line">           uwsgi_pass unix:/opt/project_teacher/script/uwsgi.sock;  </span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       # 指定静态文件路径</span><br><span class="line">       location /static/ &#123;</span><br><span class="line">           alias  /opt/project_teacher/teacher/static/;</span><br><span class="line">           index  index.html index.htm;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">[uwsgi]</span><br><span class="line">socket = 127.0.0.1:9090</span><br><span class="line">master = true         //主进程</span><br><span class="line">vhost = true          //多站模式</span><br><span class="line">no-site = true        //多站模式时不设置入口模块和文件</span><br><span class="line">workers = 2           //子进程数</span><br><span class="line">reload-mercy = 10     </span><br><span class="line">vacuum = true         //退出、重启时清理文件</span><br><span class="line">max-requests = 1000   </span><br><span class="line">limit-as = 512</span><br><span class="line">buffer-size = 30000</span><br><span class="line">pidfile = /var/run/uwsgi9090.pid    //pid文件，用于下面的脚本启动、停止该进程</span><br><span class="line">daemonize = /data/log/uwsgi9090.log</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line">master=True</span><br><span class="line">pidfile=/var/run/uwsgi9090.pid</span><br><span class="line">vacuum=True</span><br><span class="line">max-requests=5000</span><br><span class="line">daemonize=/data/log/uwsgi9090.logi</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">chdir=/root/py3/teacher</span><br><span class="line">uid=nobody</span><br><span class="line">gid=nobody</span><br><span class="line">module=teacher.wsgi:application</span><br><span class="line">socket=/data/uwsgi.sock</span><br><span class="line">master=true</span><br><span class="line">workers=5</span><br><span class="line">pidfile=/data/uwsgi.pid</span><br><span class="line">vacuum=true</span><br><span class="line">thunder-lock=true</span><br><span class="line">enable-threads=true</span><br><span class="line">harakiri=30</span><br><span class="line">post-buffering=4096</span><br><span class="line">daemonize=/data/uwsgi.log</span><br></pre></td></tr></table></figure>
-<h3 id="django静态文件收集"><a href="#django静态文件收集" class="headerlink" title="django静态文件收集"></a><strong>django静态文件收集</strong></h3><p>​    1.setting.py设置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DEBUG = False</span><br><span class="line">STATIC_ROOT = os.path.join(BASE_DIR, &apos;statics&apos;)</span><br></pre></td></tr></table></figure>
-<p>​    2. 执行collectstatic命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py collectstatic</span><br></pre></td></tr></table></figure>
-<p>好处：django把静态文件拷贝到你设置的statics目录下（这样可以更方便的和nignx集成，权限管理也更方便）</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.chenxm.cc/post/275.html" target="_blank" rel="noopener">Liunx之Ubuntu下Django+uWSGI+nginx部署</a></p>
-<p><a href="https://www.cnblogs.com/chenice/p/6921727.html" target="_blank" rel="noopener"><a href="http://www.cnblogs.com/chenice/p/6921727.html" target="_blank" rel="noopener">Django + Uwsgi + Nginx 的生产环境部署</a></a></p>
-<p><a href="https://www.zhihu.com/question/27295854" target="_blank" rel="noopener">如何配置nginx+uwsgi+django?</a>˜</p>
-
       
       
     </div>
