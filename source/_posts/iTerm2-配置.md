@@ -11,7 +11,7 @@ date: 2018-05-05 12:15:39
 
 
 
-## [iTerm2主题](http://iterm2colorschemes.com/)
+## [主题](http://iterm2colorschemes.com/)
 
 **Solarized Dark Higher Contrast**
 
@@ -102,7 +102,6 @@ Instant: checked
 
 ## 参考
 
- [oh-my-zsh中文乱码问题](https://hearrain.com/2013/04/738) 
-
  [客製我的 CLI — 終於稍微搞懂 iTerm + ZSH. 剛開始寫程式的時候跟 terminal 很不熟，隨便在網路上找了一些… | by Fred Hung | Medium](https://spreered.medium.com/%E5%AE%A2%E8%A3%BD%E6%88%91%E7%9A%84-cli-%E7%B5%82%E6%96%BC%E7%A8%8D%E5%BE%AE%E6%90%9E%E6%87%82-iterm-zsh-d3feed27f664) 
 
+[ITerm2配色方案](https://www.jianshu.com/p/33deff6b8a63)

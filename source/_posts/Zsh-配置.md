@@ -248,8 +248,6 @@ source ~/.bash_profile
 
  [在 Mac 上将 zsh 用作默认 Shell - Apple 支持](https://support.apple.com/zh-cn/HT208050) 
 
-[ITerm2配色方案](https://www.jianshu.com/p/33deff6b8a63)
-
 https://github.com/powerline/powerline
 https://github.com/powerline/fonts 
 
@@ -262,3 +260,7 @@ https://github.com/powerline/fonts
 [zsh环境下如何补全docker命令 | Blog Persona](https://phaedo.github.io/blog/os/2019/07/18/zsh%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%A6%82%E4%BD%95%E8%A1%A5%E5%85%A8docker%E5%91%BD%E4%BB%A4/) 
 
 [oh-my-zsh,让你的终端从未这么爽过](https://www.jianshu.com/p/d194d29e488c)  
+
+ [我就感觉到快 —— zsh 和 oh my zsh 冷启动速度优化 | Sukka's Blog](https://blog.skk.moe/post/make-oh-my-zsh-fly) 
+
+ [oh-my-zsh中文乱码问题](https://hearrain.com/2013/04/738) 
