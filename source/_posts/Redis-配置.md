@@ -1,6 +1,5 @@
 ---
-title: Redis
-配置
+title: Redis 配置
 date: 2016-12-24 16:20:31
 categories:
 - 技术
@@ -11,6 +10,12 @@ tags:
 ---
 
 # [Redis](https://redis.io)
+
+<!--more-->
+
+
+
+## 安装
 
 ```shell
 wget http://download.redis.io/releases/redis-4.0.9.tar.gz
@@ -322,8 +327,12 @@ root       2881  0.1  0.1 128296  1692 ?        Ssl  12:45   0:01 /usr/local/red
 [root@redis1 ~]#
 ```
 
-# Redis数据持久化
-[Redis数据持久化](http://renzhiyuan.blog.51cto.com/10433137/1881895
+
+
+## Redis数据持久化
+
+[Redis数据持久化](http://renzhiyuan.blog.51cto.com/10433137/1881895)
+
 Redis是个支持持久化的内存数据库，redis需要经常将内存中的数据同步到磁盘来保证持久化。
 
 1、RDB方式（Snapshotting默认快照方式）：
@@ -444,14 +453,20 @@ vm-max-threads 4
 
 3、从数据库持久化 持久化通常相对比较耗时，为了提高性能，可以通过复制功能建立一个（或若干个）从数据库，并在从数据库中启用持久化，同时在主数据库禁用持久化。当从数据库崩溃时重启后主数据库会自动将数据同步过来，所以无需担心数据丢失。而当主数据库崩溃时，需要在从数据库中使用SLAVEOF NO ONE命令将从数据库提升成主数据库继续服务，并在原来的主数据库启动后使用SLAVEOF命令将其设置成新的主数据库的从数据库，即可将数据同步回来。
 
-# Redis 常用命令
+
+
+## Redis 常用命令
+
 [Redis 常用命令](http://zengestudy.blog.51cto.com/1702365/1854097)
 
 Redis命令有两种类型：
 1）键值相关命令
 2）服务相关命令
 
-## 键值相关命令
+
+
+### 键值相关命令
+
 keys：返回满足给定pattern的所有key
 
 ```
@@ -553,7 +568,10 @@ string
 hash
 ```
 
-## 服务器相关命令
+
+
+### 服务器相关命令
+
 1、ping：检测连接是否存活
 
 ```
@@ -693,7 +711,7 @@ macdeployqt Redis\ Desktop\ Manager.app -qmldir=../../../src/qml
 
 
 
-### 参考
+## 参考
 
  [Install - Redis Desktop Manager](http://docs.redisdesktop.com/en/latest/install/#build-from-source) 
 
@@ -706,10 +724,6 @@ macdeployqt Redis\ Desktop\ Manager.app -qmldir=../../../src/qml
   [源码打包RedisDesktop MacOS版 - 简书](https://www.jianshu.com/p/f4a392b4fd75)  
 
  [MAC 下编译 RedisDesktopManager 最新版_zhangatle的博客-CSDN博客](https://blog.csdn.net/zhangatle/article/details/101671697) 
-
-
-
-## 参考
 
 [How to install Redis 4 on Centos 6 / 7, Ubuntu 16 and Debian 8 (Updated)](https://www.hugeserver.com/kb/install-redis-4-centos-ubuntu-debian/)
 

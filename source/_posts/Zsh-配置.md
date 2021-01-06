@@ -10,9 +10,13 @@ tags:
 - Zsh
 ---
 
-# [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh)
+# Zsh
+
+
 
 <!--more-->
+
+
 
 ## macOS 环境变量
 
@@ -47,15 +51,13 @@ tags:
 
 
 
-## 安装
+## 安装[Oh My Zsh](https://ohmyz.sh/#install) 
 
 ### macOS 
 
 ```shell
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
-
-网站：http://ohmyz.sh/ | https://github.com/robbyrussell/oh-my-zsh
 
 
 
@@ -81,6 +83,16 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 
 插件管理工具
 
+安装 zinit
+
+```shell
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+```
+
+> Ignore insecure directories and continue [y] or abort compinit [n]?: https://my.oschina.net/u/215547/blog/824106
+
+
+
 antigen、zgen、prezto、zplug
 
 ```shell
@@ -94,24 +106,31 @@ done
 
 
 
-### 安装[zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md)
+### [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md)
+
+> 语法高亮显示
+
 ```shell
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-### 安装[zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+### [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+
+> 历史命令自动补全
 
 ```shell
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-### 安装[**zsh-completions**](https://github.com/zsh-users/zsh-completions)
+### [**zsh-completions**](https://github.com/zsh-users/zsh-completions)
 
 ```shell
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
 ```
 
 ### [zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)
+
+> 历史命令搜索
 
 ```shell
 git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
@@ -123,19 +142,19 @@ git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM
 git clone https://github.com/zsh-users/zsh-apple-touchbar ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-apple-touchbar
 ```
 
-### 安装[autojump](https://github.com/wting/autojump)
+### [autojump](https://github.com/wting/autojump)
 
 ```
 brew install autojump
 ```
 
-### 安装[powerline-status](https://github.com/powerline/powerline)
+### [powerline-status](https://github.com/powerline/powerline)
 ```
 pip install powerline-status
 pip show powerline-status
 ```
 
-### 安装[powerline-fonts](https://github.com/powerline/fonts)
+### [powerline-fonts](https://github.com/powerline/fonts)
 ```
 git clone https://github.com/powerline/fonts.git
 ./fonts/install.sh
@@ -144,7 +163,7 @@ rm -rf fonts
 
 
 
-## 参数配置
+## 配置
 
 ### ~/.zshrc 文件
 ```shell
@@ -154,7 +173,7 @@ plugins=(
 	zsh-autosuggestions
 	zsh-completions
 	zsh-history-substring-search
-	
+	autojump
 	zsh-apple-touchbar
 	docker
 	docker-compose
@@ -242,4 +261,4 @@ https://github.com/powerline/fonts
 
 [zsh环境下如何补全docker命令 | Blog Persona](https://phaedo.github.io/blog/os/2019/07/18/zsh%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%A6%82%E4%BD%95%E8%A1%A5%E5%85%A8docker%E5%91%BD%E4%BB%A4/) 
 
-[oh-my-zsh,让你的终端从未这么爽过](https://www.jianshu.com/p/d194d29e488c)
+[oh-my-zsh,让你的终端从未这么爽过](https://www.jianshu.com/p/d194d29e488c)  

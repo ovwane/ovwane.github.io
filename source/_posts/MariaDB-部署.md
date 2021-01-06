@@ -5,6 +5,12 @@ date: 2017-06-24 08:23:05
 
 # MariaDB
 
+
+
+<!--more-->
+
+
+
 ## 部署
 
 ### Docker 方式
@@ -128,13 +134,88 @@ systemctl stop mariadb.service
 ```
 mysql_secure_installation
 ```
-[Setting up MariaDB Repositories](https://downloads.mariadb.org/mariadb/repositories/#mirror=neusoft&distro=CentOS&distro_release=centos7-amd64--centos7&version=10.2)
+> [Setting up MariaDB Repositories](https://downloads.mariadb.org/mariadb/repositories/#mirror=neusoft&distro=CentOS&distro_release=centos7-amd64--centos7&version=10.2)
+>
+>  [Installing MariaDB with yum](https://mariadb.com/kb/en/library/yum/) 
+>
+> [Centos 7 下 mariadb 的安装与配置](https://www.jianshu.com/p/e67f1dbaa107)   
+>
+> [设置字符集和排序规则](https://mariadb.com/kb/zh-cn/setting-character-sets-and-collations/)
 
-[Installing MariaDB with yum](https://mariadb.com/kb/en/library/yum/)
 
-[Centos 7 下 mariadb 的安装与配置](https://www.jianshu.com/p/e67f1dbaa107)
 
-[设置字符集和排序规则](https://mariadb.com/kb/zh-cn/setting-character-sets-and-collations/)
+## 设置
+
+### 慢查询
+
+> [MySQL慢查询（一） - 开启慢查询 - 成九 - 博客园](https://www.cnblogs.com/luyucheng/p/6265594.html) 
+
+查看
+
+```sql
+show variables like 'slow_query%';
+```
+
+
+
+时间
+
+```sql
+show variables like 'long_query_time';
+```
+
+
+
+查看慢日志条数
+
+```sql
+show global status like '%slow_queries%'
+```
+
+
+
+设置方法一，SQL语句
+
+将 slow_query_log 全局变量设置为“ON”状态
+
+```sql
+ set global slow_query_log='ON'; 
+```
+
+设置慢查询日志存放的位置
+
+```sql
+set global slow_query_log_file='/tmp/slow.log';
+```
+
+查询超过1秒就记录
+
+```sql
+set global long_query_time=1;
+```
+
+
+
+设置方法二，my.cnf 配置文件。更改文件后，重启服务。
+
+```
+[mysqld]
+slow_query_log = ON
+slow_query_log_file = /tmp/slow.log
+long_query_time = 1
+```
+
+
+
+### 全局查询日志
+
+> [MySQL分析SQL耗时瓶颈_charming的专栏-CSDN博客](https://blog.csdn.net/zxc123e/article/details/77908432) 
+
+
+
+### show profile
+
+> show profile命令可以分析当前会话中语句执行的资源消耗情况。用于查找SQL耗时瓶颈。
 
 
 

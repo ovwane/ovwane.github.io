@@ -3,7 +3,15 @@ title: Sublime Text 配置
 date: 2017-10-09 20:42
 ---
 
-# macOS 安装配置Sublime Text
+# [Sublime Text](http://www.sublimetext.com/)
+
+
+
+<!--more-->
+
+
+
+## macOS 安装配置Sublime Text
 
 >macOS 10.12.6
 >macOS 10.13
@@ -67,7 +75,7 @@ command+shift+h 格式化快捷键
 
 ## [Codecs3](https://github.com/seanliang/Codecs33)
 
-被 ConvertToUTF8 依赖。
+ConvertToUTF8 的依赖。
 
 
 

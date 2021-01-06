@@ -4,11 +4,13 @@ date: 2017-10-10 19:52:00
 tags: macOS
 ---
 
-# macOS 安装[Homebrew](https://brew.sh)
+# macOS
 
-> macOS 10.12.6
->
-> macOS 10.13
+
+
+<!--more-->
+
+
 
 ## 安装Homebrew
 1. 安装 Command Line Tools for Xcode
@@ -162,23 +164,13 @@ git
 目录结构查看
 tree
 
-命令补全
-[zsh-completions](http://icarus4.logdown.com/posts/177661-from-bash-to-zsh-setup-tips)
-```
-vim ~/.zshrc
-
-# zsh-completions start
-fpath=(/usr/local/share/zsh-completions $fpat)
-# zsh-completions end
-
-#执行命令
-rm -f ~/.zcompdump; compinit
-```
-
 网络工具
 nmap
 
+
+
 ## Homebrew Cask 安装软件列表
+
 ```shell
 brew cask install istat-menus keepassxc google-chrome firefox firefoxdeveloperedition opera xmind mplayerx vlc macdown atom sublime-text iterm2 zoc qq charles alfred pycharm thunder wireshark youdaodict youdaonote zoomus keka archiver losslesscut
 ```
@@ -261,7 +253,10 @@ zoom.us
 
 losslesscut
 
+
+
 ### 工作用的软件
+
 邮箱客户端
 foxmail
 
@@ -276,7 +271,10 @@ microsoft-remote-desktop-beta
 sourcetree （git）
 cornerstone (svn)
 
+
+
 ## App Store 安装软件列表
+
 ### IDE
 Xcode
 
@@ -294,7 +292,10 @@ WeChat
 ### 任务管理
 奇妙清单
 
+
+
 ## 网站下载软件列表
+
 ### 文件备份
 [Synology Cloud Station Backup](https://www.synology.cn/zh-cn/support/download/DS416play#utilities)|[坚果云](https://www.jianguoyun.com/s/downloads)
 
@@ -315,14 +316,11 @@ App Cleaner & Uninstaller
 ### 工作用的软件
 [Worktile](https://my.worktile.com/mobile)
 
+
+
 ## 软件注册码
+
 ### iStat Menus:
-购买了密钥 ovwane@gmail.com
-
-### PyCharm RubyMine WebStorm激活服务器：
-http://118.89.31.228:1017
-http://idea.imsxm.com
-
 ### Sublime Text:
 ```
 ----- BEGIN LICENSE -----
@@ -340,7 +338,10 @@ F913BE58 42FEA319 F954EFDD AE881E0B
 ------ END LICENSE ------
 ```
 
+
+
 ### VMware Fusion
+
 ```
 FG3TU-DDX1M-084CY-MFYQX-QC0RD
 ```
@@ -485,6 +486,194 @@ Git 是目前主流的版本管理工具，基于 Git 构建的 Github 网站则
 推荐一个Podcast视频教程：http://www.pixelmator.com/tutorials/itunes/
 
 有了这些武器，你将如猛虎加之羽翼而翱翔四海，到时候再说英雄谁是英雄……
+
+
+
+## 偏好设置
+
+### 系统偏好设置-日期与时间
+
+**时钟**
+
+✅闪动时间分割符
+
+✅使用 24 小时格式时钟
+
+✅显示日期
+
+
+
+### 系统偏好设置-用户与群组
+
+**客人用户**
+
+🈳️✅允许客人登陆到这台电脑
+
+
+
+### 系统偏好设置-程序坞
+
+置于屏幕上的位置
+
+左边
+
+
+
+### 系统偏好设置-触摸板
+
+**光标与点按**
+
+✅轻点来点按
+
+**更多手势**
+
+✅应用Expose
+
+
+
+### 系统偏好设置-辅助功能
+
+鼠标与触控板-触控板选项-启用拖拽-三指拖移
+
+
+
+### 系统偏好设置-声音
+
+✅当更改音量时播放反馈
+
+✅在菜单栏中显示音量
+
+
+
+### 系统偏好设置-键盘
+
+**键盘**
+
+✅闲置***1分钟***后关闭键盘背光灯
+
+**输入法**
+
+添加 英语-美国
+
+删除 ABC
+
+
+
+### 访达
+
+**边栏**
+
+✅影片
+
+✅音乐
+
+✅图片
+
+✅jinlong
+
+**高级**
+
+执行搜索时：***搜索当前文件夹***
+
+**通用**
+
+开启新“访达”窗口时打开：**文稿**
+
+
+
+## 开机启动项
+
+>  [管理 macOS 系统上的启动项 | 始终](https://liam.page/2019/01/16/manage-daemons-and-agents-on-macOS/) 
+>
+>  [macos设置开机启动任务 | xianyu123's Blog](https://0clickjacking0.github.io/2020/05/20/macos%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E4%BB%BB%E5%8A%A1/) 
+>
+>  [利用 Launchd 定制 Mac 启动任务 - 少数派](https://sspai.com/post/37258#02) 
+
+```shell
+/Library/LaunchDaemons
+~/Library/LaunchAgents/
+```
+
+
+
+新建 com.service.hello.plist
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>com.service.hello</string>
+        <key>Program</key>
+        <string>/Users/XXXXX/Desktop/shell.sh</string>
+        <key>WatchPaths</key>
+        <array>
+                <string>/Library/Preferences/SystemConfiguration</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+    </dict>
+</plist>
+```
+
+
+
+加载 plist，终端输入：
+
+```
+launchctl load -w ~/Library/LaunchAgents/com.service.hello.plist
+
+launchctl start com.service.hello.plist
+```
+
+
+
+
+卸载可以使用命令：
+```
+launchctl unload ~/Library/LaunchAgents/com.service.hello.plist
+
+launchctl stop com.service.hello.plist
+```
+
+
+
+## 删除应用软件
+
+> [如何彻底删除不需要的App](https://segmentfault.com/a/1190000005035742)
+>
+
+Mac和Windows操作系统有一个很大的不同，大部分App是没有安装程序的，一般下载下来就是一个dmg文件，解开之后直接将App拖到`应用程序`目录下就可以了，所以给人感觉卸载也就是将App拖到`废纸篓`然后清空。如果真这样做就大错特错，即使一个最简单的App都会在下面几个目录中或多或少留下纪念，这些目录一般有：
+
+- ~/Library
+- ~/Library/Application Support
+- ~/Library/Application Support/CrashReporter
+- ~/Library/Caches
+- ~/Library/Containers
+- ~/Library/LaunchAgents
+- ~/Library/Preferences
+- ~/Library/PreferencePanes
+
+如果一个程序是通过`pkg`方式安装，或者是在第一次运行时请求管理员权限，那一般还会在如下几个目录中留点纪念：
+
+- /Library
+- /Library/Application Support
+- /Library/Extensions
+- /Library/LaunchAgents
+- /Library/LaunchDaemons
+- /Library/PreferencePanes
+- /Library/Preferences
+
+
+
+## 问题
+
+### macOS 允许运行未知来源的应用
+
+```
+sudo spctl --master-disable
+```
 
 
 

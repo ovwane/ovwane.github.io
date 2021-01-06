@@ -142,6 +142,22 @@ bg　　　　作业在后台运行
 
 
 
+## 时间处理
+
+时间戳转换为时间
+
+```
+date -d @时间戳 "+%Y-%m-%d %H:%M:%S" 
+```
+
+```shell
+awk '{print strftime("%Y-%m-%d %H：%M：%S",$1)}'
+```
+
+> 如果是毫秒级的时间戳要先除以1000
+
+
+
 ## 参考
 
 1.GNU文档：http://www.gnu.org/software/bash/manual/
