@@ -14,6 +14,10 @@ tags:
 pip install certbot certbot-nginx 
 ```
 
+> Python 3
+
+
+
 ```
 certbot --nginx
 ```

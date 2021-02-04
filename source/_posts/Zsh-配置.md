@@ -263,4 +263,8 @@ https://github.com/powerline/fonts
 
  [我就感觉到快 —— zsh 和 oh my zsh 冷启动速度优化 | Sukka's Blog](https://blog.skk.moe/post/make-oh-my-zsh-fly) 
 
- [oh-my-zsh中文乱码问题](https://hearrain.com/2013/04/738) 
+ [oh-my-zsh中文乱码问题](https://hearrain.com/2013/04/738)  
+
+[zInit插件安装配置 - hongdada - 博客园](https://www.cnblogs.com/hongdada/p/14048612.html) 
+
+ [ZSH 插件 - 超赞合集 awesome list chinese](https://asmcn.icopy.site/awesome/awesome-zsh-plugins/) 
