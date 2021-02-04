@@ -202,6 +202,143 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-去北京" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/15/去北京/" class="article-date">
+      <time datetime="2015-06-15T02:13:00.000Z" itemprop="datePublished">2015-06-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/15/去北京/">去北京</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <pre><code>坐上广州开往北京的列车。
+</code></pre>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/生活/">生活</a><a class="article-category-link" href="/categories/生活/感想/">感想</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/历史/">历史</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-LNAMP配置WordPress" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/05/17/LNAMP配置WordPress/" class="article-date">
+      <time datetime="2015-05-17T07:21:20.000Z" itemprop="datePublished">2015-05-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/17/LNAMP配置WordPress/">LNAMP配置运行WordPress</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>LNAMP配置运行WordPress</p>
+<h2 id="nginx-301重定向配置"><a href="#nginx-301重定向配置" class="headerlink" title="nginx 301重定向配置"></a><a href="http://www.ttlsa.com/nginx/nginx-301-redirect/" target="_blank" rel="noopener">nginx 301重定向配置</a></h2><p>301重定向不陌生, 有时候有需求把某目录整个重定向到一个二级域名,或者不带www的顶级域名请求全部重定向到带www的二级域名.如果是Apache，需要配置.htaccess，nginx不支持，需要在配置文件里面使用rewrite指令来实现。</p>
+<p>顶级域名重定向到www</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> server_name ttlsa.com;</span><br><span class="line"> rewrite ^/(.*)$ http://www.ttlsa.com/$1 permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>如上配置，所有ttlsa.com的请求都会重定向到<a href="http://www.ttlsa.com,301重定向对SEO很有帮助.这个配置大家用的最多。" target="_blank" rel="noopener">www.ttlsa.com,301重定向对SEO很有帮助.这个配置大家用的最多。</a></p>
+<p>www二级域名重定向到顶级域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> server_name www.ttlsa.com;</span><br><span class="line"> rewrite ^/(.*)$ http://domain.com/$1 permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>江湖盛传顶级域名的权重会比www二级域名的权重高，有些seoer会要求运维一定要把www的请求转到顶级域名，和上面的做法相反。</p>
+<p>目录重定向</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ( $request_filename ~ nginxjiaocheng/ ) &#123;</span><br><span class="line"> rewrite ^ http://www.ttlsa.com/nginx/? permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>目录跳转新域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ( $request_filename ~ nginx/ ) &#123;</span><br><span class="line"> rewrite ^ http://nginx.ttlsa.com/? permanent;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术/">技术</a><a class="article-category-link" href="/categories/技术/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/httpd/">httpd</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-去广州" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -703,130 +840,9 @@
 
 
   
-    <article id="post-Git-使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/05/11/Git-使用/" class="article-date">
-      <time datetime="2013-05-11T04:48:46.000Z" itemprop="datePublished">2013-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/05/11/Git-使用/">Git 使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a><a href="https://git-scm.com/" target="_blank" rel="noopener">Git</a></h1>
-          
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-        <p class="article-more-link">
-          <a  href="/2013/05/11/Git-使用/#more">大航海 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Cisco:H3C交换机配置与管理完全手册-学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/05/08/Cisco:H3C交换机配置与管理完全手册-学习笔记/" class="article-date">
-      <time datetime="2013-05-08T06:23:45.000Z" itemprop="datePublished">2013-05-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/05/08/Cisco:H3C交换机配置与管理完全手册-学习笔记/">Cisco/H3C交换机配置与管理完全手册学习笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
-<p><a href="http://blog.51cto.com/winda" target="_blank" rel="noopener">王达 51cto</a><br><a href="http://blog.csdn.net/lycb_gz" target="_blank" rel="noopener">王达 csdn</a><br><a href="http://blog.chinaunix.net/uid/10659021.html" target="_blank" rel="noopener">王达 chinaunix</a></p>
-</blockquote>
-<p>思科交换机操作系统IOS和CatOS</p>
-<blockquote>
-<p>看三遍<br>第一遍粗看，不进行实际操练。第二遍细看，要求跟着书在实际设备或者模拟器上练习。第三遍粗看，主要是看那些前两遍中没有理解或者没有掌握的内容，以及重点理论、重要功能配置与管理方法。</p>
-</blockquote>
-<p>Catalyst 6500 4900系列</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/42/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/44/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/42/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/44/">Next &raquo;</a>
     </nav>
   
 </div>

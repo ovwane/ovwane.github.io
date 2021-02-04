@@ -202,6 +202,156 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ai_ml" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/ai_ml/" class="article-date">
+      <time datetime="2018-08-08T08:54:04.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>AI，ML，</p>
+<p><a href="https://github.com/wizardforcel" target="_blank" rel="noopener">Wizard Zhang</a></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-AWK-使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/08/AWK-使用/" class="article-date">
+      <time datetime="2018-08-08T08:52:07.000Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/08/AWK-使用/">AWK 使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="AWK"><a href="#AWK" class="headerlink" title="AWK"></a><a href="https://www.gnu.org/software/gawk/" target="_blank" rel="noopener">AWK</a></h1><p>样式扫描和处理语言</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+<li><p>RS：Record Separator，记录分隔符。</p>
+</li>
+<li><p>ORS：Output Record Separate，输出当前记录分隔符。</p>
+</li>
+<li><p>FS：Field Separator，字段分隔符。</p>
+</li>
+<li><p>OFS：Out of Field Separator，输出字段分隔符。</p>
+</li>
+<li>NF：Number of Field，行中字段的个数。</li>
+<li>NR：Number of Row，当前处理的行数。</li>
+</ul>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p>-F 字段分隔符<br><code>awk -F&quot;:&quot; &#39;{print $0}&#39; /etc/passwd</code></p>
+<p>$0 整行<br>$1 以“：”冒号分割的第一列<br>$2 以“：”冒号分割的第二列</p>
+<p>NF==7 字段数量<br>NR==2 纪录数量</p>
+<p>用 awk 中查看服务器连接状态并汇总</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -an|awk <span class="string">'/^tcp/&#123;++s[$NF]&#125;END&#123;for(a in s)print a,s[a]&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>统计 web 日志访问流量，要求输出访问次数，请求页面或图片，每个请求的总大小， 总访问流量的大小汇总</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;a[$7]+=$10;++b[$7];total+=$10&#125;END&#123;for(x in a)print b[x],x,a[x]|"sort -rn -k1";print "total size is :"total&#125;'</span> /app/<span class="built_in">log</span>/access_log</span><br></pre></td></tr></table></figure>
+<p>数值转换，16进制转换魏10进制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell getevent /dev/input/event2 | awk &apos;&#123;print &quot;adb shell sendevent /dev/input/event2  &quot;strtonum(&quot;0x&quot;$1)&quot; &quot;strtonum(&quot;0x&quot;$2)&quot; &quot;strtonum(&quot;0x&quot;$3); fflush()&#125;&apos;  &gt;&gt; unlock.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk '&#123;print "adb shell sendevent /dev/input/event2  "strtonum("0x"$1)" "strtonum("0x"$2)" "strtonum("0x"$3); fflush()&#125;'</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>fflush()立刻刷新缓存到文件。</p>
+</blockquote>
+<p>查看 NF 数量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 | awk -F [" "]+ '&#123;print "NF =", NF, $0&#125;'</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="https://blog.51cto.com/meiling/2307401" target="_blank" rel="noopener">awk -F “[ :]+”</a></p>
+<p>[“ “]+这个是正则表达式，+表示一个或多个，这里就表示一个或多个空格。</p>
+</blockquote>
+<p>拆分行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://testerhome.com/api/v3/topics.json | awk 'BEGIN&#123;RS="&#125;&#125;,&#123;"&#125;&#123;print $0&#125;'</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>RS=”}},{“ <code>}},{</code></p>
+</blockquote>
+<p>合并行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;if(NR%4!=0)ORS=" ";else ORS="\n"&#125;1'</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>每4行合并为1行。</p>
+</blockquote>
+<p>从file文件中找出长度大于80的行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'length&gt;80'</span> file</span><br></pre></td></tr></table></figure>
+<p>按连接数查看客户端IP</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -ntu | awk <span class="string">'&#123;print $5&#125;'</span> | cut -d: -f1 | sort | uniq -c | sort -nr</span><br></pre></td></tr></table></figure>
+<p> 打印99乘法表</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seq 9 | sed <span class="string">'H;g'</span> | awk -v RS=<span class="string">''</span> <span class="string">'&#123;for(i=1;i&lt;=NF;i++)printf("%dx%d=%d%s", i, NR, i*NR, i==NR?"\n":"\t")&#125;'</span></span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p> <a href="https://www.gnu.org/software/gawk/manual/gawk.html" target="_blank" rel="noopener">The GNU Awk User’s Guide</a> </p>
+<p><a href="http://www.pement.org/awk/awk1line_zh-CN.txt" target="_blank" rel="noopener">AWK单行脚本快速参考</a><br><a href="https://www.cnblogs.com/fhefh/archive/2011/11/16/2251656.html" target="_blank" rel="noopener">awk之RS、ORS与FS、OFS</a></p>
+<p> <a href="https://coolshell.cn/articles/9070.html" target="_blank" rel="noopener">AWK 简明教程 | | 酷 壳 - CoolShell</a> </p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-AWS开发" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -748,127 +898,9 @@
 
 
   
-    <article id="post-Linux下服务器性能测试" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/08/08/Linux下服务器性能测试/" class="article-date">
-      <time datetime="2018-08-08T08:33:08.000Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><h3 id="使用-iperf-检测主机间网络带宽"><a href="#使用-iperf-检测主机间网络带宽" class="headerlink" title="使用 iperf 检测主机间网络带宽"></a>使用 iperf 检测主机间网络带宽</h3><p><strong>背景介绍：</strong><br>在调试网络时，经常需要检测两台主机间的最大带宽，我一直使用iperf命令，效果很好很准确，但发现有一些运维朋友并不知道有这个工具，于是打算写篇文章简单介绍一下。</p>
-<p><strong>具体操作：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">  yum update</span><br><span class="line">  yum -y install iperf</span><br></pre></td></tr></table></figure>
-<p>服务端</p>
-<p>服务器端需要开启 tcp 5001端口</p>
-<p>启动<code>iperf -s</code></p>
-<p>客户端 <code>iperf -c IP地址</code></p>
-<p>macOS</p>
-<p><code>brew install iperf3</code></p>
-<p>参考资料：**</p>
-<p><a href="http://heylinux.com/archives/3825.html" target="_blank" rel="noopener">http://heylinux.com/archives/3825.html</a></p>
-<p><a href="https://blogs.oracle.com/mandalika/entry/measuring_network_bandwidth_using_iperf" target="_blank" rel="noopener">https://blogs.oracle.com/mandalika/entry/measuring_network_bandwidth_using_iperf</a></p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-课时15：分析Ajax请求并抓取今日头条街拍美图" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/07/31/课时15：分析Ajax请求并抓取今日头条街拍美图/" class="article-date">
-      <time datetime="2018-07-31T12:35:17.000Z" itemprop="datePublished">2018-07-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/31/课时15：分析Ajax请求并抓取今日头条街拍美图/">课时15：分析Ajax请求并抓取今日头条街拍美图</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>爬取起始页面 </p>
-<p><a href="https://www.toutiao.com/search/?keyword=%E8%A1%97%E6%8B%8D" target="_blank" rel="noopener">https://www.toutiao.com/search/?keyword=%E8%A1%97%E6%8B%8D</a></p>
-<p>抓取索引页内容</p>
-<p>抓取详情页内容</p>
-<p>下载图片与保存数据库</p>
-<p>开启循环及多线程</p>
-<p>项目 Jeipai</p>
-<p>import requests</p>
-<p>def get_page_index()</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
     </nav>
   
 </div>
