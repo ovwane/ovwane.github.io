@@ -37,6 +37,28 @@ systemctl start docker.service
 systemctl status docker.service
 ```
 
+## Docker proxy
+
+> https://docs.docker.com/network/proxy/
+>
+> 可以加速 docker pull 命令下载镜像。
+
+~/.docker/config.json
+
+```json
+{
+ "proxies":
+ {
+   "default":
+   {
+     "httpProxy": "http://127.0.0.1:3001",
+     "httpsProxy": "http://127.0.0.1:3001",
+     "noProxy": "*.test.example.com,.example2.com,127.0.0.0/8"
+   }
+ }
+}
+```
+
 
 
 ### 配置镜像加速器
@@ -110,6 +132,10 @@ docker inspect --format='{{.LogPath}}'
 ```bash
 docker ps -a --no-trunc
 ```
+
+
+
+修改运行中容器的端口，需要重启 Docker 服务。一般不推荐这么做。 https://blog.csdn.net/weixin_46152207/article/details/113684674
 
 
 
