@@ -119,6 +119,44 @@ systemctl enable frps && systemctl restart frps && systemctl status frps -l
 
 
 
+配置泛域名解析
+
+
+
+#### Nginx反向代理
+
+```
+# frp的接收http请求的反向代理
+server {
+	listen 80;
+	server_name *.xxx.com  xxx.com;
+
+	location / {
+		# 7080端口即为frp监听的http端口
+		proxy_pass http://127.0.0.1:7080;
+		proxy_set_header Host $host:80;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+
+		proxy_connect_timeout 7d;
+		proxy_send_timeout 7d;
+		proxy_read_timeout 7d;
+
+		}
+	# 防止爬虫抓取
+	if ($http_user_agent ~* "360Spider|JikeSpider|Spider|spider|bot|Bot|2345Explorer|curl|wget|webZIP|qihoobot|Baiduspider|Googlebot|Googlebot-Mobile|Googlebot-Image|Mediapartners-Google|Adsbot-Google|Feedfetcher-Google|Yahoo! Slurp|Yahoo! Slurp China|YoudaoBot|Sosospider|Sogou spider|Sogou web spider|MSNBot|ia_archiver|Tomato Bot|NSPlayer|bingbot")
+		{
+			return 403;
+		}
+}
+
+```
+
+
+
 ## 客户端
 
 下载 frp
