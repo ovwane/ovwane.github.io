@@ -42,18 +42,61 @@ rm -f frpc frpc.ini
 
 接下来要修改服务器配置文件，即`frps.ini`文件。使用`vi`指令对目标文件进行编辑。
 
-```
-vi frps.ini
-```
-
-
-
 打开`frps.ini`后可以看到默认已经有很多详细的配置和示范样例，该文章仅以达到内网穿透为目的，所以这里选择**删掉或注释掉里面的所有内容**，然后根据群晖的情况，按照官方的中文文档添加以下配置。（这里的操作都使用`vi`命令，关于`vi`命令的使用方式这里不作详细介绍，可以自行搜索相关使用方法。）
+
+/etc/systemd/system/frps.service
+
+```
+[Unit]
+Description=Frp Server Service
+After=network.target
+
+[Service]
+Type=simple
+User=nobody
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/bin/frps -c /etc/frp/frps.ini
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+
+/etc/frp/frps.ini
 
 ```
 [common]
+# frp监听的端口，用作服务端和客户端通信
 bind_port = 7000
-vhost_http_port = 8080
+# KCP需要绑定一个UDP端口
+kcp_bind_port = 7000
+# 服务端通过此端口接监听和接收公网用户的http请求
+vhost_http_port = 7080
+
+# 开启dashboard,frp提供了一个控制台，可以通过这个端口访问到控制台。可查看frp当前有多少代理连接以及对应的状态
+dashboard_port = 7500
+# dashboard 用户名密码，默认都为 admin
+dashboard_user = admin
+dashboard_pwd = admir234ns
+
+# 日志存放路径
+log_file = /var/log/frps.log
+#log_level = warn
+log_max_days = 7
+
+# 开启toke认证
+authentication_method = token
+authenticate_heartbeats = true
+authenticate_new_work_conns = true
+token = 1234hh56thu
+
+# 开启prometheus监控
+enable_prometheus = true
+
+# 子域名
+subdomain_host = xxx.com
 ```
 
 
@@ -62,20 +105,17 @@ vhost_http_port = 8080
 
 
 
-保存上面的配置后，使用以下指令启动frp服务端。
+systemd 方式后台运行。
 
-```shell
-#新建会话
-screen -dmS frp
-
-#然后进入这个会话。
-screen -r frp
-
-#执行命令
-./frps -c ./frps.ini &
+```
+mv frps /usr/bin/
+mv frps.service /etc/systemd/system/
+touch /var/log/frps.log && chown nobody:nobody /var/log/frps.log 
 ```
 
-systemd 方式后台运行。
+```
+systemctl enable frps && systemctl restart frps && systemctl status frps -l
+```
 
 
 
@@ -86,39 +126,86 @@ systemd 方式后台运行。
 ```shell
 wget https://github.com/fatedier/frp/releases/download/v0.21.0/frp_0.21.0_linux_amd64.tar.gz
 
-tar -zxvf frp_*_linux_amd64.tar.gz -C /usr/local/
-
-cd /usr/local/frp_*_linux_amd64
-
-rm -f frps frps.ini
+tar -zxvf frp_*_linux_amd64.tar.gz -C /root/
 ```
 
 
 
 配置
 
-vi frpc.ini
+/etc/systemd/system/frpc.service
 
 ```
-[common]
-server_addr = x.x.x.x
-server_port = 7000
+[Unit]
+Description=Frp Client Service
+After=network.target
 
+[Service]
+Type=simple
+User=nobody
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/bin/frpc -c /etc/frp/frpc.ini
+ExecReload=/usr/bin/frpc reload -c /etc/frp/frpc.ini
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+
+vi /etc/frp/frpc.ini
+
+```ini
+[common]
+# common 字段内容只能重启frpc，重启frpc所有链接都会断开
+# 部署frp服务端的公网服务器的ip
+server_addr = IP地址
+# 和服务端的bind_port保持一致
+server_port = 7000
+#protocol = KCP
+
+# 热更新配置
+admin_addr =127.0.0.1
+admin_port =7400
+
+# 开启token认证
+authentication_method = token
+authenticate_heartbeats = true
+authenticate_new_work_conns = true
+token = 1234hh56thuy78
+
+# 日志存放路径
+#log_file = /var/log/frpc.log
+#log_level = warn
+#log_max_days = 7
+#
 [ssh]
+# tcp | udp | http | https | stcp | xtcp, default is tcp
 type = tcp
 local_ip = 127.0.0.1
 local_port = 22
-remote_port = 6000
+remote_port = 22222
 
-[nas]
+[http-a]
 type = http
-local_port = 5000
-custom_domains = no1.sunnyrx.com
+# local_port代表你想要暴露给外网的本地web服务端口
+local_port = 8000
+# subdomain 在全局范围内要确保唯一，每个代理服务的subdomain不能重名，否则会影响正常使用。
+# 客户端的subdomain需和服务端的subdomain_host配合使用
+subdomain = p
 
-[web]
-type = http
-local_port = 80
-custom_domains = no2.sunnyrx.com
+[http-b]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 8080
+remote_port = 38080
+
+[range: test_tcp]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 6000-6006,6007
+remote_port = 6000-6006,6007
 ```
 
 > 上面的配置和服务端是对应的。
@@ -135,23 +222,24 @@ custom_domains = no2.sunnyrx.com
 
 运行frp客户端
 
+```
+mv frpc /usr/bin/
+mv frpc.service /etc/systemd/system/
+```
+
 ```shell
-./frpc -c ./frpc.ini
+systemctl enable frpc && systemctl restart frpc && systemctl status frpc -l
+```
+
+热更新配置
+
+```
+systemctl reload frpc && systemctl status frpc -l
 ```
 
 
 
 现在可以用SSH通过`外网主机IP:6000`和群晖建立SSH连接。通过浏览器访问`no1.sunnyrx.com:8080`打开群晖nas的管理页面，访问`no2.sunnyrx.com:8080`打开群晖`Web Station`的网站，`DS Photo app`可以连接`no2.sunnyrx.com:8080`进入`DS Photo`管理。
-
-
-
-###### 使用nohup指令
-
-nohup指令的使用方法相对简单，只需要在`nohup`后面加上frp的运行指令即可。下面示范的指令是运行frp客户端。（同样，如果之前断开了SSH连接，记得用`cd`指令进入frp的目录先。）
-
-```shell
-nohup ./frpc -c ./frpc.ini &
-```
 
 
 
@@ -165,5 +253,7 @@ nohup ./frpc -c ./frpc.ini &
 
  [阿里云服务器实现 frp 内网穿透 | WooOh's blog](https://cao0507.github.io/2018/09/18/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%9E%E7%8E%B0frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/) 
 
+ [frp配置实践教程 - 简书](https://www.jianshu.com/p/09603d9e0b6c) 
 
+ [frp - 《frp 中文文档》 - 书栈网 · BookStack](https://www.bookstack.cn/read/frp/README_zh.md) 
 

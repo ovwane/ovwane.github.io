@@ -139,6 +139,16 @@ docker ps -a --no-trunc
 
 
 
+容器 设置 IP 网段
+
+```json
+"bip": "192.168.8.1/24"
+```
+
+>/etc/docker/daemon.json
+
+
+
 ## 收集性能数据
 
  [Collect Docker metrics with Prometheus | Docker Documentation](https://docs.docker.com/config/daemon/prometheus/) 
@@ -148,7 +158,7 @@ docker ps -a --no-trunc
 ```json
 {
   "metrics-addr" : "127.0.0.1:9323",
-  "experimental" : true
+  "experimental" : true,
 }
 ```
 

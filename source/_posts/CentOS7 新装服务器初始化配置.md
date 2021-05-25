@@ -70,11 +70,24 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
 ## 更改YUM源
+
+### 163
+
 ```
 rm /etc/yum.repos.d/* -rf;curl -ssL http://mirrors.163.com/.help/CentOS7-Base-163.repo>/etc/yum.repos.d/CentOS-Base.repo;echo $?
 ```
 
+### 清华
+
+```
+sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+         -e 's|^#baseurl=http://mirror.centos.org|baseurl=https://mirrors.tuna.tsinghua.edu.cn|g' \
+         -i.bak \
+         /etc/yum.repos.d/CentOS-*.repo
+```
+
 ## 时间同步
+
 ```
 yum install -y chrony;systemctl enable chronyd.service&&systemctl start chronyd.service
 ```
@@ -104,3 +117,4 @@ sed -i 's/#UseDNS no/UseDNS no/g' /etc/ssh/sshd_config
 ```
 shutdown -r now
 ```
+

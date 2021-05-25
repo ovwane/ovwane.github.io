@@ -341,6 +341,22 @@ ffmpeg -i "concat:input1.ts|input2.ts|input3.ts" -c copy -bsf:a aac_adtstoasc -m
 
 
 
+下载 m3u8 视频
+
+```bash
+ffmpeg -i http://IP/index.m3u8 1.mp4
+```
+
+> 有 header 认证的加 header 。多个 header 用`$'\r\n'`隔开
+>
+> ```shell
+> ffmpeg -headers "Host: xxx.com"$'\r\n'"X-Log-VideoType: videoplay" -i http://IP/index.m3u8 1.mp4
+> ```
+>
+> 参考：https://my.oschina.net/liangzi1210/blog/651199
+
+
+
 ## 处理流程
 
 输入文件-(demuxer)解复用->编码数据包-(decoder)->解码后数据帧-(encoder)->编码数据包-(muxer)复用->输出文件
