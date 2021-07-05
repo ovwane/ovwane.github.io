@@ -5,7 +5,7 @@ date: 2018-05-06 07:02:16
 **安装依赖**
 
 ```shell
-$ brew install mercurial
+brew install mercurial
 ```
 
 **安装**[gvm](https://github.com/moovweb/gvm)
