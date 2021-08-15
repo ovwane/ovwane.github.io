@@ -179,10 +179,8 @@ config get requirepass
 
 ## Docker 运行 Redis
 
-```
-docker pull redis:4.0.11
-
-docker run -p 6379:6379 -v ~/docker/redis/:/data  --name redis-4.0.11 -d redis:4.0.11
+```bash
+docker run -d -p 6379:6379 -v ~/docker/redis/:/data  --name redis redis:6.2.5-alpine3.14 redis-server --appendonly yes
 ```
 
 

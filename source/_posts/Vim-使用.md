@@ -421,6 +421,20 @@ autocmd BufNewFile *.sh normal G
 
 
 
+### 多行编辑
+
+1 Ctrl+v进入v模式
+
+2 上下方向键选中要注释的行
+
+3 shift+i（即大写的I）行首插入
+
+4 输入文字
+
+5 按esc返回
+
+
+
 ## 参考
 
  [Vim: vim_faq.txt](https://vimhelp.org/vim_faq.txt.html) 
