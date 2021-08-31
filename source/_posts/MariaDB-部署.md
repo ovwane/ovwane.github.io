@@ -146,6 +146,81 @@ mysql_secure_installation
 
 ## 设置
 
+### 添加用户
+
+- 创建用户（本地无法远程登录）
+
+```mysql
+create user <username>@localhost identified by '<password>';
+```
+
+- 直接创建用户并授权的命令（本地无法远程登录）
+
+```mysql
+grant all on *.* to <username>@localhost identified by '<password>';
+```
+
+- 授予远程登陆权限
+
+```mysql
+grant all privileges on *.* to <username>@'%' identified by '<password>';
+```
+
+- 授予权限并且可以授权（指定 hostname 操作）
+
+```mysql
+grant all privileges on *.* to <username>@'<hostname>' identified by '<password>' with grant option;
+flush privileges;
+```
+
+
+
+### [修改密码](https://www.cnblogs.com/liufei88866/p/5619215.html)
+
+#### 方法1： 用SET PASSWORD命令
+
+```sql
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('newpass');
+```
+
+#### 方法2：用mysqladmin
+
+```sql
+mysqladmin -u root password "newpass"
+
+如果root已经设置过密码，采用如下方法
+
+mysqladmin -u root password oldpass "newpass"
+```
+
+#### 方法3： 用UPDATE直接编辑user表
+
+```sql
+mysql -u root
+
+mysql> use mysql;
+
+mysql> UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
+
+mysql> FLUSH PRIVILEGES;
+```
+
+
+
+#### 在丢失root密码的时候，可以这样
+
+```sql
+mysqld_safe --skip-grant-tables&
+
+mysql -u root mysql
+
+mysql> UPDATE user SET password=PASSWORD("new password") WHERE user='root';
+
+mysql> FLUSH PRIVILEGES;
+```
+
+
+
 ### 慢查询
 
 > [MySQL慢查询（一） - 开启慢查询 - 成九 - 博客园](https://www.cnblogs.com/luyucheng/p/6265594.html) 
@@ -219,147 +294,6 @@ long_query_time = 1
 
 
 
-## [MariaDB 教程](https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/)
-
-基础知识
-
-##### 列出数据库
-
-show databases;
-
-##### 新建数据库
-
-```
-create database proxy_ip;
-```
-
-##### 新建数据表
-
-```
-create table xici_proxy(ip varchar(20) COMMENT '地址',
-port varchar(5) COMMENT '端口', 
-proxy_type varchar(5) COMMENT '类型', 
-speed varchar(10) NULL COMMENT '速度',
-PRIMARY KEY(ip)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='西刺代理IP池';
-```
-
-##### 查看表结构
-
-```
-desc xici_proxy;
-```
-
-##### 查看表生成的DDL
-
-```
-show create table xici_proxy;
-```
-
-##### 删除数据库
-
-```shell
-drop database xici_proxy;
-```
-
-##### 查看字符集
-
-```shell
-show variables like 'collation_%';
-```
-
-##### 查看字符集
-
-```shell
-show variables like 'character_set_%';
-```
-
-
-
-用户授权
-
-```mysql
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'mypwd' WITH GRANT OPTION;
-flush privileges;
-```
-
-
-
-#### [修改密码](https://www.cnblogs.com/liufei88866/p/5619215.html)
-方法1： 用SET PASSWORD命令
-
-```sql
-SET PASSWORD FOR 'root'@'localhost' = PASSWORD('newpass');
-```
-
-
-方法2：用mysqladmin
-
-```sql
-mysqladmin -u root password "newpass"
-
-如果root已经设置过密码，采用如下方法
-
-mysqladmin -u root password oldpass "newpass"
-```
-
-
-方法3： 用UPDATE直接编辑user表
-
-```sql
-mysql -u root
-
-mysql> use mysql;
-
-mysql> UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
-
-mysql> FLUSH PRIVILEGES;
-```
-
-
-
-在丢失root密码的时候，可以这样
-
-```sql
-mysqld_safe --skip-grant-tables&
-
-mysql -u root mysql
-
-mysql> UPDATE user SET password=PASSWORD("new password") WHERE user='root';
-
-mysql> FLUSH PRIVILEGES;
-```
-
-
-
-#### 添加用户，设置权限
-
-- 创建用户（本地无法远程登录）
-
-```mysql
-create user <username>@localhost identified by '<password>';
-```
-
-- 直接创建用户并授权的命令（本地无法远程登录）
-
-```mysql
-grant all on *.* to <username>@localhost identified by '<password>';
-```
-
-- 授予远程登陆权限
-
-```mysql
-grant all privileges on *.* to <username>@'%' identified by '<password>';
-```
-
-- 授予权限并且可以授权（指定 hostname 操作）
-
-```mysql
-grant all privileges on *.* to <username>@'<hostname>' identified by '<password>' with grant option;
-```
-
-
-
 #### 查看版本
 
 ```
@@ -368,16 +302,63 @@ mysqladmin -u root -p version
 
 
 
+查看存储引擎
+
+```mysql
+show engines;
+```
+
+```mysql
+show variables like '%storage_engine';
+```
+
+##### 
+
 查看字符集
 
 ```mysql
-show variables like "%character%";show variables like "%collation%";
+show variables like "%character%";
+show variables like 'character_set_%';
+show variables like "%collation%";
 
 #默认的字符集
 show global variables like '%char%';
 
 #当前数据库支持的字符集
 show character set;
+```
+
+
+
+最大连接数
+
+```mysql
+show variables like '%max_connections%';
+```
+
+
+
+```mysql
+show processlist;  # info 列信息显示不全
+show full processlist;
+
+select * from information_schema.processlist;
+```
+
+
+
+查看当前锁情况
+
+```mysql
+select * from information_schema.INNODB_TRX;
+```
+
+
+
+explain 分析 SQL
+
+```mysql 
+explain select * from db;
 ```
 
 

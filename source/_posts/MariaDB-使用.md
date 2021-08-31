@@ -6,43 +6,57 @@ tags:
 
 # MariaDB 
 
-
-
 <!--more-->
 
 
 
-## 查询
+## [MariaDB 教程](https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/)
 
-最大连接数
+基础知识
+
+##### 列出数据库
 
 ```mysql
-show variables like '%max_connections%';
+show databases;
 ```
 
 
 
-```mysql
-show processlist;  # info 列信息显示不全
-show full processlist;
+##### 新建数据库
 
-select * from information_schema.processlist;
+```
+create database proxy_ip;
 ```
 
 
 
-查看当前锁情况
+##### 新建数据表
 
-```mysql
-select * from information_schema.INNODB_TRX;
+```
+create table xici_proxy(ip varchar(20) COMMENT '地址',
+port varchar(5) COMMENT '端口', 
+proxy_type varchar(5) COMMENT '类型', 
+speed varchar(10) NULL COMMENT '速度',
+PRIMARY KEY(ip)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='西刺代理IP池';
 ```
 
+##### 查看表结构
 
+```
+desc xici_proxy;
+```
 
-explain 分析 SQL
+##### 查看表生成的DDL
 
-```mysql 
-explain select * from db;
+```
+show create table xici_proxy;
+```
+
+##### 删除数据库
+
+```shell
+drop database xici_proxy;
 ```
 
 

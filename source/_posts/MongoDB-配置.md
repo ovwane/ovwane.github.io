@@ -46,7 +46,7 @@ brew tap mongodb/brew && brew install mongodb-community-shell && brew install mo
 ### CentOS
 
 ```
-yum install mongodb-org-shell-4.4.0
+yum install mongodb-org-shell
 ```
 
 > https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/
