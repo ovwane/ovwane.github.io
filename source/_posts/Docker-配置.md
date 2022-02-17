@@ -15,8 +15,6 @@ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/cen
 # Step 3: 更新并安装 Docker-CE
 sudo yum makecache fast
 sudo yum -y install docker-ce
-# Step 4: 开启Docker服务
-sudo service docker start
 
 # 注意：
 # Step 1: 查找Docker-CE的版本:
@@ -36,6 +34,8 @@ systemctl enable docker.service
 systemctl start docker.service
 systemctl status docker.service
 ```
+
+
 
 ## Docker proxy
 

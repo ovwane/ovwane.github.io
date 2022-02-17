@@ -76,3 +76,12 @@ kubectl create secret generic env-secrets -n devops \
 
 
 
+dnstool
+
+- ping
+- nslookup
+
+```shell
+kubectl run dnstool -it --rm --image=infoblox/dnstools
+```
+

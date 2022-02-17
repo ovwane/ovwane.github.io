@@ -135,6 +135,22 @@ shell 添加  `BUILD_ID=DONTKILLME`
 
 
 
+### HTML report 不显示内容
+
+> 安全策略：CSP（Content Security Policy）
+
+```javascript
+System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "")
+```
+
+```
+JAVA_OPTS="-Dhudson.model.DirectoryBrowserSupport.CSP"
+```
+
+ [Jenkin踩过的坑~上 - 云+社区 - 腾讯云](https://cloud.tencent.com/developer/article/1798161) 
+
+
+
 ## 参考
 
 [docker运行jenkins](https://www.jianshu.com/p/3671eb8de971)
