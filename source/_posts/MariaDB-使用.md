@@ -12,6 +12,48 @@ tags:
 
 ## [MariaDB 教程](https://mariadb.com/kb/zh-cn/configuring-mariadb-for-remote-client-access/)
 
+用户管理
+
+刷新权限
+
+```mysql
+flush privileges;
+```
+
+> 每个操作都要刷新
+
+
+
+新建用户
+
+```
+GRANT ALL ON *.* TO 'redmine'@'%' IDENTIFIED BY "secret";
+```
+
+
+
+只读用户
+
+```mysql
+GRANT SElECT ON *.* TO 'username'@'%' IDENTIFIED BY "password";
+```
+
+
+
+修改密码
+
+```mysql
+use mysql;
+# 方法一
+UPDATE user SET password=PASSWORD('Naon5o13u3hx') WHERE user='redmine';
+# 方法二
+set password for 'redmine'@'%' = password('Non5yoo13u3hx');
+# 方法三
+update mysql.user set authentication_string = password ('Naon5yoo13u3hx') where user = 'redmine' and host = '172.21.0.2';
+```
+
+
+
 基础知识
 
 ##### 列出数据库
